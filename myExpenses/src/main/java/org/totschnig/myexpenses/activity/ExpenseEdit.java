@@ -293,7 +293,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   private Account[] mAccounts;
   private Transaction mTransaction;
-  private Cursor mMethodsCursor;
   private Plan mPlan;
   private long mPlanInstanceId, mPlanInstanceDate;
   /**
@@ -2016,8 +2015,8 @@ public class ExpenseEdit extends AmountActivity implements
     //ignore first row "select" merged in
     int position = mMethodSpinner.getSelectedItemPosition();
     if (position > 0) {
-      mMethodsCursor.moveToPosition(position - 1);
-      mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
+      Cursor c = (Cursor) mMethodsAdapter.getItem(position - 1);
+      mReferenceNumberText.setVisibility(c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
           View.VISIBLE : View.INVISIBLE);
     } else {
       mReferenceNumberText.setVisibility(View.GONE);
@@ -2027,17 +2026,19 @@ public class ExpenseEdit extends AmountActivity implements
   private void setMethodSelection() {
     if (mMethodId != null) {
       boolean found = false;
-      mMethodsCursor.moveToFirst();
-      while (!mMethodsCursor.isAfterLast()) {
-        if (mMethodsCursor.getLong(mMethodsCursor.getColumnIndex(KEY_ROWID)) == mMethodId) {
-          mMethodSpinner.setSelection(mMethodsCursor.getPosition() + 1);
-          found = true;
-          break;
+      for (int i = 0; i < mMethodsAdapter.getCount(); i++) {
+        Cursor c = (Cursor) mMethodsAdapter.getItem(i);
+        if (c != null) {
+          if (c.getLong(c.getColumnIndex(KEY_ROWID)) == mMethodId) {
+            mMethodSpinner.setSelection(i + 1);
+            found = true;
+            break;
+          }
         }
-        mMethodsCursor.moveToNext();
       }
       if (!found) {
         mMethodId = null;
+        mMethodSpinner.setSelection(0);
       }
     } else {
       mMethodSpinner.setSelection(0);
@@ -2057,9 +2058,8 @@ public class ExpenseEdit extends AmountActivity implements
         if (mMethodsAdapter == null || !data.moveToFirst()) {
           methodRow.setVisibility(View.GONE);
         } else {
-          mMethodsCursor = data;
           methodRow.setVisibility(View.VISIBLE);
-          mMethodsAdapter.swapCursor(mMethodsCursor);
+          mMethodsAdapter.swapCursor(data);
           setMethodSelection();
         }
         break;
@@ -2167,7 +2167,7 @@ public class ExpenseEdit extends AmountActivity implements
             typeHasChanged = beforeType != mType;
           }
           int columnIndexMethodId = data.getColumnIndex(KEY_METHODID);
-          if (mMethodId == null && mMethodsCursor != null && columnIndexMethodId != -1) {
+          if (mMethodId == null && columnIndexMethodId != -1) {
             mMethodId = DbUtils.getLongOrNull(data, columnIndexMethodId);
             if (!typeHasChanged) {//if type has changed, we need to wait for methods to be reloaded, method is then selected in onLoadFinished
               setMethodSelection();
@@ -2229,7 +2229,6 @@ public class ExpenseEdit extends AmountActivity implements
     int id = loader.getId();
     switch (id) {
       case METHODS_CURSOR:
-        mMethodsCursor = null;
         if (mMethodsAdapter != null) {
           mMethodsAdapter.swapCursor(null);
         }
