@@ -401,7 +401,7 @@ public class HistoryChart extends Fragment
       List<Integer> colors = Arrays.asList(context.getColorExpense(), context.getColorIncome());
       set1.setColors(colors);
       set1.setValueTextColors(colors);
-      set1.setStackTextValuesShouldUseDataColor(true);
+      set1.setValuesUseBarColor(true);
       set1.setValueTextSize(valueTextSize);
       set1.setDrawValues(showTotals);
       set1.setValueFormatter(valueFormatter);
