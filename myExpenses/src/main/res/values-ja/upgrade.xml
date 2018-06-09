@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_291">
+    <item>取引時刻がオプションになりました</item>
+    <item>オプションで、予約日と実行日を区別できます</item>
+  </string-array>
   <string-array name="whats_new_290">
     <item>複数の取引を1つの分割取引にグループ化できます</item>
     <item>分割取引がグループ化解除できます</item>

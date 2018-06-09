@@ -719,6 +719,20 @@
   <string name="split_transaction_group_success">%1$d 取引が1つの分割取引にグループ化されました。</string>
   <string name="split_transaction_group_error">取引を分割にグループ化できませんでした。</string>
   <string name="split_transaction_not_possible">同じ勘定科目、支払先、およびステータスを持つ取引だけが、1つの分割取引にグループ化できます。</string>
+  <string name="pref_transaction_time_summary">正確な取引時間を設定できるようにします。</string>
+  <string name="pref_value_date_summary">予約日に加えて実行日を設定することができます。 取引時間は表示されません。 この設定は現金口座には適用されません。</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">予約日</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">実行日</string>
+  <string name="licence_expires_n_days">プロフェッショナルキーは %d 日で期限切れです</string>
+  <string name="licence_expires_tomorrow">プロフェッショナルキーは明日期限切れです</string>
+  <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです</string>
+  <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました</string>
+  <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています</string>
+  <string name="pref_category_title_privacy">プライバシー</string>
+  <string name="pref_ad_consent_title">パーソナライズされた広告</string>
+  <string name="gdpr_consent_message">{app_name} のサポート、メンテナンス、開発を維持するために {ad_provider} と提携して広告を表示しています。 あなたの同意を求めます。 広告が表示されないようにするには、広告なしバージョンの料金をお支払いください。</string>
+  <string name="gdpr_consent_button_yes">はい、続行して広告を表示します</string>
+  <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
 </resources>
