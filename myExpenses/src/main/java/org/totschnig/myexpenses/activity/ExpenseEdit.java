@@ -920,7 +920,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onTypeChanged(boolean isClicked) {
     super.onTypeChanged(isClicked);
     if (mTransaction != null && mIsMainTransactionOrTemplate) {
-      mTransaction.setMethodId(null);
+      mMethodId = null;
       Utils.requireLoader(mManager, METHODS_CURSOR, null, this);
     }
   }
@@ -1699,7 +1699,14 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case R.id.Method:
         final boolean hasSelection = position > 0;
-        mMethodId = hasSelection ? parent.getSelectedItemId() : null;
+        if (hasSelection) {
+          mMethodId = parent.getSelectedItemId();
+          if (mMethodId <= 0) {
+            mMethodId = null;
+          }
+        } else {
+          mMethodId = null;
+        }
         setVisibility(clearMethodButton, hasSelection);
         setReferenceNumberVisibility();
         break;
