@@ -1479,7 +1479,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (!(methodId == AdapterView.INVALID_ROW_ID || methodId == 0)) {
+    if (!(methodId == AdapterView.INVALID_ROW_ID || methodId <= 0)) {
       mMethodId = methodId;
     }
     if (didUserSetAccount) {
@@ -2064,6 +2064,7 @@ public class ExpenseEdit extends AmountActivity implements
       case METHODS_CURSOR:
         if (mMethodsAdapter == null || !data.moveToFirst()) {
           methodRow.setVisibility(View.GONE);
+          mMethodId = null;
         } else {
           methodRow.setVisibility(View.VISIBLE);
           mMethodsAdapter.swapCursor(data);
