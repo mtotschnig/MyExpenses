@@ -11,55 +11,59 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ *
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
-*/
+ */
 
 package org.totschnig.myexpenses.provider.filter;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.text.TextUtils;
-
 public class CrStatusCriteria extends Criteria {
   public CrStatusCriteria(String... values) {
-    super(DatabaseConstants.KEY_CR_STATUS, WhereFilter.Operation.IN,values);
+    super(DatabaseConstants.KEY_CR_STATUS, WhereFilter.Operation.IN, values);
     this.title = MyApplication.getInstance().getString(R.string.status);
   }
 
   public CrStatusCriteria(Parcel in) {
     super(in);
   }
+
   @Override
   public String prettyPrint() {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < values.length; i++) {
       sb.append(CrStatus.valueOf(values[i]).toString());
-      if (i<values.length-1) {
+      if (i < values.length - 1) {
         sb.append(",");
       }
     }
     return sb.toString();
   }
+
   public static final Parcelable.Creator<CrStatusCriteria> CREATOR = new Parcelable.Creator<CrStatusCriteria>() {
     public CrStatusCriteria createFromParcel(Parcel in) {
-        return new CrStatusCriteria(in);
+      return new CrStatusCriteria(in);
     }
 
     public CrStatusCriteria[] newArray(int size) {
-        return new CrStatusCriteria[size];
+      return new CrStatusCriteria[size];
     }
   };
+
   @Override
   public String toStringExtra() {
     return TextUtils.join(EXTRA_SEPARATOR, values);
   }
+
   public static CrStatusCriteria fromStringExtra(String extra) {
     return new CrStatusCriteria(extra.split(EXTRA_SEPARATOR));
   }
