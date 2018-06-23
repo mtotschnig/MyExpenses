@@ -136,7 +136,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITT
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 73;
+  public static final int DATABASE_VERSION = 74;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1668,6 +1668,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE transactions add column value_date");
         db.execSQL("ALTER TABLE changes add column value_date");
         createOrRefreshChangelogTriggers(db);
+      }
+      if (oldVersion < 74) {
+        //repair transfers that have not been synced correctly
+        db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

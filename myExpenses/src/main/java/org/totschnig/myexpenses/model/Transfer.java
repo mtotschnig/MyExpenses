@@ -147,7 +147,7 @@ public class Transfer extends Transaction {
       initialValues.put(KEY_UUID, requireUuid());
       initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
-      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
       }
@@ -155,11 +155,11 @@ public class Transfer extends Transaction {
       if (transferPeer > -1) {
         initialValues.put(KEY_TRANSFER_PEER, transferPeer);
       }
-      ops.add(builder.build());
+      ops.add(builder.withValues(initialValues).build());
       if (transferPeer > -1) {
         //a transaction might have been locally transformed from a transfer to a normal transaction
         //if the transfer account is deleted. If later the transfer account is synced again, this
-        //peer would still exist, and prevent recreation of the transfer. What we do here, is relink it
+        //peer would still exist, and prevent recreation of the transfer. What we do here, is relink
         //the two.
         //Now if two parts of a transfer are both synced, we create first a transaction, and when we
         //later sync the second account, we link the two peers
