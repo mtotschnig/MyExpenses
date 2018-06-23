@@ -18,6 +18,7 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -38,10 +39,10 @@ public class CrStatusCriteria extends Criteria {
   }
 
   @Override
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < values.length; i++) {
-      sb.append(CrStatus.valueOf(values[i]).toString());
+      sb.append(context.getString(CrStatus.valueOf(values[i]).toStringRes()));
       if (i < values.length - 1) {
         sb.append(",");
       }

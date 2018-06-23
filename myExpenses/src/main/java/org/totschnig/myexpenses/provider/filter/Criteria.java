@@ -19,6 +19,7 @@
 package org.totschnig.myexpenses.provider.filter;
 
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -111,7 +112,7 @@ public class Criteria implements Parcelable {
     return values;
   }
 
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     return TextUtils.join(", ", values);
   }
 

@@ -18,6 +18,7 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import android.content.Context;
 import android.os.Parcel;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -92,7 +93,7 @@ public class DateCriteria extends Criteria {
     return result;
   }
   @Override
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     String result = "";
     DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
     String date1 = df.format(new Date(Long.valueOf(values[0])*1000L));

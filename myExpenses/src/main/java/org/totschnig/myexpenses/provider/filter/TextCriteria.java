@@ -20,6 +20,7 @@ package org.totschnig.myexpenses.provider.filter;
 
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.Context;
 import android.os.Parcel;
 
 public abstract class TextCriteria extends Criteria {
@@ -35,7 +36,7 @@ public abstract class TextCriteria extends Criteria {
    searchString = in.readString();
   }
   @Override
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     return prettyPrintInternal(searchString);
   }
   @Override

@@ -923,7 +923,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
         }
         searchMenu.setChecked(true);
-        title += " ( " + mFilter.prettyPrint() + " )";
+        title += " ( " + mFilter.prettyPrint(getContext()) + " )";
       } else {
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
@@ -956,7 +956,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null);
         if (c != null) {
           filterItem.setChecked(true);
-          filterItem.setTitle(c.prettyPrint());
+          filterItem.setTitle(c.prettyPrint(getContext()));
         }
       }
     } else {

@@ -18,6 +18,7 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.text.TextUtils;
 
@@ -51,7 +52,7 @@ public abstract class IdCriteria extends Criteria {
   }
 
   @Override
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     return label;
   }
 

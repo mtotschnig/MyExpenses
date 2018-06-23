@@ -18,6 +18,7 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import android.content.Context;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -137,12 +138,12 @@ public class WhereFilter {
     return criterias.size()==0;
   }
 
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     ArrayList<String> labels = new ArrayList<>();
     for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
       if (c != null) {
-        labels.add(c.prettyPrint());
+        labels.add(c.prettyPrint(context));
       }
     }
     return TextUtils.join(" - ", labels);

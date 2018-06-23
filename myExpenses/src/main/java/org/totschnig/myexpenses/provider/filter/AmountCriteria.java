@@ -18,6 +18,7 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -58,7 +59,7 @@ public class AmountCriteria extends Criteria {
     }
   }
   @Override
-  public String prettyPrint() {
+  public String prettyPrint(Context context) {
     String result = MyApplication.getInstance().getString(
         type == AmountActivity.EXPENSE ? R.string.expense : R.string.income) + " ";
     String amount1 = CurrencyFormatter.instance().formatCurrency(new Money(currency,origValue1.abs()));
