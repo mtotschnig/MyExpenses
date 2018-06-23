@@ -40,13 +40,11 @@ import java.util.NoSuchElementException;
  * @author Michael Totschnig
  */
 public class MethodEdit extends EditActivity implements CompoundButton.OnCheckedChangeListener {
-  protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
   private GridLayout mAccountTypesGrid;
-  CheckBox mIsNumberedCheckBox;
-  SpinnerHelper mPaymentTypeSpinner;
-  PaymentMethod mMethod;
-  String[] mTypes = new String[3];
+  private CheckBox mIsNumberedCheckBox;
+  private SpinnerHelper mPaymentTypeSpinner;
+  private PaymentMethod mMethod;
 
   @Override
   int getDiscardNewMessage() {
@@ -60,12 +58,12 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     setContentView(R.layout.one_method);
     setupToolbar();
 
-    mLabelText = (EditText) findViewById(R.id.Label);
-    mAccountTypesGrid = (GridLayout)findViewById(R.id.AccountTypeGrid);
+    mLabelText = findViewById(R.id.Label);
+    mAccountTypesGrid = findViewById(R.id.AccountTypeGrid);
 
     mPaymentTypeSpinner = new SpinnerHelper(findViewById(R.id.TaType));
 
-    mIsNumberedCheckBox = (CheckBox) findViewById(R.id.IsNumbered);
+    mIsNumberedCheckBox = findViewById(R.id.IsNumbered);
     linkInputsWithLabels();
     populateFields();
   }
@@ -100,7 +98,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     mPaymentTypeSpinner.setSelection(paymentType +1);
     //add one checkbox for each account type
     AppCompatCheckBox cb;
-    TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
+    TextView accountTypesLabel = findViewById(R.id.AccountTypesLabel);
     for (AccountType accountType : AccountType.values()) {
       cb = new AppCompatCheckBox(this);
       cb.setText(accountType.toStringRes());
@@ -141,7 +139,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
 
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
     for (AccountType accountType : AccountType.values()) {
-      CheckBox cb = (CheckBox) mAccountTypesGrid.findViewWithTag(accountType);
+      CheckBox cb = mAccountTypesGrid.findViewWithTag(accountType);
       if (cb.isChecked()) {
         mMethod.addAccountType(accountType);
       } else {

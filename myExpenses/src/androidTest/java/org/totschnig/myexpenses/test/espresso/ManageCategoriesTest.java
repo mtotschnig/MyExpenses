@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
@@ -29,7 +27,7 @@ public class ManageCategoriesTest {
       new ActivityTestRule<>(ManageCategories.class);
 
   @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
+  public static void tearDown() {
     MyApplication.getInstance().getContentResolver().delete(Category.CONTENT_URI, null, null);
   }
 
@@ -41,6 +39,4 @@ public class ManageCategoriesTest {
     onView(withId(R.id.list)).check(matches(Matchers.withListSize(greaterThan(0))));
     //TODO cleanup
   }
-
-
 }
