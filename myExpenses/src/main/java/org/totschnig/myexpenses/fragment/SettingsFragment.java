@@ -524,6 +524,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void configureContribPrefs() {
+    if (!matches(getPreferenceScreen(), ROOT_SCREEN)) {
+      return;
+    }
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE),
         licenceKeyPref = findPreference(NEW_LICENCE);
     if (!licenceHandler.needsKeyEntry() ) {
@@ -568,11 +571,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   public void setProtectionDependentsState() {
     boolean isLegacy = PROTECTION_LEGACY.getBoolean(false);
     boolean isProtected = isLegacy || PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false);
-    findPreference(SECURITY_QUESTION).setEnabled(licenceHandler.isContribEnabled() && isLegacy);
-    findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
-    findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
-    findPreference(PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
-    findPreference(PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
+    PreferenceScreen screen = getPreferenceScreen();
+    if (matches(screen, ROOT_SCREEN) || matches(screen, PERFORM_PROTECTION_SCREEN)) {
+      findPreference(SECURITY_QUESTION).setEnabled(licenceHandler.isContribEnabled() && isLegacy);
+      findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
+      findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
+      findPreference(PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
+      findPreference(PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
+    }
   }
 
   @Override
