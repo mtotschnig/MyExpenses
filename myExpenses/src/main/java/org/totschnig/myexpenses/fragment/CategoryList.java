@@ -188,6 +188,7 @@ public class CategoryList extends SortableListFragment implements
     View v;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
+    Timber.w("onCreateView %s", ctx.helpVariant);
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<>();
@@ -276,6 +277,7 @@ public class CategoryList extends SortableListFragment implements
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
     mImportButton = emptyView.findViewById(R.id.importButton);
+    Timber.w("initLoader SORTABLE_CURSOR");
     mManager.initLoader(SORTABLE_CURSOR, null, this);
     String[] from;
     int[] to;
@@ -573,6 +575,7 @@ public class CategoryList extends SortableListFragment implements
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
         try {
+          Timber.w("restartLoader %d", groupPos);
           mManager.restartLoader(groupPos, bundle, CategoryList.this);
         } catch (NullPointerException e) {
           // a NPE is thrown in the following scenario:
@@ -584,6 +587,7 @@ public class CategoryList extends SortableListFragment implements
           Timber.e(e);
         }
       } else {
+        Timber.w("initLoader %d", groupPos);
         mManager.initLoader(groupPos, bundle, CategoryList.this);
       }
       return null;
@@ -646,6 +650,7 @@ public class CategoryList extends SortableListFragment implements
   @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+    Timber.w("onCreateLoader %d", id);
     if (id == SUM_CURSOR) {
       Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
       if (!mAccount.isHomeAggregate()) {
@@ -800,7 +805,8 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor c) {
+    Timber.w("onLoadFinished %d", loader.getId());
     if (getActivity() == null)
       return;
     int id = loader.getId();
@@ -884,7 +890,8 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
+  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+    Timber.w("onLoaderReset %d", loader.getId());
     int id = loader.getId();
     if (id == SORTABLE_CURSOR) {
       mGroupCursor = null;
@@ -937,6 +944,7 @@ public class CategoryList extends SortableListFragment implements
             mImportButton.setVisibility(View.GONE);
           }
           collapseAll();
+          Timber.w("restartLoader SORTABLE_CURSOR");
           mManager.restartLoader(SORTABLE_CURSOR, null, CategoryList.this);
           return true;
         }
@@ -1136,6 +1144,7 @@ public class CategoryList extends SortableListFragment implements
 //        mManager.restartLoader(i, bundle, CategoryList.this);
 //      }
     collapseAll();
+    Timber.w("reset");
     mManager.restartLoader(SORTABLE_CURSOR, null, this);
     if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       mManager.restartLoader(SUM_CURSOR, null, this);
