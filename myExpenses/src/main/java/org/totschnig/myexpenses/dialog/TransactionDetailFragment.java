@@ -390,20 +390,21 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     UiUtils.DateMode dateMode = UiUtils.getDateMode(account, prefHandler);
-    DateTimeFormatter dateTimeFormatter;
-    if (dateMode == UiUtils.DateMode.DATE_TIME) {
-      dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG);
-    } else {
-      dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
-      if (dateMode == UiUtils.DateMode.BOOKING_VALUE) {
-        dateLabel.setText(R.string.booking_date);
-        date2Row.setVisibility(View.VISIBLE);
-        date2View.setText(ZonedDateTime.ofInstant(Instant.ofEpochSecond(mTransaction.getValueDate()),
-            ZoneId.systemDefault()).format(dateTimeFormatter));
-      }
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL),
+      timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+    if (dateMode == UiUtils.DateMode.BOOKING_VALUE) {
+      dateLabel.setText(R.string.booking_date);
+      date2Row.setVisibility(View.VISIBLE);
+      date2View.setText(ZonedDateTime.ofInstant(Instant.ofEpochSecond(mTransaction.getValueDate()),
+          ZoneId.systemDefault()).format(dateFormatter));
     }
-    dateView.setText(ZonedDateTime.ofInstant(Instant.ofEpochSecond(mTransaction.getDate()),
-        ZoneId.systemDefault()).format(dateTimeFormatter));
+    final ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(mTransaction.getDate()),
+        ZoneId.systemDefault());
+    String dateText = dateTime.format(dateFormatter);
+    if (dateMode == UiUtils.DateMode.DATE_TIME) {
+      dateText += " " + dateTime.format(timeFormatter);
+    }
+    dateView.setText(dateText);
 
     if (!mTransaction.getComment().equals("")) {
       commentView.setText(mTransaction.getComment());
