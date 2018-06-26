@@ -561,18 +561,8 @@ public class CategoryList extends SortableListFragment implements
       bundle.putLong(KEY_PARENTID, parentId);
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
-        try {
-          Timber.w("restartLoader %d", groupPos);
-          mManager.restartLoader(groupPos, bundle, CategoryList.this);
-        } catch (NullPointerException e) {
-          // a NPE is thrown in the following scenario:
-          //1)open a group
-          //2)orientation change
-          //3)open the same group again
-          //in this scenario getChildrenCursor is called twice, second time leads to error
-          //maybe it is trying to close the group that had been kept open before the orientation change
-          Timber.e(e);
-        }
+        Timber.w("restartLoader %d", groupPos);
+        mManager.restartLoader(groupPos, bundle, CategoryList.this);
       } else {
         Timber.w("initLoader %d", groupPos);
         mManager.initLoader(groupPos, bundle, CategoryList.this);
@@ -632,6 +622,12 @@ public class CategoryList extends SortableListFragment implements
       default:
         return null;
     }
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    collapseAll();
   }
 
   @NonNull
