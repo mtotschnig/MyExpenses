@@ -84,28 +84,28 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     Intent intent = getIntent();
     String action = intent.getAction();
     int title = 0;
+    setTheme("myexpenses.intent.distribution".equals(action) ?
+        MyApplication.getThemeId() : MyApplication.getThemeIdEditDialog());
+    super.onCreate(savedInstanceState);
     switch (action == null ? "" : action) {
       case Intent.ACTION_MAIN:
       case "myexpenses.intent.manage.categories":
-        helpVariant = HelpVariant.manage;
+        setHelpVariant(HelpVariant.manage);
         title = R.string.pref_manage_categories_title;
         break;
       case "myexpenses.intent.distribution":
-        helpVariant = HelpVariant.distribution;
+        setHelpVariant(HelpVariant.distribution);
         //title is set in categories list
         break;
       case "myexpenses.intent.select_filter":
-        helpVariant = HelpVariant.select_filter;
+        setHelpVariant(HelpVariant.select_filter);
         title = R.string.search_category;
         break;
       default:
-        helpVariant = HelpVariant.select_mapping;
+        setHelpVariant(HelpVariant.select_mapping);
         title = R.string.select_category;
     }
-    setTheme(helpVariant.equals(HelpVariant.distribution) ?
-        MyApplication.getThemeId() : MyApplication.getThemeIdEditDialog());
-    super.onCreate(savedInstanceState);
-    if (helpVariant.equals(HelpVariant.distribution)) {
+    if (getHelpVariant().equals(HelpVariant.distribution)) {
       DisplayMetrics dm = getResources().getDisplayMetrics();
 
       final int REL_SWIPE_MIN_DISTANCE = (int) (SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
@@ -140,7 +140,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     if (title != 0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
-    if (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) {
+    if (getHelpVariant().equals(HelpVariant.select_mapping) || getHelpVariant().equals(HelpVariant.manage)) {
       configureFloatingActionButton(R.string.menu_create_main_cat);
     } else {
       findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
@@ -150,7 +150,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    if (helpVariant.equals(HelpVariant.distribution)) {
+    if (getHelpVariant().equals(HelpVariant.distribution)) {
       inflater.inflate(R.menu.distribution, menu);
       inflater.inflate(R.menu.grouping, menu);
 
@@ -160,7 +160,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
       typeButton.setOnCheckedChangeListener((buttonView, isChecked) -> mListFragment.setType(isChecked));
 
-    } else if (!helpVariant.equals(HelpVariant.select_filter)) {
+    } else if (!getHelpVariant().equals(HelpVariant.select_filter)) {
       inflater.inflate(R.menu.sort, menu);
       inflater.inflate(R.menu.categories, menu);
     }

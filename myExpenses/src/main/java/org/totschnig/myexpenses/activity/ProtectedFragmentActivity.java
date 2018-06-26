@@ -135,7 +135,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   private AlertDialog pwDialog;
   private boolean scheduledRestart = false;
   private Optional<Boolean> confirmCredentialResult = Optional.empty();
-  public Enum<?> helpVariant = null;
+  private Enum<?> helpVariant = null;
   protected int colorExpense;
   protected int colorIncome;
   protected int colorAggregate;
@@ -800,5 +800,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void checkGdprConsent(boolean forceShow) {
     adHandlerFactory.gdprConsent(this, forceShow);
+  }
+
+  public Enum<?> getHelpVariant() {
+    return helpVariant;
+  }
+
+  protected void setHelpVariant(Enum<?> helpVariant) {
+    this.helpVariant = helpVariant;
+    crashHandler.addBreadcrumb(helpVariant.toString());
   }
 }

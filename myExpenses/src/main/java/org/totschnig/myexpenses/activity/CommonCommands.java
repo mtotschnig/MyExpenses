@@ -136,7 +136,7 @@ public class CommonCommands {
       case R.id.HELP_COMMAND:
         i = new Intent(ctx, Help.class);
         i.putExtra(HelpDialogFragment.KEY_VARIANT,
-            tag != null ? (Enum<?>) tag : ctx.helpVariant);
+            tag != null ? (Enum<?>) tag : ctx.getHelpVariant());
         //for result is needed since it allows us to inspect the calling activity
         ctx.startActivityForResult(i, 0);
         return true;

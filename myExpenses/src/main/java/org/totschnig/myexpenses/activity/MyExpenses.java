@@ -159,8 +159,8 @@ public class MyExpenses extends LaunchActivity implements
 
   private void setHelpVariant() {
     Account account = Account.getInstanceFromDb(mAccountId);
-    helpVariant = account == null || account.getType().equals(AccountType.CASH) ?
-        null : HelpVariant.crStatus;
+    setHelpVariant(account == null || account.getType().equals(AccountType.CASH) ?
+        null : HelpVariant.crStatus);
   }
 
   /**

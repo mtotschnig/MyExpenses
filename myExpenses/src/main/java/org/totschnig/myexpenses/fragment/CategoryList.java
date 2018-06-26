@@ -47,8 +47,6 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorTreeAdapter;
@@ -188,8 +186,8 @@ public class CategoryList extends SortableListFragment implements
     View v;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
-    Timber.w("onCreateView %s", ctx.helpVariant);
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+    Timber.w("onCreateView %s", ctx.getHelpVariant());
+    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<>();
       for (int col : ColorTemplate.PASTEL_COLORS)
@@ -293,48 +291,37 @@ public class CategoryList extends SortableListFragment implements
         R.layout.category_row, R.layout.category_row,
         from, to, from, to);
     mListView.setAdapter(mAdapter);
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
-        @Override
-        public void onGroupExpand(int groupPosition) {
-          if (showChart) {
-            if (lastExpandedPosition != -1
-                && groupPosition != lastExpandedPosition) {
-              mListView.collapseGroup(lastExpandedPosition);
-            }
+    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
+      mListView.setOnGroupExpandListener(groupPosition -> {
+        if (showChart) {
+          if (lastExpandedPosition != -1
+              && groupPosition != lastExpandedPosition) {
+            mListView.collapseGroup(lastExpandedPosition);
           }
-          lastExpandedPosition = groupPosition;
+        }
+        lastExpandedPosition = groupPosition;
+      });
+      mListView.setOnGroupCollapseListener(groupPosition -> {
+        if (showChart) {
+          lastExpandedPosition = -1;
+          setData(mGroupCursor, mMainColors);
+          highlight(groupPosition);
+          long packedPosition = ExpandableListView
+              .getPackedPositionForGroup(groupPosition);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition, true);
         }
       });
-      mListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-        @Override
-        public void onGroupCollapse(int groupPosition) {
-          if (showChart) {
-            lastExpandedPosition = -1;
-            setData(mGroupCursor, mMainColors);
-            highlight(groupPosition);
-            long packedPosition = ExpandableListView
-                .getPackedPositionForGroup(groupPosition);
-            int flatPosition = mListView.getFlatListPosition(packedPosition);
-            mListView.setItemChecked(flatPosition, true);
-          }
+      mListView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
+        if (showChart) {
+          long packedPosition = ExpandableListView.getPackedPositionForChild(
+              groupPosition, childPosition);
+          highlight(childPosition);
+          int flatPosition = mListView.getFlatListPosition(packedPosition);
+          mListView.setItemChecked(flatPosition, true);
+          return true;
         }
-      });
-      mListView.setOnChildClickListener(new OnChildClickListener() {
-
-        @Override
-        public boolean onChildClick(ExpandableListView parent, View v,
-                                    int groupPosition, int childPosition, long id) {
-          if (showChart) {
-            long packedPosition = ExpandableListView.getPackedPositionForChild(
-                groupPosition, childPosition);
-            highlight(childPosition);
-            int flatPosition = mListView.getFlatListPosition(packedPosition);
-            mListView.setItemChecked(flatPosition, true);
-            return true;
-          }
-          return false;
-        }
+        return false;
       });
       //the following is relevant when not in touch mode
       mListView.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -528,7 +515,7 @@ public class CategoryList extends SortableListFragment implements
         return true;
       case R.id.SELECT_COMMAND:
         if (!isMain &&
-            ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+            ctx.getHelpVariant().equals(ManageCategories.HelpVariant.select_mapping)) {
           mGroupCursor.moveToPosition(group);
           label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
               + TransactionList.CATEGORY_SEPARATOR
@@ -842,7 +829,7 @@ public class CategoryList extends SortableListFragment implements
       case SORTABLE_CURSOR:
         mGroupCursor = c;
         mAdapter.setGroupCursor(c);
-        if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+        if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
           if (c.getCount() > 0) {
             if (lastExpandedPosition == -1) {
               mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
@@ -864,7 +851,7 @@ public class CategoryList extends SortableListFragment implements
         //check if group still exists
         if (mAdapter.getGroupId(id) != 0) {
           mAdapter.setChildrenCursor(id, c);
-          if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+          if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
             long packedPosition;
             if (c.getCount() > 0) {
               mSubColors = getSubColors(mMainColors.get(id % mMainColors.size()));
@@ -916,7 +903,7 @@ public class CategoryList extends SortableListFragment implements
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx == null) return;
     
-    if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+    if (!ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
       inflater.inflate(R.menu.search, menu);
       SearchManager searchManager =
           (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
@@ -1062,11 +1049,11 @@ public class CategoryList extends SortableListFragment implements
     if (super.onChildClick(parent, v, groupPosition, childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
+    if (ctx == null || ctx.getHelpVariant().equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.select_mapping)) {
       mGroupCursor.moveToPosition(groupPosition);
       label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
           + TransactionList.CATEGORY_SEPARATOR
@@ -1082,7 +1069,7 @@ public class CategoryList extends SortableListFragment implements
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null || ctx.helpVariant.equals(ManageCategories.HelpVariant.manage)) {
+    if (ctx == null || ctx.getHelpVariant().equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
     long cat_id = id;
@@ -1096,7 +1083,7 @@ public class CategoryList extends SortableListFragment implements
 
   private void doSelection(long cat_id, String label, boolean isMain) {
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
       TransactionListDialogFragment.newInstance(
           mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0)
           .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
@@ -1146,7 +1133,7 @@ public class CategoryList extends SortableListFragment implements
     collapseAll();
     Timber.w("reset");
     mManager.restartLoader(SORTABLE_CURSOR, null, this);
-    if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+    if (((ManageCategories) getActivity()).getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
       mManager.restartLoader(SUM_CURSOR, null, this);
       mManager.restartLoader(DATEINFO_CURSOR, null, this);
     }
@@ -1183,18 +1170,18 @@ public class CategoryList extends SortableListFragment implements
       return;
     }
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-    boolean inFilterOrDistribution = ctx.helpVariant.equals(HelpVariant.select_filter) ||
-        ctx.helpVariant.equals(HelpVariant.distribution);
+    boolean inFilterOrDistribution = ctx.getHelpVariant().equals(HelpVariant.select_filter) ||
+        ctx.getHelpVariant().equals(HelpVariant.distribution);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution);
     MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
     menuItem.setVisible(count == 1 &&
-        (ctx.helpVariant.equals(HelpVariant.distribution) || ctx.helpVariant.equals(HelpVariant.select_mapping)));
-    if (ctx.helpVariant.equals(HelpVariant.distribution)) {
+        (ctx.getHelpVariant().equals(HelpVariant.distribution) || ctx.getHelpVariant().equals(HelpVariant.select_mapping)));
+    if (ctx.getHelpVariant().equals(HelpVariant.distribution)) {
       menuItem.setTitle(R.string.menu_show_transactions);
     }
-    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(ctx.helpVariant.equals(HelpVariant.select_filter));
+    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(ctx.getHelpVariant().equals(HelpVariant.select_filter));
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count == 1 && !inFilterOrDistribution);
   }
 

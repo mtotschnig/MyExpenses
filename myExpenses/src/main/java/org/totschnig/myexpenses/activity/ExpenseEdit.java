@@ -730,27 +730,27 @@ public class ExpenseEdit extends AmountActivity implements
       }
       switch (mOperationType) {
         case TYPE_TRANSFER:
-          helpVariant = HelpVariant.templateTransfer;
+          setHelpVariant(HelpVariant.templateTransfer);
           break;
         case TYPE_SPLIT:
-          helpVariant = HelpVariant.templateSplit;
+          setHelpVariant(HelpVariant.templateSplit);
           break;
         default:
-          helpVariant = HelpVariant.templateCategory;
+          setHelpVariant(HelpVariant.templateCategory);
       }
     } else if (isSplitPart()) {
       if (mOperationType == TYPE_TRANSACTION) {
         if (mTransaction.getId() != 0) {
           setTitle(R.string.menu_edit_split_part_category);
         }
-        helpVariant = HelpVariant.splitPartCategory;
+        setHelpVariant(HelpVariant.splitPartCategory);
         mTransaction.status = STATUS_UNCOMMITTED;
       } else {
         //Transfer
         if (mTransaction.getId() != 0) {
           setTitle(R.string.menu_edit_split_part_transfer);
         }
-        helpVariant = HelpVariant.splitPartTransfer;
+        setHelpVariant(HelpVariant.splitPartTransfer);
         mTransaction.status = STATUS_UNCOMMITTED;
       }
     } else {
@@ -790,17 +790,17 @@ public class ExpenseEdit extends AmountActivity implements
         if (mTransaction.getId() != 0) {
           setTitle(R.string.menu_edit_transfer);
         }
-        helpVariant = HelpVariant.transfer;
-      } else if (mTransaction instanceof Transaction) {
-        if (mTransaction.getId() != 0) {
-          setTitle(R.string.menu_edit_transaction);
-        }
-        helpVariant = HelpVariant.transaction;
+        setHelpVariant(HelpVariant.transfer);
       } else if (mTransaction instanceof SplitTransaction) {
         if (!mNewInstance) {
           setTitle(R.string.menu_edit_split);
         }
-        helpVariant = HelpVariant.split;
+        setHelpVariant(HelpVariant.split);
+      } else {
+        if (mTransaction.getId() != 0) {
+          setTitle(R.string.menu_edit_transaction);
+        }
+        setHelpVariant(HelpVariant.transaction);
       }
     }
     if (mOperationType == TYPE_SPLIT) {
