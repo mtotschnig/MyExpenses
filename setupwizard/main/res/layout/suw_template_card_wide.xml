@@ -40,6 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/suw_card_land_header_text_margin_top"
+                android:textSize="28sp"
                 android:layout_weight="6" />
 
             <FrameLayout
