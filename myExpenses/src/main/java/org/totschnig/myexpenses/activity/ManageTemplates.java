@@ -70,8 +70,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
-    setHelpVariant(HelpVariant.templates);
     super.onCreate(savedInstanceState);
+    setHelpVariant(HelpVariant.templates);
     setContentView(R.layout.manage_templates);
     setupToolbar(true);
     setTitle(getString(R.string.menu_manage_plans));
