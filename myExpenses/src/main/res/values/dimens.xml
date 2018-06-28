@@ -13,8 +13,8 @@
     <dimen name="padding_dialog_content_top">20dp</dimen>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="thumbnail_size_grid">96dp</dimen>
-    <dimen name="fab_margin_right">0dp</dimen>
-    <dimen name="fab_margin_bottom">0dp</dimen>
+    <dimen name="fab_margin_right">16dp</dimen>
+    <dimen name="fab_margin_bottom">16dp</dimen>
     <integer name="account_type_grid_columns">1</integer>
     <item name="form_table_ratio" format="float" type="dimen">2.5</item>
 
