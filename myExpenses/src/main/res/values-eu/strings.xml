@@ -30,10 +30,14 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Iragarkirik gabe</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Kontu kopuru mugagabea</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Erantsi irudia transakzioari</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Tarta diagrama (kategorien distribuzioa)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Plan kopuru mugagabea</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportatu transakzio zerrenda PDFra</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Txantiloien trepeta</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV inportazioa</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Zatiketa txantiloi kopuru mugagabea</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Garapen ibilbidean</b> bozkatzeko aukera</string>
   <string name="licence_status_free">Doan</string>
   <string name="contrib_key">Kontribuzio Gakoa</string>
   <string name="extended_key">Gako hedatua</string>
@@ -193,6 +197,8 @@
   <string name="menu_search">Bilatu</string>
   <string name="menu_settings">Ezarpenak</string>
   <string name="menu_share">Esan lagun bati</string>
+  <string name="button_label_share_file">Partekatu</string>
+  <string name="button_label_close">Itxi</string>
   <string name="menu_split_transaction">Bihurtu banaketara</string>
   <string name="method">Ordainketa metodoa</string>
   <string name="no_amount_given">Ez duzu kopururik idatzi</string>
@@ -296,6 +302,7 @@
   <string name="pref_manage_sync_backends_summary">Gehitu atzealdekoak kontuentzat sinkronizatzean (%s).</string>
   <string name="pref_more_info_dialog_title">Lizentzia eta egiletza</string>
   <string name="pref_password_not_equal">Pasahitzak ez datoz bat</string>
+  <string name="pref_perform_protection_title">Babesa</string>
   <string name="pref_perform_share_title">Elkarbanatu esportazioak eta babeskopiak</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Sortu tokiko planifikazio egutegi berria</string>
@@ -644,6 +651,11 @@
   <string name="pref_debug_logging_summary">Idatzi arazketa informazioa sistemaren egunkarian</string>
   <string name="plan_custom_recurrence_info">Gorde txantiloia aurrena. plana egutegi aplikazioan irekiko da, errepikatze pertsonalizatu bat ezartzen duzunean. </string>
   <string name="storage_permission_required">Hautatu duzun iturria irakurtzeko kanpo biltegiratzea atzitzeko baimena behar da.</string>
+  <string name="picture">Irudia</string>
+  <string name="error">Errorea (%s)</string>
+  <string name="button_validate">Balioztatu</string>
+  <string name="licence_key">Lizentzia-gakoa</string>
+  <string name="professional_key">Gako profesionala</string>
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
