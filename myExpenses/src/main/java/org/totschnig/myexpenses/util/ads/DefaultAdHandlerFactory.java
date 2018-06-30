@@ -45,10 +45,10 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
 
   @Override
   public AdHandler create(ViewGroup adContainer) {
-    return (!isAdDisabled() &&
-        Utils.isComAndroidVendingInstalled(context)) ?
-        new PubNativeAdHandler(this, adContainer) :
-        new NoOpAdHandler(this, adContainer);
+    return isAdDisabled() ? new NoOpAdHandler(this, adContainer) :
+        new WaterfallAdHandler(this, adContainer,
+            new CustomAdHandler(this, adContainer),
+            new PubNativeAdHandler(this, adContainer));
   }
 
   @Override
@@ -58,7 +58,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
           0,
           Phrase.from(context, R.string.gdpr_consent_message)
               .put(PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
-              .put("ad_provider", "PubNative")
+              .put("ad_provider", "FinanceAds, PubNative")
               .format(),
           new MessageDialogFragment.Button(R.string.gdpr_consent_button_yes, R.id.GDPR_CONSENT_COMMAND, null),
           null, new MessageDialogFragment.Button(R.string.gdpr_consent_button_no, R.id.GDPR_NO_CONSENT_COMMAND, null))

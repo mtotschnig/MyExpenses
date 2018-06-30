@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        <item><![CDATA[]]></item>
+    -->
+    <string-array name="finance_ads_html_AUXMONEY_FULL_BANNER">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56019764B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56019764B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56019788B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56019788B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56023864B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56023864B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034699B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034699B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034709B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034709B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034722B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034722B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034724B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034724B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034730B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034730B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034738B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034738B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034746B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034746B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034753B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034753B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034760B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034760B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+    </string-array>
+    <string-array name="finance_ads_html_AUXMONEY_PORTRAIT">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56019762B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56019762B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56019777B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56019777B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56023859B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56023859B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034695B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034695B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034704B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034704B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034712B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034712B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034718B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034718B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034726B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034726B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034734B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034734B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034741B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034741B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034749B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034749B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034756B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034756B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+    </string-array>
+    <string-array name="finance_ads_html_AUXMONEY_LANDSCAPE">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56019763B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56019763B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56019785B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56019785B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56023862B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56023862B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034696B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034696B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034706B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034706B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034713B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034713B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034719B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034719B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034727B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034727B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034735B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034735B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034743B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034743B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034750B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034750B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C56034757B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V56034757B&https=1" alt="" border="0" width="300" height="250"></a>]]></item>
+    </string-array>
+
+    <string-array name="finance_ads_html_COMDIRECT_FULL_BANNER">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C87024051B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V87024051B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C87024064B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V87024064B&https=1" alt="" border="0" width="468" height="60"></a>]]></item>
+    </string-array>
+    <string-array name="finance_ads_html_COMDIRECT_PORTRAIT">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C87024066B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V87024066B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C87024088B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V87024088B&https=1" alt="" border="0" width="160" height="600"></a>]]></item>
+    </string-array>
+
+    <string-array name="finance_ads_html_GROWNEY_SMALL">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C144333424B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V144333424B&https=1" alt="growney: grow your money" border="0" width="200" height="50"></a>]]></item>
+    </string-array>
+
+    <string-array name="finance_ads_html_SAVEDO_SMALL">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C21224767B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V21224767B&https=1" alt="200 x 50" border="0" width="200" height="50"></a>]]></item>
+    </string-array>
+
+    <string-array name="finance_ads_html_LIBERTYCARD_PORTRAIT">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034304B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034304B&https=1" alt="160x600" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034305B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034305B&https=1" alt="160x600" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034306B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034306B&https=1" alt="160x600" border="0" width="160" height="600"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034307B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034307B&https=1" alt="160x600" border="0" width="160" height="600"></a>]]></item>
+    </string-array>
+    <string-array name="finance_ads_html_LIBERTYCARD_LANDSCAPE">
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034308B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034308B&https=1" alt="300x250" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034309B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034309B&https=1" alt="300x250" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034310B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034310B&https=1" alt="300x250" border="0" width="300" height="250"></a>]]></item>
+        <item><![CDATA[<a href="https://www.financeads.net/tc.php?t=28223C114034311B" target="_blank"><img src="https://www.financeads.net/tb.php?t=28223V114034311B&https=1" alt="300x250" border="0" width="300" height="250"></a>]]></item>
+    </string-array>
+</resources>

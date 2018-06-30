@@ -12,6 +12,7 @@ public interface Tracker {
   String EVENT_AD_REQUEST = "ad_request";
   String EVENT_AD_LOADED = "ad_loaded";
   String EVENT_AD_FAILED = "ad_failed";
+  String EVENT_AD_CUSTOM = "ad_custom";
   //only used for interstitial
   String EVENT_AD_SHOWN = "ad_shown";
   String EVENT_PARAM_AD_PROVIDER = "provider";

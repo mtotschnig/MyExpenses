@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:background="@android:color/darker_gray"
+             android:layout_height="match_parent">
+
+    <WebView
+        android:layout_gravity="center"
+        android:id="@+id/webviewoverlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        style="?actionButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app:srcCompat="@drawable/ic_menu_close_clear_cancel_inverse"
+        android:id="@+id/closeOverlay"
+        android:layout_margin="5dp"
+        />
+</FrameLayout>
