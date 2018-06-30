@@ -78,7 +78,7 @@ public class WaterfallAdHandler extends AdHandler {
   }
 
   public void onEditTransactionResult() {
-    AdHandler current = getCurrent();
+    AdHandler current = getCurrentForInterstitial();
     if (current != null) {
       current.onEditTransactionResult();
     }
