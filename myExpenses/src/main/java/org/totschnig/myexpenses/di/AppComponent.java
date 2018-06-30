@@ -21,8 +21,10 @@ import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -71,6 +73,10 @@ public interface AppComponent {
   void inject(HistoryChart historyChart);
 
   CrashHandler getCrashHandler();
+
+  Tracker tracker();
+
+  @Named("userCountry") String userCountry();
 
   void inject(DonateDialogFragment donateDialogFragment);
 }
