@@ -29,6 +29,7 @@ public class WaterfallAdHandler extends AdHandler {
 
   @Override
   protected boolean maybeShowInterstitialDo() {
+    //This method will be called directly on the children via onEditTransactionResult,
     return false;
   }
 
