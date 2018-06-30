@@ -13,10 +13,12 @@ import net.pubnative.sdk.core.request.PNRequest;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 public class PubNativeAdHandler extends AdHandler {
   private static final String APP_TOKEN = "d7757800d02945a18bbae190a9a7d4d1";
-  private static final String PLACEMENT_NAME = BuildConfig.DEBUG ? "Test" : "Banner";
+  private static final String PLACEMENT_NAME = BuildConfig.DEBUG ? "Test" :
+      DistribHelper.getDistributionAsString();
   private static final String PROVIDER = "PubNative";
   private TextView title;
   private TextView description;
