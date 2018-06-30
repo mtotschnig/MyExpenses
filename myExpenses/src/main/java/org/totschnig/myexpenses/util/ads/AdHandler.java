@@ -62,7 +62,7 @@ public abstract class AdHandler {
 
   protected abstract void requestNewInterstitialDo();
 
-  boolean shouldShowAd() {
+  boolean shouldHideAd() {
     return factory.isAdDisabled() || !prefHandler.isSet(PERSONALIZED_AD_CONSENT);
   }
 
@@ -73,7 +73,7 @@ public abstract class AdHandler {
   }
 
   public void onEditTransactionResult() {
-    if (!shouldShowAd()) {
+    if (!shouldHideAd()) {
       maybeShowInterstitial();
     }
   }

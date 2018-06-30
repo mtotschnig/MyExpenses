@@ -18,7 +18,7 @@ public class WaterfallAdHandler extends AdHandler {
 
   @Override
   public void init() {
-    if (shouldShowAd()) {
+    if (shouldHideAd()) {
       super.hide();
     } else {
       cascadingIndex = 0;
