@@ -48,7 +48,7 @@ public class DateButton extends ButtonWithDialog {
     DatePickerDialog.OnDateSetListener mDateSetListener =
         (view, year, monthOfYear, dayOfMonth) -> {
           if (yearOld != year ||
-              monthOld != monthOfYear + 1 ||
+              monthOld != monthOfYear  ||
               dayOld != dayOfMonth) {
             setDate(LocalDate.of(year, monthOfYear + 1, dayOfMonth));
             getHost().setDirty();
