@@ -167,7 +167,9 @@ public class MyApplication extends MultiDexApplication implements
       registerWidgetObservers();
     }
     licenceHandler.init();
-    crashHandler.setLicenceStatus(licenceHandler.getLicenceStatus());
+    if (licenceHandler.getLicenceStatus() != null) {
+      crashHandler.setLicenceStatus(licenceHandler.getLicenceStatus());
+    }
     Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
   }
