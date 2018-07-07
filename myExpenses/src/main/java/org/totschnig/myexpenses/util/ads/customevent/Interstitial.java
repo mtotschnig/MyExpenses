@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.webkit.WebView;
@@ -32,7 +33,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 public class Interstitial implements View.OnClickListener {
-  private AdListener listener;
+  @Nullable private AdListener listener;
   private Pair<PartnerProgram, String> contentProvider;
   private Context context;
   private Dialog mWebviewDialog;
@@ -66,7 +67,9 @@ public class Interstitial implements View.OnClickListener {
    */
   public void show() {
     // Notify the developer that a full screen view will be presented.
-    listener.onAdOpened();
+    if (listener != null) {
+      listener.onAdOpened();
+    }
     openWebViewInOverlay();
     Bundle bundle = new Bundle(1);
     bundle.putString(Tracker.EVENT_PARAM_AD_PROVIDER, contentProvider.first.name());
@@ -87,8 +90,10 @@ public class Interstitial implements View.OnClickListener {
     webView.setWebViewClient(new WebViewClient() {
       @Override
       public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        listener.onAdClicked();
-        listener.onAdLeftApplication();
+        if (listener != null) {
+          listener.onAdClicked();
+          listener.onAdLeftApplication();
+        }
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(i);
         return true;
@@ -103,7 +108,9 @@ public class Interstitial implements View.OnClickListener {
   public void onClick(View v) {
     if (mWebviewDialog != null) {
       mWebviewDialog.dismiss();
-      listener.onAdClosed();
+      if (listener != null) {
+        listener.onAdClosed();
+      }
       destroy();
     }
   }

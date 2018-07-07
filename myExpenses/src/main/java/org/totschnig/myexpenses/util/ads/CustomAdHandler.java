@@ -51,7 +51,7 @@ public class CustomAdHandler extends AdHandler {
 
 
   @Override
-  protected boolean maybeShowInterstitialDo() {
+  synchronized protected boolean maybeShowInterstitialDo() {
     if (interstitial != null) {
       interstitial.show();
       return true;
@@ -60,7 +60,7 @@ public class CustomAdHandler extends AdHandler {
   }
 
   @Override
-  protected void requestNewInterstitialDo() {
+  synchronized protected void requestNewInterstitialDo() {
     Pair<PartnerProgram, String> contentProvider = PartnerProgram.pickContent(Arrays.asList(PartnerProgram.values()),
         MyApplication.getInstance().getAppComponent().userCountry(), context, -1);
     if (contentProvider != null) {
