@@ -16,6 +16,8 @@ public class CustomAdHandler extends AdHandler {
 
   private AdView adView;
   private Interstitial interstitial;
+  private boolean mInterstitialShown = false;
+
 
   protected CustomAdHandler(AdHandlerFactory factory, ViewGroup adContainer) {
     super(factory, adContainer);
@@ -51,19 +53,21 @@ public class CustomAdHandler extends AdHandler {
 
 
   @Override
-  synchronized protected boolean maybeShowInterstitialDo() {
-    if (interstitial != null) {
-      interstitial.show();
-      return true;
+  protected boolean maybeShowInterstitialDo() {
+    if (interstitial == null || mInterstitialShown) {
+      return false;
     }
-    return false;
+    interstitial.show();
+    mInterstitialShown = true;
+    return true;
   }
 
   @Override
-  synchronized protected void requestNewInterstitialDo() {
+  protected void requestNewInterstitialDo() {
     Pair<PartnerProgram, String> contentProvider = PartnerProgram.pickContent(Arrays.asList(PartnerProgram.values()),
         MyApplication.getInstance().getAppComponent().userCountry(), context, -1);
     if (contentProvider != null) {
+      mInterstitialShown = false;
       interstitial = new Interstitial(context);
 
       interstitial.setContentProvider(contentProvider);
