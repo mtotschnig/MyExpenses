@@ -75,8 +75,8 @@
 
 
             <TableRow
-                android:visibility="gone"
-                android:id="@+id/OriginalAmountRow">
+                android:id="@+id/OriginalAmountRow"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/OriginalAmountLabel"
@@ -92,12 +92,12 @@
                     android:orientation="horizontal">
 
                     <Spinner
-                        style="@style/FormField"
                         android:id="@+id/OriginalCurrency"
-                        android:layout_height="wrap_content"
+                        style="@style/FormField"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:prompt="@string/currency"/>
 
                     <org.totschnig.myexpenses.ui.AmountEditText
@@ -131,8 +131,8 @@
             <include layout="@layout/exchange_rate_row"/>
 
             <TableRow
-                android:visibility="gone"
-                android:id="@+id/EquivalentAmountRow">
+                android:id="@+id/EquivalentAmountRow"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/EquivalentAmountLabel"
@@ -314,8 +314,9 @@
 
                     <Spinner
                         android:id="@+id/Method"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
                         android:layout_gravity="center_vertical"
                         android:prompt="@string/method"/>
 
@@ -328,8 +329,8 @@
                         android:contentDescription="@string/contrib_feature_attach_picture_label"
                         android:focusable="true"
                         android:onClick="clearMethodSelection"
-                        app:srcCompat="@drawable/ic_menu_delete"
                         android:visibility="gone"
+                        app:srcCompat="@drawable/ic_menu_delete"
                         tools:ignore="MissingPrefix"/>
 
                     <EditText
