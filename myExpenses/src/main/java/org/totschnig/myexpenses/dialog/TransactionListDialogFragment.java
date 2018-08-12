@@ -56,6 +56,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_IS_MAIN = "is_main";
@@ -163,6 +164,10 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       accountSelect = String.valueOf(mAccount.getId());
     }
     if (catId == 0L) {
+      if (!TextUtils.isEmpty(selection)) {
+        selection += " AND ";
+      }
+      selection += WHERE_NOT_SPLIT_PART;
       selectionArgs = accountSelect == null ? null : new String[]{accountSelect};
     } else {
       if (!TextUtils.isEmpty(selection)) {
