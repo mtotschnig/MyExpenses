@@ -178,6 +178,17 @@ public enum CurrencyEnum {
   XPD("Palladium"),
   XPT("Platinum"),
   XAG("Silver");
+  // ISO 4217 code of some commonly used cryptocurrencies, for those who don't have their respective code
+  // (such as Litecoin), common ticker symbol will be used.
+  XBT("Bitcoin");
+  XBC("Bitcoin Cash");
+  LTC("Litecoin");
+  ETH("Ether");
+  XMR("Monero");
+  XRP("Ripple");
+  DASH("Dash");
+  ZEC("Zcash");
+  
   private String description;
 
   CurrencyEnum(String description) {
