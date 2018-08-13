@@ -73,7 +73,7 @@
         android:id="@id/HISTORY_COMMAND"
         android:icon="@drawable/ic_history"
         android:orderInCategory="10"
-        android:title="History"
+        android:title="@string/menu_history"
         app:showAsAction="ifRoom">
     </item>
     <item
