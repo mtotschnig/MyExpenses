@@ -21,6 +21,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -44,6 +45,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   abstract String[] getSelectionArgs();
   abstract String getSelection();
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null,
@@ -83,11 +85,9 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     dismiss();
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    if (getActivity()==null) {
-      return null;
-    }
     return new CursorLoader(
         getActivity(),
         getUri(),
@@ -99,12 +99,12 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
+  public void onLoadFinished(@NonNull Loader<Cursor> arg0, Cursor data) {
     mCursor = data;
     mAdapter.swapCursor(data);
   }
   @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
+  public void onLoaderReset(@NonNull Loader<Cursor> arg0) {
     mCursor = null;
     mAdapter.swapCursor(null);
   }

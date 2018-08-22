@@ -3,16 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="?attr/drawerWidth"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="start"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_main"
+    >
     <android.support.v7.widget.Toolbar
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/accounts_menu"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        tools:showIn="@layout/activity_main"/>
+        android:background="?attr/colorPrimary"/>
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/left_drawer"
@@ -25,6 +27,5 @@
         android:dividerHeight="2dp"
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        tools:showIn="@layout/activity_main"/>
+        android:scrollbars="vertical"/>
 </LinearLayout>
