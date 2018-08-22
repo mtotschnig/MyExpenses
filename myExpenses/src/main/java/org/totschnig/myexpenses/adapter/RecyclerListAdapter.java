@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
@@ -96,8 +95,8 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
     return mItems.size();
   }
 
-  public List<Long> getSortOrder() {
-    return Stream.of(mItems).map(AbstractMap.SimpleEntry::getKey).collect(Collectors.toList());
+  public long[] getSortOrder() {
+    return Stream.of(mItems).mapToLong(AbstractMap.SimpleEntry::getKey).toArray();
   }
 
   /**

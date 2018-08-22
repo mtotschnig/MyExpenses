@@ -164,6 +164,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String METHOD_INIT = "init";
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
+  public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
 
   static final String TAG = "TransactionProvider";
 
@@ -1560,6 +1561,21 @@ public class TransactionProvider extends ContentProvider {
         notifyChange(CATEGORIES_URI, true);
         notifyChange(PAYEES_URI, true);
         notifyChange(METHODS_URI, true);
+        break;
+      }
+      case METHOD_SORT_ACCOUNTS: {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        if (extras != null) {
+          long[] sortedIds = extras.getLongArray(KEY_SORT_KEY);
+          if (sortedIds != null) {
+            ContentValues values = new ContentValues(1);
+            for (int i = 0; i < sortedIds.length; i++) {
+              values.put(KEY_SORT_KEY, i);
+              db.update(TABLE_ACCOUNTS, values, KEY_ROWID + " = ?", new String[]{String.valueOf(sortedIds[i])});
+            }
+            notifyChange(ACCOUNTS_URI, true);
+          }
+        }
         break;
       }
     }

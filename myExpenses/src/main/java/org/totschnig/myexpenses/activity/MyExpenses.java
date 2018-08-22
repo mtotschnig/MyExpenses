@@ -50,9 +50,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -100,7 +97,6 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -108,7 +104,6 @@ import javax.inject.Inject;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -124,6 +119,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -1194,7 +1190,9 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public void onSortOrderConfirmed(List<Long> sortedIds) {
-    Timber.i(Stream.of(sortedIds).map(String::valueOf).collect(Collectors.joining(",")));
+  public void onSortOrderConfirmed(long[] sortedIds) {
+    Bundle extras = new Bundle(1);
+    extras.putLongArray(KEY_SORT_KEY, sortedIds);
+    getContentResolver().call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SORT_ACCOUNTS, null, extras);
   }
 }

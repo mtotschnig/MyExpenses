@@ -17,7 +17,6 @@ import org.totschnig.myexpenses.adapter.helper.SimpleItemTouchHelperCallback;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SortUtilityDialogFragment extends CommitSafeDialogFragment implements OnStartDragListener, DialogInterface.OnClickListener {
   private static final String KEY_ITEMS = "items";
@@ -26,7 +25,7 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
   private RecyclerListAdapter adapter;
 
   public interface OnConfirmListener {
-    public void onSortOrderConfirmed(List<Long> sortedIds);
+    public void onSortOrderConfirmed(long[] sortedIds);
   }
 
   public static SortUtilityDialogFragment newInstance(ArrayList<AbstractMap.SimpleEntry<Long, String>> items) {
