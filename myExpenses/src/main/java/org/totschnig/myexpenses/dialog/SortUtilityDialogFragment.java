@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.RecyclerListAdapter;
 import org.totschnig.myexpenses.adapter.helper.OnStartDragListener;
@@ -50,7 +52,8 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    adapter = new RecyclerListAdapter( this, (ArrayList<AbstractMap.SimpleEntry<Long, String>>) getArguments().getSerializable(KEY_ITEMS));
+    Bundle args = savedInstanceState != null ? savedInstanceState : getArguments();
+    adapter = new RecyclerListAdapter( this, (ArrayList<AbstractMap.SimpleEntry<Long, String>>) args.getSerializable(KEY_ITEMS));
 
     RecyclerView recyclerView = new RecyclerView(getActivity());
     recyclerView.setHasFixedSize(true);
@@ -75,6 +78,12 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    callback.onSortOrderConfirmed(adapter.getSortOrder());
+    callback.onSortOrderConfirmed(Stream.of(adapter.getItems()).mapToLong(AbstractMap.SimpleEntry::getKey).toArray());
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable(KEY_ITEMS, adapter.getItems());
   }
 }

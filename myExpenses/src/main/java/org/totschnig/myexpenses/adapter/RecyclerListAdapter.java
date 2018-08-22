@@ -27,8 +27,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.annimon.stream.Stream;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.helper.ItemTouchHelperAdapter;
 import org.totschnig.myexpenses.adapter.helper.ItemTouchHelperViewHolder;
@@ -38,6 +36,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Simple RecyclerView.Adapter that implements {@link ItemTouchHelperAdapter} to respond to move and
@@ -48,7 +47,7 @@ import java.util.List;
 public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapter.ItemViewHolder>
     implements ItemTouchHelperAdapter {
 
-  private final List<AbstractMap.SimpleEntry<Long, String>> mItems = new ArrayList<>();
+  private final ArrayList<AbstractMap.SimpleEntry<Long, String>> mItems = new ArrayList<>();
 
   private final OnStartDragListener mDragStartListener;
 
@@ -66,7 +65,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
   @Override
   public void onBindViewHolder(@NonNull final ItemViewHolder holder, int position) {
-    holder.textView.setText(mItems.get(position).getValue());
+    holder.textView.setText(String.format(Locale.getDefault(), "%d. %s", position + 1, mItems.get(position).getValue()));
 
     // Start a drag whenever the handle view it touched
     holder.handleView.setOnTouchListener((v, event) -> {
@@ -84,6 +83,11 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
   }
 
   @Override
+  public void onDrop() {
+    notifyDataSetChanged();
+  }
+
+  @Override
   public boolean onItemMove(int fromPosition, int toPosition) {
     Collections.swap(mItems, fromPosition, toPosition);
     notifyItemMoved(fromPosition, toPosition);
@@ -95,8 +99,9 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
     return mItems.size();
   }
 
-  public long[] getSortOrder() {
-    return Stream.of(mItems).mapToLong(AbstractMap.SimpleEntry::getKey).toArray();
+
+  public ArrayList<AbstractMap.SimpleEntry<Long, String>> getItems() {
+    return mItems;
   }
 
   /**
@@ -111,8 +116,8 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
     ItemViewHolder(View itemView) {
       super(itemView);
-      textView = (TextView) itemView.findViewById(R.id.text);
-      handleView = (ImageView) itemView.findViewById(R.id.handle);
+      textView = itemView.findViewById(R.id.text);
+      handleView = itemView.findViewById(R.id.handle);
     }
 
     @Override
