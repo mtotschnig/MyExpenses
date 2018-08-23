@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -92,6 +93,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
@@ -117,6 +119,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -132,7 +135,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener {
+    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener, SortUtilityDialogFragment.OnConfirmListener {
 
   public static final long TRESHOLD_REMIND_RATE = 47L;
 
@@ -225,7 +228,6 @@ public class MyExpenses extends LaunchActivity implements
           TransactionList tl = getCurrentFragment();
           if (tl != null)
             tl.onDrawerClosed();
-          //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
         }
 
         /**
@@ -236,7 +238,6 @@ public class MyExpenses extends LaunchActivity implements
           TransactionList tl = getCurrentFragment();
           if (tl != null)
             tl.onDrawerOpened();
-          //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
         }
 
         @Override
@@ -1093,6 +1094,7 @@ public class MyExpenses extends LaunchActivity implements
 
   protected boolean handleSortOption(MenuItem item) {
     String newSortOrder = Utils.getSortOrderFromMenuItemId(item.getItemId());
+    boolean result = false;
     if (newSortOrder != null) {
       if (!item.isChecked()) {
         PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
@@ -1103,14 +1105,25 @@ public class MyExpenses extends LaunchActivity implements
         } else {
           mManager.initLoader(ACCOUNTS_CURSOR, null, this);
         }
-        if (item.getItemId() == R.id.SORT_CUSTOM_COMMAND) {
-          showMessage(R.string.dialog_title_information,
-              getString(R.string.dialog_info_custom_sort));
-        }
       }
-      return true;
+      result = true;
+      if (item.getItemId() == R.id.SORT_CUSTOM_COMMAND) {
+        ArrayList<AbstractMap.SimpleEntry<Long, String>> accounts = new ArrayList<>();
+        if (mAccountsCursor.moveToFirst()) {
+          final int columnIndexId = mAccountsCursor.getColumnIndex(KEY_ROWID);
+          final int columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
+          while (!mAccountsCursor.isAfterLast()) {
+            final long id = mAccountsCursor.getLong(columnIndexId);
+            if (id > 0) {
+              accounts.add(new AbstractMap.SimpleEntry<>(id, mAccountsCursor.getString(columnIndexLabel)));
+            }
+            mAccountsCursor.moveToNext();
+          }
+        }
+        SortUtilityDialogFragment.newInstance(accounts).show(getSupportFragmentManager(), "SORT_ACCOUNTS");
+      }
     }
-    return false;
+    return result;
   }
 
   protected boolean handleAccountsGrouping(MenuItem item) {
@@ -1176,4 +1189,10 @@ public class MyExpenses extends LaunchActivity implements
     return taskId == TASK_EXPORT;
   }
 
+  @Override
+  public void onSortOrderConfirmed(long[] sortedIds) {
+    Bundle extras = new Bundle(1);
+    extras.putLongArray(KEY_SORT_KEY, sortedIds);
+    getContentResolver().call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SORT_ACCOUNTS, null, extras);
+  }
 }

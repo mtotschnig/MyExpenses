@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -23,8 +22,6 @@ import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -46,7 +43,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
@@ -180,50 +176,12 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       holder.accountMenu.setOnClickListener(null);
     } else {
       holder.accountMenu.setVisibility(View.VISIBLE);
-      boolean upVisible = false, downVisible = false;
-      int position = cursor.getPosition();
-      if (PrefKey.SORT_ORDER_ACCOUNTS.getString(ProtectedFragmentActivity.SORT_ORDER_USAGES).equals(ProtectedFragmentActivity.SORT_ORDER_CUSTOM)) {
-        if (position > 0 && getHeaderId(position - 1) == getHeaderId(position)) {
-          getCursor().moveToPosition(position - 1);
-          if (rowId > 0) upVisible = true; //ignore if previous is aggregate
-        }
-        if (position + 1 < getCount() && getHeaderId(position + 1) == getHeaderId(position)) {
-          getCursor().moveToPosition(position + 1);
-          if (rowId > 0) downVisible = true;
-        }
-        getCursor().moveToPosition(position);
-      }
-      final boolean finalUpVisible = upVisible, finalDownVisible = downVisible;
       holder.accountMenu.setOnClickListener(v1 -> {
         PopupMenu popup = new PopupMenu(context, holder.accountMenu);
         popup.inflate(R.menu.accounts_context);
         Menu menu = popup.getMenu();
         menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
-        menu.findItem(R.id.UP_COMMAND).setVisible(finalUpVisible);
-        menu.findItem(R.id.DOWN_COMMAND).setVisible(finalDownVisible);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-          @Override
-          public boolean onMenuItemClick(MenuItem item) {
-            return handleSwap(item.getItemId(), position) ||
-                activity.dispatchCommand(item.getItemId(), rowId);
-          }
-
-          private boolean handleSwap(int itemId, int position1) {
-            if (itemId != R.id.UP_COMMAND && itemId != R.id.DOWN_COMMAND) return false;
-            Cursor c1 = getCursor();
-            c1.moveToPosition(position1);
-            String sortKey1 = c1.getString(c1.getColumnIndex(KEY_SORT_KEY));
-            c1.moveToPosition(itemId == R.id.UP_COMMAND ? position1 - 1 : position1 + 1);
-            String sortKey2 = c1.getString(c1.getColumnIndex(KEY_SORT_KEY));
-            activity.startTaskExecution(
-                TaskExecutionFragment.TASK_SWAP_SORT_KEY,
-                new String[]{sortKey1, sortKey2},
-                null,
-                R.string.progress_dialog_saving);
-            return true;
-          }
-        });
+        popup.setOnMenuItemClickListener(item -> activity.dispatchCommand(item.getItemId(), rowId));
         popup.show();
       });
     }

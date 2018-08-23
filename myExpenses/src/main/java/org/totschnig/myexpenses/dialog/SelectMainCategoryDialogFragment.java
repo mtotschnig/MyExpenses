@@ -53,7 +53,7 @@ public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment i
     void onCategorySelected(Bundle args);
   }
 
-  public static final SelectMainCategoryDialogFragment newInstance(Bundle args) {
+  public static SelectMainCategoryDialogFragment newInstance(Bundle args) {
     final SelectMainCategoryDialogFragment fragment = new SelectMainCategoryDialogFragment();
     fragment.setArguments(args);
     return fragment;

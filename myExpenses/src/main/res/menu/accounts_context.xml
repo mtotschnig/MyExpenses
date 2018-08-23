@@ -9,15 +9,4 @@
         android:id="@id/DELETE_ACCOUNT_COMMAND"
         android:title="@string/menu_delete"
         />
-
-    <item
-        android:id="@+id/UP_COMMAND"
-        android:title="@string/menu_sort_up"
-        android:visible="false"
-        />
-    <item
-        android:id="@+id/DOWN_COMMAND"
-        android:title="@string/menu_sort_down"
-        android:visible="false"
-        />
 </menu>
