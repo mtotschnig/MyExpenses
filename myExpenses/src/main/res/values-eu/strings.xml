@@ -549,7 +549,6 @@
   <string name="menu_sort">Ordenatu honela</string>
   <string name="pref_sort_order_last_used">Ezken erabilera</string>
   <string name="pref_sort_order_custom">Pertsonalizatua</string>
-  <string name="dialog_info_custom_sort">Erabili gora eta behera komandoak elementu bakoitzaren testuinguru menuan bere posizioa aldatzeko.</string>
   <string name="content_description_calculator">Kalkulagailua</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">ireki</string>

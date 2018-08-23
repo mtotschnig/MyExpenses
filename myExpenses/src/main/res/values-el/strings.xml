@@ -539,7 +539,6 @@
   <string name="menu_sort">Ταξινόμηση κατά</string>
   <string name="pref_sort_order_last_used">Τελευταία χρήση</string>
   <string name="pref_sort_order_custom">Προσαρμοσμένο</string>
-  <string name="dialog_info_custom_sort">Χρησιμοποιήστε τις Πάνω και Κάτω εντολές στο μενού του κάθε αντικειμένου ώστε να αλλάξετε την σειρά ταξινόμησης</string>
   <string name="content_description_calculator">Αριθμομηχανή</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">ανοιχτό</string>

@@ -553,7 +553,6 @@
   <string name="menu_sort">Şuna göre sırala</string>
   <string name="pref_sort_order_last_used">Son kullanıldığı</string>
   <string name="pref_sort_order_custom">Özel</string>
-  <string name="dialog_info_custom_sort">Sırlama konumunu değiştirmek için her unsurun bağlam menüsündeki Aşağı ve Yukarı komutlarını kullanın.</string>
   <string name="content_description_calculator">Hesap makinesi</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">açık</string>
@@ -740,4 +739,9 @@
   <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor</string>
   <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi</string>
   <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi</string>
+  <string name="pref_category_title_privacy">Gizlilik</string>
+  <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
+  <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
+  <string name="gdpr_consent_button_yes">Evet, reklam görmeye devam et</string>
+  <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
 </resources>

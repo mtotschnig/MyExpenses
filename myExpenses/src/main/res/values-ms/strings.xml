@@ -544,7 +544,6 @@
   <string name="menu_sort">Isih mengikut</string>
   <string name="pref_sort_order_last_used">Terakhir digunakan</string>
   <string name="pref_sort_order_custom">Suai</string>
-  <string name="dialog_info_custom_sort">Guna perintah Naik dan Turun dalam setiap menu konteks item untuk mengubah kedudukan isihnya.</string>
   <string name="content_description_calculator">Kalkulator</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">buka</string>

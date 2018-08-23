@@ -544,7 +544,6 @@
   <string name="menu_sort">Ordina per</string>
   <string name="pref_sort_order_last_used">Usato l\'ultima volta</string>
   <string name="pref_sort_order_custom">Su ordinazione</string>
-  <string name="dialog_info_custom_sort">Usare i comandi su e giù nel menu contestuale di ogni elemento per modificarne la posizione nell\'ordinamento.</string>
   <string name="content_description_calculator">Calcolatrice</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">aperto</string>

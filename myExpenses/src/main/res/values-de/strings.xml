@@ -553,7 +553,6 @@
   <string name="menu_sort">Sortieren nach</string>
   <string name="pref_sort_order_last_used">Zuletzt verwendet</string>
   <string name="pref_sort_order_custom">Benutzerdefiniert</string>
-  <string name="dialog_info_custom_sort">Durch die Befehle \"Nach oben\" und \"Nach unten\" im Kontextmenü des Elements ändern Sie seine Sortierposition.</string>
   <string name="content_description_calculator">Taschenrechner</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">offen</string>

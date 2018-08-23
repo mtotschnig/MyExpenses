@@ -456,7 +456,6 @@
   <string name="copied_to_clipboard">复制到剪切板</string>
   <string name="menu_sort">排序</string>
   <string name="pref_sort_order_custom">自定义</string>
-  <string name="dialog_info_custom_sort">使用每个项里面的上下命令改变它的排序位子</string>
   <string name="content_description_calculator">计算器</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">打开</string>

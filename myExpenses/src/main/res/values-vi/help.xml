@@ -13,9 +13,18 @@
   <string name="menu_grouping_help_text">Bạn có thể nhóm các giao dịch theo ngày, tuần, tháng hoặc năm. Với mỗi nhóm, tổng thu nhập, chi tiêu và các khoản chuyển khoản sẽ được tính và hiển thị. Khi bạn nhấn vào một tiêu đề nhóm, nhóm giao dịch đó sẽ thu lại và chỉ cái đầu đề sẽ được hiển thị. Nhấn lại để mở rộng.</string>
   <string name="menu_sort_direction_help_text">Các giao dịch có thể được sắp xếp theo chiều tăng dần (cũ nhất ở trên cùng) hoặc giảm dần (mới nhất ở trên cùng).</string>
   <string name="menu_distribution_help_text">Hiển thị phân phối các chi tiêu theo danh mục. Bạn cũng có thể nhấn vào tiêu đề một nhóm để kiểm tra sự phân phối trong một khoảng thời gian nhất định.</string>
+  <string name="menu_history_help_text">Hiển thị biểu đồ dòng tiền: Chi phí và thu nhập của bạn phát triển như thế nào qua các ngày, tuần, tháng hoặc năm?</string>
+  <string name="menu_manage_plans_help_text">Mở danh sách các mẫu và kế hoạch, nơi bạn có thể áp dụng, chỉnh sửa hoặc xóa chúng và cũng xác định kế hoạch cho các giao dịch trong tương lai và lặp lại.</string>
+  <string name="menu_balance_help_text">Lệnh này mở một hộp thoại hiển thị các số dư  được điều chỉnh và số dư đã xoá gần nhất. Bạn có thể so sánh chúng với bản sao kê ngân hàng cảu bạn, và đánh dấu tất cả các giao dịch đã bị xoá là các giao dịch được điều chỉnh. Bạn cũng có thể tự quyết định xoá các giao dịch được điều chỉnh. </string>
+  <string name="menu_print_help_text">Tạo một chế độ xem có thể in của một giao dịch đang hiển thị</string>
+  <string name="cab_create_template_from_transaction_help_text">Định nghĩa một bản mẩu mới dựa trên giao dịch được chọn. Sẽ nhắc bạn cho tiêu đề của mẫu.</string>
+  <string name="cab_clone_transaction_help_text">Các giao dịch được chọn sẽ được nhân bản với ngày và giờ hiện tại. Bạn có thể thay đổi trước khi lưu bản sao đó.</string>
+  <string name="cab_split_help_text">Bạn có thể chỉnh sửa các giao dịch để tạo các phần bổ sung như mong muốn</string>
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Khởi tạo các bản mẫu được chọn và lưu chúng ngay lập tức.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Khởi tạo bản mẫu được chọn và nhập biểu mẫu chỉnh sửa của nó nơi bạn có thể chỉnh sửa nó trước khi lưu.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_select_mapping_info">Để có thể tác động thêm các thao tác khi quản lý các phần phân loại từ màn hình Tùy Biến (tạo, chỉnh sửa, xóa), trên màn hình này bạn có thể gán các giao dịch vào các phần phân loại đã được chọn. Bạn chọn một phân loại con để gán vào giáo dịch hiện tại chỉ đơn giản bằng cách click vào đối tượng này. Để có thể gán vào phần phân loại chính, bạn sẽ cần phải sử dụng menu bổ sung.</string>
   <string name="help_ManageCategories_manage_info">Màn hình này cho phép bạn tạo, chỉnh sửa và xóa các phân loại. Theo mặc định, phần sắp xếp chính trong danh sách phân loại là sớ lần bạn sử dụng một phân loại (điều kiện sắp xếp thứ hai dựa vào trình tự chữ cái abc). Phần này sẽ giúp bạn truy cập nhanh hơn đến các phân loại mà bạn thường hay sử dụng. Trong phần thiết lập, bạn có thể chọn việc sắp xếp các phân loại theo kiểu thường hay sử dụng hay theo kiểu thứ tự chữ cái. Click vào một phân loại chính, mở ra các phân loại con. Từ menu bổ sung của phân loại chính, bạn có thể thêm vào các phân loại con, xóa một phân loại hoặc hiệu chỉnh đối tượng đó. Các phân loại con đồng thời cũng bao gồm các menu bổ sung cho thao tác xóa và chỉnh sửa.</string>
