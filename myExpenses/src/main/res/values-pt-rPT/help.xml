@@ -117,10 +117,8 @@
   <string name="help_ExportDialog_date_format"><![CDATA[O texto pode ser citado usando apóstrofos (\') para evitar a interpretação. \" (aspas) representam um apóstrofo. Consulte a <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">especificação</a> completa para mais detalhes, ou contacte support@myexpenses.mobi para obter ajuda.]]></string>
   <string name="help_NavigationDrawer_info">A lista de contas permite-lhe facilmente navegar entre contas com um simples clique numa entrada.</string>
   <string name="menu_create_account_help_text">Criar uma nova conta. A versão gratuita está limitada a cinco contas.</string>
-  <string name="menu_NavigationDrawer_sort_help_text">A lista de contas pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última transação criada. Se selecionar uma ordenação personalizada, verá comandos no menu de contexto de cada conta para mover para cima e para baixo na lista.</string>
+  <string name="menu_NavigationDrawer_sort_help_text">A lista de contas pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última transação criada.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">A lista de contas pode ser exibida agrupada por tipo de conta, moeda, ou não agrupada.</string>
-  <string name="cab_sort_up_help_text">Mover o item uma posição para cima na lista.</string>
-  <string name="cab_sort_down_help_text">Mover o item uma posição para baixo na lista.</string>
   <string name="form_instant_plan_help_text">Aqui pode marcar a transação para ocorrer diariamente, semanalmente, mensalmente ou anualmente. No ecrã de \"Modelos e planos\", pode inspecionar o plano resultante e configurar opções avançadas. Se a transação já se encontra associada a um plano, já não pode alterar o tipo de recorrência, mas pode abrir uma vista de calendário exibindo todas as datas recorrentes.</string>
   <!--SyncBackends-->
   <string name="help_ManageSyncBackends_drive">Google Drive: Escolha qualquer pasta que possua ou que esteja partilhada consigo.</string>

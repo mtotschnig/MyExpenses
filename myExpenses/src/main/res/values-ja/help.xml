@@ -126,10 +126,8 @@
   <string name="help_ExportDialog_date_format"><![CDATA[テキストが解釈されるのを避けるために単一引用符 (\') で囲むことができます。 \'\' (2 つの単一引用符) は、単一引用符を表します。 さらに詳細は、すべての <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">仕様</a> を参照するか、 support@myexpenses.mobi にご連絡ください。]]></string>
   <string name="help_NavigationDrawer_info">勘定リストは、エントリをクリックするだけで、簡単に勘定間を移動することができます。</string>
   <string name="menu_create_account_help_text">新しい勘定を作成します。無料版は5つの勘定に制限されています。</string>
-  <string name="menu_NavigationDrawer_sort_help_text">勘定のリストは、タイトル (アルファベット順)、使用頻度、または取引が作成された最後の時間によってソートすることができます。カスタムのソートを選択した場合、リスト内の各勘定のコンテキストメニューに移動するための上下コマンドが表示されます。</string>
+  <string name="menu_NavigationDrawer_sort_help_text">勘定のリストは、タイトル (アルファベット順)、使用頻度、または取引が作成された最後の時間によってソートすることができます。</string>
   <string name="menu_NavigationDrawer_grouping_help_text">勘定リストは、勘定の種類別、通貨別にグループ化して、またはグループ化しないで表示することができます。</string>
-  <string name="cab_sort_up_help_text">リスト内の項目の位置を 1 つ上に移動します。</string>
-  <string name="cab_sort_down_help_text">リスト内の項目の位置を 1 つ下に移動します。</string>
   <string name="form_instant_plan_help_text">ここでは、毎日、毎週、毎月、または年単位で繰り返す取引を設定することができます。 「テンプレートと計画」の画面では、結果の計画を検査し、高度なオプションを設定することができます。取引がすでに計画にリンクされている場合、もう繰り返しの種類を変更することはできませんが、繰り返しの日付をすべて表示するカレンダー表示を開くことができます。</string>
   <!--SyncBackends-->
   <string name="help_ManageSyncBackends_intro">マイエクスペンスは、勘定ごとに異なる同期バックエンドを設定できます。 たとえば、ある勘定を共有フォルダに同期し、別の勘定をプライベートフォルダと同期させることができます。 この画面では、同期バックエンドの追加または削除、リモートで使用可能な勘定との同期開始または停止を行います。 同期は定期的に自動的に行われますが、バックエンドと手動で同期を起動することもできます。 マイエクスペンスはリモートフォルダーをフルコントロールする必要があることに注意してください。 同期中に失敗する可能性が非常に高いため、内容を変更するために他のツールやインターフェースを使用しないでください。</string>
