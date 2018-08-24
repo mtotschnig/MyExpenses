@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -43,7 +46,10 @@ public class OnboardingUiFragment extends OnboardingFragment {
 
   @Override
   protected void onNextButtonClicked() {
-    ((SplashActivity) getActivity()).navigate_next();
+    final FragmentActivity activity = getActivity();
+    if (activity != null) {
+      ((SplashActivity) activity).navigate_next();
+    }
   }
 
   @Override
@@ -54,27 +60,31 @@ public class OnboardingUiFragment extends OnboardingFragment {
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
     ((TextView) actionView).setText(MyApplication.getUserPreferedLocale().getLanguage());
     actionView.setOnClickListener(v -> {
-      final PopupMenu subMenu = new PopupMenu(getActivity(), actionView);
-      String[] entries = SettingsFragment.getLocaleArray(getContext());
-      for (int i = 0; i < entries.length; i++) {
-        subMenu.getMenu().add(Menu.NONE, i, Menu.NONE, entries[i]);
-      }
-      String[] values = getResources().getStringArray(R.array.pref_ui_language_values);
-      subMenu.setOnMenuItemClickListener(item -> {
-        String newValue = values[item.getItemId()];
-        if (!uiLanguage.equals(newValue)) {
-          PrefKey.UI_LANGUAGE.putString(newValue);
-          recreate();
+      final Context context = getContext();
+      final PopupMenu subMenu;
+      if (context != null) {
+        subMenu = new PopupMenu(context, actionView);
+        String[] entries = SettingsFragment.getLocaleArray(context);
+        for (int i = 0; i < entries.length; i++) {
+          subMenu.getMenu().add(Menu.NONE, i, Menu.NONE, entries[i]);
         }
-        return true;
-      });
-      subMenu.show();
+        String[] values = getResources().getStringArray(R.array.pref_ui_language_values);
+        subMenu.setOnMenuItemClickListener(item -> {
+          String newValue = values[item.getItemId()];
+          if (!uiLanguage.equals(newValue)) {
+            PrefKey.UI_LANGUAGE.putString(newValue);
+            recreate();
+          }
+          return true;
+        });
+        subMenu.show();
+      }
     });
   }
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.onboarding_wizzard_1, container, false);
     ButterKnife.bind(this, view);
 
@@ -134,12 +144,18 @@ public class OnboardingUiFragment extends OnboardingFragment {
   }
 
   private void recreate() {
-    getActivity().recreate();
+    final FragmentActivity activity = getActivity();
+    if (activity != null) {
+      activity.recreate();
+    }
   }
 
   private void updateFontSizeDisplayName(int fontScale) {
-    fontSizeDisplayNameTextView.setText(FontSizeDialogPreference.getEntry(getActivity(), fontScale));
-    FontSizeAdapter.updateTextView(fontSizeDisplayNameTextView, fontScale, getActivity());
+    final FragmentActivity activity = getActivity();
+    if (activity != null) {
+      fontSizeDisplayNameTextView.setText(FontSizeDialogPreference.getEntry(activity, fontScale));
+      FontSizeAdapter.updateTextView(fontSizeDisplayNameTextView, fontScale, activity);
+    }
   }
 
   private void setContentDescriptonToThemeSwitch(View themeSwitch, boolean isLight) {
