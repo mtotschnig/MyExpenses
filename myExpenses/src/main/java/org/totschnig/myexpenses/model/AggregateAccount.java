@@ -77,8 +77,9 @@ public class AggregateAccount extends Account {
   }
 
   @Override
-  public Uri getExtendedUriForTransactionList() {
-    return super.getExtendedUriForTransactionList().buildUpon().appendQueryParameter(
+  public Uri getExtendedUriForTransactionList(boolean withType) {
+    final Uri base = super.getExtendedUriForTransactionList(withType);
+    return withType ? base : base.buildUpon().appendQueryParameter(
         TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, "1")
         .build();
   }

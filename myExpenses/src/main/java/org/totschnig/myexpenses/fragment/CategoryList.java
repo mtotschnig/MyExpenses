@@ -1081,7 +1081,7 @@ public class CategoryList extends SortableListFragment implements
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
       TransactionListDialogFragment.newInstance(
-          mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0)
+          mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
           .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
       return;
     }

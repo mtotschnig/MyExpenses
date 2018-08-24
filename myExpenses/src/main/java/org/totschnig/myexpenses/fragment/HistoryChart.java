@@ -172,7 +172,7 @@ public class HistoryChart extends Fragment
           //expense is first entry, income second
           int type = h.getStackIndex() == 0 ? -1 : 1;
           TransactionListDialogFragment.newInstance(
-              account.getId(), 0, false, grouping, buildGroupingClause((int) e.getX()), formatXValue(e.getX()), type)
+              account.getId(), 0, false, grouping, buildGroupingClause((int) e.getX()), formatXValue(e.getX()), type, includeTransfers)
               .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
         }
       }
@@ -292,6 +292,7 @@ public class HistoryChart extends Fragment
     return false;
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     if (id == GROUPING_CURSOR) {
@@ -324,7 +325,7 @@ public class HistoryChart extends Fragment
           builder.build(),
           null, selection, selectionArgs, null);
     }
-    return null;
+    throw new IllegalArgumentException();
   }
 
   protected boolean shouldUseGroupStart() {
@@ -346,7 +347,7 @@ public class HistoryChart extends Fragment
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
     ProtectedFragmentActivity context = ((ProtectedFragmentActivity) getActivity());
     if (context == null) {
       return;

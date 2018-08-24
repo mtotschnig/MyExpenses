@@ -490,7 +490,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         selection += KEY_PARENTID + " is null";
         cursorLoader = new CursorLoader(getActivity(),
-            mAccount.getExtendedUriForTransactionList(),
+            mAccount.getExtendedUriForTransactionList(false),
             mAccount.getExtendedProjectionForTransactionList(),
             selection,
             selectionArgs, KEY_DATE + " " + mAccount.getSortDirection().name());

@@ -19,6 +19,7 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -53,6 +54,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
@@ -61,6 +63,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_IS_MAIN = "is_main";
   private static final String KEY_GROUPING_CLAUSE = "grouping_clause";
+  private static final String KEY_WITH_TRANSFERS = "with_transfers";
   public static final int TRANSACTION_CURSOR = 1;
   public static final int SUM_CURSOR = 2;
   private static final String TABS = "\u0009\u0009\u0009\u0009";
@@ -75,8 +78,9 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   PrefHandler prefHandler;
   private long catId;
 
-  public static final TransactionListDialogFragment newInstance(
-      Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause, String label, int type) {
+  public static TransactionListDialogFragment newInstance(
+      Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause,
+      String label, int type, boolean withTransfers) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_ACCOUNTID, account_id);
@@ -86,6 +90,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     bundle.putString(KEY_LABEL, label);
     bundle.putBoolean(KEY_IS_MAIN, isMain);
     bundle.putInt(KEY_TYPE, type);
+    bundle.putBoolean(KEY_WITH_TRANSFERS, withTransfers);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -99,6 +104,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     MyApplication.getInstance().getAppComponent().inject(this);
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     //Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
@@ -146,6 +152,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         .create();
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     String selection, accountSelect, amountCalculation = KEY_AMOUNT;
@@ -196,21 +203,27 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       }
       selection +=  KEY_AMOUNT + (type == -1 ? "<" : ">") + "0";
     }
+    if (!getArguments().getBoolean(KEY_WITH_TRANSFERS)) {
+      if (!TextUtils.isEmpty(selection)) {
+        selection += " AND ";
+      }
+      selection += KEY_TRANSFER_PEER + " is null";
+    }
     switch (id) {
       case TRANSACTION_CURSOR:
         return new CursorLoader(getActivity(),
-            mAccount.getExtendedUriForTransactionList(), mAccount.getExtendedProjectionForTransactionList(),
+            mAccount.getExtendedUriForTransactionList(type != 0), mAccount.getExtendedProjectionForTransactionList(),
             selection, selectionArgs, null);
       case SUM_CURSOR:
         return new CursorLoader(getActivity(),
             Transaction.EXTENDED_URI, new String[]{"sum(" + amountCalculation + ")"}, selection,
             selectionArgs, null);
     }
-    return null;
+    throw new IllegalArgumentException();
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
     switch (loader.getId()) {
       case TRANSACTION_CURSOR:
         mAdapter.swapCursor(cursor);
@@ -224,7 +237,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
+  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
     switch (loader.getId()) {
       case TRANSACTION_CURSOR:
         mAdapter.swapCursor(null);

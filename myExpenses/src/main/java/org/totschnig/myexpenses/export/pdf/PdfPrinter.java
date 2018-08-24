@@ -114,7 +114,7 @@ public class PdfPrinter {
         "application/pdf", false);
     Document document = new Document();
     transactionCursor = Model.cr().query(
-        account.getExtendedUriForTransactionList(), account.getExtendedProjectionForTransactionList(),
+        account.getExtendedUriForTransactionList(false), account.getExtendedProjectionForTransactionList(),
         selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
