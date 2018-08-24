@@ -39,6 +39,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
 import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -299,6 +301,7 @@ public class MyExpenses extends LaunchActivity implements
         closeDrawer();
       }
     });
+    registerForContextMenu(mDrawerList);
 
     requireFloatingActionButtonWithContentDescription(Utils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
@@ -394,6 +397,22 @@ public class MyExpenses extends LaunchActivity implements
     inflater.inflate(R.menu.expenses, menu);
     inflater.inflate(R.menu.grouping, menu);
     super.onCreateOptionsMenu(menu);
+    return true;
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
+      menu.add(0, R.id.EDIT_ACCOUNT_COMMAND, 0, R.string.menu_edit);
+      if (mAccountsCursor.getCount() > 1) {
+        menu.add(0, R.id.DELETE_ACCOUNT_COMMAND, 0, R.string.menu_delete);
+      }
+    }
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    dispatchCommand(item.getItemId(), ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).id);
     return true;
   }
 

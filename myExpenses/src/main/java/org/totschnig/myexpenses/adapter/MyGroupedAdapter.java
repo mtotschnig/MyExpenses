@@ -6,11 +6,9 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -171,20 +169,6 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       holder.selectedIndicator.setVisibility(isChecked ? View.VISIBLE : View.GONE);
     }
-    if (isAggregate > 0) {
-      holder.accountMenu.setVisibility(View.INVISIBLE);
-      holder.accountMenu.setOnClickListener(null);
-    } else {
-      holder.accountMenu.setVisibility(View.VISIBLE);
-      holder.accountMenu.setOnClickListener(v1 -> {
-        PopupMenu popup = new PopupMenu(context, holder.accountMenu);
-        popup.inflate(R.menu.accounts_context);
-        Menu menu = popup.getMenu();
-        menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
-        popup.setOnMenuItemClickListener(item -> activity.dispatchCommand(item.getItemId(), rowId));
-        popup.show();
-      });
-    }
 
     final boolean isHome = isAggregate == AggregateAccount.AGGREGATE_HOME;
     holder.label.setVisibility(isHome ? View.GONE : View.VISIBLE);
@@ -248,7 +232,6 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
   class ViewHolder {
     @BindView(R.id.color1) View color1;
-    @BindView(R.id.account_menu) View accountMenu;
     @BindView(R.id.card) CardView card;
     @BindView(R.id.selected_indicator) View selectedIndicator;
     @BindView(R.id.TransferRow) View transferRow;
