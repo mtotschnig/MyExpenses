@@ -47,7 +47,6 @@ import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -55,6 +54,7 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -203,22 +203,28 @@ public class Utils {
   }
 
   public static String defaultOrderBy(String textColumn, PrefKey prefKey) {
-    String currentSortOrder = prefKey.getString("USAGES");
+    Sort sort;
+    try {
+      sort = Sort.valueOf(prefKey.getString("USAGES"));
+    } catch (IllegalArgumentException e) {
+      sort = Sort.USAGES;
+    }
+
     String sortOrder = textColumn + " COLLATE LOCALIZED";
-    switch (currentSortOrder) {
-      case ProtectedFragmentActivity.SORT_ORDER_USAGES:
+    switch (sort) {
+      case USAGES:
         sortOrder = KEY_USAGES + " DESC, " + sortOrder;
         break;
-      case ProtectedFragmentActivity.SORT_ORDER_LAST_USED:
+      case LAST_USED:
         sortOrder = KEY_LAST_USED + " DESC, " + sortOrder;
         break;
-      case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
+      case CUSTOM:
         sortOrder = KEY_SORT_KEY + " ASC, " + sortOrder;
         break;
-      case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
+      case AMOUNT:
         sortOrder = "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
         break;
-      case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
+      case NEXT_INSTANCE:
         sortOrder = null; //handled by PlanInfoCursorWrapper
         //default is textColumn
     }
@@ -692,48 +698,6 @@ public class Utils {
     String weekStartsOn = PrefKey.GROUP_WEEK_STARTS.getString("-1");
     return weekStartsOn.equals("-1") ? Utils.getFirstDayOfWeek(locale) :
         Integer.parseInt(weekStartsOn);
-  }
-
-  public static void configureSortMenu(SubMenu sortMenu, String currentSortOrder) {
-    MenuItem activeItem;
-    switch (currentSortOrder) {
-      case ProtectedFragmentActivity.SORT_ORDER_USAGES:
-        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
-        break;
-      case ProtectedFragmentActivity.SORT_ORDER_LAST_USED:
-        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
-        break;
-      case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
-        activeItem = sortMenu.findItem(R.id.SORT_AMOUNT_COMMAND);
-        break;
-      case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
-        activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
-        break;
-      case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
-        activeItem = sortMenu.findItem(R.id.SORT_NEXT_INSTANCE_COMMAND);
-        break;
-      default:
-        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
-    }
-    activeItem.setChecked(true);
-  }
-
-  public static String getSortOrderFromMenuItemId(int id) {
-    switch (id) {
-      case R.id.SORT_USAGES_COMMAND:
-        return ProtectedFragmentActivity.SORT_ORDER_USAGES;
-      case R.id.SORT_LAST_USED_COMMAND:
-        return ProtectedFragmentActivity.SORT_ORDER_LAST_USED;
-      case R.id.SORT_TITLE_COMMAND:
-        return ProtectedFragmentActivity.SORT_ORDER_TITLE;
-      case R.id.SORT_CUSTOM_COMMAND:
-        return ProtectedFragmentActivity.SORT_ORDER_CUSTOM;
-      case R.id.SORT_AMOUNT_COMMAND:
-        return ProtectedFragmentActivity.SORT_ORDER_AMOUNT;
-      case R.id.SORT_NEXT_INSTANCE_COMMAND:
-        return ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE;
-    }
-    return null;
   }
 
   public static void configureGroupingMenu(SubMenu groupingMenu, Grouping currentGrouping) {

@@ -223,6 +223,8 @@ dependencies {
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
+    implementation 'com.github.florent37:expansionpanel:1.1.1'
+
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support:support-annotations:' + project.androidSupportLibraryVersion

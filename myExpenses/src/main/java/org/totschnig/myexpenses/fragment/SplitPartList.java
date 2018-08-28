@@ -30,9 +30,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -133,16 +131,13 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
         account.currency, currencyFormatter);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
-    lv.setOnItemClickListener(new OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-        Intent i = new Intent(ctx, ExpenseEdit.class);
-        i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
-        startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-      }
+    lv.setOnItemClickListener((a, v1, position, id) -> {
+      Intent i = new Intent(ctx, ExpenseEdit.class);
+      i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
+      startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
     });
     registerForContextMenu(lv);
-    fab = ((FloatingActionButton) v.findViewById(R.id.CREATE_COMMAND));
+    fab = v.findViewById(R.id.CREATE_COMMAND);
     fab.setContentDescription(Utils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
     updateFabColor(account.color);

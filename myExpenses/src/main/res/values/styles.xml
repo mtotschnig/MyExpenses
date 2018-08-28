@@ -31,6 +31,12 @@
     <style name="headingStyle.WithMargin.Caps">
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="newHeadingStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
     <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->
     <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textColor">@android:color/primary_text_light</item>

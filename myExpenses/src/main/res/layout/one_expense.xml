@@ -284,8 +284,8 @@
                         android:prompt="@string/status"/>
 
                     <ImageView
-                        android:id="@+id/AttachImage"
                         style="?actionButtonStyle"
+                        android:id="@+id/AttachImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

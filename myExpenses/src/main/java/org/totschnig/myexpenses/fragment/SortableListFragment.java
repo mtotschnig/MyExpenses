@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -20,19 +20,23 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
   public void onPrepareOptionsMenu(Menu menu) {
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
     if (menuItem == null) return;
-    Utils.configureSortMenu(menuItem.getSubMenu(),getCurrentSortOrder());
+    menuItem.getSubMenu().findItem(getCurrentSortOrder().commandId).setChecked(true);
   }
 
   @NonNull
-  protected String getCurrentSortOrder() {
-    return getSortOrderPrefKey().getString(ProtectedFragmentActivity.SORT_ORDER_USAGES);
+  protected Sort getCurrentSortOrder() {
+    try {
+      return Sort.valueOf(getSortOrderPrefKey().getString("USAGES"));
+    } catch (IllegalArgumentException e) {
+      return Sort.USAGES;
+    }
   }
 
   protected boolean handleSortOption(MenuItem item) {
-    String newSortOrder = Utils.getSortOrderFromMenuItemId(item.getItemId());
+    Sort newSortOrder = Sort.fromCommandId(item.getItemId());
     if (newSortOrder != null) {
       if (!item.isChecked()) {
-        getSortOrderPrefKey().putString(newSortOrder);
+        getSortOrderPrefKey().putString(newSortOrder.name());
         getActivity().supportInvalidateOptionsMenu();
         LoaderManager manager = getLoaderManager();
         Utils.requireLoader(manager, SORTABLE_CURSOR, null, this);

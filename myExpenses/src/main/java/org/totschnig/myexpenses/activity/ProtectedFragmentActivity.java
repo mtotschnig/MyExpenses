@@ -121,12 +121,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   private static final int CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST = 20;
   protected static final int CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST = 21;
   public static final String SAVE_TAG = "SAVE_TASK";
-  public static final String SORT_ORDER_USAGES = "USAGES";
-  public static final String SORT_ORDER_LAST_USED = "LAST_USED";
-  public static final String SORT_ORDER_AMOUNT = "AMOUNT";
-  public static final String SORT_ORDER_TITLE = "TITLE";
-  public static final String SORT_ORDER_CUSTOM = "CUSTOM";
-  public static final String SORT_ORDER_NEXT_INSTANCE = "NEXT_INSTANCE";
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   public static final String ACCOUNT_COLOR_DIALOG = "editColorDialog";
 
