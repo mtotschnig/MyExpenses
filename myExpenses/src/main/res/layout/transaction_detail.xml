@@ -16,8 +16,8 @@
 -->
 <LinearLayout android:id="@+id/OneExpense"
               xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:orientation="vertical"
               android:paddingTop="@dimen/padding_dialog_content_top">
 
@@ -37,7 +37,7 @@
 
     <TableLayout
         android:id="@+id/Table"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_dialog_side"
         android:paddingRight="@dimen/padding_dialog_side"
@@ -186,7 +186,7 @@
                 <TextView
                     android:id="@+id/Status"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:paddingBottom="2dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
@@ -210,7 +210,7 @@
 
     <LinearLayout
         android:id="@+id/SplitContainer"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_dialog_side"
@@ -223,14 +223,14 @@
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/empty"
             style="@style/dialog_text"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
             android:gravity="center"

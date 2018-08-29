@@ -24,7 +24,7 @@
 
     <LinearLayout
         android:id="@+id/sum_line"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dip"
         android:layout_below="@+id/sum_line"
         android:layout_margin="2dip"
