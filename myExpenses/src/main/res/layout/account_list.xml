@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<org.totschnig.myexpenses.ui.ExpansionPanel
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,63 +8,45 @@
     android:layout_gravity="start"
     android:background="?android:attr/colorBackground"
     android:orientation="vertical"
-    android:paddingTop="@dimen/drawer_padding"
     tools:showIn="@layout/activity_main">
 
-    <com.github.florent37.expansionpanel.ExpansionHeader
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/drawer_padding"
-        android:paddingRight="@dimen/drawer_padding"
-        app:expansion_headerIndicator="@id/headerIndicator"
-        app:expansion_layout="@id/expansionLayout"
-        app:expansion_toggleOnClick="true">
+        android:paddingStart="@dimen/drawer_padding"
+        android:paddingLeft="@dimen/drawer_padding">
 
         <TextView
             style="@style/newHeadingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Manage accounts"/>
 
-        ...
         <!-- HEADER INDICATOR -->
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/headerIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp"/>
+        <include layout="@layout/expansion_handle"/>
 
+    </FrameLayout>
 
-    </com.github.florent37.expansionpanel.ExpansionHeader>
-
-    <com.github.florent37.expansionpanel.ExpansionLayout
-        android:id="@+id/expansionLayout"
+    <android.support.design.widget.NavigationView
+        android:layout_marginBottom="-200dip"
+        android:visibility="gone"
+        android:id="@+id/expansionContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:menu="@menu/accounts"
-            android:fitsSystemWindows="true"/>
-
-    </com.github.florent37.expansionpanel.ExpansionLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        app:elevation="0dp"
+        app:menu="@menu/accounts"/>
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/left_drawer"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="2dp"
+        android:background="?attr/drawerBackground"
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"/>
-</LinearLayout>
+</org.totschnig.myexpenses.ui.ExpansionPanel>
