@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import org.totschnig.myexpenses.R;
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ExpansionPanel extends LinearLayout {
+  private int contentVisibility;
   @BindView(R.id.headerIndicator)
   View headerIndicator;
   @BindView(R.id.expansionContent)
@@ -44,13 +46,28 @@ public class ExpansionPanel extends LinearLayout {
     super.onFinishInflate();
     ButterKnife.bind(this);
     updateIndicator();
+    if (hasNoDefaultTransition()) {
+      expansionContent.getViewTreeObserver().addOnGlobalLayoutListener(
+          new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+              expansionContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+              if (contentVisibility == GONE) {
+                final int height = expansionContent.getHeight();
+                ((LayoutParams) expansionContent.getLayoutParams()).bottomMargin = -height;
+              }
+              expansionContent.setVisibility(contentVisibility);
+            }
+          });
+    }
     headerIndicator.setOnClickListener(v -> {
       final boolean visible = expansionContent.getVisibility() == VISIBLE;
       Animator animator = ObjectAnimator.ofFloat(headerIndicator, View.ROTATION, visible ? 180 : 0);
       animator.start();
       //if android:animateLayoutChanges is true we go with the default animation,
       //which works well, unless we are in a list view
-      if (getLayoutTransition() == null) {
+      if (hasNoDefaultTransition()) {
         ExpandAnimation expandAni = new ExpandAnimation(expansionContent, 250);
         expansionContent.startAnimation(expandAni);
       } else {
@@ -59,12 +76,15 @@ public class ExpansionPanel extends LinearLayout {
     });
   }
 
+  private boolean hasNoDefaultTransition() {
+    return getLayoutTransition() == null;
+  }
+
   private void updateIndicator() {
     headerIndicator.setRotation(expansionContent.getVisibility() == VISIBLE ? 0 : 180);
   }
 
   public void setContentVisibility(int visibility) {
-    expansionContent.setVisibility(visibility);
-    updateIndicator();
+    this.contentVisibility = visibility;
   }
 }

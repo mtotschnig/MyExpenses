@@ -8,8 +8,8 @@ import android.widget.LinearLayout.LayoutParams;
 /**
  * This animation class is animating the expanding and reducing the size of a view.
  * The animation toggles between the Expand and Reduce, depending on the current state of the view
- * @author Udinic
  *
+ * @author Udinic
  */
 public class ExpandAnimation extends Animation {
   private View mAnimatedView;
@@ -20,7 +20,8 @@ public class ExpandAnimation extends Animation {
 
   /**
    * Initialize the animation
-   * @param view The layout we want to animate
+   *
+   * @param view     The layout we want to animate
    * @param duration The duration of the animation, in ms
    */
   public ExpandAnimation(View view, int duration) {
@@ -33,7 +34,7 @@ public class ExpandAnimation extends Animation {
     mIsVisibleAfter = (view.getVisibility() == View.VISIBLE);
 
     mMarginStart = mViewLayoutParams.bottomMargin;
-    mMarginEnd = (mMarginStart == 0 ? (0- view.getHeight()) : 0);
+    mMarginEnd = (mMarginStart == 0 ? (0 - view.getHeight()) : 0);
 
     view.setVisibility(View.VISIBLE);
   }

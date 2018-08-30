@@ -8,6 +8,7 @@
     android:layout_gravity="start"
     android:background="?android:attr/colorBackground"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     tools:showIn="@layout/activity_main">
 
     <FrameLayout
@@ -29,13 +30,12 @@
     </FrameLayout>
 
     <android.support.design.widget.NavigationView
-        android:layout_marginBottom="-200dip"
-        android:visibility="gone"
         android:id="@+id/expansionContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         app:elevation="0dp"
+        android:visibility="gone"
         app:menu="@menu/accounts"/>
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
