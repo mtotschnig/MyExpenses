@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.ui.ExpansionPanel;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
@@ -44,18 +45,21 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyListHeadersAdapter {
-  private final CurrencyFormatter currencyFormatter;
+  private final static String EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_";
 
+  private final CurrencyFormatter currencyFormatter;
   private AccountGrouping grouping;
   private LayoutInflater inflater;
   private ProtectedFragmentActivity activity;
+  private PrefHandler prefHandler;
 
   public MyGroupedAdapter(ProtectedFragmentActivity context, int layout, Cursor c,
-                          CurrencyFormatter currencyFormatter) {
+                          CurrencyFormatter currencyFormatter, PrefHandler prefHandler) {
     super(context, layout, c, 0);
     inflater = LayoutInflater.from(context);
     this.currencyFormatter = currencyFormatter;
     this.activity = context;
+    this.prefHandler = prefHandler;
   }
 
   public void setGrouping(AccountGrouping grouping) {
@@ -138,6 +142,8 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   public void bindView(View view, Context context, Cursor cursor) {
     ViewHolder holder = ((ViewHolder) view.getTag());
 
+    long id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
+
     Currency currency = Utils.getSaveInstance(cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)));
     long sum_transfer = cursor.getLong(cursor.getColumnIndex(KEY_SUM_TRANSFERS));
 
@@ -145,6 +151,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     final int isAggregate = cursor.getInt(cursor.getColumnIndex(KEY_IS_AGGREGATE));
     boolean hide_cr;
     int colorInt;
+    String expansionPrefKey;
 
     final boolean isHome = isAggregate == AggregateAccount.AGGREGATE_HOME;
     holder.label.setVisibility(isHome ? View.GONE : View.VISIBLE);
@@ -155,6 +162,8 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
         holder.label.setText(R.string.menu_aggregates);
       }
       colorInt = activity.getColorAggregate();
+      expansionPrefKey = String.format(Locale.ROOT, "%s%s", EXPANSION_PREF_PREFIX,
+          isHome ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.getCurrencyCode());
     } else {
       //for deleting we need the position, because we need to find out the account's label
       try {
@@ -163,6 +172,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
         hide_cr = true;
       }
       colorInt = cursor.getInt(cursor.getColumnIndex(KEY_COLOR));
+      expansionPrefKey = String.format(Locale.ROOT, "%s%d", EXPANSION_PREF_PREFIX, id);
     }
     holder.transferRow.setVisibility(sum_transfer == 0 ? View.GONE : View.VISIBLE);
     holder.totalRow.setVisibility(has_future ? View.VISIBLE : View.GONE);
@@ -188,7 +198,9 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     }
     holder.label.setText( cursor.getString(cursor.getColumnIndex(KEY_LABEL)));
 
-    ((ExpansionPanel) view).setContentVisibility(isAggregate > 0 ? View.GONE : View.VISIBLE);
+    final ExpansionPanel expansionPanel = (ExpansionPanel) view;
+    expansionPanel.setContentVisibility(prefHandler.getBoolean(expansionPrefKey, true) ? View.VISIBLE : View.GONE);
+    expansionPanel.setListener(expand -> prefHandler.putBoolean(expansionPrefKey, expand));
 
   }
 

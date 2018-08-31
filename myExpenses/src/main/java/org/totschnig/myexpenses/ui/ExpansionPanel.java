@@ -18,11 +18,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ExpansionPanel extends LinearLayout {
+  public interface Listener {
+    void onExpansionStateChanged(boolean expand);
+  }
   private int contentVisibility;
+  private boolean isMeasured;
   @BindView(R.id.headerIndicator)
   View headerIndicator;
   @BindView(R.id.expansionContent)
   View expansionContent;
+  @Nullable
+  @BindView(R.id.expansionTrigger)
+  View expansionTrigger;
+
+  public void setListener(@Nullable Listener listener) {
+    this.listener = listener;
+  }
+
+  @Nullable
+  Listener listener;
 
   public ExpansionPanel(Context context) {
     super(context);
@@ -53,15 +67,18 @@ public class ExpansionPanel extends LinearLayout {
             @Override
             public void onGlobalLayout() {
               expansionContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+              isMeasured = true;
               if (contentVisibility == GONE) {
                 final int height = expansionContent.getHeight();
                 ((LayoutParams) expansionContent.getLayoutParams()).bottomMargin = -height;
               }
               expansionContent.setVisibility(contentVisibility);
+              updateIndicator();
             }
           });
     }
-    headerIndicator.setOnClickListener(v -> {
+    View trigger = expansionTrigger != null ? expansionTrigger : headerIndicator;
+    trigger.setOnClickListener(v -> {
       final boolean visible = expansionContent.getVisibility() == VISIBLE;
       Animator animator = ObjectAnimator.ofFloat(headerIndicator, View.ROTATION, visible ? 180 : 0);
       animator.start();
@@ -72,6 +89,9 @@ public class ExpansionPanel extends LinearLayout {
         expansionContent.startAnimation(expandAni);
       } else {
         expansionContent.setVisibility(visible ? GONE : VISIBLE);
+      }
+      if (listener != null) {
+        listener.onExpansionStateChanged(!visible);
       }
     });
   }
@@ -86,5 +106,10 @@ public class ExpansionPanel extends LinearLayout {
 
   public void setContentVisibility(int visibility) {
     this.contentVisibility = visibility;
+    if (isMeasured) {
+      expansionContent.setVisibility(visibility);
+      ((LayoutParams) expansionContent.getLayoutParams()).bottomMargin =
+          visibility == VISIBLE ? 0 : -expansionContent.getHeight();
+    }
   }
 }

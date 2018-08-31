@@ -266,7 +266,7 @@ public class MyExpenses extends LaunchActivity implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row_ng, null, currencyFormatter);
+    mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row_ng, null, currencyFormatter, prefHandler);
 
     navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
     NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);

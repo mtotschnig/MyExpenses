@@ -12,6 +12,7 @@
     tools:showIn="@layout/activity_main">
 
     <FrameLayout
+        android:id="@+id/expansionTrigger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/drawer_padding"
