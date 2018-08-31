@@ -43,6 +43,7 @@ import java.util.Currency;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -164,8 +165,8 @@ public final class MyExpensesTest extends BaseUiTest {
   @Test
   public void newAccountFormIsOpened() {
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-    onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).check(matches(isDisplayed()));
-    onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).perform(click());
+    onView(withId(R.id.expansionTrigger)).perform(click());
+    onView(withText(R.string.menu_create_account)).perform(click());
     intended(allOf(hasComponent(AccountEdit.class.getName()),
         not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))));
   }
@@ -178,7 +179,7 @@ public final class MyExpensesTest extends BaseUiTest {
         isDescendantOfA(withId(R.id.left_drawer)),
         isDisplayed()))
         .atPosition(0)
-        .onChildView(withId(R.id.account_menu)).perform(click());
+        .perform(longClick());
     onView(withText(R.string.menu_edit)).perform(click());
     intended(allOf(hasComponent(AccountEdit.class.getName()), hasExtraWithKey(DatabaseConstants.KEY_ROWID)));
   }
@@ -191,7 +192,7 @@ public final class MyExpensesTest extends BaseUiTest {
         isDescendantOfA(withId(R.id.left_drawer)),
         isDisplayed()))
         .atPosition(0)
-        .onChildView(withId(R.id.account_menu)).perform(click());
+        .perform(longClick());
     onView(withText(R.string.menu_delete)).check(doesNotExist());
   }
 
@@ -205,7 +206,7 @@ public final class MyExpensesTest extends BaseUiTest {
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
             isDisplayed()))
-        .onChildView(withId(R.id.account_menu)).perform(click());
+        .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
     onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
     onView(allOf(
@@ -225,7 +226,7 @@ public final class MyExpensesTest extends BaseUiTest {
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
             isDisplayed()))
-        .onChildView(withId(R.id.account_menu)).perform(click());
+        .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
     onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
     onView(allOf(
@@ -252,7 +253,7 @@ public final class MyExpensesTest extends BaseUiTest {
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
             isDisplayed()))
-        .onChildView(withId(R.id.account_menu)).perform(click());
+        .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
     onView(withText(context.getString(R.string.warning_delete_account, label1))).check(matches(isDisplayed()));
     onView(allOf(
@@ -265,7 +266,7 @@ public final class MyExpensesTest extends BaseUiTest {
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
             isDisplayed()))
-        .onChildView(withId(R.id.account_menu)).perform(click());
+        .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
     onView(withText(context.getString(R.string.warning_delete_account, label2))).check(matches(isDisplayed()));
     onView(allOf(
