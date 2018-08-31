@@ -81,7 +81,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     long headerId = getHeaderId(position);
     String headerText = null;
     if (headerId == Long.MAX_VALUE) {
-      headerText = activity.getString(R.string.grand_total);
+      headerText = activity.getString(R.string.menu_aggregates);
     } else {
       switch (grouping) {
         case CURRENCY:
@@ -109,13 +109,10 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   public long getHeaderId(int position) {
     Cursor c = getCursor();
     c.moveToPosition(position);
-    int aggregate = c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE));
-    if (aggregate == AggregateAccount.AGGREGATE_HOME) {
-      return Long.MAX_VALUE;
-    }
     switch (grouping) {
       case CURRENCY:
-        return CurrencyEnum.valueOf(c.getString(c.getColumnIndex(KEY_CURRENCY))).ordinal();
+        return c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME ?
+            Long.MAX_VALUE : CurrencyEnum.valueOf(c.getString(c.getColumnIndex(KEY_CURRENCY))).ordinal();
       case NONE:
         return c.getLong(c.getColumnIndex(KEY_ROWID)) > 0 ? 0 : 1;
       case TYPE:
@@ -149,22 +146,27 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
     boolean has_future = cursor.getInt(cursor.getColumnIndex(KEY_HAS_FUTURE)) > 0;
     final int isAggregate = cursor.getInt(cursor.getColumnIndex(KEY_IS_AGGREGATE));
+    final String label = cursor.getString(cursor.getColumnIndex(KEY_LABEL));
     boolean hide_cr;
     int colorInt;
     String expansionPrefKey;
 
     final boolean isHome = isAggregate == AggregateAccount.AGGREGATE_HOME;
-    holder.label.setVisibility(isHome ? View.GONE : View.VISIBLE);
 
     if (isAggregate > 0) {
       hide_cr = true;
-      if (grouping == AccountGrouping.CURRENCY) {
+      if (isHome) {
+        holder.label.setText(R.string.grand_total);
+      } else if (grouping == AccountGrouping.CURRENCY) {
         holder.label.setText(R.string.menu_aggregates);
+      } else {
+        holder.label.setText(label);
       }
       colorInt = activity.getColorAggregate();
       expansionPrefKey = String.format(Locale.ROOT, "%s%s", EXPANSION_PREF_PREFIX,
           isHome ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.getCurrencyCode());
     } else {
+      holder.label.setText(label);
       //for deleting we need the position, because we need to find out the account's label
       try {
         hide_cr = AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))).equals(AccountType.CASH);
@@ -196,7 +198,6 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       holder.description.setText(description);
       holder.description.setVisibility(View.VISIBLE);
     }
-    holder.label.setText( cursor.getString(cursor.getColumnIndex(KEY_LABEL)));
 
     final ExpansionPanel expansionPanel = (ExpansionPanel) view;
     expansionPanel.setContentVisibility(prefHandler.getBoolean(expansionPrefKey, true) ? View.VISIBLE : View.GONE);
