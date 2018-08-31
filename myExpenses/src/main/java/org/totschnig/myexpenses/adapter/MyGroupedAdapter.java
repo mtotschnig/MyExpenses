@@ -2,11 +2,14 @@ package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -53,9 +56,9 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   private ProtectedFragmentActivity activity;
   private PrefHandler prefHandler;
 
-  public MyGroupedAdapter(ProtectedFragmentActivity context, int layout, Cursor c,
+  public MyGroupedAdapter(ProtectedFragmentActivity context, Cursor c,
                           CurrencyFormatter currencyFormatter, PrefHandler prefHandler) {
-    super(context, layout, c, 0);
+    super(context, R.layout.account_row_ng, c, 0);
     inflater = LayoutInflater.from(context);
     this.currencyFormatter = currencyFormatter;
     this.activity = context;
@@ -165,6 +168,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       colorInt = activity.getColorAggregate();
       expansionPrefKey = String.format(Locale.ROOT, "%s%s", EXPANSION_PREF_PREFIX,
           isHome ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.getCurrencyCode());
+      holder.colorAccount.setImageResource(R.drawable.ic_action_equal_white);
     } else {
       holder.label.setText(label);
       //for deleting we need the position, because we need to find out the account's label
@@ -176,6 +180,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       colorInt = cursor.getInt(cursor.getColumnIndex(KEY_COLOR));
       expansionPrefKey = String.format(Locale.ROOT, "%s%d", EXPANSION_PREF_PREFIX, id);
     }
+    final boolean isExpanded = prefHandler.getBoolean(expansionPrefKey, true);
     holder.transferRow.setVisibility(sum_transfer == 0 ? View.GONE : View.VISIBLE);
     holder.totalRow.setVisibility(has_future ? View.VISIBLE : View.GONE);
     holder.clearedRow.setVisibility(hide_cr ? View.GONE : View.VISIBLE);
@@ -183,14 +188,15 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     if (sum_transfer != 0) {
       setConvertedAmount(holder.sumTransfer, currency, sum_transfer, isHome);
     }
-    //holder.color1.setBackgroundColor(colorInt);
-    setConvertedAmount(holder.openingBalance, currency, cursor, KEY_OPENING_BALANCE, isHome);
-    setConvertedAmount(holder.sumIncome, currency, cursor, KEY_SUM_INCOME, isHome);
-    setConvertedAmount(holder.sumExpenses, currency, cursor, KEY_SUM_EXPENSES, isHome);
-    setConvertedAmount(holder.currentBalance, currency, cursor, KEY_CURRENT_BALANCE, isHome);
-    setConvertedAmount(holder.total, currency, cursor, KEY_TOTAL, isHome);
-    setConvertedAmount(holder.reconciledTotal, currency, cursor, KEY_RECONCILED_TOTAL, isHome);
-    setConvertedAmount(holder.clearedTotal, currency, cursor, KEY_CLEARED_TOTAL, isHome);
+    holder.colorAccount.setBackgroundDrawable(createBackgroundColorDrawable(colorInt));
+    setConvertedAmount(currency, cursor, KEY_OPENING_BALANCE, isHome, holder.openingBalance);
+    setConvertedAmount(currency, cursor, KEY_SUM_INCOME, isHome, holder.sumIncome);
+    setConvertedAmount(currency, cursor, KEY_SUM_EXPENSES, isHome, holder.sumExpenses);
+    setConvertedAmount(currency, cursor, KEY_CURRENT_BALANCE, isHome, holder.currentBalance, holder.currentBalanceHeader);
+    setBalanceVisibility(holder, isExpanded);
+    setConvertedAmount(currency, cursor, KEY_TOTAL, isHome, holder.total);
+    setConvertedAmount(currency, cursor, KEY_RECONCILED_TOTAL, isHome, holder.reconciledTotal);
+    setConvertedAmount(currency, cursor, KEY_CLEARED_TOTAL, isHome, holder.clearedTotal);
     String description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION));
     if (TextUtils.isEmpty(description)) {
       holder.description.setVisibility(View.GONE);
@@ -200,14 +206,24 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     }
 
     final ExpansionPanel expansionPanel = (ExpansionPanel) view;
-    expansionPanel.setContentVisibility(prefHandler.getBoolean(expansionPrefKey, true) ? View.VISIBLE : View.GONE);
-    expansionPanel.setListener(expand -> prefHandler.putBoolean(expansionPrefKey, expand));
-
+    expansionPanel.setContentVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    expansionPanel.setListener(expanded -> {
+      prefHandler.putBoolean(expansionPrefKey, expanded);
+      setBalanceVisibility(holder, expanded);
+    });
   }
 
-  private void setConvertedAmount(TextView tv, Currency currency, Cursor c, String columnName, boolean isHome) {
-    tv.setText(String.format(Locale.getDefault(),"%s%s", isHome ? " ≈ " : "",
-        currencyFormatter.convAmount(c.getLong(c.getColumnIndex(columnName)), currency)));
+  private void setBalanceVisibility(ViewHolder holder, boolean expanded) {
+    holder.currentBalanceHeader.setVisibility(expanded ? View.GONE : View.VISIBLE);
+    holder.currentBalance.setVisibility(expanded ? View.VISIBLE: View.INVISIBLE);
+  }
+
+  private void setConvertedAmount(Currency currency, Cursor c, String columnName, boolean isHome, TextView ... tvs) {
+    final String result = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
+        currencyFormatter.convAmount(c.getLong(c.getColumnIndex(columnName)), currency));
+    for (TextView tv: tvs) {
+      tv.setText(result);
+    }
   }
   private void setConvertedAmount(TextView tv, Currency currency, long value, boolean isHome) {
     tv.setText(String.format(Locale.getDefault(),"%s%s", isHome ? " ≈ " : "",
@@ -223,7 +239,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   }
 
   class ViewHolder {
-    //@BindView(R.id.color1) View color1;
+    @BindView(R.id.colorAccount) ImageView colorAccount;
     @BindView(R.id.TransferRow) View transferRow;
     @BindView(R.id.TotalRow) View totalRow;
     @BindView(R.id.ClearedRow) View clearedRow;
@@ -233,6 +249,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     @BindView(R.id.sum_income) TextView sumIncome;
     @BindView(R.id.sum_expenses) TextView sumExpenses;
     @BindView(R.id.current_balance) TextView currentBalance;
+    @BindView(R.id.current_balance_header) TextView currentBalanceHeader;
     @BindView(R.id.total) TextView total;
     @BindView(R.id.reconciled_total) TextView reconciledTotal;
     @BindView(R.id.cleared_total) TextView clearedTotal;
@@ -242,5 +259,12 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
     }
+  }
+
+  private Drawable createBackgroundColorDrawable(int color) {
+    GradientDrawable mask = new GradientDrawable();
+    mask.setShape(GradientDrawable.OVAL);
+    mask.setColor(color);
+    return mask;
   }
 }

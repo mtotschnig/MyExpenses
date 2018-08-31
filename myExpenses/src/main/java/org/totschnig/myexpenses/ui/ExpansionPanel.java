@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 
 import org.totschnig.myexpenses.R;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class ExpansionPanel extends LinearLayout {
   public interface Listener {
-    void onExpansionStateChanged(boolean expand);
+    void onExpansionStateChanged(boolean expanded);
   }
   private int contentVisibility;
   private boolean isMeasured;
@@ -87,11 +88,26 @@ public class ExpansionPanel extends LinearLayout {
       if (hasNoDefaultTransition()) {
         ExpandAnimation expandAni = new ExpandAnimation(expansionContent, 250);
         expansionContent.startAnimation(expandAni);
+        expandAni.setAnimationListener(new Animation.AnimationListener() {
+          @Override
+          public void onAnimationStart(Animation animation) {
+
+          }
+
+          @Override
+          public void onAnimationEnd(Animation animation) {
+            if (listener != null) {
+              listener.onExpansionStateChanged(!visible);
+            }
+          }
+
+          @Override
+          public void onAnimationRepeat(Animation animation) {
+
+          }
+        });
       } else {
         expansionContent.setVisibility(visible ? GONE : VISIBLE);
-      }
-      if (listener != null) {
-        listener.onExpansionStateChanged(!visible);
       }
     });
   }

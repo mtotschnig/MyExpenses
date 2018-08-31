@@ -6,37 +6,63 @@
     android:layout_height="wrap_content"
     android:foreground="?attr/cardHighlightForeground"
     android:orientation="vertical"
-    android:paddingStart="@dimen/drawer_padding"
     android:paddingLeft="@dimen/drawer_padding"
+    android:paddingStart="@dimen/drawer_padding"
     >
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/colorAccount"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="4dp"/>
 
         <!-- HEADER -->
-        <TextView
-            android:id="@+id/label"
-            style="@style/newHeadingStyle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            tools:text="@string/label"/>
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/label"
+                style="@style/newHeadingStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                tools:text="@string/label"/>
+
+            <TextView
+                android:id="@+id/current_balance_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                tools:text="CURRENT_BALANCE"/>
+        </LinearLayout>
         <!-- HEADER INDICATOR -->
         <include layout="@layout/expansion_handle"/>
 
 
-    </FrameLayout>
+    </LinearLayout>
 
     <TableLayout
         android:id="@+id/expansionContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
+        android:paddingEnd="10dp"
         android:paddingRight="10dp"
         android:shrinkColumns="1"
-        android:stretchColumns="0"
-        android:paddingEnd="10dp">
+        android:stretchColumns="0">
 
         <TableRow>
 
@@ -116,7 +142,9 @@
                 android:background="?android:attr/colorForeground"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:animateLayoutChanges="true"
+            >
 
             <TextView
                 android:layout_width="0dp"
@@ -127,6 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:visibility="invisible"
                 tools:text="CURRENT_BALANCE"/>
         </TableRow>
 
