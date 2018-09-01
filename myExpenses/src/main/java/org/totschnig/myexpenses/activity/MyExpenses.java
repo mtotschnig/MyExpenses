@@ -27,7 +27,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -269,7 +268,7 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler);
 
     navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
-    NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+    View navigationMenuView = navigationView.getChildAt(0);
     if (navigationMenuView != null) {
       navigationMenuView.setVerticalScrollBarEnabled(false);
     }
