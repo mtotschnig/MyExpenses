@@ -87,7 +87,6 @@ public class ExpansionPanel extends LinearLayout {
       //which works well, unless we are in a list view
       if (hasNoDefaultTransition()) {
         ExpandAnimation expandAni = new ExpandAnimation(expansionContent, 250);
-        expansionContent.startAnimation(expandAni);
         expandAni.setAnimationListener(new Animation.AnimationListener() {
           @Override
           public void onAnimationStart(Animation animation) {
@@ -106,6 +105,7 @@ public class ExpansionPanel extends LinearLayout {
 
           }
         });
+        expansionContent.startAnimation(expandAni);
       } else {
         expansionContent.setVisibility(visible ? GONE : VISIBLE);
       }
