@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +41,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
 import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,6 +51,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -71,6 +75,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -101,10 +106,14 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+import eltos.simpledialogfragment.list.MenuDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -141,6 +150,8 @@ public class MyExpenses extends LaunchActivity implements
 
   public static final int ACCOUNTS_CURSOR = -1;
   public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
+  private static final String DIALOG_TAG_GROUPING = "GROUPING";
+  private static final String DIALOG_TAG_SORTING = "SORTING";
 
   private LoaderManager mManager;
 
@@ -149,7 +160,6 @@ public class MyExpenses extends LaunchActivity implements
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
-  private ViewPager myPager;
   private long mAccountId = 0;
   private int mAccountCount = 0;
 
@@ -174,8 +184,14 @@ public class MyExpenses extends LaunchActivity implements
    * a new transaction
    */
   private long sequenceCount = 0;
-  private StickyListHeadersListView mDrawerList;
-  private DrawerLayout mDrawerLayout;
+  @BindView(R.id.left_drawer)
+  StickyListHeadersListView mDrawerList;
+  @Nullable @BindView(R.id.drawer_layout)
+  DrawerLayout mDrawerLayout;
+  @BindView(R.id.viewpager)
+  ViewPager myPager;
+  @BindView(R.id.expansionContent)
+  NavigationView navigationView;
   private ActionBarDrawerToggle mDrawerToggle;
 
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexLabel;
@@ -212,8 +228,8 @@ public class MyExpenses extends LaunchActivity implements
 
     adHandler.maybeRequestNewInterstitial();
 
-    mDrawerLayout = findViewById(R.id.drawer_layout);
-    mDrawerList = findViewById(R.id.left_drawer);
+    ButterKnife.bind(this);
+
     mToolbar = setupToolbar(false);
     mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar, false));
     if (mDrawerLayout != null) {
@@ -249,47 +265,13 @@ public class MyExpenses extends LaunchActivity implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, currencyFormatter);
+    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler);
 
-    Toolbar accountsMenu = findViewById(R.id.accounts_menu);
-    accountsMenu.setTitle(R.string.pref_manage_accounts_title);
-    accountsMenu.inflateMenu(R.menu.accounts);
-    accountsMenu.inflateMenu(R.menu.sort);
-
-    Menu menu = accountsMenu.getMenu();
-
-    //Sort submenu
-    MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
-    menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-    sortMenu = menuItem.getSubMenu();
-    sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
-
-    //Grouping submenu
-    SubMenu groupingMenu = menu.findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
-        .getSubMenu();
-    AccountGrouping accountGrouping;
-    try {
-      accountGrouping = AccountGrouping.valueOf(
-          PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
-    } catch (IllegalArgumentException e) {
-      accountGrouping = AccountGrouping.TYPE;
+    navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
+    View navigationMenuView = navigationView.getChildAt(0);
+    if (navigationMenuView != null) {
+      navigationMenuView.setVerticalScrollBarEnabled(false);
     }
-    MenuItem activeItem;
-    switch (accountGrouping) {
-      case CURRENCY:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND);
-        break;
-      case NONE:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_NONE_COMMAND);
-        break;
-      default:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_ACCOUNTS_TYPE_COMMAND);
-        break;
-    }
-    activeItem.setChecked(true);
-
-    accountsMenu.setOnMenuItemClickListener(item -> handleSortOption(item) || handleAccountsGrouping(item) ||
-        dispatchCommand(item.getItemId(), null));
 
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
@@ -299,6 +281,7 @@ public class MyExpenses extends LaunchActivity implements
         closeDrawer();
       }
     });
+    registerForContextMenu(mDrawerList);
 
     requireFloatingActionButtonWithContentDescription(Utils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
@@ -333,7 +316,6 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin, margin, true);
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
-    myPager = findViewById(R.id.viewpager);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin((int) TypedValue.applyDimension(
@@ -348,6 +330,24 @@ public class MyExpenses extends LaunchActivity implements
       setCurrentAccount(position);
     else
       myPager.setCurrentItem(position, false);
+  }
+
+  private AccountGrouping currentAccountGrouping() {
+    try {
+      return AccountGrouping.valueOf(
+          PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+    } catch (IllegalArgumentException e) {
+      return AccountGrouping.TYPE;
+    }
+  }
+
+  private Sort currentSort() {
+    try {
+      return Sort.valueOf(
+          PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES"));
+    } catch (IllegalArgumentException e) {
+      return Sort.USAGES;
+    }
   }
 
   @Override
@@ -397,10 +397,26 @@ public class MyExpenses extends LaunchActivity implements
     return true;
   }
 
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
+      menu.add(0, R.id.EDIT_ACCOUNT_COMMAND, 0, R.string.menu_edit);
+      if (mAccountsCursor.getCount() > 1) {
+        menu.add(0, R.id.DELETE_ACCOUNT_COMMAND, 0, R.string.menu_delete);
+      }
+    }
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    dispatchCommand(item.getItemId(), ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).id);
+    return true;
+  }
+
   /* (non-Javadoc)
-  * check if we should show one of the reminderDialogs
-  * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
-  */
+   * check if we should show one of the reminderDialogs
+   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
@@ -626,6 +642,22 @@ public class MyExpenses extends LaunchActivity implements
           }
         }
         return true;
+      case R.id.GROUPING_ACCOUNTS_COMMAND: {
+        MenuDialog.build()
+            .menu(this, R.menu.accounts_grouping)
+            .choiceIdPreset(currentAccountGrouping().commandId)
+            .title(R.string.menu_grouping)
+            .show(this, DIALOG_TAG_GROUPING);
+        return true;
+      }
+      case R.id.SORT_COMMAND: {
+        MenuDialog.build()
+            .menu(this, R.menu.accounts_sort)
+            .choiceIdPreset(currentSort().commandId)
+            .title(R.string.menu_sort)
+            .show(this, DIALOG_TAG_SORTING);
+        return true;
+      }
     }
     return super.dispatchCommand(command, tag);
   }
@@ -781,27 +813,16 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
     switch (loader.getId()) {
       case ACCOUNTS_CURSOR:
-        //we postpone this until cursor is loaded, because prefkey is updated in migration to db schema 56
-        Utils.configureSortMenu(sortMenu, PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES"));
         mAccountCount = 0;
         mAccountsCursor = cursor;
         if (mAccountsCursor == null) {
           return;
         }
-        //when account grouping is changed in setting, cursor is reloaded,
-        //and we need to refresh the value here
-        AccountGrouping grouping;
-        try {
-          grouping = AccountGrouping.valueOf(
-              PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
-        } catch (IllegalArgumentException e) {
-          grouping = AccountGrouping.TYPE;
-        }
 
-        mDrawerListAdapter.setGrouping(grouping);
+        mDrawerListAdapter.setGrouping(currentAccountGrouping());
         mDrawerListAdapter.swapCursor(mAccountsCursor);
         //swaping the cursor is altering the accountId, if the
         //sort order has changed, but we want to move to the same account as before
@@ -836,8 +857,8 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
-    if (arg0.getId() == ACCOUNTS_CURSOR) {
+  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+    if (loader.getId() == ACCOUNTS_CURSOR) {
       mViewPagerAdapter.swapCursor(null);
       mDrawerListAdapter.swapCursor(null);
       mCurrentPosition = -1;
@@ -859,7 +880,8 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+    if (which != BUTTON_POSITIVE) return false;
+    if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
       String label = extras.getString(SimpleInputDialog.TEXT);
       Uri uri = new Template(Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID)), label).save();
       if (uri == null) {
@@ -874,10 +896,16 @@ public class MyExpenses extends LaunchActivity implements
       finishActionMode();
       return true;
     }
-    if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+    if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
       addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
           new CommentCriteria(extras.getString(SimpleInputDialog.TEXT)));
       return true;
+    }
+    if (DIALOG_TAG_SORTING.equals(dialogTag)) {
+      return handleSortOption((int) extras.getLong(SELECTED_SINGLE_ID));
+    }
+    if (DIALOG_TAG_GROUPING.equals(dialogTag)) {
+      return handleAccountsGrouping((int) extras.getLong(SELECTED_SINGLE_ID));
     }
     return false;
   }
@@ -1092,13 +1120,13 @@ public class MyExpenses extends LaunchActivity implements
     showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);
   }
 
-  protected boolean handleSortOption(MenuItem item) {
-    String newSortOrder = Utils.getSortOrderFromMenuItemId(item.getItemId());
+  protected boolean handleSortOption(int itemId) {
+    Sort oldSort = currentSort();
+    Sort newSort = Sort.fromCommandId(itemId);
     boolean result = false;
-    if (newSortOrder != null) {
-      if (!item.isChecked()) {
-        PrefKey.SORT_ORDER_ACCOUNTS.putString(newSortOrder);
-        item.setChecked(true);
+    if (newSort != null) {
+      if (!newSort.equals(oldSort)) {
+        PrefKey.SORT_ORDER_ACCOUNTS.putString(newSort.name());
 
         if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset()) {
           mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
@@ -1107,7 +1135,7 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
       result = true;
-      if (item.getItemId() == R.id.SORT_CUSTOM_COMMAND) {
+      if (itemId == R.id.SORT_CUSTOM_COMMAND) {
         ArrayList<AbstractMap.SimpleEntry<Long, String>> accounts = new ArrayList<>();
         if (mAccountsCursor.moveToFirst()) {
           final int columnIndexId = mAccountsCursor.getColumnIndex(KEY_ROWID);
@@ -1126,9 +1154,11 @@ public class MyExpenses extends LaunchActivity implements
     return result;
   }
 
-  protected boolean handleAccountsGrouping(MenuItem item) {
+  protected boolean handleAccountsGrouping(int itemId) {
+    AccountGrouping oldGrouping = currentAccountGrouping();
     AccountGrouping newGrouping = null;
-    switch (item.getItemId()) {
+
+    switch (itemId) {
       case R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND:
         newGrouping = AccountGrouping.CURRENCY;
         break;
@@ -1139,16 +1169,13 @@ public class MyExpenses extends LaunchActivity implements
         newGrouping = AccountGrouping.NONE;
         break;
     }
-    if (newGrouping != null) {
-      if (!item.isChecked()) {
-        PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
-        item.setChecked(true);
+    if (newGrouping != null && !newGrouping.equals(oldGrouping)) {
+      PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
 
-        if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
-          mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
-        else
-          mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-      }
+      if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
+        mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+      else
+        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
       return true;
     }
     return false;
@@ -1193,6 +1220,6 @@ public class MyExpenses extends LaunchActivity implements
   public void onSortOrderConfirmed(long[] sortedIds) {
     Bundle extras = new Bundle(1);
     extras.putLongArray(KEY_SORT_KEY, sortedIds);
-    getContentResolver().call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SORT_ACCOUNTS, null, extras);
+    startTaskExecution(TaskExecutionFragment.TASK_ACCOUNT_SORT, extras, R.string.progress_dialog_saving);
   }
 }

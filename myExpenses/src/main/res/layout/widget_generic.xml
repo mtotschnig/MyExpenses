@@ -12,8 +12,8 @@
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/layout"
               xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:layout_weight="1"
               android:background="@drawable/widget_background_gray"
               android:orientation="horizontal">
@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:orientation="vertical">
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/line1"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:ellipsize="end"
@@ -75,7 +75,7 @@
 
         <TextView
             android:id="@+id/note"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"/>
     </LinearLayout>

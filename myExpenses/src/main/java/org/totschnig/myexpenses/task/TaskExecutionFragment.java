@@ -128,6 +128,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
   public static final int TASK_DROPBOX_SETUP = 58;
   public static final int TASK_RESET_EQUIVALENT_AMOUNTS = 59;
+  public static final int TASK_ACCOUNT_SORT = 60;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -331,6 +332,8 @@ public class TaskExecutionFragment<T> extends Fragment {
       case TASK_REVOKE_SPLIT:
         new RevokeSplitCommandTask(this, taskId).execute(args);
         break;
+      case TASK_ACCOUNT_SORT:
+        new AccountSortTask(this, taskId).execute(args);
       default:
         try {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

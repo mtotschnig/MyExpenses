@@ -122,7 +122,7 @@
     <string name="help_FolderBrowser_title" tools:ignore="UnusedResources">@string/pref_app_dir_title</string>
     <string name="help_ManageStaleImages_title" tools:ignore="UnusedResources">@string/pref_manage_stale_images_title</string>
     <string name="help_CsvImportActivity_title" tools:ignore="UnusedResources">@string/contrib_feature_csv_import_label</string>
-    <string name="help_NavigationDrawer_title" tools:ignore="UnusedResources">@string/pref_manage_accounts_title</string>
+    <string name="help_NavigationDrawer_title" tools:ignore="UnusedResources">@string/navigation_drawer_accounts_title</string>
     <string name="help_ManageSyncBackends_title" tools:ignore="UnusedResources">@string/pref_manage_sync_backends_title</string>
     <string name="help_ExpenseEdit_plans_title" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_title</string>
     <string name="help_ExpenseEdit_plans_info" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_info</string>

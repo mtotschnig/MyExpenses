@@ -7,7 +7,7 @@
         android:id="@+id/DateButton"
         style="@style/SmallButton"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:contentDescription="@string/date"/>
@@ -16,7 +16,7 @@
         android:id="@+id/Date2Button"
         style="@style/SmallButton"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:visibility="gone"/>
@@ -25,7 +25,7 @@
         android:id="@+id/TimeButton"
         style="@style/SmallButton"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:contentDescription="@string/time"/>
