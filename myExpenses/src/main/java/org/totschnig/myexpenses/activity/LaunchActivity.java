@@ -50,7 +50,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_MIGRATION_INFO_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN;
-import static org.totschnig.myexpenses.preference.PrefKey.PROFESSIONAL_UPSELL_SNACKBAR_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
 import static org.totschnig.myexpenses.preference.PrefKey.SORT_ORDER_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN;
@@ -110,23 +109,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (licenceHandler.getLicenceStatus() != null) {
         final long now = System.currentTimeMillis();
         switch (licenceHandler.getLicenceStatus()) {
-          case CONTRIB:
-          case EXTENDED: {
-            if (TimeUnit.MILLISECONDS.toDays(now - licenceHandler.getValidSinceMillis()) > 7 &&
-                !prefHandler.getBoolean(PROFESSIONAL_UPSELL_SNACKBAR_SHOWN, false)) {
-              String message = "Professional Licence Spring Sale: " + licenceHandler.getProfessionalPriceShortInfo();
-              showUpsellSnackbar(message, R.string.upgrade_now, licenceHandler::getFormattedPriceWithSaving,
-                  new Snackbar.Callback() {
-                    @Override
-                    public void onDismissed(Snackbar transientBottomBar, int event) {
-                      if ((event == DISMISS_EVENT_SWIPE) || (event == DISMISS_EVENT_ACTION)) {
-                        prefHandler.putBoolean(PROFESSIONAL_UPSELL_SNACKBAR_SHOWN, true);
-                      }
-                    }
-                  });
-            }
-            break;
-          }
           case PROFESSIONAL: {
             long licenceValidity = licenceHandler.getValidUntilMillis();
             if (licenceValidity != 0) {
