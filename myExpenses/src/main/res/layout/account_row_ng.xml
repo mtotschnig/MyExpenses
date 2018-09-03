@@ -133,12 +133,13 @@
 
         <TableRow>
 
-            <View
-                android:layout_height="4dp"/>
+            <View/>
 
             <View
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
                 android:layout_width="fill_parent"
-                android:layout_height="4dp"
+                android:layout_height="2dp"
                 android:background="?android:attr/colorForeground"/>
         </TableRow>
 
