@@ -92,6 +92,7 @@
     <string name="pref_value_date_key">value_date</string>
     <string name="pref_date_screen_key">date_screen</string>
     <string name="pref_ad_consent_key">ad_consent</string>
+    <string name="pref_sync_wifi_only_key">sync_wifi_only</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

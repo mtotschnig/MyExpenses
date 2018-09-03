@@ -225,7 +225,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } catch (RemoteException ignored) {
     }
 
-
     String[] selectionArgs;
     String selection = KEY_SYNC_ACCOUNT_NAME + " = ?";
     if (uuidFromExtras != null) {
