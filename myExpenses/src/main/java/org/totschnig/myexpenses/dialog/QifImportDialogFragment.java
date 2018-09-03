@@ -32,7 +32,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
 
 public class QifImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
@@ -45,12 +44,8 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   private long accountId = 0;
   private CurrencyEnum currency = null;
 
-  public static final QifImportDialogFragment newInstance(ExportFormat format) {
-    QifImportDialogFragment f = new QifImportDialogFragment();
-    Bundle args = new Bundle();
-    args.putSerializable(KEY_FORMAT, format);
-    f.setArguments(args);
-    return f;
+  public static QifImportDialogFragment newInstance() {
+    return new QifImportDialogFragment();
   }
 
   @Override
@@ -74,7 +69,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   }
 
   private ExportFormat getFormat() {
-    return (ExportFormat) getArguments().getSerializable(KEY_FORMAT);
+    return ExportFormat.QIF;
   }
 
   @Override
@@ -157,9 +152,6 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
-    if (getFormat().equals(ExportFormat.CSV)) {
-      view.findViewById(R.id.import_select_types).setVisibility(View.GONE);
-    }
     mAccountSpinner = view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
     mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,

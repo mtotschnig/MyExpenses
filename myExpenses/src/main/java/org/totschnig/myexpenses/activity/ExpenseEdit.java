@@ -1060,6 +1060,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   private void startSelectCategory() {
     Intent i = new Intent(this, ManageCategories.class);
+    i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
     forwardDataEntryFromWidget(i);
     //we pass the currently selected category in to prevent
     //it from being deleted, which can theoretically lead

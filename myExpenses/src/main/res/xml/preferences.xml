@@ -24,23 +24,28 @@
         <Preference
             android:summary="@string/pref_manage_categories_summary"
             android:title="@string/pref_manage_categories_title">
-            <intent android:action="myexpenses.intent.manage.categories"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageCategories"
+                    android:action="MANAGE"/>
         </Preference>
         <Preference
             android:summary="@string/pref_manage_parties_summary"
             android:title="@string/pref_manage_parties_title">
-            <intent android:action="myexpenses.intent.manage.parties"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageParties"/>
         </Preference>
         <Preference
             android:summary="@string/pref_manage_methods_summary"
             android:title="@string/pref_manage_methods_title">
-            <intent android:action="myexpenses.intent.manage.methods"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageMethods"/>
         </Preference>
         <Preference
             android:key="@string/pref_manage_stale_images_key"
             android:summary="@string/pref_manage_stale_images_summary"
             android:title="@string/pref_manage_stale_images_title">
-            <intent android:action="myexpenses.intent.manage.stale_images"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageStaleImages"/>
         </Preference>
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:key="@string/pref_home_currency_key"
@@ -144,18 +149,15 @@
             android:key="import_from_grisbi"
             android:summary="@string/pref_import_from_grisbi_summary"
             android:title="@string/pref_import_from_grisbi_title">
-            <intent android:action="myexpenses.intent.import_from_grisbi"/>
+
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"/>
         </Preference>
         <Preference android:key="@string/pref_import_qif_key">
-            <intent android:action="myexpenses.intent.import">
-                <extra
-                    android:name="format"
-                    android:value="QIF"/>
-            </intent>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.QifImport"/>
         </Preference>
-        <Preference android:key="@string/pref_import_csv_key">
-            <intent android:action="myexpenses.intent.import.csv"/>
-        </Preference>
+        <Preference android:key="@string/pref_import_csv_key"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -181,7 +183,9 @@
             android:key="@string/pref_backup_key"
             android:summary="@string/pref_backup_summary"
             android:title="@string/menu_backup">
-            <intent android:action="myexpenses.intent.backup"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                    android:action="BACKUP"/>
         </Preference>
         <PreferenceScreen
             android:key="@string/pref_auto_backup_key"
@@ -204,16 +208,16 @@
         <Preference
             android:key="@string/pref_restore_key"
             android:summary="@string/pref_restore_summary">
-            <intent android:action="myexpenses.intent.restore"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                    android:action="RESTORE"/>
         </Preference>
         <Preference
             android:key="@string/pref_restore_legacy_key"
             android:summary="@string/pref_restore_alternative_summary">
-            <intent android:action="myexpenses.intent.restore">
-                <extra
-                    android:name="legacy"
-                    android:value="true"/>
-            </intent>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                    android:action="RESTORE_LEGACY"/>
         </Preference>
     </PreferenceCategory>
 
@@ -222,7 +226,9 @@
         <Preference
             android:key="@string/pref_manage_sync_backends_key"
             android:title="@string/pref_manage_sync_backends_title">
-            <intent android:action="myexpenses.intent.manage.sync_backends"/>
+
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"/>
         </Preference>
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="12"
@@ -335,7 +341,8 @@
             android:title="@string/pref_send_feedback_title"/>
         <Preference
             android:title="@string/roadmap_vote">
-            <intent android:action="myexpenses.intent.roadmap"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.RoadmapVoteActivity"/>
         </Preference>
     </PreferenceCategory>
 
@@ -359,7 +366,8 @@
         <Preference
             android:key="@string/pref_custom_currency_key"
             android:title="@string/pref_custom_currency_title">
-            <intent android:action="myexpenses.intent.manage.currencies"/>
+            <intent android:targetPackage="@string/application_id"
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"/>
         </Preference>
         <EditTextPreference
             android:key="@string/pref_custom_decimal_format_key"

@@ -29,14 +29,12 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 public class QifImport extends ProtectedFragmentActivity {
 
-  private ExportFormat format = ExportFormat.QIF;
-
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
-      QifImportDialogFragment.newInstance(format).show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
+      QifImportDialogFragment.newInstance().show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
     }
   }
 
@@ -56,7 +54,7 @@ public class QifImport extends ProtectedFragmentActivity {
         .beginTransaction()
         .add(taskExecutionFragment, ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
-                getString(R.string.pref_import_title, format.name()),
+              getString(R.string.pref_import_title, ExportFormat.QIF.name()),
                 null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
         .commit();
   }

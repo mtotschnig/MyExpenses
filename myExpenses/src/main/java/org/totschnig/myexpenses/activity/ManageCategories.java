@@ -64,6 +64,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   private static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
   private static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
 
+  public static final String ACTION_MANAGE = "MANAGE";
+  public static final String ACTION_DISTRIBUTION = "DISTRIBUTION";
+  public static final String ACTION_SELECT_MAPPING = "SELECT_MAPPING";
+  public static final String ACTION_SELECT_FILTER = "SELECT_FILTER";
+
   public enum HelpVariant {
     manage, distribution, select_mapping, select_filter
   }
@@ -84,23 +89,24 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     Intent intent = getIntent();
     String action = intent.getAction();
     int title = 0;
-    setTheme("myexpenses.intent.distribution".equals(action) ?
+    setTheme(ACTION_DISTRIBUTION.equals(action) ?
         MyApplication.getThemeId() : MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     switch (action == null ? "" : action) {
       case Intent.ACTION_MAIN:
-      case "myexpenses.intent.manage.categories":
+      case ACTION_MANAGE:
         setHelpVariant(HelpVariant.manage);
         title = R.string.pref_manage_categories_title;
         break;
-      case "myexpenses.intent.distribution":
+      case ACTION_DISTRIBUTION:
         setHelpVariant(HelpVariant.distribution);
         //title is set in categories list
         break;
-      case "myexpenses.intent.select_filter":
+      case ACTION_SELECT_FILTER:
         setHelpVariant(HelpVariant.select_filter);
         title = R.string.search_category;
         break;
+      case ACTION_SELECT_MAPPING:
       default:
         setHelpVariant(HelpVariant.select_mapping);
         title = R.string.select_category;

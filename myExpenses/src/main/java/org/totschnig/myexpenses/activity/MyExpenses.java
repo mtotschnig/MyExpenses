@@ -533,9 +533,6 @@ public class MyExpenses extends LaunchActivity implements
           showExportDisabledCommand();
         }
         return true;
-      case R.id.BACKUP_COMMAND:
-        startActivity(new Intent("myexpenses.intent.backup"));
-        return true;
       case R.id.REMIND_NO_RATE_COMMAND:
         PrefKey.NEXT_REMINDER_RATE.putLong(-1);
         return true;
@@ -714,7 +711,7 @@ public class MyExpenses extends LaunchActivity implements
         Account a = Account.getInstanceFromDb(mAccountId);
         recordUsage(feature);
         Intent i = new Intent(this, ManageCategories.class);
-        i.setAction("myexpenses.intent.distribution");
+        i.setAction(ManageCategories.ACTION_DISTRIBUTION);
         i.putExtra(KEY_ACCOUNTID, mAccountId);
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);

@@ -977,7 +977,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.FILTER_CATEGORY_COMMAND:
         if (!removeFilter(command)) {
           Intent i = new Intent(getActivity(), ManageCategories.class);
-          i.setAction("myexpenses.intent.select_filter");
+          i.setAction(ManageCategories.ACTION_SELECT_FILTER);
           startActivityForResult(i, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST);
         }
         return true;

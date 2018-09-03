@@ -55,6 +55,10 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   private boolean calledFromOnboarding = false;
 
+  public static final String ACTION_BACKUP = "BACKUP";
+  public static final String ACTION_RESTORE = "RESTORE";
+  public static final String ACTION_RESTORE_LEGACY = "RESTORE_LEGACY";
+
   @State
   int taskResult = RESULT_OK;
 
@@ -72,36 +76,42 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       return;
     }
     String action = getIntent().getAction();
-    if (action != null && action.equals("myexpenses.intent.backup")) {
-      Result appDirStatus = AppDirHelper.checkAppDir(this);
-      if (!appDirStatus.isSuccess()) {
-        abort(appDirStatus.print(this));
-        return;
+    switch (action == null ? "" : action) {
+      case ACTION_BACKUP: {
+        Result appDirStatus = AppDirHelper.checkAppDir(this);
+        if (!appDirStatus.isSuccess()) {
+          abort(appDirStatus.print(this));
+          return;
+        }
+        DocumentFile appDir = AppDirHelper.getAppDir(this);
+        if (appDir == null) {
+          abort(getString(R.string.io_error_appdir_null));
+          return;
+        }
+        MessageDialogFragment.newInstance(
+            R.string.menu_backup,
+            getString(R.string.warning_backup,
+                FileUtils.getPath(this, appDir.getUri())),
+            new MessageDialogFragment.Button(android.R.string.yes,
+                R.id.BACKUP_COMMAND, null), null,
+            MessageDialogFragment.Button.noButton())
+            .show(getSupportFragmentManager(), "BACKUP");
+        break;
       }
-      DocumentFile appDir = AppDirHelper.getAppDir(this);
-      if (appDir == null) {
-        abort(getString(R.string.io_error_appdir_null));
-        return;
-      }
-      MessageDialogFragment.newInstance(
-          R.string.menu_backup,
-          getString(R.string.warning_backup,
-              FileUtils.getPath(this, appDir.getUri())),
-          new MessageDialogFragment.Button(android.R.string.yes,
-              R.id.BACKUP_COMMAND, null), null,
-          MessageDialogFragment.Button.noButton())
-          .show(getSupportFragmentManager(), "BACKUP");
-    } else {
-      if (getIntent().getBooleanExtra("legacy", false)) {
+      case ACTION_RESTORE_LEGACY: {
         Result appDirStatus = AppDirHelper.checkAppDir(this);
         if (appDirStatus.isSuccess()) {
           openBrowse();
         } else {
           abort(appDirStatus.print(this));
         }
-      } else {
+        break;
+      }
+      case ACTION_RESTORE: {
         BackupSourcesDialogFragment.newInstance().show(
             getSupportFragmentManager(), FRAGMENT_TAG);
+        break;
+
       }
     }
   }
