@@ -452,9 +452,9 @@
   <string name="menu_create_folder">Nouveau dossier</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Plus haut</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Plus haut</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_down">Vers le bas</string>
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
   <string name="widget_title_accounts">Mes comptes</string>
@@ -744,4 +744,5 @@
   <string name="gdpr_consent_message">Nous travaillons en partenariat avec {ad_provider} afin de soutenir le support, la maintenance et le développement de {app_name} en vous montrant des publicités. Nous aimerions demander votre consentement. Si vous préférez ne pas voir d\'annonces, s\'il vous plaît payer pour la version sans publicité.</string>
   <string name="gdpr_consent_button_yes">Oui, continuez à voir les annonces</string>
   <string name="gdpr_consent_button_no">Payer pour la version sans publicité</string>
+  <string name="sort_order">Ordre de tri</string>
 </resources>

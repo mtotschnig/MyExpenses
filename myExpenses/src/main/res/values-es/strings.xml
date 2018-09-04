@@ -452,9 +452,9 @@
   <string name="menu_create_folder">Nueva carpeta</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Arriba</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Arriba</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_down">Abajo</string>
   <string name="create_new_folder_fail">No se pudo crear la carpeta</string>
   <string name="widget_title_accounts">Mis cuentas</string>
@@ -744,4 +744,5 @@
   <string name="gdpr_consent_message">Con la intención de continuar con el soporte, mantenimiento y desarrollo de {app_name}, nos hemos asociado con {ad_provider} para mostrar publicidad. Nos gustaría pedirle su consentimiento. Si prefiere no tener ningún tipo de publicidad, por favor, adquiera la versión de pago.</string>
   <string name="gdpr_consent_button_yes">Sí, continuar viendo publicidad</string>
   <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
+  <string name="sort_order">Orden de clasificación</string>
 </resources>

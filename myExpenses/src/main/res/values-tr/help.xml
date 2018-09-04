@@ -127,6 +127,7 @@
   <string name="help_NavigationDrawer_info">Hesap listesi, bir unsura tıklayarak kolayca hesaplar arası geçiş yapmanıza izin verir.</string>
   <string name="menu_create_account_help_text">Yeni hesap oluştur. Ücretsiz sürüm beş hesapla sınırlıdır.</string>
   <string name="menu_NavigationDrawer_sort_help_text">Hesap listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre, ya da son muamele oluşturma tarihine göre sıralanabilir.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">\"Özel\" üzerine tıklamanız, her bir hesabın konumunu serbestçe yapılandırmanıza izin verir.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Hesap listesi hesap türüne veya  para birimine göre gruplandırılmış şekilde ya da gruplandırılmamış şekilde görüntülenebilir.</string>
   <string name="form_instant_plan_help_text">Burada muamelenin günlük, haftalık, aylık ya da yıllık olarak tekrarlanmasını ayarlayabilirsiniz. \"Şablonlar ve Planlamalar\" ekranında sonuç muameleyi gözden geçirebilir ve gelişmiş seçenekleri yapılandırabilirsiniz.  Eğer bir muamele zaten bir planlama ile ilişkili ise tekrar türünü artık değiştiremezsiniz, ancak bir takvim görünümü açıp tüm tekrar tarihlerini görüntüleyebilirsiniz.</string>
   <!--SyncBackends-->

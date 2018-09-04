@@ -126,7 +126,8 @@
   <string name="help_ExportDialog_date_format"><![CDATA[El texto puede citarse con comillas simples (\') para evitar interpretación. \'\' (dos comillas simples) representan una comilla simple. Consulte la <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html"> especificación completa</a> para más información o contacte con support@myexpenses.mobi para obtener ayuda.]]></string>
   <string name="help_NavigationDrawer_info">La lista de cuentas le permite navegar fácilmente entre cuentas, haciendo simplemente clic en una entrada.</string>
   <string name="menu_create_account_help_text">Crear una nueva cuenta. La versión gratuita está limitada a cinco cuentas.</string>
-  <string name="menu_NavigationDrawer_sort_help_text">La lista de cuentas puede ordenarse por título (alfabéticamente), por la frecuencia de uso o por la última vez en la que se creó una transacción.</string>
+  <string name="menu_NavigationDrawer_sort_help_text">La lista de cuentas puede ordenarse por título (alfabéticamente), por frecuencia de uso o por la última vez en la que se creó una transacción.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">Hacer clic en \"Personalizar\" le permitirá configurar libremente la posición de cada cuenta.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">La lista de cuentas puede mostrarse agrupadas por el tipo de cuenta, por moneda o desagrupada.</string>
   <string name="form_instant_plan_help_text">Desde aquí podrá configurar si la transacción se repite de manera diaria, semanal, mensual o anual. En la pantalla \'Plantillas y proyectos\', puede inspeccionar el proyecto resultante y configurar las opciones avanzadas. Si una transacción ya está vinculada a un proyecto, no podrá cambiar el tipo de repetición, pero se puede abrir una vista de calendario donde se muestre todas las fechas recurrentes.</string>
   <!--SyncBackends-->

@@ -452,9 +452,9 @@
   <string name="menu_create_folder">Yeni klasör</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Yukarı</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Yukarı</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_down">Aşağı</string>
   <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
   <string name="widget_title_accounts">Hesaplarım</string>
@@ -744,4 +744,5 @@
   <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
   <string name="gdpr_consent_button_yes">Evet, reklam görmeye devam et</string>
   <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
+  <string name="sort_order">Sıralama düzeni</string>
 </resources>

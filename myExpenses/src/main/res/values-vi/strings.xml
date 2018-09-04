@@ -369,7 +369,7 @@
   <string name="share_scheme_not_supported">Sự phối hợp %1$s không được hỗ trợ</string>
   <string name="share_sending">Gửi tập tin xuất dữ liệu</string>
   <string name="split_parts_heading">Tách thành từng phần</string>
-  <string name="split_transaction">Tách giao dịch</string>
+  <string name="split_transaction">GD phân tách</string>
   <string name="status">Trạng thái</string>
   <string name="status_cleared">đã thanh toán</string>
   <string name="status_reconciled">đã khớp</string>
@@ -444,9 +444,9 @@
   <string name="menu_create_folder">Thư mục mới</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Lên</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Lên</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_down">Xuống</string>
   <string name="create_new_folder_fail">Không thể tạo thư mục</string>
   <string name="widget_title_accounts">Tài khoản của tôi</string>

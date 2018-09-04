@@ -127,6 +127,7 @@
   <string name="help_NavigationDrawer_info">רשימת החשבונות מאפשרת לך לנווט בקלות בין חשבונות על ידי לחיצה על רשומה.</string>
   <string name="menu_create_account_help_text">צור חשבון חדש. הגרסה החינמית מוגבלת לחמישה חשבונות.</string>
   <string name="menu_NavigationDrawer_sort_help_text">ניתן לסווג את רשימת החשבונות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או בפעם האחרונה שנוצרה עבורה עסקה.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">לחיצה על \"מותאם אישית\" מאפשרת לך להגדיר באופן חופשי את המיקום של כל חשבון.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">רשימת החשבונות יכולה להיות מקובצת לפי סוג חשבון, לפי מטבע או לא מקובצים.</string>
   <string name="form_instant_plan_help_text">כאן אתה יכול להגדיר את העסקה כדי שתחזור על בסיס יומי, שבועי, חודשי או שנתי. במסך \'תבניות ותכניות\', באפשרותך לבדוק את התוכנית המתקבלת ולהגדיר אפשרויות מתקדמות. אם עסקה כבר מקושרת לתוכנית, לא תוכל עוד לשנות את סוג החזרה, אך באפשרותך לפתוח תצוגת לוח שנה המציגה את כל התאריכים החוזרים.</string>
   <!--SyncBackends-->

@@ -128,6 +128,7 @@
   <string name="help_NavigationDrawer_info">La liste des comptes vous permet de naviguer facilement entre les comptes en cliquant simplement sur une entrée.</string>
   <string name="menu_create_account_help_text">Créer un nouveau compte. La version gratuite est limitée à cinq comptes.</string>
   <string name="menu_NavigationDrawer_sort_help_text">La liste des comptes peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation, ou de la dernière fois qu\'une transaction a été créée pour elle.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">En cliquant sur \"Personnalisé\", vous pouvez configurer librement la position de chaque compte.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">La liste des comptes peut être affichée groupés par type de compte, de devises, ou dissociés.</string>
   <string name="form_instant_plan_help_text">Ici, vous pouvez définir un échéancier  quotidien, hebdomadaire, mensuel ou annuel  pour l\'opération. Sur l’écran « Modèles et Echéances », vous pouvez inspecter cet échéancier et configurer les options avancées. Si une opération est déjà liée à un échéancier, vous ne pouvez plus modifier le type de périodicité, mais vous pouvez ouvrir un calendrier affichant toutes les dates récurrentes.</string>
   <!--SyncBackends-->

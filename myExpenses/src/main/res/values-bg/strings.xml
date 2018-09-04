@@ -452,9 +452,9 @@
   <string name="menu_create_folder">Нова папка</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Нагоре</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Нагоре</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_down">Надолу</string>
   <string name="create_new_folder_fail">Неуспешно създаване на папка</string>
   <string name="widget_title_accounts">Моите сметки</string>
@@ -744,4 +744,5 @@
   <string name="gdpr_consent_message">Ние си сътрудничим с {ad_provider}, за да продължаваме поддръжката и развитието на {app_name}, като Ви показваме реклами. Бихме желали да получим Вашето съгласие. Ако предпочитате да не виждате реклами, моля, платете за версия без реклами.</string>
   <string name="gdpr_consent_button_yes">Да, продължавам да гледам реклами</string>
   <string name="gdpr_consent_button_no">Плащам за версия без реклама</string>
+  <string name="sort_order">Подреди по</string>
 </resources>
