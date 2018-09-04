@@ -139,6 +139,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_SPLIT;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSFER;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
+import static org.totschnig.myexpenses.preference.PrefKey.SYNC_WIFI_ONLY;
 import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
@@ -312,6 +313,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       languagePref.setEntries(getLocaleArray(getContext()));
 
       findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+      findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
 
       findPreference(getString(R.string.pref_follow_gplus_key)).setTitle(
           Utils.getTextWithAppName(getContext(), R.string.pref_follow_gplus_title));

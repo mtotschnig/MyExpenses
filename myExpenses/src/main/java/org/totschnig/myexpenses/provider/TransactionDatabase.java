@@ -136,7 +136,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITT
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 74;
+  public static final int DATABASE_VERSION = 75;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -605,7 +605,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String SETTINGS_CREATE =
       "CREATE TABLE " + TABLE_SETTINGS + " ("
           + KEY_KEY + " text unique not null, "
-          + KEY_VALUE + " text unique not null);";
+          + KEY_VALUE + " text);";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -1672,6 +1672,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 74) {
         //repair transfers that have not been synced correctly
         db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
+      }
+      if (oldVersion < 75) {
+        //repair broken settings table
+        db.execSQL("ALTER TABLE settings RENAME to settings_old");
+        db.execSQL("CREATE TABLE settings (key text unique not null, value text);");
+        db.execSQL("INSERT INTO settings (key, value) SELECT key, value from settings_old");
+        db.execSQL("DROP TABLE settings_old");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

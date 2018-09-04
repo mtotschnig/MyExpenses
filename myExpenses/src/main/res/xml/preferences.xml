@@ -243,6 +243,10 @@
             android:defaultValue="true"
             android:key="@string/pref_sync_notification_key"
             android:summary="@string/pref_sync_notification_summary"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_sync_wifi_only_key"
+            android:summary="@string/pref_sync_wifi_only_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory

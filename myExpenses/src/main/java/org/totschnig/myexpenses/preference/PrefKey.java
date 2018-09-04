@@ -95,6 +95,7 @@ public enum PrefKey {
   DEBUG_SCREEN(R.string.pref_debug_key),
   DEBUG_LOGGING(R.string.pref_debug_logging_key),
   SYNC_NOTIFICATION(R.string.pref_sync_notification_key),
+  SYNC_WIFI_ONLY(R.string.pref_sync_wifi_only_key),
   LICENCE_MIGRATION_INFO_SHOWN("licence_migration_info_shown"),
   DEBUG_ADS(R.string.pref_debug_show_ads_key),
   PROTECTION_DEVICE_LOCK_SCREEN(R.string.pref_protection_device_lock_screen_key),
