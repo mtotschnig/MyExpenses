@@ -19,6 +19,8 @@ import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -149,6 +151,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       notificationContent.put(notificationId, new StringBuilder());
     }
 
+    if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) && !isConnectedWifi(getContext())) {
+      log().i("Not connected to Wifi, aborting");
+      if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
+        notifyUser(getNotificationTitle(), getContext().getString(R.string.wifi_not_connected), account, null);
+      }
+      return;
+    }
+
     AccountManager accountManager = AccountManager.get(getContext());
 
     Exceptional<SyncBackendProvider> backendProviderExceptional =
@@ -213,17 +223,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     Cursor cursor;
 
-    try {
-      cursor = provider.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
-          KEY_KEY + " = ?", new String[]{PrefKey.SYNC_NOTIFICATION.getKey()}, null);
-      if (cursor != null) {
-        if (cursor.moveToFirst()) {
-          shouldNotify = cursor.getString(0).equals(Boolean.TRUE.toString());
-        }
-        cursor.close();
-      }
-    } catch (RemoteException ignored) {
-    }
+    shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true);
 
     String[] selectionArgs;
     String selection = KEY_SYNC_ACCOUNT_NAME + " = ?";
@@ -451,7 +451,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return new Intent(getContext(), ManageSyncBackends.class);
   }
 
-  private void appendToNotification(String content, Account account, boolean newLine) {
+  private void appendToNotification(String content, @Nullable Account account, boolean newLine) {
     log().i(content);
     if (shouldNotify) {
       StringBuilder contentBuilder = notificationContent.get(account.hashCode());
@@ -460,8 +460,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
       contentBuilder.append(content);
       content = contentBuilder.toString();
+      notifyUser(getNotificationTitle(), content, account, null);
     }
-    notifyUser(getNotificationTitle(), content, account, null);
   }
 
   public static Timber.Tree log() {
@@ -978,5 +978,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @VisibleForTesting
   public org.totschnig.myexpenses.model.Account getAccount() {
     return dbAccount.get();
+  }
+
+  private boolean isConnectedWifi(Context context){
+    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    if (cm == null) return false;
+    NetworkInfo info = cm.getActiveNetworkInfo();
+    return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
+  }
+
+  private boolean getBooleanSetting(ContentProviderClient provider, PrefKey prefKey, boolean defaultValue) {
+    String value = getStringSetting(provider, prefKey);
+    return value != null ? value.equals(Boolean.TRUE.toString()) : defaultValue;
+  }
+
+  private String getStringSetting(ContentProviderClient provider, PrefKey prefKey) {
+    try {
+      Cursor cursor = provider.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
+          KEY_KEY + " = ?", new String[]{prefKey.getKey()}, null);
+      if (cursor != null) {
+        if (cursor.moveToFirst()) {
+          return cursor.getString(0);
+        }
+        cursor.close();
+      }
+    } catch (RemoteException ignored) {
+    }
+    return null;
   }
 }
