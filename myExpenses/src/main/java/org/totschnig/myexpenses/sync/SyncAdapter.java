@@ -151,10 +151,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       notificationContent.put(notificationId, new StringBuilder());
     }
 
+    shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true);
+
     if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) && !isConnectedWifi(getContext())) {
-      log().i("Not connected to Wifi, aborting");
+      final String message = getContext().getString(R.string.wifi_not_connected);
+      log().i(message);
       if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
-        notifyUser(getNotificationTitle(), getContext().getString(R.string.wifi_not_connected), account, null);
+        maybeNotifyUser(getNotificationTitle(), message, account, null);
       }
       return;
     }
@@ -204,26 +207,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       return;
     }
 
-    String autoBackupFileUri = extras.getString(KEY_UPLOAD_AUTO_BACKUP_URI);
-    if (autoBackupFileUri != null) {
-      String fileName = extras.getString(KEY_UPLOAD_AUTO_BACKUP_NAME);
-      try {
-        backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
-      } catch (IOException e) {
-        log().w(e);
-        if (handleAuthException(backend, e, account)) {
-          return;
-        }
-        notifyUser(getContext().getString(R.string.pref_auto_backup_title),
-            getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
-                + " " + e.getMessage(), null, null);
-      }
-      return;
-    }
+    handleAutoBackupSync(account, provider, backend);
 
     Cursor cursor;
-
-    shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true);
 
     String[] selectionArgs;
     String selection = KEY_SYNC_ACCOUNT_NAME + " = ?";
@@ -434,6 +420,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     backend.tearDown();
   }
 
+  private void handleAutoBackupSync(Account account, ContentProviderClient provider, SyncBackendProvider backend) {
+    String autoBackupFileUri = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
+    if (autoBackupFileUri != null) {
+      String fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
+      try {
+        log().i("Storing backup %s (%s)", fileName, autoBackupFileUri);
+        backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
+        removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
+        removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
+        maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
+            getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null, null);
+      } catch (IOException e) {
+        log().w(e);
+        if (!handleAuthException(backend, e, account)) {
+          notifyUser(getContext().getString(R.string.pref_auto_backup_title),
+              getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
+                  + " " + e.getMessage(), null, null);
+        }
+      }
+    }
+  }
+
   private boolean handleAuthException(SyncBackendProvider backend, IOException e, Account account) {
     if (backend.isAuthException(e)) {
       backend.tearDown();
@@ -468,25 +476,29 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return Timber.tag(TAG);
   }
 
-  private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
+  private void maybeNotifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
     if (shouldNotify) {
-      NotificationBuilderWrapper builder = NotificationBuilderWrapper.bigTextStyleBuilder(
-          getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content);
-      if (intent != null) {
-        builder.setContentIntent(PendingIntent.getActivity(
-            getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
-      }
-      if (account != null) {
-        Intent dismissIntent = new Intent(getContext(), SyncNotificationDismissHandler.class);
-        dismissIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
-        builder.setDeleteIntent(PendingIntent.getService(getContext(), 0,
-            dismissIntent, PendingIntent.FLAG_ONE_SHOT));
-      }
-      Notification notification = builder.build();
-      notification.flags = Notification.FLAG_AUTO_CANCEL;
-      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
-          "SYNC", account != null ? account.hashCode() : 0, notification);
+      notifyUser(title, content, account, intent);
     }
+  }
+
+  private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
+    NotificationBuilderWrapper builder = NotificationBuilderWrapper.bigTextStyleBuilder(
+        getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content);
+    if (intent != null) {
+      builder.setContentIntent(PendingIntent.getActivity(
+          getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
+    }
+    if (account != null) {
+      Intent dismissIntent = new Intent(getContext(), SyncNotificationDismissHandler.class);
+      dismissIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
+      builder.setDeleteIntent(PendingIntent.getService(getContext(), 0,
+          dismissIntent, PendingIntent.FLAG_ONE_SHOT));
+    }
+    Notification notification = builder.build();
+    notification.flags = Notification.FLAG_AUTO_CANCEL;
+    ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
+        "SYNC", account != null ? account.hashCode() : 0, notification);
   }
 
   private void notifyWithResolution(SyncBackendProvider.ResolvableSetupException exception) {
@@ -988,14 +1000,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private boolean getBooleanSetting(ContentProviderClient provider, PrefKey prefKey, boolean defaultValue) {
-    String value = getStringSetting(provider, prefKey);
+    String value = getStringSetting(provider, prefKey.getKey());
     return value != null ? value.equals(Boolean.TRUE.toString()) : defaultValue;
   }
 
-  private String getStringSetting(ContentProviderClient provider, PrefKey prefKey) {
+  private String getStringSetting(ContentProviderClient provider, String prefKey) {
     try {
       Cursor cursor = provider.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
-          KEY_KEY + " = ?", new String[]{prefKey.getKey()}, null);
+          KEY_KEY + " = ?", new String[]{prefKey}, null);
       if (cursor != null) {
         if (cursor.moveToFirst()) {
           return cursor.getString(0);
@@ -1005,5 +1017,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } catch (RemoteException ignored) {
     }
     return null;
+  }
+
+  private void removeSetting(ContentProviderClient provider, String prefKey) {
+    try {
+      provider.delete(TransactionProvider.SETTINGS_URI, KEY_KEY + " = ?", new String[]{prefKey});
+    } catch (RemoteException ignored) {
+    }
   }
 }

@@ -650,14 +650,18 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
       }
       case TaskExecutionFragment.TASK_STORE_SETTING: {
-        values = new ContentValues(1);
-        values.put(KEY_KEY, (String) ids[0]);
-        values.put(KEY_VALUE, (String) mExtra);
-        cr.insert(TransactionProvider.SETTINGS_URI, values);
+        storeSetting(cr, (String) ids[0], (String) mExtra);
         return null;
       }
     }
     return null;
+  }
+
+  public static Uri storeSetting(ContentResolver contentResolver, String key, String value) {
+    ContentValues values = new ContentValues(2);
+    values.put(KEY_KEY, key);
+    values.put(KEY_VALUE, value);
+    return contentResolver.insert(TransactionProvider.SETTINGS_URI, values);
   }
 
   @Nullable

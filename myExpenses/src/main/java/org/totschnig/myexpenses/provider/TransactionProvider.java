@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.test.ProviderTestCase2;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -1079,6 +1078,9 @@ public class TransactionProvider extends ContentProvider {
       case CHANGES:
         count = db.delete(TABLE_CHANGES, where, whereArgs);
         break;
+      case SETTINGS:
+        count = db.delete(TABLE_SETTINGS, where, whereArgs);
+        break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
           count = resumeChangeTrigger(db);
@@ -1639,7 +1641,7 @@ public class TransactionProvider extends ContentProvider {
   /**
    * A test package can call this to get a handle to the database underlying TransactionProvider,
    * so it can insert test data into the database. The test case class is responsible for
-   * instantiating the provider in a test context; {@link ProviderTestCase2} does
+   * instantiating the provider in a test context; ProviderTestCase2 does
    * this during the call to setUp()
    *
    * @return a handle to the database helper object for the provider's data.

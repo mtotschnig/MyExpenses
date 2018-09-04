@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
@@ -79,14 +80,14 @@ public class AutoBackupService extends JobIntentService {
             Bundle bundle = new Bundle();
             bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
             bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-            bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, backupFile.getUri().toString());
             String backupFileName = backupFile.getName();
             if (backupFileName == null) {
               CrashHandler.report(String.format("Could not get name from uri %s", backupFile.getUri()));
               backupFileName = "backup-" + new SimpleDateFormat("yyyMMdd", Locale.US)
                   .format(new Date());
             }
-            bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, backupFileName);
+            GenericTask.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, backupFileName);
+            GenericTask.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, backupFile.getUri().toString());
             ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
           }
         }
