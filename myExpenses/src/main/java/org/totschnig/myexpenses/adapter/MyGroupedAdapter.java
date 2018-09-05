@@ -179,6 +179,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       }
       colorInt = cursor.getInt(cursor.getColumnIndex(KEY_COLOR));
       expansionPrefKey = String.format(Locale.ROOT, "%s%d", EXPANSION_PREF_PREFIX, id);
+      holder.colorAccount.setImageDrawable(null);
     }
     final boolean isExpanded = prefHandler.getBoolean(expansionPrefKey, true);
     holder.transferRow.setVisibility(sum_transfer == 0 ? View.GONE : View.VISIBLE);
