@@ -246,8 +246,9 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private void updateVoteMenuItem() {
     if (voteMenuItem != null) {
       int currentTotalWeight = getCurrentTotalWeight();
-      voteMenuItem.setTitle(String.format(Locale.ROOT, "%d/%d", currentTotalWeight, getTotalAvailableWeight()));
-      voteMenuItem.setEnabled(currentTotalWeight == getTotalAvailableWeight());
+      final boolean enabled = currentTotalWeight == getTotalAvailableWeight();
+      voteMenuItem.setTitle(enabled ? "Submit" : String.format(Locale.ROOT, "%d/%d", currentTotalWeight, getTotalAvailableWeight()));
+      voteMenuItem.setEnabled(enabled);
     }
   }
 
