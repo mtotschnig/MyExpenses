@@ -296,8 +296,8 @@
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--Move an account up in the account list-->
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Povolit automatickou zálohu</string>

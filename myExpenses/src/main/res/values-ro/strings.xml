@@ -414,9 +414,9 @@
   <string name="menu_create_folder">Folder nou</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Sus</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Sus</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Eşec la crearea folderului</string>
   <string name="widget_title_accounts">Conturile mele</string>
   <string name="widget_title_templates">Şabloanele mele</string>

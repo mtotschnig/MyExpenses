@@ -409,9 +409,9 @@
   <string name="menu_create_folder">Ny mappe</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Op</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Op</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
   <string name="widget_title_accounts">Mine konti</string>
   <string name="widget_title_templates">Mine skabeloner</string>

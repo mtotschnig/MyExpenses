@@ -353,9 +353,9 @@
   <string name="menu_create_folder">නව ගොනුව </string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">ඉහල </string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">ඉහල </string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
   <string name="widget_title_accounts">මගේ ගිණුම් </string>
   <string name="widget_title_templates">මගේ අච්චු </string>

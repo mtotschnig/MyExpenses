@@ -400,9 +400,9 @@
   <string name="menu_create_folder">Nova mapa</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Gore</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Gore</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Kreiranje mape nije uspjelo</string>
   <string name="widget_title_accounts">Moji računi</string>
   <string name="widget_title_templates">Moji predlošci.</string>

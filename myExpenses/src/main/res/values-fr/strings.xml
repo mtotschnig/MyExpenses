@@ -745,4 +745,5 @@
   <string name="gdpr_consent_button_yes">Oui, continuez à voir les annonces</string>
   <string name="gdpr_consent_button_no">Payer pour la version sans publicité</string>
   <string name="sort_order">Ordre de tri</string>
+  <string name="navigation_drawer_accounts_title">Gestion des comptes</string>
 </resources>

@@ -375,8 +375,8 @@
   <string name="menu_categories_setup_default">设置默认类别</string>
   <string name="menu_create_folder">新建文件夹</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--Move an account up in the account list-->
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">目录建立失败</string>
   <string name="widget_title_accounts">我的账户</string>
   <string name="widget_title_templates">我的模板</string>

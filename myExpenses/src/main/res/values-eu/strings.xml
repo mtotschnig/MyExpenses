@@ -449,9 +449,9 @@
   <string name="menu_create_folder">Karpeta berria</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Gora</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Gora</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_down">Behera</string>
   <string name="create_new_folder_fail">Huts egin du karpeta sortzean</string>
   <string name="widget_title_accounts">Nire kontuak</string>

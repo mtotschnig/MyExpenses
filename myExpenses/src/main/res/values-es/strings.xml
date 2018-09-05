@@ -745,4 +745,5 @@
   <string name="gdpr_consent_button_yes">Sí, continuar viendo publicidad</string>
   <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
   <string name="sort_order">Orden de clasificación</string>
+  <string name="navigation_drawer_accounts_title">Administrar cuentas</string>
 </resources>

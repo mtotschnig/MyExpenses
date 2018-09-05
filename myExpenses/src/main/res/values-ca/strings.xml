@@ -321,8 +321,8 @@
   <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
   <string name="import_accounts_none">No s\'ha importat cap compte!</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--Move an account up in the account list-->
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
   <string name="learn_more">Més informació</string>
   <!--Label for column where user can check rows to be discarded from import-->

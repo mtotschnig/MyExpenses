@@ -454,9 +454,9 @@
   <string name="menu_create_folder">Новый каталог</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Вверх</string>
-  <!--Move an account up in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Вверх</string>
-  <!--Move an account down in the account list-->
+  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Ошибка создания каталога</string>
   <string name="widget_title_accounts">Мои счета</string>
   <string name="widget_title_templates">Мои шаблоны</string>
