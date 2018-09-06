@@ -345,6 +345,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     if (command == R.id.REMOVE_LICENCE_COMMAND) {
       startValidationTask(TaskExecutionFragment.TASK_REMOVE_LICENCE, R.string.progress_removing_licence);
       return true;
@@ -353,7 +356,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       getFragment().updateHomeCurrency((String) tag);
       return true;
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   private void startPreferenceScreen(String key) {

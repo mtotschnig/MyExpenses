@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -43,6 +45,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +61,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -67,9 +71,11 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
@@ -77,10 +83,13 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -94,6 +103,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
+import static org.totschnig.myexpenses.util.DistribHelper.getMarketSelfUri;
+import static org.totschnig.myexpenses.util.DistribHelper.getVersionInfo;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -321,12 +332,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    Bundle bundle = new Bundle();
     int itemId = item.getItemId();
     if (itemId != 0) {
-      String fullResourceName = getResources().getResourceName(itemId);
-      bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
-      logEvent(Tracker.EVENT_SELECT_MENU, bundle);
       if (dispatchCommand(itemId, null)) {
         return true;
       }
@@ -335,11 +342,97 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
+  @CallSuper
   public boolean dispatchCommand(int command, Object tag) {
-    if (CommonCommands.dispatchCommand(this, command, tag)) {
-      return true;
-    }
+    Bundle bundle = new Bundle();
+    String fullResourceName = getResources().getResourceName(command);
+    bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
+    logEvent(Tracker.EVENT_DISPATCH_COMMAND, bundle);
+    Intent i;
     switch(command) {
+      case R.id.RATE_COMMAND:
+        i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(getMarketSelfUri()));
+        if (Utils.isIntentAvailable(this, i)) {
+          startActivity(i);
+        } else {
+          showSnackbar(R.string.error_accessing_market, Snackbar.LENGTH_LONG);
+        }
+        return true;
+      case R.id.SETTINGS_COMMAND:
+        i = new Intent(this, MyPreferenceActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (tag != null) {
+          i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, (String) tag);
+        }
+        startActivityForResult(i, ProtectedFragmentActivity.PREFERENCES_REQUEST);
+        return true;
+      case R.id.FEEDBACK_COMMAND: {
+        LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
+        LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+        String licenceInfo = "";
+        if (licenceStatus != null) {
+          licenceInfo = "\nLICENCE: " + licenceStatus.name();
+          String purchaseExtraInfo = licenceHandler.getPurchaseExtraInfo();
+          if (!TextUtils.isEmpty(purchaseExtraInfo)) {
+            licenceInfo += " (" + purchaseExtraInfo + ")";
+          }
+        }
+        i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+            "[" + getString(R.string.app_name) + "] Feedback"
+        );
+        String messageBody = String.format(Locale.ROOT,
+            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
+            getVersionInfo(this),
+            Build.VERSION.RELEASE,
+            Build.BRAND,
+            Build.MODEL,
+            ConfigurationHelper.configToJson(getResources().getConfiguration()),
+            licenceInfo);
+        i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
+        if (!Utils.isIntentAvailable(this, i)) {
+          showSnackbar(R.string.no_app_handling_email_available, Snackbar.LENGTH_LONG);
+        } else {
+          startActivity(i);
+        }
+        break;
+      }
+      case R.id.CONTRIB_INFO_COMMAND:
+        showContribDialog(null, null);
+        return true;
+      case R.id.WEB_COMMAND:
+        i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(getString(R.string.website)));
+        startActivity(i);
+        return true;
+      case R.id.HELP_COMMAND:
+        doHelp(tag);
+        return true;
+      case R.id.REQUEST_LICENCE_MIGRATION_COMMAND:
+        LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("plain/text");
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+            "[" + getString(R.string.app_name) + "] " +  getString(licenceHandler.getLicenceStatus().getResId()));
+        String extraText = String.format(
+            "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
+            PrefKey.LICENCE_LEGACY.getString(null), androidId,
+            Locale.getDefault().toString(), DistribHelper.getVersionInfo(this));
+        i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
+        if (!Utils.isIntentAvailable(this, i)) {
+          showSnackbar(R.string.no_app_handling_email_available, Snackbar.LENGTH_LONG);
+        } else {
+          startActivity(i);
+        }
+        return true;
+      case android.R.id.home:
+        doHome();
+        return true;
       case R.id.GDPR_CONSENT_COMMAND: {
         adHandlerFactory.setConsent(true);
         return true;
@@ -351,6 +444,26 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       }
     }
     return false;
+  }
+
+  public void showContribDialog(@Nullable ContribFeature feature, Serializable tag) {
+    Intent i = ContribInfoDialogActivity.getIntentFor(this, feature);
+    i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
+    startActivityForResult(i, ProtectedFragmentActivity.CONTRIB_REQUEST);
+  }
+
+  protected void doHelp(Object tag) {
+    Intent i;
+    i = new Intent(this, Help.class);
+    i.putExtra(HelpDialogFragment.KEY_VARIANT,
+        tag != null ? (Enum<?>) tag : getHelpVariant());
+    //for result is needed since it allows us to inspect the calling activity
+    startActivityForResult(i, 0);
+  }
+
+  protected void doHome() {
+    setResult(FragmentActivity.RESULT_CANCELED);
+    finish();
   }
 
   public void dispatchCommand(View v) {
@@ -613,7 +726,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (feature.hasAccess()) {
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
     } else {
-      CommonCommands.showContribDialog(this, feature, tag);
+      showContribDialog(feature, tag);
     }
   }
 

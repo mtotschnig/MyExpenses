@@ -209,8 +209,11 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     switch (command) {
-      case R.id.WEB_COMMAND: {
+      case R.id.ROADMAP_RESULT_COMMAND: {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(ROADMAP_URL + "issues.html"));
         startActivity(i);
@@ -240,7 +243,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         return true;
       }
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   private void updateVoteMenuItem() {

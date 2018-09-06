@@ -970,30 +970,30 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @Override
+  protected void doSave(boolean andNew) {
+    if (mOperationType == TYPE_SPLIT &&
+        !findSplitPartList().splitComplete()) {
+      showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT);
+    } else {
+      if (andNew) {
+        mCreateNew = true;
+      }
+      super.doSave(andNew);
+    }
+  }
+
+  @Override
+  protected void doHome() {
+    cleanup();
+    finish();
+  }
+
+  @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     switch (command) {
-      case android.R.id.home: {
-        cleanup();
-        finish();
-        return true;
-      }
-      case R.id.SAVE_COMMAND:
-      case R.id.SAVE_AND_NEW_COMMAND: {
-        if (mOperationType == TYPE_SPLIT &&
-            !findSplitPartList().splitComplete()) {
-          showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT);
-          return true;
-        }
-        if (command == R.id.SAVE_COMMAND) {
-          //handled in super
-          break;
-        }
-        if (!mIsSaving) {
-          mCreateNew = true;
-          saveState();
-        }
-        return true;
-      }
       case R.id.CREATE_COMMAND: {
         createRow();
         return true;
@@ -1027,7 +1027,7 @@ public class ExpenseEdit extends AmountActivity implements
         return true;
       }
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   private boolean checkTransferEnabled(Account account) {
@@ -1687,7 +1687,7 @@ public class ExpenseEdit extends AmountActivity implements
               mRecurrenceSpinner.setSelection(0);
               ContribFeature contribFeature = mOperationType != TYPE_SPLIT || newSplitTemplateEnabled ?
                   ContribFeature.PLANS_UNLIMITED : ContribFeature.SPLIT_TEMPLATE;
-              CommonCommands.showContribDialog(this, contribFeature, null);
+              showContribDialog(contribFeature, null);
             }
           } else {
             requestPermission(CALENDAR);
@@ -1736,7 +1736,7 @@ public class ExpenseEdit extends AmountActivity implements
               if (NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true)) {
                 restartWithType(TYPE_SPLIT);
               } else {
-                CommonCommands.showContribDialog(this, ContribFeature.SPLIT_TEMPLATE, null);
+                showContribDialog(ContribFeature.SPLIT_TEMPLATE, null);
               }
             } else {
               contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null);

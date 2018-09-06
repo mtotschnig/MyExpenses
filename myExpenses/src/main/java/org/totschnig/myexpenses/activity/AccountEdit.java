@@ -362,6 +362,9 @@ public class AccountEdit extends AmountActivity implements
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     switch (command) {
       case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
         mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
@@ -378,12 +381,12 @@ public class AccountEdit extends AmountActivity implements
             TASK_SYNC_UNLINK,
             new String[]{mAccount.uuid}, null, 0);
         return true;
-      case R.id.SETTINGS_COMMAND:
+      case R.id.SYNC_SETTINGS_COMMAND:
         Intent i = new Intent(this, ManageSyncBackends.class);
         startActivityForResult(i, PREFERENCES_REQUEST);
         return true;
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   @Override
@@ -437,7 +440,7 @@ public class AccountEdit extends AmountActivity implements
     MessageDialogFragment.newInstance(
         0,
         message,
-        new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SETTINGS_COMMAND, null),
+        new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SYNC_SETTINGS_COMMAND, null),
         MessageDialogFragment.Button.okButton(),
         null)
         .show(getSupportFragmentManager(), "SYNC_HELP");

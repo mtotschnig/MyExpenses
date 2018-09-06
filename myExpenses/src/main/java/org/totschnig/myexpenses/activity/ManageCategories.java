@@ -176,6 +176,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     switch (command) {
       case R.id.CREATE_COMMAND:
         createCat(null);
@@ -201,7 +204,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         exportCats("UTF-8");
         return true;
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   /**

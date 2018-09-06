@@ -57,7 +57,6 @@ import android.widget.TextView;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -430,7 +429,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         break;
       case R.id.CREATE_TEMPLATE_COMMAND:
         if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true)) {
-          CommonCommands.showContribDialog(getActivity(), ContribFeature.SPLIT_TEMPLATE, null);
+          ctx.showContribDialog(ContribFeature.SPLIT_TEMPLATE, null);
           return true;
         }
         mTransactionsCursor.moveToPosition(acmi.position);

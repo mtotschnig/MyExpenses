@@ -22,6 +22,7 @@
         android:key="@string/pref_category_manage_key"
         android:title="@string/pref_category_title_manage">
         <Preference
+            android:key="manage_categories"
             android:summary="@string/pref_manage_categories_summary"
             android:title="@string/pref_manage_categories_title">
             <intent android:targetPackage="@string/application_id"
@@ -29,12 +30,14 @@
                     android:action="MANAGE"/>
         </Preference>
         <Preference
+            android:key="manage_parties"
             android:summary="@string/pref_manage_parties_summary"
             android:title="@string/pref_manage_parties_title">
             <intent android:targetPackage="@string/application_id"
                     android:targetClass="org.totschnig.myexpenses.activity.ManageParties"/>
         </Preference>
         <Preference
+            android:key="manage_methods"
             android:summary="@string/pref_manage_methods_summary"
             android:title="@string/pref_manage_methods_title">
             <intent android:targetPackage="@string/application_id"
@@ -308,6 +311,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_more_information">
         <Preference
+            android:key="visit_website"
             android:summary="@string/pref_visit_website_summary"
             android:title="@string/pref_visit_website_title">
             <intent
@@ -323,6 +327,7 @@
                 />
         </Preference>
         <Preference
+            android:key="like_facebook"
             android:title="@string/pref_like_facebook_title">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -331,8 +336,36 @@
         </Preference>
         <Preference
             android:key="@string/pref_more_info_dialog_key"
-            android:summary="@string/pref_more_info_dialog_summary"
             android:title="@string/pref_more_info_dialog_title"/>
+        <PreferenceScreen
+            android:key="@string/pref_translation_key"
+            android:title="@string/pref_translation_title"
+            android:summary="@string/pref_more_info_dialog_summary">
+            <Preference
+                style="?preferenceInformationStyle"
+                android:summary="Please help us keep the translation for your language up to date. You can either suggest improvements for missing or incorrect translations, or join the translation project as a regular contributor."/>
+            <Preference
+                android:key="translation_suggest_improvement"
+                android:title="Suggest improvement">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="mailto:translations@myexpenses.mobi">
+                    <extra android:name="android.intent.extra.SUBJECT" android:value="My Expenses Translation - Suggestion for Improvement" />
+                    <extra
+                        android:name="android.intent.extra.TEXT"
+                        android:value="Please provide a detailed description, ideally including a screenshot:"/>
+                </intent>
+            </Preference>
+            <Preference
+                android:key="translation_join_transifex"
+                android:title="Join My Exepenses @ Transifex">
+                <intent
+                    android:action="android.intent.action.VIEW"
+                    android:data="https://www.transifex.com/mtotschnig/my-expenses/"
+                    />
+            </Preference>
+
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/feedback">
@@ -344,6 +377,7 @@
             android:key="@string/pref_send_feedback_key"
             android:title="@string/pref_send_feedback_title"/>
         <Preference
+            android:key="roadmap_vote"
             android:title="@string/roadmap_vote">
             <intent android:targetPackage="@string/application_id"
                     android:targetClass="org.totschnig.myexpenses.activity.RoadmapVoteActivity"/>

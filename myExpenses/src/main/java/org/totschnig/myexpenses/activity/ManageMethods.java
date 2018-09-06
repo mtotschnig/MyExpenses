@@ -15,11 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 
 public class ManageMethods extends ProtectedFragmentActivity {
 
@@ -35,11 +35,14 @@ public class ManageMethods extends ProtectedFragmentActivity {
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     if (command == R.id.CREATE_COMMAND) {
       Intent i = new Intent(this, MethodEdit.class);
       startActivity(i);
       return true;
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 }

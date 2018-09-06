@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -65,10 +65,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     super.onCreate(savedInstanceState);
     TypedValue typedValue = new TypedValue();
     TypedArray a = obtainStyledAttributes(typedValue.data,
-        new int[] { android.R.attr.textColorSecondary });
+        new int[]{android.R.attr.textColorSecondary});
     primaryColor = a.getColor(0, 0);
     a.recycle();
-    a = obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
+    a = obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
     accentColor = a.getColor(0, 0);
     if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_IS_DIRTY)) {
       setDirty();
@@ -91,7 +91,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (isDirty() && item.getItemId()==android.R.id.home) {
+    if (isDirty() && item.getItemId() == android.R.id.home) {
       showDiscardDialog();
       return true;
     }
@@ -112,14 +112,24 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
-    switch(command) {
-    case R.id.SAVE_COMMAND:
-      if (!mIsSaving) {
-        saveState();
-      }
+    if (super.dispatchCommand(command, tag)) {
       return true;
     }
-    return super.dispatchCommand(command, tag);
+    switch (command) {
+      case R.id.SAVE_COMMAND:
+        doSave(false);
+        return true;
+      case R.id.SAVE_AND_NEW_COMMAND:
+        doSave(true);
+        return true;
+    }
+    return false;
+  }
+
+  protected void doSave(boolean andNew) {
+    if (!mIsSaving) {
+      saveState();
+    }
   }
 
   protected void saveState() {
@@ -141,6 +151,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
       super.onBackPressed();
     }
   }
+
   protected void linkInputWithLabel(final View input, final View label) {
     input.setOnFocusChangeListener((v, hasFocus) ->
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));

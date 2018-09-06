@@ -96,6 +96,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     Intent i;
     switch (command) {
       case R.id.CREATE_COMMAND:
@@ -115,24 +118,26 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
-      case android.R.id.home:
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
-        if (shouldUpRecreateTask(this)) {
-          // This activity is NOT part of this app's task, so create a new task
-          // when navigating up, with a synthesized back stack.
-          TaskStackBuilder.create(this)
-              // Add all of this activity's parents to the back stack
-              .addNextIntentWithParentStack(upIntent)
-              // Navigate up to the closest parent
-              .startActivities();
-        } else {
-          // This activity is part of this app's task, so simply
-          // navigate up to the logical parent activity.
-          NavUtils.navigateUpTo(this, upIntent);
-        }
-        return true;
     }
-    return super.dispatchCommand(command, tag);
+    return false;
+  }
+
+  @Override
+  protected void doHome() {
+    Intent upIntent = NavUtils.getParentActivityIntent(this);
+    if (shouldUpRecreateTask(this)) {
+      // This activity is NOT part of this app's task, so create a new task
+      // when navigating up, with a synthesized back stack.
+      TaskStackBuilder.create(this)
+          // Add all of this activity's parents to the back stack
+          .addNextIntentWithParentStack(upIntent)
+          // Navigate up to the closest parent
+          .startActivities();
+    } else {
+      // This activity is part of this app's task, so simply
+      // navigate up to the logical parent activity.
+      NavUtils.navigateUpTo(this, upIntent);
+    }
   }
 
   @Override

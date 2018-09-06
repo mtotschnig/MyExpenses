@@ -22,6 +22,7 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceGroup;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.SwitchPreferenceCompat;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,6 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
@@ -74,6 +74,7 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.net.URI;
@@ -177,6 +178,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   private Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
       preference -> {
+        trackPreferenceClick(preference);
         Bundle extras = new Bundle();
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
@@ -218,8 +220,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     return findPreference(prefKey.getKey());
   }
 
-  private boolean matches(Preference preference, PrefKey prefKey) {
-    return preference.getKey().equals(prefKey.getKey());
+  private boolean matches(@NonNull Preference preference, @NonNull PrefKey prefKey) {
+    return prefKey.getKey().equals(preference.getKey());
+  }
+
+  private void trackPreferenceClick(Preference preference) {
+    Bundle bundle = new Bundle();
+    bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.getKey());
+    activity().logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle);
+  }
+
+  private void setListenerRecursive(PreferenceGroup preferenceGroup, Preference.OnPreferenceClickListener listener) {
+    for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
+      final Preference preference = preferenceGroup.getPreference(i);
+      if (preference instanceof PreferenceCategory) {
+        setListenerRecursive(((PreferenceCategory) preference), listener);
+      } else {
+        preference.setOnPreferenceClickListener(listener);
+      }
+    }
   }
 
   @Override
@@ -227,20 +246,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     setPreferencesFromResource(R.xml.preferences, rootKey);
     Preference pref;
 
+    final PreferenceScreen preferenceScreen = getPreferenceScreen();
+    setListenerRecursive(preferenceScreen, UI_HOME_SCREEN_SHORTCUTS.getKey().equals(rootKey) ?
+        homeScreenShortcutPrefClickHandler : this);
+
     if (rootKey == null) {//ROOT screen
       findPreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
-      findPreference(SEND_FEEDBACK).setOnPreferenceClickListener(this);
-      findPreference(MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
 
       pref = findPreference(RESTORE);
       pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
-      pref.setOnPreferenceClickListener(this);
 
       pref = findPreference(RESTORE_LEGACY);
       pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
-      pref.setOnPreferenceClickListener(this);
-
-      findPreference(RATE).setOnPreferenceClickListener(this);
 
       pref = findPreference(CUSTOM_DECIMAL_FORMAT);
       pref.setOnPreferenceChangeListener(this);
@@ -248,7 +265,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         setDefaultNumberFormat(((EditTextPreference) pref));
       }
 
-      findPreference(APP_DIR).setOnPreferenceClickListener(this);
       setAppDirSummary();
 
       final PreferenceCategory categoryManage =
@@ -262,7 +278,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref = findPreference(IMPORT_CSV);
       pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
       pref.setTitle(getString(R.string.pref_import_title, "CSV"));
-      pref.setOnPreferenceClickListener(this);
 
       findPreference(MANAGE_SYNC_BACKENDS).setSummary(
           getString(R.string.pref_manage_sync_backends_summary,
@@ -305,8 +320,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref = findPreference(PERSONALIZED_AD_CONSENT);
       if (!adHandlerFactory.isRequestLocationInEeaOrUnknown() || adHandlerFactory.isAdDisabled()) {
         privacyCategory.removePreference(pref);
-      } else {
-        pref.setOnPreferenceClickListener(this);
       }
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
@@ -325,12 +338,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
-      findPreference(SHORTCUT_CREATE_TRANSACTION)
-          .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
-      findPreference(SHORTCUT_CREATE_TRANSFER)
-          .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
       pref = findPreference(SHORTCUT_CREATE_SPLIT);
-      pref.setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
       pref.setEnabled(licenceHandler.isContribEnabled());
       pref.setSummary(
           getString(R.string.pref_shortcut_summary) + " " +
@@ -346,11 +354,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
       Preference preference = findPreference(PROTECTION_DEVICE_LOCK_SCREEN);
       if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-        preference.setOnPreferenceClickListener(this);
         findPreference(PROTECTION_LEGACY)
             .setTitle(String.format("%s (%s)", getString(R.string.pref_protection_password_title), getString(R.string.feature_deprecated)));
       } else {
-        getPreferenceScreen().removePreference(preference);
+        preferenceScreen.removePreference(preference);
       }
     }
     //SHARE screen
@@ -400,7 +407,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
       if (!BuildConfig.DEBUG) {
-        getPreferenceScreen().removePreference(findPreference(DEBUG_ADS));
+        preferenceScreen.removePreference(findPreference(DEBUG_ADS));
       }
     }
   }
@@ -480,7 +487,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
           if (prefKey.equals(AUTO_BACKUP)) {
             if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
-              CommonCommands.showContribDialog(getActivity(), ContribFeature.AUTO_BACKUP, null);
+              activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
               if (ContribFeature.AUTO_BACKUP.usagesLeft() <= 0) {
                 buttonView.setChecked(false);
                 return;
@@ -530,12 +537,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE),
         licenceKeyPref = findPreference(NEW_LICENCE);
-    if (!licenceHandler.needsKeyEntry() ) {
+    if (!licenceHandler.needsKeyEntry()) {
       if (licenceKeyPref != null) {
         ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
       }
-    } else {
-      licenceKeyPref.setOnPreferenceClickListener(this);
     }
     String contribPurchaseTitle, contribPurchaseSummary;
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
@@ -564,7 +569,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       contribPurchaseSummary += getString(R.string.thank_you);
     }
-    contribPurchasePref.setOnPreferenceClickListener(this);
     contribPurchasePref.setSummary(contribPurchaseSummary);
     contribPurchasePref.setTitle(contribPurchaseTitle);
   }
@@ -641,9 +645,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   @Override
   public boolean onPreferenceClick(Preference preference) {
+    trackPreferenceClick(preference);
     if (matches(preference, CONTRIB_PURCHASE)) {
       if (licenceHandler.needsMigration()) {
-        CommonCommands.dispatchCommand(activity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
+        activity().dispatchCommand(R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
       } else if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistribHelper.isGithub()) {
@@ -668,12 +673,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     if (matches(preference, SEND_FEEDBACK)) {
-      CommonCommands.dispatchCommand(activity(), R.id.FEEDBACK_COMMAND, null);
+      activity().dispatchCommand(R.id.FEEDBACK_COMMAND, null);
       return true;
     }
     if (matches(preference, RATE)) {
       NEXT_REMINDER_RATE.putLong(-1);
-      CommonCommands.dispatchCommand(activity(), R.id.RATE_COMMAND, null);
+      activity().dispatchCommand(R.id.RATE_COMMAND, null);
       return true;
     }
     if (matches(preference, MORE_INFO_DIALOG)) {
@@ -710,7 +715,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (ContribFeature.CSV_IMPORT.hasAccess()) {
         activity().contribFeatureCalled(ContribFeature.CSV_IMPORT, null);
       } else {
-        CommonCommands.showContribDialog(getActivity(), ContribFeature.CSV_IMPORT, null);
+        activity().showContribDialog(ContribFeature.CSV_IMPORT, null);
       }
       return true;
     }
@@ -771,7 +776,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     startActivity(ContribInfoDialogActivity.getIntentFor(getContext(), selectedPackage, shouldReplaceExisting));
   }
 
-  protected void startLegacyFolderRequest(@NonNull  DocumentFile appDir) {
+  protected void startLegacyFolderRequest(@NonNull DocumentFile appDir) {
     Intent intent;
     intent = new Intent(getActivity(), FolderBrowser.class);
     intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
@@ -932,7 +937,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     return true;
   }
-  
+
   private MyPreferenceActivity activity() {
     return (MyPreferenceActivity) super.getActivity();
   }

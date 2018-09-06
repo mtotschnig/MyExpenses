@@ -47,6 +47,9 @@ public class ManageParties extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     if (command == R.id.CREATE_COMMAND) {
       SimpleInputDialog.build()
           .title(R.string.menu_create_party)
@@ -58,7 +61,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
           .show(this, DIALOG_NEW_PARTY);
       return true;
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   @Override

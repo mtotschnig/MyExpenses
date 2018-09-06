@@ -151,6 +151,9 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command, tag)) {
+      return true;
+    }
     switch (command) {
       case R.id.SYNC_LINK_COMMAND_LOCAL: {
         Bundle b = new Bundle();
@@ -161,7 +164,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
         b.putLong(KEY_PACKED_POSITION, (Long) tag);
         ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_LOCAL");
-        break;
+        return true;
       }
       case R.id.SYNC_LINK_COMMAND_REMOTE: {
         Bundle b = new Bundle();
@@ -172,13 +175,14 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
         b.putLong(KEY_PACKED_POSITION, (Long) tag);
         ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_REMOTE");
-        break;
+        return true;
       }
       case R.id.TRY_AGAIN_COMMAND: {
         sanityCheck();
+        return true;
       }
     }
-    return super.dispatchCommand(command, tag);
+    return false;
   }
 
   @Override

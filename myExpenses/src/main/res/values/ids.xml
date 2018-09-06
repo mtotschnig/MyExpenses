@@ -55,6 +55,7 @@
     <item name="SETTINGS_COMMAND" type="id"/>
     <item name="TEMPLATE_TITLE_DIALOG" type="id"/>
     <item name="WEB_COMMAND" type="id"/>
+    <item name="ROADMAP_RESULT_COMMAND" type="id"/>
     <item name="CREATE_INSTANCE_EDIT_COMMAND" type="id"/>
     <item name="CREATE_INSTANCE_SAVE_COMMAND" type="id"/>
     <item name="CREATE_PLAN_INSTANCE_EDIT_COMMAND" type="id"/>
@@ -123,6 +124,7 @@
     <item name="FILTER_TRANSFER_COMMAND" type="id"/>
     <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
     <item name="SYNC_COMMAND" type="id"/>
+    <item name="SYNC_SETTINGS_COMMAND" type="id"/>
     <item name="SYNC_DOWNLOAD_COMMAND" type="id"/>
     <item name="SYNC_LINK_COMMAND" type="id"/>
     <item name="SYNC_UNLINK_COMMAND" type="id"/>

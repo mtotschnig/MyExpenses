@@ -73,7 +73,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
   }
 
   private void showWebSite() {
-    CommonCommands.dispatchCommand(this, R.id.WEB_COMMAND, null);
+    dispatchCommand(R.id.WEB_COMMAND, null);
     finish();
   }
 

@@ -23,7 +23,7 @@
         app:showAsAction="never">
     </item>
     <item
-        android:id="@id/WEB_COMMAND"
+        android:id="@id/ROADMAP_RESULT_COMMAND"
         android:icon="@drawable/ic_web"
         android:title="@string/menu_result"
         app:showAsAction="never">
