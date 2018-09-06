@@ -746,4 +746,5 @@
   <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
   <string name="sort_order">Orden de clasificación</string>
   <string name="navigation_drawer_accounts_title">Administrar cuentas</string>
+  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
 </resources>

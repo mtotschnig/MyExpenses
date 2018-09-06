@@ -323,4 +323,5 @@
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
 </resources>

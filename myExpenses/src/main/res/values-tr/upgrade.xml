@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_292">
+    <item>Hesap listesi yeniden tasarlandı</item>
+    <item>Eşleşme sadece Wi-Fi ile sınırlanabilir</item>
+  </string-array>
   <string-array name="whats_new_291">
     <item>Muamele zamanı artık seçime dayalıdır</item>
     <item>Seçime dayalı olarak muamele tarihi ve değer tarihi arasında ayrım yapabilirsiniz</item>

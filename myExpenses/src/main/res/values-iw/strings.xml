@@ -765,4 +765,5 @@
   <string name="gdpr_consent_button_yes">כן, המשך לראות מודעות</string>
   <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
   <string name="sort_order">סדר המיון</string>
+  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
 </resources>

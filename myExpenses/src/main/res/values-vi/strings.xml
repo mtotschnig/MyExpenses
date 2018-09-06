@@ -724,4 +724,5 @@
   <string name="pref_ad_consent_title">Quảng cáo được tuỳ biến</string>
   <string name="gdpr_consent_button_yes">OK, sống chung với quảng cáo</string>
   <string name="gdpr_consent_button_no">Mua bản không quảng cáo</string>
+  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
 </resources>

@@ -18,6 +18,13 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_292">
+    <item>Riprogettazione dell\'elenco degli conti</item>
+    <item>La sincronizzazione può essere limitata al Wi-Fi</item>
+  </string-array>
+  <string-array name="whats_new_288">
+    <item>Grafico storico (flusso di cassa)</item>
+  </string-array>
   <string-array name="whats_new_287">
     <item>Protezione tramite blocco schermo</item>
   </string-array>

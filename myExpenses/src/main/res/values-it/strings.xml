@@ -749,4 +749,5 @@
   <string name="navigation_drawer_accounts_title">Gestione dei conti</string>
   <string name="pref_sync_wifi_only_summary">Sincronizza solo quando su Wi-Fi</string>
   <string name="wifi_not_connected">Il dispositivo non è connesso al Wi-Fi. La sincronizzazione è posticipata.</string>
+  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
 </resources>

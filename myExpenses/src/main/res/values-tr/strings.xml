@@ -620,6 +620,7 @@
   <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
   <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
   <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
+  <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
   <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
   <string name="currency_symbol">Para birimi sembolü</string>
   <string name="number_of_fraction_digits">Kesir basamakları sayısı</string>
@@ -745,4 +746,8 @@
   <string name="gdpr_consent_button_yes">Evet, reklam görmeye devam et</string>
   <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
   <string name="sort_order">Sıralama düzeni</string>
+  <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
+  <string name="pref_sync_wifi_only_summary">Sadece Wi-Fi üzerindeyken eşleştir</string>
+  <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
+  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
 </resources>
