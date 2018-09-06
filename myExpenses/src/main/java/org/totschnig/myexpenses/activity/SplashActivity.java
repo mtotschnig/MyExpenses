@@ -4,8 +4,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -14,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
@@ -81,23 +77,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
     } else {
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      pager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-    }
-  }
-
-  @Override
-  protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-
-    final Window window = getWindow();
-    int flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      flags |= WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
-      window.setStatusBarColor(Color.TRANSPARENT);
-    }
-    window.addFlags(flags);
   }
 
   @Override
