@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
@@ -121,7 +122,9 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
   private boolean onRestoreMenuItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.SetupFromLocal) {
-      getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
+      final Intent intent = new Intent(getActivity(), BackupRestoreActivity.class);
+      intent.setAction(BackupRestoreActivity.ACTION_RESTORE);
+      getActivity().startActivityForResult(intent, RESTORE_REQUEST);
     } else {
       SyncBackendSetupActivity hostActivity = (SyncBackendSetupActivity) getActivity();
       if (item.getItemId() == Menu.NONE) {
