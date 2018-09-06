@@ -147,7 +147,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     if (!backupPrefFile.exists()) {
       return Result.ofFailure(
           R.string.restore_backup_file_not_found,
-          BackupUtils.BACKUP_PREF_FILE_NAME);
+          BackupUtils.BACKUP_PREF_FILE_NAME, workingDir);
     }
 
     //peek into file to inspect version

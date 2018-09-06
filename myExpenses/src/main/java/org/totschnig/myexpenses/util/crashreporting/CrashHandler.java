@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -55,6 +56,7 @@ public abstract class CrashHandler {
       setupLoggingDo(context);
       putCustomData("Distribution", DistribHelper.getVersionInfo(context));
       putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+      putCustomData("Locale", Locale.getDefault().toString());
     }
   }
 
