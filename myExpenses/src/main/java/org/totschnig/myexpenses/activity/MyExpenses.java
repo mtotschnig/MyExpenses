@@ -111,6 +111,7 @@ import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import eltos.simpledialogfragment.list.MenuDialog;
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
@@ -184,7 +185,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   private long sequenceCount = 0;
   @BindView(R.id.left_drawer)
-  StickyListHeadersListView mDrawerList;
+  ExpandableStickyListHeadersListView mDrawerList;
   @Nullable @BindView(R.id.drawer_layout)
   DrawerLayout mDrawerLayout;
   @BindView(R.id.viewpager)
@@ -274,6 +275,21 @@ public class MyExpenses extends LaunchActivity implements
 
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
+    mDrawerList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
+      @Override
+      public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
+        if (mDrawerList.isHeaderCollapsed(headerId)) {
+          mDrawerList.expand(headerId);
+        } else {
+          mDrawerList.collapse(headerId);
+        }
+      }
+
+      @Override
+      public boolean onHeaderLongClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
+        return false;
+      }
+    });
     mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
       if (mAccountId != id) {
         moveToPosition(position);
