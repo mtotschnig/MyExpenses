@@ -9,7 +9,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 
 import org.totschnig.myexpenses.R;
@@ -19,6 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ExpansionPanel extends LinearLayout {
+
+  private static final int ROTATION_EXPANDED = 0;
+  private static final int ROTATION_COLLAPSED = 180;
+
   public interface Listener {
     void onExpansionStateChanged(boolean expanded);
   }
@@ -81,30 +84,36 @@ public class ExpansionPanel extends LinearLayout {
     View trigger = expansionTrigger != null ? expansionTrigger : headerIndicator;
     trigger.setOnClickListener(v -> {
       final boolean visible = expansionContent.getVisibility() == VISIBLE;
-      Animator animator = ObjectAnimator.ofFloat(headerIndicator, View.ROTATION, visible ? 180 : 0);
+      Animator animator = ObjectAnimator.ofFloat(headerIndicator, View.ROTATION, visible ? ROTATION_COLLAPSED : ROTATION_EXPANDED);
+      animator.addListener(new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+          updateIndicatorContentDescritpion();
+          if (listener != null) {
+            listener.onExpansionStateChanged(!visible);
+          }
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+      });
       animator.start();
       //if android:animateLayoutChanges is true we go with the default animation,
       //which works well, unless we are in a list view
       if (hasNoDefaultTransition()) {
         ExpandAnimation expandAni = new ExpandAnimation(expansionContent, 250);
-        expandAni.setAnimationListener(new Animation.AnimationListener() {
-          @Override
-          public void onAnimationStart(Animation animation) {
-
-          }
-
-          @Override
-          public void onAnimationEnd(Animation animation) {
-            if (listener != null) {
-              listener.onExpansionStateChanged(!visible);
-            }
-          }
-
-          @Override
-          public void onAnimationRepeat(Animation animation) {
-
-          }
-        });
         expansionContent.startAnimation(expandAni);
       } else {
         expansionContent.setVisibility(visible ? GONE : VISIBLE);
@@ -117,7 +126,14 @@ public class ExpansionPanel extends LinearLayout {
   }
 
   private void updateIndicator() {
-    headerIndicator.setRotation(expansionContent.getVisibility() == VISIBLE ? 0 : 180);
+    headerIndicator.setRotation(expansionContent.getVisibility() == VISIBLE ? ROTATION_EXPANDED : ROTATION_COLLAPSED);
+    updateIndicatorContentDescritpion();
+  }
+
+  private void updateIndicatorContentDescritpion() {
+    headerIndicator.setContentDescription(
+        getResources().getString(headerIndicator.getRotation() == ROTATION_EXPANDED ?
+            R.string.content_description_collapse : R.string.content_description_expand));
   }
 
   public void setContentVisibility(int visibility) {
