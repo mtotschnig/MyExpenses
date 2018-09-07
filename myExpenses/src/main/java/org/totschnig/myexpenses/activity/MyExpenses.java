@@ -155,7 +155,7 @@ public class MyExpenses extends LaunchActivity implements
 
   private LoaderManager mManager;
 
-  int mCurrentPosition = -1;
+  private int mCurrentPosition = -1;
   private Cursor mAccountsCursor;
 
   private MyViewPagerAdapter mViewPagerAdapter;
@@ -166,7 +166,6 @@ public class MyExpenses extends LaunchActivity implements
   private AdHandler adHandler;
   private Toolbar mToolbar;
   private String mCurrentBalance;
-  private SubMenu sortMenu;
 
   public enum HelpVariant {
     crStatus
