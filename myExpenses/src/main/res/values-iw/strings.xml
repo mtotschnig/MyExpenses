@@ -771,4 +771,8 @@
   <string name="wifi_not_connected">המכשיר אינו מחובר לרשת אלחוטית, הסנכרון הושהה</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">תרגום</string>
+  <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">צמצם</string>
+  <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">הרחב</string>
 </resources>
