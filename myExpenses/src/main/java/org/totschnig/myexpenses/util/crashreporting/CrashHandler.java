@@ -17,6 +17,7 @@ import timber.log.Timber;
 public abstract class CrashHandler {
   private static final String CUSTOM_DATA_KEY_BREADCRUMB = "Breadcrumb";
   private String currentBreadCrumb;
+  private boolean enabled;
 
   public static void reportWithDbSchema(Exception e) {
     report(e, DbUtils.getSchemaDetails());
@@ -52,7 +53,8 @@ public abstract class CrashHandler {
   public abstract void onAttachBaseContext(MyApplication application);
 
   public void setupLogging(Context context) {
-    if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
+    enabled = PrefKey.CRASHREPORT_ENABLED.getBoolean(true);
+    if (enabled) {
       setupLoggingDo(context);
       putCustomData("Distribution", DistribHelper.getVersionInfo(context));
       putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
@@ -66,7 +68,7 @@ public abstract class CrashHandler {
 
   public synchronized void addBreadcrumb(String breadcrumb) {
     Timber.i("Breadcrumb: %s", breadcrumb);
-    if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
+    if (enabled) {
       currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
       currentBreadCrumb += "->" + breadcrumb;
       putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, currentBreadCrumb);
@@ -91,6 +93,8 @@ public abstract class CrashHandler {
   };
 
   public void setLicenceStatus(@NonNull LicenceStatus licenceStatus) {
-    putCustomData("Licence", licenceStatus.name());
+    if (enabled) {
+      putCustomData("Licence", licenceStatus.name());
+    }
   }
 }
