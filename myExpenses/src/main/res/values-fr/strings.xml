@@ -620,6 +620,7 @@
   <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
   <string name="auto_backup_cloud_create_backend">Créer un paramètre de synchronisation à partir de l\'écran principal des réglages.</string>
   <string name="auto_backup_cloud_failure">Une erreur est survenue lors de la tentative de stocker le fichier de sauvegarde %1$s sur le backend %2$s:</string>
+  <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
   <string name="home_screen_shortcuts_nougate_info">Les raccourcis peuvent être ajoutés en appuyant longuement sur l\'icône de l\'application sur l\'écran d\'accueil.</string>
   <string name="currency_symbol">Symbole de devise</string>
   <string name="number_of_fraction_digits">Nombre de décimales</string>
@@ -746,5 +747,12 @@
   <string name="gdpr_consent_button_no">Payer pour la version sans publicité</string>
   <string name="sort_order">Ordre de tri</string>
   <string name="navigation_drawer_accounts_title">Gestion des comptes</string>
+  <string name="pref_sync_wifi_only_summary">Synchroniser uniquement sur Wi-Fi</string>
+  <string name="wifi_not_connected">L\'appareil n\'est pas connecté au Wi-Fi. La synchronisation est reportée.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Traduction</string>
+  <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Réduire</string>
+  <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Développer</string>
 </resources>

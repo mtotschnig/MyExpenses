@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_292">
+    <item>Refonte de la liste des comptes</item>
+    <item>La synchronisation peut être limitée au Wi-Fi</item>
+  </string-array>
   <string-array name="whats_new_291">
     <item>L\'heure de l\'opération est maintenant optionnelle</item>
     <item>Possibilité de distinguer entre la date d\'enregistrement et la date de valeur</item>

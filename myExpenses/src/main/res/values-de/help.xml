@@ -127,6 +127,7 @@
   <string name="help_NavigationDrawer_info">Die Kontenliste ermöglicht einfaches Navigieren zwischen Konten durch Klicken auf einen Eintrag.</string>
   <string name="menu_create_account_help_text">Erstellen Sie ein neues Konto. Die kostenlose Version ist auf fünf Konten beschränkt.</string>
   <string name="menu_NavigationDrawer_sort_help_text">Die Kontenliste kann nach Titel (alphabetisch) sortiert werden, nach der Häufigkeit der Verwendung oder nach dem Zeitpunkt,  an dem zuletzt eine Buchung erstellt wurde.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">Wenn Sie auf \"Benutzerdefiniert\" klicken, können Sie die Position jedes Kontos frei konfigurieren.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Der Kontenliste kann nach Kontentyp oder nach Währung gruppiert oder nicht gruppiert angezeigt werden.</string>
   <string name="form_instant_plan_help_text">Hier können Sie einstellen, dass die Buchung sich täglich, wöchentlich, monatlich oder jährlich Basis wiederholt. Im Bereich \"Vorlagen und Pläne\" können Sie den sich daraus ergebenden Plan begutachten und erweiterte Optionen konfigurieren. Wenn eine Buchung bereits mit einem Plan verknüpft ist, kann die Art der Wiederholung nicht mehr verändert werden, aber Sie können eine Kalenderansicht mit allen wiederkehrenden Terminen öffnen.</string>
   <!--SyncBackends-->

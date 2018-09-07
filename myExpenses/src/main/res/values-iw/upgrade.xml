@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_292">
+    <item>עצוב מחדש של רשימת החשבונות</item>
+    <item>סנכרון יכול להיות מוגבל לרשת Wi-Fi</item>
+  </string-array>
   <string-array name="whats_new_291">
     <item>זמן העסקה אופציונלי כעת</item>
     <item>לחלופין, הבחן בין תאריך ההזמנה לבין תאריך הערך</item>

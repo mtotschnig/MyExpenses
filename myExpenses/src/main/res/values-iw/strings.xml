@@ -636,6 +636,7 @@
   <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
   <string name="auto_backup_cloud_create_backend">יצירת backend סינכרון ממסך ההגדרות הראשי.</string>
   <string name="auto_backup_cloud_failure">אירעה שגיאה בעת ניסיון לאחסן קובץ גיבוי %1$s על backend %2$s:</string>
+  <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
   <string name="home_screen_shortcuts_nougate_info">קיצורי דרך ניתן להוסיף על ידי הקשה ארוכה על סמל היישום במסך הבית.</string>
   <string name="currency_symbol">סמל המטבע</string>
   <string name="number_of_fraction_digits">מספר ספרות עשרוניות</string>
@@ -765,5 +766,9 @@
   <string name="gdpr_consent_button_yes">כן, המשך לראות מודעות</string>
   <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
   <string name="sort_order">סדר המיון</string>
+  <string name="navigation_drawer_accounts_title">נהל חשבונות</string>
+  <string name="pref_sync_wifi_only_summary">סנכרן רק באמצעות  Wi-Fi</string>
+  <string name="wifi_not_connected">המכשיר אינו מחובר לרשת אלחוטית, הסנכרון הושהה</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">תרגום</string>
 </resources>

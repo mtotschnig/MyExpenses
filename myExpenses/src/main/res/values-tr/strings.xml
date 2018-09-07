@@ -750,4 +750,5 @@
   <string name="pref_sync_wifi_only_summary">Sadece Wi-Fi üzerindeyken eşleştir</string>
   <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Tercüme</string>
 </resources>

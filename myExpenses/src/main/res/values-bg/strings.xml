@@ -620,6 +620,7 @@
   <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и на отдалечено място.</string>
   <string name="auto_backup_cloud_create_backend">Задаване на отдалечено място за съхранение от основния екран на менюто Настройки</string>
   <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на архивен файл %1$s на отдалеченото място %2$s:</string>
+  <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
   <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
   <string name="currency_symbol">Знак за валута</string>
   <string name="number_of_fraction_digits">Брой дробни символи (цифри след десетичния знак)</string>
@@ -745,5 +746,9 @@
   <string name="gdpr_consent_button_yes">Да, продължавам да гледам реклами</string>
   <string name="gdpr_consent_button_no">Плащам за версия без реклама</string>
   <string name="sort_order">Подреди по</string>
+  <string name="navigation_drawer_accounts_title">Управление на сметки</string>
+  <string name="pref_sync_wifi_only_summary">Синхронизиране само при Wi-Fi</string>
+  <string name="wifi_not_connected">Устройството не е свързано към Wi-Fi. Синхронизирането се отлага.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Превод</string>
 </resources>

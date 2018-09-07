@@ -504,4 +504,6 @@
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <!--Content description for accessibility on image that allows to collapse content-->
+  <!--Content description for accessibility on image that allows to expand content-->
 </resources>

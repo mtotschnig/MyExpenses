@@ -620,6 +620,7 @@
   <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
   <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
   <string name="auto_backup_cloud_failure">Beim Versuch, Backup-Datei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
+  <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
   <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
   <string name="currency_symbol">Währungssymbol</string>
   <string name="number_of_fraction_digits">Nachkommastellen</string>
@@ -744,6 +745,14 @@
   <string name="gdpr_consent_message">Wir arbeiten mit {ad_provider} zusammen, um den Support, die Wartung und die Entwicklung von {app_name} durch das Anzeigen von Werbung zu unterstützen. Wir möchten um Ihre Zustimmung bitten. Wenn Sie keine Anzeigen sehen möchten, zahlen Sie bitte für die werbefreie Version.</string>
   <string name="gdpr_consent_button_yes">Ja, weiterhin Werbung anzeigen</string>
   <string name="gdpr_consent_button_no">Für die werbefreie Version bezahlen</string>
+  <string name="sort_order">Sortierreihenfolge</string>
   <string name="navigation_drawer_accounts_title">Konten verwalten</string>
+  <string name="pref_sync_wifi_only_summary">Synchronisierung nur bei WLAN</string>
+  <string name="wifi_not_connected">Gerät ist nicht mit WLAN verbunden. Die Synchronisation wird verschoben.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Übersetzung</string>
+  <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Zuklappen</string>
+  <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Aufklappen</string>
 </resources>
