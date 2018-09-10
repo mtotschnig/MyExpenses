@@ -60,7 +60,7 @@
   <string name="dialog_confirm_discard_new_transaction">Huỷ bỏ giao dịch mới?</string>
   <string name="dialog_confirm_discard_new_template">Huỷ bỏ bản mẫu mới?</string>
   <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
-  <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức chi trả mới?</string>
+  <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức thanh toán mới?</string>
   <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thanh toán để khớp.</string>
   <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
@@ -154,7 +154,7 @@
   <string name="menu_create_instance_edit">Áp dụng và sửa</string>
   <string name="menu_create_instance_save">Áp dụng và lưu</string>
   <string name="menu_create_main_cat">Phân loại chính mới</string>
-  <string name="menu_create_method">Phương pháp chi trả mới</string>
+  <string name="menu_create_method">Phương pháp thanh toán mới</string>
   <string name="menu_create_party">Bên mới</string>
   <string name="menu_create_split">Phân tách mới</string>
   <string name="menu_create_split_part_category">Phần loại của phân tách mới</string>
@@ -171,7 +171,7 @@
   <string name="menu_edit">Chỉnh sửa</string>
   <string name="menu_edit_account">Chỉnh sửa tài khoản</string>
   <string name="menu_edit_cat">Chỉnh sửa phân loại</string>
-  <string name="menu_edit_method">Chỉnh sửa phương thức chi trả</string>
+  <string name="menu_edit_method">Chỉnh sửa phương thức thanh toán</string>
   <string name="menu_edit_party">Chỉnh sửa bên</string>
   <string name="menu_edit_plan_instance">Chỉnh sửa sự xuất hiện của kế hoạch một lần</string>
   <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
@@ -213,7 +213,7 @@
   <string name="no_filemanager_installed">Không có trình quản lý tập tin nào được cài đặt</string>
   <string name="no_calendar_app_installed">Không có ứng dụng để chỉnh sửa sự kiện trong lịch.</string>
   <string name="no_mapped_transactions">Không có giao dịch nào được cho vào phần phân loại trong suốt giai đoạn này.</string>
-  <string name="no_methods">Không có phương thức chi trả.</string>
+  <string name="no_methods">Không có phương thức thanh toán nào.</string>
   <string name="no_parties">Không có bên giao dịch nào</string>
   <string name="no_split_parts">Không có phần nào được tách</string>
   <string name="no_templates">Không có mẫu nào</string>
@@ -294,8 +294,8 @@
   <string name="pref_manage_accounts_title">Tài khoản</string>
   <string name="pref_manage_categories_summary">Thêm, chỉnh sửa, xóa phân loại.</string>
   <string name="pref_manage_categories_title">Phân loại</string>
-  <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức chi trả và gắn phương thức này với các loại tài khoản.</string>
-  <string name="pref_manage_methods_title">Phương thức chi trả</string>
+  <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức thanh toán và gắn phương thức này với các loại tài khoản.</string>
+  <string name="pref_manage_methods_title">Phương thức thanh toán</string>
   <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các hội (người trả và người nhận tiền).</string>
   <string name="pref_manage_parties_title">Bên</string>
   <string name="pref_manage_sync_backends_title">Phụ trợ đồng bộ</string>
