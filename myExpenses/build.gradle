@@ -255,6 +255,8 @@ def getDate() {
 }
 
 spoon {
+    //Ignore annotation must be removed from class TestMain
+    //otherwise Runner will fail resolving the test
     className = "org.totschnig.myexpenses.test.screenshots.TestMain"
     methodName = "testLang_en"
     grantAll = true
