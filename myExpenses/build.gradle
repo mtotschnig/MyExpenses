@@ -2,7 +2,8 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        // For Spoon snapshot, until 2.0.0 is released
     }
     dependencies {
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
@@ -12,7 +13,8 @@ buildscript {
 }
 
 repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    // For Spoon snapshot, until 2.0.0 is released
 }
 
 apply plugin: 'com.android.application'
@@ -30,7 +32,7 @@ def getPropertyIfDefined(property) {
 
 def getPropertyIfDefined(property, defaultValue) {
     if (project.hasProperty(property)) {
-        return project.ext.properties[property]
+        return project.properties[property]
     }
     return defaultValue
 }
@@ -90,6 +92,10 @@ android {
             applicationIdSuffix ".fortest"
             manifestPlaceholders = [appName: "My Expenses Test", debug: "true"]
             matchingFallbacks = ['debug']
+            buildConfigField "String", "TEST_LANG", quote(getPropertyIfDefined("testLang", "en"))
+            buildConfigField "String", "TEST_COUNTRY", quote(getPropertyIfDefined("testCountry", "US"))
+            buildConfigField "String", "TEST_CURRENCY", quote(getPropertyIfDefined("testCurrency", "USD"))
+            buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
         }
     }
 
@@ -129,7 +135,7 @@ android {
     testBuildType "forTest"
 
     variantFilter { variant ->
-        if(project.hasProperty("buildType") && !variant.buildType.name.equals(project.ext.buildType)) {
+        if (project.hasProperty("buildType") && !variant.buildType.name.equals(project.ext.buildType)) {
             setIgnore(true)
         }
     }
@@ -148,7 +154,7 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
                        'com.android.support:design:' + project.androidSupportLibraryVersion,
                        'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion,
                        'com.android.support:preference-v14:' + project.androidSupportLibraryVersion,
-                        //make GradleCompatible lint check happy
+                       //make GradleCompatible lint check happy
                        'com.android.support:exifinterface:' + project.androidSupportLibraryVersion]
 
 dependencies {
@@ -258,7 +264,7 @@ spoon {
     //Ignore annotation must be removed from class TestMain
     //otherwise Runner will fail resolving the test
     className = "org.totschnig.myexpenses.test.screenshots.TestMain"
-    methodName = "testLang_en"
+    methodName = "mkScreenShots"
     grantAll = true
 }
 
@@ -267,10 +273,3 @@ task copyFileForFixture(type: com.novoda.gradle.command.Files) {
         push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
     }
 }
-task generateScreenshots(type: GradleBuild) {
-    tasks = ['copyFileForFixture', 'spoon']
-}
-
-
-
-

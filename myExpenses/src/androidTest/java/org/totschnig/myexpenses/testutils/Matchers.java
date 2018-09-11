@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -80,6 +81,28 @@ public class Matchers {
           }
         }
         return false;
+      }
+    };
+  }
+
+  public static <T> Matcher<T> first(final Matcher<T> matcher) {
+    return new BaseMatcher<T>() {
+      boolean isFirst = true;
+
+      @Override
+      public boolean matches(final Object item) {
+        if (isFirst && matcher.matches(item)) {
+          isFirst = false;
+          return true;
+        }
+
+        return false;
+      }
+
+      @Override
+      public void describeTo(final Description description) {
+        description.appendText("should return first matching item, but none was found: ");
+        matcher.describeTo(description);
       }
     };
   }

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.testutils;
 
+import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.rule.ActivityTestRule;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import org.hamcrest.Matcher;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -63,6 +65,15 @@ public abstract class BaseUiTest {
         isAssignableFrom(AdapterView.class),
         isDescendantOfA(withId(R.id.list)),
         isDisplayed());
+  }
+
+  /**
+   * @param legacyString String used on Gingerbread where context actions are rendered in a context menu
+   * @param cabId        id of menu item rendered in CAB on Honeycomb and higher
+   */
+  protected void performContextMenuClick(int legacyString, int cabId) {
+    onView(Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ? withId(cabId) : withText(legacyString))
+        .perform(click());
   }
 
   protected abstract ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule();

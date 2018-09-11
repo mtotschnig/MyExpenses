@@ -64,6 +64,7 @@ public class Fixture {
         testContext.getString(R.string.testData_account1Label),
         90000,
         testContext.getString(R.string.testData_account1Description));
+    account1.setGrouping(Grouping.WEEK);
     account1.save();
 
    account2 = new Account(
@@ -104,25 +105,26 @@ public class Fixture {
 
     for (int i = 0; i < 15; i++) {
       //Transaction 1
-      Transaction op1 = new TransactionBuilder()
+      final File file = new File(appContext.getExternalFilesDir(null), "screenshot.jpg");
+      Transaction op1 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(12000))
           .catId(R.string.testData_transaction1SubCat, mainCat1)
           .date(offset - 300000)
-          .pictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")))
+          .pictureUri(Uri.fromFile(file))
           .persist();
 
       //Transaction 2
-      Transaction op2 = new TransactionBuilder()
+      Transaction op2 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(2200L))
-          .catId(R.string.testData_transaction1SubCat, mainCat1)
+          .catId(R.string.testData_transaction2SubCat, mainCat2)
           .date(offset - 7200000)
           .comment(testContext.getString(R.string.testData_transaction2Comment))
           .persist();
 
       //Transaction 3 Cleared
-      Transaction op3 = new TransactionBuilder()
+      Transaction op3 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(2500L))
           .catId(R.string.testData_transaction3SubCat, mainCat3)
@@ -131,7 +133,7 @@ public class Fixture {
           .persist();
 
       //Transaction 4 Cleared
-      Transaction op4 = new TransactionBuilder()
+      Transaction op4 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(5000L))
           .catId(R.string.testData_transaction4SubCat, mainCat2)
@@ -141,7 +143,7 @@ public class Fixture {
           .persist();
 
       //Transaction 5 Reconciled
-      Transaction op5 = new TransactionBuilder()
+      Transaction op5 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(10000L))
           .date(offset - 100390000)
@@ -149,7 +151,7 @@ public class Fixture {
           .persist();
 
       //Transaction 6 Gift Reconciled
-      Transaction op6 = new TransactionBuilder()
+      Transaction op6 = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -10000L)
           .catId(mainCat6)
@@ -158,7 +160,7 @@ public class Fixture {
           .persist();
 
       //Salary
-      Transaction op8 = new TransactionBuilder()
+      Transaction op8 = new TransactionBuilder(testContext)
           .accountId(account3.getId())
           .amount(defaultCurrency, 200000)
           .date(offset)
@@ -174,7 +176,7 @@ public class Fixture {
     }
 
     //Second account foreign Currency
-    new TransactionBuilder()
+    new TransactionBuilder(testContext)
         .accountId(account2.getId())
         .amount(foreignCurrency, -random(34567))
         .date(offset - 303900000)
@@ -185,13 +187,13 @@ public class Fixture {
     split.setAmount(new Money(defaultCurrency, -8967L));
     split.save();
 
-    new TransactionBuilder()
+    new TransactionBuilder(testContext)
         .accountId(account1.getId()).parentId(split.getId())
         .amount(defaultCurrency, -4523L)
         .catId(mainCat2)
         .persist();
 
-    new TransactionBuilder()
+    new TransactionBuilder(testContext)
         .accountId(account1.getId()).parentId(split.getId())
         .amount(defaultCurrency, -4444L)
         .catId(mainCat6)
@@ -251,7 +253,8 @@ public class Fixture {
     return ThreadLocalRandom.current().nextLong(n);
   }
 
-  private class TransactionBuilder {
+  private static class TransactionBuilder {
+    private Context context;
     private long accountId;
     private Long parentId;
     private Money amount;
@@ -261,6 +264,10 @@ public class Fixture {
     private Uri pictureUri;
     private String comment;
     private String payee;
+
+    private TransactionBuilder(Context context) {
+      this.context = context;
+    }
 
 
     private TransactionBuilder accountId(long accountId) {
@@ -279,7 +286,7 @@ public class Fixture {
     }
 
     private TransactionBuilder catId(int resId, Long parentId) {
-      this.catId = findCat(testContext.getString(resId), parentId);
+      this.catId = findCat(context.getString(resId), parentId);
       return this;
     }
 
@@ -299,12 +306,12 @@ public class Fixture {
     }
 
     private TransactionBuilder pictureUri(Uri uri) {
-      this.pictureUri = pictureUri;
+      this.pictureUri = uri;
       return this;
     }
 
     private TransactionBuilder payee(int resId) {
-      this.payee = testContext.getString(resId);
+      this.payee = context.getString(resId);
       return this;
     }
 

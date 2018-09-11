@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.RemoteException;
 import android.support.test.filters.FlakyTest;
 import android.support.test.rule.ActivityTestRule;
@@ -23,7 +22,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
 
@@ -184,16 +182,6 @@ public final class MyExpensesCabTest extends BaseUiTest {
             isDescendantOfA(withId(R.id.list)),
             isDisplayed())).check(matches(isDisplayed()));*/
   }
-
-  /**
-   * @param legacyString String used on Gingerbread where context actions are rendered in a context menu
-   * @param cabId        id of menu item rendered in CAB on Honeycomb and higher
-   */
-  private void performContextMenuClick(int legacyString, int cabId) {
-    onView(Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ? withId(cabId) : withText(legacyString))
-        .perform(click());
-  }
-
 
   @Override
   protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
