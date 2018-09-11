@@ -1391,7 +1391,9 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   protected void cleanup() {
-    mTransaction.cleanupCanceledEdit();
+    if (mTransaction != null) {
+      mTransaction.cleanupCanceledEdit();
+    }
   }
 
   /**
