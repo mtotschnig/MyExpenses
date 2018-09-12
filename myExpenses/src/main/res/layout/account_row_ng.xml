@@ -17,7 +17,6 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/colorAccount"
             android:layout_width="@dimen/account_color_indicator_diameter"
             android:layout_height="@dimen/account_color_indicator_diameter"
