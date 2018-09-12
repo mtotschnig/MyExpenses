@@ -160,8 +160,6 @@ public class AccountEdit extends AmountActivity implements
     configureSyncBackendAdapter();
     linkInputsWithLabels();
     populateFields();
-    criterion.setTypeChangedListener(type -> updateCriterionLabel());
-    criterion.addTextChangedListener(this);
   }
 
   @Override
@@ -229,6 +227,11 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
     setExchangeRateVisibility(currencyCode);
+    final Money criterion = mAccount.getCriterion();
+    if (criterion != null) {
+      this.criterion.setAmount(criterion.getAmountMajor());
+      updateCriterionLabel();
+    }
   }
 
   private void setExchangeRateVisibility(String currencyCode) {
@@ -417,6 +420,8 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
     mSyncSpinner.setOnItemSelectedListener(this);
+    criterion.setTypeChangedListener(type -> updateCriterionLabel());
+    criterion.addTextChangedListener(this);
   }
 
   @Override
@@ -428,6 +433,7 @@ public class AccountEdit extends AmountActivity implements
     linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
     linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
     linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
+    linkInputWithLabel(criterion, criterionLabel);
   }
 
   public void syncUnlink(View view) {

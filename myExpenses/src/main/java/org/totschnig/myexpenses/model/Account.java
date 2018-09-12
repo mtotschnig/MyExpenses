@@ -958,4 +958,8 @@ public class Account extends Model {
       this.criterion = new Money(currency, criterion);
     }
   }
+
+  public Money getCriterion() {
+    return criterion;
+  }
 }

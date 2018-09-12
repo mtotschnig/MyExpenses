@@ -105,4 +105,10 @@ public class AmountInput extends LinearLayout {
       }
     });
   }
+
+  @Override
+  public void setOnFocusChangeListener(OnFocusChangeListener l) {
+    amountEditText.setOnFocusChangeListener(l);
+    typeButton.setOnFocusChangeListener(l);
+  }
 }

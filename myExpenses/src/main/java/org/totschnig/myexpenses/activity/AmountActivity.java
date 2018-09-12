@@ -77,7 +77,10 @@ public abstract class AmountActivity extends EditActivity {
 
   protected void onTypeChanged(boolean isChecked) {
     setDirty();
+    configureType();
   }
+
+  protected void configureType() {}
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
     return amountInput.getTypedValue(true, showToUser);
