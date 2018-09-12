@@ -50,4 +50,6 @@
     <dimen name="vertical_padding_paragraph">8dp</dimen>
     <dimen name="drawer_padding">16dp</dimen>
     <dimen tools:override="true" name="design_navigation_separator_vertical_padding">0dp</dimen>
+
+    <dimen name="account_color_indicator_diameter">28dp</dimen>
 </resources>

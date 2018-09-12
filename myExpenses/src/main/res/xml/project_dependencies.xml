@@ -166,4 +166,9 @@
         <url>http://square.github.io/retrofit/</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>CircleProgress</name>
+        <url>https://github.com/lzyzsd/CircleProgress/</url>
+        <licence>Do What the Fuck You Want To Public License, Version 2</licence>
+    </project>
 </credits>
