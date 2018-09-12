@@ -11,22 +11,20 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.math.BigDecimal;
@@ -36,12 +34,6 @@ import butterknife.BindView;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
-  public static final boolean INCOME = true;
-  public static final boolean EXPENSE = false;
-  //stores if we deal with an EXPENSE or an INCOME
-  protected boolean mType = EXPENSE;
-  @BindView(R.id.TaType)
-  protected CompoundButton mTypeButton;
   @BindView(R.id.AmountLabel)
   protected TextView mAmountLabel;
   @BindView(R.id.AmountRow)
@@ -49,38 +41,46 @@ public abstract class AmountActivity extends EditActivity {
   @BindView(R.id.ExchangeRateRow)
   ViewGroup exchangeRateRow;
   @BindView(R.id.Amount)
-  protected AmountEditText mAmountText;
+  AmountInput amountInput;
   @BindView(R.id.ExchangeRate)
   ExchangeRateEdit mExchangeRateEdit;
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
-      Intent intent) {
+                                  Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
-        AmountEditText input = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID,0));
+        View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
+        AmountEditText input;
+        if (target instanceof AmountEditText) {
+          input = (AmountEditText) target;
+        } else if (target instanceof AmountInput) {
+          input = ((AmountInput) target).getAmountEditText();
+        } else {
+          throw new IllegalStateException("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
+        }
         input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
         input.setError(null);
-      } catch (Exception  e) {
+      } catch (Exception e) {
         CrashHandler.report(e);
       }
     }
   }
-  protected void onTypeChanged(boolean isChecked) {
-    mType = isChecked;
-    setDirty();
-    configureType();
+
+  /**
+   * @return true for income, false for expense
+   */
+  protected boolean isIncome() {
+    return amountInput.getType();
   }
 
-  protected void configureType() {
-    mTypeButton.setChecked(mType);
-    mTypeButton.setContentDescription(getString(
-        mType ? R.string.pm_type_credit : R.string.pm_type_debit));
+  protected void onTypeChanged(boolean isChecked) {
+    setDirty();
   }
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
-    return validateAmountInput(mAmountText, showToUser);
+    return amountInput.getTypedValue(true, showToUser);
   }
 
   protected BigDecimal validateAmountInput(AmountEditText input, boolean showToUser) {
@@ -89,23 +89,26 @@ public abstract class AmountActivity extends EditActivity {
 
   public void showCalculator(View view) {
     ViewGroup row = (ViewGroup) view.getParent();
-    for (int itemPos = 0; itemPos < row.getChildCount(); itemPos++) {
-      View input = row.getChildAt(itemPos);
-      if (input instanceof AmountEditText) {
-        showCalculatorInternal((AmountEditText) input);
-        break;
+    if (row instanceof AmountInput) {
+      showCalculatorInternal(((AmountInput) row).validate(false), row.getId());
+    } else {
+      for (int itemPos = 0; itemPos < row.getChildCount(); itemPos++) {
+        View input = row.getChildAt(itemPos);
+        if (input instanceof AmountEditText) {
+          showCalculatorInternal(((AmountEditText) input).validate(false), input.getId());
+          break;
+        }
       }
     }
   }
 
-  protected void showCalculatorInternal(@NonNull AmountEditText input) {
-    Intent intent = new Intent(this,CalculatorInput.class);
+  private void showCalculatorInternal(BigDecimal amount, int id) {
+    Intent intent = new Intent(this, CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
-    BigDecimal amount = validateAmountInput(input, false);
-    if (amount!=null) {
-      intent.putExtra(KEY_AMOUNT,amount);
+    if (amount != null) {
+      intent.putExtra(KEY_AMOUNT, amount);
     }
-    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, input.getId());
+    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id);
     startActivityForResult(intent, CALCULATOR_REQUEST);
   }
 
@@ -114,24 +117,13 @@ public abstract class AmountActivity extends EditActivity {
         getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
   }
 
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putBoolean("type", mType);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    mType = savedInstanceState.getBoolean("type");
-    configureType();
-  }
   protected void setupListeners() {
-    mAmountText.addTextChangedListener(this);
-    mTypeButton.setOnCheckedChangeListener((buttonView, isChecked) -> onTypeChanged(isChecked));
+    amountInput.addTextChangedListener(this);
+    amountInput.setTypeChangedListener(this::onTypeChanged);
   }
+
   protected void linkInputsWithLabels() {
-    linkInputWithLabel(mAmountText, mAmountLabel);
-    linkInputWithLabel(mTypeButton, mAmountLabel);
+    linkInputWithLabel(amountInput, mAmountLabel);
     linkInputWithLabel(amountRow.findViewById(R.id.Calculator), mAmountLabel);
     final View exchangeRateLabel = findViewById(R.id.ExchangeRateLabel);
     linkInputWithLabel(mExchangeRateEdit, exchangeRateLabel);

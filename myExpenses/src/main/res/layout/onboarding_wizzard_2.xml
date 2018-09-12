@@ -46,8 +46,8 @@
                     android:labelFor="@+id/Amount"
                     android:text="@string/opening_balance"/>
 
-                <include
-                    layout="@layout/amount_input"
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Amount"
                     android:layout_marginLeft="-4dp"
                     android:layout_marginStart="-4dp"
                     android:layout_width="match_parent"

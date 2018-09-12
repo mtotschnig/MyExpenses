@@ -311,7 +311,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
     tableView.setVisibility(View.VISIBLE);
     int title;
-    boolean type = mTransaction.getAmount().getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
+    boolean isIncome = mTransaction.getAmount().getAmountMinor() > 0;
 
     if (mTransaction instanceof SplitTransaction) {
       splitContainer.setVisibility(View.VISIBLE);
@@ -344,7 +344,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         accountLabelView.setText(R.string.transfer_from_account);
         categoryLabelView.setText(R.string.transfer_to_account);
       } else {
-        title = type ? R.string.income : R.string.expense;
+        title = isIncome ? R.string.income : R.string.expense;
       }
     }
 
@@ -352,14 +352,14 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     final Account account = Account.getInstanceFromDb(mTransaction.getAccountId());
     String accountLabel = account.getLabel();
     if (mTransaction instanceof Transfer) {
-      accountView.setText(type ? mTransaction.getLabel() : accountLabel);
-      categoryView.setText(type ? accountLabel : mTransaction.getLabel());
+      accountView.setText(isIncome ? mTransaction.getLabel() : accountLabel);
+      categoryView.setText(isIncome ? accountLabel : mTransaction.getLabel());
       if (((Transfer) mTransaction).isSameCurrency()) {
         amountText = formatCurrencyAbs(mTransaction.getAmount());
       } else {
         String self = formatCurrencyAbs(mTransaction.getAmount());
         String other = formatCurrencyAbs(mTransaction.getTransferAmount());
-        amountText = type == ExpenseEdit.EXPENSE ? (self + " => " + other) : (other + " => " + self);
+        amountText = isIncome ? (other + " => " + self) : (self + " => " + other);
       }
     } else {
       accountView.setText(accountLabel);
@@ -420,7 +420,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
     if (!mTransaction.getPayee().equals("")) {
       payeeView.setText(mTransaction.getPayee());
-      payeeLabelView.setText(type ? R.string.payer : R.string.payee);
+      payeeLabelView.setText(isIncome ? R.string.payer : R.string.payee);
     } else {
       payeeRow.setVisibility(View.GONE);
     }

@@ -123,9 +123,9 @@
                     style="@style/FormLabel"
                     android:labelFor="@id/Amount"/>
 
-                <include
-                    style="@style/FormField"
-                    layout="@layout/amount_input"/>
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Amount"
+                    style="@style/FormField"/>
             </TableRow>
 
             <include layout="@layout/exchange_rate_row"/>

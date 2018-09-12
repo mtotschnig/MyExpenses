@@ -91,7 +91,6 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-import static org.totschnig.myexpenses.activity.AmountActivity.EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -159,7 +158,7 @@ public class CategoryList extends SortableListFragment implements
   private Account mAccount;
   private Cursor mGroupCursor;
 
-  protected boolean mType = EXPENSE;
+  protected boolean isIncome = false;
   private ArrayList<Integer> mMainColors, mSubColors;
   private int lastExpandedPosition = -1;
 
@@ -721,7 +720,7 @@ public class CategoryList extends SortableListFragment implements
       catFilter = "FROM " + table +
           " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND " + KEY_ACCOUNTID + accountSelection));
       if (!aggregateTypes) {
-        catFilter += " AND " + KEY_AMOUNT + (mType == EXPENSE ? "<" : ">") + "0";
+        catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
       }
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " + buildGroupingClause();
@@ -1230,7 +1229,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   public void setType(boolean isChecked) {
-    mType = isChecked;
+    isIncome = isChecked;
     reset();
   }
 
