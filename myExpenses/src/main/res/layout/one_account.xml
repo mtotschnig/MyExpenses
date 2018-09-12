@@ -178,7 +178,7 @@
                     android:id="@+id/CriterionLabel"
                     style="@style/FormLabel"
                     android:labelFor="@+id/Criterion"
-                    android:text="@string/account_goal_or_limit"/>
+                    android:text="@string/goal_or_limit"/>
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Criterion"
                     style="@style/FormField"/>

@@ -178,7 +178,7 @@ public class AccountEdit extends AmountActivity implements
         criterionLabel = R.string.credit_limit;
         break;
       default:
-        criterionLabel = R.string.account_goal_or_limit;
+        criterionLabel = R.string.goal_or_limit;
     }
     this.criterionLabel.setText(criterionLabel);
   }
@@ -420,7 +420,10 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
     mSyncSpinner.setOnItemSelectedListener(this);
-    criterion.setTypeChangedListener(type -> updateCriterionLabel());
+    criterion.setTypeChangedListener(type -> {
+      setDirty();
+      updateCriterionLabel();
+    });
     criterion.addTextChangedListener(this);
   }
 

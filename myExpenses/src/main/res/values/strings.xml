@@ -771,7 +771,7 @@
     <!-- Content description for accessibility on image that allows to expand content  -->
     <string name="content_description_expand">Expand</string>
     <!-- Short label for the amount input where user can set either saving goal or credit limit -->
-    <string name="account_goal_or_limit">Goal / Limit</string>
+    <string name="goal_or_limit">Goal / Limit</string>
     <string name="saving_goal">Saving goal</string>
     <string name="credit_limit">Credit limit</string>
 </resources>
