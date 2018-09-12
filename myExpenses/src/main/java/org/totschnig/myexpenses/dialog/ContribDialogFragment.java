@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -90,6 +92,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
+    Context wrappedContext = new ContextThemeWrapper(ctx,  R.style.ThemeDark);
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     dialogView = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
@@ -127,7 +130,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     contribContainer.setBackgroundColor(getResources().getColor(R.color.premium_licence));
     if (licenceStatus == null && CONTRIB.covers(feature)) {
      contribVisible = true;
-      CharSequence contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList, R.drawable.ic_menu_done);
+      CharSequence contribList = Utils.makeBulletList(wrappedContext, contribFeatureLabelsAsList, R.drawable.ic_menu_done);
       ((TextView) contribContainer.findViewById(R.id.package_feature_list)).setText(contribList);
     } else {
       contribContainer.setVisibility(View.GONE);
@@ -145,7 +148,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         lines.addAll(contribFeatureLabelsAsList);
       }
       lines.addAll(extendedFeatureLabelsAsList);
-      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done));
+      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(wrappedContext, lines, R.drawable.ic_menu_done));
     } else {
       extendedContainer.setVisibility(View.GONE);
     }
@@ -165,7 +168,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     }
     lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, PROFESSIONAL));
-    ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done));
+    ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(wrappedContext, lines, R.drawable.ic_menu_done));
 
     //FOOTER
     dialogView.findViewById(R.id.eu_vat_info).setVisibility(DistribHelper.isGithub() ? View.VISIBLE : View.GONE);
