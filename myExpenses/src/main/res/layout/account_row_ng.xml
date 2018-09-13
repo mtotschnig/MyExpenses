@@ -1,232 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.totschnig.myexpenses.ui.ExpansionPanel
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:foreground="?attr/cardHighlightForeground"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/drawer_padding"
-    android:paddingStart="@dimen/drawer_padding"
-    >
+    android:background="@null"
+    android:paddingBottom="10dp"
+    android:paddingTop="5dp"
+    android:foreground="?attr/cardHighlightForeground">
 
-    <LinearLayout
+    <org.totschnig.myexpenses.ui.ExpansionPanel
+        android:id="@+id/expansionPanel"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/drawer_padding"
+        android:paddingStart="@dimen/drawer_padding"
+        >
 
-        <ImageView
-            android:id="@+id/colorAccount"
-            android:layout_width="@dimen/account_color_indicator_diameter"
-            android:layout_height="@dimen/account_color_indicator_diameter"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:padding="4dp"/>
-
-        <com.github.lzyzsd.circleprogress.CircleProgress
-            android:id="@+id/circle_progress"
-            android:layout_width="@dimen/account_color_indicator_diameter"
-            android:layout_height="@dimen/account_color_indicator_diameter"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:padding="4dp"
-            app:circle_text_size="11dp"/>
-
-        <!-- HEADER -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/label"
-                style="@style/newHeadingStyle"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/colorAccount"
+                android:layout_width="@dimen/account_color_indicator_diameter"
+                android:layout_height="@dimen/account_color_indicator_diameter"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:padding="4dp"/>
+
+            <com.github.lzyzsd.circleprogress.CircleProgress
+                android:id="@+id/circle_progress"
+                android:layout_width="@dimen/account_color_indicator_diameter"
+                android:layout_height="@dimen/account_color_indicator_diameter"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:padding="4dp"
+                app:circle_text_size="11dp"/>
+
+            <!-- HEADER -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                tools:text="@string/label"/>
+                android:layout_weight="1"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/current_balance_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="CURRENT_BALANCE"/>
+                <TextView
+                    android:id="@+id/label"
+                    style="@style/newHeadingStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    tools:text="@string/label"/>
+
+                <TextView
+                    android:id="@+id/current_balance_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="CURRENT_BALANCE"/>
+            </LinearLayout>
+            <!-- HEADER INDICATOR -->
+            <include layout="@layout/expansion_handle"/>
+
+
         </LinearLayout>
-        <!-- HEADER INDICATOR -->
-        <include layout="@layout/expansion_handle"/>
 
+        <TableLayout
+            android:id="@+id/expansionContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:shrinkColumns="1"
+            android:stretchColumns="0">
 
-    </LinearLayout>
+            <TableRow>
 
-    <TableLayout
-        android:id="@+id/expansionContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingEnd="10dp"
-        android:paddingRight="10dp"
-        android:shrinkColumns="1"
-        android:stretchColumns="0">
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="2"
+                    tools:text="DESCRIPTION"/>
+            </TableRow>
 
-        <TableRow>
+            <TableRow
+                android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                tools:text="DESCRIPTION"/>
-        </TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/opening_balance"/>
 
-        <TableRow
-            android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/opening_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="OPENING_BALANCE"/>
+            </TableRow>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/opening_balance"/>
+            <TableRow>
 
-            <TextView
-                android:id="@+id/opening_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="OPENING_BALANCE"/>
-        </TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/sum_income"/>
 
-        <TableRow>
+                <TextView
+                    android:id="@+id/sum_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="SUM_INCOME"/>
+            </TableRow>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/sum_income"/>
+            <TableRow>
 
-            <TextView
-                android:id="@+id/sum_income"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="SUM_INCOME"/>
-        </TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/sum_expenses"/>
 
-        <TableRow>
+                <TextView
+                    android:id="@+id/sum_expenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="SUM_EXPENSES"/>
+            </TableRow>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/sum_expenses"/>
+            <TableRow android:id="@+id/TransferRow">
 
-            <TextView
-                android:id="@+id/sum_expenses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="SUM_EXPENSES"/>
-        </TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/sum_transfer"/>
 
-        <TableRow android:id="@+id/TransferRow">
+                <TextView
+                    android:id="@+id/sum_transfer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="SUM_TRANSFER"/>
+            </TableRow>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/sum_transfer"/>
+            <TableRow>
 
-            <TextView
-                android:id="@+id/sum_transfer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="SUM_TRANSFER"/>
-        </TableRow>
+                <View/>
 
-        <TableRow>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="?android:attr/colorForeground"
+                    android:paddingBottom="1dp"
+                    android:paddingTop="1dp"/>
+            </TableRow>
 
-            <View/>
+            <TableRow
+                android:animateLayoutChanges="true"
+                >
 
-            <View
-                android:paddingTop="1dp"
-                android:paddingBottom="1dp"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="?android:attr/colorForeground"/>
-        </TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/current_balance"/>
 
-        <TableRow
-            android:animateLayoutChanges="true"
-            >
+                <TextView
+                    android:id="@+id/current_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:visibility="invisible"
+                    tools:text="CURRENT_BALANCE"/>
+            </TableRow>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/current_balance"/>
+            <TableRow android:id="@+id/CriterionRow">
+                <TextView
+                    android:id="@+id/CriterionLabel"
+                    android:layout_width="0dp"/>
+                <TextView
+                    android:id="@+id/criterion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="TOTAL"/>
+            </TableRow>
 
-            <TextView
-                android:id="@+id/current_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:visibility="invisible"
-                tools:text="CURRENT_BALANCE"/>
-        </TableRow>
+            <TableRow android:id="@+id/TotalRow">
 
-        <TableRow android:id="@+id/CriterionRow">
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/menu_aggregates"/>
 
-            <TextView
-                android:id="@+id/CriterionLabel"
-                android:layout_width="0dp"/>
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="TOTAL"/>
+            </TableRow>
 
-            <TextView
-                android:id="@+id/criterion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="TOTAL"/>
-        </TableRow>
+            <TableRow android:id="@+id/ClearedRow">
 
-        <TableRow android:id="@+id/TotalRow">
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/total_cleared"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/menu_aggregates"/>
+                <TextView
+                    android:id="@+id/cleared_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="CLEARED_TOTAL"/>
+            </TableRow>
 
-            <TextView
-                android:id="@+id/total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="TOTAL"/>
-        </TableRow>
+            <TableRow
+                android:id="@+id/ReconciledRow">
 
-        <TableRow android:id="@+id/ClearedRow">
+                <TextView
+                    android:layout_width="0dp"
+                    android:text="@string/total_reconciled"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/total_cleared"/>
+                <TextView
+                    android:id="@+id/reconciled_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="RECONCILED_TOTAL"/>
+            </TableRow>
+        </TableLayout>
 
-            <TextView
-                android:id="@+id/cleared_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="CLEARED_TOTAL"/>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/ReconciledRow">
-
-            <TextView
-                android:layout_width="0dp"
-                android:text="@string/total_reconciled"/>
-
-            <TextView
-                android:id="@+id/reconciled_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                tools:text="RECONCILED_TOTAL"/>
-        </TableRow>
-    </TableLayout>
-
-</org.totschnig.myexpenses.ui.ExpansionPanel>
+    </org.totschnig.myexpenses.ui.ExpansionPanel>
+</FrameLayout>

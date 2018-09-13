@@ -104,11 +104,14 @@ android {
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
-    flavorDimensions "crashreporting"
+    flavorDimensions "crashreporting", "security"
 
     productFlavors {
         acra {
             dimension "crashreporting"
+        }
+        conscript {
+            dimension "security"
         }
     }
 
@@ -231,6 +234,8 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+
+    conscriptImplementation 'org.conscrypt:conscrypt-android:1.2.0'
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestImplementation 'junit:junit:4.12'

@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -605,10 +607,25 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         for (SyncBackendProviderFactory factory : ServiceLoader.load(application)) {
           factory.init();
         }
-        cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
+        try {
+          cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
+        } catch (TransactionDatabase.SQLiteDowngradeFailedException |
+            TransactionDatabase.SQLiteUpgradeFailedException e) {
+          CrashHandler.report(e);
+          String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
+              ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
+                  "before reinstalling, or upgrade to a new version.") :
+              "Database upgrade failed. Please contact support@myexpenses.mobi !";
+          return Result.ofFailure(msg);
+        } catch (SQLiteException e) {
+          String msg = String.format(
+              "Loading of transactions failed (%s). Probably the sum of the entered amounts exceeds the storage limit !"
+              , e.getMessage());
+          return Result.ofFailure(msg);
+        }
         application.getLicenceHandler().update();
         Account.updateTransferShortcut();
-        return null;
+        return Result.SUCCESS;
       }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = (String) mExtra;

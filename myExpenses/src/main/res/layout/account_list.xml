@@ -39,7 +39,7 @@
         android:visibility="gone"
         app:menu="@menu/accounts"/>
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+    <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
         android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
