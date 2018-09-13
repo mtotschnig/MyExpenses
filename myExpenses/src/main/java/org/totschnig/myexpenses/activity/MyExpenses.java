@@ -32,6 +32,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -87,7 +88,6 @@ import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.ui.ProtectedCursorLoader;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -613,9 +613,6 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       }
-      case R.id.QUIT_COMMAND:
-        finish();
-        return true;
       case R.id.EDIT_ACCOUNT_COMMAND:
         closeDrawer();
         long accountId = (Long) tag;
@@ -775,7 +772,7 @@ public class MyExpenses extends LaunchActivity implements
       case ACCOUNTS_CURSOR:
         Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
-        return new ProtectedCursorLoader(this, builder.build());
+        return new CursorLoader(this, builder.build(), null, null, null, null);
     }
     return null;
   }
