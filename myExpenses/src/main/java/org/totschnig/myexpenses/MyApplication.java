@@ -173,7 +173,7 @@ public class MyApplication extends MultiDexApplication implements
     }
     Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
-    SecurityProvider.init();
+    SecurityProvider.init(this);
   }
 
   private void initThreeTen() {
