@@ -24,6 +24,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -48,6 +50,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -85,6 +88,10 @@ public class AccountEdit extends AmountActivity implements
   View syncUnlink;
   @BindView(R.id.SyncHelp)
   View syncHelp;
+  @BindView(R.id.CriterionLabel)
+  TextView criterionLabel;
+  @BindView(R.id.Criterion)
+  AmountInput criterion;
 
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
   private Account mAccount;
@@ -141,7 +148,7 @@ public class AccountEdit extends AmountActivity implements
           //if not supported ignore
         }
     }
-    mAmountText.setFractionDigits(Money.getFractionDigits(mAccount.currency));
+    amountInput.setFractionDigits(Money.getFractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     currencyAdapter = new CurrencyAdapter(this);
@@ -153,6 +160,27 @@ public class AccountEdit extends AmountActivity implements
     configureSyncBackendAdapter();
     linkInputsWithLabels();
     populateFields();
+  }
+
+  @Override
+  public void afterTextChanged(Editable s) {
+    super.afterTextChanged(s);
+    updateCriterionLabel();
+  }
+
+  private void updateCriterionLabel() {
+    int criterionLabel;
+    switch (criterion.getTypedValue().compareTo(BigDecimal.ZERO)) {
+      case 1:
+        criterionLabel = R.string.saving_goal;
+        break;
+      case -1:
+        criterionLabel = R.string.credit_limit;
+        break;
+      default:
+        criterionLabel = R.string.goal_or_limit;
+    }
+    this.criterionLabel.setText(criterionLabel);
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -193,20 +221,17 @@ public class AccountEdit extends AmountActivity implements
    * populates the input field either from the database or with default value for currency (from Locale)
    */
   private void populateFields() {
-
-    BigDecimal amount = mAccount.openingBalance.getAmountMajor();
-    if (amount.signum() == -1) {
-      amount = amount.abs();
-    } else {
-      mType = INCOME;
-      configureType();
-    }
-    mAmountText.setAmount(amount);
+    amountInput.setAmount(mAccount.openingBalance.getAmountMajor());
     String currencyCode = mAccount.currency.getCurrencyCode();
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(currencyCode)));
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
     setExchangeRateVisibility(currencyCode);
+    final Money criterion = mAccount.getCriterion();
+    if (criterion != null) {
+      this.criterion.setAmount(criterion.getAmountMajor());
+      updateCriterionLabel();
+    }
   }
 
   private void setExchangeRateVisibility(String currencyCode) {
@@ -246,9 +271,6 @@ public class AccountEdit extends AmountActivity implements
     }
     mAccount.setLabel(label);
     mAccount.description = mDescriptionText.getText().toString();
-    if (mType == EXPENSE) {
-      openingBalance = openingBalance.negate();
-    }
     mAccount.openingBalance.setAmountMajor(openingBalance);
     mAccount.setType((AccountType) mAccountTypeSpinner.getSelectedItem());
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
@@ -260,6 +282,7 @@ public class AccountEdit extends AmountActivity implements
         mAccount.setExchangeRate(rate.doubleValue());
       }
     }
+    mAccount.setCriterion(criterion.getTypedValue());
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -277,7 +300,7 @@ public class AccountEdit extends AmountActivity implements
       case R.id.Currency:
         try {
           String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
-          mAmountText.setFractionDigits(Money.getFractionDigits(
+          amountInput.setFractionDigits(Money.getFractionDigits(
               Currency.getInstance(currency)));
           setExchangeRateVisibility(currency);
         } catch (IllegalArgumentException e) {
@@ -397,6 +420,11 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
     mSyncSpinner.setOnItemSelectedListener(this);
+    criterion.setTypeChangedListener(type -> {
+      setDirty();
+      updateCriterionLabel();
+    });
+    criterion.addTextChangedListener(this);
   }
 
   @Override
@@ -408,6 +436,7 @@ public class AccountEdit extends AmountActivity implements
     linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
     linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
     linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
+    linkInputWithLabel(criterion, criterionLabel);
   }
 
   public void syncUnlink(View view) {

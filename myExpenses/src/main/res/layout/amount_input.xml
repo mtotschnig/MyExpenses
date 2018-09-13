@@ -14,17 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include layout="@layout/type_switch"/>
 
     <org.totschnig.myexpenses.ui.AmountEditText
-        android:id="@+id/Amount"
+        android:id="@+id/AmountEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -33,4 +29,4 @@
         android:inputType="numberDecimal"/>
 
     <include layout="@layout/calc_icon" />
-</LinearLayout>
+</merge>

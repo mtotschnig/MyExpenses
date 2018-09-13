@@ -139,14 +139,13 @@ public class UiUtils {
   }
 
   public static Bitmap getTintedBitmapForTheme(Context context, int drawableResId, int themeResId) {
-    Drawable d = getTintedDrawableForTheme(context, drawableResId, themeResId);
+    Drawable d = getTintedDrawableForContext(new ContextThemeWrapper(context, themeResId), drawableResId);
     return drawableToBitmap(d);
   }
 
-  static Drawable getTintedDrawableForTheme(Context context, int drawableResId, int themeResId) {
-    Context wrappedContext = new ContextThemeWrapper(context, themeResId);
+  static Drawable getTintedDrawableForContext(Context context, int drawableResId) {
     //noinspection RestrictedApi
-    return AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
+    return AppCompatDrawableManager.get().getDrawable(context, drawableResId);
   }
 
   public static Bitmap drawableToBitmap(Drawable d) {

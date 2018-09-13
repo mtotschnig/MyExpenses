@@ -79,7 +79,9 @@
                     android:labelFor="@+id/Amount"
                     android:text="@string/opening_balance"/>
 
-                <include layout="@layout/amount_input" style="@style/FormField"/>
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Amount"
+                    style="@style/FormField"/>
             </TableRow>
 
             <TableRow>
@@ -170,6 +172,18 @@
                 </LinearLayout>
             </TableRow>
             <include layout="@layout/exchange_rate_row"/>
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/CriterionLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/Criterion"
+                    android:text="@string/goal_or_limit"/>
+                <org.totschnig.myexpenses.ui.AmountInput
+                    android:id="@+id/Criterion"
+                    style="@style/FormField"/>
+
+            </TableRow>
         </TableLayout>
     </ScrollView>
 </LinearLayout>

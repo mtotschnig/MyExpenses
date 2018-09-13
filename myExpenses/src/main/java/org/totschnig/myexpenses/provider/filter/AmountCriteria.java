@@ -24,7 +24,6 @@ import android.os.Parcelable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AmountActivity;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
@@ -61,7 +60,7 @@ public class AmountCriteria extends Criteria {
   @Override
   public String prettyPrint(Context context) {
     String result = MyApplication.getInstance().getString(
-        type == AmountActivity.EXPENSE ? R.string.expense : R.string.income) + " ";
+        type ? R.string.income : R.string.expense) + " ";
     String amount1 = CurrencyFormatter.instance().formatCurrency(new Money(currency,origValue1.abs()));
     switch (origOperation) {
     case EQ:
@@ -92,7 +91,7 @@ public class AmountCriteria extends Criteria {
     Long longAmount1,longAmount2;
     longAmount1 = new Money(
         currency,
-        type == AmountActivity.EXPENSE ? values[0].negate() : values[0])
+        type ? values[0] : values[0].negate())
       .getAmountMinor();
     if (operation==Operation.BTW) {
       if (values[1]==null) {
@@ -100,7 +99,7 @@ public class AmountCriteria extends Criteria {
       }
       longAmount2 = new Money(
           currency,
-          type == AmountActivity.EXPENSE ? values[1].negate() : values[1])
+          type ? values[1] : values[1].negate())
         .getAmountMinor();
       boolean needSwap = longAmount2<longAmount1;
       return new Criteria(
@@ -109,23 +108,23 @@ public class AmountCriteria extends Criteria {
           String.valueOf(needSwap?longAmount2:longAmount1),
           String.valueOf(needSwap?longAmount1:longAmount2));
     }
-    if (type == AmountActivity.EXPENSE) {
-      if (operation==Operation.GTE) {
-        operation=Operation.LTE;
-      } else if (operation==Operation.LTE) {
-        return new Criteria(
-            DatabaseConstants.KEY_AMOUNT,
-            WhereFilter.Operation.BTW,
-            String.valueOf(longAmount1),
-            "0");
-      }
-    } else {
+    if (type) {
       if (operation==Operation.LTE) {
         return new Criteria(
             DatabaseConstants.KEY_AMOUNT,
-            WhereFilter.Operation.BTW,
+            Operation.BTW,
             "0",
             String.valueOf(longAmount1));
+      }
+    } else {
+      if (operation== Operation.GTE) {
+        operation= Operation.LTE;
+      } else if (operation== Operation.LTE) {
+        return new Criteria(
+            DatabaseConstants.KEY_AMOUNT,
+            Operation.BTW,
+            String.valueOf(longAmount1),
+            "0");
       }
     }
     return new Criteria(

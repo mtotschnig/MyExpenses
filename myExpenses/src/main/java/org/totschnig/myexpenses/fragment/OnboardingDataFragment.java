@@ -15,7 +15,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -34,7 +33,7 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -65,10 +64,8 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   EditText labelEditText;
   @BindView(R.id.Description)
   EditText descriptionEditText;
-  @BindView(R.id.TaType)
-  CompoundButton typeButton;
   @BindView(R.id.Amount)
-  AmountEditText amountEditText;
+  AmountInput amountInput;
   @BindView(R.id.ColorIndicator)
   AppCompatButton colorIndicator;
   @BindView(R.id.setup_wizard_layout)
@@ -147,9 +144,8 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     setDefaultLabel();
 
     //amount
-    amountEditText.setFractionDigits(2);
-    amountEditText.setAmount(BigDecimal.ZERO);
-    typeButton.setChecked(true);
+    amountInput.setFractionDigits(2);
+    amountInput.setAmount(BigDecimal.ZERO);
     view.findViewById(R.id.Calculator).setVisibility(View.GONE);
 
     //currency
@@ -206,7 +202,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
       case R.id.Currency:
         Currency instance = validateSelectedCurrency();
         if (instance != null) {
-          amountEditText.setFractionDigits(Money.getFractionDigits(instance));
+          amountInput.setFractionDigits(Money.getFractionDigits(instance));
           lastSelectedCurrencyPosition = position;
         } else {
           currencySpinner.setSelection(lastSelectedCurrencyPosition);
@@ -243,12 +239,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     if (android.text.TextUtils.isEmpty(label)) {
       label = getString(R.string.default_account_name);
     }
-    BigDecimal openingBalance = amountEditText.validate(false);
-    if (openingBalance == null) {
-      openingBalance = BigDecimal.ZERO;
-    } else if (!typeButton.isChecked()) {
-      openingBalance = openingBalance.negate();
-    }
+    BigDecimal openingBalance = amountInput.getTypedValue();
     Currency currency = getSelectedCurrencyWithFallback();
     return new Account(label, currency, new Money(currency, openingBalance),
         descriptionEditText.getText().toString(),

@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -44,6 +45,7 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,6 +62,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
@@ -127,6 +130,8 @@ public class Account extends Model {
 
   private SortDirection sortDirection = SortDirection.DESC;
 
+  private Money criterion;
+
   /**
    * exchange rate comparing major units
    */
@@ -168,7 +173,8 @@ public class Account extends Model {
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
         KEY_SORT_DIRECTION,
-        DatabaseConstants.getExchangeRate(KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE
+        DatabaseConstants.getExchangeRate(KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
+        KEY_CRITERION
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
@@ -409,12 +415,7 @@ public class Account extends Model {
     try {
       this.setGrouping(Grouping.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_GROUPING))));
     } catch (IllegalArgumentException ignored) {}
-    try {
-      //TODO ???
-      this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
-    } catch (IllegalArgumentException ex) {
-      this.color = DEFAULT_COLOR;
-    }
+    this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
     this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
 
     this.syncAccountName = c.getString(c.getColumnIndex(KEY_SYNC_ACCOUNT_NAME));
@@ -429,6 +430,10 @@ public class Account extends Model {
     int columnIndex = c.getColumnIndex(KEY_EXCHANGE_RATE);
     if (columnIndex != -1) {
       this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndex));
+    }
+    long criterion = DbUtils.getLongOr0L(c, KEY_CRITERION);
+    if (criterion != 0) {
+      this.criterion = new Money(this.currency, criterion);
     }
   }
 
@@ -641,6 +646,9 @@ public class Account extends Model {
     initialValues.put(KEY_COLOR, color);
     initialValues.put(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
     initialValues.put(KEY_UUID, requireUuid());
+    if (criterion != null) {
+      initialValues.put(KEY_CRITERION, criterion.getAmountMinor());
+    }
 
     if (getId() == 0) {
       //if account is added from sync backend uuid is already set
@@ -712,6 +720,8 @@ public class Account extends Model {
       if (other.openingBalance != null)
         return false;
     } else if (!openingBalance.equals(other.openingBalance))
+      return false;
+    else if (!criterion.equals(other.criterion))
       return false;
     if (getType() != other.getType())
       return false;
@@ -941,5 +951,15 @@ public class Account extends Model {
 
   public void setLabel(String label) {
     this.label = StringUtils.strip(label);
+  }
+
+  public void setCriterion(BigDecimal criterion) {
+    if (criterion.compareTo(BigDecimal.ZERO) != 0) {
+      this.criterion = new Money(currency, criterion);
+    }
+  }
+
+  public Money getCriterion() {
+    return criterion;
   }
 }

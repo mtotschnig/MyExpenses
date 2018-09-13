@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
@@ -74,6 +75,7 @@ public class AmountEditText extends AppCompatEditText {
     setText(numberFormat.format(amount));
   }
 
+  @Nullable
   public BigDecimal validate(boolean showToUser) {
     String strAmount = getText().toString();
     if (strAmount.equals("")) {

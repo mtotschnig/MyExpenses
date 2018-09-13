@@ -61,6 +61,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER;
@@ -136,7 +137,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITT
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 75;
+  public static final int DATABASE_VERSION = 76;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -259,7 +260,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
           + KEY_UUID + " text, "
-          + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC');";
+          + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
+          + KEY_CRITERION +  " integer);";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -1679,6 +1681,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE settings (key text unique not null, value text);");
         db.execSQL("INSERT INTO settings (key, value) SELECT key, value from settings_old");
         db.execSQL("DROP TABLE settings_old");
+      }
+
+      if (oldVersion < 76) {
+        db.execSQL("ALTER TABLE accounts add column criterion integer");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

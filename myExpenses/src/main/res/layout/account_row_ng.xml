@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
     android:paddingBottom="10dp"
     android:paddingTop="5dp"
@@ -27,12 +28,22 @@
 
             <ImageView
                 android:id="@+id/colorAccount"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/account_color_indicator_diameter"
+                android:layout_height="@dimen/account_color_indicator_diameter"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:padding="4dp"/>
+
+            <com.github.lzyzsd.circleprogress.CircleProgress
+                android:id="@+id/circle_progress"
+                android:layout_width="@dimen/account_color_indicator_diameter"
+                android:layout_height="@dimen/account_color_indicator_diameter"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:padding="4dp"
+                app:circle_text_size="11dp"/>
 
             <!-- HEADER -->
             <LinearLayout
@@ -167,6 +178,18 @@
                     android:gravity="end"
                     android:visibility="invisible"
                     tools:text="CURRENT_BALANCE"/>
+            </TableRow>
+
+            <TableRow android:id="@+id/CriterionRow">
+                <TextView
+                    android:id="@+id/CriterionLabel"
+                    android:layout_width="0dp"/>
+                <TextView
+                    android:id="@+id/criterion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    tools:text="TOTAL"/>
             </TableRow>
 
             <TableRow android:id="@+id/TotalRow">

@@ -185,6 +185,10 @@ public class DatabaseConstants {
   public static final String KEY_ORIGINAL_CURRENCY = "original_currency";
   public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
   public static final String KEY_TRANSFER_PEER_PARENT = "transfer_peer_parent";
+  /**
+   * Used for both saving goal and credit limit on accounts
+   */
+  public static final String KEY_CRITERION = "criterion";
 
   /**
    * column alias for the second group (month or week)

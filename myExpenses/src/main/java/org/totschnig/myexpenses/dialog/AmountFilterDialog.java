@@ -1,20 +1,5 @@
 package org.totschnig.myexpenses.dialog;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Currency;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AmountActivity;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Money;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import org.totschnig.myexpenses.provider.filter.AmountCriteria;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.util.UiUtils;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -28,6 +13,21 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.filter.AmountCriteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Currency;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 public class AmountFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
   private EditText mAmount1Text;
@@ -100,8 +100,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     }
     Currency currency = (Currency)getArguments().getSerializable(KEY_CURRENCY);
     AlertDialog dlg = (AlertDialog) dialog;
-    boolean type = ((RadioGroup) dlg.findViewById(R.id.type)).getCheckedRadioButtonId() == R.id.income ?
-        AmountActivity.INCOME : AmountActivity.EXPENSE;
+    boolean type = ((RadioGroup) dlg.findViewById(R.id.type)).getCheckedRadioButtonId() == R.id.income;
     bdAmount1 = Utils.validateNumber(nfDLocal, strAmount1);
     if (selectedOp.equals("BTW")) {
       if (strAmount2.equals("")) {
