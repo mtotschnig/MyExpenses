@@ -2,11 +2,14 @@ package org.totschnig.myexpenses.di;
 
 
 import android.net.TrafficStats;
+import android.util.Log;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.Socket;
 
 import javax.inject.Singleton;
@@ -14,7 +17,10 @@ import javax.net.SocketFactory;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Call;
+import okhttp3.EventListener;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
@@ -26,16 +32,26 @@ public class NetworkModule {
   @Provides
   OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor loggingInterceptor,
                                                   SocketFactory socketFactory) {
-    return new OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .socketFactory(socketFactory);
+    final OkHttpClient.Builder builder = new OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor);
+    if (BuildConfig.DEBUG) {
+      builder.eventListener(new EventListener() {
+        @Override
+        public void connectFailed(Call call, InetSocketAddress inetSocketAddress, Proxy proxy, Protocol protocol, IOException ioe) {
+          super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe);
+          Log.e("OKHTTP", "Connect failed", ioe);
+        }
+      });
+    }
+    return builder.socketFactory(socketFactory);
   }
 
   @Provides
   @Singleton
   SocketFactory provideSocketFactory() {
     return new DelegatingSocketFactory(SocketFactory.getDefault()) {
-      @Override protected Socket configureSocket(Socket socket) throws IOException {
+      @Override
+      protected Socket configureSocket(Socket socket) throws IOException {
         TrafficStats.setThreadStatsTag(0);
         TrafficStats.tagSocket(socket);
         return socket;

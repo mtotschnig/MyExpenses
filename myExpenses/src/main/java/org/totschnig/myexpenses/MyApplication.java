@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
+import org.totschnig.myexpenses.di.SecurityProvider;
 import org.totschnig.myexpenses.di.UiModule;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -172,6 +173,7 @@ public class MyApplication extends MultiDexApplication implements
     }
     Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
+    SecurityProvider.init();
   }
 
   private void initThreeTen() {
