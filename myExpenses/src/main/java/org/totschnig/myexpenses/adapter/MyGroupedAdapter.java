@@ -206,9 +206,8 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       holder.description.setVisibility(View.VISIBLE);
     }
 
-    final ExpansionPanel expansionPanel = (ExpansionPanel) view;
-    expansionPanel.setContentVisibility(isExpanded ? View.VISIBLE : View.GONE);
-    expansionPanel.setListener(expanded -> {
+    holder.expansionPanel.setContentVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    holder.expansionPanel.setListener(expanded -> {
       prefHandler.putBoolean(expansionPrefKey, expanded);
       setBalanceVisibility(holder, expanded);
     });
@@ -240,6 +239,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   }
 
   class ViewHolder {
+    @BindView(R.id.expansionPanel) ExpansionPanel expansionPanel;
     @BindView(R.id.colorAccount) ImageView colorAccount;
     @BindView(R.id.TransferRow) View transferRow;
     @BindView(R.id.TotalRow) View totalRow;
