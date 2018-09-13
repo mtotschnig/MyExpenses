@@ -612,6 +612,7 @@
   <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
   <string name="auto_backup_cloud_create_backend">メイン設定画面から同期バックエンドを作成します。</string>
   <string name="auto_backup_cloud_failure">バックアップファイル %1$s をバックエンド %2$s に保存しようとしているときにエラーが発生しました:</string>
+  <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
   <string name="home_screen_shortcuts_nougate_info">ショートカットは、ホーム画面のアプリアイコンを長押しして追加することができます。</string>
   <string name="currency_symbol">通貨記号</string>
   <string name="number_of_fraction_digits">小数の桁数</string>
@@ -734,7 +735,14 @@
   <string name="gdpr_consent_message">{app_name} のサポート、メンテナンス、開発を維持するために {ad_provider} と提携して広告を表示しています。 あなたの同意を求めます。 広告が表示されないようにするには、広告なしバージョンの料金をお支払いください。</string>
   <string name="gdpr_consent_button_yes">はい、続行して広告を表示します</string>
   <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
+  <string name="sort_order">ソート順</string>
+  <string name="navigation_drawer_accounts_title">勘定の管理</string>
+  <string name="pref_sync_wifi_only_summary">Wi-Fi 接続時のみ同期</string>
+  <string name="wifi_not_connected">デバイスが Wi-Fi に接続されていません。 同期は延期されます。</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">翻訳</string>
   <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">折りたたむ</string>
   <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">展開</string>
 </resources>

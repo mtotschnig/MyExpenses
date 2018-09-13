@@ -127,6 +127,7 @@
   <string name="help_NavigationDrawer_info">勘定リストは、エントリをクリックするだけで、簡単に勘定間を移動することができます。</string>
   <string name="menu_create_account_help_text">新しい勘定を作成します。無料版は5つの勘定に制限されています。</string>
   <string name="menu_NavigationDrawer_sort_help_text">勘定のリストは、タイトル (アルファベット順)、使用頻度、または取引が作成された最後の時間によってソートすることができます。</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">「カスタム」をクリックすると、それぞれの勘定の位置を自由に設定できます。</string>
   <string name="menu_NavigationDrawer_grouping_help_text">勘定リストは、勘定の種類別、通貨別にグループ化して、またはグループ化しないで表示することができます。</string>
   <string name="form_instant_plan_help_text">ここでは、毎日、毎週、毎月、または年単位で繰り返す取引を設定することができます。 「テンプレートと計画」の画面では、結果の計画を検査し、高度なオプションを設定することができます。取引がすでに計画にリンクされている場合、もう繰り返しの種類を変更することはできませんが、繰り返しの日付をすべて表示するカレンダー表示を開くことができます。</string>
   <!--SyncBackends-->

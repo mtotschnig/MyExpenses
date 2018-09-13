@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_293">
+    <item>Saving goals and credit limits</item>
+    <item>Account groups (per type or currency) can be collapsed</item>
+  </string-array>
   <string-array name="whats_new_292">
     <item>Account list redesign</item>
     <item>Synchronization can be limited to Wi-Fi</item>
