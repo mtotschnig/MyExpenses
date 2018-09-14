@@ -56,7 +56,7 @@ public class ExpenseEditFlowTest {
    */
   @Test
   public void testScenarioForBug5b11072e6007d59fcd92c40b() {
-    onView(withId(R.id.Amount)).perform(typeText(String.valueOf(10)));
+    onView(withId(R.id.AmountEditText)).perform(typeText(String.valueOf(10)));
     onView(withId(R.id.TaType)).perform(click());
     onView(withId(R.id.Category)).perform(click());
     Espresso.pressBack();

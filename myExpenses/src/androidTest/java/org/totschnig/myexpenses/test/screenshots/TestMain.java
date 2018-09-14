@@ -16,6 +16,7 @@ import com.jraska.falcon.FalconSpoonRule;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.BuildConfig;
@@ -41,6 +42,7 @@ import static org.totschnig.myexpenses.testutils.Matchers.first;
 /**
  * These tests are meant to be run with Spoon (./gradlew spoon). Remove @Ignore first
  */
+@Ignore
 public class TestMain extends BaseUiTest {
   private MyApplication app;
   private Context instCtx;

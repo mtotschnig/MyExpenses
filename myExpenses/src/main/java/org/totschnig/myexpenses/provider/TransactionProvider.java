@@ -574,7 +574,8 @@ public class TransactionProvider extends ContentProvider {
               "-1 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
-              "null AS " + KEY_UUID};
+              "null AS " + KEY_UUID,
+              "0 AS " + KEY_CRITERION};
         } else {
           qb.setTables(TABLE_CURRENCIES);
           projection = new String[]{
@@ -591,7 +592,8 @@ public class TransactionProvider extends ContentProvider {
               "-1 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
-              "null AS " + KEY_UUID};
+              "null AS " + KEY_UUID,
+              "0 AS " + KEY_CRITERION};
         }
         qb.appendWhere(KEY_ROWID + "= abs(" + currencyId + ")");
         break;

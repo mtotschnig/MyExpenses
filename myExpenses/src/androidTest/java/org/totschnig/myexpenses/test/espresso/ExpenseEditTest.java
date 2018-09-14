@@ -138,7 +138,7 @@ public class ExpenseEditTest {
     int times = 5;
     int amount = 2;
     for (int j = 0; j < times; j++) {
-      onView(withId(R.id.Amount)).perform(typeText(String.valueOf(amount)));
+      onView(withId(R.id.AmountEditText)).perform(typeText(String.valueOf(amount)));
       onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
       onView(withText(success)).check(matches(isDisplayed()));
     }
