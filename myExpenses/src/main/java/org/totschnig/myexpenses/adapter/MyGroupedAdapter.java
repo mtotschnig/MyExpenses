@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -190,21 +190,21 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       holder.colorAccount.setImageDrawable(null);
     }
     holder.colorAccount.setVisibility(criterion == 0 ? View.VISIBLE : View.GONE);
-    holder.circleProgress.setVisibility(criterion != 0 ? View.VISIBLE : View.GONE);
+    holder.criterionProgress.setVisibility(criterion != 0 ? View.VISIBLE : View.GONE);
     holder.criterionRow.setVisibility(criterion != 0 ? View.VISIBLE : View.GONE);
     if (criterion != 0) {
       final int progress;
       if (criterion > 0 == currentBalance > 0) {
-        progress = Math.abs(currentBalance) > Math.abs(criterion) ? 100 : (int) (currentBalance * 100 / criterion);
+        progress = Math.abs(currentBalance) > Math.abs(criterion) ? 100 : Math.round(currentBalance * 100 / criterion);
       } else {
         progress = 0;
       }
-      holder.circleProgress.setProgress(progress);
-      holder.circleProgress.setFinishedColor(colorInt);
+      holder.criterionProgress.setProgress(progress);
+      holder.criterionProgress.setText(String.valueOf(progress));
+      holder.criterionProgress.setFinishedStrokeColor(colorInt);
       final int contrastColor = UiUtils.isBrightColor(colorInt) ? Color.BLACK : Color.WHITE;
       final int unfinishedColor = ColorUtils.blendARGB(colorInt, contrastColor, 0.5F);
-      holder.circleProgress.setUnfinishedColor(unfinishedColor);
-      holder.circleProgress.setTextColor(progress > 50 ? contrastColor : UiUtils.isBrightColor(unfinishedColor) ? Color.BLACK : Color.WHITE);
+      holder.criterionProgress.setUnfinishedStrokeColor(unfinishedColor);
       holder.criterionLabel.setText(criterion > 0 ? R.string.saving_goal : R.string.credit_limit);
       setConvertedAmount(currency, criterion, isHome, holder.criterion);
     } else {
@@ -273,7 +273,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   class ViewHolder {
     @BindView(R.id.expansionPanel) ExpansionPanel expansionPanel;
     @BindView(R.id.colorAccount) ImageView colorAccount;
-    @BindView(R.id.circle_progress) CircleProgress circleProgress;
+    @BindView(R.id.criterion_progress) DonutProgress criterionProgress;
     @BindView(R.id.TransferRow) View transferRow;
     @BindView(R.id.TotalRow) View totalRow;
     @BindView(R.id.ClearedRow) View clearedRow;

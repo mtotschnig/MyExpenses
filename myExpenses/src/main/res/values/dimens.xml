@@ -23,24 +23,28 @@
     <dimen name="textSizeNormalBase">16sp</dimen>
     <dimen name="textSizeMediumBase">18sp</dimen>
     <dimen name="textSizeLargeBase">22sp</dimen>
+    <dimen name="AccountColorDiameterBase">44sp</dimen>
 
     <dimen name="textSizeLabelS1">14sp</dimen>
     <dimen name="textSizeSmallS1">16sp</dimen>
     <dimen name="textSizeNormalS1">18sp</dimen>
     <dimen name="textSizeMediumS1">20sp</dimen>
     <dimen name="textSizeLargeS1">24sp</dimen>
+    <dimen name="AccountColorDiameterS1">48sp</dimen>
 
     <dimen name="textSizeLabelS2">16sp</dimen>
     <dimen name="textSizeSmallS2">18sp</dimen>
     <dimen name="textSizeNormalS2">20sp</dimen>
     <dimen name="textSizeMediumS2">22sp</dimen>
     <dimen name="textSizeLargeS2">26sp</dimen>
+    <dimen name="AccountColorDiameterS2">52sp</dimen>
 
     <dimen name="textSizeLabelS3">18sp</dimen>
     <dimen name="textSizeSmallS3">20sp</dimen>
     <dimen name="textSizeNormalS3">22sp</dimen>
     <dimen name="textSizeMediumS3">24sp</dimen>
     <dimen name="textSizeLargeS3">28sp</dimen>
+    <dimen name="AccountColorDiameterS3">56sp</dimen>
 
     <dimen name="selected_indicator_translation_x">23dp</dimen>
     <item name="selected_indicator_translation_rotation" type="integer">270</item>
@@ -51,5 +55,4 @@
     <dimen name="drawer_padding">16dp</dimen>
     <dimen tools:override="true" name="design_navigation_separator_vertical_padding">0dp</dimen>
 
-    <dimen name="account_color_indicator_diameter">28dp</dimen>
 </resources>

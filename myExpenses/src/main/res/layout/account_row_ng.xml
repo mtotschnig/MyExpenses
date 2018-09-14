@@ -26,24 +26,36 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/colorAccount"
-                android:layout_width="@dimen/account_color_indicator_diameter"
-                android:layout_height="@dimen/account_color_indicator_diameter"
+            <FrameLayout
+                android:layout_width="?account_color_indicator_diameter"
+                android:layout_height="?account_color_indicator_diameter"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:padding="4dp"/>
-
-            <com.github.lzyzsd.circleprogress.CircleProgress
-                android:id="@+id/circle_progress"
-                android:layout_width="@dimen/account_color_indicator_diameter"
-                android:layout_height="@dimen/account_color_indicator_diameter"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="-4dp"
+                android:layout_marginLeft="-4dp"
                 android:padding="4dp"
-                app:circle_text_size="11dp"/>
+                android:layout_marginRight="12dp">
+                <ImageView
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/colorAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5sp"/>
+
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/criterion_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:donut_finished_stroke_width="3sp"
+                    app:donut_unfinished_stroke_width="3sp"
+                    app:donut_text_color="?android:textColorPrimary"
+                    app:donut_text_size="?textSizeLabel"/>
+
+            </FrameLayout>
+
 
             <!-- HEADER -->
             <LinearLayout

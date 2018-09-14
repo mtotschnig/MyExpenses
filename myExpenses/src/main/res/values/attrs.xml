@@ -31,4 +31,5 @@
     <attr name="textSizeNormal" format="dimension" />
     <attr name="textSizeMedium" format="dimension" />
     <attr name="textSizeLarge" format="dimension" />
+    <attr name="account_color_indicator_diameter" format="dimension" />
 </resources>
