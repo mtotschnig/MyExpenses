@@ -755,4 +755,5 @@
   <string name="content_description_collapse">По-малко</string>
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">Повече</string>
+  <!--Short label for the amount input where user can set either saving goal or credit limit-->
 </resources>

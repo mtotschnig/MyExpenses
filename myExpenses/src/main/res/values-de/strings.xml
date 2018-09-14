@@ -755,4 +755,8 @@
   <string name="content_description_collapse">Zuklappen</string>
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">Aufklappen</string>
+  <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Ziel / Limit</string>
+  <string name="saving_goal">Sparziel</string>
+  <string name="credit_limit">Kreditlimit</string>
 </resources>

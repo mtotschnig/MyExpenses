@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_293">
+    <item>Sparziele und Kreditlimits</item>
+    <item>Kontogruppen (pro Typ oder Währung) können zugeklappt werden</item>
+  </string-array>
   <string-array name="whats_new_292">
     <item>Neugestaltung der Kontoliste</item>
     <item>Die Synchronisierung kann auf WLAN beschränkt werden</item>

@@ -755,4 +755,8 @@
   <string name="content_description_collapse">Réduire</string>
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">Développer</string>
+  <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Objectif / Limite</string>
+  <string name="saving_goal">Objectif d\'économie</string>
+  <string name="credit_limit">Limite de crédit</string>
 </resources>

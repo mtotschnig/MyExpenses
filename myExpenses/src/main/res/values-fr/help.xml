@@ -95,6 +95,7 @@
   <string name="menu_equivalent_amount_help_text">Pour calculer une somme finale pour tous les comptes, les opérations de comptes en devises étrangères sont multipliées par le taux de change que vous avez défini pour le compte. Mais vous pouvez également remplacer ce montant implicitement calculé en définissant un montant équivalent pour chaque opération individuelle.</string>
   <string name="menu_invert_transfer_help_text">Inverser la direction du transfert en inversant \"De\" et \"Vers\" le compte.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si les devises des comptes  \"De\"  et  \"Vers\" sont différentes, vous ne spécifiez le montant que pour un seul des deux. L\'autre sera calculée lorsque vous créerez des instances du modèle.</string>
+  <string name="form_goal_or_limit_help_text">Ce champ permet de spécifier soit un objectif d\'économie positif, soit une limite de crédit négative. Dans les deux cas, sur la liste des comptes, un indicateur de progression visualise la distance entre le solde actuel et le but ou la limite.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulaire pour comptes</string>
   <string name="form_AccountEdit_label_help_text">L\'étiquette identifie le compte dans la liste des comptes.</string>
