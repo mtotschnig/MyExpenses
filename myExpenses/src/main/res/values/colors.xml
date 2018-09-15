@@ -25,8 +25,8 @@
     <color name="cardHighlightForegroundLight">#4080cbc4</color>
     <color name="cardHighlightForegroundDark">#40cccccc</color>
 
-    <color name="drawerBackgroundDark">@android:color/black</color>
     <color name="drawerBackgroundLight">@android:color/white</color>
+    <color name="drawerBackgroundDark">#222</color>
 
     <color name="material_indigo">#3F51B5</color>
     <color name="material_grey">#9E9E9E</color>
