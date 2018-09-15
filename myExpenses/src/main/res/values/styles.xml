@@ -70,12 +70,17 @@
         <item name="android:layout_weight">@dimen/form_table_ratio</item>
     </style>
 
+    <style name="FormField.Dialog">
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
     <style name="FormLabel.Condensed">
         <item name="android:minHeight">0dp</item>
     </style>
 
     <style name="dialog_text"/>
-    <!-- in the export_dialog, the bold TextView is cut on 2.3. if we do not make sure it has at least x lines -->
+
     <style name="dialog_text.bold">
         <item name="android:textStyle">bold</item>
     </style>

@@ -17,7 +17,7 @@
 <LinearLayout android:id="@+id/OneExpense"
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:orientation="vertical"
               android:paddingTop="@dimen/padding_dialog_content_top">
 
@@ -41,8 +41,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_dialog_side"
         android:paddingRight="@dimen/padding_dialog_side"
-        android:shrinkColumns="1"
-        android:stretchColumns="1"
         android:visibility="gone">
 
         <TableRow android:id="@+id/AccountRow">
@@ -54,7 +52,7 @@
 
             <TextView
                 android:id="@+id/Account"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/CategoryRow">
@@ -66,7 +64,7 @@
 
             <TextView
                 android:id="@+id/Category"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow>
@@ -78,7 +76,7 @@
 
             <TextView
                 android:id="@+id/Date"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
 
@@ -91,7 +89,7 @@
 
             <TextView
                 android:id="@+id/Date2"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/OriginalAmountRow"
@@ -103,7 +101,7 @@
 
             <TextView
                 android:id="@+id/OriginalAmount"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow>
@@ -114,7 +112,7 @@
 
             <TextView
                 android:id="@+id/Amount"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/EquivalentAmountRow"
@@ -126,7 +124,7 @@
 
             <TextView
                 android:id="@+id/EquivalentAmount"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/CommentRow">
@@ -137,7 +135,7 @@
 
             <TextView
                 android:id="@+id/Comment"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/PayeeRow">
@@ -148,7 +146,7 @@
 
             <TextView
                 android:id="@+id/Payee"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/MethodRow">
@@ -159,7 +157,7 @@
 
             <TextView
                 android:id="@+id/Method"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/NumberRow">
@@ -170,7 +168,7 @@
 
             <TextView
                 android:id="@+id/Number"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
         </TableRow>
 
         <TableRow android:id="@+id/StatusRow">
@@ -203,7 +201,7 @@
 
             <TextView
                 android:id="@+id/Plan"
-                style="@style/dialog_text"/>
+                style="@style/FormField.Dialog"/>
 
         </TableRow>
     </TableLayout>
@@ -229,7 +227,7 @@
 
         <TextView
             android:id="@+id/empty"
-            style="@style/dialog_text"
+            style="@style/FormField.Dialog"
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"

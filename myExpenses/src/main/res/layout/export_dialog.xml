@@ -47,32 +47,26 @@
 
                 <TextView
                     android:id="@+id/file_name_label"
-                    style="@style/dialog_text"
-                    android:layout_width="0dip"
-                    android:layout_weight="3"
+                    style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
                     android:text="@string/file_name"/>
 
                 <EditText
+                    style="@style/FormField.Dialog"
                     android:id="@+id/file_name"
-                    android:layout_width="0dip"
-                    android:layout_weight="5"
                     android:inputType="text"/>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/dialog_text"
-                    android:layout_width="0dip"
-                    android:layout_weight="3"
+                    style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
                     android:text="@string/pref_export_format_title"/>
 
                 <RadioGroup
+                    style="@style/FormField.Dialog"
                     android:id="@+id/format"
-                    android:layout_width="0dip"
-                    android:layout_weight="5"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -97,15 +91,12 @@
             <TableRow android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/dialog_text"
-                    android:layout_width="0dip"
-                    android:layout_weight="3"
+                    style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
                     android:text="@string/date_format"/>
 
                 <LinearLayout
-                    android:layout_width="0dip"
-                    android:layout_weight="5">
+                    style="@style/FormField.Dialog">
 
                     <EditText
                         android:id="@+id/date_format"
@@ -131,16 +122,13 @@
             <TableRow android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/dialog_text"
-                    android:layout_width="0dip"
-                    android:layout_weight="3"
+                    style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
                     android:text="@string/decimal_separator"/>
 
                 <RadioGroup
+                    style="@style/FormField.Dialog"
                     android:id="@+id/separator"
-                    android:layout_width="0dip"
-                    android:layout_weight="5"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -165,16 +153,13 @@
             <TableRow android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/dialog_text"
-                    android:layout_width="0dip"
-                    android:layout_weight="3"
+                    style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
                     android:text="@string/pref_qif_export_file_encoding_title"/>
 
                 <Spinner
+                    style="@style/FormField.Dialog"
                     android:id="@+id/Encoding"
-                    android:layout_width="0dip"
-                    android:layout_weight="5"
                     android:entries="@array/pref_qif_export_file_encoding"
                     android:entryValues="@array/pref_qif_export_file_encoding"/>
             </TableRow>
