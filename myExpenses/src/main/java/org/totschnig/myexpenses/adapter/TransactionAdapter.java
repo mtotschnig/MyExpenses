@@ -122,7 +122,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     UiUtils.configureAmountTextViewForHebrew(holder.amount);
     if (mAccount.getId() < 0) {
       holder.colorAccount.setLayoutParams(
-          new LayoutParams(4, LayoutParams.FILL_PARENT));
+          new LayoutParams(4, LayoutParams.MATCH_PARENT));
     }
     v.setTag(holder);
     return v;

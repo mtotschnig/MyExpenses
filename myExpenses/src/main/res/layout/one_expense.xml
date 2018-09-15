@@ -19,21 +19,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
         android:fillViewport="true">
 
         <TableLayout
             android:id="@+id/Table"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_form"
             android:paddingRight="@dimen/padding_form"

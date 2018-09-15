@@ -17,27 +17,27 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             tools:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_dialog_side"
         android:paddingRight="@dimen/padding_dialog_side">
 
         <TableLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shrinkColumns="*"
             android:stretchColumns="*">
 
             <TextView
                 android:id="@+id/with_filter"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_export_applied_to_filter"
                 android:visibility="gone"
@@ -221,7 +221,7 @@
         <TextView
             android:id="@+id/warning_reset"
             style="@style/dialog_text.bold"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/warning_reset_account"
             android:visibility="gone"

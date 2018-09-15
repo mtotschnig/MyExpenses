@@ -15,8 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <android.support.design.widget.CoordinatorLayout
@@ -25,8 +25,8 @@
         android:layout_height="match_parent">
         <fragment android:name="org.totschnig.myexpenses.fragment.TemplatesList"
                   android:id="@+id/templates_list"
-                  android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"/>
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"/>
         <include layout="@layout/floating_action_button"/>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

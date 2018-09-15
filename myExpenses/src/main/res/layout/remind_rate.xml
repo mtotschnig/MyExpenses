@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/rating_how_many"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <RatingBar
@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/rating_remind"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

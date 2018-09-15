@@ -15,8 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
   <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
       android:id="@+id/list"
@@ -33,6 +33,6 @@
         android:gravity="center"
         android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:text="@string/no_expenses" />
 </LinearLayout>

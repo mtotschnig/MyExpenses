@@ -5,11 +5,11 @@
     <View
         android:id="@+id/colorAccount"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"/>
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/date"
@@ -68,7 +68,7 @@
 
         <View
             android:id="@+id/voidMarker"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_centerInParent="true"
             android:background="#FFFF0000"

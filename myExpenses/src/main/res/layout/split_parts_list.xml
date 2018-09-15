@@ -18,7 +18,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/SplitContainer"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="0px"
     android:layout_weight="1"
     android:orientation="vertical"
@@ -31,20 +31,20 @@
         android:text="@string/split_parts_heading"/>
 
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1">
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingBottom="55dp"/>
 
         <TextView
             android:id="@+id/empty"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingLeft="10dp"
@@ -55,13 +55,13 @@
     </FrameLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#ffffff"/>
 
     <RelativeLayout
         android:id="@+id/heading"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -88,7 +88,7 @@
 
     <View
         android:id="@+id/BottomLine"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="?android:colorForeground"/>
 </LinearLayout>

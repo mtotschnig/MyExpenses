@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
               android:paddingLeft="10dp"
@@ -27,7 +27,7 @@
 
         <EditText
             android:id="@android:id/edit"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/dialog_security_question"
@@ -40,7 +40,7 @@
 
         <EditText
             android:id="@+id/answer"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/dialog_security_answer"

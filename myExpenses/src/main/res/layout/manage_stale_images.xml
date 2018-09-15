@@ -15,13 +15,13 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <fragment android:name="org.totschnig.myexpenses.fragment.StaleImagesList"
               android:id="@+id/stale_images_list"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="0dp"
               android:layout_weight="1" />
 </LinearLayout>
