@@ -2,7 +2,7 @@
 <resources>
 
     <style name="newHeadingStyle">
-        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textAppearance">?android:textAppearance</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 </resources>

@@ -146,7 +146,7 @@ public class WhereFilter {
         labels.add(c.prettyPrint(context));
       }
     }
-    return TextUtils.join(" - ", labels);
+    return TextUtils.join("\n", labels);
   }
 
   public enum Operation {

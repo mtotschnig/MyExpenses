@@ -231,7 +231,7 @@ public class MyExpenses extends LaunchActivity implements
     ButterKnife.bind(this);
 
     mToolbar = setupToolbar(false);
-    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar, false));
+    getLayoutInflater().inflate(R.layout.custom_title, mToolbar);
     if (mDrawerLayout != null) {
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
           mToolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -672,6 +672,10 @@ public class MyExpenses extends LaunchActivity implements
             .show(this, DIALOG_TAG_SORTING);
         return true;
       }
+      case R.id.CLEAR_FILTER_COMMAND: {
+        getCurrentFragment().clearFilter();
+        break;
+      }
     }
     return false;
   }
@@ -1013,7 +1017,7 @@ public class MyExpenses extends LaunchActivity implements
         (KEY_CURRENT_BALANCE));
     mCurrentBalance = currencyFormatter.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
         .getString(columnIndexCurrency)), balance));
-    TextView balanceTextView = mToolbar.findViewById(R.id.end);
+    TextView balanceTextView = mToolbar.findViewById(R.id.current_balance);
     balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
     balanceTextView.setText(mCurrentBalance);
   }
@@ -1235,5 +1239,12 @@ public class MyExpenses extends LaunchActivity implements
     Bundle extras = new Bundle(1);
     extras.putLongArray(KEY_SORT_KEY, sortedIds);
     startTaskExecution(TaskExecutionFragment.TASK_ACCOUNT_SORT, extras, R.string.progress_dialog_saving);
+  }
+
+  public void clearFilter(View view) {
+    Bundle b = new Bundle();
+    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, "Clear all filters");
+    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND);
+    ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "CLEAR_FILTER");
   }
 }

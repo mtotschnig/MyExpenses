@@ -245,6 +245,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   private void setBalanceVisibility(ViewHolder holder, boolean expanded) {
     holder.currentBalanceHeader.setVisibility(expanded ? View.GONE : View.VISIBLE);
     holder.currentBalance.setVisibility(expanded ? View.VISIBLE: View.INVISIBLE);
+    holder.label.setMaxLines(expanded ? 2 : 1);
   }
 
   private void setConvertedAmount(Currency currency, Cursor c, String columnName, boolean isHome, TextView ... tvs) {

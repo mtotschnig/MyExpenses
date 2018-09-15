@@ -21,10 +21,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
 import android.os.Bundle;
@@ -37,6 +37,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.util.LongSparseArray;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -100,6 +101,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -180,7 +183,12 @@ public class TransactionList extends ContextualActionBarFragment implements
   private boolean hasTransfers;
   private Cursor mTransactionsCursor;
 
-  private ExpandableStickyListHeadersListView mListView;
+  @BindView(R.id.list)
+  ExpandableStickyListHeadersListView mListView;
+  @BindView(R.id.filter)
+  TextView filterView;
+  @BindView(R.id.filterCard)
+  ViewGroup filterCard;
   private LoaderManager mManager;
 
   /**
@@ -296,13 +304,12 @@ public class TransactionList extends ContextualActionBarFragment implements
       restoreFilterFromPreferences();
     }
     View v = inflater.inflate(R.layout.expenses_list, container, false);
-    mListView = v.findViewById(R.id.list);
+    ButterKnife.bind(this, v);
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
     if (scheduledRestart) {
-      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
-      mManager.restartLoader(GROUPING_CURSOR, null, this);
+      refresh(false);
       scheduledRestart = false;
     } else {
       mManager.initLoader(GROUPING_CURSOR, null, this);
@@ -332,6 +339,14 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
+  }
+
+  protected void refresh(boolean invalidateMenu) {
+    mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+    mManager.restartLoader(GROUPING_CURSOR, null, this);
+    if (invalidateMenu) {
+      getActivity().supportInvalidateOptionsMenu();
+    }
   }
 
   @Override
@@ -876,9 +891,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     MyApplication.getInstance().getSettings().edit().putString(
         KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId(), c.toStringExtra())
         .apply();
-    mManager.restartLoader(TRANSACTION_CURSOR, null, this);
-    mManager.restartLoader(GROUPING_CURSOR, null, this);
-    getActivity().supportInvalidateOptionsMenu();
+    refresh(true);
   }
 
   /**
@@ -895,11 +908,15 @@ public class TransactionList extends ContextualActionBarFragment implements
           KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId())
           .apply();
       mFilter.remove(id);
-      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
-      mManager.restartLoader(GROUPING_CURSOR, null, this);
-      getActivity().supportInvalidateOptionsMenu();
+      refresh(true);
     }
     return isFiltered;
+  }
+
+
+  public void clearFilter() {
+    mFilter.clear();
+    refresh(true);
   }
 
   @Override
@@ -912,24 +929,19 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      String title = mAccount.getLabelForScreenTitle(getContext());
       Drawable searchMenuIcon = searchMenu.getIcon();
       if (searchMenuIcon == null) {
         CrashHandler.report("Search menu icon not found");
       }
-      if (!mFilter.isEmpty()) {
-        if (searchMenuIcon != null) {
-          searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        }
-        searchMenu.setChecked(true);
-        title += " ( " + mFilter.prettyPrint(getContext()) + " )";
-      } else {
-        if (searchMenuIcon != null) {
-          searchMenuIcon.setColorFilter(null);
-        }
-        searchMenu.setChecked(false);
+      filterCard.setVisibility(mFilter.isEmpty() ? View.GONE : View.VISIBLE);
+      searchMenu.setChecked(!mFilter.isEmpty());
+      if (searchMenuIcon != null) {
+        DrawableCompat.setTintList(searchMenuIcon, mFilter.isEmpty() ? null : ColorStateList.valueOf(Color.GREEN));
       }
-      ((MyExpenses) getActivity()).setTitle(title);
+      if (!mFilter.isEmpty()) {
+        filterView.setText(mFilter.prettyPrint(getContext()));
+      }
+      ((MyExpenses) getActivity()).setTitle(mAccount.getLabelForScreenTitle(getContext()));
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
         MenuItem filterItem = filterMenu.getItem(i);

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
-    android:paddingBottom="10dp"
+    android:paddingBottom="5dp"
     android:paddingTop="5dp"
     android:foreground="?attr/cardHighlightForeground">
 
@@ -30,16 +30,16 @@
                 android:layout_width="?account_color_indicator_diameter"
                 android:layout_height="?account_color_indicator_diameter"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginStart="-4dp"
                 android:layout_marginLeft="-4dp"
                 android:padding="4dp"
-                android:layout_marginRight="12dp">
+                android:layout_marginRight="4dp">
                 <ImageView
-                    android:layout_marginRight="4dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:id="@+id/colorAccount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -72,6 +72,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     tools:text="@string/label"/>
 
                 <TextView

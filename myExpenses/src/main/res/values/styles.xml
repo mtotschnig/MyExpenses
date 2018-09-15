@@ -34,7 +34,7 @@
 
     <style name="newHeadingStyle">
         <item name="android:textStyle">bold</item>
-        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textAppearance">?android:textAppearance</item>
     </style>
 
     <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->
