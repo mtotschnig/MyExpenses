@@ -872,7 +872,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         snackbar.addCallback(callback);
       }
       snackbar.show();
-      snackbar.addCallback(new Snackbar.Callback());
     }
   }
 
