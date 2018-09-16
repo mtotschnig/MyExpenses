@@ -759,4 +759,5 @@
   <string name="goal_or_limit">Ziel / Limit</string>
   <string name="saving_goal">Sparziel</string>
   <string name="credit_limit">Kreditlimit</string>
+  <string name="clear_all_filters">Alle Filter löschen</string>
 </resources>

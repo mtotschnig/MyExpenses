@@ -759,4 +759,5 @@
   <string name="goal_or_limit">Objectif / Limite</string>
   <string name="saving_goal">Objectif d\'économie</string>
   <string name="credit_limit">Limite de crédit</string>
+  <string name="clear_all_filters">Effacer tous les filtres</string>
 </resources>
