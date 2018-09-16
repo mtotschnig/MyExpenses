@@ -22,34 +22,49 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/filterCard"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:padding="@dimen/general_padding"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/general_padding">
+
+            <ImageView
+                android:id="@+id/filterIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:contentDescription="@string/menu_search"
+                android:tint="#FF00FF00"
+                app:srcCompat="@drawable/ic_menu_search"/>
+
             <TextView
                 android:id="@+id/filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/clearFilter"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/clearFilter"/>
+                android:layout_toEndOf="@+id/filterIcon"
+                android:layout_toLeftOf="@+id/clearFilter"
+                android:layout_toRightOf="@+id/filterIcon"
+                android:layout_toStartOf="@+id/clearFilter"/>
 
             <ImageView
                 android:id="@+id/clearFilter"
                 style="?actionButtonStyle"
-                android:onClick="clearFilter"
-                android:contentDescription="@string/clear_all_filters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_menu_close_clear_cancel"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/clear_all_filters"
+                android:onClick="clearFilter"
+                app:srcCompat="@drawable/ic_menu_close_clear_cancel"/>
 
         </RelativeLayout>
 
