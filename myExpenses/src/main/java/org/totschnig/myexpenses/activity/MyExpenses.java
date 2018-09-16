@@ -1243,7 +1243,7 @@ public class MyExpenses extends LaunchActivity implements
 
   public void clearFilter(View view) {
     Bundle b = new Bundle();
-    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, "Clear all filters");
+    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters));
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND);
     ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "CLEAR_FILTER");
   }

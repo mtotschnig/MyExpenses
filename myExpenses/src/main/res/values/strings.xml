@@ -774,4 +774,5 @@
     <string name="goal_or_limit">Goal / Limit</string>
     <string name="saving_goal">Saving goal</string>
     <string name="credit_limit">Credit limit</string>
+    <string name="clear_all_filters">Clear all filters</string>
 </resources>

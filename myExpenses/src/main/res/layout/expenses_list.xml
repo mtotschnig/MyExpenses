@@ -44,7 +44,7 @@
                 android:id="@+id/clearFilter"
                 style="?actionButtonStyle"
                 android:onClick="clearFilter"
-                android:contentDescription="Clear filter"
+                android:contentDescription="@string/clear_all_filters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_menu_close_clear_cancel"
