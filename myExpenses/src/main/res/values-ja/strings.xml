@@ -745,4 +745,8 @@
   <string name="content_description_collapse">折りたたむ</string>
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">展開</string>
+  <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">目標 / 限度</string>
+  <string name="saving_goal">貯蓄目標</string>
+  <string name="credit_limit">クレジット限度</string>
 </resources>

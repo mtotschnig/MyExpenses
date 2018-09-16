@@ -756,4 +756,7 @@
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">Повече</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Цел / Лимит</string>
+  <string name="saving_goal">Цел за спестяване</string>
+  <string name="credit_limit">Кредитен лимит</string>
 </resources>

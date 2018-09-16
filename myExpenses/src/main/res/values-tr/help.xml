@@ -94,6 +94,7 @@
   <string name="menu_equivalent_amount_help_text">Tüm hesaplar dahilinde genel toplam hesaplamak için yabancı para birimindeki hesaplardaki muameleler hesap için tanımlayacağınız bir döviz kuruyla çarpılacaktır. Fakat herhangi bir bireysel muamele için eşdeğer bir meblağ tanımlayarak bu örtülü olarak hesaplanan meblağı da geçersiz kılabilirsiniz.</string>
   <string name="menu_invert_transfer_help_text">Transfer yönünü \'Kimden\' ve \'Kime\' hesaplarını takas ederek ters çevirin.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Eğer \'Kaynak\' ve \'Hedef\' hesaplarının para birimleri değişik ise, bunlardan sadece biri için meblağı belirtmeniz gerekir. Diğeri şablondan örnekleme oluşturduğunuzda hesaplanacaktır.</string>
+  <string name="form_goal_or_limit_help_text">Bu alan ya bir pozitif tasarruf hedefi ya da bir negatif kredi limiti belirtmenize izin verir. Her iki durumda da hesap listesinde, bir ilerleme göstergesi mevcut bakiye ile hedef veya limit arasındaki mesafeyi görselleştirir.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="form_AccountEdit_label_help_text">Etiket hesabı hesap listesinde tanımlar.</string>

@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_293">
+    <item>שמירת יעדים ומגבלות אשראי</item>
+    <item>ניתן לצמצם קבוצות חשבון (לפי סוג או מטבע)</item>
+  </string-array>
   <string-array name="whats_new_292">
     <item>עצוב מחדש של רשימת החשבונות</item>
     <item>סנכרון יכול להיות מוגבל לרשת Wi-Fi</item>

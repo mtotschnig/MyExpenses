@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_293">
+    <item>Цел за спестяване и кредитен лимит</item>
+    <item>Групи от сметки (по тип или валута) могат да бъдат намалени</item>
+  </string-array>
   <string-array name="whats_new_292">
     <item>Обновен дизайн на списъка на сметките</item>
     <item>Синхронизирането може да се ограничи до Wi-Fi</item>

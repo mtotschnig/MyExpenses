@@ -776,4 +776,7 @@
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">הרחב</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">יעד / מגבלה</string>
+  <string name="saving_goal">מטרת חיסכון</string>
+  <string name="credit_limit">מסגרת אשראי</string>
 </resources>

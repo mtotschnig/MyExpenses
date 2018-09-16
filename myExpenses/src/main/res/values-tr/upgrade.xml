@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_293">
+    <item>Tasarruf hedefleri ve kredi limitleri</item>
+    <item>Hesap grupları (tür veya para birimine göre) küçültülebilir</item>
+  </string-array>
   <string-array name="whats_new_292">
     <item>Hesap listesi yeniden tasarlandı</item>
     <item>Eşleşme sadece Wi-Fi ile sınırlanabilir</item>
