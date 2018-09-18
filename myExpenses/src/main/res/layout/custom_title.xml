@@ -30,7 +30,8 @@
         android:id="@id/action_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"/>
+        android:maxLines="2"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/current_balance"
