@@ -29,7 +29,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/general_padding">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="@dimen/general_padding"
+            android:paddingEnd="@dimen/general_padding">
 
             <ImageView
                 android:id="@+id/filterIcon"
