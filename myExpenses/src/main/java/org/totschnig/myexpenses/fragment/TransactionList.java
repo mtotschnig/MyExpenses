@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
@@ -98,6 +98,8 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -443,7 +445,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         //super is handling deactivation of mActionMode
         break;
       case R.id.CREATE_TEMPLATE_COMMAND:
-        if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true)) {
+        if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true)) {
           ctx.showContribDialog(ContribFeature.SPLIT_TEMPLATE, null);
           return true;
         }
@@ -889,8 +891,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public void addFilterCriteria(Integer id, Criteria c) {
     mFilter.put(id, c);
     MyApplication.getInstance().getSettings().edit().putString(
-        KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId(), c.toStringExtra())
-        .apply();
+        prefNameForCriteria(c.columnName), c.toStringExtra()).apply();
     refresh(true);
   }
 
@@ -904,8 +905,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     Criteria c = mFilter.get(id);
     boolean isFiltered = c != null;
     if (isFiltered) {
-      MyApplication.getInstance().getSettings().edit().remove(
-          KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId())
+      MyApplication.getInstance().getSettings().edit().remove(prefNameForCriteria(c.columnName))
           .apply();
       mFilter.remove(id);
       refresh(true);
@@ -913,8 +913,17 @@ public class TransactionList extends ContextualActionBarFragment implements
     return isFiltered;
   }
 
+  private String prefNameForCriteria(String criteriaColumn) {
+    return String.format(Locale.ROOT, "%s_%s_%d", KEY_FILTER, criteriaColumn, mAccount.getId());
+  }
+
 
   public void clearFilter() {
+    final SharedPreferences.Editor edit = MyApplication.getInstance().getSettings().edit();
+    for (int i = 0, size = getFilterCriteria().size(); i < size; i++) {
+      edit.remove(prefNameForCriteria(getFilterCriteria().valueAt(i).columnName));
+    }
+    edit.apply();
     mFilter.clear();
     refresh(true);
   }
@@ -1061,35 +1070,35 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private void restoreFilterFromPreferences() {
     SharedPreferences settings = MyApplication.getInstance().getSettings();
-    String filter = settings.getString(KEY_FILTER + "_" + KEY_CATID + "_" + mAccount.getId(), null);
+    String filter = settings.getString(prefNameForCriteria(KEY_CATID), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_CATEGORY_COMMAND, CategoryCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_AMOUNT + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_AMOUNT), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_AMOUNT_COMMAND, AmountCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_COMMENT + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_COMMENT), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_COMMENT_COMMAND, CommentCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_CR_STATUS + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_CR_STATUS), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_STATUS_COMMAND, CrStatusCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_PAYEEID + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_PAYEEID), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_PAYEE_COMMAND, PayeeCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_METHODID + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_METHODID), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_DATE + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_DATE), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_DATE_COMMAND, DateCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_" + KEY_TRANSFER_ACCOUNT + "_" + mAccount.getId(), null);
+    filter = settings.getString(prefNameForCriteria(KEY_TRANSFER_ACCOUNT), null);
     if (filter != null) {
       mFilter.put(R.id.FILTER_TRANSFER_COMMAND, TransferCriteria.fromStringExtra(filter));
     }
