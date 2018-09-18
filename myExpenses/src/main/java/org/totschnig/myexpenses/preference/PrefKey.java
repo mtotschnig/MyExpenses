@@ -116,7 +116,8 @@ public enum PrefKey {
   SPLIT_LAST_ACCOUNT_FROM_WIDGET("splitLastAccountFromWidget"),
   PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN("professionalExpirationReminderLastShown"),
   PROFESSIONAL_UPSELL_SNACKBAR_SHOWN("professionalUpsellSnackbarShown"),
-  PERSONALIZED_AD_CONSENT(R.string.pref_ad_consent_key);
+  PERSONALIZED_AD_CONSENT(R.string.pref_ad_consent_key),
+  SCROLL_TO_CURRENT_DATE(R.string.pref_scroll_to_current_date_key);
 
   int resId = 0;
   String key = null;

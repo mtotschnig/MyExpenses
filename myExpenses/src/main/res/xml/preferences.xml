@@ -120,6 +120,7 @@
             android:entryValues="@array/pref_template_click_default_values"
             android:key="@string/pref_template_click_default_key"
             android:title="@string/pref_template_click_default_summary"/>
+
         <PreferenceScreen
             android:key="@string/pref_grouping_start_key"
             android:title="@string/pref_grouping_periods">
@@ -131,6 +132,7 @@
                 android:key="@string/pref_group_month_starts_key"
                 android:title="@string/preferences_month_start_date_title"/>
         </PreferenceScreen>
+
         <PreferenceScreen
             android:key="@string/pref_date_screen_key"
             android:title="@string/date">
@@ -142,8 +144,12 @@
                 android:defaultValue="false"
                 android:key="@string/pref_value_date_key"
                 android:summary="@string/pref_value_date_summary"/>
-
         </PreferenceScreen>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_scroll_to_current_date_key"
+            android:summary="@string/pref_scroll_to_current_date_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory
