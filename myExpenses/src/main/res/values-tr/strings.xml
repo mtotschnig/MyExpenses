@@ -759,4 +759,5 @@
   <string name="goal_or_limit">Hedef / Sınır</string>
   <string name="saving_goal">Tasarruf hedefi </string>
   <string name="credit_limit">Kredi limiti</string>
+  <string name="clear_all_filters">Tüm filtreleri temizle</string>
 </resources>

@@ -94,6 +94,7 @@
   <string name="menu_equivalent_amount_help_text">すべての勘定科目の総額を計算するため、外貨勘定の取引に、勘定科目に設定した為替レートを掛けます。 しかし、個々の取引に相当する金額を設定することで、この暗黙的に計算された金額を上書きすることもできます。</string>
   <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、振替の向きを反転させます。</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">勘定の \'元\' と \'先\' の通貨が異なる場合は、そのうちの一つだけ金額を指定します。テンプレートからインスタンスを作成するときには、他方は計算されます。</string>
+  <string name="form_goal_or_limit_help_text">このフィールドは、ポジティブな貯蓄目標またはネガティブなクレジット限度のいずれかを指定できます。 どちらの場合も、口座一覧で、現在の残高と目標または上限との間の距離を進捗インジケータが視覚化します。</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">勘定用のフォーム</string>
   <string name="form_AccountEdit_label_help_text">ラベルは、勘定のリストで勘定を識別します。</string>

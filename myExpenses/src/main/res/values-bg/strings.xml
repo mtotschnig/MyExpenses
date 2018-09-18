@@ -365,9 +365,9 @@
     <item quantity="other">Успешно записани %1$d транзакции от шаблон.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Шаблонът е изтрит</string>
-  <string name="select">Изберете</string>
-  <string name="select_category">Изберете категория</string>
-  <string name="menu_select_category">Изберете тази категория</string>
+  <string name="select">Избери</string>
+  <string name="select_category">Избери категория</string>
+  <string name="menu_select_category">Избери тази категория</string>
   <string name="menu_select_folder">Избери тази папка</string>
   <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
   <string name="share_sending">Избери файл за експорт</string>
@@ -759,4 +759,5 @@
   <string name="goal_or_limit">Цел / Лимит</string>
   <string name="saving_goal">Цел за спестяване</string>
   <string name="credit_limit">Кредитен лимит</string>
+  <string name="clear_all_filters">Премахни филтрите</string>
 </resources>
