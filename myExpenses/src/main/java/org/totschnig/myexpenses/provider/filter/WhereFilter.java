@@ -11,10 +11,10 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ *
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
-*/
+ */
 
 package org.totschnig.myexpenses.provider.filter;
 
@@ -33,7 +33,7 @@ public class WhereFilter {
 
   public static final String LIKE_ESCAPE_CHAR = "\\";
 
-  private SparseArray<Criteria> criterias= new SparseArray<>();
+  private SparseArray<Criteria> criterias = new SparseArray<>();
   private final LinkedList<String> sorts = new LinkedList<>();
 
   public WhereFilter() {
@@ -41,7 +41,7 @@ public class WhereFilter {
 
   public WhereFilter(SparseArray<Parcelable> sparseArray) {
     for (int i = 0; i < sparseArray.size(); i++) {
-      put(sparseArray.keyAt(i),(Criteria) sparseArray.valueAt(i));
+      put(sparseArray.keyAt(i), (Criteria) sparseArray.valueAt(i));
     }
   }
 
@@ -57,7 +57,7 @@ public class WhereFilter {
 
   public String getSelectionForParents(String tableName) {
     StringBuilder sb = new StringBuilder();
-    for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
       if (c != null) {
         if (sb.length() > 0) {
@@ -68,9 +68,10 @@ public class WhereFilter {
     }
     return sb.toString().trim();
   }
+
   public String getSelectionForParts(String tableName) {
     StringBuilder sb = new StringBuilder();
-    for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
       if (c != null) {
         if (sb.length() > 0) {
@@ -84,9 +85,9 @@ public class WhereFilter {
 
   public String[] getSelectionArgs(boolean queryParts) {
     String[] args = new String[0];
-    for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
-      if (c!=null) {
+      if (c != null) {
         String critArgs[] = c.getSelectionArgs();
         if (queryParts || c.shouldApplyToParts()) {
           critArgs = Utils.joinArrays(critArgs, critArgs);
@@ -135,12 +136,12 @@ public class WhereFilter {
   }
 
   public boolean isEmpty() {
-    return criterias.size()==0;
+    return criterias.size() == 0;
   }
 
   public String prettyPrint(Context context) {
     ArrayList<String> labels = new ArrayList<>();
-    for(int i = 0, nsize = criterias.size(); i < nsize; i++) {
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
       Criteria c = criterias.valueAt(i);
       if (c != null) {
         labels.add(c.prettyPrint(context));
@@ -161,13 +162,13 @@ public class WhereFilter {
     }
 
     public String getOp(int length) {
-      switch(this) {
+      switch (this) {
         case IN:
           StringBuilder sb = new StringBuilder();
           sb.append("IN (");
           for (int i = 0; i < length; i++) {
             sb.append("?");
-            if (i < length -1) {
+            if (i < length - 1) {
               sb.append(",");
             }
           }
