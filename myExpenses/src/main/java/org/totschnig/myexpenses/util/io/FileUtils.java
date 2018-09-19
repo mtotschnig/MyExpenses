@@ -32,6 +32,7 @@ import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -222,6 +223,8 @@ public class FileUtils {
         final int column_index = cursor.getColumnIndexOrThrow(column);
         return cursor.getString(column_index);
       }
+    } catch (Exception e) {
+      CrashHandler.report(e);
     } finally {
       if (cursor != null)
         cursor.close();

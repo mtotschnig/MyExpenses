@@ -40,8 +40,7 @@ public class BackupUtils {
       return Result.ofFailure(R.string.io_error_cachedir_null);
     }
     Result result = DbUtils.backup(cacheDir);
-    String failureMessage = application.getString(R.string.backup_failure,
-        FileUtils.getPath(application, backupFile.getUri()));
+    String failureMessage;
     if (result.isSuccess()) {
       try {
         ZipUtils.zipBackup(
@@ -50,13 +49,16 @@ public class BackupUtils {
         return Result.ofSuccess(R.string.backup_success, backupFile);
       } catch (IOException e) {
         CrashHandler.report(e);
-        return Result.ofFailure(failureMessage + " " + e.getMessage());
+        failureMessage = e.getMessage();
       } finally {
         getBackupDbFile(cacheDir).delete();
         getBackupPrefFile(cacheDir).delete();
       }
+    } else {
+      failureMessage = result.print(application);
     }
-    return Result.ofFailure(failureMessage + " " + result.print(application));
+    return Result.ofFailure(application.getString(R.string.backup_failure,
+        FileUtils.getPath(application, backupFile.getUri())) + " " + failureMessage);
   }
 
   private static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
