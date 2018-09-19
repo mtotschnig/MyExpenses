@@ -760,4 +760,5 @@
   <string name="saving_goal">Цел за спестяване</string>
   <string name="credit_limit">Кредитен лимит</string>
   <string name="clear_all_filters">Премахни филтрите</string>
+  <string name="pref_scroll_to_current_date_summary">При стартиране на приложението превърти списъка с транзакции до текущата дата</string>
 </resources>
