@@ -123,4 +123,9 @@ public class Result<T> {
     return message == 0 ? (messageString == null ? "null" : messageString) :
         (ctx.getString(message, (Object[]) messageArguments));
   }
+
+  public String print0(Context ctx) {
+    return message == 0 ? messageString :
+        (ctx.getString(message, (Object[]) messageArguments));
+  }
 }
