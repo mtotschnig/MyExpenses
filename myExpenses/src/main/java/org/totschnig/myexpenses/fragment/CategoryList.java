@@ -24,10 +24,12 @@ import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -60,6 +62,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.squareup.sqlbrite3.BriteContentResolver;
+import com.squareup.sqlbrite3.SqlBrite;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -89,6 +93,11 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
@@ -135,21 +144,28 @@ public class CategoryList extends SortableListFragment implements
 
   private static final String KEY_CHILD_COUNT = "child_count";
   public static final String KEY_FILTER = "filter";
-  private View mImportButton;
+  private BriteContentResolver briteContentResolver;
+  private Disposable sumDisposable, dateInfoDisposable;
 
   protected int getMenuResource() {
     return R.menu.categorylist_context;
   }
 
-  private static final int SUM_CURSOR = -2;
-  private static final int DATEINFO_CURSOR = -3;
-
   private MyExpandableListAdapter mAdapter;
-  private ExpandableListView mListView;
   private LoaderManager mManager;
-  private TextView incomeSumTv, expenseSumTv;
-  private View bottomLine;
-  private PieChart mChart;
+  private SqlBrite sqlBrite = new SqlBrite.Builder().build();
+  @Nullable @BindView(R.id.chart1)
+  PieChart mChart;
+  @BindView(R.id.list)
+  ExpandableListView mListView;
+  @BindView(R.id.sum_income)
+  TextView incomeSumTv;
+  @BindView(R.id.sum_expense)
+  TextView expenseSumTv;
+  @Nullable @BindView(R.id.BottomLine)
+  View bottomLine;
+  @Nullable @BindView(R.id.importButton)
+  View mImportButton;
   public Grouping mGrouping;
   int mGroupingYear;
   int mGroupingSecond;
@@ -176,10 +192,11 @@ public class CategoryList extends SortableListFragment implements
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     MyApplication.getInstance().getAppComponent().inject(this);
+    briteContentResolver = sqlBrite.wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     aggregateTypes = PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
@@ -216,10 +233,9 @@ public class CategoryList extends SortableListFragment implements
       mGroupingYear = b.getInt(KEY_YEAR);
       mGroupingSecond = b.getInt(KEY_SECOND_GROUP);
       getActivity().supportInvalidateOptionsMenu();
-      mManager.initLoader(SUM_CURSOR, null, this);
-      mManager.initLoader(DATEINFO_CURSOR, null, this);
+
       v = inflater.inflate(R.layout.distribution_list, container, false);
-      mChart = v.findViewById(R.id.chart1);
+      ButterKnife.bind(this, v);
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       mChart.getDescription().setEnabled(false);
 
@@ -262,18 +278,14 @@ public class CategoryList extends SortableListFragment implements
       mChart.setUsePercentValues(true);
     } else {
       v = inflater.inflate(R.layout.categories_list, container, false);
+      ButterKnife.bind(this, v);
       if (savedInstanceState!=null) {
         mFilter = savedInstanceState.getString(KEY_FILTER);
       }
     }
-    incomeSumTv = v.findViewById(R.id.sum_income);
-    expenseSumTv = v.findViewById(R.id.sum_expense);
-    bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
-    mListView = v.findViewById(R.id.list);
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mImportButton = emptyView.findViewById(R.id.importButton);
     Timber.w("initLoader SORTABLE_CURSOR");
     mManager.initLoader(SORTABLE_CURSOR, null, this);
     String[] from;
@@ -357,6 +369,113 @@ public class CategoryList extends SortableListFragment implements
       registerForContextualActionBar(mListView);
     }
     return v;
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    updateSum();
+    updateDateInfo();
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    disposeSum();
+    disposeDateInfo();
+  }
+
+  private void updateDateInfo() {
+    disposeDateInfo();
+    ArrayList<String> projectionList = new ArrayList<>(Arrays.asList(
+        getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+        THIS_YEAR + " AS " + KEY_THIS_YEAR,
+        getThisMonth() + " AS " + KEY_THIS_MONTH,
+        getThisWeek() + " AS " + KEY_THIS_WEEK,
+        THIS_DAY + " AS " + KEY_THIS_DAY));
+    //if we are at the beginning of the year we are interested in the max of the previous year
+    int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
+    switch (mGrouping) {
+      case DAY:
+        projectionList.add(String.format(Locale.US, "strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
+        break;
+      case WEEK:
+        projectionList.add(String.format(Locale.US, "strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
+        break;
+      case MONTH:
+        projectionList.add("11 as " + KEY_MAX_VALUE);
+        break;
+      default://YEAR
+        projectionList.add("0 as " + KEY_MAX_VALUE);
+    }
+    if (mGrouping.equals(Grouping.WEEK)) {
+      //we want to find out the week range when we are given a week number
+      //we find out the first Monday in the year, which is the beginning of week 1 and then
+      //add (weekNumber-1)*7 days to get at the beginning of the week
+      projectionList.add(DbUtils.weekStartFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
+      projectionList.add(DbUtils.weekEndFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
+    }
+    dateInfoDisposable = briteContentResolver.createQuery(
+        TransactionProvider.DUAL_URI,
+        projectionList.toArray(new String[projectionList.size()]),
+        null, null, null, false)
+        .mapToOne(cursor -> {
+          thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
+          thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
+          thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
+          thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));
+          maxValue = cursor.getInt(cursor.getColumnIndex(KEY_MAX_VALUE));
+          minValue = mGrouping == Grouping.MONTH ? 0 : 1;
+          return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(s -> ((ProtectedFragmentActivity) getActivity()).getSupportActionBar().setSubtitle(s));
+  }
+
+  private void updateSum() {
+    disposeSum();
+    Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
+    if (!mAccount.isHomeAggregate()) {
+      if (mAccount.isAggregate()) {
+        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+      } else {
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+      }
+    }
+    //if we have no income or expense, there is no row in the cursor
+    sumDisposable = briteContentResolver.createQuery(builder.build(),
+        null,
+        buildGroupingClause(),
+        null,
+        null, true)
+        .mapToList(cursor -> {
+          int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
+          long sum = cursor.getLong(cursor.getColumnIndex(KEY_SUM));
+          return Pair.create(type, sum);
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(pairs -> {
+          boolean[] seen = new boolean[2];
+          for (Pair<Integer, Long> pair : pairs) {
+            seen[pair.first] = true;
+            updateSum(pair.first > 0 ? "+ " : "- ",
+                pair.first > 0 ? incomeSumTv : expenseSumTv, pair.second);
+          }
+          if (!seen[1]) updateSum("+ ", incomeSumTv, 0);
+          if (!seen[0]) updateSum("- ", expenseSumTv, 0);
+        });
+  }
+
+  private void disposeSum() {
+    if (sumDisposable != null && !sumDisposable.isDisposed()) {
+      sumDisposable.dispose();
+    }
+  }
+
+  private void disposeDateInfo() {
+    if (dateInfoDisposable != null && !dateInfoDisposable.isDisposed()) {
+      dateInfoDisposable.dispose();
+    }
   }
 
   @Override
@@ -638,57 +757,6 @@ public class CategoryList extends SortableListFragment implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     Timber.w("onCreateLoader %d", id);
-    if (id == SUM_CURSOR) {
-      Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
-      if (!mAccount.isHomeAggregate()) {
-        if (mAccount.isAggregate()) {
-          builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
-        } else {
-          builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
-        }
-      }
-      return new CursorLoader(
-          getActivity(),
-          builder.build(),
-          null,
-          buildGroupingClause(),
-          null,
-          null);
-    }
-    if (id == DATEINFO_CURSOR) {
-      ArrayList<String> projectionList = new ArrayList<>(Arrays.asList(
-          getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
-          THIS_YEAR + " AS " + KEY_THIS_YEAR,
-          getThisMonth() + " AS " + KEY_THIS_MONTH,
-          getThisWeek() + " AS " + KEY_THIS_WEEK,
-          THIS_DAY + " AS " + KEY_THIS_DAY));
-      //if we are at the beginning of the year we are interested in the max of the previous year
-      int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
-      switch (mGrouping) {
-        case DAY:
-          projectionList.add(String.format(Locale.US, "strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
-          break;
-        case WEEK:
-          projectionList.add(String.format(Locale.US, "strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
-          break;
-        case MONTH:
-          projectionList.add("11 as " + KEY_MAX_VALUE);
-          break;
-        default://YEAR
-          projectionList.add("0 as " + KEY_MAX_VALUE);
-      }
-      if (mGrouping.equals(Grouping.WEEK)) {
-        //we want to find out the week range when we are given a week number
-        //we find out the first Monday in the year, which is the beginning of week 1 and then
-        //add (weekNumber-1)*7 days to get at the beginning of the week
-        projectionList.add(DbUtils.weekStartFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
-        projectionList.add(DbUtils.weekEndFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
-      }
-      return new CursorLoader(getActivity(),
-          TransactionProvider.DUAL_URI,
-          projectionList.toArray(new String[projectionList.size()]),
-          null, null, null);
-    }
     //SORTABLE_CURSOR
     long parentId;
     String selection = "", accountSelector = null, sortOrder = null;
@@ -800,32 +868,6 @@ public class CategoryList extends SortableListFragment implements
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     ActionBar actionBar = ctx.getSupportActionBar();
     switch (id) {
-      case SUM_CURSOR:
-        boolean[] seen = new boolean[2];
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-          int type = c.getInt(c.getColumnIndex(KEY_TYPE));
-          updateSum(type > 0 ? "+ " : "- ",
-              type > 0 ? incomeSumTv : expenseSumTv,
-              c.getLong(c.getColumnIndex(KEY_SUM)));
-          c.moveToNext();
-          seen[type] = true;
-        }
-        //if we have no income or expense, there is no row in the cursor
-        if (!seen[1]) updateSum("+ ", incomeSumTv, 0);
-        if (!seen[0]) updateSum("- ", expenseSumTv, 0);
-        break;
-      case DATEINFO_CURSOR:
-        c.moveToFirst();
-        actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-            mGroupingYear, mGroupingSecond, c));
-        thisYear = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
-        thisMonth = c.getInt(c.getColumnIndex(KEY_THIS_MONTH));
-        thisWeek = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
-        thisDay = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
-        maxValue = c.getInt(c.getColumnIndex(KEY_MAX_VALUE));
-        minValue = mGrouping == Grouping.MONTH ? 0 : 1;
-        break;
       case SORTABLE_CURSOR:
         mGroupCursor = c;
         mAdapter.setGroupCursor(c);
@@ -1134,8 +1176,8 @@ public class CategoryList extends SortableListFragment implements
     Timber.w("reset");
     mManager.restartLoader(SORTABLE_CURSOR, null, this);
     if (((ManageCategories) getActivity()).getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
-      mManager.restartLoader(SUM_CURSOR, null, this);
-      mManager.restartLoader(DATEINFO_CURSOR, null, this);
+      updateSum();
+      updateDateInfo();
     }
   }
 
