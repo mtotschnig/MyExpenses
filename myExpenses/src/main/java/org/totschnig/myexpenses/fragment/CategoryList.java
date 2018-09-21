@@ -133,9 +133,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
-public class CategoryList extends ContextualActionBarFragment {
+public class CategoryList extends SortableListFragment {
 
-  private static final String KEY_CHILD_COUNT = "child_count";
   public static final String KEY_FILTER = "filter";
   private BriteContentResolver briteContentResolver;
   private Disposable sumDisposable, dateInfoDisposable, categoryDisposable;
@@ -282,7 +281,7 @@ public class CategoryList extends ContextualActionBarFragment {
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount == null ? null : mAccount.currency);
     mListView.setAdapter(mAdapter);
     loadData();
     if (isDistributionScreen()) {
@@ -371,7 +370,7 @@ public class CategoryList extends ContextualActionBarFragment {
     disposeCategory();
   }
 
-  private void loadData() {
+  protected void loadData() {
     String selection = null, accountSelector = null, sortOrder = null;
     String[] selectionArgs, projection;
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
@@ -906,7 +905,7 @@ public class CategoryList extends ContextualActionBarFragment {
         reset();
         return true;
     }
-    return false;//handleSortOption(item);
+    return handleSortOption(item);
   }
 
   private boolean handleGrouping(MenuItem item) {
@@ -1013,7 +1012,7 @@ public class CategoryList extends ContextualActionBarFragment {
 //      }
     collapseAll();
     Timber.w("reset");
-    //mManager.restartLoader(SORTABLE_CURSOR, null, this);
+    loadData();
     if (isDistributionScreen()) {
       updateSum();
       updateDateInfo();

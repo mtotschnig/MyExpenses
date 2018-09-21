@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.adapter;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.util.LongSparseArray;
 import android.view.LayoutInflater;
@@ -10,9 +9,12 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,23 +28,21 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 
 public class CategoryTreeAdapter extends BaseExpandableListAdapter {
+  private final Currency currency;
   private List<Category> mainCategories = new ArrayList<>();
   private LongSparseArray<Integer> positionMap = new LongSparseArray<>();
   private final LayoutInflater inflater;
+  private final CurrencyFormatter currencyFormatter;
+  private final int colorExpense;
+  private final int colorIncome;
 
-  public CategoryTreeAdapter(Context ctx) {
+  public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter, Currency currency) {
     inflater = LayoutInflater.from(ctx);
+    this.currencyFormatter = currencyFormatter;
+    this.currency = currency;
+    this.colorExpense = ctx.getColorExpense();
+    this.colorIncome = ctx.getColorIncome();
   }
-
-
-/*  public void setViewText(TextView v, String text) {
-    switch (v.getId()) {
-      case R.id.amount:
-        v.setTextColor(Double.valueOf(text) < 0 ? colorExpense : colorIncome);
-        text = currencyFormatter.convAmount(text, mAccount.currency);
-    }
-    super.setViewText(v, text);
-  }*/
 
   @Override
   public int getGroupCount() {
@@ -98,7 +98,11 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     } else {
       holder = (ViewHolder) convertView.getTag();
     }
-    (holder.label).setText(item.label);
+    holder.label.setText(item.label);
+    if (item.sum != null && currency != null) {
+      holder.amount.setTextColor(item.sum < 0 ? colorExpense : colorIncome);
+      holder.amount.setText(currencyFormatter.convAmount(item.sum, currency));
+    }
 
     return convertView;
   }
@@ -127,7 +131,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
           final Long parentId = DbUtils.getLongOrNull(cursor, columnIndexParentId);
           final Category category = new Category(
               id, parentId, cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
-              DbUtils.getLongOr0L(cursor, columnIndexSum),
+              columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapTemplates == -1 ? null : cursor.getInt(columnIndexMapTemplates) > 0,
               columnIndexMapTransactions == -1 ? null : cursor.getInt(columnIndexMapTransactions) > 0);
           if (parentId == null) {
@@ -161,12 +165,12 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     public final long id;
     public final Long parentId;
     public final String label;
-    public final long sum;
+    public final Long sum;
     public final Boolean hasMappedTemplates;
     public final Boolean hasMappedTransactions;
     List<Category> children = new ArrayList<>();
 
-    public Category(long id, Long parentId, String label, long sum, Boolean hasMappedTemplates,
+    public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
                     Boolean hasMappedTransactions) {
       this.id = id;
       this.parentId = parentId;

@@ -95,8 +95,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
-public class TemplatesList extends SortableListFragment {
-
+public class TemplatesList extends SortableListFragment
+    implements LoaderManager.LoaderCallbacks<Cursor> {
+  protected static final int SORTABLE_CURSOR = -1;
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
   public static final String KEY_IS_SPLIT = "isSplit";
   private ListView mListView;
@@ -450,6 +451,7 @@ public class TemplatesList extends SortableListFragment {
     return PrefKey.SORT_ORDER_TEMPLATES;
   }
 
+
   //after orientation change, we need to restore the reference
   public PlanMonthFragment requirePlanMonthFragment() {
     return planMonthFragment != null ? planMonthFragment : ((PlanMonthFragment)
@@ -623,7 +625,7 @@ public class TemplatesList extends SortableListFragment {
         getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }
   }
-  public void refresh() {
+  public void loadData() {
     Utils.requireLoader(mManager, SORTABLE_CURSOR, null, this);
   }
 }

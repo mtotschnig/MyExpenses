@@ -201,7 +201,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
         if (PermissionHelper.allGranted(grantResults)) {
-          mListFragment.refresh();
+          mListFragment.loadData();
         }
       }
     }
