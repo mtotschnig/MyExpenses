@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
@@ -26,12 +26,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -47,8 +43,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -72,6 +66,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
@@ -83,7 +78,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -139,32 +133,35 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
-public class CategoryList extends SortableListFragment implements
-    OnChildClickListener, OnGroupClickListener {
+public class CategoryList extends ContextualActionBarFragment {
 
   private static final String KEY_CHILD_COUNT = "child_count";
   public static final String KEY_FILTER = "filter";
   private BriteContentResolver briteContentResolver;
-  private Disposable sumDisposable, dateInfoDisposable;
+  private Disposable sumDisposable, dateInfoDisposable, categoryDisposable;
 
   protected int getMenuResource() {
     return R.menu.categorylist_context;
   }
 
-  private MyExpandableListAdapter mAdapter;
-  private LoaderManager mManager;
+  private CategoryTreeAdapter mAdapter;
   private SqlBrite sqlBrite = new SqlBrite.Builder().build();
-  @Nullable @BindView(R.id.chart1)
+  @Nullable
+  @BindView(R.id.chart1)
   PieChart mChart;
   @BindView(R.id.list)
   ExpandableListView mListView;
+  @Nullable
   @BindView(R.id.sum_income)
   TextView incomeSumTv;
+  @Nullable
   @BindView(R.id.sum_expense)
   TextView expenseSumTv;
-  @Nullable @BindView(R.id.BottomLine)
+  @Nullable
+  @BindView(R.id.BottomLine)
   View bottomLine;
-  @Nullable @BindView(R.id.importButton)
+  @Nullable
+  @BindView(R.id.importButton)
   View mImportButton;
   public Grouping mGrouping;
   int mGroupingYear;
@@ -201,9 +198,8 @@ public class CategoryList extends SortableListFragment implements
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
-    mManager = getLoaderManager();
     Timber.w("onCreateView %s", ctx.getHelpVariant());
-    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
+    if (isDistributionScreen()) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<>();
       for (int col : ColorTemplate.PASTEL_COLORS)
@@ -279,30 +275,17 @@ public class CategoryList extends SortableListFragment implements
     } else {
       v = inflater.inflate(R.layout.categories_list, container, false);
       ButterKnife.bind(this, v);
-      if (savedInstanceState!=null) {
+      if (savedInstanceState != null) {
         mFilter = savedInstanceState.getString(KEY_FILTER);
       }
     }
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    Timber.w("initLoader SORTABLE_CURSOR");
-    mManager.initLoader(SORTABLE_CURSOR, null, this);
-    String[] from;
-    int[] to;
-    if (mAccount != null) {
-      from = new String[]{KEY_LABEL, KEY_SUM};
-      to = new int[]{R.id.label, R.id.amount};
-    } else {
-      from = new String[]{KEY_LABEL};
-      to = new int[]{R.id.label};
-    }
-    mAdapter = new MyExpandableListAdapter(ctx,
-        null,
-        R.layout.category_row, R.layout.category_row,
-        from, to, from, to);
+    mAdapter = new CategoryTreeAdapter(ctx);
     mListView.setAdapter(mAdapter);
-    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
+    loadData();
+    if (isDistributionScreen()) {
       mListView.setOnGroupExpandListener(groupPosition -> {
         if (showChart) {
           if (lastExpandedPosition != -1
@@ -374,8 +357,10 @@ public class CategoryList extends SortableListFragment implements
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    updateSum();
-    updateDateInfo();
+    if (isDistributionScreen()) {
+      updateSum();
+      updateDateInfo();
+    }
   }
 
   @Override
@@ -383,6 +368,81 @@ public class CategoryList extends SortableListFragment implements
     super.onDestroyView();
     disposeSum();
     disposeDateInfo();
+    disposeCategory();
+  }
+
+  private void loadData() {
+    String selection = "", accountSelector = null, sortOrder = null;
+    String[] selectionArgs, projection;
+    String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
+        TABLE_CATEGORIES + "." + KEY_ROWID +
+        " UNION SELECT " + KEY_ROWID + " FROM "
+        + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
+    String catFilter;
+    if (mAccount != null) {
+      //Distribution
+      String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
+      if (mAccount.isHomeAggregate()) {
+        accountSelection = null;
+        amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+        table = VIEW_EXTENDED;
+      } else if (mAccount.isAggregate()) {
+        accountSelection = " IN " +
+            "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+            KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
+        accountSelector = mAccount.currency.getCurrencyCode();
+      } else {
+        accountSelection = " = ?";
+        accountSelector = String.valueOf(mAccount.getId());
+      }
+      catFilter = "FROM " + table +
+          " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND " + KEY_ACCOUNTID + accountSelection));
+      if (!aggregateTypes) {
+        catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
+      }
+      if (!mGrouping.equals(Grouping.NONE)) {
+        catFilter += " AND " + buildGroupingClause();
+      }
+      //we need to include transactions mapped to children for main categories
+      catFilter += " AND " + CATTREE_WHERE_CLAUSE;
+      selection = " AND exists (SELECT 1 " + catFilter + ")";
+      projection = new String[]{
+          KEY_ROWID,
+          KEY_PARENTID,
+          KEY_LABEL,
+          "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
+      };
+      sortOrder = "abs(" + KEY_SUM + ") DESC";
+    } else {
+      catFilter = CATTREE_WHERE_CLAUSE;
+      projection = new String[]{
+          KEY_ROWID,
+          KEY_PARENTID,
+          KEY_LABEL,
+          //here we do not filter out void transactinos since they need to be considered as mapped
+          "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+          "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+      };
+    }
+    boolean isFiltered = !TextUtils.isEmpty(mFilter);
+    String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
+    String[] filterSelectArgs = {"%" + mFilter + "%", "%" + mFilter + "%"};
+    if (isFiltered) {
+      selection += " AND (" + filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
+          " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
+          + filterSelection + " )))";
+    }
+    selectionArgs = mAccount != null ?
+        (accountSelector != null ? new String[]{accountSelector, accountSelector} : null) :
+        (isFiltered ? filterSelectArgs : null);
+    categoryDisposable = briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
+        projection, selection, selectionArgs, sortOrder, true)
+        .subscribe(query -> {
+          mAdapter.ingest(query.run());
+          if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> mAdapter.notifyDataSetChanged());
+          }
+        });
   }
 
   private void updateDateInfo() {
@@ -420,6 +480,7 @@ public class CategoryList extends SortableListFragment implements
         projectionList.toArray(new String[projectionList.size()]),
         null, null, null, false)
         .mapToOne(cursor -> {
+          //TODO make this functional: return info instead of setting variables by side effect
           thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
           thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
           thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
@@ -478,17 +539,23 @@ public class CategoryList extends SortableListFragment implements
     }
   }
 
+  private void disposeCategory() {
+    if (categoryDisposable != null && !categoryDisposable.isDisposed()) {
+      categoryDisposable.dispose();
+    }
+  }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
     ManageCategories ctx = (ManageCategories) getActivity();
     ArrayList<Long> idList;
     switch (command) {
-      case R.id.DELETE_COMMAND:
+      case R.id.DELETE_COMMAND: {
         int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
         idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
-          Cursor c;
+          CategoryTreeAdapter.Category c;
           if (positions.valueAt(i)) {
             boolean deletable = true;
             int position = positions.keyAt(i);
@@ -498,25 +565,22 @@ public class CategoryList extends SortableListFragment implements
                 child = ExpandableListView.getPackedPositionChild(pos);
             if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
               c = mAdapter.getChild(group, child);
-              c.moveToPosition(child);
             } else {
-              c = mGroupCursor;
-              c.moveToPosition(group);
+              c = mAdapter.getGroup(group);
             }
-            long itemId = c.getLong(c.getColumnIndex(KEY_ROWID));
             Bundle extras = ctx.getIntent().getExtras();
-            if ((extras != null && extras.getLong(KEY_ROWID) == itemId) || c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS)) > 0) {
+            if ((extras != null && extras.getLong(KEY_ROWID) == c.id) || c.hasMappedTransactions) {
               mappedTransactionsCount++;
               deletable = false;
-            } else if (c.getInt(c.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES)) > 0) {
+            } else if (c.hasMappedTemplates) {
               mappedTemplatesCount++;
               deletable = false;
             }
             if (deletable) {
-              if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex(KEY_CHILD_COUNT)) > 0) {
+              if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
                 hasChildrenCount++;
               }
-              idList.add(itemId);
+              idList.add(c.id);
             }
           }
         }
@@ -551,10 +615,11 @@ public class CategoryList extends SortableListFragment implements
           ctx.showSnackbar(message, Snackbar.LENGTH_LONG);
         }
         return true;
-      case R.id.SELECT_COMMAND_MULTIPLE:
+      }
+      case R.id.SELECT_COMMAND_MULTIPLE: {
         ArrayList<String> labelList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
-          Cursor c;
+          CategoryTreeAdapter.Category c;
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
             long pos = mListView.getExpandableListPosition(position);
@@ -563,12 +628,10 @@ public class CategoryList extends SortableListFragment implements
                 child = ExpandableListView.getPackedPositionChild(pos);
             if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
               c = mAdapter.getChild(group, child);
-              c.moveToPosition(child);
             } else {
-              c = mGroupCursor;
-              c.moveToPosition(group);
+              c = mAdapter.getGroup(group);
             }
-            labelList.add(c.getString(c.getColumnIndex(KEY_LABEL)));
+            labelList.add(c.label);
           }
         }
         Intent intent = new Intent();
@@ -577,6 +640,7 @@ public class CategoryList extends SortableListFragment implements
         ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
         ctx.finish();
         return true;
+      }
       case R.id.MOVE_COMMAND:
         final Long[] excludedIds;
         final boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
@@ -589,8 +653,7 @@ public class CategoryList extends SortableListFragment implements
               int position = positions.keyAt(i);
               long pos = mListView.getExpandableListPosition(position);
               int group = ExpandableListView.getPackedPositionGroup(pos);
-              mGroupCursor.moveToPosition(group);
-              idList.add(mGroupCursor.getLong(mGroupCursor.getColumnIndex(KEY_ROWID)));
+              idList.add(mAdapter.getGroup(group).id);
             }
           }
           excludedIds = idList.toArray(new Long[idList.size()]);
@@ -611,7 +674,7 @@ public class CategoryList extends SortableListFragment implements
     ManageCategories ctx = (ManageCategories) getActivity();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
-    Cursor c;
+    CategoryTreeAdapter.Category c;
     boolean isMain;
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
@@ -619,14 +682,10 @@ public class CategoryList extends SortableListFragment implements
       c = mAdapter.getChild(group, child);
       isMain = false;
     } else {
-      c = mGroupCursor;
+      c = mAdapter.getGroup(group);
       isMain = true;
     }
-    if (c == null || c.getCount() == 0) {
-      //observed on Blackberry Z10
-      return false;
-    }
-    String label = c.getString(c.getColumnIndex(KEY_LABEL));
+    String label = c.label;
     switch (command) {
       case R.id.EDIT_COMMAND:
         ctx.editCat(label, elcmi.id);
@@ -634,10 +693,7 @@ public class CategoryList extends SortableListFragment implements
       case R.id.SELECT_COMMAND:
         if (!isMain &&
             ctx.getHelpVariant().equals(ManageCategories.HelpVariant.select_mapping)) {
-          mGroupCursor.moveToPosition(group);
-          label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
-              + TransactionList.CATEGORY_SEPARATOR
-              + label;
+          label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
         }
         doSelection(elcmi.id, label, isMain);
         finishActionMode();
@@ -647,94 +703,6 @@ public class CategoryList extends SortableListFragment implements
         return true;
     }
     return super.dispatchCommandSingle(command, info);
-  }
-
-  /**
-   * Mapping the categories table into the ExpandableList
-   *
-   * @author Michael Totschnig
-   */
-  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
-    private int colorExpense;
-    private int colorIncome;
-
-    public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
-                                   int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
-                                   int[] childrenTo) {
-      super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
-          childrenTo);
-      colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
-      colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
-    }
-
-    /* (non-Javadoc)
-     * returns a cursor with the subcategories for the group
-     * @see android.widget.CursorTreeAdapter#getChildrenCursor(android.database.Cursor)
-     */
-    @Override
-    protected Cursor getChildrenCursor(Cursor groupCursor) {
-      // Given the group, we return a cursor for all the children within that group
-      long parentId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(KEY_ROWID));
-      Bundle bundle = new Bundle();
-      bundle.putLong(KEY_PARENTID, parentId);
-      int groupPos = groupCursor.getPosition();
-      if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
-        Timber.w("restartLoader %d", groupPos);
-        try {
-          Timber.w("restartLoader %d", groupPos);
-          mManager.restartLoader(groupPos, bundle, CategoryList.this);
-        } catch (NullPointerException e) {
-          // a NPE is thrown in the following scenario:
-          //1)open a group
-          //2)orientation change
-          //3)open the same group again
-          //in this scenario getChildrenCursor is called twice, second time leads to error
-          //maybe it is trying to close the group that had been kept open before the orientation change
-          Timber.e(e);
-        }
-      } else {
-        Timber.w("initLoader %d", groupPos);
-        mManager.initLoader(groupPos, bundle, CategoryList.this);
-      }
-      return null;
-    }
-
-    @Override
-    public void setViewText(TextView v, String text) {
-      switch (v.getId()) {
-        case R.id.amount:
-          v.setTextColor(Double.valueOf(text) < 0 ? colorExpense : colorIncome);
-          text = currencyFormatter.convAmount(text, mAccount.currency);
-      }
-      super.setViewText(v, text);
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-      convertView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
-      View colorView = convertView.findViewById(R.id.color1);
-      if (showChart) {
-        colorView.setBackgroundColor(mMainColors.get(groupPosition % mMainColors.size()));
-      } else {
-        colorView.setVisibility(View.GONE);
-      }
-      return convertView;
-    }
-
-    @Override
-    public View getChildView(int groupPosition, int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
-      convertView = super.getChildView(groupPosition, childPosition, isLastChild,
-          convertView, parent);
-      View colorView = convertView.findViewById(R.id.color1);
-      if (showChart) {
-        colorView.setBackgroundColor(mSubColors.get(childPosition % mSubColors.size()));
-      } else {
-        colorView.setVisibility(View.GONE);
-      }
-      return convertView;
-    }
   }
 
   private String buildGroupingClause() {
@@ -752,113 +720,7 @@ public class CategoryList extends SortableListFragment implements
         return null;
     }
   }
-
-  @NonNull
-  @Override
-  public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    Timber.w("onCreateLoader %d", id);
-    //SORTABLE_CURSOR
-    long parentId;
-    String selection = "", accountSelector = null, sortOrder = null;
-    String[] selectionArgs, projection;
-    String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
-        TABLE_CATEGORIES + "." + KEY_ROWID +
-        " UNION SELECT " + KEY_ROWID + " FROM "
-        + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
-    String CHILD_COUNT_SELECT = "(select count(*) FROM " + TABLE_CATEGORIES
-        + " subtree where " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ") as "
-        + KEY_CHILD_COUNT;
-    String catFilter;
-    if (mAccount != null) {
-      //Distribution
-      String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
-      if (mAccount.isHomeAggregate()) {
-        accountSelection = null;
-        amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
-        table = VIEW_EXTENDED;
-      } else if (mAccount.isAggregate()) {
-        accountSelection = " IN " +
-            "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-            KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-        accountSelector = mAccount.currency.getCurrencyCode();
-      } else {
-        accountSelection = " = ?";
-        accountSelector = String.valueOf(mAccount.getId());
-      }
-      catFilter = "FROM " + table +
-          " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND " + KEY_ACCOUNTID + accountSelection));
-      if (!aggregateTypes) {
-        catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
-      }
-      if (!mGrouping.equals(Grouping.NONE)) {
-        catFilter += " AND " + buildGroupingClause();
-      }
-      //we need to include transactions mapped to children for main categories
-      if (bundle == null) {
-        catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-      } else {
-        catFilter += " AND " + KEY_CATID + "  = " + TABLE_CATEGORIES + "." + KEY_ROWID;
-      }
-      selection = " AND exists (SELECT 1 " + catFilter + ")";
-      projection = new String[]{
-          KEY_ROWID,
-          KEY_LABEL,
-          CHILD_COUNT_SELECT,
-          "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
-      };
-      sortOrder = "abs(" + KEY_SUM + ") DESC";
-    } else {
-      //manage, select
-      if (bundle == null) {
-        catFilter = CATTREE_WHERE_CLAUSE;
-      } else {
-        catFilter = KEY_CATID + "  = " + TABLE_CATEGORIES + "." + KEY_ROWID;
-      }
-      projection = new String[]{
-          KEY_ROWID,
-          KEY_LABEL,
-          CHILD_COUNT_SELECT,
-          //here we do not filter out void transactinos since they need to be considered as mapped
-          "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-          "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
-      };
-    }
-    boolean isFiltered = !TextUtils.isEmpty(mFilter);
-    String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
-    String[] filterSelectArgs = {"%" + mFilter + "%", "%" + mFilter + "%"};
-    if (bundle == null) {
-      //group cursor
-      selection = KEY_PARENTID + " is null" + selection;
-      if (isFiltered) {
-        selection += " AND (" + filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
-            " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
-            + filterSelection + " )))";
-      }
-      selectionArgs = mAccount != null ?
-          (accountSelector != null ? new String[]{accountSelector, accountSelector} : null) :
-          (isFiltered ? filterSelectArgs : null);
-    } else {
-      //child cursor
-      parentId = bundle.getLong(KEY_PARENTID);
-      selection = KEY_PARENTID + " = ?" + selection;
-      if (isFiltered) {
-        selection += " AND (" + filterSelection + " OR (SELECT " + KEY_LABEL_NORMALIZED + " FROM " +
-            TABLE_CATEGORIES + " parent WHERE " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." +
-            KEY_PARENTID + ") LIKE ?)";
-      }
-      selectionArgs = mAccount != null ?
-          (accountSelector != null ?
-              //the first accountSelector arg is for KEY_SUM in the projection
-              new String[]{accountSelector, String.valueOf(parentId), accountSelector} :
-              new String[]{String.valueOf(parentId)}) :
-          (isFiltered ?
-              Utils.joinArrays(new String[]{String.valueOf(parentId)}, filterSelectArgs) :
-              new String[]{String.valueOf(parentId)});
-    }
-    return new CursorLoader(getActivity(), TransactionProvider.CATEGORIES_URI, projection,
-        selection, selectionArgs, sortOrder);
-  }
-
+/*
   @Override
   public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor c) {
     Timber.w("onLoadFinished %d", loader.getId());
@@ -916,26 +778,8 @@ public class CategoryList extends SortableListFragment implements
           }
         }
     }
-  }
+  }*/
 
-  @Override
-  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-    Timber.w("onLoaderReset %d", loader.getId());
-    int id = loader.getId();
-    if (id == SORTABLE_CURSOR) {
-      mGroupCursor = null;
-      mAdapter.setGroupCursor(null);
-    } else if (id > 0) {
-      // child cursor
-      try {
-        mAdapter.setChildrenCursor(id, null);
-      } catch (NullPointerException e) {
-        Timber.w(e, "Adapter expired, try again on the next query: ");
-      }
-    }
-  }
-
-  @Override
   protected PrefKey getSortOrderPrefKey() {
     return PrefKey.SORT_ORDER_CATEGORIES;
   }
@@ -944,8 +788,8 @@ public class CategoryList extends SortableListFragment implements
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx == null) return;
-    
-    if (!ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
+
+    if (!isDistributionScreen()) {
       inflater.inflate(R.menu.search, menu);
       SearchManager searchManager =
           (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
@@ -974,7 +818,7 @@ public class CategoryList extends SortableListFragment implements
           }
           collapseAll();
           Timber.w("restartLoader SORTABLE_CURSOR");
-          mManager.restartLoader(SORTABLE_CURSOR, null, CategoryList.this);
+          //mManager.restartLoader(SORTABLE_CURSOR, null, CategoryList.this);
           return true;
         }
       });
@@ -1062,7 +906,7 @@ public class CategoryList extends SortableListFragment implements
         reset();
         return true;
     }
-    return handleSortOption(item);
+    return false;//handleSortOption(item);
   }
 
   private boolean handleGrouping(MenuItem item) {
@@ -1085,7 +929,7 @@ public class CategoryList extends SortableListFragment implements
   /*     (non-Javadoc)
    * return the sub cat to the calling activity
    * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
-*/
+   */
   @Override
   public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     if (super.onChildClick(parent, v, groupPosition, childPosition, id))
@@ -1096,10 +940,7 @@ public class CategoryList extends SortableListFragment implements
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
     if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.select_mapping)) {
-      mGroupCursor.moveToPosition(groupPosition);
-      label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
-          + TransactionList.CATEGORY_SEPARATOR
-          + label;
+      label = mAdapter.getGroup(groupPosition).label + TransactionList.CATEGORY_SEPARATOR + label;
     }
     doSelection(id, label, false);
     return true;
@@ -1114,18 +955,16 @@ public class CategoryList extends SortableListFragment implements
     if (ctx == null || ctx.getHelpVariant().equals(ManageCategories.HelpVariant.manage)) {
       return false;
     }
-    long cat_id = id;
-    mGroupCursor.moveToPosition(groupPosition);
-    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0)
+    if (mAdapter.getGroup(groupPosition).hasChildren())
       return false;
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    doSelection(cat_id, label, true);
+    doSelection(id, label, true);
     return true;
   }
 
   private void doSelection(long cat_id, String label, boolean isMain) {
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
+    if (isDistributionScreen()) {
       TransactionListDialogFragment.newInstance(
           mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
           .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
@@ -1174,8 +1013,8 @@ public class CategoryList extends SortableListFragment implements
 //      }
     collapseAll();
     Timber.w("reset");
-    mManager.restartLoader(SORTABLE_CURSOR, null, this);
-    if (((ManageCategories) getActivity()).getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
+    //mManager.restartLoader(SORTABLE_CURSOR, null, this);
+    if (isDistributionScreen()) {
       updateSum();
       updateDateInfo();
     }
@@ -1259,11 +1098,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   private boolean hasChildren(int position) {
-    if (position != -1 && mGroupCursor != null) {
-      mGroupCursor.moveToPosition(position);
-      return mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0;
-    }
-    return false;
+    return position != -1 && mAdapter.getGroup(position).hasChildren();
   }
 
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
@@ -1388,5 +1223,9 @@ public class CategoryList extends SortableListFragment implements
         description + "\n" +
             value
     );
+  }
+
+  private boolean isDistributionScreen() {
+    return ((ManageCategories) getActivity()).getHelpVariant().equals(ManageCategories.HelpVariant.distribution);
   }
 }
