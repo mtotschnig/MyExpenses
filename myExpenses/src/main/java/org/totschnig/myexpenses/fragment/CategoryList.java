@@ -372,7 +372,7 @@ public class CategoryList extends ContextualActionBarFragment {
   }
 
   private void loadData() {
-    String selection = "", accountSelector = null, sortOrder = null;
+    String selection = null, accountSelector = null, sortOrder = null;
     String[] selectionArgs, projection;
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
         TABLE_CATEGORIES + "." + KEY_ROWID +
@@ -405,7 +405,7 @@ public class CategoryList extends ContextualActionBarFragment {
       }
       //we need to include transactions mapped to children for main categories
       catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-      selection = " AND exists (SELECT 1 " + catFilter + ")";
+      selection = " exists (SELECT 1 " + catFilter + ")";
       projection = new String[]{
           KEY_ROWID,
           KEY_PARENTID,
@@ -413,6 +413,7 @@ public class CategoryList extends ContextualActionBarFragment {
           "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
       };
       sortOrder = "abs(" + KEY_SUM + ") DESC";
+      selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
     } else {
       catFilter = CATTREE_WHERE_CLAUSE;
       projection = new String[]{
@@ -423,18 +424,18 @@ public class CategoryList extends ContextualActionBarFragment {
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
       };
+      boolean isFiltered = !TextUtils.isEmpty(mFilter);
+      if (isFiltered) {
+        String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
+        selectionArgs = new String[] {"%" + mFilter + "%", "%" + mFilter + "%"};
+        selection = filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
+            " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
+            + filterSelection + " ))";
+      } else {
+        selectionArgs = null;
+      }
     }
-    boolean isFiltered = !TextUtils.isEmpty(mFilter);
-    String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
-    String[] filterSelectArgs = {"%" + mFilter + "%", "%" + mFilter + "%"};
-    if (isFiltered) {
-      selection += " AND (" + filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
-          " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
-          + filterSelection + " )))";
-    }
-    selectionArgs = mAccount != null ?
-        (accountSelector != null ? new String[]{accountSelector, accountSelector} : null) :
-        (isFiltered ? filterSelectArgs : null);
+
     categoryDisposable = briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
         projection, selection, selectionArgs, sortOrder, true)
         .subscribe(query -> {
@@ -817,8 +818,7 @@ public class CategoryList extends ContextualActionBarFragment {
             mImportButton.setVisibility(View.GONE);
           }
           collapseAll();
-          Timber.w("restartLoader SORTABLE_CURSOR");
-          //mManager.restartLoader(SORTABLE_CURSOR, null, CategoryList.this);
+          loadData();
           return true;
         }
       });
