@@ -111,8 +111,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       public void onItemCheckedStateChanged(ActionMode mode, int position,
                                             long id, boolean checked) {
         int count = lv.getCheckedItemCount();
-        if (lv instanceof ExpandableListView &&
-            count == 1) {
+        if (lv instanceof ExpandableListView && count == 1 && checked) {
           expandableListSelectionType = ExpandableListView.getPackedPositionType(
               ((ExpandableListView) lv).getExpandableListPosition(position));
         }
