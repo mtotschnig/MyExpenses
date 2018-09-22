@@ -456,7 +456,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     Intent i;
     i = new Intent(this, Help.class);
     i.putExtra(HelpDialogFragment.KEY_VARIANT,
-        variant != null ? variant : getHelpVariant().name());
+        variant != null ? variant : getHelpVariant());
     //for result is needed since it allows us to inspect the calling activity
     startActivityForResult(i, 0);
   }
