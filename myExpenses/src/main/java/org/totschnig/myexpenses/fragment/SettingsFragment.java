@@ -322,6 +322,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (!adHandlerFactory.isRequestLocationInEeaOrUnknown() || adHandlerFactory.isAdDisabled()) {
         privacyCategory.removePreference(pref);
       }
+      if (privacyCategory.getPreferenceCount() == 0) {
+        preferenceScreen.removePreference(privacyCategory);
+      }
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
       languagePref.setEntries(getLocaleArray(getContext()));
