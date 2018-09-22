@@ -760,4 +760,5 @@
   <string name="saving_goal">Tasarruf hedefi </string>
   <string name="credit_limit">Kredi limiti</string>
   <string name="clear_all_filters">Tüm filtreleri temizle</string>
+  <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
 </resources>
