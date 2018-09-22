@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.retrofit.ValidationService;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.licence.Licence;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
@@ -100,7 +100,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         Licence licence = licenceResponse.body();
         if (licenceResponse.isSuccessful() && licence != null && licence.getType() != null) {
           licenceHandler.updateLicenceStatus(licence);
-          return Result.ofSuccess(Utils.concatResStrings(MyApplication.getInstance(), " ",
+          return Result.ofSuccess(TextUtils.concatResStrings(MyApplication.getInstance(), " ",
               R.string.licence_validation_success, licence.getType().getResId()));
         } else {
           switch (licenceResponse.code()) {

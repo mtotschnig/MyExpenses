@@ -57,9 +57,9 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <TextView
-            android:id="@+id/eu_vat_info"
+            android:id="@+id/github_extra_info"
             style="@style/LicencePrice"
-            android:text="@string/eu_vat_info"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

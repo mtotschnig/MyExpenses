@@ -52,6 +52,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.CONTRIB;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.PROFESSIONAL;
@@ -168,10 +169,16 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     }
     lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, PROFESSIONAL));
-    ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(wrappedContext, lines, R.drawable.ic_menu_done));
+    ((TextView) professionalContainer.findViewById(R.id.package_feature_list))
+        .setText(Utils.makeBulletList(wrappedContext, lines, R.drawable.ic_menu_done));
 
     //FOOTER
-    dialogView.findViewById(R.id.eu_vat_info).setVisibility(DistribHelper.isGithub() ? View.VISIBLE : View.GONE);
+    final TextView githubExtraInfo = dialogView.findViewById(R.id.github_extra_info);
+    if (DistribHelper.isGithub()) {
+      githubExtraInfo.setVisibility(View.VISIBLE);
+      githubExtraInfo.setText(concatResStrings(getActivity(),
+          ". ", R.string.professional_key_fallback_info, R.string.eu_vat_info));
+    }
 
     builder.setTitle(feature == null ? R.string.menu_contrib :
             feature.isExtended() ? R.string.dialog_title_extended_feature :

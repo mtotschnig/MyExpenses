@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.text.SimpleDateFormat;
@@ -92,7 +92,7 @@ public class AutoBackupService extends JobIntentService {
           }
         }
       } else {
-        String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
+        String notifTitle = TextUtils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
         AUTO_BACKUP.putBoolean(false);
         String content = result.print(this) + " " + getString(R.string.warning_auto_backup_deactivated);
         Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);

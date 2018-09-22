@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -201,7 +202,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         syncResult.stats.numIoExceptions++;
         syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
         log().i(exception);
-        appendToNotification(Utils.concatResStrings(getContext(), " ",
+        appendToNotification(TextUtils.concatResStrings(getContext(), " ",
             R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
       }
       return;
@@ -525,7 +526,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private String getNotificationTitle() {
-    return Utils.concatResStrings(getContext(), " ", R.string.app_name, R.string.synchronization);
+    return TextUtils.concatResStrings(getContext(), " ", R.string.app_name, R.string.synchronization);
   }
 
   private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,

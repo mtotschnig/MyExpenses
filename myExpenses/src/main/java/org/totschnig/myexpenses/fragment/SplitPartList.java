@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -138,7 +139,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     });
     registerForContextMenu(lv);
     fab = v.findViewById(R.id.CREATE_COMMAND);
-    fab.setContentDescription(Utils.concatResStrings(getActivity(), ". ",
+    fab.setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
     updateFabColor(account.color);
     return v;

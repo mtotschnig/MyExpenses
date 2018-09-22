@@ -105,6 +105,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 import static org.totschnig.myexpenses.util.DistribHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.DistribHelper.getVersionInfo;
+import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -302,7 +303,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void showDeviceLockScreenWarning() {
     showSnackbar(
-        Utils.concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
+        concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
         Snackbar.LENGTH_LONG);
   }
 

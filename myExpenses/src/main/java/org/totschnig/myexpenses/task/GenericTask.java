@@ -46,7 +46,6 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.io.FileUtils;
@@ -74,6 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -593,9 +593,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           if (syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
-            return Result.ofFailure(Utils.concatResStrings(application, " ",
+            return Result.ofFailure(concatResStrings(application, " ",
                 R.string.link_account_failure_2, R.string.link_account_failure_3)
-                + "(" + Utils.concatResStrings(application, ", ", R.string.menu_settings,
+                + "(" + concatResStrings(application, ", ", R.string.menu_settings,
                 R.string.pref_manage_sync_backends_title) + ")");
           }
           return Result.SUCCESS;
