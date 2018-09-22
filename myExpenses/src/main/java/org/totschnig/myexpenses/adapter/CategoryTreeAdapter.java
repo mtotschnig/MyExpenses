@@ -121,7 +121,6 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
   }
 
   /**
-   * This method expects the main categories to be sorted first
    * @param cursor
    */
   public void ingest(Cursor cursor) {
@@ -177,7 +176,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     public final Long sum;
     public final Boolean hasMappedTemplates;
     public final Boolean hasMappedTransactions;
-    List<Category> children = new ArrayList<>();
+    private final List<Category> children = new ArrayList<>();
 
     public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
                     Boolean hasMappedTransactions) {

@@ -510,18 +510,28 @@ public class CategoryList extends SortableListFragment {
         TransactionProvider.DUAL_URI,
         projectionList.toArray(new String[projectionList.size()]),
         null, null, null, false)
-        .mapToOne(cursor -> {
-          //TODO make this functional: return info instead of setting variables by side effect
-          thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
-          thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
-          thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
-          thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));
-          maxValue = cursor.getInt(cursor.getColumnIndex(KEY_MAX_VALUE));
-          minValue = mGrouping == Grouping.MONTH ? 0 : 1;
-          return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(s -> ((ProtectedFragmentActivity) getActivity()).getSupportActionBar().setSubtitle(s));
+        .subscribe(query -> {
+          final Cursor cursor = query.run();
+          if (cursor != null) {
+            if (getActivity() != null) {
+              getActivity().runOnUiThread(() -> {
+                try {
+                  cursor.moveToFirst();
+                  thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
+                  thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
+                  thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
+                  thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));
+                  maxValue = cursor.getInt(cursor.getColumnIndex(KEY_MAX_VALUE));
+                  minValue = mGrouping == Grouping.MONTH ? 0 : 1;
+                  ((ProtectedFragmentActivity) getActivity()).getSupportActionBar().setSubtitle(
+                      mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor));
+                } finally {
+                  cursor.close();
+                }
+              });
+            }
+          }
+        });
   }
 
   private void updateSum() {
