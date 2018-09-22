@@ -49,6 +49,14 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     return mainCategories.size();
   }
 
+  public List<Category> getMainCategories() {
+    return mainCategories;
+  }
+
+  public List<Category> getSubCategories(int groupPosition) {
+    return getGroup(groupPosition).children;
+  }
+
   @Override
   public int getChildrenCount(int groupPosition) {
     return mainCategories.get(groupPosition).children.size();
@@ -149,6 +157,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
       } finally {
         cursor.close();
       }
+      notifyDataSetChanged();
     }
   }
 
