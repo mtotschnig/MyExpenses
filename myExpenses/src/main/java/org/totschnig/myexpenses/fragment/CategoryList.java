@@ -28,6 +28,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -43,7 +44,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -83,6 +83,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -168,7 +169,6 @@ public class CategoryList extends SortableListFragment {
   int thisYear, thisMonth, thisWeek, thisDay, maxValue, minValue;
 
   private Account mAccount;
-  private Cursor mGroupCursor;
 
   protected boolean isIncome = false;
   private ArrayList<Integer> mMainColors, mSubColors;
@@ -176,7 +176,6 @@ public class CategoryList extends SortableListFragment {
 
   boolean showChart = false;
   boolean aggregateTypes;
-  boolean chartDisplaysSubs;
 
   String mFilter;
 
@@ -291,13 +290,26 @@ public class CategoryList extends SortableListFragment {
               && groupPosition != lastExpandedPosition) {
             mListView.collapseGroup(lastExpandedPosition);
           }
+          long packedPosition;
+          List<CategoryTreeAdapter.Category> categories = mAdapter.getSubCategories(groupPosition);
+          if (categories.size() > 0) {
+            mSubColors = getSubColors(mMainColors.get(groupPosition % mMainColors.size()));
+            setData(categories, mSubColors);
+            highlight(0);
+            packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
+          } else {
+            packedPosition =
+                ExpandableListView.getPackedPositionForGroup(groupPosition);
+            highlight(groupPosition);
+          }
+          mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
         }
         lastExpandedPosition = groupPosition;
       });
       mListView.setOnGroupCollapseListener(groupPosition -> {
         if (showChart) {
           lastExpandedPosition = -1;
-          setData(mGroupCursor, mMainColors);
+          setData(mAdapter.getMainCategories(), mMainColors);
           highlight(groupPosition);
           long packedPosition = ExpandableListView
               .getPackedPositionForGroup(groupPosition);
@@ -344,8 +356,7 @@ public class CategoryList extends SortableListFragment {
         public void onNothingSelected(AdapterView<?> parent) {
         }
       });
-
-      mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+      mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
       registerForContextMenu(mListView);
     } else {
       registerForContextualActionBar(mListView);
@@ -359,6 +370,11 @@ public class CategoryList extends SortableListFragment {
     if (isDistributionScreen()) {
       updateSum();
       updateDateInfo();
+    }
+    if (mAccount != null) {
+      ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
+      ActionBar actionBar = ctx.getSupportActionBar();
+      actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
     }
   }
 
@@ -426,7 +442,7 @@ public class CategoryList extends SortableListFragment {
       boolean isFiltered = !TextUtils.isEmpty(mFilter);
       if (isFiltered) {
         String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
-        selectionArgs = new String[] {"%" + mFilter + "%", "%" + mFilter + "%"};
+        selectionArgs = new String[]{"%" + mFilter + "%", "%" + mFilter + "%"};
         selection = filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
             " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
             + filterSelection + " ))";
@@ -438,9 +454,24 @@ public class CategoryList extends SortableListFragment {
     categoryDisposable = briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
         projection, selection, selectionArgs, sortOrder, true)
         .subscribe(query -> {
-          mAdapter.ingest(query.run());
+          final Cursor cursor = query.run();
           if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> mAdapter.notifyDataSetChanged());
+            getActivity().runOnUiThread(() -> {
+              mAdapter.ingest(cursor);
+              if (isDistributionScreen()) {
+                if (mAdapter.getGroupCount() > 0) {
+                  if (lastExpandedPosition == -1) {
+                    mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+                    setData(mAdapter.getMainCategories(), mMainColors);
+                    highlight(0);
+                    if (showChart)
+                      mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
+                  }
+                } else {
+                  mChart.setVisibility(View.GONE);
+                }
+              }
+            });
           }
         });
   }
@@ -720,65 +751,6 @@ public class CategoryList extends SortableListFragment {
         return null;
     }
   }
-/*
-  @Override
-  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor c) {
-    Timber.w("onLoadFinished %d", loader.getId());
-    if (getActivity() == null)
-      return;
-    int id = loader.getId();
-    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    ActionBar actionBar = ctx.getSupportActionBar();
-    switch (id) {
-      case SORTABLE_CURSOR:
-        mGroupCursor = c;
-        mAdapter.setGroupCursor(c);
-        if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
-          if (c.getCount() > 0) {
-            if (lastExpandedPosition == -1) {
-              mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-              setData(c, mMainColors);
-              highlight(0);
-              if (showChart)
-                mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
-            }
-          } else {
-            mChart.setVisibility(View.GONE);
-          }
-        }
-        if (mAccount != null) {
-          actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
-        }
-        invalidateCAB(); //only need to do this for group since children's cab does not depnd on cursor
-        break;
-      default:
-        //check if group still exists
-        if (mAdapter.getGroupId(id) != 0) {
-          mAdapter.setChildrenCursor(id, c);
-          if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.distribution)) {
-            long packedPosition;
-            if (c.getCount() > 0) {
-              mSubColors = getSubColors(mMainColors.get(id % mMainColors.size()));
-              setData(c, mSubColors);
-              highlight(0);
-              packedPosition =
-                  ExpandableListView.getPackedPositionForChild(id, 0);
-            } else {
-              packedPosition =
-                  ExpandableListView.getPackedPositionForGroup(id);
-              if (!chartDisplaysSubs) {//check if a loader running concurrently has already switched to subs
-                highlight(id);
-              }
-            }
-            if (showChart && id == lastExpandedPosition) {
-              //if user has expanded a new group before loading is finished, getFlatListPosition
-              //would run in an NPE
-              mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
-            }
-          }
-        }
-    }
-  }*/
 
   protected PrefKey getSortOrderPrefKey() {
     return PrefKey.SORT_ORDER_CATEGORIES;
@@ -1002,16 +974,9 @@ public class CategoryList extends SortableListFragment {
 
   public void reset() {
 //TODO: would be nice to retrieve the same open groups on the next or previous group
-//the following does not work since the groups will not necessarily stay the same
-//      if (mListView.isGroupExpanded(i)) {
-//        mGroupCursor.moveToPosition(i);
-//        long parentId = mGroupCursor.getLong(mGroupCursor.getColumnIndexOrThrow(KEY_ROWID));
-//        Bundle bundle = new Bundle();
-//        bundle.putLong("parent_id", parentId);
-//        mManager.restartLoader(i, bundle, CategoryList.this);
-//      }
-    collapseAll();
     Timber.w("reset");
+    mListView.clearChoices();
+    lastExpandedPosition = -1;
     loadData();
     if (isDistributionScreen()) {
       updateSum();
@@ -1054,7 +1019,6 @@ public class CategoryList extends SortableListFragment {
         ctx.getHelpVariant().equals(HelpVariant.distribution);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
-    menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution);
     MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
     menuItem.setVisible(count == 1 &&
         (ctx.getHelpVariant().equals(HelpVariant.distribution) || ctx.getHelpVariant().equals(HelpVariant.select_mapping)));
@@ -1101,7 +1065,10 @@ public class CategoryList extends SortableListFragment {
   }
 
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
-    menu.findItem(R.id.MOVE_COMMAND).setVisible(!hasChildren);
+    ManageCategories ctx = (ManageCategories) getActivity();
+    boolean inFilterOrDistribution = ctx.getHelpVariant().equals(HelpVariant.select_filter) ||
+        ctx.getHelpVariant().equals(HelpVariant.distribution);
+    menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution && !hasChildren);
   }
 
   public void setType(boolean isChecked) {
@@ -1109,34 +1076,28 @@ public class CategoryList extends SortableListFragment {
     reset();
   }
 
-  private void setData(Cursor c, ArrayList<Integer> colors) {
-    chartDisplaysSubs = c != mGroupCursor;
+  private void setData(List<CategoryTreeAdapter.Category> categories, List<Integer> colors) {
     ArrayList<PieEntry> entries = new ArrayList<>();
-    if (c != null && c.moveToFirst()) {
-      do {
-        long sum = c.getLong(c.getColumnIndex(DatabaseConstants.KEY_SUM));
-        Timber.d("Sum %f", (float) sum);
-        PieEntry entry = new PieEntry((float) Math.abs(sum));
-        entry.setLabel(c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)));
-        entries.add(entry);
-      } while (c.moveToNext());
-
-      PieDataSet ds1 = new PieDataSet(entries, "");
-
-      ds1.setColors(colors);
-      ds1.setSliceSpace(2f);
-      ds1.setDrawValues(false);
-
-      PieData data = new PieData(ds1);
-      data.setValueFormatter(new PercentFormatter());
-      mChart.setData(data);
-      mChart.getLegend().setEnabled(false);
-      // undo all highlights
-      mChart.highlightValues(null);
-      mChart.invalidate();
-    } else {
-      mChart.clear();
+    for (CategoryTreeAdapter.Category category : categories) {
+      long sum = category.sum;
+      Timber.d("Sum %f", (float) sum);
+      PieEntry entry = new PieEntry((float) Math.abs(sum));
+      entry.setLabel(category.label);
+      entries.add(entry);
     }
+    PieDataSet ds1 = new PieDataSet(entries, "");
+
+    ds1.setColors(colors);
+    ds1.setSliceSpace(2f);
+    ds1.setDrawValues(false);
+
+    PieData data = new PieData(ds1);
+    data.setValueFormatter(new PercentFormatter());
+    mChart.setData(data);
+    mChart.getLegend().setEnabled(false);
+    // undo all highlights
+    mChart.highlightValues(null);
+    mChart.invalidate();
   }
 
   private ArrayList<Integer> getSubColors(int color) {
@@ -1206,7 +1167,6 @@ public class CategoryList extends SortableListFragment {
       setCenterText(position);
     }
   }
-
 
   private void setCenterText(int position) {
     PieData data = mChart.getData();
