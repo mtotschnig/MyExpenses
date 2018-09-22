@@ -482,9 +482,9 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  protected void doHelp(Object tag) {
+  protected void doHelp(String variant) {
     setHelpVariant();
-    super.doHelp(tag);
+    super.doHelp(variant);
   }
 
   /**

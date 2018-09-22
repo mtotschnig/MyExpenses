@@ -174,7 +174,7 @@ public class PlanMonthFragment extends CaldroidFragment
       @Override
       public boolean onMenuItemClick(MenuItem item) {
         ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
-            ManageTemplates.HelpVariant.plans);
+            ManageTemplates.HelpVariant.plans.name());
         return true;
       }
     });

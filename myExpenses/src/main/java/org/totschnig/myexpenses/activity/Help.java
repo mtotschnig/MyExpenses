@@ -39,7 +39,7 @@ public class Help extends ProtectedFragmentActivity {
         context = "MyExpenses";
       }
     }
-    Enum<?> variant = (Enum<?>) getIntent().getSerializableExtra(HelpDialogFragment.KEY_VARIANT);
+    String variant = getIntent().getStringExtra(HelpDialogFragment.KEY_VARIANT);
     HelpDialogFragment.newInstance(context, variant).show(getSupportFragmentManager(), "HELP");
   }
 }

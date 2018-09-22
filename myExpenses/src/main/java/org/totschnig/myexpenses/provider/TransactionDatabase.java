@@ -137,7 +137,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITT
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 76;
+  public static final int DATABASE_VERSION = 77;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -175,8 +175,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_ORIGINAL_CURRENCY + " text, "
           + KEY_EQUIVALENT_AMOUNT + " integer);";
 
-  private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid ON "
-      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
+  private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
+      + TABLE_TRANSACTIONS + "(" + KEY_UUID + "," + KEY_ACCOUNTID + "," + KEY_STATUS + ")";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -1685,6 +1685,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 76) {
         db.execSQL("ALTER TABLE accounts add column criterion integer");
+      }
+      if (oldVersion < 77) {
+        db.execSQL("DROP INDEX transactions_account_uuid");
+        db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(uuid,account_id,status)");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

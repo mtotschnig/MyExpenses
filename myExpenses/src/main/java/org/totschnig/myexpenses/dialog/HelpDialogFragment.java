@@ -121,12 +121,13 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   private String variant;
   private LinearLayout linearLayout;
 
-  public static HelpDialogFragment newInstance(String context, Enum<?> variant) {
+  public static HelpDialogFragment newInstance(String context, String variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
     Bundle args = new Bundle();
     args.putString(KEY_CONTEXT, context);
-    if (variant != null)
-      args.putString(KEY_VARIANT, variant.name());
+    if (variant != null) {
+      args.putString(KEY_VARIANT, variant);
+    }
     dialogFragment.setArguments(args);
     return dialogFragment;
   }

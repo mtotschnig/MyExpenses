@@ -407,7 +407,8 @@ public class TransactionProvider extends ContentProvider {
           projection = Category.PROJECTION;
         }
         if (sortOrder == null) {
-          sortOrder = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
+          sortOrder = "case when " + KEY_PARENTID + " is null then 0 else 1 end, " + KEY_PARENTID + ", "
+              + Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
         }
         break;
       case CATEGORY_ID:

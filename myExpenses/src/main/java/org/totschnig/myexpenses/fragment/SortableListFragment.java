@@ -1,20 +1,14 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.Utils;
 
-public abstract class SortableListFragment extends ContextualActionBarFragment
-    implements LoaderManager.LoaderCallbacks<Cursor> {
-
-  protected static final int SORTABLE_CURSOR = -1;
+public abstract class SortableListFragment extends ContextualActionBarFragment {
 
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
@@ -37,9 +31,8 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
     if (newSortOrder != null) {
       if (!item.isChecked()) {
         getSortOrderPrefKey().putString(newSortOrder.name());
-        getActivity().supportInvalidateOptionsMenu();
-        LoaderManager manager = getLoaderManager();
-        Utils.requireLoader(manager, SORTABLE_CURSOR, null, this);
+        getActivity().invalidateOptionsMenu();
+        loadData();
       }
       return true;
     }
@@ -48,4 +41,5 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
 
 
   protected abstract PrefKey getSortOrderPrefKey();
+  protected abstract void loadData();
 }
