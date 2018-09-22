@@ -122,20 +122,16 @@ public class ManageCategories extends ProtectedFragmentActivity implements
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2,
                                    float velocityX, float velocityY) {
-              //http://stackoverflow.com/questions/937313/android-basic-gesture-detection
-              try {
-                if (Math.abs(e1.getY() - e2.getY()) > REL_SWIPE_MAX_OFF_PATH)
-                  return false;
-                if (e1.getX() - e2.getX() > REL_SWIPE_MIN_DISTANCE
-                    && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
-                  mListFragment.forward();
-                  return true;
-                } else if (e2.getX() - e1.getX() > REL_SWIPE_MIN_DISTANCE
-                    && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
-                  mListFragment.back();
-                  return true;
-                }
-              } catch (Exception e) {
+              if (Math.abs(e1.getY() - e2.getY()) > REL_SWIPE_MAX_OFF_PATH)
+                return false;
+              if (e1.getX() - e2.getX() > REL_SWIPE_MIN_DISTANCE
+                  && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
+                mListFragment.forward();
+                return true;
+              } else if (e2.getX() - e1.getX() > REL_SWIPE_MIN_DISTANCE
+                  && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
+                mListFragment.back();
+                return true;
               }
               return false;
             }
