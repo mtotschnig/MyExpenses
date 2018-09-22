@@ -64,7 +64,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyApplication.ThemeType;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
-import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -95,6 +94,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_DISTRIBUTION;
+import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
+import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -196,7 +199,7 @@ public class CategoryList extends SortableListFragment {
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
-    Timber.w("onCreateView %s", ctx.getHelpVariant());
+    Timber.w("onCreateView %s", ctx.getAction());
     if (isDistributionScreen()) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<>();
@@ -713,6 +716,7 @@ public class CategoryList extends SortableListFragment {
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ManageCategories ctx = (ManageCategories) getActivity();
+    String action = ctx.getAction();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
     CategoryTreeAdapter.Category c;
@@ -732,8 +736,7 @@ public class CategoryList extends SortableListFragment {
         ctx.editCat(label, elcmi.id);
         return true;
       case R.id.SELECT_COMMAND:
-        if (!isMain &&
-            ctx.getHelpVariant().equals(ManageCategories.HelpVariant.select_mapping)) {
+        if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
           label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
         }
         doSelection(elcmi.id, label, isMain);
@@ -916,11 +919,15 @@ public class CategoryList extends SortableListFragment {
     if (super.onChildClick(parent, v, groupPosition, childPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null || ctx.getHelpVariant().equals(ManageCategories.HelpVariant.manage)) {
+    if (ctx == null) {
+      return false;
+    }
+    String action = ctx.getAction();
+    if (action.equals(ACTION_MANAGE)) {
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    if (ctx.getHelpVariant().equals(ManageCategories.HelpVariant.select_mapping)) {
+    if (action.equals(ACTION_SELECT_MAPPING)) {
       label = mAdapter.getGroup(groupPosition).label + TransactionList.CATEGORY_SEPARATOR + label;
     }
     doSelection(id, label, false);
@@ -933,11 +940,13 @@ public class CategoryList extends SortableListFragment {
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
     ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null || ctx.getHelpVariant().equals(ManageCategories.HelpVariant.manage)) {
+    if (ctx == null) {
       return false;
     }
-    if (mAdapter.getGroup(groupPosition).hasChildren())
+    String action = ctx.getAction();
+    if (action.equals(ACTION_MANAGE) || mAdapter.getGroup(groupPosition).hasChildren()) {
       return false;
+    }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
     doSelection(id, label, true);
     return true;
@@ -983,7 +992,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   public void reset() {
-//TODO: would be nice to retrieve the same open groups on the next or previous group
+    //TODO: would be nice to retrieve the same open groups on the next or previous group
     Timber.w("reset");
     mListView.clearChoices();
     lastExpandedPosition = -1;
@@ -1024,18 +1033,19 @@ public class CategoryList extends SortableListFragment {
     if (ctx == null) {
       return;
     }
+    String action = ctx.getAction();
     boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-    boolean inFilterOrDistribution = ctx.getHelpVariant().equals(HelpVariant.select_filter) ||
-        ctx.getHelpVariant().equals(HelpVariant.distribution);
+    final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
+    final boolean isDistribution = action.equals(ACTION_DISTRIBUTION);
+    boolean inFilterOrDistribution = isFilter || isDistribution;
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !inFilterOrDistribution);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
     MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
-    menuItem.setVisible(count == 1 &&
-        (ctx.getHelpVariant().equals(HelpVariant.distribution) || ctx.getHelpVariant().equals(HelpVariant.select_mapping)));
-    if (ctx.getHelpVariant().equals(HelpVariant.distribution)) {
+    menuItem.setVisible(count == 1 && (isDistribution || action.equals(ACTION_SELECT_MAPPING)));
+    if (isDistribution) {
       menuItem.setTitle(R.string.menu_show_transactions);
     }
-    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(ctx.getHelpVariant().equals(HelpVariant.select_filter));
+    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(isFilter);
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count == 1 && !inFilterOrDistribution);
   }
 
@@ -1076,8 +1086,9 @@ public class CategoryList extends SortableListFragment {
 
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
     ManageCategories ctx = (ManageCategories) getActivity();
-    boolean inFilterOrDistribution = ctx.getHelpVariant().equals(HelpVariant.select_filter) ||
-        ctx.getHelpVariant().equals(HelpVariant.distribution);
+    String action = ctx.getAction();
+    boolean inFilterOrDistribution = action.equals(ACTION_SELECT_FILTER) ||
+        action.equals(ACTION_DISTRIBUTION);
     menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution && !hasChildren);
   }
 
@@ -1195,6 +1206,6 @@ public class CategoryList extends SortableListFragment {
   }
 
   private boolean isDistributionScreen() {
-    return ((ManageCategories) getActivity()).getHelpVariant().equals(ManageCategories.HelpVariant.distribution);
+    return ((ManageCategories) getActivity()).getAction().equals(ACTION_DISTRIBUTION);
   }
 }

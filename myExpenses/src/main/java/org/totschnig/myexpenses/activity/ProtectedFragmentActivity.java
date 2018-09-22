@@ -409,7 +409,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         startActivity(i);
         return true;
       case R.id.HELP_COMMAND:
-        doHelp(tag);
+        doHelp((String) tag);
         return true;
       case R.id.REQUEST_LICENCE_MIGRATION_COMMAND:
         LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
@@ -452,11 +452,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     startActivityForResult(i, ProtectedFragmentActivity.CONTRIB_REQUEST);
   }
 
-  protected void doHelp(Object tag) {
+  protected void doHelp(String variant) {
     Intent i;
     i = new Intent(this, Help.class);
     i.putExtra(HelpDialogFragment.KEY_VARIANT,
-        tag != null ? (Enum<?>) tag : getHelpVariant());
+        variant != null ? variant : getHelpVariant().name());
     //for result is needed since it allows us to inspect the calling activity
     startActivityForResult(i, 0);
   }
@@ -909,8 +909,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     adHandlerFactory.gdprConsent(this, forceShow);
   }
 
-  public Enum<?> getHelpVariant() {
-    return helpVariant;
+  public String getHelpVariant() {
+    return helpVariant != null ? helpVariant.name() : null;
   }
 
   protected void setHelpVariant(@Nullable Enum<?> helpVariant) {
