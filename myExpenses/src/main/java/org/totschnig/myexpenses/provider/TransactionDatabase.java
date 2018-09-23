@@ -1694,7 +1694,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 78) {
         db.execSQL("ALTER TABLE categories add column color integer");
-        Cursor c = db.query("categories", new String[]{"_id"}, "parent_id is null", null, null, null, null);
+        Cursor c = db.query("categories", new String[]{"_id"}, "parent_id is null", null, null, null, KEY_USAGES);
         if (c != null) {
           if (c.moveToFirst()) {
             ContentValues v = new ContentValues();

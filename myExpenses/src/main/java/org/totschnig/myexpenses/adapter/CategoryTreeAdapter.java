@@ -42,8 +42,8 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
   private final CurrencyFormatter currencyFormatter;
   private final int colorExpense;
   private final int colorIncome;
-  private final boolean withMainColors;
-  private final boolean withSubColors;
+  private boolean withMainColors;
+  private boolean withSubColors;
 
   public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
                              Currency currency, boolean withMainColors, boolean withSubColors) {
@@ -195,6 +195,12 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
       subColorMap.put(color, result);
     }
     return result;
+  }
+
+  public void toggleColors() {
+    withSubColors = !withSubColors;
+    withMainColors = !withMainColors;
+    notifyDataSetChanged();
   }
 
   class ViewHolder {

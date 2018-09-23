@@ -201,7 +201,6 @@ public class CategoryList extends SortableListFragment {
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
-    Timber.w("onCreateView %s", ctx.getAction());
     if (isDistributionScreen()) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
 
@@ -274,8 +273,7 @@ public class CategoryList extends SortableListFragment {
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
     mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter,
-        mAccount == null ? null : mAccount.currency,
-        showChart || ctx.getAction().equals(ACTION_MANAGE), showChart);
+        mAccount == null ? null : mAccount.currency, isWithMainColors(), showChart);
     mListView.setAdapter(mAdapter);
     loadData();
     if (isDistributionScreen()) {
@@ -875,6 +873,7 @@ public class CategoryList extends SortableListFragment {
         } else {
           mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
         }
+        mAdapter.toggleColors();
         return true;
       case R.id.TOGGLE_AGGREGATE_TYPES:
         aggregateTypes = !aggregateTypes;
@@ -1040,6 +1039,7 @@ public class CategoryList extends SortableListFragment {
     }
     menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(isFilter);
     menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count == 1 && !inFilterOrDistribution);
+    menu.findItem(R.id.COLOR_COMMAND).setVisible(inGroup && count == 1 && isWithMainColors());
   }
 
   @Override
@@ -1078,8 +1078,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    String action = ctx.getAction();
+    String action = getAction();
     boolean inFilterOrDistribution = action.equals(ACTION_SELECT_FILTER) ||
         action.equals(ACTION_DISTRIBUTION);
     menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution && !hasChildren);
@@ -1141,6 +1140,14 @@ public class CategoryList extends SortableListFragment {
   }
 
   private boolean isDistributionScreen() {
-    return ((ManageCategories) getActivity()).getAction().equals(ACTION_DISTRIBUTION);
+    return getAction().equals(ACTION_DISTRIBUTION);
+  }
+
+  private boolean isWithMainColors() {
+    return showChart || getAction().equals(ACTION_MANAGE);
+  }
+
+  private String getAction() {
+    return ((ManageCategories) getActivity()).getAction();
   }
 }
