@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS;
@@ -133,6 +134,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
         final int columnIndexSum = cursor.getColumnIndex(KEY_SUM);
         final int columnIndexMapTransactions = cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS);
         final int columnIndexMapTemplates = cursor.getColumnIndex(KEY_MAPPED_TEMPLATES);
+        final int columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
         while (cursor.moveToNext()) {
           final long id = cursor.getLong(columnIndexRowId);
           final Long parentId = DbUtils.getLongOrNull(cursor, columnIndexParentId);
@@ -140,7 +142,8 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
               id, parentId, cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
               columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapTemplates == -1 ? null : cursor.getInt(columnIndexMapTemplates) > 0,
-              columnIndexMapTransactions == -1 ? null : cursor.getInt(columnIndexMapTransactions) > 0);
+              columnIndexMapTransactions == -1 ? null : cursor.getInt(columnIndexMapTransactions) > 0,
+              cursor.getInt(columnIndexColor));
           if (parentId == null) {
             newList.add(category);
             positionMap.put(id, position);
@@ -177,15 +180,17 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     public final Boolean hasMappedTemplates;
     public final Boolean hasMappedTransactions;
     private final List<Category> children = new ArrayList<>();
+    public final int color;
 
     public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
-                    Boolean hasMappedTransactions) {
+                    Boolean hasMappedTransactions, int color) {
       this.id = id;
       this.parentId = parentId;
       this.label = label;
       this.sum = sum;
       this.hasMappedTemplates = hasMappedTemplates;
       this.hasMappedTransactions = hasMappedTransactions;
+      this.color = color;
     }
 
     void addChild(Category child) {

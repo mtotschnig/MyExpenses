@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.provider;
 
@@ -134,10 +134,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 77;
+  public static final int DATABASE_VERSION = 78;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -261,7 +262,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
           + KEY_UUID + " text, "
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
-          + KEY_CRITERION +  " integer);";
+          + KEY_CRITERION + " integer);";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -275,8 +276,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_CURRENCY_SELF + " text not null, "
           + KEY_CURRENCY_OTHER + " text not null, "
-          + KEY_EXCHANGE_RATE  + " real not null, "
-          + "UNIQUE (" + KEY_ACCOUNTID + "," + KEY_CURRENCY_SELF+ "," + KEY_CURRENCY_OTHER + "));";
+          + KEY_EXCHANGE_RATE + " real not null, "
+          + "UNIQUE (" + KEY_ACCOUNTID + "," + KEY_CURRENCY_SELF + "," + KEY_CURRENCY_OTHER + "));";
 
   /**
    * SQL statement for categories TABLE
@@ -292,6 +293,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
+          + KEY_COLOR + "integer, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
@@ -536,7 +538,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_DATE + ", "
           + KEY_VALUE_DATE + ", "
           + KEY_AMOUNT + ", "
-          + KEY_ORIGINAL_AMOUNT+ ", "
+          + KEY_ORIGINAL_AMOUNT + ", "
           + KEY_ORIGINAL_CURRENCY + ", "
           + KEY_EQUIVALENT_AMOUNT + ", "
           + KEY_CATID + ", "
@@ -724,12 +726,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
 
   /*
-  * in onUpgrade, we can not rely on the constants, since we need the statements to be executed as defined
-  * as is
-  * if we would use the constants, and they change in the future, we would no longer have the same upgrade
-  * and this can lead to bugs, if a later upgrade relies on column names as defined earlier,
-  * and a user upgrading several versions at once would get a broken upgrade process
-  */
+   * in onUpgrade, we can not rely on the constants, since we need the statements to be executed as defined
+   * as is
+   * if we would use the constants, and they change in the future, we would no longer have the same upgrade
+   * and this can lead to bugs, if a later upgrade relies on column names as defined earlier,
+   * and a user upgrading several versions at once would get a broken upgrade process
+   */
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     try {
@@ -1662,7 +1664,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')), " +
             "number text, picture_id text)");
         db.execSQL("INSERT INTO changes " +
-                  "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
+            "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
       }
@@ -1689,6 +1691,23 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 77) {
         db.execSQL("DROP INDEX transactions_account_uuid");
         db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(uuid,account_id,status)");
+      }
+      if (oldVersion < 78) {
+        db.execSQL("ALTER TABLE categories add column color integer");
+        Cursor c = db.query("categories", new String[]{"_id"}, "parent_id is null", null, null, null, null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            ContentValues v = new ContentValues();
+            int count = 0;
+            while (c.getPosition() < c.getCount()) {
+              v.put(KEY_COLOR, MAIN_COLORS[count % MAIN_COLORS.length]);
+              db.update("categories", v, "_id = " + c.getLong(0), null);
+              c.moveToNext();
+              count++;
+            }
+          }
+          c.close();
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

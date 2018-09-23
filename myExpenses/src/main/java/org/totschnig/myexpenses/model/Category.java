@@ -36,7 +36,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   private String label;
-  public Long parentId;
+  private Long parentId;
 
   /**
    * we currently do not need a full representation of a category as an object

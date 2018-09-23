@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -55,7 +54,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
 
@@ -102,6 +100,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
@@ -136,6 +135,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfW
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
+import static org.totschnig.myexpenses.util.ColorUtils.getShades;
+import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 
 public class CategoryList extends SortableListFragment {
 
@@ -174,7 +175,6 @@ public class CategoryList extends SortableListFragment {
   private Account mAccount;
 
   protected boolean isIncome = false;
-  private ArrayList<Integer> mMainColors, mSubColors;
   private int lastExpandedPosition = -1;
 
   boolean showChart = false;
@@ -202,18 +202,6 @@ public class CategoryList extends SortableListFragment {
     Timber.w("onCreateView %s", ctx.getAction());
     if (isDistributionScreen()) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
-      mMainColors = new ArrayList<>();
-      for (int col : ColorTemplate.PASTEL_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.JOYFUL_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.LIBERTY_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.VORDIPLOM_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.COLORFUL_COLORS)
-        mMainColors.add(col);
-      mMainColors.add(ColorTemplate.getHoloBlue());
 
       final long id = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
       mAccount = Account.getInstanceFromDb(id);
@@ -296,8 +284,7 @@ public class CategoryList extends SortableListFragment {
           long packedPosition;
           List<CategoryTreeAdapter.Category> categories = mAdapter.getSubCategories(groupPosition);
           if (categories.size() > 0) {
-            mSubColors = getSubColors(mMainColors.get(groupPosition % mMainColors.size()));
-            setData(categories, mSubColors);
+            setData(categories, mAdapter.getGroup(groupPosition));
             highlight(0);
             packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
           } else {
@@ -312,7 +299,7 @@ public class CategoryList extends SortableListFragment {
       mListView.setOnGroupCollapseListener(groupPosition -> {
         if (showChart) {
           lastExpandedPosition = -1;
-          setData(mAdapter.getMainCategories(), mMainColors);
+          setData(mAdapter.getMainCategories(), null);
           highlight(groupPosition);
           long packedPosition = ExpandableListView
               .getPackedPositionForGroup(groupPosition);
@@ -428,6 +415,7 @@ public class CategoryList extends SortableListFragment {
           KEY_ROWID,
           KEY_PARENTID,
           KEY_LABEL,
+          KEY_COLOR,
           "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
       };
       sortOrder = "abs(" + KEY_SUM + ") DESC";
@@ -438,6 +426,7 @@ public class CategoryList extends SortableListFragment {
           KEY_ROWID,
           KEY_PARENTID,
           KEY_LABEL,
+          KEY_COLOR,
           //here we do not filter out void transactinos since they need to be considered as mapped
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
@@ -465,7 +454,7 @@ public class CategoryList extends SortableListFragment {
                 if (mAdapter.getGroupCount() > 0) {
                   if (lastExpandedPosition == -1) {
                     mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-                    setData(mAdapter.getMainCategories(), mMainColors);
+                    setData(mAdapter.getMainCategories(), null);
                     highlight(0);
                     if (showChart)
                       mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
@@ -1097,14 +1086,18 @@ public class CategoryList extends SortableListFragment {
     reset();
   }
 
-  private void setData(List<CategoryTreeAdapter.Category> categories, List<Integer> colors) {
-    ArrayList<PieEntry> entries = new ArrayList<>();
+  private void setData(List<CategoryTreeAdapter.Category> categories, CategoryTreeAdapter.Category parent) {
+    List<PieEntry> entries = new ArrayList<>();
+    List<Integer> colors = parent == null ? new ArrayList<>() : getSubColors(parent.color);
     for (CategoryTreeAdapter.Category category : categories) {
       long sum = category.sum;
       Timber.d("Sum %f", (float) sum);
       PieEntry entry = new PieEntry((float) Math.abs(sum));
       entry.setLabel(category.label);
       entries.add(entry);
+      if (parent == null) {
+        colors.add(category.color);
+      }
     }
     PieDataSet ds1 = new PieDataSet(entries, "");
 
@@ -1121,65 +1114,9 @@ public class CategoryList extends SortableListFragment {
     mChart.invalidate();
   }
 
-  private ArrayList<Integer> getSubColors(int color) {
-    //inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
+  private List<Integer> getSubColors(int color) {
     return MyApplication.getThemeType().equals(ThemeType.dark) ?
         getTints(color) : getShades(color);
-
-  }
-
-  private ArrayList<Integer> getShades(int color) {
-    ArrayList<Integer> result = new ArrayList<>();
-    int red = Color.red(color);
-    int redDecrement = (int) Math.round(red * 0.1);
-    int green = Color.green(color);
-    int greenDecrement = (int) Math.round(green * 0.1);
-    int blue = Color.blue(color);
-    int blueDecrement = (int) Math.round(blue * 0.1);
-    for (int i = 0; i < 10; i++) {
-      red = red - redDecrement;
-      if (red <= 0) {
-        red = 0;
-      }
-      green = green - greenDecrement;
-      if (green <= 0) {
-        green = 0;
-      }
-      blue = blue - blueDecrement;
-      if (blue <= 0) {
-        blue = 0;
-      }
-      result.add(Color.rgb(red, green, blue));
-    }
-    result.add(Color.BLACK);
-    return result;
-  }
-
-  private ArrayList<Integer> getTints(int color) {
-    ArrayList<Integer> result = new ArrayList<>();
-    int red = Color.red(color);
-    int redIncrement = (int) Math.round((255 - red) * 0.1);
-    int green = Color.green(color);
-    int greenIncrement = (int) Math.round((255 - green) * 0.1);
-    int blue = Color.blue(color);
-    int blueIncrement = (int) Math.round((255 - blue) * 0.1);
-    for (int i = 0; i < 10; i++) {
-      red = red + redIncrement;
-      if (red >= 255) {
-        red = 255;
-      }
-      green = green + greenIncrement;
-      if (green >= 255) {
-        red = 255;
-      }
-      blue = blue + blueIncrement;
-      if (blue >= 255) {
-        red = 255;
-      }
-      result.add(Color.rgb(red, green, blue));
-    }
-    result.add(Color.WHITE);
-    return result;
   }
 
   private void highlight(int position) {
