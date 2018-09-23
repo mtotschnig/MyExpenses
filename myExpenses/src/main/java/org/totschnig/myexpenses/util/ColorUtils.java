@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.util;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -88,5 +90,13 @@ public class ColorUtils {
     }
     result.add(Color.WHITE);
     return result;
+  }
+
+
+  public static Drawable createBackgroundColorDrawable(int color) {
+    GradientDrawable mask = new GradientDrawable();
+    mask.setShape(GradientDrawable.OVAL);
+    mask.setColor(color);
+    return mask;
   }
 }

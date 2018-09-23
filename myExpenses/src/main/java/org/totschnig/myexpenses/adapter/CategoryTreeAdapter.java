@@ -2,12 +2,14 @@ package org.totschnig.myexpenses.adapter;
 
 import android.database.Cursor;
 import android.support.v4.util.LongSparseArray;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -27,22 +29,31 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
+import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDrawable;
+import static org.totschnig.myexpenses.util.ColorUtils.getShades;
+import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 
 public class CategoryTreeAdapter extends BaseExpandableListAdapter {
   private final Currency currency;
   private List<Category> mainCategories = new ArrayList<>();
   private LongSparseArray<Integer> positionMap = new LongSparseArray<>();
+  private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
   private final LayoutInflater inflater;
   private final CurrencyFormatter currencyFormatter;
   private final int colorExpense;
   private final int colorIncome;
+  private final boolean withMainColors;
+  private final boolean withSubColors;
 
-  public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter, Currency currency) {
+  public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
+                             Currency currency, boolean withMainColors, boolean withSubColors) {
     inflater = LayoutInflater.from(ctx);
     this.currencyFormatter = currencyFormatter;
     this.currency = currency;
     this.colorExpense = ctx.getColorExpense();
     this.colorIncome = ctx.getColorIncome();
+    this.withMainColors = withMainColors;
+    this.withSubColors = withSubColors;
   }
 
   @Override
@@ -90,15 +101,23 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
 
   @Override
   public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-    return getView(getGroup(groupPosition), convertView, parent);
+    final Category item = getGroup(groupPosition);
+    return getView(item, convertView, parent, withMainColors ? item.color : 0);
   }
 
   @Override
   public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-    return getView(getChild(groupPosition, childPosition), convertView, parent);
+    final Category parentCat = getGroup(groupPosition);
+    final Category item = getChild(groupPosition, childPosition);
+    int color = 0;
+    if (withSubColors) {
+      final List<Integer> subColors = getSubColors(parentCat.color);
+      color = subColors.get(childPosition % subColors.size());
+    }
+    return getView(item, convertView, parent, color);
   }
 
-  private View getView(Category item, View convertView, ViewGroup parent) {
+  private View getView(Category item, View convertView, ViewGroup parent, int color) {
     ViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.category_row, parent, false);
@@ -111,6 +130,11 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     if (item.sum != null && currency != null) {
       holder.amount.setTextColor(item.sum < 0 ? colorExpense : colorIncome);
       holder.amount.setText(currencyFormatter.convAmount(item.sum, currency));
+    }
+    holder.color.setVisibility(color != 0 ? View.VISIBLE :
+        (withMainColors ? View.INVISIBLE : View.GONE));
+    if (color != 0) {
+      holder.color.setBackgroundDrawable(createBackgroundColorDrawable(color));
     }
 
     return convertView;
@@ -161,6 +185,16 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
       }
       notifyDataSetChanged();
     }
+  }
+
+  public List<Integer> getSubColors(int color) {
+    List<Integer> result = subColorMap.get(color);
+    if (result == null) {
+      result = MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
+          getTints(color) : getShades(color);
+      subColorMap.put(color, result);
+    }
+    return result;
   }
 
   class ViewHolder {

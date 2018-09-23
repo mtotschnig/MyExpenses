@@ -49,6 +49,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
     </style>
 
     <style name="ThemeDark" parent="@style/ThemeDarkBase">
@@ -81,6 +82,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
     </style>
 
     <style name="ThemeLight" parent="@style/ThemeLightBase">
@@ -96,6 +98,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterS1</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS1</item>
     </style>
 
     <style name="ThemeDark.s1" parent="@style/ThemeDark.s1Base" tools:ignore="UnusedResources"/>
@@ -110,6 +113,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterS1</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS1</item>
     </style>
 
     <style name="ThemeLight.s1" parent="@style/ThemeLight.s1Base" tools:ignore="UnusedResources"/>
@@ -124,6 +128,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterS2</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS2</item>
     </style>
 
     <style name="ThemeDark.s2" parent="@style/ThemeDark.s2Base" tools:ignore="UnusedResources"/>
@@ -138,6 +143,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterS2</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS2</item>
     </style>
 
     <style name="ThemeLight.s2" parent="@style/ThemeLight.s2Base" tools:ignore="UnusedResources"/>
@@ -152,6 +158,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterS3</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS3</item>
     </style>
 
     <style name="ThemeDark.s3" parent="@style/ThemeDark.s3Base" tools:ignore="UnusedResources"/>
@@ -166,6 +173,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterS3</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS3</item>
     </style>
 
     <style name="ThemeLight.s3" parent="@style/ThemeLight.s3Base" tools:ignore="UnusedResources"/>
@@ -188,6 +196,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorControlInverse">@android:color/black</item>
         <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
     </style>
 
     <style name="ThemeDark.EditDialog" parent="ThemeDark.EditDialogBase"/>
@@ -210,6 +219,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorControlInverse">@android:color/white</item>
         <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
     </style>
 
     <style name="ThemeLight.EditDialog" parent="ThemeLight.EditDialogBase"/>
@@ -220,6 +230,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS1</item>
     </style>
 
     <style name="ThemeLight.EditDialog.s1" tools:ignore="UnusedResources">
@@ -228,6 +239,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS1</item>
     </style>
 
     <style name="ThemeDark.EditDialog.s2" tools:ignore="UnusedResources">
@@ -236,6 +248,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS2</item>
     </style>
 
     <style name="ThemeLight.EditDialog.s2" tools:ignore="UnusedResources">
@@ -244,6 +257,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS2</item>
     </style>
 
     <style name="ThemeDark.EditDialog.s3" tools:ignore="UnusedResources">
@@ -252,6 +266,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS3</item>
     </style>
 
     <style name="ThemeLight.EditDialog.s3" tools:ignore="UnusedResources">
@@ -260,6 +275,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
+        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterS3</item>
     </style>
 
     <style name="ThemeLight.Translucent">

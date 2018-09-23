@@ -46,6 +46,8 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -271,7 +273,9 @@ public class CategoryList extends SortableListFragment {
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount == null ? null : mAccount.currency);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter,
+        mAccount == null ? null : mAccount.currency,
+        showChart || ctx.getAction().equals(ACTION_MANAGE), showChart);
     mListView.setAdapter(mAdapter);
     loadData();
     if (isDistributionScreen()) {
@@ -1087,20 +1091,14 @@ public class CategoryList extends SortableListFragment {
   }
 
   private void setData(List<CategoryTreeAdapter.Category> categories, CategoryTreeAdapter.Category parent) {
-    List<PieEntry> entries = new ArrayList<>();
-    List<Integer> colors = parent == null ? new ArrayList<>() : getSubColors(parent.color);
-    for (CategoryTreeAdapter.Category category : categories) {
-      long sum = category.sum;
-      Timber.d("Sum %f", (float) sum);
-      PieEntry entry = new PieEntry((float) Math.abs(sum));
-      entry.setLabel(category.label);
-      entries.add(entry);
-      if (parent == null) {
-        colors.add(category.color);
-      }
-    }
-    PieDataSet ds1 = new PieDataSet(entries, "");
+    List<PieEntry> entries = Stream.of(categories)
+        .map(category -> new PieEntry(Math.abs(category.sum), category.label))
+        .collect(Collectors.toList());
+    List<Integer> colors = parent == null ?
+        Stream.of(categories).map(category -> category.color).collect(Collectors.toList()) :
+        mAdapter.getSubColors(parent.color);
 
+    PieDataSet ds1 = new PieDataSet(entries, "");
     ds1.setColors(colors);
     ds1.setSliceSpace(2f);
     ds1.setDrawValues(false);
