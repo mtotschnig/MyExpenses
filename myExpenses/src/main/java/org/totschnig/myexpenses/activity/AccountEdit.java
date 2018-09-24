@@ -239,9 +239,10 @@ public class AccountEdit extends AmountActivity implements
     final boolean isHomeAccount = homeCurrencyPref.equals(currencyCode);
     exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
-      mExchangeRateEdit.setSymbols(Money.getSymbol(mAccount.currency),
+      mExchangeRateEdit.setSymbols(Money.getSymbol(Utils.getSaveInstance(currencyCode)),
           Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
-      mExchangeRateEdit.setRate(new BigDecimal(mAccount.getExchangeRate()));
+      mExchangeRateEdit.setRate(new BigDecimal(mAccount.currency.getCurrencyCode().equals(currencyCode) ?
+          mAccount.getExchangeRate() : 1));
     }
   }
 
