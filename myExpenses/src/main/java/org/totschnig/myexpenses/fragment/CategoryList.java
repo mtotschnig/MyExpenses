@@ -723,6 +723,9 @@ public class CategoryList extends SortableListFragment {
     }
     String label = c.label;
     switch (command) {
+      case R.id.COLOR_COMMAND:
+        ctx.editCategoryColor(c);
+        return true;
       case R.id.EDIT_COMMAND:
         ctx.editCat(label, elcmi.id);
         return true;

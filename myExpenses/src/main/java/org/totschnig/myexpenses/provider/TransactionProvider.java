@@ -1238,16 +1238,15 @@ public class TransactionProvider extends ContentProvider {
             throw new SQLiteConstraintException();
           }
           c.close();
-          if (!TextUtils.isEmpty(where)) {
-            whereString = " AND (" + where + ')';
-          } else {
-            whereString = "";
-          }
-          count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
-              whereArgs);
-          break;
         }
-        return 0;//nothing to do
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+            whereArgs);
+        break;
       case METHOD_ID:
         segment = uri.getPathSegments().get(1);
         if (!TextUtils.isEmpty(where)) {

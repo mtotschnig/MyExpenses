@@ -134,7 +134,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected static final int CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST = 21;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
-  public static final String ACCOUNT_COLOR_DIALOG = "editColorDialog";
+  public static final String EDIT_COLOR_DIALOG = "editColorDialog";
 
   public static final String ASYNC_TAG = "ASYNC_TASK";
   public static final String PROGRESS_TAG = "PROGRESS";

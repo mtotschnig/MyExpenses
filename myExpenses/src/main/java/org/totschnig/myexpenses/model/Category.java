@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -202,5 +203,12 @@ public class Category extends Model {
 
   public void setLabel(String label) {
     this.label = StringUtils.strip(label);
+  }
+
+  public static boolean updateColor(Long id, Integer color) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_COLOR, color);
+    return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        initialValues, null, null) == 1;
   }
 }

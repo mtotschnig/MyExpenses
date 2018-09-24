@@ -35,6 +35,7 @@ import android.view.View;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -50,7 +51,10 @@ import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.ArrayList;
 
+import eltos.simpledialogfragment.color.SimpleColorDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -80,7 +84,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   private static final int SWIPE_THRESHOLD_VELOCITY = 100;
   private CategoryList mListFragment;
 
-  @NonNull public String getAction() {
+  @NonNull
+  public String getAction() {
     Intent intent = getIntent();
     String action = intent.getAction();
     return action == null ? ACTION_SELECT_MAPPING : action;
@@ -145,7 +150,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     if (title != 0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
-    if (action.equals(ACTION_SELECT_MAPPING)|| action.equals(ACTION_MANAGE)) {
+    if (action.equals(ACTION_SELECT_MAPPING) || action.equals(ACTION_MANAGE)) {
       configureFloatingActionButton(R.string.menu_create_main_cat);
     } else {
       findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
@@ -238,7 +243,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
    */
   public void editCat(String label, Long catId) {
     Bundle args = new Bundle();
-    args.putLong(DatabaseConstants.KEY_ROWID, catId);
+    args.putLong(KEY_ROWID, catId);
     SimpleInputDialog.build()
         .title(R.string.menu_edit_cat)
         .cancelable(false)
@@ -249,6 +254,18 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         .neut()
         .extra(args)
         .show(this, DIALOG_EDIT_CATEGORY);
+  }
+
+  public void editCategoryColor(CategoryTreeAdapter.Category c) {
+    Bundle args = new Bundle();
+    args.putLong(KEY_ROWID, c.id);
+    SimpleColorDialog.build()
+        .allowCustom(true)
+        .cancelable(false)
+        .neut()
+        .extra(args)
+        .colorPreset(c.color)
+        .show(this, EDIT_COLOR_DIALOG);
   }
 
   /**
@@ -293,10 +310,19 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);
       }
       mCategory = new Category(
-          extras.getLong(DatabaseConstants.KEY_ROWID),
+          extras.getLong(KEY_ROWID),
           extras.getString(SimpleInputDialog.TEXT),
           parentId);
       startDbWriteTask(false);
+      finishActionMode();
+      return true;
+    }
+    if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_CATEGORY_COLOR,
+          new Long[]{extras.getLong(KEY_ROWID)},
+          extras.getInt(SimpleColorDialog.COLOR),
+          R.string.progress_dialog_saving);
       finishActionMode();
       return true;
     }
@@ -355,9 +381,13 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           break;
         case TaskExecutionFragment.TASK_MOVE_CATEGORY:
           getListFragment().reset();
+          break;
       }
     }
-    showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
+    final String print = r.print0(this);
+    if (print != null) {
+      showSnackbar(print, Snackbar.LENGTH_LONG);
+    }
   }
 
   @Override
