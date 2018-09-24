@@ -303,6 +303,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    final long id = extras.getLong(KEY_ROWID);
     if ((DIALOG_NEW_CATEGORY.equals(dialogTag) || DIALOG_EDIT_CATEGORY.equals(dialogTag))
         && which == BUTTON_POSITIVE) {
       Long parentId = null;
@@ -310,7 +311,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);
       }
       mCategory = new Category(
-          extras.getLong(KEY_ROWID),
+          id,
           extras.getString(SimpleInputDialog.TEXT),
           parentId);
       startDbWriteTask(false);
@@ -320,7 +321,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       startTaskExecution(
           TaskExecutionFragment.TASK_CATEGORY_COLOR,
-          new Long[]{extras.getLong(KEY_ROWID)},
+          new Long[]{id},
           extras.getInt(SimpleColorDialog.COLOR),
           R.string.progress_dialog_saving);
       finishActionMode();

@@ -117,16 +117,16 @@ public class Category extends Model {
     initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(getLabel()));
     Uri uri;
     if (getId() == 0) {
-      if (!isMain(parentId)) {
-        uri = null;
-        CrashHandler.report("Attempt to store deep category hierarchy detected");
-      } else {
+      if (isMainOrNull(parentId)) {
         initialValues.put(KEY_PARENTID, parentId);
         try {
           uri = cr().insert(CONTENT_URI, initialValues);
         } catch (SQLiteConstraintException e) {
           uri = null;
         }
+      } else {
+        uri = null;
+        CrashHandler.report("Attempt to store deep category hierarchy detected");
       }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
@@ -140,7 +140,7 @@ public class Category extends Model {
     return uri;
   }
 
-  private static boolean isMain(Long parentId) {
+  private static boolean isMainOrNull(Long parentId) {
     if (parentId == null) {
       return true;
     }
@@ -181,10 +181,10 @@ public class Category extends Model {
     if (id.equals(newParent)) {
       throw new IllegalStateException("Cannot move category to itself");
     }
-    if (!isMain(newParent)) {
+    if (!isMainOrNull(newParent)) {
       throw new IllegalStateException("Cannot move to subcategory");
     }
-    if (isMain(id) && countSub(id) > 0) {
+    if (isMainOrNull(id) && countSub(id) > 0) {
       throw new IllegalStateException("Cannot move main category if it has children");
     }
     ContentValues values = new ContentValues();

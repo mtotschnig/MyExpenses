@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.IntStream;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class ColorUtils {
   /**
    * from {@link com.github.mikephil.charting.utils.ColorTemplate}
    */
+  private static String MAIN_COLORS_AS_TABLE;
   public static final int[] MAIN_COLORS = {
       //PASTEL
       Color.rgb(64, 89, 128), Color.rgb(149, 165, 124), Color.rgb(217, 184, 162),
@@ -31,6 +34,16 @@ public class ColorUtils {
       Color.rgb(106, 150, 31), Color.rgb(179, 100, 53),
       ColorTemplate.getHoloBlue()
   };
+
+
+  public static String MAIN_COLORS_AS_TABLE() {
+    if (MAIN_COLORS_AS_TABLE == null) {
+      MAIN_COLORS_AS_TABLE = "(" + IntStream.range(0, MAIN_COLORS.length)
+          .mapToObj(i -> "SELECT " + MAIN_COLORS[i] + (i == 0 ? " AS color" : ""))
+          .collect(Collectors.joining(" UNION ")) + ") as t";
+    }
+    return MAIN_COLORS_AS_TABLE;
+  }
 
   /**
    * inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
@@ -99,4 +112,5 @@ public class ColorUtils {
     mask.setColor(color);
     return mask;
   }
+
 }
