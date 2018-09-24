@@ -123,6 +123,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
   }
 
   /**
+   * This method expects the main categories to be sorted first
    * @param cursor
    */
   public void ingest(Cursor cursor) {

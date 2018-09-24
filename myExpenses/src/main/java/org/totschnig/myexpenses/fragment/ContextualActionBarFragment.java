@@ -24,8 +24,9 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 /**
  * @author Michael Totschnig
  *         provide helper functionality to create a CAB for a ListView
- *         below ICE_CREAM_SANDWICH a context menu is used instead
+ *         in previous versions, below ICE_CREAM_SANDWICH a context menu is used instead
  */
+@Deprecated
 public class ContextualActionBarFragment extends Fragment implements OnGroupClickListener, OnChildClickListener {
   protected ActionMode mActionMode;
   int expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
@@ -36,7 +37,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       return false;
     int itemId = item.getItemId();
     ContextMenuInfo info = item.getMenuInfo();
-    if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild) {
+    if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild ||
+        item.getGroupId() == R.id.MenuSingleGroup) {
       return dispatchCommandSingle(itemId, info);
     } else {
       int position;
@@ -149,7 +151,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
         SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
         int checkedItemCount = checkedItemPositions.size();
         boolean result = false;
-        if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild) {
+        if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild
+            || item.getGroupId() == R.id.MenuSingleGroup) {
           for (int i = 0; i < checkedItemCount; i++) {
             if (checkedItemPositions.valueAt(i)) {
               int position = checkedItemPositions.keyAt(i);
@@ -263,10 +266,11 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   protected void configureMenu(Menu menu, int count, int listId) {
     if (expandableListSelectionType != ExpandableListView.PACKED_POSITION_TYPE_NULL) {
       boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-      menu.setGroupVisible(R.id.MenuBulk, inGroup);
-      menu.setGroupVisible(R.id.MenuSingle, inGroup && count == 1);
-      menu.setGroupVisible(R.id.MenuBulkChild, !inGroup);
+      menu.setGroupVisible(R.id.MenuSingle, count == 1);
+      menu.setGroupVisible(R.id.MenuChild, !inGroup);
+      menu.setGroupVisible(R.id.MenuGroup, inGroup);
       menu.setGroupVisible(R.id.MenuSingleChild, !inGroup && count == 1);
+      menu.setGroupVisible(R.id.MenuSingleGroup, inGroup && count == 1);
     } else {
       menu.setGroupVisible(R.id.MenuSingle, count == 1);
     }
@@ -283,25 +287,4 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       mActionMode.invalidate();
     }
   }
- /* protected void setExpandableListSelectionType(ExpandableListView elv) {
-    SparseBooleanArray checkedItemPositions = elv.getCheckedItemPositions();
-    int checkedItemCount;
-    if (checkedItemPositions != null && (checkedItemCount = checkedItemPositions.size())>0) {
-      for (int i=0; i<checkedItemCount; i++) {
-        if (checkedItemPositions.valueAt(i)) {
-          int position = checkedItemPositions.keyAt(i);
-          long pos = elv.getExpandableListPosition(position);
-          expandableListSelectionType = ExpandableListView.getPackedPositionType(pos);
-          //After orientation change getExpandableListPosition does not return the correct value
-          //probably because the adapter has not yet been set up correctly
-          //in that case we wall back to PACKED_POSITION_TYPE_GROUP
-          //this workaround works because orientation change collapses the groups
-          //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
-          if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_NULL)
-            expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-          break;
-        }
-      }
-    }
-  }*/
 }

@@ -287,31 +287,36 @@ public class CategoryList extends SortableListFragment {
     mListView.setAdapter(mAdapter);
     loadData();
     if (isDistributionScreen()) {
-      mListView.setOnGroupExpandListener(groupPosition -> {
+      mListView.setOnGroupClickListener((parent, v12, groupPosition, id) ->
+      {
         if (showChart) {
           if (lastExpandedPosition != -1
               && groupPosition != lastExpandedPosition) {
             mListView.collapseGroup(lastExpandedPosition);
+            lastExpandedPosition = -1;
           }
-          long packedPosition;
-          List<CategoryTreeAdapter.Category> categories = mAdapter.getSubCategories(groupPosition);
-          if (categories.size() > 0) {
-            mSubColors = getSubColors(mMainColors.get(groupPosition % mMainColors.size()));
-            setData(categories, mSubColors);
-            highlight(0);
-            packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
-          } else {
-            packedPosition =
-                ExpandableListView.getPackedPositionForGroup(groupPosition);
+          if (mAdapter.getSubCategories(groupPosition).size() == 0) {
+            long packedPosition = ExpandableListView.getPackedPositionForGroup(groupPosition);
             highlight(groupPosition);
+            mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
+            return true;
           }
+        }
+        return false;
+      });
+      mListView.setOnGroupExpandListener(groupPosition -> {
+        if (showChart) {
+          List<CategoryTreeAdapter.Category> categories = mAdapter.getSubCategories(groupPosition);
+          mSubColors = getSubColors(mMainColors.get(groupPosition % mMainColors.size()));
+          setData(categories, mSubColors);
+          highlight(0);
+          long packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
           mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
         }
         lastExpandedPosition = groupPosition;
       });
       mListView.setOnGroupCollapseListener(groupPosition -> {
         if (showChart) {
-          lastExpandedPosition = -1;
           setData(mAdapter.getMainCategories(), mMainColors);
           highlight(groupPosition);
           long packedPosition = ExpandableListView
@@ -319,6 +324,7 @@ public class CategoryList extends SortableListFragment {
           int flatPosition = mListView.getFlatListPosition(packedPosition);
           mListView.setItemChecked(flatPosition, true);
         }
+        lastExpandedPosition = -1;
       });
       mListView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
         if (showChart) {
@@ -1028,43 +1034,23 @@ public class CategoryList extends SortableListFragment {
   }
 
   @Override
-  protected void configureMenu(Menu menu, int count, int listId) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null) {
-      return;
-    }
-    String action = ctx.getAction();
-    boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-    final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
-    final boolean isDistribution = action.equals(ACTION_DISTRIBUTION);
-    boolean inFilterOrDistribution = isFilter || isDistribution;
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !inFilterOrDistribution);
-    menu.findItem(R.id.DELETE_COMMAND).setVisible(!inFilterOrDistribution);
-    MenuItem menuItem = menu.findItem(R.id.SELECT_COMMAND);
-    menuItem.setVisible(count == 1 && (isDistribution || action.equals(ACTION_SELECT_MAPPING)));
-    if (isDistribution) {
-      menuItem.setTitle(R.string.menu_show_transactions);
-    }
-    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(isFilter);
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(inGroup && count == 1 && !inFilterOrDistribution);
-  }
-
-  @Override
   protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, int listId) {
     super.configureMenuLegacy(menu, menuInfo, listId);
+    boolean hasChildren = false;
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
       int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-      configureMenuInternal(menu, hasChildren(groupPos));
+      hasChildren = hasChildren(groupPos);
     }
+    configureMenuInternal(menu, hasChildren);
   }
 
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+    boolean hasChildren = false;
     super.configureMenu11(menu, count, lv);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-      boolean hasChildren = false;
       for (int i = 0; i < checkedItemPositions.size(); i++) {
         if (checkedItemPositions.valueAt(i)) {
           int position = checkedItemPositions.keyAt(i);
@@ -1076,8 +1062,8 @@ public class CategoryList extends SortableListFragment {
           }
         }
       }
-      configureMenuInternal(menu, hasChildren);
     }
+    configureMenuInternal(menu, hasChildren);
   }
 
   private boolean hasChildren(int position) {
@@ -1087,9 +1073,25 @@ public class CategoryList extends SortableListFragment {
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
     ManageCategories ctx = (ManageCategories) getActivity();
     String action = ctx.getAction();
-    boolean inFilterOrDistribution = action.equals(ACTION_SELECT_FILTER) ||
-        action.equals(ACTION_DISTRIBUTION);
-    menu.findItem(R.id.MOVE_COMMAND).setVisible(!inFilterOrDistribution && !hasChildren);
+    final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
+    final boolean isDistribution = action.equals(ACTION_DISTRIBUTION);
+    boolean inFilterOrDistribution = isFilter || isDistribution;
+    maybeHide(menu.findItem(R.id.EDIT_COMMAND), inFilterOrDistribution);
+    maybeHide(menu.findItem(R.id.DELETE_COMMAND), inFilterOrDistribution);
+    MenuItem item = menu.findItem(R.id.SELECT_COMMAND);
+    maybeHide(item, !(isDistribution || action.equals(ACTION_SELECT_MAPPING)));
+    if (isDistribution) {
+      item.setTitle(R.string.menu_show_transactions);
+    }
+    maybeHide(menu.findItem(R.id.SELECT_COMMAND_MULTIPLE), !isFilter);
+    maybeHide(menu.findItem(R.id.CREATE_COMMAND), inFilterOrDistribution);
+    maybeHide(menu.findItem(R.id.MOVE_COMMAND), (inFilterOrDistribution || hasChildren));
+  }
+
+  private void maybeHide(MenuItem item, boolean condition) {
+    if (condition) {
+      item.setVisible(false);
+    }
   }
 
   public void setType(boolean isChecked) {

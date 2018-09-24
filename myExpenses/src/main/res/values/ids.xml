@@ -116,10 +116,16 @@
     <item name="GROUPING_MONTH_COMMAND" type="id"/>
     <item name="GROUPING_YEAR_COMMAND" type="id"/>
     <item name="HELP_COMMAND_DRAWER" type="id"/>
+    <!-- commands that are not applicable to multiple selection -->
     <item name="MenuSingle" type="id"/>
-    <item name="MenuBulk" type="id"/>
+    <!-- commands that are not applicable to multiple selection and only apply to child -->
     <item name="MenuSingleChild" type="id"/>
-    <item name="MenuBulkChild" type="id"/>
+    <!-- commands that are not applicable to multiple selection and only apply to group -->
+    <item name="MenuSingleGroup" type="id"/>
+    <!-- commands that only apply to child -->
+    <item name="MenuChild" type="id"/>
+    <!-- commands that only apply to group -->
+    <item name="MenuGroup" type="id"/>
     <item name="REQUEST_LICENCE_MIGRATION_COMMAND" type="id"/>
     <item name="FILTER_TRANSFER_COMMAND" type="id"/>
     <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
