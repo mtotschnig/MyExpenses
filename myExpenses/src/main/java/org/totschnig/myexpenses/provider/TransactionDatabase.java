@@ -293,7 +293,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
-          + KEY_COLOR + "integer, "
+          + KEY_COLOR + " integer, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
