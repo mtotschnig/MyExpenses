@@ -86,11 +86,13 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
 
   @Override
   public long getGroupId(int groupPosition) {
+    if (groupPosition >= getGroupCount()) return 0;
     return getGroup(groupPosition).id;
   }
 
   @Override
   public long getChildId(int groupPosition, int childPosition) {
+    if (groupPosition > getGroupCount() || childPosition >= getChildrenCount(groupPosition)) return 0;
     return getChild(groupPosition, childPosition).id;
   }
 
@@ -146,6 +148,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
   }
 
   /**
+   * This method expects the main categories to be sorted first
    * @param cursor
    */
   public void ingest(Cursor cursor) {
