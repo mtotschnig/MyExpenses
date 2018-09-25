@@ -32,7 +32,9 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.totschnig.myexpenses.testutils.Matchers.withCategoryLabel;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -74,7 +76,7 @@ public final class MyExpensesSearchFilterTest extends BaseUiTest {
     labelIsDisplayed(catLabel2);
     onView(withId(R.id.SEARCH_COMMAND)).perform(click());
     onView(withText(R.string.category)).perform(click());
-    onData(CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL, catLabel1))
+    onData(withCategoryLabel(is(catLabel1)))
         .inAdapterView(withId(R.id.list)).perform(click());
     labelIsDisplayed(catLabel1);
     labelIsNotDisplayed(catLabel2);

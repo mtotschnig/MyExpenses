@@ -13,6 +13,7 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import static org.hamcrest.Matchers.is;
@@ -103,6 +104,21 @@ public class Matchers {
       public void describeTo(final Description description) {
         description.appendText("should return first matching item, but none was found: ");
         matcher.describeTo(description);
+      }
+    };
+  }
+
+  public static Matcher withCategoryLabel(Matcher nameMatcher) {
+    return new TypeSafeMatcher<CategoryTreeAdapter.Category>() {
+      @Override
+      public boolean matchesSafely(CategoryTreeAdapter.Category category) {
+        return nameMatcher.matches(category.label);
+      }
+
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("should return category with label: ");
+        nameMatcher.describeTo(description);
       }
     };
   }
