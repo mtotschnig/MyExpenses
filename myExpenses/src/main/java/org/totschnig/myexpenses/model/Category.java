@@ -140,19 +140,19 @@ public class Category extends Model {
     return uri;
   }
 
-  private static boolean isMainOrNull(Long parentId) {
-    if (parentId == null) {
+  private static boolean isMainOrNull(Long id) {
+    if (id == null) {
       return true;
     }
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(parentId)}, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
+    Cursor cursor = cr().query(CONTENT_URI,
+        new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(id)}, null);
+    if (cursor.getCount() == 0) {
+      cursor.close();
       return false;
     } else {
-      mCursor.moveToFirst();
-      long result = DbUtils.getLongOr0L(mCursor, 0);
-      mCursor.close();
+      cursor.moveToFirst();
+      long result = DbUtils.getLongOr0L(cursor, 0);
+      cursor.close();
       return result == 0L;
     }
   }
