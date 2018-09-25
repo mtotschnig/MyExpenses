@@ -781,4 +781,5 @@
   <string name="credit_limit">מסגרת אשראי</string>
   <string name="clear_all_filters">בטל את כל המסננים</string>
   <string name="pref_scroll_to_current_date_summary">בהפעלת היישום, גלול רשימת עסקאות לתאריך הנוכחי</string>
+  <string name="professional_key_fallback_info">מנוי על המפתח המקצועי הפועל במשך שנה לפחות ולא יחודש, יהפוך אוטומטית למפתח מורחב לזמן בלתי מוגבל.</string>
 </resources>

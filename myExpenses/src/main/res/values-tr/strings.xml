@@ -761,4 +761,5 @@
   <string name="credit_limit">Kredi limiti</string>
   <string name="clear_all_filters">Tüm filtreleri temizle</string>
   <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
+  <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
 </resources>
