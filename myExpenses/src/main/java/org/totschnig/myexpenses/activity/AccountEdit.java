@@ -482,12 +482,12 @@ public class AccountEdit extends AmountActivity implements
         .cancelable(false)
         .neut()
         .colorPreset(mAccount.color)
-        .show(this, ACCOUNT_COLOR_DIALOG);
+        .show(this, EDIT_COLOR_DIALOG);
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+    if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       mAccount.color = extras.getInt(SimpleColorDialog.COLOR);
       UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
       return true;

@@ -36,6 +36,7 @@
                 android:padding="4dp"
                 android:layout_marginRight="4dp">
                 <ImageView
+                    android:contentDescription="@string/color"
                     android:layout_marginRight="2dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginBottom="2dp"

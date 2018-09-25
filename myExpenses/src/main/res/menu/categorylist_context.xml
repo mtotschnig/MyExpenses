@@ -48,5 +48,12 @@
             android:showAsAction="always"
             android:title="@string/menu_create_sub_cat">
         </item>
+        <item
+            android:id="@id/COLOR_COMMAND"
+            android:icon="@drawable/ic_color"
+            android:orderInCategory="0"
+            android:showAsAction="always"
+            android:title="@string/color">
+        </item>
     </group>
 </menu>

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -36,7 +37,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   private String label;
-  public Long parentId;
+  private Long parentId;
 
   /**
    * we currently do not need a full representation of a category as an object
@@ -116,16 +117,16 @@ public class Category extends Model {
     initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(getLabel()));
     Uri uri;
     if (getId() == 0) {
-      if (!isMain(parentId)) {
-        uri = null;
-        CrashHandler.report("Attempt to store deep category hierarchy detected");
-      } else {
+      if (isMainOrNull(parentId)) {
         initialValues.put(KEY_PARENTID, parentId);
         try {
           uri = cr().insert(CONTENT_URI, initialValues);
         } catch (SQLiteConstraintException e) {
           uri = null;
         }
+      } else {
+        uri = null;
+        CrashHandler.report("Attempt to store deep category hierarchy detected");
       }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
@@ -139,19 +140,19 @@ public class Category extends Model {
     return uri;
   }
 
-  private static boolean isMain(Long parentId) {
-    if (parentId == null) {
+  private static boolean isMainOrNull(Long id) {
+    if (id == null) {
       return true;
     }
-    Cursor mCursor = cr().query(CONTENT_URI,
-        new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(parentId)}, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
+    Cursor cursor = cr().query(CONTENT_URI,
+        new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(id)}, null);
+    if (cursor.getCount() == 0) {
+      cursor.close();
       return false;
     } else {
-      mCursor.moveToFirst();
-      long result = DbUtils.getLongOr0L(mCursor, 0);
-      mCursor.close();
+      cursor.moveToFirst();
+      long result = DbUtils.getLongOr0L(cursor, 0);
+      cursor.close();
       return result == 0L;
     }
   }
@@ -180,10 +181,10 @@ public class Category extends Model {
     if (id.equals(newParent)) {
       throw new IllegalStateException("Cannot move category to itself");
     }
-    if (!isMain(newParent)) {
+    if (!isMainOrNull(newParent)) {
       throw new IllegalStateException("Cannot move to subcategory");
     }
-    if (isMain(id) && countSub(id) > 0) {
+    if (isMainOrNull(id) && countSub(id) > 0) {
       throw new IllegalStateException("Cannot move main category if it has children");
     }
     ContentValues values = new ContentValues();
@@ -202,5 +203,12 @@ public class Category extends Model {
 
   public void setLabel(String label) {
     this.label = StringUtils.strip(label);
+  }
+
+  public static boolean updateColor(Long id, Integer color) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_COLOR, color);
+    return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        initialValues, null, null) == 1;
   }
 }

@@ -171,4 +171,5 @@
     <item name="GDPR_NO_CONSENT_COMMAND" type="id"/>
     <item name="GDPR_CONSENT_COMMAND" type="id"/>
     <item name="CLEAR_FILTER_COMMAND" type="id"/>
+    <item name="COLOR_COMMAND" type="id"/>
 </resources>

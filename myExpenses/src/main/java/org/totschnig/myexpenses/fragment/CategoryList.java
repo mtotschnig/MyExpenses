@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -47,6 +46,8 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -55,13 +56,11 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.ThemeType;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -102,6 +101,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
@@ -174,7 +174,6 @@ public class CategoryList extends SortableListFragment {
   private Account mAccount;
 
   protected boolean isIncome = false;
-  private ArrayList<Integer> mMainColors, mSubColors;
   private int lastExpandedPosition = -1;
 
   boolean showChart = false;
@@ -199,21 +198,8 @@ public class CategoryList extends SortableListFragment {
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
-    Timber.w("onCreateView %s", ctx.getAction());
     if (isDistributionScreen()) {
       showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
-      mMainColors = new ArrayList<>();
-      for (int col : ColorTemplate.PASTEL_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.JOYFUL_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.LIBERTY_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.VORDIPLOM_COLORS)
-        mMainColors.add(col);
-      for (int col : ColorTemplate.COLORFUL_COLORS)
-        mMainColors.add(col);
-      mMainColors.add(ColorTemplate.getHoloBlue());
 
       final long id = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
       mAccount = Account.getInstanceFromDb(id);
@@ -283,7 +269,8 @@ public class CategoryList extends SortableListFragment {
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount == null ? null : mAccount.currency);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter,
+        mAccount == null ? null : mAccount.currency, isWithMainColors(), showChart);
     mListView.setAdapter(mAdapter);
     loadData();
     if (isDistributionScreen()) {
@@ -307,8 +294,7 @@ public class CategoryList extends SortableListFragment {
       mListView.setOnGroupExpandListener(groupPosition -> {
         if (showChart) {
           List<CategoryTreeAdapter.Category> categories = mAdapter.getSubCategories(groupPosition);
-          mSubColors = getSubColors(mMainColors.get(groupPosition % mMainColors.size()));
-          setData(categories, mSubColors);
+          setData(categories, mAdapter.getGroup(groupPosition));
           highlight(0);
           long packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
           mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
@@ -317,7 +303,7 @@ public class CategoryList extends SortableListFragment {
       });
       mListView.setOnGroupCollapseListener(groupPosition -> {
         if (showChart) {
-          setData(mAdapter.getMainCategories(), mMainColors);
+          setData(mAdapter.getMainCategories(), null);
           highlight(groupPosition);
           long packedPosition = ExpandableListView
               .getPackedPositionForGroup(groupPosition);
@@ -434,6 +420,7 @@ public class CategoryList extends SortableListFragment {
           KEY_ROWID,
           KEY_PARENTID,
           KEY_LABEL,
+          KEY_COLOR,
           "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
       };
       sortOrder = "abs(" + KEY_SUM + ") DESC";
@@ -444,6 +431,7 @@ public class CategoryList extends SortableListFragment {
           KEY_ROWID,
           KEY_PARENTID,
           KEY_LABEL,
+          KEY_COLOR,
           //here we do not filter out void transactinos since they need to be considered as mapped
           "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
           "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
@@ -471,7 +459,7 @@ public class CategoryList extends SortableListFragment {
                 if (mAdapter.getGroupCount() > 0) {
                   if (lastExpandedPosition == -1) {
                     mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-                    setData(mAdapter.getMainCategories(), mMainColors);
+                    setData(mAdapter.getMainCategories(), null);
                     highlight(0);
                     if (showChart)
                       mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
@@ -738,6 +726,9 @@ public class CategoryList extends SortableListFragment {
     }
     String label = c.label;
     switch (command) {
+      case R.id.COLOR_COMMAND:
+        ctx.editCategoryColor(c);
+        return true;
       case R.id.EDIT_COMMAND:
         ctx.editCat(label, elcmi.id);
         return true;
@@ -888,6 +879,7 @@ public class CategoryList extends SortableListFragment {
         } else {
           mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
         }
+        mAdapter.toggleColors();
         return true;
       case R.id.TOGGLE_AGGREGATE_TYPES:
         aggregateTypes = !aggregateTypes;
@@ -1071,8 +1063,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   private void configureMenuInternal(Menu menu, boolean hasChildren) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    String action = ctx.getAction();
+    String action = getAction();
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
     final boolean isDistribution = action.equals(ACTION_DISTRIBUTION);
     boolean inFilterOrDistribution = isFilter || isDistribution;
@@ -1086,6 +1077,7 @@ public class CategoryList extends SortableListFragment {
     maybeHide(menu.findItem(R.id.SELECT_COMMAND_MULTIPLE), !isFilter);
     maybeHide(menu.findItem(R.id.CREATE_COMMAND), inFilterOrDistribution);
     maybeHide(menu.findItem(R.id.MOVE_COMMAND), (inFilterOrDistribution || hasChildren));
+    maybeHide(menu.findItem(R.id.COLOR_COMMAND), !isWithMainColors());
   }
 
   private void maybeHide(MenuItem item, boolean condition) {
@@ -1099,17 +1091,15 @@ public class CategoryList extends SortableListFragment {
     reset();
   }
 
-  private void setData(List<CategoryTreeAdapter.Category> categories, List<Integer> colors) {
-    ArrayList<PieEntry> entries = new ArrayList<>();
-    for (CategoryTreeAdapter.Category category : categories) {
-      long sum = category.sum;
-      Timber.d("Sum %f", (float) sum);
-      PieEntry entry = new PieEntry((float) Math.abs(sum));
-      entry.setLabel(category.label);
-      entries.add(entry);
-    }
-    PieDataSet ds1 = new PieDataSet(entries, "");
+  private void setData(List<CategoryTreeAdapter.Category> categories, CategoryTreeAdapter.Category parent) {
+    List<PieEntry> entries = Stream.of(categories)
+        .map(category -> new PieEntry(Math.abs(category.sum), category.label))
+        .collect(Collectors.toList());
+    List<Integer> colors = parent == null ?
+        Stream.of(categories).map(category -> category.color).collect(Collectors.toList()) :
+        mAdapter.getSubColors(parent.color);
 
+    PieDataSet ds1 = new PieDataSet(entries, "");
     ds1.setColors(colors);
     ds1.setSliceSpace(2f);
     ds1.setDrawValues(false);
@@ -1121,67 +1111,6 @@ public class CategoryList extends SortableListFragment {
     // undo all highlights
     mChart.highlightValues(null);
     mChart.invalidate();
-  }
-
-  private ArrayList<Integer> getSubColors(int color) {
-    //inspired by http://highintegritydesign.com/tools/tinter-shader/scripts/shader-tinter.js
-    return MyApplication.getThemeType().equals(ThemeType.dark) ?
-        getTints(color) : getShades(color);
-
-  }
-
-  private ArrayList<Integer> getShades(int color) {
-    ArrayList<Integer> result = new ArrayList<>();
-    int red = Color.red(color);
-    int redDecrement = (int) Math.round(red * 0.1);
-    int green = Color.green(color);
-    int greenDecrement = (int) Math.round(green * 0.1);
-    int blue = Color.blue(color);
-    int blueDecrement = (int) Math.round(blue * 0.1);
-    for (int i = 0; i < 10; i++) {
-      red = red - redDecrement;
-      if (red <= 0) {
-        red = 0;
-      }
-      green = green - greenDecrement;
-      if (green <= 0) {
-        green = 0;
-      }
-      blue = blue - blueDecrement;
-      if (blue <= 0) {
-        blue = 0;
-      }
-      result.add(Color.rgb(red, green, blue));
-    }
-    result.add(Color.BLACK);
-    return result;
-  }
-
-  private ArrayList<Integer> getTints(int color) {
-    ArrayList<Integer> result = new ArrayList<>();
-    int red = Color.red(color);
-    int redIncrement = (int) Math.round((255 - red) * 0.1);
-    int green = Color.green(color);
-    int greenIncrement = (int) Math.round((255 - green) * 0.1);
-    int blue = Color.blue(color);
-    int blueIncrement = (int) Math.round((255 - blue) * 0.1);
-    for (int i = 0; i < 10; i++) {
-      red = red + redIncrement;
-      if (red >= 255) {
-        red = 255;
-      }
-      green = green + greenIncrement;
-      if (green >= 255) {
-        red = 255;
-      }
-      blue = blue + blueIncrement;
-      if (blue >= 255) {
-        red = 255;
-      }
-      result.add(Color.rgb(red, green, blue));
-    }
-    result.add(Color.WHITE);
-    return result;
   }
 
   private void highlight(int position) {
@@ -1208,6 +1137,14 @@ public class CategoryList extends SortableListFragment {
   }
 
   private boolean isDistributionScreen() {
-    return ((ManageCategories) getActivity()).getAction().equals(ACTION_DISTRIBUTION);
+    return getAction().equals(ACTION_DISTRIBUTION);
+  }
+
+  private boolean isWithMainColors() {
+    return showChart || getAction().equals(ACTION_MANAGE);
+  }
+
+  private String getAction() {
+    return ((ManageCategories) getActivity()).getAction();
   }
 }

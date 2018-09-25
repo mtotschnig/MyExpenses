@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.TextUtils;
@@ -52,6 +50,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDrawable;
 
 public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyListHeadersAdapter {
   private final static String EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_";
@@ -298,12 +297,5 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
     }
-  }
-
-  private Drawable createBackgroundColorDrawable(int color) {
-    GradientDrawable mask = new GradientDrawable();
-    mask.setShape(GradientDrawable.OVAL);
-    mask.setColor(color);
-    return mask;
   }
 }

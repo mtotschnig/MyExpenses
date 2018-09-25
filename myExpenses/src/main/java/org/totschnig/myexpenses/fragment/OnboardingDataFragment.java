@@ -47,7 +47,7 @@ import eltos.simpledialogfragment.color.SimpleColorDialog;
 import icepick.Icepick;
 import icepick.State;
 
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ACCOUNT_COLOR_DIALOG;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.EDIT_COLOR_DIALOG;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
@@ -252,12 +252,12 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
         .cancelable(false)
         .neut()
         .colorPreset(accountColor)
-        .show(this, ACCOUNT_COLOR_DIALOG);
+        .show(this, EDIT_COLOR_DIALOG);
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+    if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       accountColor = extras.getInt(SimpleColorDialog.COLOR);
       UiUtils.setBackgroundOnButton(colorIndicator, accountColor);
       return true;

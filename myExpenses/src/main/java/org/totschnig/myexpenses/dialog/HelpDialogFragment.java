@@ -75,7 +75,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("create_split", R.drawable.ic_menu_split);
     iconMap.put("create_sub_cat", R.drawable.ic_menu_add);
     iconMap.put("delete", R.drawable.ic_menu_delete);
-    iconMap.put("edit", R.drawable.ic_menu_edit);
     iconMap.put("distribution", R.drawable.ic_menu_chart);
     iconMap.put("edit_plan_instance", R.drawable.ic_menu_edit);
     iconMap.put("forward", R.drawable.ic_menu_forward);
@@ -114,6 +113,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("set_weight", null);
     iconMap.put("original_amount", null);
     iconMap.put("equivalent_amount", null);
+    iconMap.put("color", R.drawable.ic_color);
   }
 
   private LayoutInflater layoutInflater;
@@ -275,7 +275,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         resId = iconMap.get(item);
         if (resId != null) {
           //null value in the map indicates no icon
-          final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
+          final ImageView icon = row.findViewById(R.id.list_image);
           icon.setVisibility(View.VISIBLE);
           icon.setImageResource(resId);
           icon.setContentDescription(title);
