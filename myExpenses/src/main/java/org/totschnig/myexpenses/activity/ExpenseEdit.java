@@ -1842,9 +1842,7 @@ public class ExpenseEdit extends AmountActivity implements
     restartIntent.putExtra(OPERATION_TYPE, newType);
     syncStateAndValidate(false);
     restartIntent.putExtra(KEY_CACHED_DATA, mTransaction);
-    if (mOperationType != TYPE_SPLIT && newType != TYPE_SPLIT) {
-      restartIntent.putExtra(KEY_CACHED_RECURRENCE, ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()));
-    }
+    restartIntent.putExtra(KEY_CACHED_RECURRENCE, ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()));
     if (mTransaction.getPictureUri() != null) {
       restartIntent.putExtra(KEY_CACHED_PICTURE_URI, mTransaction.getPictureUri());
     }
