@@ -61,7 +61,6 @@ import com.squareup.sqlbrite3.SqlBrite;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.ThemeType;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -137,8 +136,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfW
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
-import static org.totschnig.myexpenses.util.ColorUtils.getShades;
-import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 
 public class CategoryList extends SortableListFragment {
 
@@ -1114,11 +1111,6 @@ public class CategoryList extends SortableListFragment {
     // undo all highlights
     mChart.highlightValues(null);
     mChart.invalidate();
-  }
-
-  private List<Integer> getSubColors(int color) {
-    return MyApplication.getThemeType().equals(ThemeType.dark) ?
-        getTints(color) : getShades(color);
   }
 
   private void highlight(int position) {
