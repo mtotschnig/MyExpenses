@@ -153,7 +153,7 @@ public class Transaction extends Model {
   private Long parentId = null;
   private Long payeeId = null;
 
-  private Pair<Plan.Recurrence, LocalDate> initialPlan;
+  transient private Pair<Plan.Recurrence, LocalDate> initialPlan;
 
   public void setInitialPlan(Pair<Plan.Recurrence, LocalDate> initialPlan) {
     this.initialPlan = initialPlan;
