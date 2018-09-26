@@ -281,15 +281,15 @@ public class CategoryList extends SortableListFragment {
       mListView.setOnGroupClickListener((parent, v12, groupPosition, id) ->
       {
         if (showChart) {
-          if (lastExpandedPosition != -1
-              && groupPosition != lastExpandedPosition) {
-            mListView.collapseGroup(lastExpandedPosition);
-            lastExpandedPosition = -1;
-          }
           if (mAdapter.getChildrenCount(groupPosition) == 0) {
             long packedPosition = ExpandableListView.getPackedPositionForGroup(groupPosition);
             highlight(groupPosition);
             mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
+            if (lastExpandedPosition != -1
+                && groupPosition != lastExpandedPosition) {
+              mListView.collapseGroup(lastExpandedPosition);
+              lastExpandedPosition = -1;
+            }
             return true;
           }
         }
@@ -297,24 +297,22 @@ public class CategoryList extends SortableListFragment {
       });
       mListView.setOnGroupExpandListener(groupPosition -> {
         if (showChart) {
-          List<Category> categories = mAdapter.getSubCategories(groupPosition);
-          setData(categories, mAdapter.getGroup(groupPosition));
+          if (lastExpandedPosition != -1  && groupPosition != lastExpandedPosition) {
+            mListView.collapseGroup(lastExpandedPosition);
+          }
+          lastExpandedPosition = groupPosition;
+          setData();
           highlight(0);
-          long packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
-          mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
+        } else {
+          lastExpandedPosition = groupPosition;
         }
-        lastExpandedPosition = groupPosition;
       });
       mListView.setOnGroupCollapseListener(groupPosition -> {
-        if (showChart) {
-          setData(mAdapter.getMainCategories(), null);
-          highlight(groupPosition);
-          long packedPosition = ExpandableListView
-              .getPackedPositionForGroup(groupPosition);
-          int flatPosition = mListView.getFlatListPosition(packedPosition);
-          mListView.setItemChecked(flatPosition, true);
-        }
         lastExpandedPosition = -1;
+        if (showChart) {
+          setData();
+          highlight(groupPosition);
+        }
       });
       mListView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
         if (showChart) {
@@ -461,12 +459,11 @@ public class CategoryList extends SortableListFragment {
               mAdapter.ingest(cursor);
               if (isDistributionScreen()) {
                 if (mAdapter.getGroupCount() > 0) {
-                  if (lastExpandedPosition == -1) {
-                    mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-                    setData(mAdapter.getMainCategories(), null);
-                    highlight(0);
-                    if (showChart)
-                      mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
+                  mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+                  setData();
+                  highlight(0);
+                  if (showChart) {
+                    mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
                   }
                 } else {
                   mChart.setVisibility(View.GONE);
@@ -1092,7 +1089,16 @@ public class CategoryList extends SortableListFragment {
     reset();
   }
 
-  private void setData(List<Category> categories, Category parent) {
+  private void setData() {
+    List<Category> categories;
+    Category parent;
+    if (lastExpandedPosition == -1) {
+      parent = null;
+      categories = mAdapter.getMainCategories();
+    } else {
+      parent = mAdapter.getGroup(lastExpandedPosition);
+      categories = mAdapter.getSubCategories(lastExpandedPosition);
+    }
     List<PieEntry> entries = Stream.of(categories)
         .map(category -> new PieEntry(Math.abs(category.sum), category.label))
         .collect(Collectors.toList());
