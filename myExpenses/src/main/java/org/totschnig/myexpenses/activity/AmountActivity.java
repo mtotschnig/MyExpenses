@@ -60,7 +60,7 @@ public abstract class AmountActivity extends EditActivity {
         } else {
           throw new IllegalStateException("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
         }
-        input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
+        input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)).abs());
         input.setError(null);
       } catch (Exception e) {
         CrashHandler.report(e);
