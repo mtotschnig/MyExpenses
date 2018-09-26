@@ -263,7 +263,8 @@ public class ExpenseEdit extends AmountActivity implements
   ImageView clearMethodButton;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
+      mOperationTypeSpinner, mRecurrenceSpinner;
+  private Spinner mCurrencySpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
@@ -413,7 +414,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.OriginalCurrency));
+    mCurrencySpinner = findViewById(R.id.OriginalCurrency);
     currencyAdapter = new CurrencyAdapter(this) {
       @NonNull
       @Override
@@ -876,6 +877,7 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setOnItemSelectedListener(this);
     mMethodSpinner.setOnItemSelectedListener(this);
     mStatusSpinner.setOnItemSelectedListener(this);
+    mCurrencySpinner.setOnItemSelectedListener(this);
   }
 
   @Override
@@ -902,7 +904,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
     final View originalAmountLabel = findViewById(R.id.OriginalAmountLabel);
     linkInputWithLabel(originalAmountText, originalAmountLabel);
-    linkInputWithLabel(mCurrencySpinner.getSpinner(), originalAmountLabel);
+    linkInputWithLabel(mCurrencySpinner, originalAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorOriginal), originalAmountLabel);
     final View equivalentAmountLabel = findViewById(R.id.EquivalentAmountLabel);
     linkInputWithLabel(equivalentAmountText, equivalentAmountLabel);
@@ -1735,6 +1737,11 @@ public class ExpenseEdit extends AmountActivity implements
       case R.id.TransferAccount:
         mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
         configureTransferInput();
+        break;
+      case R.id.OriginalCurrency:
+        String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+        originalAmountText.setFractionDigits(Money.getFractionDigits(
+            Currency.getInstance(currency)));
         break;
     }
   }
