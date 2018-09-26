@@ -185,6 +185,7 @@ public class DatabaseConstants {
   public static final String KEY_ORIGINAL_CURRENCY = "original_currency";
   public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
   public static final String KEY_TRANSFER_PEER_PARENT = "transfer_peer_parent";
+  public static final String KEY_BUDGETID = "budget_id";
   /**
    * Used for both saving goal and credit limit on accounts
    */
@@ -241,6 +242,9 @@ public class DatabaseConstants {
    * used on backup and restore
    */
   public static final String TABLE_EVENT_CACHE = "event_cache";
+
+  static final String TABLE_BUDGETS = "budgets";
+  static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
 
   /**
    * an SQL CASE expression for transactions

@@ -314,6 +314,10 @@
             android:name=".activity.SimpleImageActivity"
             android:theme="@style/Launch"/>
 
+        <activity android:name=".activity.BudgetActivity"
+                  android:exported="false"
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
+
         <service
             android:name=".service.AutoBackupService"
             android:exported="${debug}"

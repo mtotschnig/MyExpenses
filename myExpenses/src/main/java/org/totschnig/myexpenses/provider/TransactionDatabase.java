@@ -33,6 +33,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.BudgetType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -57,6 +58,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -114,6 +116,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
@@ -417,6 +421,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
+
+  private static final String BUDGETS_CREATE =
+      "CREATE TABLE " + TABLE_BUDGETS + " ( "
+          + KEY_ROWID + " integer primary key autoincrement, "
+          + KEY_LABEL + " text not null, "
+          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + BudgetType.JOIN + ")), "
+          + KEY_AMOUNT + " integer not null, "
+          + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_CURRENCY + " text not null)";
+
+  private static final String BUDGETS_CATEGORY_CREATE =
+      "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
+          + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
+          + KEY_AMOUNT + " integer not null)";
+
 
   private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
   private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
