@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -62,7 +63,7 @@ import com.squareup.sqlbrite3.SqlBrite;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.CategoryActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -94,6 +95,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static android.app.Activity.RESULT_FIRST_USER;
+import static android.app.Activity.RESULT_OK;
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_DISTRIBUTION;
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_FILTER;
@@ -196,7 +199,7 @@ public class CategoryList extends SortableListFragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     aggregateTypes = PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
-    final ManageCategories ctx = (ManageCategories) getActivity();
+    final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
     if (isDistributionScreen()) {
@@ -216,7 +219,7 @@ public class CategoryList extends SortableListFragment {
       if (mGrouping == null) mGrouping = Grouping.NONE;
       mGroupingYear = b.getInt(KEY_YEAR);
       mGroupingSecond = b.getInt(KEY_SECOND_GROUP);
-      getActivity().supportInvalidateOptionsMenu();
+      getActivity().invalidateOptionsMenu();
 
       v = inflater.inflate(R.layout.distribution_list, container, false);
       ButterKnife.bind(this, v);
@@ -587,7 +590,7 @@ public class CategoryList extends SortableListFragment {
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
-    ManageCategories ctx = (ManageCategories) getActivity();
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     ArrayList<Long> idList;
     switch (command) {
       case R.id.DELETE_COMMAND: {
@@ -676,7 +679,7 @@ public class CategoryList extends SortableListFragment {
         Intent intent = new Intent();
         intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
         intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
-        ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
+        ctx.setResult(RESULT_FIRST_USER, intent);
         ctx.finish();
         return true;
       }
@@ -710,8 +713,8 @@ public class CategoryList extends SortableListFragment {
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    String action = ctx.getAction();
+    CategoryActivity ctx = (CategoryActivity) getActivity();
+    String action = getAction();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
     Category c;
@@ -769,8 +772,7 @@ public class CategoryList extends SortableListFragment {
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null) return;
+    if (getActivity() == null) return;
 
     if (!isDistributionScreen()) {
       inflater.inflate(R.menu.search, menu);
@@ -917,11 +919,10 @@ public class CategoryList extends SortableListFragment {
   public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     if (super.onChildClick(parent, v, groupPosition, childPosition, id))
       return true;
-    ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null) {
+    if (getActivity() == null) {
       return false;
     }
-    String action = ctx.getAction();
+    String action = getAction();
     if (action.equals(ACTION_MANAGE)) {
       return false;
     }
@@ -938,11 +939,10 @@ public class CategoryList extends SortableListFragment {
                               int groupPosition, long id) {
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
-    ManageCategories ctx = (ManageCategories) getActivity();
-    if (ctx == null) {
+    if (getActivity() == null) {
       return false;
     }
-    String action = ctx.getAction();
+    String action = getAction();
     if (action.equals(ACTION_MANAGE) || mAdapter.getGroup(groupPosition).hasChildren()) {
       return false;
     }
@@ -952,7 +952,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   private void doSelection(long cat_id, String label, boolean isMain) {
-    ManageCategories ctx = (ManageCategories) getActivity();
+    Activity ctx = getActivity();
     if (isDistributionScreen()) {
       TransactionListDialogFragment.newInstance(
           mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
@@ -962,7 +962,7 @@ public class CategoryList extends SortableListFragment {
     Intent intent = new Intent();
     intent.putExtra(KEY_CATID, cat_id);
     intent.putExtra(KEY_LABEL, label);
-    ctx.setResult(ManageCategories.RESULT_OK, intent);
+    ctx.setResult(RESULT_OK, intent);
     ctx.finish();
   }
 
@@ -1146,6 +1146,6 @@ public class CategoryList extends SortableListFragment {
   }
 
   private String getAction() {
-    return ((ManageCategories) getActivity()).getAction();
+    return ((CategoryActivity) getActivity()).getAction();
   }
 }

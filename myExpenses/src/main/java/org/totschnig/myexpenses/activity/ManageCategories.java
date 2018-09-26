@@ -24,7 +24,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SwitchCompat;
-import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -61,11 +60,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
  *
  * @author Michael Totschnig
  */
-public class ManageCategories extends ProtectedFragmentActivity implements
+public class ManageCategories extends CategoryActivity implements
     SimpleInputDialog.OnDialogResultListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
-
-  private static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
-  private static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
 
   public static final String ACTION_MANAGE = "MANAGE";
   public static final String ACTION_DISTRIBUTION = "DISTRIBUTION";
@@ -84,6 +80,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   private CategoryList mListFragment;
 
   @NonNull
+  @Override
   public String getAction() {
     Intent intent = getIntent();
     String action = intent.getAction();
@@ -144,7 +141,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         setHelpVariant(HelpVariant.select_mapping);
         title = R.string.select_category;
     }
-    setContentView(R.layout.select_category);
+    setContentView(R.layout.activity_category);
     setupToolbar(true);
     if (title != 0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
@@ -209,62 +206,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         return true;
     }
     return false;
-  }
-
-  /**
-   * presents AlertDialog for adding a new category
-   * if label is already used, shows an error
-   *
-   * @param parentId
-   */
-  public void createCat(Long parentId) {
-    Bundle args = new Bundle();
-    if (parentId != null) {
-      args.putLong(DatabaseConstants.KEY_PARENTID, parentId);
-    }
-    SimpleInputDialog.build()
-        .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
-        .cancelable(false)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        .hint(R.string.label)
-        .pos(R.string.dialog_button_add)
-        .neut()
-        .extra(args)
-        .show(this, DIALOG_NEW_CATEGORY);
-  }
-
-  /**
-   * presents AlertDialog for editing an existing category
-   * if label is already used, shows an error
-   *
-   * @param label
-   * @param catId
-   */
-  public void editCat(String label, Long catId) {
-    Bundle args = new Bundle();
-    args.putLong(KEY_ROWID, catId);
-    SimpleInputDialog.build()
-        .title(R.string.menu_edit_cat)
-        .cancelable(false)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        .hint(R.string.label)
-        .text(label)
-        .pos(R.string.menu_save)
-        .neut()
-        .extra(args)
-        .show(this, DIALOG_EDIT_CATEGORY);
-  }
-
-  public void editCategoryColor(org.totschnig.myexpenses.viewmodel.data.Category c) {
-    Bundle args = new Bundle();
-    args.putLong(KEY_ROWID, c.id);
-    SimpleColorDialog.build()
-        .allowCustom(true)
-        .cancelable(false)
-        .neut()
-        .extra(args)
-        .colorPreset(c.color)
-        .show(this, EDIT_COLOR_DIALOG);
   }
 
   /**
