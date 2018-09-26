@@ -35,7 +35,6 @@ import android.view.View;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -256,7 +255,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         .show(this, DIALOG_EDIT_CATEGORY);
   }
 
-  public void editCategoryColor(CategoryTreeAdapter.Category c) {
+  public void editCategoryColor(org.totschnig.myexpenses.viewmodel.data.Category c) {
     Bundle args = new Bundle();
     args.putLong(KEY_ROWID, c.id);
     SimpleColorDialog.build()

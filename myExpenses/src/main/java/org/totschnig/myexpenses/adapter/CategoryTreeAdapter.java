@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
 import java.util.Currency;
@@ -66,12 +67,12 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
   }
 
   public List<Category> getSubCategories(int groupPosition) {
-    return getGroup(groupPosition).children;
+    return getGroup(groupPosition).getChildren();
   }
 
   @Override
   public int getChildrenCount(int groupPosition) {
-    return mainCategories.get(groupPosition).children.size();
+    return mainCategories.get(groupPosition).getChildCount();
   }
 
   @Override
@@ -81,7 +82,7 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
 
   @Override
   public Category getChild(int groupPosition, int childPosition) {
-    return getGroup(groupPosition).children.get(childPosition);
+    return getGroup(groupPosition).getChildAt(childPosition);
   }
 
   @Override
@@ -215,36 +216,4 @@ public class CategoryTreeAdapter extends BaseExpandableListAdapter {
     }
   }
 
-  public class Category {
-    public final long id;
-    public final Long parentId;
-    public final String label;
-    public final Long sum;
-    public final Boolean hasMappedTemplates;
-    public final Boolean hasMappedTransactions;
-    private final List<Category> children = new ArrayList<>();
-    public final int color;
-
-    public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
-                    Boolean hasMappedTransactions, int color) {
-      this.id = id;
-      this.parentId = parentId;
-      this.label = label;
-      this.sum = sum;
-      this.hasMappedTemplates = hasMappedTemplates;
-      this.hasMappedTransactions = hasMappedTransactions;
-      this.color = color;
-    }
-
-    void addChild(Category child) {
-      if (child.parentId != id) {
-        throw new IllegalStateException("Cannot accept child with wrong parent");
-      }
-      children.add(child);
-    }
-
-    public boolean hasChildren() {
-      return !children.isEmpty();
-    }
-  }
 }

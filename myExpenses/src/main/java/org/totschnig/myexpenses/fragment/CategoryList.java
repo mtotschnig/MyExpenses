@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -282,7 +283,7 @@ public class CategoryList extends SortableListFragment {
             mListView.collapseGroup(lastExpandedPosition);
             lastExpandedPosition = -1;
           }
-          if (mAdapter.getSubCategories(groupPosition).size() == 0) {
+          if (mAdapter.getChildrenCount(groupPosition) == 0) {
             long packedPosition = ExpandableListView.getPackedPositionForGroup(groupPosition);
             highlight(groupPosition);
             mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
@@ -293,7 +294,7 @@ public class CategoryList extends SortableListFragment {
       });
       mListView.setOnGroupExpandListener(groupPosition -> {
         if (showChart) {
-          List<CategoryTreeAdapter.Category> categories = mAdapter.getSubCategories(groupPosition);
+          List<Category> categories = mAdapter.getSubCategories(groupPosition);
           setData(categories, mAdapter.getGroup(groupPosition));
           highlight(0);
           long packedPosition = ExpandableListView.getPackedPositionForChild(groupPosition, 0);
@@ -593,7 +594,7 @@ public class CategoryList extends SortableListFragment {
         int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
         idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
-          CategoryTreeAdapter.Category c;
+          Category c;
           if (positions.valueAt(i)) {
             boolean deletable = true;
             int position = positions.keyAt(i);
@@ -657,7 +658,7 @@ public class CategoryList extends SortableListFragment {
       case R.id.SELECT_COMMAND_MULTIPLE: {
         ArrayList<String> labelList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
-          CategoryTreeAdapter.Category c;
+          Category c;
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
             long pos = mListView.getExpandableListPosition(position);
@@ -713,7 +714,7 @@ public class CategoryList extends SortableListFragment {
     String action = ctx.getAction();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
-    CategoryTreeAdapter.Category c;
+    Category c;
     boolean isMain;
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
@@ -1091,7 +1092,7 @@ public class CategoryList extends SortableListFragment {
     reset();
   }
 
-  private void setData(List<CategoryTreeAdapter.Category> categories, CategoryTreeAdapter.Category parent) {
+  private void setData(List<Category> categories, Category parent) {
     List<PieEntry> entries = Stream.of(categories)
         .map(category -> new PieEntry(Math.abs(category.sum), category.label))
         .collect(Collectors.toList());
