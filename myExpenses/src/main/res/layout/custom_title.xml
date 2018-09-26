@@ -23,6 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    android:onClick="copyToClipBoard"
     android:orientation="vertical">
 
     <TextView
@@ -38,6 +39,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:onClick="copyToClipBoard"
         android:textStyle="bold"/>
 </LinearLayout>
