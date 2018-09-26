@@ -420,7 +420,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>342;2.9.5</item>
+        <item>343;2.9.5</item>
         <item>341;2.9.4</item>
         <item>339;2.9.3</item>
         <item>336;2.9.2</item>
@@ -534,6 +534,10 @@
     <string-array name="version_more_info_294" tools:ignore="UnusedResources">
         <item>2164440550484078</item>
         <item>6uLJLd8fobB</item>
+    </string-array>
+    <string-array name="version_more_info_295" tools:ignore="UnusedResources">
+        <item>2167854050142728</item>
+        <item>NW8sewugzAJ</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
