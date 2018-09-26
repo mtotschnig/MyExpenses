@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menü komutları</string>
   <string name="help_contextual_actions">Bağlamsal eylemler</string>
+  <string name="help_contextual_actions_help">Bağlam menüsü bir liste unsuruna uzun dokunuşla görüntülenebilir.</string>
   <string name="help_form_fields">Form alanları</string>
   <string name="cab_delete_help_text">Seçilen unsurları sil.</string>
   <string name="cab_edit_help_text">Seçilen unsuru düzenle.</string>
@@ -57,6 +58,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
   <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
+  <string name="cab_ManageCategories_color_help_text">Ana kategorilere renk atayabilirsiniz. Bu renk, kategoriyi grafiklerde temsil etmek için kullanılacaktır. Alt kategoriler, ana kategorinin renginin tonlarını kullanacaktır.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
   <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>

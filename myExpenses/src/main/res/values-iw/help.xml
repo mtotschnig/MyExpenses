@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">תפריט פקודות</string>
   <string name="help_contextual_actions">פעולות הקשר</string>
+  <string name="help_contextual_actions_help">התפריט עבור פעולות קשורות מוצג על ידי הקשה ארוכה על ערך רשימה.</string>
   <string name="help_form_fields">טופס שדות</string>
   <string name="cab_delete_help_text">מחק את הפריטים שנבחרו.</string>
   <string name="cab_edit_help_text">ערוך את הפריט שנבחר.</string>
@@ -57,6 +58,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">הקטגוריה שנבחרה תשמש לסינון רשימת העסקאות.</string>
   <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת-קטגוריות התואמות את השאילתה שלך יוצגו.</string>
   <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששוייכה לעסקה.</string>
+  <string name="cab_ManageCategories_color_help_text">ניתן להקצות צבע לקטגוריות עיקריות. צבע זה ישמש לייצוג הקטגוריה בתרשימים. קטגוריות משנה ישתמשו בגוונים של צבע הקטגוריה העיקרית שלהם.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">טופס לעסקאות</string>
   <string name="help_ExpenseEdit_transfer_title">טופס להעברות</string>

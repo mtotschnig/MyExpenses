@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menu de commandes</string>
   <string name="help_contextual_actions">Actions contextuelles</string>
+  <string name="help_contextual_actions_help">Le menu des actions contextuelles s\'affiche en appuyant longuement sur une entrée de la liste.</string>
   <string name="help_form_fields">Champs de formulaire</string>
   <string name="cab_delete_help_text">Supprimer les éléments sélectionnés.</string>
   <string name="cab_edit_help_text">Modifier l\'élément sélectionné.</string>
@@ -58,6 +59,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
   <string name="menu_ManageCategories_search_help_text">Seulement la catégorie principal et les sous catégories qui correspondent à votre requête seront affichées.</string>
   <string name="menu_ManageCategories_sort_help_text">La liste des catégories peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation ou de la date de dernière création d\'une transaction.</string>
+  <string name="cab_ManageCategories_color_help_text">Vous pouvez attribuer une couleur aux catégories principales. Cette couleur sera utilisée pour représenter la catégorie dans les graphiques. Les sous-catégories utiliseront les nuances de la couleur de leur catégorie principale.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
   <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>

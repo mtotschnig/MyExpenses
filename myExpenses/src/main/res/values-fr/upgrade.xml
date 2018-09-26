@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_295">
+    <item>Couleurs personnalisées pour les catégories principales</item>
+  </string-array>
   <string-array name="whats_new_293">
     <item>Objectifs d\'économie et limites de crédit</item>
     <item>Les groupes de comptes (par type ou devise) peuvent être réduits</item>

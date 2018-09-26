@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_295">
+    <item>Ana kategoriler için özel renkler</item>
+  </string-array>
   <string-array name="whats_new_293">
     <item>Tasarruf hedefleri ve kredi limitleri</item>
     <item>Hesap grupları (tür veya para birimine göre) küçültülebilir</item>

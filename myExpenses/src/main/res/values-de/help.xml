@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menübefehle</string>
   <string name="help_contextual_actions">Kontextbezogene Aktionen</string>
+  <string name="help_contextual_actions_help">Das Menü für kontextabhängige Aktionen wird angezeigt, indem Sie lange auf einen Listeneintrag tippen.</string>
   <string name="help_form_fields">Formularfelder</string>
   <string name="cab_delete_help_text">Ausgewählte Elemente löschen.</string>
   <string name="cab_edit_help_text">Das ausgewählte Element verändern.</string>
@@ -57,6 +58,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Die ausgewählte Kategorie wird zum Filtern der Buchungsliste verwendet werden.</string>
   <string name="menu_ManageCategories_search_help_text">Nur Haupt und Unter-Kategorien, die Ihrer Abfrage entsprechen, werden angezeigt.</string>
   <string name="menu_ManageCategories_sort_help_text">Die Kategorienliste kann Titel (alphabetisch) sortiert werden, nach der Häufigkeit der Verwendung oder nach dem Zeitpunkt, an dem zuletzt eine Buchung zugeordnet wurde.</string>
+  <string name="cab_ManageCategories_color_help_text">Sie können Hauptkategorien eine Farbe zuweisen. Diese Farbe wird verwendet, um die Kategorie in Diagrammen darzustellen. Unterkategorien verwenden Schattierungen der Farbe ihrer Hauptkategorie.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formular für Buchungen</string>
   <string name="help_ExpenseEdit_transfer_title">Formular für Umbuchungen</string>

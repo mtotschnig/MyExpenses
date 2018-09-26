@@ -57,6 +57,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Избраната категория ще служи за филтриране на списъка с транзакции.</string>
   <string name="menu_ManageCategories_search_help_text">Ще бъдат показани само категориите (главна и подкатегория), съответстващи на заявката за търсене.</string>
   <string name="menu_ManageCategories_sort_help_text">Списъка на категориите може да е подреден по име (в азбучен ред), по честота на използване или по последно използвана категория.</string>
+  <string name="cab_ManageCategories_color_help_text">Може да зададете цвят на главните категории. Този цвят ще се използва за представяне на категорията в графиките. Подкатегориите ще използват нюанси на цвета на главната категория.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Бланка за транзакция</string>
   <string name="help_ExpenseEdit_transfer_title">Бланка за трансфер</string>

@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_295">
+    <item>צבעים מותאמים אישית עבור קטגוריות עיקריות</item>
+  </string-array>
   <string-array name="whats_new_293">
     <item>שמירת יעדים ומגבלות אשראי</item>
     <item>ניתן לצמצם קבוצות חשבון (לפי סוג או מטבע)</item>
