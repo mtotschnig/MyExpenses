@@ -39,15 +39,40 @@
             style="@style/headingStyle.WithMargin"
             android:text="@string/help_form_fields"/>
 
+        <LinearLayout
+            android:id="@+id/form_fields_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
         <TextView
             android:id="@+id/menu_commands_heading"
             style="@style/headingStyle.WithMargin"
             android:text="@string/help_menu_commands"/>
 
+        <LinearLayout
+            android:id="@+id/menu_commands_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
         <TextView
             android:id="@+id/cab_commands_heading"
             style="@style/headingStyle.WithMargin"
             android:text="@string/help_contextual_actions"/>
+
+        <TextView
+            android:id="@+id/cab_commands_help"
+            style="@style/about_text"
+            android:layout_marginBottom="8dp"
+            android:text="@string/help_contextual_actions_help"/>
+
+        <LinearLayout
+            android:id="@+id/cab_commands_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
     </LinearLayout>
 </ScrollView>
 

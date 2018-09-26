@@ -17,6 +17,7 @@
 <resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menu commands</string>
   <string name="help_contextual_actions">Contextual actions</string>
+  <string name="help_contextual_actions_help">The menu for contextual actions gets displayed by long tapping on a list entry.</string>
   <string name="help_form_fields">Form fields</string>
   <string name="cab_delete_help_text">Delete the selected items.</string>
   <string name="cab_edit_help_text">Edit the selected item.</string>

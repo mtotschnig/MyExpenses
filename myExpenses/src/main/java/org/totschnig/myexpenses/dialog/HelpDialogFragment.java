@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.dialog;
 
@@ -34,6 +34,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -114,6 +115,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("original_amount", null);
     iconMap.put("equivalent_amount", null);
     iconMap.put("color", R.drawable.ic_color);
+    iconMap.put("history", R.drawable.ic_history);
   }
 
   private LayoutInflater layoutInflater;
@@ -142,9 +144,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     context = args.getString(KEY_CONTEXT);
     variant = args.getString(KEY_VARIANT);
     layoutInflater = LayoutInflater.from(ctx);
-    @SuppressLint("InflateParams")
-    final View view = layoutInflater.inflate(R.layout.help_dialog, null);
-    linearLayout = (LinearLayout) view.findViewById(R.id.help);
+    @SuppressLint("InflateParams") final View view = layoutInflater.inflate(R.layout.help_dialog, null);
+    linearLayout = view.findViewById(R.id.help);
 
     try {
       String resIdString = "help_" + context + "_info";
@@ -178,7 +179,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (menuItems.isEmpty()) {
         view.findViewById(R.id.form_fields_heading).setVisibility(View.GONE);
       } else {
-        handleMenuItems(menuItems, "form", 2);
+        handleMenuItems(menuItems, "form", view.findViewById(R.id.form_fields_container));
       }
 
       // Menu items
@@ -190,7 +191,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (menuItems.isEmpty())
         view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
       else {
-        handleMenuItems(menuItems, "menu", 1);
+        handleMenuItems(menuItems, "menu", view.findViewById(R.id.menu_commands_container));
       }
 
       // Contextual action bar
@@ -199,10 +200,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       menuItems.clear();
       if (resId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      if (menuItems.isEmpty())
+      if (menuItems.isEmpty()) {
         view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
-      else {
-        handleMenuItems(menuItems, "cab", 0);
+        view.findViewById(R.id.cab_commands_help).setVisibility(View.GONE);
+      } else {
+        handleMenuItems(menuItems, "cab", view.findViewById(R.id.cab_commands_container));
       }
 
       resId = variant != null ? resolveString("help_" + context + "_" + variant + "_title") : 0;
@@ -230,14 +232,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         .setTitle(title)
         .setIcon(R.drawable.ic_menu_help)
         .setView(view)
-        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            if (getActivity() == null) {
-              return;
-            }
-            getActivity().finish();
+        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+          if (getActivity() == null) {
+            return;
           }
+          getActivity().finish();
         })
         .create();
   }
@@ -245,10 +244,10 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   /**
    * @param menuItems list of menuitems to be displayed
    * @param prefix    "form", "menu" or "cab"
-   * @param offset    items will be added with this offset at the bottom
+   * @param container items will be added to this container
    * @throws NotFoundException
    */
-  protected void handleMenuItems(ArrayList<String> menuItems, String prefix, int offset)
+  protected void handleMenuItems(ArrayList<String> menuItems, String prefix, ViewGroup container)
       throws NotFoundException {
     String resIdString;
     Integer resId;
@@ -304,12 +303,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       ((TextView) row.findViewById(R.id.help_text)).setText(helpText);
-      linearLayout.addView(row, linearLayout.getChildCount() - offset);
+      container.addView(row);
     }
   }
 
   private CharSequence resolveStringOrArray(String resString, boolean separateComponentsByLinefeeds) {
-    int arrayId = resolveArray(resString.replace('.','_'));
+    int arrayId = resolveArray(resString.replace('.', '_'));
     if (arrayId == 0) {
       int stringId = resolveString(resString);
       if (stringId == 0) {
