@@ -21,9 +21,6 @@
   <string-array name="whats_new_295">
     <item>Custom colors for main categories</item>
   </string-array>
-  <string-array name="whats_new_294">
-      <item>@string/pref_scroll_to_current_date_summary</item>
-  </string-array>
   <string-array name="whats_new_293">
     <item>Saving goals and credit limits</item>
     <item>Account groups (per type or currency) can be collapsed</item>

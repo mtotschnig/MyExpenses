@@ -175,4 +175,7 @@
     <string name="roadmap_particpate">Participate</string>
     <string name="reminder_vote_update">At least one of the issues you have voted for, has now been implemented. Please spend your voting weight again.</string>
     <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
+    <string-array name="whats_new_294">
+        <item>@string/pref_scroll_to_current_date_summary</item>
+    </string-array>
 </resources>
