@@ -736,8 +736,7 @@ public class MyExpenses extends LaunchActivity implements
       case DISTRIBUTION: {
         Account a = Account.getInstanceFromDb(mAccountId);
         recordUsage(feature);
-        Intent i = new Intent(this, ManageCategories.class);
-        i.setAction(ManageCategories.ACTION_DISTRIBUTION);
+        Intent i = new Intent(this, Distribution.class);
         i.putExtra(KEY_ACCOUNTID, mAccountId);
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);

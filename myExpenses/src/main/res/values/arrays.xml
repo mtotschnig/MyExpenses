@@ -166,7 +166,7 @@
         <item>search</item>
         <item>categories_setup_default</item>
     </string-array>
-    <string-array name="ManageCategories_distribution_menuitems" tools:ignore="UnusedResources">
+    <string-array name="Distribution_menuitems" tools:ignore="UnusedResources">
         <item>grouping</item>
         <item>back</item>
         <item>forward</item>
@@ -190,7 +190,7 @@
     <string-array name="ManageCategories_select_filter_cabitems" tools:ignore="UnusedResources">
         <item>select_category</item>
     </string-array>
-    <string-array name="ManageCategories_distribution_cabitems" tools:ignore="UnusedResources">
+    <string-array name="Distribution_cabitems" tools:ignore="UnusedResources">
         <item>color</item>
     </string-array>
 

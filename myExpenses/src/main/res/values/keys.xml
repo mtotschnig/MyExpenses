@@ -118,7 +118,7 @@
     <string name="help_ManageParties_title" tools:ignore="UnusedResources">@string/pref_manage_parties_title</string>
     <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title" tools:ignore="UnusedResources">@string/pref_manage_categories_title</string>
-    <string name="help_ManageCategories_distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
+    <string name="help_Distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
     <string name="help_ManageCategories_select_mapping_title" tools:ignore="UnusedResources">@string/select_category</string>
     <string name="help_ManageCategories_select_filter_title" tools:ignore="UnusedResources">@string/search_category</string>
     <string name="help_ManageCurrencies_title" tools:ignore="UnusedResources">@string/pref_custom_currency_title</string>
@@ -136,6 +136,9 @@
     <string name="pref_protection_password_title">@string/hint_password</string>
     <string name="form_AccountEdit_exchange_rate_help_text">@string/menu_equivalent_amount_help_text</string>
     <string name="cab_ungroup_split_transaction_help_text">@string/warning_ungroup_split_transactions</string>
+    <string name="help_Distribution_info">@string/help_ManageCategories_distribution_info</string>
+    <string name="menu_Distribution_grouping_help_text">@string/menu_ManageCategories_distribution_grouping_help_text</string>
+    <string name="cab_color_help_text">@string/cab_ManageCategories_color_help_text</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>

@@ -142,6 +142,9 @@
             </meta-data>
         </activity>
 
+        <activity android:name=".activity.Distribution"
+                  android:exported="false"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
