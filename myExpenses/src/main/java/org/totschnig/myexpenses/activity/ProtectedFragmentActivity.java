@@ -435,7 +435,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         doHome();
         return true;
       case R.id.GDPR_CONSENT_COMMAND: {
-        adHandlerFactory.setConsent((Boolean) tag);
+        adHandlerFactory.setConsent(this, (Boolean) tag);
         return true;
       }
       case R.id.GDPR_NO_CONSENT_COMMAND: {

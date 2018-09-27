@@ -120,7 +120,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
   }
 
   @Override
-  public void setConsent(boolean personalized) {
+  public void setConsent(Context context, boolean personalized) {
     prefHandler.putBoolean(PERSONALIZED_AD_CONSENT, personalized);
   }
 }
