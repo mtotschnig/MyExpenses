@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
@@ -54,14 +54,27 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
   @Override
   public void gdprConsent(ProtectedFragmentActivity context, boolean forceShow) {
     if (forceShow || (!isAdDisabled() && !prefHandler.isSet(PERSONALIZED_AD_CONSENT))) {
+      int positiveString;
+      MessageDialogFragment.Button neutral = null;
+      String adProviders = "FinanceAds, PubNative";
+      if (DistribHelper.isGithub()) {
+        positiveString = R.string.gdpr_consent_button_yes;
+      } else {
+        adProviders = "Google, " + adProviders;
+        positiveString = R.string.pref_ad_consent_title;
+        neutral = new MessageDialogFragment.Button(R.string.ad_consent_non_personalized, R.id.GDPR_CONSENT_COMMAND, false);
+      }
+      MessageDialogFragment.Button positive = new MessageDialogFragment.Button(positiveString, R.id.GDPR_CONSENT_COMMAND, true);
+
       MessageDialogFragment.newInstance(
           0,
           Phrase.from(context, R.string.gdpr_consent_message)
               .put(PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
-              .put("ad_provider", "FinanceAds, PubNative")
+              .put("ad_provider", adProviders)
               .format(),
-          new MessageDialogFragment.Button(R.string.gdpr_consent_button_yes, R.id.GDPR_CONSENT_COMMAND, null),
-          null, new MessageDialogFragment.Button(R.string.gdpr_consent_button_no, R.id.GDPR_NO_CONSENT_COMMAND, null))
+          positive,
+          neutral,
+          new MessageDialogFragment.Button(R.string.gdpr_consent_button_no, R.id.GDPR_NO_CONSENT_COMMAND, null))
           .show(context.getSupportFragmentManager(), "MESSAGE");
     }
   }

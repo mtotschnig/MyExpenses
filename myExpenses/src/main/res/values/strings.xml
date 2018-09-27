@@ -757,6 +757,7 @@
     <string name="licence_has_expired_n_days">Your professional key has expired %d days ago</string>
     <string name="pref_category_title_privacy">Privacy</string>
     <string name="pref_ad_consent_title">Personalized ads</string>
+    <string name="ad_consent_non_personalized">Non-personalized ads</string>
     <string name="gdpr_consent_message">We partner with {ad_provider} in order to sustain the support, maintenance and development of {app_name} by showing you ads. We would like to ask for your consent. If you prefer to not see any ads, please pay for the ad-free version.</string>
     <string name="gdpr_consent_button_yes">Yes, continue to see ads</string>
     <string name="gdpr_consent_button_no">Pay for the ad-free version</string>

@@ -789,6 +789,9 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public void contribFeatureNotCalled(ContribFeature feature) {
+    if (!DistribHelper.isGithub() && feature == ContribFeature.AD_FREE) {
+      finish();
+    }
   }
 
   @Override

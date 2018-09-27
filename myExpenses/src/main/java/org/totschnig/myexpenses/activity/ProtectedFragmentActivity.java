@@ -435,12 +435,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         doHome();
         return true;
       case R.id.GDPR_CONSENT_COMMAND: {
-        adHandlerFactory.setConsent(true);
+        adHandlerFactory.setConsent((Boolean) tag);
         return true;
       }
       case R.id.GDPR_NO_CONSENT_COMMAND: {
         adHandlerFactory.clearConsent();
-        dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null);
+        contribFeatureRequested(ContribFeature.AD_FREE, null);
         return true;
       }
     }
