@@ -12,6 +12,9 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Arrays;
 
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
@@ -19,12 +22,44 @@ import static org.totschnig.myexpenses.util.Utils.PLACEHOLDER_APP_NAME;
 
 public class DefaultAdHandlerFactory implements AdHandlerFactory {
   private static final int INITIAL_GRACE_DAYS = 5;
+  private static final String[] EU_COUNTRIES = {
+       "at",
+       "be",
+       "bg",
+       "cy",
+       "cz",
+       "de",
+       "dk",
+       "ee",
+       "el",
+       "es",
+       "fi",
+       "fr",
+       "hr",
+       "hu",
+       "ie",
+       "it",
+       "lt",
+       "lu",
+       "lv",
+       "mt",
+       "nl",
+       "pl",
+       "pt",
+       "ro",
+       "se",
+       "si",
+       "sk",
+       "uk"
+  };
   protected final Context context;
   protected final PrefHandler prefHandler;
+  protected final String userCountry;
 
-  public DefaultAdHandlerFactory(Context context, PrefHandler prefHandler) {
+  public DefaultAdHandlerFactory(Context context, PrefHandler prefHandler, String userCountry) {
     this.context = context;
     this.prefHandler = prefHandler;
+    this.userCountry = userCountry;
   }
 
   @Override
@@ -40,7 +75,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
 
   @Override
   public boolean isRequestLocationInEeaOrUnknown() {
-    return true;
+    return Arrays.binarySearch(EU_COUNTRIES, userCountry) >= 0;
   }
 
   @Override
@@ -53,7 +88,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
 
   @Override
   public void gdprConsent(ProtectedFragmentActivity context, boolean forceShow) {
-    if (forceShow || (!isAdDisabled() && !prefHandler.isSet(PERSONALIZED_AD_CONSENT))) {
+    if (forceShow || (!isAdDisabled() && isRequestLocationInEeaOrUnknown() && !prefHandler.isSet(PERSONALIZED_AD_CONSENT))) {
       int positiveString;
       MessageDialogFragment.Button neutral = null;
       String adProviders = "FinanceAds, PubNative";

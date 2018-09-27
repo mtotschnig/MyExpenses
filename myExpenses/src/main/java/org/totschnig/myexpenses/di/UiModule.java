@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,7 +23,7 @@ public class UiModule {
 
   @Provides
   @Singleton
-  AdHandlerFactory provideAdHandlerFactory(MyApplication application, PrefHandler prefHandler) {
-    return new DefaultAdHandlerFactory(application, prefHandler);
+  AdHandlerFactory provideAdHandlerFactory(MyApplication application, PrefHandler prefHandler, @Named("userCountry") String userCountry) {
+    return new DefaultAdHandlerFactory(application, prefHandler, userCountry);
   }
 }
