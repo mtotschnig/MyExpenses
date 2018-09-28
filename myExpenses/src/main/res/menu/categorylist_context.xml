@@ -53,7 +53,7 @@
             android:icon="@drawable/ic_color"
             android:orderInCategory="0"
             android:showAsAction="always"
-            android:title="@string/color">
+            android:title="@string/menu_color">
         </item>
     </group>
 </menu>

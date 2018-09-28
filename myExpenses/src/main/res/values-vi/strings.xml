@@ -381,7 +381,6 @@
   <string name="sum_transfer">Chuyển khoản</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Quản lý tài chính cá nhân trên {platform}, {website}</string>
-  <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>
   <string name="time">Thời gian</string>
   <string name="title">Tiêu đề</string>

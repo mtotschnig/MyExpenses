@@ -381,7 +381,6 @@
   <string name="sum_transfer">Tranferentziak</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Egiaztatu {app_name} {platform} plataformarako {website} helbidean</string>
-  <string name="template_create_success">\"%1$s\" txantiloia ondo gorde da</string>
   <string name="thank_you">Eskerrik asko zure babesagatik!</string>
   <string name="time">Ordua</string>
   <string name="title">Izenburua</string>

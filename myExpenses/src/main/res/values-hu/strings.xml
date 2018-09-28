@@ -278,7 +278,6 @@
   <string name="sum_transfer">Átutalások</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, A személyes pénzügyi nyilvántartás - {platform}, {website}</string>
-  <string name="template_create_success">\"%1$s\" nevű sablon sikeresen létrehozva</string>
   <string name="thank_you">Köszönjük a támogatását!</string>
   <string name="time">Idő</string>
   <string name="title">Cím</string>

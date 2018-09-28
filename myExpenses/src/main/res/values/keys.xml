@@ -134,8 +134,8 @@
     <string name="help_HistoryActivity_title" tools:ignore="UnusedResources">@string/menu_history</string>
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
     <string name="pref_protection_password_title">@string/hint_password</string>
-    <string name="form_AccountEdit_exchange_rate_help_text">@string/menu_equivalent_amount_help_text</string>
-    <string name="cab_ungroup_split_transaction_help_text">@string/warning_ungroup_split_transactions</string>
+    <string name="form_AccountEdit_exchange_rate_help_text" tools:ignore="UnusedResources">@string/menu_equivalent_amount_help_text</string>
+    <string name="cab_ungroup_split_transaction_help_text" tools:ignore="UnusedResources">@string/warning_ungroup_split_transactions</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
@@ -173,9 +173,8 @@
     <string name="cab_RoadmapVoteActivity_set_weight_help_text" tools:ignore="UnusedResources">Select the amount of points that corresponds to how relevant the issue is for you.</string>
     <string name="roadmap_intro">Please help us shape the future of this app by taking part in the vote on the future development roadmap.</string>
     <string name="roadmap_particpate">Participate</string>
-    <string name="reminder_vote_update">At least one of the issues you have voted for, has now been implemented. Please spend your voting weight again.</string>
     <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
-    <string-array name="whats_new_294">
+    <string-array name="whats_new_294" tools:ignore="UnusedResources">
         <item>@string/pref_scroll_to_current_date_summary</item>
     </string-array>
 </resources>

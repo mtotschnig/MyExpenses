@@ -273,7 +273,6 @@
   <string name="sum_transfer">Převody</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Správa osobních výdajů pro {platform}, {website}</string>
-  <string name="template_create_success">Šablona \"%1$s\" byla úspěšně vytvořen</string>
   <string name="thank_you">Děkujeme vám za vaši podporu!</string>
   <string name="time">Čas</string>
   <string name="title">Titul</string>

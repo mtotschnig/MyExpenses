@@ -357,7 +357,6 @@
   <string name="sum_transfer">Transferuri</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Check out {app_name}, Manager Finanţe  Personale pentru {platform}, de la {website}</string>
-  <string name="template_create_success">Şablon \"%1$s\" creat</string>
   <string name="thank_you">Mulţumim pentru suportul dvs!</string>
   <string name="time">Timp</string>
   <string name="title">Titlu</string>

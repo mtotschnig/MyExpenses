@@ -10,7 +10,6 @@
               android:orientation="horizontal">
 
     <TextView android:id="@+id/text"
-              xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="0dp"
               android:layout_weight="1"
               android:layout_height="wrap_content"

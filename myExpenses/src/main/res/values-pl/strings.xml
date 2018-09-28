@@ -385,7 +385,6 @@
   <string name="sum_transfer">Przelewy</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Personalny menadżer finansów dla systemu {platform}, {website}</string>
-  <string name="template_create_success">Szablon \"%1$s\" został utworzony pomyślnie</string>
   <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
   <string name="time">Czas</string>
   <string name="title">Tytuł</string>

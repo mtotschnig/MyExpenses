@@ -337,11 +337,11 @@
         <item>warning_split_transactions</item>
         <item>cab_split_help_text</item>
     </string-array>
-    <string-array name="form_date_time_help_text">
+    <string-array name="form_date_time_help_text" tools:ignore="UnusedResources">
         <item>form_date.time_help_text</item>
         <item>form_date.time_help_text_configuration</item>
     </string-array>
-    <string-array name="menu_NavigationDrawer_sort_help_text">
+    <string-array name="menu_NavigationDrawer_sort_help_text" tools:ignore="UnusedResources">
         <item>menu_NavigationDrawer_sort_help_text</item>
         <item>menu_NavigationDrawer_sort_help_text_custom</item>
     </string-array>

@@ -399,7 +399,6 @@
     <string name="sum_transfer">Transfers</string>
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Check out {app_name}, Personal Finance Manager for {platform}, from {website}</string>
-    <string name="template_create_success">Template \"%1$s\" created successfully</string>
     <string name="thank_you">Thank you for your support!</string>
     <string name="time">Time</string>
     <string name="title">Title</string>

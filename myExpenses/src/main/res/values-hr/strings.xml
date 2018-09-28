@@ -343,7 +343,6 @@
   <string name="sum_transfer">Doznake</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Posjeti {app_name}, Osobni Financijski Menadžer za {platform}, na {website}</string>
-  <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>
   <string name="thank_you">Zahvaljujemo se na vašoj podršci!</string>
   <string name="time">Vrijeme</string>
   <string name="title">Naslov</string>

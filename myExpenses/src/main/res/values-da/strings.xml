@@ -354,7 +354,6 @@
   <string name="sum_transfer">Overførsler</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Tjek {app_name}, Personal Finance Manager for {platform}, fra {website}</string>
-  <string name="template_create_success">Skabelon \"%1$s\" oprettet</string>
   <string name="thank_you">Tak for din støtte!</string>
   <string name="time">Tid</string>
   <string name="title">Titel</string>
