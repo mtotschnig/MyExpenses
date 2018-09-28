@@ -36,4 +36,5 @@ ext {
     daggerVersion = "2.9"
     okHttpVersion = "3.9.1"
     acraVersion = "5.1.2"
+    butterknifeVersion = "8.8.1"
 }
