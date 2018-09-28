@@ -40,6 +40,7 @@
   </string-array>
   <string-array name="whats_new_281">
     <item>Có thể cài đặt các kế hoạch tuỳ ý</item>
+    <item>Khắc phục sự cố lưu trữ đám mây các bản sao lưu lớn</item>
   </string-array>
   <string name="stability_improvements">Cải thiện độ ổn định</string>
 </resources>
