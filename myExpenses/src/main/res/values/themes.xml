@@ -33,8 +33,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>
         <item name="colorContainerInner">10sp</item>
-        <item name="cardHighlightForeground">?selectableItemBackground</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
@@ -50,6 +48,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
+        <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
+        <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
+        <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
     </style>
 
     <style name="ThemeDark" parent="@style/ThemeDarkBase">
@@ -66,8 +69,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>
         <item name="colorContainerInner">10sp</item>
-        <item name="cardHighlightForeground">?selectableItemBackground</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
@@ -83,6 +84,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
+        <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
+        <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
+        <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
     </style>
 
     <style name="ThemeLight" parent="@style/ThemeLightBase">
@@ -178,7 +184,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeLight.s3" parent="@style/ThemeLight.s3Base" tools:ignore="UnusedResources"/>
 
-    <style name="ThemeDark.EditDialogBase" parent="@style/Theme.AppCompat.DialogWhenLarge">
+    <style name="ThemeDark.EditDialog" parent="@style/Theme.AppCompat.DialogWhenLarge">
         <item name="windowActionModeOverlay">true</item>
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
@@ -197,11 +203,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
     </style>
 
-    <style name="ThemeDark.EditDialog" parent="ThemeDark.EditDialogBase"/>
-
-    <style name="ThemeLight.EditDialogBase" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
+    <style name="ThemeLight.EditDialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
         <item name="windowActionModeOverlay">true</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
@@ -220,9 +226,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
     </style>
-
-    <style name="ThemeLight.EditDialog" parent="ThemeLight.EditDialogBase"/>
 
     <style name="ThemeDark.EditDialog.s1" tools:ignore="UnusedResources">
         <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
@@ -463,4 +469,14 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Inactive track color(30% transparency) -->
         <item name="android:colorForeground">?colorExpense</item>
     </style>
+
+    <style name="MyCategoryPreferenceStyle" parent="@style/Preference.Category.Material">
+        <item name="android:layout">@layout/preference_category_material_flexible</item>
+    </style>
+
+    <style name="PreferenceThemeOverlay.v14.Material.Flexible">
+        <item name="preferenceCategoryStyle">@style/MyCategoryPreferenceStyle</item>
+    </style>
+
+
 </resources>

@@ -23,5 +23,4 @@
         android:textStyle="bold"
         android:layout_gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceListItem" />
-        />
 </LinearLayout>

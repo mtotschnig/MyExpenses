@@ -70,6 +70,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     a.recycle();
     a = obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
     accentColor = a.getColor(0, 0);
+    a.recycle();
     if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_IS_DIRTY)) {
       setDirty();
     }
