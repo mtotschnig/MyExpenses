@@ -11,8 +11,6 @@ import android.support.design.widget.Snackbar;
 
 import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.googleUtils.IabHelper;
-import org.onepf.oms.appstore.googleUtils.IabResult;
-import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -54,7 +52,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   private static final String KEY_SHOULD_REPLACE_EXISTING = "shouldReplaceExisting";
   private OpenIabHelper mHelper;
   private boolean mSetupDone;
-  private String mPayload;
   private LicenceHandler licenceHandler;
 
   public static Intent getIntentFor(Context context, @Nullable ContribFeature feature) {
@@ -80,7 +77,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     super.onCreate(savedInstanceState);
     String packageFromExtra = getIntent().getStringExtra(KEY_PACKAGE);
     licenceHandler = MyApplication.getInstance().getLicenceHandler();
-    mPayload = licenceHandler.getPayLoad();
     mHelper = licenceHandler.getIabHelper(this);
 
     if (mHelper != null) {
@@ -148,37 +144,25 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
           return;
         }
         final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener =
-            new IabHelper.OnIabPurchaseFinishedListener() {
-              public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-                Timber.d("Purchase finished: %s, purchase: %s", result, purchase);
-                if (result.isFailure()) {
-                  Timber.w("Purchase failed: %s, purchase: %s", result, purchase);
-                  showMessage(getString(R.string.premium_failed_or_canceled));
-                } else if (!verifyDeveloperPayload(purchase)) {
-                  showMessage("Error purchasing. Authenticity verification failed.");
+            (result, purchase) -> {
+              Timber.d("Purchase finished: %s, purchase: %s", result, purchase);
+              if (result.isFailure()) {
+                Timber.w("Purchase failed: %s, purchase: %s", result, purchase);
+                showMessage(getString(R.string.premium_failed_or_canceled));
+              } else {
+                Timber.d("Purchase successful.");
+
+                LicenceStatus licenceStatus = licenceHandler.handlePurchase(purchase.getSku(), purchase.getOrderId());
+
+                if (licenceStatus != null) {
+                  // bought the premium upgrade!
+                  Timber.d("Purchase is premium upgrade. Congratulating user.");
+                  showMessage(
+                      String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
+                          getString(licenceStatus.getResId()), getString(R.string.thank_you)));
                 } else {
-                  Timber.d("Purchase successful.");
-
-                  LicenceStatus licenceStatus = licenceHandler.handlePurchase(purchase.getSku(), purchase.getOrderId());
-
-                  if (licenceStatus != null) {
-                    // bought the premium upgrade!
-                    Timber.d("Purchase is premium upgrade. Congratulating user.");
-                    showMessage(
-                        String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-                            getString(licenceStatus.getResId()), getString(R.string.thank_you)));
-                  } else {
-                    finish();
-                  }
+                  finish();
                 }
-              }
-
-              private boolean verifyDeveloperPayload(Purchase purchase) {
-                if (mPayload == null) {
-                  return true;
-                }
-                String payload = purchase.getDeveloperPayload();
-                return payload != null && payload.equals(mPayload);
               }
             };
         String sku = licenceHandler.getSkuForPackage(aPackage);
@@ -203,7 +187,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
               oldSkus,
               ProtectedFragmentActivity.PURCHASE_PREMIUM_REQUEST,
               mPurchaseFinishedListener,
-              mPayload
+              null
           );
         } catch (IabHelper.IabAsyncInProgressException e) {
           complain("Another async operation in progress.");

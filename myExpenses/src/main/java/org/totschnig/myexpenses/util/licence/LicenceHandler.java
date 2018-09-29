@@ -236,10 +236,6 @@ public class LicenceHandler {
     return context.getString(R.string.extend_validity);
   }
 
-  public String getPayLoad() {
-    return null;
-  }
-
   public OpenIabHelper getIabHelper(Context context) {
     return null;
   }
