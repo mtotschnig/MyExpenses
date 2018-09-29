@@ -420,6 +420,7 @@
     </string-array>
 
     <string-array name="versions">
+        <item>343;2.9.5.1</item>
         <item>343;2.9.5</item>
         <item>341;2.9.4</item>
         <item>339;2.9.3</item>

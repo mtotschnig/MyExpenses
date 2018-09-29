@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2951">
+    <item>@string/performance_enhancement</item>
+  </string-array>
   <string-array name="whats_new_295">
     <item>Custom colors for main categories</item>
   </string-array>
