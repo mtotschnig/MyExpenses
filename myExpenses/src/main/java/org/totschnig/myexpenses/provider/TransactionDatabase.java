@@ -138,7 +138,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 78;
+  public static final int DATABASE_VERSION = 79;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -177,7 +177,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_EQUIVALENT_AMOUNT + " integer);";
 
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
-      + TABLE_TRANSACTIONS + "(" + KEY_UUID + "," + KEY_ACCOUNTID + "," + KEY_STATUS + ")";
+      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -1708,6 +1708,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+      }
+      if (oldVersion < 79) {
+        db.execSQL("DROP INDEX if exists transactions_account_uuid_index");
+        db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(account_id,uuid,status)");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
