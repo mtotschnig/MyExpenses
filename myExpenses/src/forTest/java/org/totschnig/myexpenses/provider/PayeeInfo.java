@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.provider;
+package org.totschnig.myexpenses.provider;
 
 import android.content.ContentValues;
 
@@ -14,7 +14,7 @@ public class PayeeInfo {
 
   String name;
 
-  ContentValues getContentValues() {
+  public ContentValues getContentValues() {
     ContentValues contentValues = new ContentValues(2);
     contentValues.put(KEY_PAYEE_NAME, name);
     contentValues.put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name));

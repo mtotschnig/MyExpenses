@@ -24,8 +24,10 @@ import android.net.Uri;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.provider.AccountInfo;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
+import org.totschnig.myexpenses.provider.PayeeInfo;
+import org.totschnig.myexpenses.provider.TransactionInfo;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
 
@@ -56,9 +58,9 @@ public class TransactionTest extends BaseDbTest {
    */
   private void insertData() {
 
-    TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", TransactionDatabase.dateTimeFormat.format(new Date()), 0, testAccountId, payeeId);
-    TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", TransactionDatabase.dateTimeFormat.format(new Date()), 100, testAccountId, payeeId);
-    TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", TransactionDatabase.dateTimeFormat.format(new Date()), -100, testAccountId, payeeId);
+    TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", new Date(), 0, testAccountId, payeeId);
+    TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", new Date(), 100, testAccountId, payeeId);
+    TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", new Date(), -100, testAccountId, payeeId);
 
     // Sets up test data
     for (TransactionInfo TEST_TRANSACTION : TEST_TRANSACTIONS) {
@@ -286,7 +288,7 @@ public class TransactionTest extends BaseDbTest {
     // Creates a new transaction instance
     TransactionInfo transaction = new TransactionInfo(
         "Transaction 4",
-        TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId, payeeId);
+        new Date(), 1000, testAccountId, payeeId);
 
     // Insert subtest 1.
     // Inserts a row using the new transaction instance.
@@ -324,9 +326,9 @@ public class TransactionTest extends BaseDbTest {
 
     // Tests each column in the returned cursor against the data that was inserted, comparing
     // the field in the TransactionInfo object to the data at the column index in the cursor.
-    assertEquals(transaction.comment, cursor.getString(commentIndex));
-    assertEquals(transaction.date, cursor.getString(dateIndex));
-    assertEquals(transaction.amount, cursor.getLong(amountIndex));
+    assertEquals(transaction.getComment(), cursor.getString(commentIndex));
+    assertEquals(transaction.getDate(), cursor.getLong(dateIndex));
+    assertEquals(transaction.getAmount(), cursor.getLong(amountIndex));
     assertEquals(PAYEE_NAME, cursor.getString(payeeIndex));
     // Insert subtest 2.
     // Tests that we can't insert a record whose id value already exists.
@@ -351,7 +353,7 @@ public class TransactionTest extends BaseDbTest {
   public void testInsertViolatesForeignKey() {
     TransactionInfo transaction = new TransactionInfo(
         "Transaction 4",
-        TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId + 1, payeeId);
+        new Date(), 1000, testAccountId + 1, payeeId);
     try {
       mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, transaction.getContentValues());
       fail("Expected insert failure for link to non-existing account but insert succeeded.");

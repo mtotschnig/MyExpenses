@@ -1,14 +1,13 @@
-package org.totschnig.myexpenses.test.provider;
+package org.totschnig.myexpenses.provider;
 
 import android.content.ContentValues;
 
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 /**
  * A utility for converting account data to a ContentValues map.
  */
-class AccountInfo {
+public class AccountInfo {
   String label;
   long openingBalance;
   AccountType type;
@@ -45,4 +44,22 @@ class AccountInfo {
   public String getDescription() {
     return "My account of type " + type.name();
   }
+
+
+  public String getLabel() {
+    return label;
+  }
+
+  public long getOpeningBalance() {
+    return openingBalance;
+  }
+
+  public AccountType getType() {
+    return type;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
 }

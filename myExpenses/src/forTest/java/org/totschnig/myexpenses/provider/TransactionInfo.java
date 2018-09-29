@@ -1,16 +1,18 @@
-package org.totschnig.myexpenses.test.provider;
+package org.totschnig.myexpenses.provider;
 
 import android.content.ContentValues;
 
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+import java.util.Date;
 
 // A utility for converting note data to a ContentValues map.
-class TransactionInfo {
+public class TransactionInfo {
+
   String comment;
   long amount;
-  String date;
+  long date;
   long payeeId;
   long accountId;
 
@@ -19,9 +21,9 @@ class TransactionInfo {
    * return its values in a ContentValues map expected by data model methods.
    * The transaction's id is created automatically when it is inserted into the data model.
    */
-  TransactionInfo(String comment, String date, long amount, long accountId, long payeeId) {
+  public TransactionInfo(String comment, Date date, long amount, long accountId, long payeeId) {
     this.comment = comment;
-    this.date = date;
+    this.date = date.getTime()/1000;
     this.amount = amount;
     this.payeeId = payeeId;
     this.accountId = accountId;
@@ -45,5 +47,26 @@ class TransactionInfo {
     v.put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
     v.put(DatabaseConstants.KEY_UUID, Model.generateUuid());
     return v;
+  }
+
+
+  public String getComment() {
+    return comment;
+  }
+
+  public long getAmount() {
+    return amount;
+  }
+
+  public long getDate() {
+    return date;
+  }
+
+  public long getPayeeId() {
+    return payeeId;
+  }
+
+  public long getAccountId() {
+    return accountId;
   }
 }

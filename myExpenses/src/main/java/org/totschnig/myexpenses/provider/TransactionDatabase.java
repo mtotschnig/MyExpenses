@@ -696,7 +696,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   SELECT RAISE (FAIL, 'split category can not be deleted'); " +
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
+
+    //Run on ForTest build type
+    //insertTestData(db);
   }
+
+/*  private void insertTestData(SQLiteDatabase db) {
+    for (int i = 1; i <= 50; i++) {
+      long payeeId = db.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo("Payee " + i).getContentValues());
+      AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.CASH, 0);
+      long testAccountId = db.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
+      for (int j = 1; j <= 50; j++) {
+        TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, new Date(), 0, testAccountId, payeeId);
+        db.insertOrThrow(
+            DatabaseConstants.TABLE_TRANSACTIONS,
+            null,
+            transactionInfo.getContentValues()
+        );
+      }
+    }
+  }*/
 
   private void insertCurrencies(SQLiteDatabase db) {
     ContentValues initialValues = new ContentValues();

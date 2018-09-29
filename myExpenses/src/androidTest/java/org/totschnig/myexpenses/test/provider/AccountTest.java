@@ -24,6 +24,7 @@ import android.net.Uri;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
+import org.totschnig.myexpenses.provider.AccountInfo;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
@@ -305,10 +306,10 @@ public class AccountTest extends BaseDbTest {
 
     // Tests each column in the returned cursor against the data that was inserted, comparing
     // the field in the NoteInfo object to the data at the column index in the cursor.
-    assertEquals(account.label, cursor.getString(labelIndex));
+    assertEquals(account.getLabel(), cursor.getString(labelIndex));
     assertEquals(account.getDescription(), cursor.getString(descriptionIndex));
-    assertEquals(account.openingBalance, cursor.getLong(balanceIndex));
-    assertEquals(account.currency, cursor.getString(currencyIndex));
+    assertEquals(account.getOpeningBalance(), cursor.getLong(balanceIndex));
+    assertEquals(account.getCurrency(), cursor.getString(currencyIndex));
     // Insert subtest 2.
     // Tests that we can't insert a record whose id value already exists.
 
