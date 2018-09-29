@@ -38,6 +38,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nieograniczona liczba podzielonych szablonów</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b></string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Wykres historii (przepływ gotówki)</string>
   <string name="licence_status_free">Darmowa</string>
   <string name="contrib_key">Klucz Contrib</string>
   <string name="extended_key">Klucz Rozszerzony</string>
@@ -198,6 +199,8 @@
   <string name="menu_search">Szukaj</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_share">Poleć znajomemu</string>
+  <string name="button_label_share_file">Podziel się</string>
+  <string name="button_label_close">Zamknij</string>
   <string name="menu_split_transaction">Zamień w podział</string>
   <string name="method">Metoda płatności</string>
   <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
@@ -264,6 +267,7 @@
   <string name="pm_type_neutral">Neutralnie</string>
   <string name="pref_app_dir_title">Folder do kopii zapasowych i eksportów</string>
   <string name="pref_auto_fill_title">Automatyczne uzupełnianie transakcji</string>
+  <string name="pref_auto_fill_summary">Uzupełnij danymi z ostatniej transakcji dla tego odbiorcy/płatnika</string>
   <string name="pref_backup_summary">Utwórz kopię zapasową bazy danych i preferencji na karcie pamięci.</string>
   <string name="pref_sort_order_usages">Ilość użyć</string>
   <string name="pref_category_title_advanced">Zaawansowane</string>
@@ -305,6 +309,7 @@
   <string name="pref_manage_sync_backends_summary">Dodaj serwery do synchronizacji kont (%s).</string>
   <string name="pref_more_info_dialog_title">Licencja &amp; O programie</string>
   <string name="pref_password_not_equal">Hasła nie zgadzają się ze sobą</string>
+  <string name="pref_perform_protection_title">Ochrona</string>
   <string name="pref_perform_share_title">Udostępnij eksporty i kopie zapasowe</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Utwórz nowy lokalny kalendarz planowania</string>
@@ -682,15 +687,46 @@
   <string name="sort_direction_descending">malejąco</string>
   <string name="never">nigdy</string>
   <string name="always">zawsze</string>
+  <string name="dropbox_folder_not_found">Folder nie został odnaleziony</string>
+  <string name="sync_auth_exception_login_again">Autoryzacja się nie powiodła. Zaloguj się proszę ponowie.</string>
+  <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
+  <string name="feature_deprecated">Wycofano</string>
   <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
+  <string name="snackbar_dismiss">Odwołaj</string>
+  <string name="menu_history_show_balance">Pokaż bilans</string>
+  <string name="menu_history_transfers">Uwzględnij transfery</string>
+  <string name="menu_history">Historia</string>
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <string name="menu_history_totals">Pokaż sumy</string>
+  <string name="pref_home_currency_title">Waluta rodzima</string>
+  <string name="grand_total">Suma całkowita</string>
+  <string name="menu_original_amount">Pierwotna kwota</string>
+  <string name="menu_equivalent_amount">Kwota równoważna</string>
+  <string name="home_currency_change_warning">Jeżeli zmienisz swoją rodzimą walutę, wartości równoważne i kursy wymiany zostaną utracone i trzeba je będzie definiować od nowa. Czy chcesz kontynuować?</string>
+  <string name="warning_split_transactions">Wybrane transakcje zostaną zgrupowane w jedną transakcję podzieloną. Ich informacje o datach zostaną stracone, tj. zastąpione zostaną wartością uśrednioną.</string>
+  <string name="warning_ungroup_split_transactions">Zaznaczone podzielone transakcje zostaną rozgrupowane, tj. ich podzielone części staną się zwykłymi transakcjami.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Rozgrupuj podział</string>
   <string name="split_transaction_one_error">Zamiana transakcji w podział nie była możliwa</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="gdpr_consent_button_yes">Tak, dalej wyświetlaj reklamy</string>
+  <string name="gdpr_consent_button_no">Zapłać za wersję bez reklam</string>
+  <string name="sort_order">Kolejność sortowania</string>
+  <string name="navigation_drawer_accounts_title">Zarządzaj kontami</string>
+  <string name="pref_sync_wifi_only_summary">Synchronizuj tylko poprzez Wi-Fi</string>
+  <string name="wifi_not_connected">Urządzenie nie jest podłączone do sieci Wi-Fi. Synchronizacja odłożona w czasie.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Tłumaczenie</string>
   <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Złóż</string>
   <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Rozszerz</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Cel / Limit</string>
+  <string name="saving_goal">Cel oszczędzania</string>
+  <string name="clear_all_filters">Wyczyść wszystkie filtry</string>
+  <string name="pref_scroll_to_current_date_summary">Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty</string>
+  <string name="professional_key_fallback_info">Subskrypcja Klucza Profesjonalnego, która była aktywna przez przynajmniej rok, a która nie zostanie odnowiona, automatycznie zamieni się w nieograniczony Klucz Rozszerzony.</string>
 </resources>

@@ -741,6 +741,7 @@
   <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi</string>
   <string name="pref_category_title_privacy">Gizlilik</string>
   <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
+  <string name="ad_consent_non_personalized">Kişiselleştirilmemiş reklamlar</string>
   <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
   <string name="gdpr_consent_button_yes">Evet, reklam görmeye devam et</string>
   <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
