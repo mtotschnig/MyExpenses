@@ -777,4 +777,8 @@
     <string name="clear_all_filters">Clear all filters</string>
     <string name="pref_scroll_to_current_date_summary">Upon app start, scroll transaction list to current date</string>
     <string name="professional_key_fallback_info">A subscription to the Professional Key that has been active for at least one year and is not renewed, will be automatically transformed into an unlimited Extended Key.</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">Clear method</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">Clear category</string>
 </resources>

@@ -248,11 +248,32 @@
                     android:labelFor="@+id/Category"
                     android:text="@string/category"/>
 
+                <LinearLayout
+                    style="@style/FormField"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
                 <Button
                     android:id="@+id/Category"
-                    style="@style/SmallButton.FormField"
+                    style="@style/SmallButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/select"/>
+
+                <ImageView
+                    android:id="@+id/ClearCategory"
+                    style="?actionButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description_clear_category"
+                    android:focusable="true"
+                    android:onClick="clearCategorySelection"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_menu_delete"
+                    tools:ignore="MissingPrefix"/>
+                </LinearLayout>
             </TableRow>
 
             <TableRow android:id="@+id/CommentRow">
@@ -326,7 +347,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/contrib_feature_attach_picture_label"
+                        android:contentDescription="@string/content_description_clear_method"
                         android:focusable="true"
                         android:onClick="clearMethodSelection"
                         android:visibility="gone"
