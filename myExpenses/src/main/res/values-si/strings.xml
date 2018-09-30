@@ -305,7 +305,6 @@
   <string name="sum_income">ආදායම</string>
   <string name="sum_transfer">මාරු කිරීම් </string>
   <!--platform is replaced with Android or Blackberry-->
-  <string name="template_create_success">\"%1$s\" අච්චුව නිමවීම සාර්ථකයි </string>
   <string name="thank_you">ඔබගේ සහයෝගයට ස්තුතියි!</string>
   <string name="time">කාලය </string>
   <string name="title">මාතෘකාව </string>

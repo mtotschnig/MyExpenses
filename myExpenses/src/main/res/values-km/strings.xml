@@ -307,7 +307,6 @@
   <string name="sum_transfer">ការបញ្ជូនចេញ</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ {platform}, {website}</string>
-  <string name="template_create_success">ទិន្នន័យ​គំរូ \"%1$s\" បង្កើត​បានជោគជ័យ</string>
   <string name="thank_you">សូមអរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!</string>
   <string name="time">ពេលវេលា</string>
   <string name="title">ចំណងជើង</string>

@@ -384,7 +384,6 @@
   <string name="sum_transfer">Umbuchungen</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Probiere {app_name}, Persönliches Finanz-Management für {platform}, von {website}</string>
-  <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
   <string name="time">Zeit</string>
   <string name="title">Titel</string>

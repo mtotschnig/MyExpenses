@@ -201,7 +201,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       dataSetFiltered = dataSet;
     } else {
       dataSetFiltered = Stream.of(dataSet)
-          .filter(issue -> issue.getTitle().toLowerCase().contains(query.toLowerCase()))
+          .filter(issue -> issue.getTitle().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT)))
           .collect(Collectors.toList());
     }
     roadmapAdapter.notifyDataSetChanged();
@@ -339,15 +339,16 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
   private class RoadmapAdapter extends RecyclerView.Adapter<RoadmapAdapter.ViewHolder> {
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       LayoutInflater inflater = LayoutInflater.from(RoadmapVoteActivity.this);
       View row = inflater.inflate(R.layout.roadmap_list_item, parent, false);
       return new ViewHolder(row);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
       Issue issue = dataSetFiltered.get(position);
       holder.textView.setText(issue.getTitle());
       Integer weight = voteWeights.get(issue.getNumber());

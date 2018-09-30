@@ -42,6 +42,7 @@ import timber.log.Timber;
  * or the number of stored objects in the db for the Model (error code < 0 on failure)
  * the later is only implemented for transactions
  */
+@Deprecated
 public class DbWriteFragment extends Fragment {
 
   private static final String KEY_RUNNING = "running";

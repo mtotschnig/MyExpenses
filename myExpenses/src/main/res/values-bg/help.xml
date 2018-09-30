@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Команди от менюто</string>
   <string name="help_contextual_actions">Контекстно меню</string>
+  <string name="help_contextual_actions_help">Контекстното меню се показва при продължително натискане  на запис от списъка.</string>
   <string name="help_form_fields">Полета в бланката</string>
   <string name="cab_delete_help_text">Изтриване на избраното.</string>
   <string name="cab_edit_help_text">Редактиране на избраното.</string>

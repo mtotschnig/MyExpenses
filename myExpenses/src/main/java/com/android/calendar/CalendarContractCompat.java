@@ -43,6 +43,7 @@ public final class CalendarContractCompat {
     static {
         if (legacyApi) {
           try {
+            //noinspection PrivateApi
             AUTHORITY = (String) Class.forName("android.provider.Calendar").getField("AUTHORITY").get(null);
           } catch (Exception e) {
             AUTHORITY = "com.android.calendar";

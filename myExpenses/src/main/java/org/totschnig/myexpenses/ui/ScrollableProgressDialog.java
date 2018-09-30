@@ -48,6 +48,7 @@ public class ScrollableProgressDialog extends AlertDialog {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
+    //noinspection InflateParams
     View view = inflater.inflate(R.layout.scrollable_progress_dialog, null);
     ButterKnife.bind(this, view);
     if (message != null) {

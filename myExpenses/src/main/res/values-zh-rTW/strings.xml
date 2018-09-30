@@ -265,7 +265,6 @@
   <string name="sum_transfer">轉移</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, 個人理財工具 {platform}版, {website}</string>
-  <string name="template_create_success">範本 \"%1$s\" 成功被建立</string>
   <string name="thank_you">感謝你的支持！</string>
   <string name="time">時間</string>
   <string name="title">名稱</string>

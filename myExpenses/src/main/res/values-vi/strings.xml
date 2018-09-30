@@ -142,7 +142,7 @@
   <string name="menu_aggregates">Tổng</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Áp dụng</string>
-  <string name="menu_back">Quay lại</string>
+  <string name="menu_back">Trước</string>
   <string name="menu_backup">Sao lưu</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <string name="menu_balance">Đối chiếu số dư</string>
@@ -296,7 +296,7 @@
   <string name="pref_manage_categories_title">Phân loại</string>
   <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức thanh toán và gắn phương thức này với các loại tài khoản.</string>
   <string name="pref_manage_methods_title">Phương thức thanh toán</string>
-  <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các hội (người trả và người nhận tiền).</string>
+  <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các bên (người trả và người nhận tiền).</string>
   <string name="pref_manage_parties_title">Bên</string>
   <string name="pref_manage_sync_backends_title">Phụ trợ đồng bộ</string>
   <!--%s will be replaced with list of backends-->
@@ -381,7 +381,6 @@
   <string name="sum_transfer">Chuyển khoản</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Quản lý tài chính cá nhân trên {platform}, {website}</string>
-  <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>
   <string name="time">Thời gian</string>
   <string name="title">Tiêu đề</string>

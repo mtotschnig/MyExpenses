@@ -118,11 +118,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int PREFERENCES_REQUEST = 3;
   public static final int CREATE_ACCOUNT_REQUEST = 4;
   public static final int FILTER_CATEGORY_REQUEST = 5;
-  public static final int FILTER_COMMENT_REQUEST = 6;
-  public static final int TEMPLATE_TITLE_REQUEST = 7;
   public static final int EDIT_SPLIT_REQUEST = 8;
   public static final int SELECT_CATEGORY_REQUEST = 9;
-  public static final int PICK_COLOR_REQUEST = 11;
   public static final int PURCHASE_PREMIUM_REQUEST = 12;
   public static final int PICTURE_REQUEST_CODE = 14;
   public static final int IMPORT_FILENAME_REQUESTCODE = 15;
@@ -435,7 +432,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         doHome();
         return true;
       case R.id.GDPR_CONSENT_COMMAND: {
-        adHandlerFactory.setConsent((Boolean) tag);
+        adHandlerFactory.setConsent(this, (Boolean) tag);
         return true;
       }
       case R.id.GDPR_NO_CONSENT_COMMAND: {

@@ -50,9 +50,6 @@
     <dimen name="AccountColorDiameterS3">54sp</dimen>
     <dimen name="CategoryColorDiameterS3">24sp</dimen>
 
-    <dimen name="selected_indicator_translation_x">23dp</dimen>
-    <item name="selected_indicator_translation_rotation" type="integer">270</item>
-
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="plan_month_dialog_height">450dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>

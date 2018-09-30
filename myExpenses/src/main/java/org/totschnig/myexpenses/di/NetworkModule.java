@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.di;
 
 
 import android.net.TrafficStats;
-import android.util.Log;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
@@ -22,6 +21,7 @@ import okhttp3.EventListener;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.logging.HttpLoggingInterceptor;
+import timber.log.Timber;
 
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
@@ -39,7 +39,7 @@ public class NetworkModule {
         @Override
         public void connectFailed(Call call, InetSocketAddress inetSocketAddress, Proxy proxy, Protocol protocol, IOException ioe) {
           super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe);
-          Log.e("OKHTTP", "Connect failed", ioe);
+          Timber.e(ioe, "Connect failed");
         }
       });
     }

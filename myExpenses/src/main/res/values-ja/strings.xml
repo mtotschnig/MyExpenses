@@ -381,7 +381,6 @@
   <string name="sum_transfer">振替</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}: {platform}用のパーソナル ファイナンス マネージャーを確かめてください。ここから {website}</string>
-  <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
   <string name="thank_you">サポートありがとうございます!</string>
   <string name="time">時間</string>
   <string name="title">タイトル/科目</string>

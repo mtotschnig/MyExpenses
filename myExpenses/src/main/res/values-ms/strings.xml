@@ -380,7 +380,6 @@
   <string name="sum_transfer">Pemindahan</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Lihat {app_name}, Pengurus Kewangan Persendirian untuk {platform}, di {website}</string>
-  <string name="template_create_success">Templat \"%1$s\" berjaya dicipta</string>
   <string name="thank_you">Terima kasih atas sokongan anda!</string>
   <string name="time">Masa</string>
   <string name="title">Tajuk</string>

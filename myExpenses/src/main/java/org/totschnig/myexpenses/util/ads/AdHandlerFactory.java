@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util.ads;
 
+import android.content.Context;
 import android.view.ViewGroup;
 
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -19,5 +20,5 @@ public interface AdHandlerFactory {
 
   void clearConsent();
 
-  void setConsent(boolean personalized);
+  void setConsent(Context context, boolean personalized);
 }

@@ -48,8 +48,8 @@ android {
             minSdkVersion project.minSdkVersion
         }
         targetSdkVersion project.targetSdkVersion
-        versionCode 343
-        versionName '2.9.5'
+        versionCode 344
+        versionName '2.9.5.1'
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -162,9 +162,9 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
 
 dependencies {
     implementation project(':transactionscontract')
-    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:' + project.butterknifeVersion
     implementation 'com.squareup.phrase:phrase:1.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:' + project.butterknifeVersion
     annotationProcessor 'com.google.dagger:dagger-compiler:' + project.daggerVersion
     implementation 'com.google.dagger:dagger:' + project.daggerVersion
     compileOnly 'javax.annotation:jsr250-api:1.0'

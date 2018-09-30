@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_288">
+    <item>Wykres historii (przepływ gotówki)</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>Rosnący kierunek sortowania (najstarsze transakcje u góry)</item>
   </string-array>

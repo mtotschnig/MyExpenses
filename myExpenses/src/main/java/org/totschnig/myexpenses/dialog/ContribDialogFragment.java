@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -67,7 +66,6 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Inject
   LicenceHandler licenceHandler;
   private TextView professionalPriceTextView;
-  private @SuppressLint("InflateParams")
   View dialogView;
 
   public static ContribDialogFragment newInstance(String feature, Serializable tag) {
@@ -95,6 +93,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Activity ctx = getActivity();
     Context wrappedContext = new ContextThemeWrapper(ctx,  R.style.ThemeDark);
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+    //noinspection InflateParams
     dialogView = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
         MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?

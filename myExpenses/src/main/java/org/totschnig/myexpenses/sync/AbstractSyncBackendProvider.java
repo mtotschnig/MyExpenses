@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.sync;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -292,6 +293,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return result;
   }
 
+  @SuppressLint("ApplySharedPref")
   private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
     sharedPreferences.edit().putString(accountPrefKey(KEY_LOCK_TOKEN), locktoken)
         .putLong(accountPrefKey(KEY_TIMESTAMP), timestamp)

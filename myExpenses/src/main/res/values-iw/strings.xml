@@ -390,7 +390,6 @@
   <string name="sum_transfer">העברות</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">בדוק את האפליקציה {app_name}, מנהל כספים אישי עבור{platform}, מ- {website}</string>
-  <string name="template_create_success">התבנית \"%1$s\" נוצרה בהצלחה</string>
   <string name="thank_you">תודה על תמיכתך!</string>
   <string name="time">זמן</string>
   <string name="title">כותרת</string>

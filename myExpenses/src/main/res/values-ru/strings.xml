@@ -389,7 +389,6 @@
   <string name="sum_transfer">Переводы</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Просмотрите {app_name}, персональный финансовый менеджер для {platform}, на {website}</string>
-  <string name="template_create_success">Шаблон \"%1$s\" успешно создан</string>
   <string name="thank_you">Спасибо вам за вашу поддержку!</string>
   <string name="time">Время</string>
   <string name="title">Название</string>

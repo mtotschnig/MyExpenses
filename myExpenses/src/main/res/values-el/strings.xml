@@ -372,7 +372,6 @@
   <string name="sum_transfer">Μεταφορές</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Ελέγξτε το \"{app_name}\", διαχειριστή προσωπικών οικονομιών για {platform}, στο {website}</string>
-  <string name="template_create_success">Πρότυπο \"%1$s\" δημιουργήθηκε με επιτυχία</string>
   <string name="thank_you">Σας ευχαριστώ για την υποστήριξή σας!</string>
   <string name="time">Χρόνος</string>
   <string name="title">Τίτλος</string>

@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -161,7 +162,7 @@ class ConfigurationHelper {
       case FIELD_SCREENLAYOUT:
         return activeFlags(valueArrays.get(PREFIX_SCREENLAYOUT), f.getInt(conf));
       default:
-        final SparseArray<String> values = valueArrays.get(fieldName.toUpperCase() + '_');
+        final SparseArray<String> values = valueArrays.get(fieldName.toUpperCase(Locale.ROOT) + '_');
         if (values == null) {
           // Unknown field, return the raw int as String
           return f.getInt(conf);

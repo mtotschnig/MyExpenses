@@ -282,11 +282,10 @@ public class DistributionFragment extends CategoryList {
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
       accountSelector = mAccount.currency.getCurrencyCode();
     } else {
-      accountSelection = " = ?";
-      accountSelector = String.valueOf(mAccount.getId());
+      accountSelection = " = " + mAccount.getId();
     }
     catFilter = "FROM " + table +
-        " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND " + KEY_ACCOUNTID + accountSelection));
+        " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
     if (!aggregateTypes) {
       catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
     }

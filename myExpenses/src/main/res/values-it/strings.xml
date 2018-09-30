@@ -384,7 +384,6 @@
   <string name="sum_transfer">Trasferimenti</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Gestione delle finanze personali per {platform}, {website}</string>
-  <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="thank_you">Grazie per il tuo sostegno!</string>
   <string name="time">Ora</string>
   <string name="title">Titolo</string>

@@ -8,6 +8,7 @@ import com.pavelsikun.seekbarpreference.SeekBarPreferenceView;
 import eltos.simpledialogfragment.CustomViewDialog;
 
 public class SimpleSeekBarDialog extends CustomViewDialog<SimpleSeekBarDialog> {
+  public static final String TAG = "SimpleSeekBarDialog.";
 
   protected static final String SEEKBAR_MINIMUM = "Seekbar.maximum";
   protected static final String SEEKBAR_MAXIMUM = "Seekbar.minimum";
