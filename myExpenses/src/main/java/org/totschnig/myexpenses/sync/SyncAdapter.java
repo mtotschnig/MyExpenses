@@ -432,7 +432,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
         maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
             getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null, null);
-      } catch (IOException e) {
+      } catch (Exception e) {
         log().w(e);
         if (!handleAuthException(backend, e, account)) {
           notifyUser(getContext().getString(R.string.pref_auto_backup_title),
@@ -443,7 +443,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private boolean handleAuthException(SyncBackendProvider backend, IOException e, Account account) {
+  private boolean handleAuthException(SyncBackendProvider backend, Exception e, Account account) {
     if (backend.isAuthException(e)) {
       backend.tearDown();
       Intent manageSyncBackendsIntent = getManageSyncBackendsIntent();
