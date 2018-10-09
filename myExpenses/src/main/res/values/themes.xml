@@ -31,8 +31,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="colorContainerOuter">25sp</item>
-        <item name="colorContainerInner">10sp</item>
+        <item name="colorContainerOuter">32dp</item>
+        <item name="colorContainerInner">16dp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
@@ -67,8 +67,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="colorContainerOuter">25sp</item>
-        <item name="colorContainerInner">10sp</item>
+        <item name="colorContainerOuter">32dp</item>
+        <item name="colorContainerInner">16dp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
@@ -96,8 +96,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeDark.s1Base">
         <item name="drawerWidth">285sp</item>
-        <item name="colorContainerOuter">27sp</item>
-        <item name="colorContainerInner">12sp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
@@ -111,8 +109,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeLight.s1Base">
         <item name="drawerWidth">285sp</item>
-        <item name="colorContainerOuter">27sp</item>
-        <item name="colorContainerInner">12sp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
@@ -126,8 +122,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeDark.s2Base">
         <item name="drawerWidth">315sp</item>
-        <item name="colorContainerOuter">29sp</item>
-        <item name="colorContainerInner">14sp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
@@ -141,8 +135,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeLight.s2Base">
         <item name="drawerWidth">315sp</item>
-        <item name="colorContainerOuter">29sp</item>
-        <item name="colorContainerInner">14sp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
@@ -156,8 +148,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeDark.s3Base">
         <item name="drawerWidth">345sp</item>
-        <item name="colorContainerOuter">31sp</item>
-        <item name="colorContainerInner">16sp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
@@ -171,8 +161,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeLight.s3Base">
         <item name="drawerWidth">345sp</item>
-        <item name="colorContainerOuter">31sp</item>
-        <item name="colorContainerInner">16sp</item>
         <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
