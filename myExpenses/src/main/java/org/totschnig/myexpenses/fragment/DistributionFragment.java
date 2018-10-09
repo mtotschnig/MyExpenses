@@ -191,13 +191,16 @@ public class DistributionFragment extends CategoryList {
       if (showChart) {
         if (mAdapter.getChildrenCount(groupPosition) == 0) {
           long packedPosition = ExpandableListView.getPackedPositionForGroup(groupPosition);
-          highlight(groupPosition);
           mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
           if (lastExpandedPosition != -1
               && groupPosition != lastExpandedPosition) {
             mListView.collapseGroup(lastExpandedPosition);
             lastExpandedPosition = -1;
           }
+          if (lastExpandedPosition == -1) {
+            highlight(groupPosition);
+          }
+
           return true;
         }
       }
