@@ -82,7 +82,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
         saveFileContents(ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
         createWarningFile();
       }
-    } catch (DbxException | IOException e) {
+    } catch (DbxException e) {
       throw new IOException(e);
     }
   }
