@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,7 +21,6 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.ui.ExpansionPanel;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
@@ -51,6 +48,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSF
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDrawable;
+import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 
 public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyListHeadersAdapter {
   private final static String EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_";
@@ -194,16 +192,14 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     if (criterion != 0) {
       final int progress;
       if (criterion > 0 == currentBalance > 0) {
-        progress = Math.abs(currentBalance) > Math.abs(criterion) ? 100 : Math.round(currentBalance * 100 / criterion);
+        progress = Math.abs(currentBalance) > Math.abs(criterion) ? 100 : Math.round(currentBalance * 100F / criterion);
       } else {
         progress = 0;
       }
       holder.criterionProgress.setProgress(progress);
       holder.criterionProgress.setText(String.valueOf(progress));
       holder.criterionProgress.setFinishedStrokeColor(colorInt);
-      final int contrastColor = UiUtils.isBrightColor(colorInt) ? Color.BLACK : Color.WHITE;
-      final int unfinishedColor = ColorUtils.blendARGB(colorInt, contrastColor, 0.5F);
-      holder.criterionProgress.setUnfinishedStrokeColor(unfinishedColor);
+      holder.criterionProgress.setUnfinishedStrokeColor(getContrastColor(colorInt));
       holder.criterionLabel.setText(criterion > 0 ? R.string.saving_goal : R.string.credit_limit);
       setConvertedAmount(currency, criterion, isHome, holder.criterion);
     } else {

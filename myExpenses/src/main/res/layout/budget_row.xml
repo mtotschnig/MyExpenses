@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    style="@style/ExpandableListRow"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/color1"
+        android:layout_width="?account_color_indicator_diameter"
+        android:layout_height="?account_color_indicator_diameter"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginLeft="-4dp"
+        android:padding="4dp"
+        android:layout_marginRight="4dp">
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/budgetProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:donut_finished_stroke_width="3sp"
+        app:donut_unfinished_stroke_width="3sp"
+        app:donut_text_color="?android:textColorPrimary"
+        app:donut_text_size="?textSizeLabel"/>
+    </FrameLayout>
+
+    <TextView
+        tools:text="LABEL"
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/color1"
+        android:layout_toLeftOf="@+id/budgetContainer"
+        android:layout_toRightOf="@+id/color1"
+        android:layout_toStartOf="@+id/budgetContainer"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:id="@+id/budgetContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:gravity="center_vertical"
+            android:text="1000000"/>
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            tools:background="@drawable/round_background_income"
+            android:id="@+id/available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="10000"
+            android:textColor="?android:textColorPrimaryInverse"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

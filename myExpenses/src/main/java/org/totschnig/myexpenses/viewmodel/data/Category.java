@@ -8,6 +8,7 @@ public class Category {
   public final long id;
   public final Long parentId;
   public final String label;
+  public final Long budget = 10000000L;
   public final Long sum;
   public final Boolean hasMappedTemplates;
   public final Boolean hasMappedTransactions;

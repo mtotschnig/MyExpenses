@@ -89,6 +89,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -822,12 +823,12 @@ public class MyExpenses extends LaunchActivity implements
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       //noinspection InlinedApi
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      int color700 = UiUtils.get700Tint(color);
+      int color700 = ColorUtils.get700Tint(color);
       window.setStatusBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //noinspection InlinedApi
         getWindow().getDecorView().setSystemUiVisibility(
-            UiUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);

@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CategoryActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
+import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -99,7 +100,7 @@ public class CategoryList extends SortableListFragment {
     return R.menu.categorylist_context;
   }
 
-  protected CategoryTreeAdapter mAdapter;
+  protected CategoryTreeBaseAdapter mAdapter;
   private SqlBrite sqlBrite = new SqlBrite.Builder().build();
   @BindView(R.id.list)
   ExpandableListView mListView;
@@ -139,7 +140,8 @@ public class CategoryList extends SortableListFragment {
     }
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, null, isWithMainColors(), false);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, null, isWithMainColors(),
+        false);
     mListView.setAdapter(mAdapter);
     loadData();
     registerForContextualActionBar(mListView);

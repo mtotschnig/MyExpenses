@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.SparseIntArray;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.IntStream;
@@ -11,7 +12,38 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v4.graphics.ColorUtils.blendARGB;
+
 public class ColorUtils {
+  /*
+  from https://www.google.com/design/spec/style/color.html#color-color-palette
+  maps the 500 color to the 700 color
+   */
+  static final SparseIntArray colorPrimaryDarkMap = new SparseIntArray() {
+    {
+      append(0xffF44336, 0xffD32F2F);
+      append(0xffE91E63, 0xffC2185B);
+      append(0xff9C27B0, 0xff7B1FA2);
+      append(0xff673AB7, 0xff512DA8);
+      append(0xff3F51B5, 0xff303F9F);
+      append(0xff2196F3, 0xff1976D2);
+      append(0xff03A9F4, 0xff0288D1);
+      append(0xff00BCD4, 0xff0097A7);
+      append(0xff009688, 0xff00796B);
+      append(0xff4CAF50, 0xff388E3C);
+      append(0xff8BC34A, 0xff689F38);
+      append(0xffCDDC39, 0xffAFB42B);
+      append(0xffFFEB3B, 0xffFBC02D);
+      append(0xffFFC107, 0xffFFA000);
+      append(0xffFF9800, 0xffF57C00);
+      append(0xffFF5722, 0xffE64A19);
+      append(0xff795548, 0xff5D4037);
+      append(0xff9E9E9E, 0xff616161);
+      append(0xff607D8B, 0xff455A64);
+      append(0xff757575, 0xff424242); //aggregate theme light 600 800
+      append(0xffBDBDBD, 0xff757575); //aggregate theme dark  400 600
+    }
+  };
   /**
    * from {@link com.github.mikephil.charting.utils.ColorTemplate}
    */
@@ -113,4 +145,32 @@ public class ColorUtils {
     return mask;
   }
 
+  public static int get700Tint(int color) {
+    int found = colorPrimaryDarkMap.get(color);
+    return found != 0 ? found : color;
+  }
+
+  public static boolean isBrightColor(int color) {
+    if (android.R.color.transparent == color)
+      return true;
+
+    boolean rtnValue = false;
+
+    int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
+
+    int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
+        * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
+
+    // color is light
+    if (brightness >= 200) {
+      rtnValue = true;
+    }
+
+    return rtnValue;
+  }
+
+  public static int getContrastColor(int colorInt) {
+    final int contrastColor = org.totschnig.myexpenses.util.ColorUtils.isBrightColor(colorInt) ? Color.BLACK : Color.WHITE;
+    return blendARGB(colorInt, contrastColor, 0.5F);
+  }
 }

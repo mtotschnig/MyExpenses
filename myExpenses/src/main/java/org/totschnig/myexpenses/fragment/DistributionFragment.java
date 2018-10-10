@@ -182,8 +182,7 @@ public class DistributionFragment extends CategoryList {
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter,
-        mAccount == null ? null : mAccount.currency, showChart, showChart);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount.currency, showChart, showChart);
     mListView.setAdapter(mAdapter);
     loadData();
     mListView.setOnGroupClickListener((parent, v12, groupPosition, id) ->

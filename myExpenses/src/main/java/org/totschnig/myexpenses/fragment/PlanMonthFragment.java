@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -449,7 +450,7 @@ public class PlanMonthFragment extends CaldroidFragment
       if (selectedDates.contains(dateTime)) {
         state.setVisibility(View.VISIBLE);
         Long transactionId = instance2TransactionMap.get(CalendarProviderProxy.calculateId(dateTime));
-        boolean brightColor = UiUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
+        boolean brightColor = ColorUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
         int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
         if (transactionId == null) {
           state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));

@@ -3,19 +3,20 @@ package org.totschnig.myexpenses.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 
-public class BudgetActivity extends CategoryActivity {
+public class Budget extends CategoryActivity<BudgetFragment> {
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
   private BudgetViewModel budgetViewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_category);
-    setupToolbar(true);
   }
 
   @NonNull
@@ -26,6 +27,6 @@ public class BudgetActivity extends CategoryActivity {
 
   @Override
   protected int getContentView() {
-    return 0;
+    return R.layout.activity_budget;
   }
 }
