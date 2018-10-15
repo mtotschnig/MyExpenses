@@ -30,6 +30,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
   private AmountEditText mAmount1Text;
   private AmountEditText mAmount2Text;
   private Spinner mOperatorSpinner;
+
   public static AmountFilterDialog newInstance(Currency currency) {
     Bundle bundle = new Bundle();
     bundle.putSerializable(KEY_CURRENCY, currency);
@@ -37,10 +38,11 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     f.setArguments(bundle);
     return f;
   }
+
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    MyExpenses ctx  = (MyExpenses) getActivity();
+    MyExpenses ctx = (MyExpenses) getActivity();
     LayoutInflater li = ctx.getLayoutInflater();
     //noinspection InflateParams
     View view = li.inflate(R.layout.filter_amount, null);
@@ -70,16 +72,17 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     mAmount2Text.setFractionDigits(fractionDigits);
 
     return new AlertDialog.Builder(ctx)
-      .setTitle(R.string.search_amount)
-      .setView(view)
-      .setPositiveButton(android.R.string.ok,this)
-      .setNegativeButton(android.R.string.cancel,null)
-      .create();
+        .setTitle(R.string.search_amount)
+        .setView(view)
+        .setPositiveButton(android.R.string.ok, this)
+        .setNegativeButton(android.R.string.cancel, null)
+        .create();
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    if (ctx==null) {
+    if (ctx == null) {
       return;
     }
     BigDecimal bdAmount1 = mAmount1Text.validate(false);
@@ -89,7 +92,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     BigDecimal bdAmount2 = null;
     String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)
         [mOperatorSpinner.getSelectedItemPosition()];
-    Currency currency = (Currency)getArguments().getSerializable(KEY_CURRENCY);
+    Currency currency = (Currency) getArguments().getSerializable(KEY_CURRENCY);
     AlertDialog dlg = (AlertDialog) dialog;
     boolean type = ((RadioGroup) dlg.findViewById(R.id.type)).getCheckedRadioButtonId() == R.id.income;
     if (selectedOp.equals("BTW")) {
@@ -98,10 +101,10 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
         return;
       }
     }
-    ctx.addFilterCriteria(R.id.FILTER_AMOUNT_COMMAND,new AmountCriteria(
+    ctx.addFilterCriteria(R.id.FILTER_AMOUNT_COMMAND, new AmountCriteria(
         WhereFilter.Operation.valueOf(selectedOp),
         currency,
         type,
-        bdAmount1,bdAmount2));
+        bdAmount1, bdAmount2));
   }
 }
