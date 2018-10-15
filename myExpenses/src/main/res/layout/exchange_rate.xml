@@ -18,10 +18,7 @@
         android:id="@+id/ExchangeRateText"
         android:layout_width="0dp"
         android:layout_weight="3"
-        android:layout_height="wrap_content"
-        android:digits="@string/amount_digits"
-        android:inputType="numberDecimal"
-        tools:ignore="HardcodedText"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:paddingLeft="8dp"

@@ -12,12 +12,8 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatDrawableManager;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,64 +39,6 @@ public class UiUtils {
       TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
       textView.setTextColor(Color.BLACK);
     }
-  }
-
-  public static void configDecimalSeparator(final EditText editText,
-                                            final char decimalSeparator, final int fractionDigits) {
-    // mAmountText.setInputType(
-    // InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    // due to bug in Android platform
-    // http://code.google.com/p/android/issues/detail?id=2626
-    // the soft keyboard if it occupies full screen in horizontal orientation
-    // does not display the , as comma separator
-    // TODO we should take into account the arab separator as well
-    final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
-    editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-    editText.setFilters(new InputFilter[]{new InputFilter() {
-      @Override
-      public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
-                                 int dend) {
-        int separatorPositionInDest = dest.toString().indexOf(decimalSeparator);
-        char[] v = new char[end - start];
-        android.text.TextUtils.getChars(source, start, end, v, 0);
-        String input = new String(v).replace(otherSeparator, decimalSeparator);
-        if (fractionDigits == 0 || separatorPositionInDest != -1 || dest.length() - dend > fractionDigits) {
-          input = input.replace(String.valueOf(decimalSeparator), "");
-        } else {
-          int separatorPositionInSource = input.lastIndexOf(decimalSeparator);
-          if (separatorPositionInSource != -1) {
-            //we make sure there is only one separator in the input and after the separator we do not use
-            //more minor digits as allowed
-            int existingMinorUnits = dest.length() - dend;
-            int additionalAllowedMinorUnits = fractionDigits - existingMinorUnits;
-            int additionalPossibleMinorUnits = input.length() - separatorPositionInSource - 1;
-            int extractMinorUnits = additionalPossibleMinorUnits >= additionalAllowedMinorUnits ?
-                additionalAllowedMinorUnits : additionalPossibleMinorUnits;
-            input = input.substring(0, separatorPositionInSource).replace(String.valueOf
-                (decimalSeparator), "") +
-                decimalSeparator + (extractMinorUnits > 0 ?
-                input.substring(separatorPositionInSource + 1,
-                    separatorPositionInSource + 1 + extractMinorUnits) :
-                "");
-          }
-        }
-        if (fractionDigits == 0) {
-          return input;
-        }
-        if (separatorPositionInDest != -1 &&
-            dend > separatorPositionInDest && dstart > separatorPositionInDest) {
-          int existingMinorUnits = dest.length() - (separatorPositionInDest + 1);
-          int remainingMinorUnits = fractionDigits - existingMinorUnits;
-          if (remainingMinorUnits < 1) {
-            return "";
-          }
-          return input.length() > remainingMinorUnits ? input.substring(0, remainingMinorUnits) :
-              input;
-        } else {
-          return input;
-        }
-      }
-    }, new InputFilter.LengthFilter(16)});
   }
 
   public static Bitmap getTintedBitmapForTheme(Context context, int drawableResId, int themeResId) {
