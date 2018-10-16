@@ -154,6 +154,7 @@
     <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">@string/pref_security_question_title</string>
+    <string name="contrib_feature_budget_label" tools:ignore="UnusedResources">@string/menu_budget</string>
     <string name="currency_not_supported">%s not supported by your OS. Please select a different currency.</string>
     <string name="drive_backend_upgrade">Since 2.8.0, My Expenses supports synchronization with Drive folders from multiple Google accounts. Please select the Google account from which your existing Drive backends were created.</string>
     <string name="button_label_try_again">Try again</string>

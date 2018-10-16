@@ -101,7 +101,6 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected CategoryTreeBaseAdapter mAdapter;
-  private SqlBrite sqlBrite = new SqlBrite.Builder().build();
   @BindView(R.id.list)
   ExpandableListView mListView;
   @Nullable
@@ -127,7 +126,7 @@ public class CategoryList extends SortableListFragment {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     MyApplication.getInstance().getAppComponent().inject(this);
-    briteContentResolver = sqlBrite.wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
+    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
   }
 
   @Override
@@ -171,7 +170,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected QueryObservable createQuery() {
-    String selection = null, accountSelector = null, sortOrder = null;
+    String selection = null;
     String[] selectionArgs;
     String catFilter = CATTREE_WHERE_CLAUSE;
     String[] projection = new String[]{
@@ -179,7 +178,7 @@ public class CategoryList extends SortableListFragment {
         KEY_PARENTID,
         KEY_LABEL,
         KEY_COLOR,
-        //here we do not filter out void transactinos since they need to be considered as mapped
+        //here we do not filter out void transactions since they need to be considered as mapped
         "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
         "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
     };
@@ -194,7 +193,7 @@ public class CategoryList extends SortableListFragment {
       selectionArgs = null;
     }
     return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
-        projection, selection, selectionArgs, sortOrder, true);
+        projection, selection, selectionArgs, null, true);
   }
 
   private void disposeCategory() {

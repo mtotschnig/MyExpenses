@@ -127,7 +127,8 @@ public enum ContribFeature {
   },
   PRO_SUPPORT(false, PROFESSIONAL),
   ROADMAP_VOTING(false, PROFESSIONAL),
-  HISTORY(true, PROFESSIONAL);
+  HISTORY(true, PROFESSIONAL),
+  BUDGET(true, PROFESSIONAL);
 
   ContribFeature() {
     this(true);

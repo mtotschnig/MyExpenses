@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.adapter;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,6 +39,12 @@ public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
   @Override
   protected int getLayoutResourceId() {
     return R.layout.category_row;
+  }
+
+
+  @NonNull
+  protected CategoryTreeBaseAdapter.ViewHolder getHolder(View convertView) {
+    return new ViewHolder(convertView);
   }
 
   class ViewHolder extends CategoryTreeBaseAdapter.ViewHolder {

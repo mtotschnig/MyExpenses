@@ -139,9 +139,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   protected abstract int getLayoutResourceId();
 
   @NonNull
-  protected ViewHolder getHolder(View convertView) {
-    return new ViewHolder(convertView);
-  }
+  protected abstract ViewHolder getHolder(View convertView);
 
   @Override
   public boolean isChildSelectable(int groupPosition, int childPosition) {

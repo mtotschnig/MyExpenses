@@ -164,6 +164,7 @@ public class MyExpenses extends LaunchActivity implements
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
   private long mAccountId = 0;
+  private String currentCurrency;
   private int mAccountCount = 0;
 
   private AdHandler adHandler;
@@ -473,8 +474,8 @@ public class MyExpenses extends LaunchActivity implements
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     //if we are called from an aggregate cursor, we also hand over the currency
-    if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
-      i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
+    if (mAccountId < 0) {
+      i.putExtra(KEY_CURRENCY, currentCurrency);
       i.putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
     } else {
       //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
@@ -501,6 +502,9 @@ public class MyExpenses extends LaunchActivity implements
     Intent i;
     TransactionList tl;
     switch (command) {
+      case R.id.BUDGET_COMMAND:
+        contribFeatureRequested(ContribFeature.BUDGET, null);
+        return true;
       case R.id.DISTRIBUTION_COMMAND:
         tl = getCurrentFragment();
         if (tl != null && tl.hasMappedCategories()) {
@@ -529,7 +533,7 @@ public class MyExpenses extends LaunchActivity implements
         tl = getCurrentFragment();
         if (tl != null && hasCleared()) {
           mAccountsCursor.moveToPosition(mCurrentPosition);
-          Currency currency = Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency));
+          Currency currency = Utils.getSaveInstance(currentCurrency);
           Bundle bundle = new Bundle();
           bundle.putLong(KEY_ROWID,
               mAccountsCursor.getLong(columnIndexRowId));
@@ -750,14 +754,11 @@ public class MyExpenses extends LaunchActivity implements
         break;
       }
       case HISTORY: {
-        Account a = Account.getInstanceFromDb(mAccountId);
-        if (a != null) {
-          recordUsage(feature);
-          Intent i = new Intent(this, HistoryActivity.class);
-          i.putExtra(KEY_ACCOUNTID, mAccountId);
-          startActivity(i);
-          break;
-        }
+        recordUsage(feature);
+        Intent i = new Intent(this, HistoryActivity.class);
+        i.putExtra(KEY_ACCOUNTID, mAccountId);
+        startActivity(i);
+        break;
       }
       case SPLIT_TRANSACTION: {
         if (tag != null) {
@@ -784,6 +785,14 @@ public class MyExpenses extends LaunchActivity implements
         }
         break;
       }
+      case BUDGET: {
+        recordUsage(feature);
+        Intent i = new Intent(this, BudgetActivity.class);
+        i.putExtra(KEY_ACCOUNTID, mAccountId);
+        i.putExtra(KEY_CURRENCY, currentCurrency);
+        startActivity(i);
+        break;
+      }
     }
   }
 
@@ -794,6 +803,7 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     switch (id) {
@@ -802,7 +812,7 @@ public class MyExpenses extends LaunchActivity implements
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
         return new CursorLoader(this, builder.build(), null, null, null, null);
     }
-    return null;
+    throw new IllegalStateException("Unknown loader id " + id);
   }
 
   /**
@@ -833,6 +843,7 @@ public class MyExpenses extends LaunchActivity implements
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
     mAccountId = newAccountId;
+    currentCurrency = mAccountsCursor.getString(columnIndexCurrency);
     setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
@@ -841,7 +852,7 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
     switch (loader.getId()) {
-      case ACCOUNTS_CURSOR:
+      case ACCOUNTS_CURSOR: {
         mAccountCount = 0;
         mAccountsCursor = cursor;
         if (mAccountsCursor == null) {
@@ -879,6 +890,8 @@ public class MyExpenses extends LaunchActivity implements
           //should be triggered through onPageSelected
           //setCurrentAccount(mCurrentPosition);
         }
+        break;
+      }
     }
   }
 
@@ -1023,8 +1036,8 @@ public class MyExpenses extends LaunchActivity implements
   private void setBalance() {
     long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
         (KEY_CURRENT_BALANCE));
-    mCurrentBalance = currencyFormatter.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
-        .getString(columnIndexCurrency)), balance));
+    mCurrentBalance = currencyFormatter.formatCurrency(new Money(
+        Utils.getSaveInstance(currentCurrency), balance));
     TextView balanceTextView = mToolbar.findViewById(R.id.current_balance);
     balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
     balanceTextView.setText(mCurrentBalance);

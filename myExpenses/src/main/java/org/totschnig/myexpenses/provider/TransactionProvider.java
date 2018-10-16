@@ -135,6 +135,8 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
       Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
 
+  public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -216,6 +218,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int AUTOFILL = 47;
   private static final int ACCOUNT_EXCHANGE_RATE = 48;
   private static final int UNSPLIT = 49;
+  private static final int BUDGETS = 50;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -804,6 +807,9 @@ public class TransactionProvider extends ContentProvider {
         qb.appendWhere(" AND " + KEY_CURRENCY_OTHER + "='" + uri.getPathSegments().get(3) + "'");
         projection = new String[]{KEY_EXCHANGE_RATE};
         break;
+      case BUDGETS:
+        qb.setTables(TABLE_BUDGETS);
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -927,6 +933,11 @@ public class TransactionProvider extends ContentProvider {
       case SETTINGS: {
         id = db.replace(TABLE_SETTINGS, null, values);
         newUri = SETTINGS_URI + "/" + id;
+        break;
+      }
+      case BUDGETS: {
+        id = db.insertOrThrow(TABLE_BUDGETS, null, values);
+        newUri = TRANSACTIONS_URI + "/" + id;
         break;
       }
       default:
@@ -1657,6 +1668,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "settings", SETTINGS);
     URI_MATCHER.addURI(AUTHORITY, "autofill/#", AUTOFILL);
     URI_MATCHER.addURI(AUTHORITY, "account_exchangerates/#/*/*", ACCOUNT_EXCHANGE_RATE);
+    URI_MATCHER.addURI(AUTHORITY, "budgets", BUDGETS);
   }
 
   /**

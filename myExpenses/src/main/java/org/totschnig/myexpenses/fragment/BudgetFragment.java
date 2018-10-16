@@ -12,7 +12,6 @@ import com.squareup.sqlbrite3.QueryObservable;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
-import org.totschnig.myexpenses.model.BudgetType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
@@ -32,7 +31,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 
 public class BudgetFragment extends CategoryList {
-  private Budget budget = new Budget("DEBUG", BudgetType.MONTHLY, 50000L);
+  private Budget budget;
 
   @Override
   protected QueryObservable createQuery() {
@@ -48,9 +47,9 @@ public class BudgetFragment extends CategoryList {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = budget.currency.getCurrencyCode();
+      accountSelector = budget.getCurrency().getCurrencyCode();
     } else {
-      accountSelection = " = " + budget.getId();
+      accountSelection = " = " + budget.getAccountId();
     }
     catFilter = "FROM " + table +
         " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
@@ -74,12 +73,16 @@ public class BudgetFragment extends CategoryList {
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     mListView = (ExpandableListView) inflater.inflate(R.layout.budget_list, container, false);
-    mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.currency, true,
+    return mListView;
+  }
+
+  public void setBudget(Budget budget) {
+    this.budget = budget;
+    final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
+    mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.getCurrency(), true,
         true);
     mListView.setAdapter(mAdapter);
     loadData();
-    return mListView;
   }
 }

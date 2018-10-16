@@ -425,11 +425,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
           + KEY_ROWID + " integer primary key autoincrement, "
-          + KEY_LABEL + " text not null, "
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + BudgetType.JOIN + ")), "
           + KEY_AMOUNT + " integer not null, "
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_CURRENCY + " text not null)";
+          + KEY_CURRENCY + " text)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
@@ -716,6 +715,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   SELECT RAISE (FAIL, 'split category can not be deleted'); " +
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
+    db.execSQL(BUDGETS_CREATE);
+    db.execSQL(BUDGETS_CATEGORY_CREATE);
 
     //Run on ForTest build type
     //insertTestData(db);
