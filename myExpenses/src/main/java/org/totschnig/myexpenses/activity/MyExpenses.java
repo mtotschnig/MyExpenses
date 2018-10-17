@@ -1038,7 +1038,7 @@ public class MyExpenses extends LaunchActivity implements
         (KEY_CURRENT_BALANCE));
     mCurrentBalance = currencyFormatter.formatCurrency(new Money(
         Utils.getSaveInstance(currentCurrency), balance));
-    TextView balanceTextView = mToolbar.findViewById(R.id.current_balance);
+    TextView balanceTextView = mToolbar.findViewById(R.id.action_bar_subtitle);
     balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
     balanceTextView.setText(mCurrentBalance);
   }
