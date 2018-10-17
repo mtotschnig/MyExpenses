@@ -31,10 +31,11 @@ ext {
     minSdkVersion = 15
     targetSdkVersion = 28
     androidSupportLibraryVersion = "28.0.0"
-    espressoVersion = "3.0.1"
+    espressoVersion = "3.0.2"
     androidSupportTestVersion = "1.0.1"
     daggerVersion = "2.9"
     okHttpVersion = "3.9.1"
     acraVersion = "5.1.2"
     butterknifeVersion = "8.8.1"
+    robolectricVersion = "4.0-beta-1"
 }

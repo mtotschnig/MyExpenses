@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.util.licence;
 
-import android.test.mock.MockContext;
+import android.content.Context;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
@@ -27,7 +27,7 @@ public class LicenceHandlerTest {
 
   @Before
   public void setUp() throws Exception {
-    licenceHandler = new LicenceHandler(new MockContext(), mock(PreferenceObfuscator.class));
+    licenceHandler = new LicenceHandler(mock(Context.class), mock(PreferenceObfuscator.class));
   }
 
   @Test
