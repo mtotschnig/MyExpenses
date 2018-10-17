@@ -78,7 +78,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         cursor -> {
           final boolean isHomeAggregate = isHomeAggregate();
           Currency currency = getCurrency();
-          return new Budget(accountId, currency, BudgetType.valueOf(cursor.getString(1)), new Money(currency, cursor.getLong(2)), isHomeAggregate);
+          return new Budget(cursor.getLong(0), accountId, currency, BudgetType.valueOf(cursor.getString(1)), new Money(currency, cursor.getLong(2)), isHomeAggregate);
         });
   }
 
@@ -116,7 +116,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
       currentType = BudgetType.values()[extras.getInt(KEY_TYPE)];
       prefHandler.putString(getPrefKey(), currentType.name());
-      Budget budget = new Budget(accountId, currency, currentType,
+      Budget budget = new Budget(0, accountId, currency, currentType,
           new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT)), isHomeAggregate);
       budgetViewModel.createBudget(budget);
       return true;

@@ -29,4 +29,18 @@ public enum BudgetType {
     }
     throw new IllegalStateException();
   }
+
+  public Grouping toGrouping() {
+    switch (this) {
+      case YEARLY:
+        return Grouping.YEAR;
+      case MONTHLY:
+        return Grouping.MONTH;
+      case WEEKLY:
+        return Grouping.WEEK;
+      case DAILY:
+        return Grouping.DAY;
+    }
+    throw new IllegalArgumentException();
+  }
 }

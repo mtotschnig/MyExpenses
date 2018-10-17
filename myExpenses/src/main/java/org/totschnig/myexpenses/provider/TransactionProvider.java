@@ -405,7 +405,10 @@ public class TransactionProvider extends ContentProvider {
         break;
       }
       case CATEGORIES:
-        qb.setTables(TABLE_CATEGORIES);
+        final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
+        qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
+          String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
+              TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery));
         qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
         if (projection == null) {
           projection = Category.PROJECTION;

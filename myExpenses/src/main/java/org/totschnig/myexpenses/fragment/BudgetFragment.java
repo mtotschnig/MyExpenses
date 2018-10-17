@@ -1,23 +1,30 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.squareup.sqlbrite3.QueryObservable;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
+import java.util.Locale;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
@@ -30,12 +37,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 
-public class BudgetFragment extends CategoryList {
+public class BudgetFragment extends DistributionBaseFragment {
   private Budget budget;
+  private Account mAccount;
 
   @Override
   protected QueryObservable createQuery() {
-    String selection, accountSelector = null, sortOrder;
+    String accountSelector = null, sortOrder;
     String[] selectionArgs, projection;
     String catFilter;
     String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
@@ -54,35 +62,73 @@ public class BudgetFragment extends CategoryList {
     catFilter = "FROM " + table +
         " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
     catFilter += " AND " + KEY_AMOUNT + " < 0";
-    catFilter += " AND " + budget.buildGroupingClause();
+    catFilter += " AND " + buildGroupingClause();
     //we need to include transactions mapped to children for main categories
     catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-    selection = " exists (SELECT 1 " + catFilter + ")";
     projection = new String[]{
         KEY_ROWID,
         KEY_PARENTID,
         KEY_LABEL,
         KEY_COLOR,
-        "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
+        "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM,
+        KEY_AMOUNT //Budget
     };
     sortOrder = "abs(" + KEY_SUM + ") DESC";
-    selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
-    return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
-        projection, selection, selectionArgs, sortOrder, true);
+    selectionArgs = accountSelector != null ? new String[]{accountSelector} : null;
+    return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI.buildUpon()
+            .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId())).build(),
+        projection, null, selectionArgs, sortOrder, true);
   }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    long accountId = getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0);
+    mAccount = Account.getInstanceFromDb(accountId);
+    if (mAccount == null) {
+      TextView tv = new TextView(getContext());
+      //noinspection SetTextI18n
+      tv.setText("Error loading budget for account " + accountId);
+      return tv;
+    }
     mListView = (ExpandableListView) inflater.inflate(R.layout.budget_list, container, false);
     return mListView;
   }
 
   public void setBudget(Budget budget) {
+    final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
+    actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
+    actionBar.setSubtitle(String.format(Locale.ROOT, "%s: %s",
+        budget.getType().getLabel(getActivity()),
+        currencyFormatter.formatCurrency(budget.getAmount())));
     this.budget = budget;
+    mGrouping = budget.getType().toGrouping();
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.getCurrency(), true,
         true);
     mListView.setAdapter(mAdapter);
-    loadData();
+    updateDateInfo();
+  }
+
+  @Override
+  protected void onDateInfoReceived(Cursor cursor) {
+    //we fetch dateinfo from database two times, first to get info about current date,
+    //then we use this info in second run
+    if (mGroupingYear == 0) {
+      mGroupingYear = thisYear;
+      switch(mGrouping) {
+        case DAY:
+          mGroupingSecond = thisDay;
+          break;
+        case WEEK:
+          mGroupingSecond = thisWeek;
+          break;
+        case MONTH:
+          mGroupingSecond = thisMonth;
+          break;
+      }
+      updateDateInfo();
+    } else {
+      loadData();
+    }
   }
 }

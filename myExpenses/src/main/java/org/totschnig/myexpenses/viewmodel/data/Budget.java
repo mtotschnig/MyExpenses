@@ -16,13 +16,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 public class Budget {
+  final long id;
   final BudgetType type;
   final Money amount;
   final long accountId;
   final Currency currency;
   final boolean isHomeAggregate;
 
-  public Budget(long accountId, Currency currency, BudgetType type, Money amount, boolean isHomeAggregate) {
+  public Budget(long id, long accountId, Currency currency, BudgetType type, Money amount, boolean isHomeAggregate) {
+    this.id = id;
     this.accountId = accountId;
     this.currency = currency;
     this.type = type;
@@ -31,6 +33,10 @@ public class Budget {
   }
 
   private final List<Category> categories = new ArrayList<>();
+
+  public long getId() {
+    return id;
+  }
 
   public boolean isHomeAggregate() {
     return isHomeAggregate;

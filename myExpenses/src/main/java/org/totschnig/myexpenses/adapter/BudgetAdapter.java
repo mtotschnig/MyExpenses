@@ -36,10 +36,11 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     ViewHolder holder = (ViewHolder) view.getTag();
     holder.budget.setText(currencyFormatter.convAmount(item.budget, currency));
     final long available = item.budget + item.sum;
+    final boolean onBudget = available >= 0;
     holder.available.setText(currencyFormatter.convAmount(available, currency));
-    holder.available.setBackgroundResource(available > 0 ? R.drawable.round_background_income :
+    holder.available.setBackgroundResource(onBudget ? R.drawable.round_background_income :
         R.drawable.round_background_expense);
-    holder.available.setTextColor(available > 0 ? colorIncome : colorExpense);
+    holder.available.setTextColor(onBudget ? colorIncome : colorExpense);
     int progress = available <= 0 || item.budget == 0 ? 100 : Math.round(-item.sum * 100F / item.budget);
     holder.budgetProgress.setProgress(progress);
     holder.budgetProgress.setText(String.valueOf(progress));
@@ -56,8 +57,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
   class ViewHolder extends CategoryTreeBaseAdapter.ViewHolder {
     @BindView(R.id.budget) TextView budget;
     @BindView(R.id.available) TextView available;
-    @BindView(R.id.budgetProgress)
-    DonutProgress budgetProgress;
+    @BindView(R.id.budgetProgress) DonutProgress budgetProgress;
     ViewHolder(View view) {
       super(view);
     }
