@@ -39,6 +39,9 @@ def getPropertyIfDefined(property, defaultValue) {
 
 android {
     compileSdkVersion project.compileSdkVersion
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.mock'
+    useLibrary 'android.test.base'
 
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
