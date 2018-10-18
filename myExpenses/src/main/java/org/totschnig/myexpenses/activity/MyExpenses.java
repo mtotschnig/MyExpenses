@@ -53,7 +53,6 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -234,7 +233,7 @@ public class MyExpenses extends LaunchActivity implements
     ButterKnife.bind(this);
 
     mToolbar = setupToolbar(false);
-    getLayoutInflater().inflate(R.layout.custom_title, mToolbar);
+    mToolbar.setOnClickListener(v -> copyToClipBoard());
     if (mDrawerLayout != null) {
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
           mToolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -1038,13 +1037,8 @@ public class MyExpenses extends LaunchActivity implements
         (KEY_CURRENT_BALANCE));
     mCurrentBalance = currencyFormatter.formatCurrency(new Money(
         Utils.getSaveInstance(currentCurrency), balance));
-    TextView balanceTextView = mToolbar.findViewById(R.id.action_bar_subtitle);
-    balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
-    balanceTextView.setText(mCurrentBalance);
-  }
-
-  public void setTitle(String title) {
-    ((TextView) mToolbar.findViewById(R.id.action_bar_title)).setText(title);
+    mToolbar.setSubtitle(mCurrentBalance);
+    mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
   }
 
   public TransactionList getCurrentFragment() {
@@ -1153,7 +1147,7 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
 
-  public void copyToClipBoard(View view) {
+  public void copyToClipBoard() {
     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
     clipboard.setText(mCurrentBalance);
     showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);

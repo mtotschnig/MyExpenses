@@ -78,7 +78,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         cursor -> {
           final boolean isHomeAggregate = isHomeAggregate();
           Currency currency = getCurrency();
-          return new Budget(cursor.getLong(0), accountId, currency, BudgetType.valueOf(cursor.getString(1)), new Money(currency, cursor.getLong(2)), isHomeAggregate);
+          return new Budget(cursor.getLong(0), accountId, currency,
+              BudgetType.valueOf(cursor.getString(1)),
+              new Money(currency, cursor.getLong(2)), isHomeAggregate);
         });
   }
 
@@ -87,7 +89,8 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     if (typeFromPreference != null) {
       try {
         return BudgetType.valueOf(typeFromPreference);
-      } catch (IllegalArgumentException ignored) { }
+      } catch (IllegalArgumentException ignored) {
+      }
     }
     return BudgetType.MONTHLY;
   }
@@ -126,7 +129,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   protected Currency getCurrency() {
     return Currency.getInstance(isHomeAggregate() ?
-            prefHandler.getString(PrefKey.HOME_CURRENCY, "EUR") : this.currency);
+        prefHandler.getString(PrefKey.HOME_CURRENCY, "EUR") : this.currency);
   }
 
   protected boolean isHomeAggregate() {

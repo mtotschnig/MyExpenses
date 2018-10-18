@@ -1004,7 +1004,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (!mFilter.isEmpty()) {
         filterView.setText(mFilter.prettyPrint(getContext()));
       }
-      ((MyExpenses) getActivity()).setTitle(mAccount.getLabelForScreenTitle(getContext()));
+      getActivity().setTitle(mAccount.getLabelForScreenTitle(getContext()));
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
         MenuItem filterItem = filterMenu.getItem(i);
