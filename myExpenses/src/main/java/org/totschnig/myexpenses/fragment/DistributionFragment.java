@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.content.res.TypedArray;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
@@ -50,8 +48,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -65,7 +61,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -79,8 +74,6 @@ public class DistributionFragment extends DistributionBaseFragment {
   View bottomLine;
   boolean showChart = false;
   boolean aggregateTypes;
-  private Account mAccount;
-  private Disposable sumDisposable;
 
   public Grouping getGrouping() {
     return mGrouping;
@@ -327,6 +320,16 @@ public class DistributionFragment extends DistributionBaseFragment {
     }
   }
 
+  @Override
+  void updateIncome(Long amount) {
+    updateSum("+", incomeSumTv, amount);
+  }
+
+  @Override
+  void updateExpense(Long amount) {
+    updateSum("-", expenseSumTv, amount);
+  }
+
   private void updateSum(String prefix, TextView tv, long amount) {
     if (tv != null) {
       //noinspection SetTextI18n
@@ -516,46 +519,6 @@ public class DistributionFragment extends DistributionBaseFragment {
     super.onDestroyView();
     disposeSum();
     disposeDateInfo();
-  }
-
-  private void disposeSum() {
-    if (sumDisposable != null && !sumDisposable.isDisposed()) {
-      sumDisposable.dispose();
-    }
-  }
-
-  private void updateSum() {
-    disposeSum();
-    Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
-    if (!mAccount.isHomeAggregate()) {
-      if (mAccount.isAggregate()) {
-        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
-      } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
-      }
-    }
-    //if we have no income or expense, there is no row in the cursor
-    sumDisposable = briteContentResolver.createQuery(builder.build(),
-        null,
-        buildGroupingClause(),
-        null,
-        null, true)
-        .mapToList(cursor -> {
-          int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
-          long sum = cursor.getLong(cursor.getColumnIndex(KEY_SUM));
-          return Pair.create(type, sum);
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(pairs -> {
-          boolean[] seen = new boolean[2];
-          for (Pair<Integer, Long> pair : pairs) {
-            seen[pair.first] = true;
-            updateSum(pair.first > 0 ? "+ " : "- ",
-                pair.first > 0 ? incomeSumTv : expenseSumTv, pair.second);
-          }
-          if (!seen[1]) updateSum("+ ", incomeSumTv, 0);
-          if (!seen[0]) updateSum("- ", expenseSumTv, 0);
-        });
   }
 
 

@@ -45,7 +45,7 @@
                 android:padding="4dp">
 
                 <com.github.lzyzsd.circleprogress.DonutProgress
-                    android:id="@+id/budgetProgress"
+                    android:id="@+id/budgetProgressTotal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:donut_finished_stroke_width="3sp"

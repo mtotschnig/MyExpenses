@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.squareup.sqlbrite3.QueryObservable;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
@@ -36,11 +38,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
+import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 
 public class BudgetFragment extends DistributionBaseFragment {
   private Budget budget;
-  private Account mAccount;
   @BindView(R.id.budgetTotalCard) ViewGroup budgetTotalCard;
+  @BindView(R.id.budgetProgressTotal) DonutProgress budgetProgress;
 
   @Override
   protected QueryObservable createQuery() {
@@ -100,15 +103,6 @@ public class BudgetFragment extends DistributionBaseFragment {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
     actionBar.setSubtitle(budget.getType().getLabel(getActivity()));
-    ((TextView) budgetTotalCard.findViewById(R.id.budget)).setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    ((TextView) budgetTotalCard.findViewById(R.id.amount)).setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    final TextView availableTV = budgetTotalCard.findViewById(R.id.available);
-    availableTV.setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    boolean onBudget = true;
-    availableTV.setBackgroundResource(onBudget ? R.drawable.round_background_income :
-        R.drawable.round_background_expense);
-    availableTV.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
-        ((ProtectedFragmentActivity) getActivity()).getColorExpense());
     this.budget = budget;
     mGrouping = budget.getType().toGrouping();
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
@@ -136,8 +130,34 @@ public class BudgetFragment extends DistributionBaseFragment {
           break;
       }
       updateDateInfo(true);
+      updateSum();
     } else {
       loadData();
     }
+  }
+
+  @Override
+  void updateIncome(Long amount) {
+
+  }
+
+  @Override
+  void updateExpense(Long amount) {
+    ((TextView) budgetTotalCard.findViewById(R.id.budget)).setText(currencyFormatter.formatCurrency(budget.getAmount()));
+    ((TextView) budgetTotalCard.findViewById(R.id.amount)).setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -amount)));
+    final TextView availableTV = budgetTotalCard.findViewById(R.id.available);
+    final Long allocated = this.budget.getAmount().getAmountMinor();
+    long available = allocated - amount;
+    availableTV.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, available)));
+    boolean onBudget = available >=0;
+    availableTV.setBackgroundResource(onBudget ? R.drawable.round_background_income :
+        R.drawable.round_background_expense);
+    availableTV.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
+        ((ProtectedFragmentActivity) getActivity()).getColorExpense());
+    int progress = available <= 0 || allocated == 0 ? 100 : Math.round(amount * 100F / allocated);
+    budgetProgress.setProgress(progress);
+    budgetProgress.setText(String.valueOf(progress));
+    budgetProgress.setFinishedStrokeColor(mAccount.color);
+    budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
   }
 }

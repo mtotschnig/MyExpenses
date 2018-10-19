@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.database.Cursor;
+import android.net.Uri;
+import android.support.v4.util.Pair;
 
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -11,15 +14,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
@@ -42,6 +50,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
   int maxValue;
   int minValue;
   private Disposable dateInfoDisposable;
+  private Disposable sumDisposable;
+  protected Account mAccount;
 
   protected void disposeDateInfo() {
     if (dateInfoDisposable != null && !dateInfoDisposable.isDisposed()) {
@@ -131,4 +141,50 @@ public abstract class DistributionBaseFragment extends CategoryList {
         return null;
     }
   }
+
+  protected void disposeSum() {
+    if (sumDisposable != null && !sumDisposable.isDisposed()) {
+      sumDisposable.dispose();
+    }
+  }
+
+  protected void updateSum() {
+    disposeSum();
+    Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
+    if (!mAccount.isHomeAggregate()) {
+      if (mAccount.isAggregate()) {
+        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+      } else {
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+      }
+    }
+    //if we have no income or expense, there is no row in the cursor
+    sumDisposable = briteContentResolver.createQuery(builder.build(),
+        null,
+        buildGroupingClause(),
+        null,
+        null, true)
+        .mapToList(cursor -> {
+          int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
+          long sum = cursor.getLong(cursor.getColumnIndex(KEY_SUM));
+          return Pair.create(type, sum);
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(pairs -> {
+          boolean[] seen = new boolean[2];
+          for (Pair<Integer, Long> pair : pairs) {
+            seen[pair.first] = true;
+            if (pair.first > 0) {
+              updateIncome(pair.second);
+            } else {
+              updateExpense(pair.second);
+            }
+          }
+          if (!seen[1]) updateIncome(0L);
+          if (!seen[0]) updateExpense(0L);
+        });
+  }
+
+  abstract void updateIncome(Long amount);
+  abstract void updateExpense(Long amount);
 }
