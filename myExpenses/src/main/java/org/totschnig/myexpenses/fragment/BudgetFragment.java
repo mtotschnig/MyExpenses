@@ -106,7 +106,7 @@ public class BudgetFragment extends DistributionBaseFragment {
     mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.getCurrency(), true,
         true);
     mListView.setAdapter(mAdapter);
-    updateDateInfo();
+    updateDateInfo(false);
   }
 
   @Override
@@ -126,7 +126,7 @@ public class BudgetFragment extends DistributionBaseFragment {
           mGroupingSecond = thisMonth;
           break;
       }
-      updateDateInfo();
+      updateDateInfo(true);
     } else {
       loadData();
     }

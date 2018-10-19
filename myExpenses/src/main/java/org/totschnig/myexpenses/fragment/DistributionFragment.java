@@ -437,7 +437,7 @@ public class DistributionFragment extends DistributionBaseFragment {
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     updateSum();
-    updateDateInfo();
+    updateDateInfo(true);
     if (mAccount != null) {
       ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
       ActionBar actionBar = ctx.getSupportActionBar();
@@ -508,7 +508,7 @@ public class DistributionFragment extends DistributionBaseFragment {
   public void reset() {
     super.reset();
     updateSum();
-    updateDateInfo();
+    updateDateInfo(true);
   }
 
   @Override

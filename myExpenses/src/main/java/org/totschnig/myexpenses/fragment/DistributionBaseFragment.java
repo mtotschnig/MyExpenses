@@ -49,7 +49,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     }
   }
 
-  protected void updateDateInfo() {
+  protected void updateDateInfo(boolean withMaxValue) {
     disposeDateInfo();
     ArrayList<String> projectionList = new ArrayList<>(Arrays.asList(
         getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
@@ -57,8 +57,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
         getThisMonth() + " AS " + KEY_THIS_MONTH,
         getThisWeek() + " AS " + KEY_THIS_WEEK,
         THIS_DAY + " AS " + KEY_THIS_DAY));
-    //if we are at the beginning of the year we are interested in the max of the previous year
-    if (mGroupingYear != 0) {
+    if (withMaxValue) {
+      //if we are at the beginning of the year we are interested in the max of the previous year
       int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
       switch (mGrouping) {
         case DAY:
@@ -96,7 +96,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
                   thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
                   thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
                   thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));
-                  if (mGroupingYear != 0) {
+                  if (withMaxValue) {
                     maxValue = cursor.getInt(cursor.getColumnIndex(KEY_MAX_VALUE));
                     minValue = mGrouping == Grouping.MONTH ? 0 : 1;
                   }
