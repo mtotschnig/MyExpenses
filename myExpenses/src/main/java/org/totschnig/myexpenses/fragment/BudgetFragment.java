@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.squareup.sqlbrite3.QueryObservable;
@@ -20,7 +19,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
-import java.util.Locale;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -40,6 +40,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 public class BudgetFragment extends DistributionBaseFragment {
   private Budget budget;
   private Account mAccount;
+  @BindView(R.id.budgetTotalCard) ViewGroup budgetTotalCard;
 
   @Override
   protected QueryObservable createQuery() {
@@ -90,16 +91,24 @@ public class BudgetFragment extends DistributionBaseFragment {
       tv.setText("Error loading budget for account " + accountId);
       return tv;
     }
-    mListView = (ExpandableListView) inflater.inflate(R.layout.budget_list, container, false);
-    return mListView;
+    View view = inflater.inflate(R.layout.budget_list, container, false);
+    ButterKnife.bind(this, view);
+    return view;
   }
 
   public void setBudget(Budget budget) {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
-    actionBar.setSubtitle(String.format(Locale.ROOT, "%s: %s",
-        budget.getType().getLabel(getActivity()),
-        currencyFormatter.formatCurrency(budget.getAmount())));
+    actionBar.setSubtitle(budget.getType().getLabel(getActivity()));
+    ((TextView) budgetTotalCard.findViewById(R.id.budget)).setText(currencyFormatter.formatCurrency(budget.getAmount()));
+    ((TextView) budgetTotalCard.findViewById(R.id.amount)).setText(currencyFormatter.formatCurrency(budget.getAmount()));
+    final TextView availableTV = budgetTotalCard.findViewById(R.id.available);
+    availableTV.setText(currencyFormatter.formatCurrency(budget.getAmount()));
+    boolean onBudget = true;
+    availableTV.setBackgroundResource(onBudget ? R.drawable.round_background_income :
+        R.drawable.round_background_expense);
+    availableTV.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
+        ((ProtectedFragmentActivity) getActivity()).getColorExpense());
     this.budget = budget;
     mGrouping = budget.getType().toGrouping();
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();

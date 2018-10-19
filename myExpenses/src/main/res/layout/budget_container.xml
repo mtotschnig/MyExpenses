@@ -18,7 +18,7 @@
         android:layout_gravity="end"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
-        android:text="1000000"/>
+        tools:text="1000000"/>
 
     <TextView
         android:id="@+id/amount"
@@ -37,8 +37,7 @@
         android:padding="6dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:text="10000"
-        android:textColor="?android:textColorPrimaryInverse"/>
+        tools:text="10000"/>
 
 </LinearLayout>
 

@@ -4,16 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/budgetContainer"
-    android:layout_width="450dp"
+    android:layout_width="@dimen/budget_container_width_landscape"
     android:layout_height="wrap_content"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
     android:orientation="horizontal"
+    android:layout_gravity="end"
     tools:showIn="@layout/budget_row">
 
     <TextView
         android:id="@+id/budget"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/budget_container_cell_width_landscape"
         android:layout_height="wrap_content"
         android:gravity="end"
         android:layout_gravity="center_vertical"
@@ -21,7 +22,7 @@
 
     <TextView
         android:id="@+id/amount"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/budget_container_cell_width_landscape"
         android:layout_height="wrap_content"
         android:gravity="end"
         android:layout_gravity="center_vertical"/>
