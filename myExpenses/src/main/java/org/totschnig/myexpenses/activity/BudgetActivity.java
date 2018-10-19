@@ -48,12 +48,10 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     budgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
-    if (savedInstanceState == null) {
-      accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
-      currency = getIntent().getStringExtra(KEY_CURRENCY);
-      if (currency == null) {
-        throw new NullPointerException();
-      }
+    accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
+    currency = getIntent().getStringExtra(KEY_CURRENCY);
+    if (currency == null) {
+      throw new NullPointerException();
     }
     currentType = getCurrentTypeFromPreference();
     budgetViewModel.getData().observe(this, result -> {
