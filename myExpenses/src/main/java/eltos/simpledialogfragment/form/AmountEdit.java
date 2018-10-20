@@ -1,12 +1,13 @@
 package eltos.simpledialogfragment.form;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import java.math.BigDecimal;
 
 public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   int fractionDigits;
-  BigDecimal amount;
+  @Nullable BigDecimal amount;
 
   protected AmountEdit(String resultKey) {
     super(resultKey);
@@ -34,11 +35,18 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
 
   protected AmountEdit(Parcel in) {
     super(in);
+    fractionDigits = in.readInt();
+    final String val = in.readString();
+    if (val != null) {
+      amount = new BigDecimal(val);
+    }
   }
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
+    dest.writeInt(fractionDigits);
+    dest.writeString(amount == null ? null : amount.toString());
   }
 
   @Override

@@ -34,7 +34,6 @@ import com.squareup.sqlbrite3.QueryObservable;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
-import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
@@ -430,12 +429,6 @@ public class DistributionFragment extends DistributionBaseFragment {
     return false;
   }
 
-  protected void doSelection(long cat_id, String label, boolean isMain) {
-    TransactionListDialogFragment.newInstance(
-        mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
-        .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
-  }
-
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
@@ -512,18 +505,6 @@ public class DistributionFragment extends DistributionBaseFragment {
     super.reset();
     updateSum();
     updateDateInfo(true);
-  }
-
-
-  protected void configureMenuInternal(Menu menu, boolean hasChildren) {
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(false);
-    menu.findItem(R.id.DELETE_COMMAND).setVisible(false);
-    MenuItem item = menu.findItem(R.id.SELECT_COMMAND);
-    menu.findItem(R.id.SELECT_COMMAND).setTitle(R.string.menu_show_transactions);
-    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(false);
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(false);
-    menu.findItem(R.id.MOVE_COMMAND).setVisible(false);
-    maybeHide(menu.findItem(R.id.COLOR_COMMAND), !showChart);
   }
 
   @Override

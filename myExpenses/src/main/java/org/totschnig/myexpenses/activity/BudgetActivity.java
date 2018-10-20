@@ -36,6 +36,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     SimpleInputDialog.OnDialogResultListener {
@@ -85,7 +86,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   private void setBudget(Budget budget) {
     currentBudget = budget;
-    prefHandler.putString(getPrefKey(), budget.getType().name());
     mListFragment.setBudget(budget);
   }
 
@@ -94,7 +94,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         .items(Stream.of(BudgetType.values())
             .map(type -> type.getLabel(this)).toArray(String[]::new))
         .required().preset(0);
-    final AmountEdit amountEdit = buildAmountField();
+    final AmountEdit amountEdit = buildAmountField(null);
     final FormElement[] fields = newType == null ? new FormElement[]{typeSpinner, amountEdit} :
         new FormElement[]{amountEdit};
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
@@ -108,11 +108,13 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     simpleFormDialog.show(this, NEW_BUDGET_DIALOG);
   }
 
-  private AmountEdit buildAmountField() {
-    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT).label(R.string.budget_allocated_amount)
-        .fractionDigits(Money.getFractionDigits(getCurrency())).required();
-    if (currentBudget != null) {
-      amountEdit.amount(currentBudget.getAmount().getAmountMajor());
+  private AmountEdit buildAmountField(BigDecimal amount) {
+    final Currency currency = getCurrency();
+    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
+        .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currency))
+        .fractionDigits(Money.getFractionDigits(currency)).required();
+    if (amount != null) {
+      amountEdit.amount(amount);
     }
     return amountEdit;
   }
@@ -120,7 +122,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   private void showEditBudgetDialog() {
     new SimpleFormDialogWithoutDefaultFocus()
         .title(R.string.dialog_title_edit_budget)
-        .fields(buildAmountField())
+        .fields(buildAmountField(currentBudget.getAmount().getAmountMajor()))
         .show(this, EDIT_BUDGET_DIALOG);
   }
 
@@ -160,16 +162,21 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     return false;
   }
 
+  private void persistTypeToPreference(BudgetType newType) {
+    prefHandler.putString(getPrefKey(), newType.name());
+  }
+
   private void switchBudget(BudgetType newType) {
     Optional<Budget> newBudget = Stream.of(budgetList).filter(budget -> budget.getType() == newType).findSingle();
     if (newBudget.isPresent()) {
+      persistTypeToPreference(newType);
       setBudget(newBudget.get());
     } else {
       showNewBudgetDialog(newType);
     }
   }
 
-  private BudgetType getCurrentTypeFromPreference() {
+  private @NonNull BudgetType getCurrentTypeFromPreference() {
     final String typeFromPreference = prefHandler.getString(getPrefKey(), null);
     if (typeFromPreference != null) {
       try {
@@ -198,6 +205,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (super.onResult(dialogTag, which, extras)) {
+      return true;
+    }
     if (which == BUTTON_POSITIVE) {
       Currency currency = getCurrency();
       final Money amount = new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
@@ -208,6 +218,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
             BudgetType.values()[extras.getInt(KEY_TYPE)];
         Budget budget = new Budget(0, accountId, currency, budgetType,
             amount, isHomeAggregate);
+        persistTypeToPreference(budgetType);
         budgetViewModel.createBudget(budget);
         return true;
       } else if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {

@@ -173,6 +173,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 /**
  * Activity for editing a transaction
@@ -1832,8 +1833,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void addCurrencyToLabel(TextView label, String symbol, int textResId) {
-    //noinspection SetTextI18n
-    label.setText(getString(textResId) + " (" + symbol + ")");
+    label.setText(appendCurrencySymbol(this, textResId, symbol));
   }
 
   private void resetOperationType() {

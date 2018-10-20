@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputFilter;
@@ -72,7 +73,7 @@ public class AmountEditText extends AppCompatEditText {
     this.fractionDigits = fractionDigits;
   }
 
-  public void setAmount(BigDecimal amount) {
+  public void setAmount(@NonNull BigDecimal amount) {
     setText(numberFormat.format(amount));
   }
 

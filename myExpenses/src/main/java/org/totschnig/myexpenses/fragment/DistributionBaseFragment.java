@@ -3,8 +3,11 @@ package org.totschnig.myexpenses.fragment;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.util.Pair;
+import android.view.Menu;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -199,4 +202,19 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   abstract void updateIncome(Long amount);
   abstract void updateExpense(Long amount);
+
+  protected void configureMenuInternal(Menu menu, boolean hasChildren) {
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(false);
+    menu.findItem(R.id.DELETE_COMMAND).setVisible(false);
+    menu.findItem(R.id.SELECT_COMMAND).setTitle(R.string.menu_show_transactions);
+    menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(false);
+    menu.findItem(R.id.CREATE_COMMAND).setVisible(false);
+    menu.findItem(R.id.MOVE_COMMAND).setVisible(false);
+  }
+
+  protected void doSelection(long cat_id, String label, boolean isMain) {
+    TransactionListDialogFragment.newInstance(
+        mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
+        .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
+  }
 }

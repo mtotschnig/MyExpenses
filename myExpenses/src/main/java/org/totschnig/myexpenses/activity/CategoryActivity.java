@@ -8,6 +8,7 @@ import android.text.InputType;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import eltos.simpledialogfragment.color.SimpleColorDialog;
@@ -15,7 +16,8 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public abstract class CategoryActivity<T extends CategoryList> extends ProtectedFragmentActivity {
+public abstract class CategoryActivity<T extends CategoryList> extends ProtectedFragmentActivity implements
+    SimpleInputDialog.OnDialogResultListener {
   protected static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
   protected static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
   protected T mListFragment;
@@ -86,5 +88,24 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
         .extra(args)
         .colorPreset(c.color)
         .show(this, EDIT_COLOR_DIALOG);
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_CATEGORY_COLOR,
+          new Long[]{extras.getLong(KEY_ROWID)},
+          extras.getInt(SimpleColorDialog.COLOR),
+          R.string.progress_dialog_saving);
+      finishActionMode();
+      return true;
+    }
+    return false;
+  }
+
+  protected void finishActionMode() {
+    if (mListFragment != null)
+      mListFragment.finishActionMode();
   }
 }

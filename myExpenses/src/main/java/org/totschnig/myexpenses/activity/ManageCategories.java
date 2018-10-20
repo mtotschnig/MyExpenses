@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.ArrayList;
 
-import eltos.simpledialogfragment.color.SimpleColorDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -187,7 +186,6 @@ public class ManageCategories extends CategoryActivity implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    final long id = extras.getLong(KEY_ROWID);
     if ((DIALOG_NEW_CATEGORY.equals(dialogTag) || DIALOG_EDIT_CATEGORY.equals(dialogTag))
         && which == BUTTON_POSITIVE) {
       Long parentId = null;
@@ -195,23 +193,14 @@ public class ManageCategories extends CategoryActivity implements
         parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);
       }
       mCategory = new Category(
-          id,
+          extras.getLong(KEY_ROWID),
           extras.getString(SimpleInputDialog.TEXT),
           parentId);
       startDbWriteTask(false);
       finishActionMode();
       return true;
     }
-    if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
-      startTaskExecution(
-          TaskExecutionFragment.TASK_CATEGORY_COLOR,
-          new Long[]{id},
-          extras.getInt(SimpleColorDialog.COLOR),
-          R.string.progress_dialog_saving);
-      finishActionMode();
-      return true;
-    }
-    return false;
+    return super.onResult(dialogTag, which, extras);
   }
 
   @Override
@@ -223,11 +212,6 @@ public class ManageCategories extends CategoryActivity implements
         ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
         target == 0L ? null : target,
         R.string.progress_dialog_saving);
-  }
-
-  private void finishActionMode() {
-    if (mListFragment != null)
-      mListFragment.finishActionMode();
   }
 
   @Override

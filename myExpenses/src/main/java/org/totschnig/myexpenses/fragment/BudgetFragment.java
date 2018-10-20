@@ -98,6 +98,7 @@ public class BudgetFragment extends DistributionBaseFragment {
     }
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
+    registerForContextMenu(mListView);
     return view;
   }
 

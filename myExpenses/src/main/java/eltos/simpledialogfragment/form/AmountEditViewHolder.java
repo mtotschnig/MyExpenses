@@ -34,7 +34,9 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
     ButterKnife.bind(this, view);
     label.setText(field.getText(context));
     amountEditText.setFractionDigits(field.fractionDigits);
-    amountEditText.setAmount(field.amount);
+    if (field.amount != null) {
+      amountEditText.setAmount(field.amount);
+    }
     // Positive button state for single element forms
     if (actions.isOnlyFocusableElement()) {
       amountEditText.addTextChangedListener(new TextWatcher() {
