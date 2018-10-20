@@ -423,7 +423,7 @@ public class DistributionFragment extends DistributionBaseFragment {
       case R.id.TOGGLE_AGGREGATE_TYPES:
         aggregateTypes = !aggregateTypes;
         PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
         reset();
         return true;
     }
@@ -512,13 +512,6 @@ public class DistributionFragment extends DistributionBaseFragment {
     super.reset();
     updateSum();
     updateDateInfo(true);
-  }
-
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    disposeSum();
-    disposeDateInfo();
   }
 
 

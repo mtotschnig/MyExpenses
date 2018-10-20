@@ -2,6 +2,9 @@ package eltos.simpledialogfragment.form;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +34,23 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
     ButterKnife.bind(this, view);
     label.setText(field.getText(context));
     amountEditText.setFractionDigits(field.fractionDigits);
+    // Positive button state for single element forms
+    if (actions.isOnlyFocusableElement()) {
+      amountEditText.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+          actions.updatePosButtonState();
+        }
+      });
+    }
   }
 
   @Override
@@ -50,7 +70,9 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
 
   @Override
   protected boolean posButtonEnabled(Context context) {
-    return false;
+    if (!field.required) return true;
+    final Editable text = amountEditText.getText();
+    return text != null && !TextUtils.isEmpty(text.toString());
   }
 
   @Override

@@ -779,4 +779,8 @@
     <string name="professional_key_fallback_info">A subscription to the Professional Key that has been active for at least one year and is not renewed, will be automatically transformed into an unlimited Extended Key.</string>
     <string name="menu_budget">Budget</string>
     <string name="menu_new_budget">New budget</string>
+    <string name="daily_budget">Daily budget</string>
+    <string name="weekly_budget">Weekly budget</string>
+    <string name="monthly_budget">Monthly budget</string>
+    <string name="yearly_budget">Yearly budget</string>
 </resources>

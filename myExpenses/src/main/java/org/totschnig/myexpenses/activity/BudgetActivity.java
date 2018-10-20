@@ -3,7 +3,10 @@ package org.totschnig.myexpenses.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -11,8 +14,10 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.BudgetType;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
@@ -21,6 +26,8 @@ import java.util.Currency;
 import java.util.List;
 
 import eltos.simpledialogfragment.form.AmountEdit;
+import eltos.simpledialogfragment.form.FormElement;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.form.SimpleFormDialogWithoutDefaultFocus;
 import eltos.simpledialogfragment.form.Spinner;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
@@ -35,6 +42,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
   private static final String NEW_BUDGET_DIALOG = "NEW_BUDGET";
+  private static final String KEY_BUDGET_TYPE = "budgetType";
   private static final String PREFKEY_PREFIX = "current_budgetType_";
   private BudgetViewModel budgetViewModel;
   private long accountId;
@@ -56,20 +64,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     currentType = getCurrentTypeFromPreference();
     budgetViewModel.getData().observe(this, result -> {
       if (result.isEmpty()) {
-        new SimpleFormDialogWithoutDefaultFocus()
-            .title(R.string.menu_new_budget)
-            .fields(
-                Spinner.plain(KEY_TYPE).label(R.string.type)
-                    .items(Stream.of(BudgetType.values())
-                        .map(type -> type.getLabel(this)).toArray(String[]::new))
-                    .required().preset(0),
-                AmountEdit.plain(KEY_AMOUNT).label("Allocated amount").fractionDigits(2).required()
-            )
-            .show(this, NEW_BUDGET_DIALOG);
+        showNewBudgetDialog(null);
       } else {
         budgetList = result;
-        mListFragment.setBudget(Stream.of(budgetList).filter(
-            budget -> budget.getType().equals(getCurrentTypeFromPreference())).findFirst().orElse(budgetList.get(0)));
+        setBudget(Stream.of(budgetList).filter(
+            budget -> budget.getType().equals(currentType)).findFirst().orElse(budgetList.get(0)));
+        invalidateOptionsMenu();
       }
     });
     budgetViewModel.loadBudgets(accountId, currency,
@@ -80,6 +80,73 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
               BudgetType.valueOf(cursor.getString(1)),
               new Money(currency, cursor.getLong(2)), isHomeAggregate);
         });
+  }
+
+  private void setBudget(Budget budget) {
+    mListFragment.setBudget(budget);
+  }
+
+  private void showNewBudgetDialog(BudgetType newType) {
+    final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
+        .items(Stream.of(BudgetType.values())
+            .map(type -> type.getLabel(this)).toArray(String[]::new))
+        .required().preset(0);
+    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT).label("Allocated amount")
+        .fractionDigits(2).required();
+    final FormElement[] fields = newType == null ? new FormElement[]{typeSpinner, amountEdit} :
+        new FormElement[]{amountEdit};
+    final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
+        .title(R.string.menu_new_budget)
+        .fields(fields);
+    if (newType != null) {
+      Bundle extras = new Bundle(1);
+      extras.putSerializable(KEY_BUDGET_TYPE, newType);
+      simpleFormDialog.extra(extras);
+    }
+    simpleFormDialog.show(this, NEW_BUDGET_DIALOG);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    getMenuInflater().inflate(R.menu.budget, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    if (currentType != null) {
+      Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), currentType.toGrouping());
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (handleGrouping(item)) return true;
+    return super.onOptionsItemSelected(item);
+  }
+
+  private boolean handleGrouping(MenuItem item) {
+    Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
+    if (newGrouping != null) {
+      if (!item.isChecked()) {
+        switchBudget(BudgetType.fromGrouping(newGrouping));
+        invalidateOptionsMenu();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private void switchBudget(BudgetType newType) {
+    Optional<Budget> newBudget = Stream.of(budgetList).filter(budget -> budget.getType() == newType).findSingle();
+    if (newBudget.isPresent()) {
+      currentType = newType;
+      setBudget(newBudget.get());
+    } else {
+      showNewBudgetDialog(newType);
+    }
   }
 
   private BudgetType getCurrentTypeFromPreference() {
@@ -111,12 +178,13 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (dialogTag.equals(NEW_BUDGET_DIALOG)) {
+    if (dialogTag.equals(NEW_BUDGET_DIALOG) && which == BUTTON_POSITIVE) {
       final boolean isHomeAggregate = isHomeAggregate();
       Currency currency = getCurrency();
 
-      currentType = BudgetType.values()[extras.getInt(KEY_TYPE)];
-      prefHandler.putString(getPrefKey(), currentType.name());
+      currentType = extras.containsKey(KEY_BUDGET_TYPE) ?
+          (BudgetType) extras.getSerializable(KEY_BUDGET_TYPE) :
+          BudgetType.values()[extras.getInt(KEY_TYPE)];
       Budget budget = new Budget(0, accountId, currency, currentType,
           new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT)), isHomeAggregate);
       budgetViewModel.createBudget(budget);

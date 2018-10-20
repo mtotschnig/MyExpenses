@@ -123,7 +123,11 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   protected void onDateInfoReceived(Cursor cursor) {
     ((ProtectedFragmentActivity) getActivity()).getSupportActionBar().setSubtitle(
-        mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor));
+        getSubTitle(cursor));
+  }
+
+  protected String getSubTitle(Cursor cursor) {
+    return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
   }
 
   protected String buildGroupingClause() {
@@ -147,6 +151,14 @@ public abstract class DistributionBaseFragment extends CategoryList {
       sumDisposable.dispose();
     }
   }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    disposeSum();
+    disposeDateInfo();
+  }
+
 
   protected void updateSum() {
     disposeSum();

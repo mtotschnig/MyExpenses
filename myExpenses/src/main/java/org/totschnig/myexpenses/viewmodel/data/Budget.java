@@ -43,7 +43,7 @@ public class Budget {
   }
 
   public boolean isAggregate() {
-    return true;
+    return accountId == 0;
   }
 
   public long getAccountId() {

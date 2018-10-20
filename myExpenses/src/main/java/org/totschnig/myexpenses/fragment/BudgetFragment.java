@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -99,12 +101,17 @@ public class BudgetFragment extends DistributionBaseFragment {
     return view;
   }
 
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    // no search
+  }
+
   public void setBudget(Budget budget) {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
-    actionBar.setSubtitle(budget.getType().getLabel(getActivity()));
     this.budget = budget;
     mGrouping = budget.getType().toGrouping();
+    mGroupingYear = 0; mGroupingSecond = 0;
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.getCurrency(), true,
         true);
@@ -132,6 +139,7 @@ public class BudgetFragment extends DistributionBaseFragment {
       updateDateInfo(true);
       updateSum();
     } else {
+      super.onDateInfoReceived(cursor);
       loadData();
     }
   }

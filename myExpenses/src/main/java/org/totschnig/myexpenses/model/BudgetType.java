@@ -43,4 +43,18 @@ public enum BudgetType {
     }
     throw new IllegalArgumentException();
   }
+
+  public static BudgetType fromGrouping(Grouping grouping) {
+    switch (grouping) {
+      case DAY:
+        return DAILY;
+      case WEEK:
+        return WEEKLY;
+      case MONTH:
+        return MONTHLY;
+      case YEAR:
+        return YEARLY;
+    }
+    throw new IllegalArgumentException();
+  }
 }
