@@ -42,6 +42,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
   private static final String NEW_BUDGET_DIALOG = "NEW_BUDGET";
+  private static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
   private static final String KEY_BUDGET_TYPE = "budgetType";
   private static final String PREFKEY_PREFIX = "current_budgetType_";
   private BudgetViewModel budgetViewModel;
@@ -49,7 +50,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   @NonNull
   private String currency;
   private List<Budget> budgetList;
-  private BudgetType currentType;
+  private Budget currentBudget;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +62,11 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     if (currency == null) {
       throw new NullPointerException();
     }
-    currentType = getCurrentTypeFromPreference();
     budgetViewModel.getData().observe(this, result -> {
       if (result.isEmpty()) {
         showNewBudgetDialog(null);
       } else {
+        BudgetType currentType = getCurrentTypeFromPreference();
         budgetList = result;
         setBudget(Stream.of(budgetList).filter(
             budget -> budget.getType().equals(currentType)).findFirst().orElse(budgetList.get(0)));
@@ -83,6 +84,8 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   }
 
   private void setBudget(Budget budget) {
+    currentBudget = budget;
+    prefHandler.putString(getPrefKey(), budget.getType().name());
     mListFragment.setBudget(budget);
   }
 
@@ -91,12 +94,11 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         .items(Stream.of(BudgetType.values())
             .map(type -> type.getLabel(this)).toArray(String[]::new))
         .required().preset(0);
-    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT).label("Allocated amount")
-        .fractionDigits(2).required();
+    final AmountEdit amountEdit = buildAmountField();
     final FormElement[] fields = newType == null ? new FormElement[]{typeSpinner, amountEdit} :
         new FormElement[]{amountEdit};
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
-        .title(R.string.menu_new_budget)
+        .title(R.string.dialog_title_new_budget)
         .fields(fields);
     if (newType != null) {
       Bundle extras = new Bundle(1);
@@ -104,6 +106,22 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       simpleFormDialog.extra(extras);
     }
     simpleFormDialog.show(this, NEW_BUDGET_DIALOG);
+  }
+
+  private AmountEdit buildAmountField() {
+    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT).label(R.string.budget_allocated_amount)
+        .fractionDigits(Money.getFractionDigits(getCurrency())).required();
+    if (currentBudget != null) {
+      amountEdit.amount(currentBudget.getAmount().getAmountMajor());
+    }
+    return amountEdit;
+  }
+
+  private void showEditBudgetDialog() {
+    new SimpleFormDialogWithoutDefaultFocus()
+        .title(R.string.dialog_title_edit_budget)
+        .fields(buildAmountField())
+        .show(this, EDIT_BUDGET_DIALOG);
   }
 
   @Override
@@ -115,15 +133,18 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    if (currentType != null) {
-      Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), currentType.toGrouping());
-    }
+    Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), getCurrentTypeFromPreference().toGrouping());
     return super.onPrepareOptionsMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (handleGrouping(item)) return true;
+    switch (item.getItemId()) {
+      case R.id.EDIT_COMMAND:
+        showEditBudgetDialog();
+        return true;
+    }
     return super.onOptionsItemSelected(item);
   }
 
@@ -142,7 +163,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   private void switchBudget(BudgetType newType) {
     Optional<Budget> newBudget = Stream.of(budgetList).filter(budget -> budget.getType() == newType).findSingle();
     if (newBudget.isPresent()) {
-      currentType = newType;
       setBudget(newBudget.get());
     } else {
       showNewBudgetDialog(newType);
@@ -178,17 +198,21 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (dialogTag.equals(NEW_BUDGET_DIALOG) && which == BUTTON_POSITIVE) {
-      final boolean isHomeAggregate = isHomeAggregate();
+    if (which == BUTTON_POSITIVE) {
       Currency currency = getCurrency();
-
-      currentType = extras.containsKey(KEY_BUDGET_TYPE) ?
-          (BudgetType) extras.getSerializable(KEY_BUDGET_TYPE) :
-          BudgetType.values()[extras.getInt(KEY_TYPE)];
-      Budget budget = new Budget(0, accountId, currency, currentType,
-          new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT)), isHomeAggregate);
-      budgetViewModel.createBudget(budget);
-      return true;
+      final Money amount = new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
+      if (dialogTag.equals(NEW_BUDGET_DIALOG)) {
+        final boolean isHomeAggregate = isHomeAggregate();
+        BudgetType budgetType = extras.containsKey(KEY_BUDGET_TYPE) ?
+            (BudgetType) extras.getSerializable(KEY_BUDGET_TYPE) :
+            BudgetType.values()[extras.getInt(KEY_TYPE)];
+        Budget budget = new Budget(0, accountId, currency, budgetType,
+            amount, isHomeAggregate);
+        budgetViewModel.createBudget(budget);
+        return true;
+      } else if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
+        budgetViewModel.updateBudget(currentBudget.getId(), amount);
+      }
     }
     return false;
   }

@@ -219,6 +219,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNT_EXCHANGE_RATE = 48;
   private static final int UNSPLIT = 49;
   private static final int BUDGETS = 50;
+  private static final int BUDGET_ID = 51;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -981,7 +982,6 @@ public class TransactionProvider extends ContentProvider {
     Timber.d("Delete for URL: %s", uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
-    String whereString;
     String segment;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
@@ -1032,14 +1032,8 @@ public class TransactionProvider extends ContentProvider {
         count = db.delete(TABLE_TEMPLATES, where, whereArgs);
         break;
       case TEMPLATE_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.delete(TABLE_TEMPLATES, "_id=" + segment + whereString,
-            whereArgs);
+        count = db.delete(TABLE_TEMPLATES,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case ACCOUNTTYPES_METHODS:
         count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
@@ -1048,55 +1042,26 @@ public class TransactionProvider extends ContentProvider {
         count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
         break;
       case ACCOUNT_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.delete(TABLE_ACCOUNTS, KEY_ROWID + " = " + segment + whereString,
-            whereArgs);
+        count = db.delete(TABLE_ACCOUNTS,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         //update aggregate cursor
         //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
         break;
       case CATEGORIES:
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + whereString,
+        count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + prefixAnd(where),
             whereArgs);
         break;
       case CATEGORY_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " = " + segment + whereString,
-            whereArgs);
+        count = db.delete(TABLE_CATEGORIES,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case PAYEE_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.delete(TABLE_PAYEES, KEY_ROWID + " = " + segment + whereString,
-            whereArgs);
+        count = db.delete(TABLE_PAYEES,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case METHOD_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.delete(TABLE_METHODS, KEY_ROWID + " = " + segment + whereString,
-            whereArgs);
+        count = db.delete(TABLE_METHODS,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case PLANINSTANCE_TRANSACTION_STATUS:
         count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
@@ -1144,6 +1109,14 @@ public class TransactionProvider extends ContentProvider {
     return count;
   }
 
+  private String prefixAnd(String where) {
+    if (!TextUtils.isEmpty(where)) {
+      return " AND (" + where + ')';
+    } else {
+      return "";
+    }
+  }
+
   @Override
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
@@ -1151,7 +1124,6 @@ public class TransactionProvider extends ContentProvider {
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
     int count;
-    String whereString;
     int uriMatch = URI_MATCHER.match(uri);
     Cursor c;
     if (values != null && BuildConfig.DEBUG) {
@@ -1162,17 +1134,12 @@ public class TransactionProvider extends ContentProvider {
         count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
         break;
       case TRANSACTION_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
+        count = db.update(TABLE_TRANSACTIONS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
             whereArgs);
         break;
       case TRANSACTION_UNDELETE:
-        segment = uri.getPathSegments().get(1);
+        segment = uri.getLastPathSegment();
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
@@ -1182,38 +1149,20 @@ public class TransactionProvider extends ContentProvider {
         count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
         break;
       case ACCOUNT_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
-            whereArgs);
+        count = db.update(TABLE_ACCOUNTS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case TEMPLATES:
         //TODO should not support bulk update of categories
         count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
         break;
       case TEMPLATE_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
-            whereArgs);
+        count = db.update(TABLE_TEMPLATES, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case PAYEE_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.update(TABLE_PAYEES, values, "_id=" + segment + whereString,
-            whereArgs);
+        count = db.update(TABLE_PAYEES, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         notifyChange(TRANSACTIONS_URI, false);
         break;
       case CATEGORIES:
@@ -1221,7 +1170,7 @@ public class TransactionProvider extends ContentProvider {
       case CATEGORY_ID:
         if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
           throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
-        segment = uri.getPathSegments().get(1);
+        segment = uri.getLastPathSegment();
         //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
         String label = values.getAsString(KEY_LABEL);
         if (label != null) {
@@ -1242,12 +1191,7 @@ public class TransactionProvider extends ContentProvider {
             throw new SQLiteConstraintException();
           }
           c.close();
-          if (!TextUtils.isEmpty(where)) {
-            whereString = " AND (" + where + ')';
-          } else {
-            whereString = "";
-          }
-          count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+          count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
               whereArgs);
           break;
         }
@@ -1270,28 +1214,16 @@ public class TransactionProvider extends ContentProvider {
           }
           c.close();
         }
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+        count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
             whereArgs);
         break;
       case METHOD_ID:
-        segment = uri.getPathSegments().get(1);
-        if (!TextUtils.isEmpty(where)) {
-          whereString = " AND (" + where + ')';
-        } else {
-          whereString = "";
-        }
-        count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
+        count = db.update(TABLE_METHODS, values, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
             whereArgs);
         break;
       case TEMPLATES_INCREASE_USAGE:
-        segment = uri.getPathSegments().get(1);
         db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
-            KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + segment);
+            KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + uri.getLastPathSegment());
         count = 1;
         break;
       //   when we move a transaction to a new target we apply two checks
@@ -1323,7 +1255,6 @@ public class TransactionProvider extends ContentProvider {
         count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
         break;
       case TRANSACTION_TOGGLE_CRSTATUS:
-        segment = uri.getPathSegments().get(1);
         db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
                 " SET " + KEY_CR_STATUS +
                 " = CASE " + KEY_CR_STATUS +
@@ -1334,7 +1265,7 @@ public class TransactionProvider extends ContentProvider {
                 " ELSE " + KEY_CR_STATUS +
                 " END" +
                 " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
-            new String[]{segment});
+            new String[]{uri.getLastPathSegment()});
         count = 1;
         break;
       case CURRENCIES_CHANGE_FRACTION_DIGITS:
@@ -1510,6 +1441,11 @@ public class TransactionProvider extends ContentProvider {
         }
         break;
       }
+      case BUDGET_ID: {
+        count = db.update(TABLE_BUDGETS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1672,6 +1608,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "autofill/#", AUTOFILL);
     URI_MATCHER.addURI(AUTHORITY, "account_exchangerates/#/*/*", ACCOUNT_EXCHANGE_RATE);
     URI_MATCHER.addURI(AUTHORITY, "budgets", BUDGETS);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/#", BUDGET_ID);
   }
 
   /**

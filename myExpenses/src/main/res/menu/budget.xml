@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/GROUPING_COMMAND"
-        android:orderInCategory="20"
-        android:title="@string/menu_grouping"
+        android:title="@string/menu_switch_budget"
         android:icon="@drawable/ic_budget"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
         <menu>
             <group android:checkableBehavior="single">
                 <item android:id="@id/GROUPING_DAY_COMMAND" android:title="@string/daily_budget"/>
@@ -16,4 +15,8 @@
             </group>
         </menu>
     </item>
+    <item android:id="@id/EDIT_COMMAND"
+          android:title="@string/menu_edit"
+          android:icon="@drawable/ic_menu_edit"
+          app:showAsAction="never"/>
 </menu>

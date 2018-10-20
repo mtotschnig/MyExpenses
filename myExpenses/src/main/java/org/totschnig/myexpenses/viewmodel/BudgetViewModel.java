@@ -5,12 +5,15 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
@@ -27,7 +30,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 public class BudgetViewModel extends AndroidViewModel {
-  static final int TOKEN_INSERT = 0;
+  static final int TOKEN = 0;
   private final MutableLiveData<List<Budget>> currentBudget = new MutableLiveData<>();
   private final InsertHandler asyncInsertHandler;
   private BriteContentResolver briteContentResolver;
@@ -54,13 +57,21 @@ public class BudgetViewModel extends AndroidViewModel {
   }
 
   public void createBudget(Budget budget) {
-    asyncInsertHandler.startInsert(TOKEN_INSERT, currentBudget, TransactionProvider.BUDGETS_URI,
+    asyncInsertHandler.startInsert(TOKEN, null, TransactionProvider.BUDGETS_URI,
         budget.toContentValues());
   }
 
   @Override
   protected void onCleared() {
     budgetDisposable.dispose();
+  }
+
+  public void updateBudget(long id, Money amount) {
+    ContentValues contentValues = new ContentValues(1);
+    contentValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    asyncInsertHandler.startUpdate(TOKEN, null,
+        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, id),
+        contentValues, null, null);
   }
 
   private static class InsertHandler extends AsyncQueryHandler {

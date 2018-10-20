@@ -2,14 +2,23 @@ package eltos.simpledialogfragment.form;
 
 import android.os.Parcel;
 
+import java.math.BigDecimal;
+
 public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   int fractionDigits;
+  BigDecimal amount;
+
   protected AmountEdit(String resultKey) {
     super(resultKey);
   }
 
   public AmountEdit fractionDigits(int i) {
     this.fractionDigits = i;
+    return this;
+  }
+
+  public AmountEdit amount(BigDecimal amount) {
+    this.amount = amount;
     return this;
   }
 
