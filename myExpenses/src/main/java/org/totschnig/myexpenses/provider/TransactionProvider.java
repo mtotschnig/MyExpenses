@@ -220,6 +220,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int UNSPLIT = 49;
   private static final int BUDGETS = 50;
   private static final int BUDGET_ID = 51;
+  private static final int BUDGET_CATEGORY = 52;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -1446,6 +1447,12 @@ public class TransactionProvider extends ContentProvider {
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       }
+      case BUDGET_CATEGORY: {
+        values.put(KEY_BUDGETID, uri.getPathSegments().get(1));
+        values.put(KEY_CATID, uri.getPathSegments().get(2));
+        count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1609,6 +1616,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "account_exchangerates/#/*/*", ACCOUNT_EXCHANGE_RATE);
     URI_MATCHER.addURI(AUTHORITY, "budgets", BUDGETS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#", BUDGET_ID);
+    URI_MATCHER.addURI(AUTHORITY, "budgets/#/#", BUDGET_CATEGORY);
   }
 
   /**

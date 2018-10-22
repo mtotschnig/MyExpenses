@@ -434,7 +434,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
           + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-          + KEY_AMOUNT + " integer not null)";
+          + KEY_AMOUNT + " integer not null, "
+          + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
 
 
   private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";

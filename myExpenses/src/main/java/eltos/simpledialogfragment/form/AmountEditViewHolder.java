@@ -11,6 +11,8 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
 
+import java.math.BigDecimal;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -80,6 +82,12 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
 
   @Override
   protected boolean validate(Context context) {
-    return amountEditText.validate(true) != null;
+    final BigDecimal result = amountEditText.validate(true);
+    if (result == null) return false;
+    if (field.max != null && result.compareTo(field.max) > 0) {
+      amountEditText.setError(field.maxExceededError);
+      return false;
+    }
+    return true;
   }
 }

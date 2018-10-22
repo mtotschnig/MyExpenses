@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
@@ -19,9 +19,15 @@ import butterknife.BindView;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 
 public class BudgetAdapter extends CategoryTreeBaseAdapter {
-  public BudgetAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
+  OnBudgetClickListener listener;
+  public interface OnBudgetClickListener {
+    void onBudgetClick(Category category);
+  }
+
+  public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter,
                        Currency currency, boolean withMainColors, boolean withSubColors) {
     super(ctx, currencyFormatter, currency, withMainColors, withSubColors);
+    this.listener = ctx;
   }
 
   @NonNull
@@ -35,6 +41,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     final View view = super.getView(item, convertView, parent, color);
     ViewHolder holder = (ViewHolder) view.getTag();
     holder.budget.setText(currencyFormatter.convAmount(item.budget, currency));
+    holder.budget.setOnClickListener(view1 -> listener.onBudgetClick(item));
     final long available = item.budget + item.sum;
     final boolean onBudget = available >= 0;
     holder.available.setText(currencyFormatter.convAmount(available, currency));

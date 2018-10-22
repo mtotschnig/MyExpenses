@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   int fractionDigits;
   @Nullable BigDecimal amount;
+  @Nullable BigDecimal max;
+  String maxExceededError;
 
   protected AmountEdit(String resultKey) {
     super(resultKey);
@@ -20,6 +22,12 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
 
   public AmountEdit amount(BigDecimal amount) {
     this.amount = amount;
+    return this;
+  }
+
+  public AmountEdit max(BigDecimal amount, String maxExceededError) {
+    this.max = amount;
+    this.maxExceededError = maxExceededError;
     return this;
   }
 
@@ -36,10 +44,15 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   protected AmountEdit(Parcel in) {
     super(in);
     fractionDigits = in.readInt();
-    final String val = in.readString();
+    String val = in.readString();
     if (val != null) {
       amount = new BigDecimal(val);
     }
+    val = in.readString();
+    if (val != null) {
+      max = new BigDecimal(val);
+    }
+    maxExceededError = in.readString();
   }
 
   @Override
@@ -47,6 +60,8 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
     super.writeToParcel(dest, flags);
     dest.writeInt(fractionDigits);
     dest.writeString(amount == null ? null : amount.toString());
+    dest.writeString(max == null ? null : max.toString());
+    dest.writeString(maxExceededError);
   }
 
   @Override

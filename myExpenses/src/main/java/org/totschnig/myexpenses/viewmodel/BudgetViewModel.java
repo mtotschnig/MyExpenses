@@ -8,6 +8,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
@@ -66,11 +67,12 @@ public class BudgetViewModel extends AndroidViewModel {
     budgetDisposable.dispose();
   }
 
-  public void updateBudget(long id, Money amount) {
+  public void updateBudget(long budgetId, long categoryId, Money amount) {
     ContentValues contentValues = new ContentValues(1);
     contentValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    final Uri budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId);
     asyncInsertHandler.startUpdate(TOKEN, null,
-        ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, id),
+        categoryId == 0 ? budgetUri : ContentUris.withAppendedId(budgetUri, categoryId),
         contentValues, null, null);
   }
 

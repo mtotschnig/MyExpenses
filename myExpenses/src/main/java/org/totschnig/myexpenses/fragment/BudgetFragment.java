@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.squareup.sqlbrite3.QueryObservable;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.model.Account;
@@ -46,6 +48,16 @@ public class BudgetFragment extends DistributionBaseFragment {
   private Budget budget;
   @BindView(R.id.budgetTotalCard) ViewGroup budgetTotalCard;
   @BindView(R.id.budgetProgressTotal) DonutProgress budgetProgress;
+  @BindView(R.id.totalBudget) TextView totalBudget;
+  @BindView(R.id.totalAllocated) TextView totalAllocated;
+  @BindView(R.id.totalAmount) TextView totalAmount;
+  @BindView(R.id.totalAvailable) TextView totalAvailable;
+
+  public long getAllocated() {
+    return allocated;
+  }
+
+  private long allocated;
 
   @Override
   protected QueryObservable createQuery() {
@@ -98,6 +110,7 @@ public class BudgetFragment extends DistributionBaseFragment {
     }
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
+    totalBudget.setOnClickListener(view1 -> ((BudgetActivity) getActivity()).onBudgetClick(null));
     registerForContextMenu(mListView);
     return view;
   }
@@ -113,7 +126,7 @@ public class BudgetFragment extends DistributionBaseFragment {
     this.budget = budget;
     mGrouping = budget.getType().toGrouping();
     mGroupingYear = 0; mGroupingSecond = 0;
-    final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
+    final BudgetActivity ctx = (BudgetActivity) getActivity();
     mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.getCurrency(), true,
         true);
     mListView.setAdapter(mAdapter);
@@ -146,22 +159,29 @@ public class BudgetFragment extends DistributionBaseFragment {
   }
 
   @Override
+  protected void onLoadFinished() {
+    super.onLoadFinished();
+    allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
+    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency,
+        allocated)));
+  }
+
+  @Override
   void updateIncome(Long amount) {
 
   }
 
   @Override
   void updateExpense(Long amount) {
-    ((TextView) budgetTotalCard.findViewById(R.id.budget)).setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    ((TextView) budgetTotalCard.findViewById(R.id.amount)).setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -amount)));
-    final TextView availableTV = budgetTotalCard.findViewById(R.id.available);
+    totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
+    totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -amount)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
     long available = allocated - amount;
-    availableTV.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, available)));
+    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, available)));
     boolean onBudget = available >=0;
-    availableTV.setBackgroundResource(onBudget ? R.drawable.round_background_income :
+    totalAvailable.setBackgroundResource(onBudget ? R.drawable.round_background_income :
         R.drawable.round_background_expense);
-    availableTV.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
+    totalAvailable.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
         ((ProtectedFragmentActivity) getActivity()).getColorExpense());
     int progress = available <= 0 || allocated == 0 ? 100 : Math.round(amount * 100F / allocated);
     budgetProgress.setProgress(progress);

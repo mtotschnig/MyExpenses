@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,19 +12,23 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.BudgetType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
+import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.FormElement;
@@ -34,12 +39,13 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
-    SimpleInputDialog.OnDialogResultListener {
+    SimpleInputDialog.OnDialogResultListener, BudgetAdapter.OnBudgetClickListener {
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
   private static final String NEW_BUDGET_DIALOG = "NEW_BUDGET";
@@ -94,11 +100,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         .items(Stream.of(BudgetType.values())
             .map(type -> type.getLabel(this)).toArray(String[]::new))
         .required().preset(0);
-    final AmountEdit amountEdit = buildAmountField(null);
+    final AmountEdit amountEdit = buildAmountField(null, null);
     final FormElement[] fields = newType == null ? new FormElement[]{typeSpinner, amountEdit} :
         new FormElement[]{amountEdit};
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
         .title(R.string.dialog_title_new_budget)
+        .neg()
         .fields(fields);
     if (newType != null) {
       Bundle extras = new Bundle(1);
@@ -108,21 +115,46 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     simpleFormDialog.show(this, NEW_BUDGET_DIALOG);
   }
 
-  private AmountEdit buildAmountField(BigDecimal amount) {
+  private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max) {
     final Currency currency = getCurrency();
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currency))
         .fractionDigits(Money.getFractionDigits(currency)).required();
-    if (amount != null) {
+    if (amount != null && !amount.equals(BigDecimal.ZERO)) {
       amountEdit.amount(amount);
+    }
+    if (max != null) {
+      amountEdit.max(max, String.format(Locale.ROOT, "%s %s",
+          getString(R.string.budget_exceeded_error_1_1, max),
+          getString(R.string.budget_exceeded_error_2)));
     }
     return amountEdit;
   }
 
-  private void showEditBudgetDialog() {
-    new SimpleFormDialogWithoutDefaultFocus()
-        .title(R.string.dialog_title_edit_budget)
-        .fields(buildAmountField(currentBudget.getAmount().getAmountMajor()))
+  private void showEditBudgetDialog(Category category) {
+    final Money amount, max;
+    final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
+        .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
+        .neg();
+    if (category != null) {
+      final long maxLong = currentBudget.getAmount().getAmountMinor() - mListFragment.getAllocated() + category.budget;
+      if (maxLong <= 0) {
+        showSnackbar(TextUtils.concatResStrings(this, " ",
+            R.string.budget_exceeded_error_1_2, R.string.budget_exceeded_error_2), Snackbar.LENGTH_LONG);
+        return;
+      }
+      Bundle bundle = new Bundle(1);
+      bundle.putLong(KEY_CATID, category.id);
+      simpleFormDialog.extra(bundle);
+      final Currency currency = getCurrency();
+      amount = new Money(currency, category.budget);
+      max = new Money(currency, maxLong);
+    } else {
+      amount = currentBudget.getAmount();
+      max = null;
+    }
+    simpleFormDialog
+        .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor()))
         .show(this, EDIT_BUDGET_DIALOG);
   }
 
@@ -141,13 +173,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (handleGrouping(item)) return true;
-    switch (item.getItemId()) {
-      case R.id.EDIT_COMMAND:
-        showEditBudgetDialog();
-        return true;
-    }
-    return super.onOptionsItemSelected(item);
+    return handleGrouping(item) || super.onOptionsItemSelected(item);
   }
 
   private boolean handleGrouping(MenuItem item) {
@@ -222,7 +248,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         budgetViewModel.createBudget(budget);
         return true;
       } else if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
-        budgetViewModel.updateBudget(currentBudget.getId(), amount);
+        budgetViewModel.updateBudget(currentBudget.getId(), extras.getLong(KEY_CATID), amount);
       }
     }
     return false;
@@ -235,5 +261,10 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   protected boolean isHomeAggregate() {
     return AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE.equals(this.currency);
+  }
+
+  @Override
+  public void onBudgetClick(Category category) {
+    showEditBudgetDialog(category);
   }
 }
