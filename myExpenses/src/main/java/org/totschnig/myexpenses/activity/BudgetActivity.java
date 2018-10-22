@@ -100,7 +100,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         .items(Stream.of(BudgetType.values())
             .map(type -> type.getLabel(this)).toArray(String[]::new))
         .required().preset(0);
-    final AmountEdit amountEdit = buildAmountField(null, null);
+    final AmountEdit amountEdit = buildAmountField(null, null, null);
     final FormElement[] fields = newType == null ? new FormElement[]{typeSpinner, amountEdit} :
         new FormElement[]{amountEdit};
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
@@ -115,7 +115,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     simpleFormDialog.show(this, NEW_BUDGET_DIALOG);
   }
 
-  private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max) {
+  private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min) {
     final Currency currency = getCurrency();
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currency))
@@ -128,14 +128,18 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
           getString(R.string.budget_exceeded_error_1_1, max),
           getString(R.string.budget_exceeded_error_2)));
     }
+    if (min != null) {
+      amountEdit.min(min, getString(R.string.budget_under_allocated_error, min));
+    }
     return amountEdit;
   }
 
   private void showEditBudgetDialog(Category category) {
-    final Money amount, max;
+    final Money amount, max, min;
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
         .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
         .neg();
+    final Currency currency = getCurrency();
     if (category != null) {
       final long maxLong = currentBudget.getAmount().getAmountMinor() - mListFragment.getAllocated() + category.budget;
       if (maxLong <= 0) {
@@ -146,15 +150,17 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       Bundle bundle = new Bundle(1);
       bundle.putLong(KEY_CATID, category.id);
       simpleFormDialog.extra(bundle);
-      final Currency currency = getCurrency();
       amount = new Money(currency, category.budget);
       max = new Money(currency, maxLong);
+      min = null;
     } else {
       amount = currentBudget.getAmount();
       max = null;
+      min = new Money(currency, mListFragment.getAllocated());
     }
     simpleFormDialog
-        .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor()))
+        .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor(),
+            min == null ? null : min.getAmountMajor()))
         .show(this, EDIT_BUDGET_DIALOG);
   }
 

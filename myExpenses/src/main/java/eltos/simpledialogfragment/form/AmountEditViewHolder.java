@@ -88,6 +88,10 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
       amountEditText.setError(field.maxExceededError);
       return false;
     }
+    if (field.min != null && result.compareTo(field.min) < 0) {
+      amountEditText.setError(field.underMinError);
+      return false;
+    }
     return true;
   }
 }

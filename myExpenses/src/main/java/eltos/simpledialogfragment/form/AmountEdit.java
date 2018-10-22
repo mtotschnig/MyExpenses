@@ -10,6 +10,8 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   @Nullable BigDecimal amount;
   @Nullable BigDecimal max;
   String maxExceededError;
+  @Nullable BigDecimal min;
+  String underMinError;
 
   protected AmountEdit(String resultKey) {
     super(resultKey);
@@ -28,6 +30,13 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   public AmountEdit max(BigDecimal amount, String maxExceededError) {
     this.max = amount;
     this.maxExceededError = maxExceededError;
+    return this;
+  }
+
+
+  public AmountEdit min(BigDecimal amount, String underMinError) {
+    this.min = amount;
+    this.underMinError = underMinError;
     return this;
   }
 
@@ -53,6 +62,11 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
       max = new BigDecimal(val);
     }
     maxExceededError = in.readString();
+    val = in.readString();
+    if (val != null) {
+      min = new BigDecimal(val);
+    }
+    underMinError = in.readString();
   }
 
   @Override
@@ -62,6 +76,8 @@ public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
     dest.writeString(amount == null ? null : amount.toString());
     dest.writeString(max == null ? null : max.toString());
     dest.writeString(maxExceededError);
+    dest.writeString(min == null ? null : min.toString());
+    dest.writeString(underMinError);
   }
 
   @Override

@@ -793,4 +793,5 @@
     <string name="budget_exceeded_error_1_1">All but %s of your budget have been allocated to other categories.</string>
     <string name="budget_exceeded_error_1_2">All your budget has been allocated to other categories.</string>
     <string name="budget_exceeded_error_2">Increase the budgeted amount, or remove money from other categories.</string>
+    <string name="budget_under_allocated_error">%s has already been allocated to categories. Unless you remove money from categories, you must at least budget that amount.</string>
 </resources>
