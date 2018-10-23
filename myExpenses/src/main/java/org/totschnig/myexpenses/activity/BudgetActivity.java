@@ -120,7 +120,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currency))
         .fractionDigits(Money.getFractionDigits(currency)).required();
-    if (amount != null && !amount.equals(BigDecimal.ZERO)) {
+    if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
       amountEdit.amount(amount);
     }
     if (max != null) {
