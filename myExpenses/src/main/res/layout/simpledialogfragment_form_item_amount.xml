@@ -2,19 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/label"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:saveEnabled="false"
+        android:focusable="true"
+        app:counterOverflowTextAppearance="@style/OverflowText">
 
     <org.totschnig.myexpenses.ui.AmountEditText
         android:id="@+id/amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>

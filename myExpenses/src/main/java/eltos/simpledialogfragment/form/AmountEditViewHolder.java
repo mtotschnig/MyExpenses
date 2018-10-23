@@ -2,11 +2,11 @@ package eltos.simpledialogfragment.form;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
@@ -17,8 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
-  @BindView(R.id.label)
-  TextView label;
+  @BindView(R.id.inputLayout)
+  TextInputLayout inputLayout;
   @BindView(R.id.amount)
   AmountEditText amountEditText;
 
@@ -34,7 +34,7 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
   @Override
   protected void setUpView(View view, Context context, Bundle savedInstanceState, SimpleFormDialog.DialogActions actions) {
     ButterKnife.bind(this, view);
-    label.setText(field.getText(context));
+    inputLayout.setHint(field.getText(context));
     amountEditText.setFractionDigits(field.fractionDigits);
     if (field.amount != null) {
       amountEditText.setAmount(field.amount);
@@ -85,11 +85,11 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
     final BigDecimal result = amountEditText.validate(true);
     if (result == null) return false;
     if (field.max != null && result.compareTo(field.max) > 0) {
-      amountEditText.setError(field.maxExceededError);
+      inputLayout.setError(field.maxExceededError);
       return false;
     }
     if (field.min != null && result.compareTo(field.min) < 0) {
-      amountEditText.setError(field.underMinError);
+      inputLayout.setError(field.underMinError);
       return false;
     }
     return true;
