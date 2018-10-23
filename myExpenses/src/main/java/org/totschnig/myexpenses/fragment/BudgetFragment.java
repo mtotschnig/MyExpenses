@@ -110,7 +110,7 @@ public class BudgetFragment extends DistributionBaseFragment {
     }
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
-    totalBudget.setOnClickListener(view1 -> ((BudgetActivity) getActivity()).onBudgetClick(null));
+    totalBudget.setOnClickListener(view1 -> ((BudgetActivity) getActivity()).onBudgetClick(null, null));
     registerForContextMenu(mListView);
     return view;
   }
@@ -123,14 +123,19 @@ public class BudgetFragment extends DistributionBaseFragment {
   public void setBudget(Budget budget) {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
+    if (mAdapter == null) {
+      mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, budget.getCurrency());
+      mListView.setAdapter(mAdapter);
+    }
+    if (this.budget == null || this.budget.getType() != budget.getType()) {
+      mGrouping = budget.getType().toGrouping();
+      mGroupingYear = 0;
+      mGroupingSecond = 0;
+      updateDateInfo(false);
+    } else {
+      loadData();
+    }
     this.budget = budget;
-    mGrouping = budget.getType().toGrouping();
-    mGroupingYear = 0; mGroupingSecond = 0;
-    final BudgetActivity ctx = (BudgetActivity) getActivity();
-    mAdapter = new BudgetAdapter(ctx, currencyFormatter, budget.getCurrency(), true,
-        true);
-    mListView.setAdapter(mAdapter);
-    updateDateInfo(false);
   }
 
   @Override

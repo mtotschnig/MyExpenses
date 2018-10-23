@@ -106,7 +106,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   @Override
   public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
     final Category item = getGroup(groupPosition);
-    return getView(item, convertView, parent, withMainColors ? item.color : 0);
+    return getView(item, null, convertView, parent, withMainColors ? item.color : 0);
   }
 
   @Override
@@ -118,10 +118,10 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
       final List<Integer> subColors = getSubColors(parentCat.color);
       color = subColors.get(childPosition % subColors.size());
     }
-    return getView(item, convertView, parent, color);
+    return getView(item, parentCat, convertView, parent, color);
   }
 
-  protected View getView(Category item, View convertView, ViewGroup parent, int color) {
+  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color) {
     ViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(getLayoutResourceId(), parent, false);

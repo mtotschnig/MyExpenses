@@ -22,8 +22,8 @@ public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
   }
 
   @Override
-  protected View getView(Category item, View convertView, ViewGroup parent, int color) {
-    final View view = super.getView(item, convertView, parent, color);
+  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color) {
+    final View view = super.getView(item, parentItem, convertView, parent, color);
     ViewHolder holder = (ViewHolder) view.getTag();
     if (item.sum != null) {
       holder.amount.setTextColor(item.sum < 0 ? colorExpense : colorIncome);

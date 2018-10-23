@@ -21,12 +21,11 @@ import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 public class BudgetAdapter extends CategoryTreeBaseAdapter {
   OnBudgetClickListener listener;
   public interface OnBudgetClickListener {
-    void onBudgetClick(Category category);
+    void onBudgetClick(Category category, Category parentItem);
   }
 
-  public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter,
-                       Currency currency, boolean withMainColors, boolean withSubColors) {
-    super(ctx, currencyFormatter, currency, withMainColors, withSubColors);
+  public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter, Currency currency) {
+    super(ctx, currencyFormatter, currency, true, true);
     this.listener = ctx;
   }
 
@@ -37,11 +36,11 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
   }
 
   @Override
-  protected View getView(Category item, View convertView, ViewGroup parent, int color) {
-    final View view = super.getView(item, convertView, parent, color);
+  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color) {
+    final View view = super.getView(item, parentItem, convertView, parent, color);
     ViewHolder holder = (ViewHolder) view.getTag();
     holder.budget.setText(currencyFormatter.convAmount(item.budget, currency));
-    holder.budget.setOnClickListener(view1 -> listener.onBudgetClick(item));
+    holder.budget.setOnClickListener(view1 -> listener.onBudgetClick(item, parentItem));
     final long available = item.budget + item.sum;
     final boolean onBudget = available >= 0;
     holder.available.setText(currencyFormatter.convAmount(available, currency));
