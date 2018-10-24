@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.Html;
@@ -68,15 +67,13 @@ public enum ContribFeature {
       return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial, usagesLeft) :
           ctx.getString(R.string.warning_auto_backup_limit_reached);
     }
-  },
-  SYNCHRONIZATION(TrialMode.DURATION, EXTENDED) {
 
     @Override
-    public String buildUsageLimitString(Context context) {
-      String currentLicence = getCurrentLicence(context);
-      return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
+    public int getLimitReachedWarningResId() {
+      return R.string.warning_auto_backup_limit_reached;
     }
   },
+  SYNCHRONIZATION(TrialMode.DURATION, EXTENDED),
   SPLIT_TEMPLATE(TrialMode.NONE, PROFESSIONAL) {
     @Override
     public String buildUsageLimitString(Context context) {
@@ -110,8 +107,8 @@ public enum ContribFeature {
   public static final int FREE_PLANS = 3;
   public static final int FREE_ACCOUNTS = 5;
   public static final int FREE_SPLIT_TEMPLATES = 1;
-  protected int TRIAL_DURATION_DAYS = 10;
-  private long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000;
+  protected int TRIAL_DURATION_DAYS = 30;
+  private long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000L;
 
   private TrialMode trialMode;
   private LicenceStatus licenceStatus;
@@ -163,7 +160,8 @@ public enum ContribFeature {
   }
 
   private String getPrefKey() {
-    return "FEATURE_USAGES_" + name();
+    final String format = trialMode == TrialMode.DURATION ? "FEATURE_%s_FIRST_USAGE" : "FEATURE_USAGES_%s";
+    return String.format(Locale.ROOT, format, name());
   }
 
   public int usagesLeft() {
@@ -214,13 +212,8 @@ public enum ContribFeature {
     return ctx.getResources().getIdentifier(name, "string", ctx.getPackageName());
   }
 
-  public int getLimitReachedWarningResIdOrThrow(Context ctx) {
-    String name = "warning_" + toString() + "_limit_reached";
-    int resId = ctx.getResources().getIdentifier(name, "string", ctx.getPackageName());
-    if (resId == 0) {
-      throw new Resources.NotFoundException(name);
-    }
-    return resId;
+  public int getLimitReachedWarningResId() {
+    return R.string.warning_trial_limit_reached;
   }
 
   public CharSequence buildFullInfoString(Context ctx) {
@@ -252,7 +245,12 @@ public enum ContribFeature {
 
   public String buildUsageLimitString(Context context) {
     String currentLicence = getCurrentLicence(context);
-    return context.getString(R.string.dialog_contrib_usage_limit, USAGES_LIMIT, currentLicence);
+    if (trialMode == TrialMode.NUMBER_OF_TIMES) {
+      return context.getString(R.string.dialog_contrib_usage_limit, USAGES_LIMIT, currentLicence);
+    } else if (trialMode == TrialMode.DURATION) {
+      return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
+    }
+    throw new IllegalStateException();
   }
 
   @NonNull

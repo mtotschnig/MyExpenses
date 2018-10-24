@@ -581,8 +581,6 @@
   <string name="menu_remove">Αφαίρεση</string>
   <string name="dialog_confirm_sync_link_local">Τα απομακρυσμένα δεδομένα για αυτόν το λογαριασμό θα διαγραφούν. Βεβαιωθείτε ότι δεν υπάρχουν άλλες συσκευές που συνδέονται με αυτά.</string>
   <string name="dialog_confirm_sync_link_remote">Τα τοπικά δεδομένα για αυτόν το λογαριασμό θα διαγραφούν.</string>
-  <string name="warning_synchronization_limited_trial">Η λειτουργία συγχρονισμού μπορεί να ελεγχθεί μέχρι %s.</string>
-  <string name="warning_synchronization_limit_reached">Η δοκιμαστική περίοδος για τον έλεγχο της λειτουργία του συγχρονισμού έχει λήξει.</string>
   <string name="warning_synchronization_folder_usage">Αυτός ο φάκελος χρησιμοποιείται για το συγχρονισμό δεδομένων μεταξύ εγκαταστάσεων του {app_name} σε διαφορετικές συσκευές. Παρακαλώ μην τροποποιήσετε οτιδήποτε από τα περιεχόμενά του χειροκίνητα.</string>
   <string name="link_account_failure_3">Η διένεξη μπορεί να επιλυθεί χειροκίνητα από το μενού περιβάλλοντος της καταχώρησης.</string>
   <string name="template">Πρότυπο</string>

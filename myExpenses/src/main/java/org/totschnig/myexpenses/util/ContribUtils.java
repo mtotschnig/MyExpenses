@@ -18,7 +18,7 @@ public class ContribUtils {
     String notifTitle = TextUtils.concatResStrings(context, " ", R.string.app_name,
         feature.getLabelResIdOrThrow(context));
     CharSequence content = android.text.TextUtils.concat(
-        context.getText(feature.getLimitReachedWarningResIdOrThrow(context)), " ",
+        context.getText(feature.getLimitReachedWarningResId()), " ",
         feature.buildRemoveLimitation(context, true));
 
     Intent contribIntent = ContribInfoDialogActivity.getIntentFor(context, feature);

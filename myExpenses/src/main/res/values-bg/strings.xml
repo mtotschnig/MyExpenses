@@ -600,8 +600,6 @@
   <string name="dialog_confirm_sync_remove_backend">Отдалеченото място %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране. Да продължим ли?</string>
   <string name="dialog_confirm_sync_link_local">Отдалечените данни за този акаунт ще бъдат изтрити. Уверете се, че няма други устройства свързани към тях.</string>
   <string name="dialog_confirm_sync_link_remote">Локалните данни за този акаунт ще бъдат изтрити.</string>
-  <string name="warning_synchronization_limited_trial">Възможността за синхронизиране може да бъде тествана до %s.</string>
-  <string name="warning_synchronization_limit_reached">Периодът за тестване на възможността за синхронизиране е изтекъл.</string>
   <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на {app_name} на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на акаунт от съществуващо отдалечено място за съхранение. Трябва да изберете родителската й папка, за да използвате отново това отдалечено място за съхранение.</string>
   <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено място за съхранение.</string>

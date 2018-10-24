@@ -597,8 +597,6 @@
   <string name="dialog_confirm_sync_remove_backend">%s urruneko atzealdekoa kendu egingo da. Honek ez dio eragingo lokalean edo urrunean biltegiratutako datuei, baina sinkronizazioaren egoera galduko litzateke. Jarraitu nahi duzu?</string>
   <string name="dialog_confirm_sync_link_local">Kontu honetako urruneko datuak ezabatuak izango dira. Ziurtatu beste gailurik ez dagoela berari estekatuta.</string>
   <string name="dialog_confirm_sync_link_remote">Kontu honen tokiko informazioa ezabatuko da.</string>
-  <string name="warning_synchronization_limited_trial">Sinkronizazio eginbidea %s-(e)ra arte probatu daiteke.</string>
-  <string name="warning_synchronization_limit_reached">Sinkronizazio eginbidea probatzeko proba-aldia amaitu egin da.</string>
   <string name="warning_synchronization_folder_usage">Karpeta hau gailu desberdinetan {app_name} instalatzean datuak sinkronizatzeko da. Mesedez ez aldatu bere edukirik eskuz.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Hautatu duzun karpeta existitzen den atzealdeko baten kontu bati dagokio. Bere karpeta nagusia hautatu behar duzu atzealdeko hau berrerabiltzeko.</string>
   <string name="select_unsynced_accounts">Hautatu zein kontu sinkronizatu atzealdeko honetara</string>

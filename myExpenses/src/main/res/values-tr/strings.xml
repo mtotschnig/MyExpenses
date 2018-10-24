@@ -600,8 +600,6 @@
   <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır. Devam etmek istiyor musunuz?</string>
   <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
   <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>
-  <string name="warning_synchronization_limited_trial">Eşleşme işlevi %s tarihine kadar denenebilir.</string>
-  <string name="warning_synchronization_limit_reached">Eşleşme işlevini deneme zaman aralığı sona ermiştir.</string>
   <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Seçtiğiniz klasör mevcut arka ucun bir hesabına denk gelmektedir. Bu arka ucu kullanmak için bir üst klasörü seçmeniz gerekir.</string>
   <string name="select_unsynced_accounts">Bu arka uçla eşleştirilecek hesapları seç</string>
