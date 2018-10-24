@@ -492,7 +492,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           if (prefKey.equals(AUTO_BACKUP)) {
             if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
               activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
-              if (ContribFeature.AUTO_BACKUP.usagesLeft() <= 0) {
+              if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
                 buttonView.setChecked(false);
                 return;
               }

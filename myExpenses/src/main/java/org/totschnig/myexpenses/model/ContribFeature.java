@@ -24,6 +24,7 @@ import android.text.Html;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -62,8 +63,8 @@ public enum ContribFeature {
   CSV_IMPORT(TrialMode.NUMBER_OF_TIMES, EXTENDED),
   AUTO_BACKUP(TrialMode.NUMBER_OF_TIMES, EXTENDED) {
     @Override
-    public String buildUsagesLefString(Context ctx) {
-      int usagesLeft = usagesLeft();
+    public String buildUsagesLefString(Context ctx, PrefHandler prefHandler) {
+      int usagesLeft = usagesLeft(prefHandler);
       return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial, usagesLeft) :
           ctx.getString(R.string.warning_auto_backup_limit_reached);
     }
@@ -121,28 +122,25 @@ public enum ContribFeature {
     return name().toLowerCase(Locale.US);
   }
 
-  public int getUsages() {
-    return MyApplication.getInstance().getSettings()
-        .getInt(getPrefKey(), 0);
+  private int getUsages(PrefHandler prefHandler) {
+    return prefHandler.getInt(getPrefKey(), 0);
   }
 
   /**
    * @return number of remaining usages (> 0, if usage still possible, <= 0 if not)
    */
-  public int recordUsage() {
+  public int recordUsage(PrefHandler prefHandler) {
     if (!hasAccess()) {
       if (trialMode == TrialMode.NUMBER_OF_TIMES) {
-        int usages = getUsages() + 1;
-        MyApplication.getInstance().getSettings().edit()
-            .putInt(getPrefKey(), usages)
-            .apply();
+        int usages = getUsages(prefHandler) + 1;
+        prefHandler.putInt(getPrefKey(), usages);
         return USAGES_LIMIT - usages;
       } else if (trialMode == TrialMode.DURATION) {
         long now = System.currentTimeMillis();
-        if (getStartOfTrial(0L) == 0L) {
-          MyApplication.getInstance().getSettings().edit().putLong(getPrefKey(), now).apply();
+        if (getStartOfTrial(0L, prefHandler) == 0L) {
+          prefHandler.putLong(getPrefKey(), now);
         }
-        if (getEndOfTrial(now) < now) {
+        if (getEndOfTrial(now, prefHandler) < now) {
           return 0;
         }
       }
@@ -151,12 +149,12 @@ public enum ContribFeature {
   }
 
 
-  private long getStartOfTrial(long defaultValue) {
-    return MyApplication.getInstance().getSettings().getLong(getPrefKey(), defaultValue);
+  private long getStartOfTrial(long defaultValue, PrefHandler prefHandler) {
+    return prefHandler.getLong(getPrefKey(), defaultValue);
   }
 
-  private long getEndOfTrial(long now) {
-    return getStartOfTrial(now) + TRIAL_DURATION_MILLIS;
+  private long getEndOfTrial(long now, PrefHandler prefHandler) {
+    return getStartOfTrial(now, prefHandler) + TRIAL_DURATION_MILLIS;
   }
 
   private String getPrefKey() {
@@ -164,13 +162,13 @@ public enum ContribFeature {
     return String.format(Locale.ROOT, format, name());
   }
 
-  public int usagesLeft() {
+  public int usagesLeft(PrefHandler prefHandler) {
     switch (trialMode) {
       case NUMBER_OF_TIMES:
-        return USAGES_LIMIT - getUsages();
+        return USAGES_LIMIT - getUsages(prefHandler);
       case DURATION:
         long now = System.currentTimeMillis();
-        return getEndOfTrial(now) < now ? 0 : 1;
+        return getEndOfTrial(now, prefHandler) < now ? 0 : 1;
       default:
         return 0;
     }
@@ -189,9 +187,10 @@ public enum ContribFeature {
 
   /**
    * @return user either has access through licence or through trial
+   * @param prefHandler
    */
-  public boolean isAvailable() {
-    return hasAccess() || usagesLeft() > 0;
+  public boolean isAvailable(PrefHandler prefHandler) {
+    return hasAccess() || usagesLeft(prefHandler) > 0;
   }
 
   public String buildRequiresString(Context ctx) {
@@ -224,14 +223,14 @@ public enum ContribFeature {
   }
 
   @SuppressLint("DefaultLocale")
-  public CharSequence buildUsagesLefString(Context ctx) {
+  public CharSequence buildUsagesLefString(Context ctx, PrefHandler prefHandler) {
     if (trialMode == TrialMode.NUMBER_OF_TIMES) {
-      int usagesLeft = usagesLeft();
+      int usagesLeft = usagesLeft(prefHandler);
       return ctx.getText(R.string.dialog_contrib_usage_count) + " : " +
           String.format("%d/%d", usagesLeft, USAGES_LIMIT);
     } else if (trialMode == TrialMode.DURATION) {
       long now = System.currentTimeMillis();
-      long endOfTrial = getEndOfTrial(now);
+      long endOfTrial = getEndOfTrial(now, prefHandler);
       final String label = ctx.getString(getLabelResIdOrThrow(ctx));
       if (endOfTrial < now) {
         return ctx.getString(R.string.warning_trial_limit_reached, label);

@@ -53,7 +53,6 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
     Account account = GenericAccountService.GetAccount(accountName);
     if (create) {
       AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
-      ContribFeature.SYNCHRONIZATION.recordUsage();
       if (accountManager.addAccountExplicitly(account, password, userData)) {
         if (authToken != null) {
           accountManager.setAuthToken(account, AUTH_TOKEN_TYPE, authToken);

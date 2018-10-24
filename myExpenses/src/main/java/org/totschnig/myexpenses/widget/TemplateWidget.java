@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -177,7 +178,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
                 context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
                 Toast.LENGTH_LONG).show();
             if (!ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
-              ContribFeature.TEMPLATE_WIDGET.recordUsage();
+              ContribFeature.TEMPLATE_WIDGET.recordUsage(getPrefHandler());
               showContribMessage(context);
             }
           }
@@ -186,6 +187,10 @@ public class TemplateWidget extends AbstractWidget<Template> {
     } else {
       super.onReceive(context, intent);
     }
+  }
+
+  protected static PrefHandler getPrefHandler() {
+    return MyApplication.getInstance().getAppComponent().prefHandler();
   }
 
   @Override
@@ -206,9 +211,9 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   public static void showContribMessage(Context context) {
     String message = ContribFeature.TEMPLATE_WIDGET.buildFullInfoString(context) + " " +
-        ContribFeature.TEMPLATE_WIDGET.buildUsagesLefString(context);
+        ContribFeature.TEMPLATE_WIDGET.buildUsagesLefString(context, getPrefHandler());
     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    if (ContribFeature.TEMPLATE_WIDGET.usagesLeft() == 0) {
+    if (ContribFeature.TEMPLATE_WIDGET.usagesLeft(getPrefHandler()) == 0) {
       updateWidgets(context, TemplateWidget.class);
     }
   }
@@ -217,7 +222,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   protected void updateWidgets(Context context, AppWidgetManager manager,
                                int[] appWidgetIds, String action) {
     if (!isProtected() && !ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
-      int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft();
+      int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft(getPrefHandler());
       if (usagesLeft < 1) {
         for (int id : appWidgetIds) {
           AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);

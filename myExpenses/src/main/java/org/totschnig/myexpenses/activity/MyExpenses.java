@@ -953,7 +953,14 @@ public class MyExpenses extends LaunchActivity implements
     String msg;
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TaskExecutionFragment.TASK_SPLIT:
+      case TaskExecutionFragment.TASK_SPLIT: {
+        Result result = (Result) o;
+        if (((Result) o).isSuccess()) {
+          recordUsage(ContribFeature.SPLIT_TRANSACTION);
+        }
+        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+        break;
+      }
       case TaskExecutionFragment.TASK_REVOKE_SPLIT: {
         Result result = (Result) o;
         showSnackbar(result.print(this), Snackbar.LENGTH_LONG);

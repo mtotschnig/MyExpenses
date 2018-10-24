@@ -32,6 +32,7 @@ import android.support.annotation.NonNull;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -81,8 +82,9 @@ public class GenericAccountService extends Service {
     return mAuthenticator.getIBinder();
   }
 
-  public static void updateAccountsIsSyncable(Context context) {
-    boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() || ContribFeature.SYNCHRONIZATION.usagesLeft() > 0;
+  public static void updateAccountsIsSyncable(MyApplication context) {
+    boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() ||
+        ContribFeature.SYNCHRONIZATION.usagesLeft(context.getAppComponent().prefHandler()) > 0;
     AccountManager accountManager = AccountManager.get(context);
 
     getAccountsAsStream(context)

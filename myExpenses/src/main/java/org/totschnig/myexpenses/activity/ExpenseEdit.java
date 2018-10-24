@@ -516,7 +516,7 @@ public class ExpenseEdit extends AmountActivity implements
           allowed = prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
         } else {
           contribFeature = ContribFeature.SPLIT_TRANSACTION;
-          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft() > 0;
+          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft(prefHandler) > 0;
         }
         if (!allowed) {
           abortWithMessage(contribFeature.buildRequiresString(this));
@@ -1897,6 +1897,12 @@ public class ExpenseEdit extends AmountActivity implements
         if (mRecordTemplateWidget) {
           recordUsage(ContribFeature.TEMPLATE_WIDGET);
           TemplateWidget.showContribMessage(this);
+        }
+        if (mTransaction instanceof SplitTransaction) {
+          recordUsage(ContribFeature.SPLIT_TRANSACTION);
+        }
+        if (mPictureUri != null) {
+          recordUsage(ContribFeature.ATTACH_PICTURE);
         }
         if (mCreateNew) {
           mCreateNew = false;

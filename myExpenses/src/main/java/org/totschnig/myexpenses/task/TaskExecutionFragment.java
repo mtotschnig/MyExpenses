@@ -275,7 +275,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Retain this fragment across configuration changes.
     setRetainInstance(true);
 
-    crashHandler = MyApplication.getInstance().getAppComponent().getCrashHandler();
+    crashHandler = MyApplication.getInstance().getAppComponent().crashHandler();
 
     // Create and execute the background task.
     Bundle args = getArguments();

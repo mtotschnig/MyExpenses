@@ -47,7 +47,7 @@ public class LicenceHandler {
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
   public static final String TAG = "LicenceHandler";
-  protected final Context context;
+  protected final MyApplication context;
   private boolean isSandbox = BuildConfig.DEBUG;
 
   @Nullable public LicenceStatus getLicenceStatus() {
@@ -57,7 +57,7 @@ public class LicenceHandler {
   protected LicenceStatus licenceStatus;
   PreferenceObfuscator licenseStatusPrefs;
 
-  public LicenceHandler(Context context, PreferenceObfuscator preferenceObfuscator) {
+  public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
     this.context = context;
     this.licenseStatusPrefs = preferenceObfuscator;
   }

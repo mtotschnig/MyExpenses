@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
@@ -63,9 +62,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
   @Inject
   LicenceHandler licenceHandler;
-
-  @Inject
-  PrefHandler prefHandler;
 
   @Override
   protected void injectDependencies() {
@@ -280,7 +276,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
             "RESTORE");
       }
-      if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft() < 1 &&
+      if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft(prefHandler) < 1 &&
           !prefHandler.getBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, false)) {
         prefHandler.putBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, true);
         ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION);

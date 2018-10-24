@@ -22,10 +22,12 @@ import android.support.v4.app.JobIntentService;
 import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.AccountPreference;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -42,6 +44,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP;
 
@@ -50,6 +54,9 @@ public class AutoBackupService extends JobIntentService {
   private static final String TAG = AutoBackupService.class.getSimpleName();
   public static final String ACTION_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_AUTO_BACKUP";
   public static final String ACTION_SCHEDULE_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_SCHEDULE_AUTO_BACKUP";
+
+  @Inject
+  protected PrefHandler prefHandler;
 
   /**
    * Unique job ID for this service.
@@ -64,12 +71,18 @@ public class AutoBackupService extends JobIntentService {
   }
 
   @Override
+  public void onCreate() {
+    super.onCreate();
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
+
+  @Override
   protected void onHandleWork(@NonNull Intent intent) {
     String action = intent.getAction();
     if (ACTION_AUTO_BACKUP.equals(action)) {
       Result<DocumentFile> result = BackupUtils.doBackup();
       if (result.isSuccess()) {
-        int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
+        int remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler);
         if (remaining < 1) {
           ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
         }

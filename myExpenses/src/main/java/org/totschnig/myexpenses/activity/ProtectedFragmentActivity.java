@@ -645,7 +645,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void recordUsage(ContribFeature f) {
-    f.recordUsage();
+    f.recordUsage(prefHandler);
   }
 
   /**
