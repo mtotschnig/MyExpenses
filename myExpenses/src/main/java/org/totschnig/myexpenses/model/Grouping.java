@@ -77,7 +77,7 @@ public enum Grouping {
           return new SimpleDateFormat("MMMM y").format(cal.getTime());
         } else {
           DateFormat dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);
-          int beginYear = groupYear, beginMonth = groupSecond - 1;
+          int beginYear = groupYear, beginMonth = groupSecond;
           cal = Calendar.getInstance();
           cal.set(beginYear, beginMonth, 1);
           if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts) {
