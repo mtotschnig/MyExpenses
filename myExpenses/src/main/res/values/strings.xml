@@ -615,8 +615,8 @@
     <string name="dialog_confirm_sync_remove_backend">Remote backend %s will be removed. This will not affect data stored locally or remotely, but synchronization status gets lost. Do you want to continue?</string>
     <string name="dialog_confirm_sync_link_local">Remote data for this account will be deleted. Make sure no other devices are linked to it.</string>
     <string name="dialog_confirm_sync_link_remote">Local data for this account will be deleted.</string>
-    <string name="warning_synchronization_limited_trial">The synchronization feature can be tested until %s.</string>
-    <string name="warning_synchronization_limit_reached">The trial period for testing the synchronization feature has ended.</string>
+    <string name="warning_limited_trial">Feature %1$s can be tested until %2$s.</string>
+    <string name="warning_trial_limit_reached">The trial period for testing feature %s has ended.</string>
     <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of {app_name} on different devices. Please do not modify any of its contents manually.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
     <string name="select_unsynced_accounts">Select accounts to be synced to this backend</string>
@@ -790,8 +790,13 @@
     <string name="budget_table_header_spent">Spent</string>
     <string name="budget_table_header_remainder">Remainder</string>
     <string name="budget_allocated_amount">Allocated amount</string>
-    <string name="budget_exceeded_error_1_1">All but %s of your budget have been allocated to other categories.</string>
+    <string name="budget_exceeded_error_1_1">All but %s of your budget has been allocated to other categories.</string>
     <string name="budget_exceeded_error_1_2">All your budget has been allocated to other categories.</string>
     <string name="budget_exceeded_error_2">Increase the budgeted amount, or remove money from other categories.</string>
-    <string name="budget_under_allocated_error">%s has already been allocated to categories. Unless you remove money from categories, you must at least budget that amount.</string>
+    <string name="budget_under_allocated_error">%s have already been allocated to categories. Unless you remove money from them, you must at least budget that amount.</string>
+    <string name="sub_budget_exceeded_error_1_1">All but %s of the amount allocated to the main category has been allocated to other sub-categories.</string>
+    <string name="sub_budget_exceeded_error_1_2">All the amount allocated to the main category has been allocated to other sub-categories.</string>
+    <string name="sub_budget_exceeded_error_2">Increase the amount allocated to the main category, or remove money from other sub-categories.</string>
+    <string name="sub_budget_under_allocated_error">%s have already been allocated to sub-categories. Unless you remove money from them, you must at least allocate that amount to the main category.</string>
+
 </resources>
