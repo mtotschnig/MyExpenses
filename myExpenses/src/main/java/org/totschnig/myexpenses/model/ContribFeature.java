@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.model;
 
@@ -25,26 +25,28 @@ import android.text.Html;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.util.Date;
 import java.util.Locale;
 
-import static org.totschnig.myexpenses.util.licence.LicenceStatus.*;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.CONTRIB;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.PROFESSIONAL;
 
 //TODO separate enum definition from handler
 //TODO use separate preferences object injected via DI
 public enum ContribFeature {
-  ACCOUNTS_UNLIMITED(false) {
+  ACCOUNTS_UNLIMITED(TrialMode.NONE) {
     @Override
     public String buildUsageLimitString(Context context) {
       String currentLicence = getCurrentLicence(context);
       return context.getString(R.string.dialog_contrib_usage_limit_accounts, FREE_ACCOUNTS, currentLicence);
     }
   },
-  PLANS_UNLIMITED(false){
+  PLANS_UNLIMITED(TrialMode.NONE) {
     @Override
     public String buildUsageLimitString(Context context) {
       String currentLicence = getCurrentLicence(context);
@@ -57,9 +59,9 @@ public enum ContribFeature {
   TEMPLATE_WIDGET,
   PRINT,
   ATTACH_PICTURE,
-  AD_FREE(false),
-  CSV_IMPORT(true, EXTENDED),
-  AUTO_BACKUP(true, EXTENDED) {
+  AD_FREE(TrialMode.NONE),
+  CSV_IMPORT(TrialMode.NUMBER_OF_TIMES, EXTENDED),
+  AUTO_BACKUP(TrialMode.NUMBER_OF_TIMES, EXTENDED) {
     @Override
     public String buildUsagesLefString(Context ctx) {
       int usagesLeft = usagesLeft();
@@ -67,50 +69,7 @@ public enum ContribFeature {
           ctx.getString(R.string.warning_auto_backup_limit_reached);
     }
   },
-  SYNCHRONIZATION(true, EXTENDED) {
-    private String PREF_KEY = "FEATURE_SYNCHRONIZATION_FIRST_USAGE";
-    private int TRIAL_DURATION_DAYS = 10;
-    private long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000;
-
-    @Override
-    public int recordUsage() {
-      if (!hasAccess()) {
-        long now = System.currentTimeMillis();
-        if (getStartOfTrial(0L) == 0L) {
-          MyApplication.getInstance().getSettings().edit().putLong(PREF_KEY, now).apply();
-        }
-        if (getEndOfTrial(now) < now) {
-          return 0;
-        }
-      }
-      return 1;
-    }
-
-    @Override
-    public int usagesLeft() {
-      long now = System.currentTimeMillis();
-      return getEndOfTrial(now) < now ? 0 : 1;
-    }
-
-    private long getStartOfTrial(long defaultValue) {
-      return MyApplication.getInstance().getSettings().getLong(PREF_KEY, defaultValue);
-    }
-
-    private long getEndOfTrial(long now) {
-      return getStartOfTrial(now) + TRIAL_DURATION_MILLIS;
-    }
-
-    @Override
-    public String buildUsagesLefString(Context ctx) {
-      long now = System.currentTimeMillis();
-      long endOfTrial = getEndOfTrial(now);
-      if (endOfTrial < now) {
-        return ctx.getString(R.string.warning_synchronization_limit_reached);
-      } else {
-        return ctx.getString(R.string.warning_synchronization_limited_trial,
-            Utils.getDateFormatSafe(ctx).format(new Date(endOfTrial)));
-      }
-    }
+  SYNCHRONIZATION(TrialMode.DURATION, EXTENDED) {
 
     @Override
     public String buildUsageLimitString(Context context) {
@@ -118,28 +77,32 @@ public enum ContribFeature {
       return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
     }
   },
-  SPLIT_TEMPLATE(false, PROFESSIONAL) {
+  SPLIT_TEMPLATE(TrialMode.NONE, PROFESSIONAL) {
     @Override
     public String buildUsageLimitString(Context context) {
       String currentLicence = getCurrentLicence(context);
       return context.getString(R.string.dialog_contrib_usage_limit_split_templates, currentLicence);
     }
   },
-  PRO_SUPPORT(false, PROFESSIONAL),
-  ROADMAP_VOTING(false, PROFESSIONAL),
-  HISTORY(true, PROFESSIONAL),
-  BUDGET(true, PROFESSIONAL);
+  PRO_SUPPORT(TrialMode.NONE, PROFESSIONAL),
+  ROADMAP_VOTING(TrialMode.NONE, PROFESSIONAL),
+  HISTORY(TrialMode.NUMBER_OF_TIMES, PROFESSIONAL),
+  BUDGET(TrialMode.DURATION, PROFESSIONAL);
+
+  private enum TrialMode {NONE, NUMBER_OF_TIMES, DURATION}
+
+  ;
 
   ContribFeature() {
-    this(true);
+    this(TrialMode.NUMBER_OF_TIMES);
   }
 
-  ContribFeature(boolean hasTrial) {
-    this(hasTrial, CONTRIB);
+  ContribFeature(TrialMode trialMode) {
+    this(trialMode, CONTRIB);
   }
 
-  ContribFeature(boolean hasTrial, LicenceStatus licenceStatus) {
-    this.hasTrial = hasTrial;
+  ContribFeature(TrialMode trialMode, LicenceStatus licenceStatus) {
+    this.trialMode = trialMode;
     this.licenceStatus = licenceStatus;
   }
 
@@ -147,13 +110,15 @@ public enum ContribFeature {
   public static final int FREE_PLANS = 3;
   public static final int FREE_ACCOUNTS = 5;
   public static final int FREE_SPLIT_TEMPLATES = 1;
+  protected int TRIAL_DURATION_DAYS = 10;
+  private long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000;
 
-  private boolean hasTrial;
+  private TrialMode trialMode;
   private LicenceStatus licenceStatus;
   /**
    * how many times contrib features can be used for free
    */
-  public static final int USAGES_LIMIT = BuildConfig.DEBUG ? Integer.MAX_VALUE  : 10;
+  public static final int USAGES_LIMIT = BuildConfig.DEBUG ? Integer.MAX_VALUE : 10;
 
   public String toString() {
     return name().toLowerCase(Locale.US);
@@ -169,13 +134,32 @@ public enum ContribFeature {
    */
   public int recordUsage() {
     if (!hasAccess()) {
-      int usages = getUsages() + 1;
-      MyApplication.getInstance().getSettings().edit()
-          .putInt(getPrefKey(), usages)
-          .apply();
-      return USAGES_LIMIT - usages;
+      if (trialMode == TrialMode.NUMBER_OF_TIMES) {
+        int usages = getUsages() + 1;
+        MyApplication.getInstance().getSettings().edit()
+            .putInt(getPrefKey(), usages)
+            .apply();
+        return USAGES_LIMIT - usages;
+      } else if (trialMode == TrialMode.DURATION) {
+        long now = System.currentTimeMillis();
+        if (getStartOfTrial(0L) == 0L) {
+          MyApplication.getInstance().getSettings().edit().putLong(getPrefKey(), now).apply();
+        }
+        if (getEndOfTrial(now) < now) {
+          return 0;
+        }
+      }
     }
     return USAGES_LIMIT;
+  }
+
+
+  private long getStartOfTrial(long defaultValue) {
+    return MyApplication.getInstance().getSettings().getLong(getPrefKey(), defaultValue);
+  }
+
+  private long getEndOfTrial(long now) {
+    return getStartOfTrial(now) + TRIAL_DURATION_MILLIS;
   }
 
   private String getPrefKey() {
@@ -183,7 +167,15 @@ public enum ContribFeature {
   }
 
   public int usagesLeft() {
-    return hasTrial ? USAGES_LIMIT - getUsages() : 0;
+    switch (trialMode) {
+      case NUMBER_OF_TIMES:
+        return USAGES_LIMIT - getUsages();
+      case DURATION:
+        long now = System.currentTimeMillis();
+        return getEndOfTrial(now) < now ? 0 : 1;
+      default:
+        return 0;
+    }
   }
 
   /**
@@ -240,9 +232,22 @@ public enum ContribFeature {
 
   @SuppressLint("DefaultLocale")
   public CharSequence buildUsagesLefString(Context ctx) {
-    int usagesLeft = usagesLeft();
-    return ctx.getText(R.string.dialog_contrib_usage_count) + " : " +
-        String.format("%d/%d", usagesLeft, USAGES_LIMIT);
+    if (trialMode == TrialMode.NUMBER_OF_TIMES) {
+      int usagesLeft = usagesLeft();
+      return ctx.getText(R.string.dialog_contrib_usage_count) + " : " +
+          String.format("%d/%d", usagesLeft, USAGES_LIMIT);
+    } else if (trialMode == TrialMode.DURATION) {
+      long now = System.currentTimeMillis();
+      long endOfTrial = getEndOfTrial(now);
+      final String label = ctx.getString(getLabelResIdOrThrow(ctx));
+      if (endOfTrial < now) {
+        return ctx.getString(R.string.warning_trial_limit_reached, label);
+      } else {
+        return ctx.getString(R.string.warning_limited_trial, label,
+            Utils.getDateFormatSafe(ctx).format(new Date(endOfTrial)));
+      }
+    }
+    throw new IllegalStateException();
   }
 
   public String buildUsageLimitString(Context context) {
@@ -271,7 +276,7 @@ public enum ContribFeature {
   }
 
   public boolean hasTrial() {
-    return hasTrial;
+    return trialMode != TrialMode.NONE;
   }
 
   public LicenceStatus getLicenceStatus() {
