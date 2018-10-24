@@ -1,12 +1,11 @@
 package org.totschnig.myexpenses.util.licence;
 
-import android.content.Context;
-
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.totschnig.myexpenses.MyApplication;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +26,7 @@ public class LicenceHandlerTest {
 
   @Before
   public void setUp() throws Exception {
-    licenceHandler = new LicenceHandler(mock(Context.class), mock(PreferenceObfuscator.class));
+    licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class));
   }
 
   @Test
