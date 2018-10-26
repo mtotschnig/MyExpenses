@@ -158,6 +158,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected void loadData() {
+    disposeCategory();
     categoryDisposable = createQuery().subscribe(query -> {
           final Cursor cursor = query.run();
           if (getActivity() != null) {
