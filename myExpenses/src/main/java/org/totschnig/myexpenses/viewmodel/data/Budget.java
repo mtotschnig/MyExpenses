@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.viewmodel.data;
 import android.content.ContentValues;
 
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.BudgetType;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 
 import java.util.ArrayList;
@@ -11,23 +11,24 @@ import java.util.Currency;
 import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 
 public class Budget {
   final long id;
-  final BudgetType type;
+  final Grouping grouping;
   final Money amount;
   final long accountId;
   final Currency currency;
   final boolean isHomeAggregate;
+  public final static Grouping[] BUDGET_TYPES =  {Grouping.YEAR, Grouping.MONTH, Grouping.WEEK, Grouping.DAY};
 
-  public Budget(long id, long accountId, Currency currency, BudgetType type, Money amount, boolean isHomeAggregate) {
+  public Budget(long id, long accountId, Currency currency, Grouping grouping, Money amount, boolean isHomeAggregate) {
     this.id = id;
     this.accountId = accountId;
     this.currency = currency;
-    this.type = type;
+    this.grouping = grouping;
     this.amount = amount;
     this.isHomeAggregate = isHomeAggregate;
   }
@@ -51,8 +52,8 @@ public class Budget {
   }
 
 
-  public BudgetType getType() {
-    return type;
+  public Grouping getGrouping() {
+    return grouping;
   }
 
   public Money getAmount() {
@@ -63,14 +64,10 @@ public class Budget {
     return currency;
   }
 
-  public String buildGroupingClause() {
-    return "1";
-  }
-
   public ContentValues toContentValues() {
     final ContentValues contentValues = new ContentValues();
-    contentValues.put(KEY_TYPE, type.name());
-    contentValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    contentValues.put(KEY_GROUPING, grouping.name());
+    contentValues.put(KEY_BUDGET, amount.getAmountMinor());
     if (accountId != 0) {
       contentValues.put(KEY_ACCOUNTID, accountId);
     } else {

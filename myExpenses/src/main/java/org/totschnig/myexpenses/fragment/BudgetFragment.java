@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -89,7 +90,7 @@ public class BudgetFragment extends DistributionBaseFragment {
         KEY_LABEL,
         KEY_COLOR,
         "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM,
-        KEY_AMOUNT //Budget
+        KEY_BUDGET
     };
     sortOrder = "abs(" + KEY_SUM + ") DESC";
     selectionArgs = accountSelector != null ? new String[]{accountSelector} : null;
@@ -127,8 +128,8 @@ public class BudgetFragment extends DistributionBaseFragment {
       mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, budget.getCurrency());
       mListView.setAdapter(mAdapter);
     }
-    if (this.budget == null || this.budget.getType() != budget.getType()) {
-      mGrouping = budget.getType().toGrouping();
+    if (this.budget == null || this.budget.getGrouping() != budget.getGrouping()) {
+      mGrouping = budget.getGrouping();
       mGroupingYear = 0;
       mGroupingSecond = 0;
       updateDateInfo(false);

@@ -193,7 +193,6 @@ public class AccountTest extends ModelTest {
 
   public void testGetAggregateAccountFromDb() {
     insertData();
-    Account.clear();
     String currency = Utils.getHomeCurrency().getCurrencyCode();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
@@ -241,7 +240,6 @@ public class AccountTest extends ModelTest {
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6, count(account1.getId(), null));
     account1.reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
-    Account.clear();
     assertEquals(0, count(account1.getId(), null));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assert resetAccount != null;
@@ -255,7 +253,6 @@ public class AccountTest extends ModelTest {
     WhereFilter filter = WhereFilter.empty();
     filter.put(0, new CategoryCriteria(TEST_CAT, catId));
     account1.reset(filter, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
-    Account.clear();
     assertEquals(5, count(account1.getId(), null));//1 Transaction deleted
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assert resetAccount != null;
@@ -272,7 +269,6 @@ public class AccountTest extends ModelTest {
     WhereFilter filter = WhereFilter.empty();
     filter.put(0, new CategoryCriteria(TEST_CAT, catId));
     account1.reset(filter, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER, null);
-    Account.clear();
     assertEquals(6, count(account1.getId(), null));//-1 Transaction deleted;+1 helper
     assertEquals(0, count(account1.getId(), KEY_CATID + "=" + catId));
     assertEquals(1, count(account1.getId(), KEY_STATUS + "=" + STATUS_HELPER));

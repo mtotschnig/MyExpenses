@@ -17,20 +17,19 @@ package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -81,7 +80,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -105,6 +103,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
 
 import java.util.Locale;
 
@@ -162,7 +161,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 
-//TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -183,8 +181,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   public static final String CATEGORY_SEPARATOR = " : ",
       COMMENT_SEPARATOR = " / ";
   private MyGroupedAdapter mAdapter;
-  private AccountObserver aObserver;
-  private Account mAccount;
   private boolean hasItems;
   private boolean mappedCategories;
   private boolean mappedPayees;
@@ -229,11 +225,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       columnIndexLabelMain;
   private boolean indexesCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
-  private Grouping mGrouping;
-  private SortDirection mSortDirection;
-  private AccountType mType;
-  private String mCurrency;
-  private Long mOpeningBalance;
+  private Account mAccount;
+  private TransactionListViewModel viewModel;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -243,7 +236,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public static Fragment newInstance(long accountId) {
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
-    bundle.putSerializable(KEY_ACCOUNTID, accountId);
+    bundle.putLong(KEY_ACCOUNTID, accountId);
     pageFragment.setArguments(bundle);
     return pageFragment;
   }
@@ -252,24 +245,35 @@ public class TransactionList extends ContextualActionBarFragment implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
-    if (mAccount == null) {
-      return;
-    }
-    mGrouping = mAccount.getGrouping();
-    mSortDirection = mAccount.getSortDirection();
-    mType = mAccount.getType();
-    mCurrency = mAccount.currency.getCurrencyCode();
-    mOpeningBalance = mAccount.openingBalance.getAmountMinor();
+    viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
+    viewModel.getAccount().observe(this, account -> {
+      mAccount = account;
+      if (mAdapter == null) {
+        setAdapter();
+      }
+      setGrouping();
+      Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
+      Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
+    });
+    viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
   }
 
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+  }
+
   private void setAdapter() {
-    Context ctx = getActivity();
-    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
-    mListView.setAdapter(mAdapter);
+    if (mAccount != null) {
+      Context ctx = getActivity();
+      if (mAdapter == null) {
+        mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
+      }
+      mListView.setAdapter(mAdapter);
+    }
   }
 
   private void setGrouping() {
@@ -289,25 +293,11 @@ public class TransactionList extends ContextualActionBarFragment implements
   public void onDestroy() {
     super.onDestroy();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    if (aObserver != null) {
-      try {
-        ContentResolver cr = getActivity().getContentResolver();
-        cr.unregisterContentObserver(aObserver);
-      } catch (IllegalStateException ise) {
-        // Do Nothing.  Observer has already been unregistered.
-      }
-    }
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
-    if (mAccount == null) {
-      TextView tv = new TextView(ctx);
-      //noinspection SetTextI18n
-      tv.setText("Error loading transaction list for account " + getArguments().getLong(KEY_ACCOUNTID));
-      return tv;
-    }
     mManager = getLoaderManager();
     //setGrouping();
     if (savedInstanceState != null) {
@@ -323,11 +313,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (scheduledRestart) {
       refresh(false);
       scheduledRestart = false;
-    } else {
-      mManager.initLoader(GROUPING_CURSOR, null, this);
-      mManager.initLoader(TRANSACTION_CURSOR, null, this);
     }
-    mManager.initLoader(SUM_CURSOR, null, this);
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
     mListView.setOnItemClickListener((a, v1, position, id) -> {
@@ -338,16 +324,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
       }
     });
-    aObserver = new AccountObserver(new Handler());
-    ContentResolver cr = getActivity().getContentResolver();
-    //when account has changed, we might have
-    //1) to refresh the list (currency has changed),
-    //2) update current balance(opening balance has changed),
-    //3) update the bottombarcolor (color has changed)
-    //4) refetch grouping cursor (grouping has changed)
-    cr.registerContentObserver(
-        TransactionProvider.ACCOUNTS_URI,
-        true, aObserver);
 
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
@@ -357,7 +333,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
     mManager.restartLoader(GROUPING_CURSOR, null, this);
     if (invalidateMenu) {
-      getActivity().supportInvalidateOptionsMenu();
+      getActivity().invalidateOptionsMenu();
     }
   }
 
@@ -605,7 +581,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
         mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
         hasTransfers = c.getInt(c.getColumnIndex(KEY_HAS_TRANSFERS)) > 0;
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
         int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
@@ -639,7 +615,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private int findCurrentPosition(Cursor c) {
     int dateColumn = c.getColumnIndex(KEY_DATE);
-    switch (mSortDirection) {
+    switch (mAccount.getSortDirection()) {
       case ASC:
         long startOfToday = ZonedDateTime.of(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS), ZoneId.systemDefault()).toEpochSecond();
         if (c.moveToLast()) {
@@ -671,7 +647,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
+  public void onLoaderReset(@NonNull Loader<Cursor> arg0) {
     switch (arg0.getId()) {
       case TRANSACTION_CURSOR:
         mTransactionsCursor = null;
@@ -705,42 +681,6 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   public boolean hasMappedCategories() {
     return mappedCategories;
-  }
-
-  class AccountObserver extends ContentObserver {
-    public AccountObserver(Handler handler) {
-      super(handler);
-    }
-
-    public void onChange(boolean selfChange) {
-      if (getActivity() == null || getActivity().isFinishing()) {
-        return;
-      }
-      //if grouping has changed
-      if (mAccount.getGrouping() != mGrouping) {
-        mGrouping = mAccount.getGrouping();
-        if (mAdapter != null) {
-          setGrouping();
-        }
-        return;
-      }
-      if (mAccount.getSortDirection() != mSortDirection) {
-        mSortDirection = mAccount.getSortDirection();
-        if (mAdapter != null) {
-          Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
-        }
-        return;
-      }
-      if (mAccount.getType() != mType || !mAccount.currency.getCurrencyCode().equals(mCurrency)) {
-        mListView.setAdapter(mAdapter);
-        mType = mAccount.getType();
-        mCurrency = mAccount.currency.getCurrencyCode();
-      }
-      if (!mAccount.openingBalance.getAmountMinor().equals(mOpeningBalance)) {
-        restartGroupingLoader();
-        mOpeningBalance = mAccount.openingBalance.getAmountMinor();
-      }
-    }
   }
 
   private class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
@@ -970,7 +910,8 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   private String prefNameForCriteria(String criteriaColumn) {
-    return String.format(Locale.ROOT, "%s_%s_%d", KEY_FILTER, criteriaColumn, mAccount.getId());
+    return String.format(Locale.ROOT, "%s_%s_%d", KEY_FILTER, criteriaColumn,
+        getArguments().getLong(KEY_ACCOUNTID));
   }
 
 

@@ -27,7 +27,6 @@ import android.net.Uri;
 import com.android.calendar.CalendarContractCompat;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -73,7 +72,6 @@ public class DbUtils {
     try {
       DailyAutoBackupScheduler.cancelAutoBackup(app);
       PlanExecutor.cancelPlans(app);
-      Account.clear();
       PaymentMethod.clear();
 
       if (backupFile.exists()) {

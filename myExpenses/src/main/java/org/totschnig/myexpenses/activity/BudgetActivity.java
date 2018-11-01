@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.BudgetType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -73,10 +72,10 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       if (result.isEmpty()) {
         showNewBudgetDialog(null);
       } else {
-        BudgetType currentType = getCurrentTypeFromPreference();
+        Grouping currentType = getCurrentTypeFromPreference();
         budgetList = result;
         setBudget(Stream.of(budgetList).filter(
-            budget -> budget.getType().equals(currentType)).findFirst().orElse(budgetList.get(0)));
+            budget -> budget.getGrouping().equals(currentType)).findFirst().orElse(budgetList.get(0)));
         invalidateOptionsMenu();
       }
     });
@@ -85,7 +84,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
           final boolean isHomeAggregate = isHomeAggregate();
           Currency currency = getCurrency();
           return new Budget(cursor.getLong(0), accountId, currency,
-              BudgetType.valueOf(cursor.getString(1)),
+              Grouping.valueOf(cursor.getString(1)),
               new Money(currency, cursor.getLong(2)), isHomeAggregate);
         });
   }
@@ -95,14 +94,18 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     mListFragment.setBudget(budget);
   }
 
-  private void showNewBudgetDialog(BudgetType newType) {
-    final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
-        .items(Stream.of(BudgetType.values())
-            .map(type -> type.getLabel(this)).toArray(String[]::new))
-        .required().preset(0);
+  private void showNewBudgetDialog(Grouping newType) {
     final AmountEdit amountEdit = buildAmountField(null, null, null, false, false);
-    final FormElement[] fields = newType == null ? new FormElement[]{typeSpinner, amountEdit} :
-        new FormElement[]{amountEdit};
+    final FormElement[] fields;
+    if (newType == null) {
+      final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
+        .items(Stream.of(Budget.BUDGET_TYPES)
+            .map(grouping -> grouping.getBudgetLabel(this)).toArray(String[]::new))
+        .required().preset(0);
+      fields = new FormElement[]{typeSpinner, amountEdit};
+    } else {
+      fields = new FormElement[]{amountEdit};
+    }
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
         .title(R.string.dialog_title_new_budget)
         .neg()
@@ -179,7 +182,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), getCurrentTypeFromPreference().toGrouping());
+    Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), getCurrentTypeFromPreference());
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -192,7 +195,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
       if (!item.isChecked()) {
-        switchBudget(BudgetType.fromGrouping(newGrouping));
+        switchBudget(newGrouping);
         invalidateOptionsMenu();
       }
       return true;
@@ -200,29 +203,29 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     return false;
   }
 
-  private void persistTypeToPreference(BudgetType newType) {
+  private void persistTypeToPreference(Grouping newType) {
     prefHandler.putString(getPrefKey(), newType.name());
   }
 
-  private void switchBudget(BudgetType newType) {
-    Optional<Budget> newBudget = Stream.of(budgetList).filter(budget -> budget.getType() == newType).findSingle();
+  private void switchBudget(Grouping newGrouping) {
+    Optional<Budget> newBudget = Stream.of(budgetList).filter(budget -> budget.getGrouping() == newGrouping).findSingle();
     if (newBudget.isPresent()) {
-      persistTypeToPreference(newType);
+      persistTypeToPreference(newGrouping);
       setBudget(newBudget.get());
     } else {
-      showNewBudgetDialog(newType);
+      showNewBudgetDialog(newGrouping);
     }
   }
 
-  private @NonNull BudgetType getCurrentTypeFromPreference() {
+  private @NonNull Grouping getCurrentTypeFromPreference() {
     final String typeFromPreference = prefHandler.getString(getPrefKey(), null);
     if (typeFromPreference != null) {
       try {
-        return BudgetType.valueOf(typeFromPreference);
+        return Grouping.valueOf(typeFromPreference);
       } catch (IllegalArgumentException ignored) {
       }
     }
-    return BudgetType.MONTHLY;
+    return Grouping.MONTH;
   }
 
   @NonNull
@@ -251,9 +254,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       final Money amount = new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
       if (dialogTag.equals(NEW_BUDGET_DIALOG)) {
         final boolean isHomeAggregate = isHomeAggregate();
-        BudgetType budgetType = extras.containsKey(KEY_BUDGET_TYPE) ?
-            (BudgetType) extras.getSerializable(KEY_BUDGET_TYPE) :
-            BudgetType.values()[extras.getInt(KEY_TYPE)];
+        Grouping budgetType = extras.containsKey(KEY_BUDGET_TYPE) ?
+            (Grouping) extras.getSerializable(KEY_BUDGET_TYPE) :
+            Budget.BUDGET_TYPES[extras.getInt(KEY_TYPE)];
         Budget budget = new Budget(0, accountId, currency, budgetType,
             amount, isHomeAggregate);
         persistTypeToPreference(budgetType);

@@ -43,7 +43,6 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -948,7 +947,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   public void updateHomeCurrency(String currencyCode) {
     ((ListPreference) findPreference(HOME_CURRENCY)).setValue(currencyCode);
-    Account.invalidateHomeAccount();
     activity().startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
         null, null, R.string.progress_dialog_saving);
   }

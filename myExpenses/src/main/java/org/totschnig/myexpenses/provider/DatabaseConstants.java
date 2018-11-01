@@ -197,6 +197,11 @@ public class DatabaseConstants {
   public static final String KEY_SECOND_GROUP = "second";
 
   /**
+   * Budget set for the grouping type that is active on an account
+   */
+  public static final String KEY_BUDGET = "budget";
+
+  /**
    * No special status
    */
   public static final int STATUS_NONE = 0;
@@ -457,7 +462,7 @@ public class DatabaseConstants {
 
   public static String getAmountHomeEquivalent(String forTable) {
     return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+        getExchangeRate(forTable) + " * " + KEY_AMOUNT + ")";
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
@@ -469,9 +474,10 @@ public class DatabaseConstants {
         + KEY_EQUIVALENT_AMOUNT + " END";
   }
 
-  public static String getExchangeRate(String accountReference) {
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
-        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
+  public static String getExchangeRate(String forTable) {
+    forTable = forTable == null ? "" : forTable + ".";
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + forTable + KEY_ROWID +
+        " AND " + KEY_CURRENCY_SELF + "=" + forTable + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
   }
 
   private static String getAmountCalculation(boolean forHome) {

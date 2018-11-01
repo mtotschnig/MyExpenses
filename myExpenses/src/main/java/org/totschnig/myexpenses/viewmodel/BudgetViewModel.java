@@ -25,10 +25,10 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 public class BudgetViewModel extends AndroidViewModel {
   static final int TOKEN = 0;
@@ -50,7 +50,7 @@ public class BudgetViewModel extends AndroidViewModel {
   public void loadBudgets(final long accountId, @NonNull final String currencyStr, Function<Cursor, Budget> budgetCreatorFunction) {
     String selection = (accountId != 0 ? KEY_ACCOUNTID : KEY_CURRENCY) + " = ?";
     String[] selectionArgs = new String[] {accountId != 0 ? String.valueOf(accountId) : currencyStr};
-    final String[] projection = {KEY_ROWID, KEY_TYPE, KEY_AMOUNT};
+    final String[] projection = {KEY_ROWID, KEY_GROUPING, KEY_BUDGET};
     budgetDisposable = briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
         projection, selection, selectionArgs, null, true)
         .mapToList(budgetCreatorFunction)
@@ -69,7 +69,7 @@ public class BudgetViewModel extends AndroidViewModel {
 
   public void updateBudget(long budgetId, long categoryId, Money amount) {
     ContentValues contentValues = new ContentValues(1);
-    contentValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    contentValues.put(KEY_BUDGET, amount.getAmountMinor());
     final Uri budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId);
     asyncInsertHandler.startUpdate(TOKEN, null,
         categoryId == 0 ? budgetUri : ContentUris.withAppendedId(budgetUri, categoryId),

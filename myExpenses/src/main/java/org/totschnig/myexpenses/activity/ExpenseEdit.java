@@ -2091,7 +2091,7 @@ public class ExpenseEdit extends AmountActivity implements
         String currencyExtra = didUserSetAccount ? null : getIntent().getStringExtra(KEY_CURRENCY);
         while (!data.isAfterLast()) {
           int position = data.getPosition();
-          Account a = Account.fromCacheOrFromCursor(data);
+          Account a = Account.fromCursor(data);
           mAccounts[position] = a;
           if (!selectionSet &&
               (a.currency.getCurrencyCode().equals(currencyExtra) ||

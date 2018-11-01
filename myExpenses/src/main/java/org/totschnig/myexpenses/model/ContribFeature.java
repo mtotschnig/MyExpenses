@@ -37,7 +37,6 @@ import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.PROFESSIONAL;
 
 //TODO separate enum definition from handler
-//TODO use separate preferences object injected via DI
 public enum ContribFeature {
   ACCOUNTS_UNLIMITED(TrialMode.NONE) {
     @Override

@@ -33,7 +33,6 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.BudgetType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -58,6 +57,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -365,8 +365,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String CURRENCY_CREATE =
       "CREATE TABLE " + TABLE_CURRENCIES
-          + " (" + KEY_ROWID + " integer primary key autoincrement, " + KEY_CODE
-          + " text UNIQUE not null);";
+          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
+          KEY_CODE + " text UNIQUE not null," +
+          KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "');";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -425,8 +426,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
           + KEY_ROWID + " integer primary key autoincrement, "
-          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + BudgetType.JOIN + ")), "
-          + KEY_AMOUNT + " integer not null, "
+          + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
+          + KEY_BUDGET + " integer not null, "
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CURRENCY + " text)";
 
@@ -434,7 +435,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
           + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-          + KEY_AMOUNT + " integer not null, "
+          + KEY_BUDGET + " integer not null, "
           + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
 
 

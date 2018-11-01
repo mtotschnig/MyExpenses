@@ -48,18 +48,15 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Currency;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
@@ -132,6 +129,8 @@ public class Account extends Model {
 
   private Money criterion;
 
+  private Money budget;
+
   /**
    * exchange rate comparing major units
    */
@@ -159,13 +158,13 @@ public class Account extends Model {
 
   static {
     PROJECTION_BASE = new String[]{
-        KEY_ROWID,
+        TABLE_ACCOUNTS + "." + KEY_ROWID,
         KEY_LABEL,
         KEY_DESCRIPTION,
         KEY_OPENING_BALANCE,
-        KEY_CURRENCY,
+        TABLE_ACCOUNTS + "." + KEY_CURRENCY,
         KEY_COLOR,
-        KEY_GROUPING,
+        TABLE_ACCOUNTS + "." + KEY_GROUPING,
         KEY_TYPE,
         KEY_SORT_KEY,
         KEY_EXCLUDE_FROM_TOTALS,
@@ -173,15 +172,16 @@ public class Account extends Model {
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
         KEY_SORT_DIRECTION,
-        DatabaseConstants.getExchangeRate(KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
+        DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS) + " AS " + KEY_EXCHANGE_RATE,
         KEY_CRITERION
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
-    PROJECTION_EXTENDED[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
+    PROJECTION_EXTENDED[baseLength] = KEY_BUDGET;
     PROJECTION_FULL = new String[baseLength + 13];
-    System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength + 1);
+    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_FULL, 0, baseLength);
+    PROJECTION_FULL[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
     PROJECTION_FULL[baseLength + 1] = "(" + SELECT_AMOUNT_SUM +
         " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME;
     PROJECTION_FULL[baseLength + 2] = "(" + SELECT_AMOUNT_SUM +
@@ -205,7 +205,6 @@ public class Account extends Model {
     PROJECTION_FULL[baseLength + 10] = HAS_CLEARED;
     PROJECTION_FULL[baseLength + 11] = AccountType.sqlOrderExpression();
     PROJECTION_FULL[baseLength + 12] = KEY_LAST_USED;
-
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
@@ -216,19 +215,8 @@ public class Account extends Model {
 
   public static final int DEFAULT_COLOR = 0xff009688;
 
-  protected static final Map<Long, Account> accounts =  Collections.synchronizedMap(new HashMap<>());
-
-  private static boolean isInstanceCached(long id) {
-    return accounts.containsKey(id);
-  }
-
-  public static void invalidateHomeAccount() {
-    accounts.remove((long) HOME_AGGREGATE_ID);
-  }
-
   /**
-   * @param id id of account to be retrieved, if id == 0, the first entry in the accounts cache will be returned or
-   *           if it is empty the account with the lowest id will be fetched from db,
+   * @param id id of account to be retrieved, if id == 0, the account with the lowest id will be fetched from db,
    *           if id < 0 we forward to AggregateAccount
    * @return Account object or null if no account with id exists in db
    * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
@@ -238,33 +226,19 @@ public class Account extends Model {
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
     Account account;
-    String selection = KEY_ROWID + " = ";
+    String selection = TABLE_ACCOUNTS + "." + KEY_ROWID + " = ";
     if (id == 0) {
-      synchronized (accounts) {
-        Set<Long> ids = accounts.keySet();
-        for (Long _id : ids) {
-          if (_id > 0) {
-            return accounts.get(_id);
-          }
-        }
-      }
       selection += "(SELECT min(" + KEY_ROWID + ") FROM accounts)";
     } else {
-      account = accounts.get(id);
-      if (account != null) {
-        return account;
-      }
       selection += id;
     }
     Cursor c = cr().query(
         CONTENT_URI, null, selection, null, null);
     if (c == null) {
-      //reportNull(id);
       return null;
     }
     if (c.getCount() == 0) {
       c.close();
-      //reportNull(id);
       return null;
     }
     c.moveToFirst();
@@ -303,13 +277,6 @@ public class Account extends Model {
     return account;
   }
 
-  /**
-   * empty the cache
-   */
-  public static void clear() {
-    accounts.clear();
-  }
-
   public static void checkSyncAccounts(Context context) {
     String[] validAccounts = GenericAccountService.getAccountsAsStream(context)
         .map(account -> account.name)
@@ -322,11 +289,6 @@ public class Account extends Model {
     context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
         where, validAccounts);
     List<String> validAccountNames = Arrays.asList(validAccounts);
-    for (Account account: accounts.values()) {
-      if (account.syncAccountName != null && validAccountNames.indexOf(account.syncAccountName) == -1) {
-        account.syncAccountName = null;
-      }
-    }
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {
@@ -348,7 +310,6 @@ public class Account extends Model {
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
         .build());
     cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-    accounts.remove(id);
     updateNewAccountEnabled();
     updateTransferShortcut();
   }
@@ -391,7 +352,6 @@ public class Account extends Model {
    */
   public Account(Cursor c) {
     extract(c);
-    accounts.put(getId(), this);
   }
 
   /**
@@ -427,13 +387,20 @@ public class Account extends Model {
     } catch (IllegalArgumentException e) {
       this.sortDirection = SortDirection.DESC;
     }
-    int columnIndex = c.getColumnIndex(KEY_EXCHANGE_RATE);
-    if (columnIndex != -1) {
-      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndex));
+    int columnIndexExchangeRate = c.getColumnIndex(KEY_EXCHANGE_RATE);
+    if (columnIndexExchangeRate != -1) {
+      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndexExchangeRate));
     }
     long criterion = DbUtils.getLongOr0L(c, KEY_CRITERION);
     if (criterion != 0) {
       this.criterion = new Money(this.currency, criterion);
+    }
+    final int columnIndexBudget = c.getColumnIndex(KEY_BUDGET);
+    if (columnIndexBudget != -1) {
+      long budget = DbUtils.getLongOr0L(c, columnIndexBudget);
+      if (budget != 0) {
+        this.budget = new Money(this.currency, budget);
+      }
     }
   }
 
@@ -665,9 +632,6 @@ public class Account extends Model {
     if (hasForeignCurrency()) {
       storeExchangeRate();
     }
-    if (!accounts.containsKey(getId())) {
-      accounts.put(getId(), this);
-    }
     Money.ensureFractionDigitsAreCached(currency);
     updateNewAccountEnabled();
     updateTransferShortcut();
@@ -768,7 +732,7 @@ public class Account extends Model {
 
   public void persistGrouping(Grouping value) {
     setGrouping(value);
-    cr().update(ContentUris.withAppendedId(CONTENT_URI, getId()).buildUpon().appendPath("grouping")
+    cr().update(ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, getId()).buildUpon()
             .appendPath(value.name()).build(),
         null, null, null);
   }
@@ -852,18 +816,13 @@ public class Account extends Model {
    * @param cursor
    * @return
    */
-  public static Account fromCacheOrFromCursor(Cursor cursor) {
+  public static Account fromCursor(Cursor cursor) {
     long accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID));
-    if (!Account.isInstanceCached(accountId)) {
-      //calling the constructors, puts the objects into the cache from where the fragment can
-      //retrieve it, without needing to create a new cursor
-      if (accountId < 0) {
-        return new AggregateAccount(cursor);
-      } else {
-        return new Account(cursor);
-      }
+    if (accountId < 0) {
+      return new AggregateAccount(cursor);
+    } else {
+      return new Account(cursor);
     }
-    return accounts.get(accountId);
   }
 
   public void requestSync() {
@@ -961,5 +920,9 @@ public class Account extends Model {
 
   public Money getCriterion() {
     return criterion;
+  }
+
+  public Money getBudget() {
+    return budget;
   }
 }

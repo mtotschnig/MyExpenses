@@ -9,12 +9,10 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import timber.log.Timber;
-
 public class AggregateAccount extends Account {
   public static final int AGGREGATE_HOME = 2;
   public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
-  private final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
+  public final static String GROUPING_AGGREGATE = "AGGREGATE_GROUPING____";
   private final static String SORT_DIRECTION_PREF_PREFIX = "AGGREGATE_SORT_DIRECTION_";
 
   /**
@@ -22,26 +20,24 @@ public class AggregateAccount extends Account {
    */
   AggregateAccount(Cursor c) {
     extract(c);
-    try {
-      this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
-          GROUPING_PREF_PREFIX + getKeyForPreference(), "NONE")));
-    } catch (IllegalArgumentException ignored) {}
+    if (isHomeAggregate()) {
+      try {
+        this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
+            GROUPING_AGGREGATE, "NONE")));
+      } catch (IllegalArgumentException ignored) {
+      }
+    }
     try {
       this.setSortDirection(SortDirection.valueOf(MyApplication.getInstance().getSettings().getString(
           SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), "DESC")));
-    } catch (IllegalArgumentException ignored) {}
-    accounts.put(getId(), this);
+    } catch (IllegalArgumentException ignored) {
+    }
   }
 
   public static AggregateAccount getInstanceFromDb(long id) {
     if (BuildConfig.DEBUG && !(id < 0)) {
       throw new AssertionError();
     }
-    AggregateAccount aa = (AggregateAccount) accounts.get(id);
-    if (aa != null) {
-      return aa;
-    }
-    Timber.w("did not find Aggregate Account in cache, will construct it from DB");
     Cursor c = cr().query(
         TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null, null, null);
@@ -53,18 +49,22 @@ public class AggregateAccount extends Account {
       return null;
     }
     c.moveToFirst();
-    aa = new AggregateAccount(c);
+    AggregateAccount aa = new AggregateAccount(c);
     c.close();
     return aa;
   }
 
   @Override
   public void persistGrouping(Grouping value) {
-    this.setGrouping(value);
-    MyApplication.getInstance().getSettings().edit()
-        .putString(GROUPING_PREF_PREFIX + getKeyForPreference(), value.name())
-        .apply();
-    cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
+    if (isHomeAggregate()) {
+      this.setGrouping(value);
+      MyApplication.getInstance().getSettings().edit()
+          .putString(GROUPING_AGGREGATE, value.name())
+          .apply();
+      cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
+    } else {
+      super.persistGrouping(value);
+    }
   }
 
   @Override
@@ -98,7 +98,7 @@ public class AggregateAccount extends Account {
     if (isHomeAggregate()) {
       return AGGREGATE_HOME_CURRENCY_CODE;
     } else {
-      return  currency.getCurrencyCode();
+      return currency.getCurrencyCode();
     }
   }
 }

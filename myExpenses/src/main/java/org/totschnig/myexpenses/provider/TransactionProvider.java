@@ -67,6 +67,8 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
+import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
@@ -134,6 +136,9 @@ public class TransactionProvider extends ContentProvider {
 
   public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
       Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
+
+  public static final Uri ACCOUNT_GROUPINGS_URI =
+      Uri.parse("content://" + AUTHORITY + "/account_groupings");
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
@@ -438,9 +443,12 @@ public class TransactionProvider extends ContentProvider {
               null, null, null);
           //Currency query
           String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+          String currencyJoin = String.format(Locale.ROOT, " LEFT JOIN %1$s ON (%2$s = t.%3$s)",
+              TABLE_CURRENCIES, KEY_CODE, KEY_CURRENCY);
           String inTables = "(SELECT " +
               KEY_ROWID + "," +
               KEY_CURRENCY + "," +
+              KEY_GROUPING + "," +
               KEY_OPENING_BALANCE + "," +
               KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT +
@@ -454,19 +462,20 @@ public class TransactionProvider extends ContentProvider {
               HAS_FUTURE + ", " +
               "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + KEY_ROWID +
               " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1) AS " + KEY_EXCHANGE_RATE +
-              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t";
+              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t" +
+              currencyJoin;
           qb.setTables(inTables);
-          groupBy = "currency";
+          groupBy = KEY_CURRENCY;
           having = "count(*) > 1";
           projection = new String[]{
               "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
-                  + " WHERE code = currency)  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+                  + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY +")  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
               KEY_CURRENCY + " AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
               "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
               KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
-              "'NONE' AS " + KEY_GROUPING,
+              "t." + KEY_GROUPING,
               "'AGGREGATE' AS " + KEY_TYPE,
               "0 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
@@ -493,14 +502,16 @@ public class TransactionProvider extends ContentProvider {
           //home query
           String[] subQueries;
           if (homeCurrency != null) {
+            String grouping = MyApplication.getInstance().getSettings().getString(
+                GROUPING_AGGREGATE, "NONE");
             projection = new String[]{
                 Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
                 "'' AS " + KEY_LABEL,
                 "'' AS " + KEY_DESCRIPTION,
                 "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
-                "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+                "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
                 "-1 AS " + KEY_COLOR,
-                "'NONE' AS " + KEY_GROUPING,
+                "'" + grouping + "' AS " + KEY_GROUPING,
                 "'AGGREGATE' AS " + KEY_TYPE,
                 "0 AS " + KEY_SORT_KEY,
                 "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
@@ -567,71 +578,54 @@ public class TransactionProvider extends ContentProvider {
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
+          String grouping = MyApplication.getInstance().getSettings().getString(
+              GROUPING_AGGREGATE, "NONE");
           qb.setTables(TABLE_ACCOUNTS);
           projection = new String[]{
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
-              "sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(KEY_ROWID)
+              "sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(null)
                   + ") AS " + KEY_OPENING_BALANCE,
-              "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+              "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
-              "'NONE' AS " + KEY_GROUPING,
+              "'" + grouping + "' AS " + KEY_GROUPING,
               "'DESC' AS " + KEY_SORT_DIRECTION,
               "'AGGREGATE' AS " + KEY_TYPE,
               "-1 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
-              "0 AS " + KEY_CRITERION};
+              "0 AS " + KEY_CRITERION,
+              "0 AS " + KEY_BUDGET};//TODO populate budget
         } else {
-          qb.setTables(TABLE_CURRENCIES);
+          qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %2$s.%4$s AND %1$s.%5$s = %2$s.%5$s)",
+              TABLE_CURRENCIES, TABLE_BUDGETS, KEY_CODE, KEY_CURRENCY, KEY_GROUPING));
           projection = new String[]{
-              "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+              "0 - " + TABLE_CURRENCIES + "." + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
               KEY_CODE + " AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
               "(select sum(" + KEY_OPENING_BALANCE
                   + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
               KEY_CODE + " AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
-              "'NONE' AS " + KEY_GROUPING,
+              TABLE_CURRENCIES + "." + KEY_GROUPING,
               "'DESC' AS " + KEY_SORT_DIRECTION,
               "'AGGREGATE' AS " + KEY_TYPE,
               "-1 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
-              "0 AS " + KEY_CRITERION};
+              "0 AS " + KEY_CRITERION,
+              KEY_BUDGET};
+          qb.appendWhere(TABLE_CURRENCIES + "." +KEY_ROWID + "= abs(" + currencyId + ")");
         }
-        qb.appendWhere(KEY_ROWID + "= abs(" + currencyId + ")");
         break;
       case ACCOUNT_ID:
-        qb.setTables(TABLE_ACCOUNTS);
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %1$s.%4$s AND %1$s.%5$s = %2$s.%5$s)",
+            TABLE_ACCOUNTS, TABLE_BUDGETS, KEY_ACCOUNTID, KEY_ROWID, KEY_GROUPING));
+        qb.appendWhere(TABLE_ACCOUNTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
-//    case AGGREGATES:
-//      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
-//      //thus we can ignore split parts that are transfers
-//      qb.setTables("(select currency,opening_balance,"+
-//          "(SELECT coalesce(sum(amount),0) FROM "
-//              + VIEW_COMMITTED
-//              + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
-//          "(SELECT coalesce(sum(amount),0) FROM "
-//              + VIEW_COMMITTED
-//              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
-//          "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
-//              + VIEW_COMMITTED
-//              + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-//                  + SPLIT_CATID + ")) as current_balance " +
-//          "from " + TABLE_ACCOUNTS + ") as t");
-//      groupBy = "currency";
-//      having = "count(*) > 1";
-//      projection = new String[] {"1 as _id","currency",
-//          "sum(opening_balance) as opening_balance",
-//          "sum(sum_income) as sum_income",
-//          "sum(sum_expenses) as sum_expenses",
-//          "sum(current_balance) as current_balance"};
-//      break;
       case AGGREGATES_COUNT:
         qb.setTables(TABLE_ACCOUNTS);
         groupBy = "currency";
@@ -1311,8 +1305,6 @@ public class TransactionProvider extends ContentProvider {
             }
             Money.storeCustomFractionDigits(segment, newValue);
             db.setTransactionSuccessful();
-            //force accounts to be refetched,since amountMinor of their opening balance has changed
-            Account.clear();
           } finally {
             db.endTransaction();
           }
@@ -1399,9 +1391,12 @@ public class TransactionProvider extends ContentProvider {
         break;
       case ACCOUNT_ID_GROUPING: {
         segment = uri.getPathSegments().get(1);
+        long id = Long.parseLong(segment);
+        boolean isAggregate = id < 0;
         ContentValues contentValues = new ContentValues(1);
-        contentValues.put(KEY_GROUPING, uri.getPathSegments().get(3));
-        count = db.update(TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
+        contentValues.put(KEY_GROUPING, uri.getPathSegments().get(2));
+        count = db.update(isAggregate ? TABLE_CURRENCIES : TABLE_ACCOUNTS, contentValues,
+            KEY_ROWID + " = ?", new String[]{String.valueOf(Math.abs(id))});
         break;
       }
       case ACCOUNT_ID_SORTDIRECTION: {
@@ -1467,6 +1462,9 @@ public class TransactionProvider extends ContentProvider {
       //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE) {
       notifyChange(uri, false);
+    }
+    if (uriMatch == ACCOUNT_ID_GROUPING) {
+      notifyChange(ACCOUNTS_URI, false);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       notifyChange(TEMPLATES_URI, false);
@@ -1580,7 +1578,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/grouping/*", ACCOUNT_ID_GROUPING);
+    URI_MATCHER.addURI(AUTHORITY, "account_groupings/*/*", ACCOUNT_ID_GROUPING);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#/sortDirection/*", ACCOUNT_ID_SORTDIRECTION);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);

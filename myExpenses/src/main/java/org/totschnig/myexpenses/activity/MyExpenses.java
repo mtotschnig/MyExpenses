@@ -708,11 +708,7 @@ public class MyExpenses extends LaunchActivity implements
 
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
-      long accountId = cursor.getLong(columnIndexRowId);
-      //calling the constructors, puts the objects into the cache from where the fragment can
-      //retrieve it, without needing to create a new cursor
-      Account.fromCacheOrFromCursor(cursor);
-      return TransactionList.newInstance(accountId);
+      return TransactionList.newInstance(cursor.getLong(columnIndexRowId));
     }
   }
 
@@ -886,8 +882,6 @@ public class MyExpenses extends LaunchActivity implements
           }
           mCurrentPosition = position;
           moveToPosition(mCurrentPosition);
-          //should be triggered through onPageSelected
-          //setCurrentAccount(mCurrentPosition);
         }
         break;
       }
