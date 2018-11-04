@@ -56,6 +56,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
@@ -160,6 +162,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
+import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 
 public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -247,8 +250,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     setHasOptionsMenu(true);
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
     viewModel.getAccount().observe(this, account -> {
+      boolean budgetChange = (mAccount == null || mAccount.getBudget() == null) != (account.getBudget() == null);
       mAccount = account;
-      if (mAdapter == null) {
+      if (mAdapter == null || budgetChange ) {
         setAdapter();
       }
       setGrouping();
@@ -691,18 +695,15 @@ public class TransactionList extends ContextualActionBarFragment implements
       inflater = LayoutInflater.from(getActivity());
     }
 
-    @SuppressWarnings("incomplete-switch")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       HeaderViewHolder holder;
       if (convertView == null) {
-        convertView = inflater.inflate(R.layout.header, parent, false);
-        holder = new HeaderViewHolder();
-        holder.text = convertView.findViewById(R.id.text);
-        holder.sumExpense = convertView.findViewById(R.id.sum_expense);
-        holder.sumIncome = convertView.findViewById(R.id.sum_income);
-        holder.sumTransfer = convertView.findViewById(R.id.sum_transfer);
-        holder.interimBalance = convertView.findViewById(R.id.interim_balance);
+        final int headerLayout = !mFilter.isEmpty() || mAccount.getBudget() == null
+            || !ContribFeature.BUDGET.isAvailable(prefHandler)
+            ? R.layout.header : R.layout.header_with_budget;
+        convertView = inflater.inflate(headerLayout, parent, false);
+        holder = new HeaderViewHolder(convertView);
         convertView.setTag(holder);
       } else {
         holder = (HeaderViewHolder) convertView.getTag();
@@ -720,7 +721,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.currency));
-        holder.sumExpense.setText("- " + currencyFormatter.convAmount(-data[1], mAccount.currency));
+        final Long expenssum = -data[1];
+        holder.sumExpense.setText("- " + currencyFormatter.convAmount(expenssum, mAccount.currency));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.currency));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
@@ -731,6 +733,14 @@ public class TransactionList extends ContextualActionBarFragment implements
                 currencyFormatter.convAmount(data[3], mAccount.currency), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.currency)) :
                 formattedDelta);
+        if (holder.budgetProgress != null) {
+          long budget = mAccount.getBudget().getAmountMinor();
+          int progress =  expenssum > budget || budget == 0 ? 100 : Math.round(expenssum * 100F / budget);
+          holder.budgetProgress.setProgress(progress);
+          holder.budgetProgress.setText(String.valueOf(progress));
+          holder.budgetProgress.setFinishedStrokeColor(mAccount.color);
+          holder.budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
+        }
       }
     }
 
@@ -767,11 +777,16 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   class HeaderViewHolder {
-    TextView interimBalance;
-    TextView text;
-    TextView sumIncome;
-    TextView sumExpense;
-    TextView sumTransfer;
+    @BindView(R.id.interim_balance) TextView interimBalance;
+    @BindView(R.id.text) TextView text;
+    @BindView(R.id.sum_income) TextView sumIncome;
+    @BindView(R.id.sum_expense) TextView sumExpense;
+    @BindView(R.id.sum_transfer) TextView sumTransfer;
+    @Nullable @BindView(R.id.budgetProgress) DonutProgress budgetProgress;
+
+    HeaderViewHolder(View convertView) {
+      ButterKnife.bind(this, convertView);
+    }
   }
 
   @Override
@@ -887,9 +902,13 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   public void addFilterCriteria(Integer id, Criteria c) {
     mFilter.put(id, c);
-    prefHandler.putString(
-        prefNameForCriteria(c.columnName), c.toStringExtra());
+    prefHandler.putString(prefNameForCriteria(c.columnName), c.toStringExtra());
+    refreshAfterFilterChange();
+  }
+
+  protected void refreshAfterFilterChange() {
     refresh(true);
+    setAdapter();
   }
 
   /**
@@ -904,7 +923,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (isFiltered) {
       prefHandler.remove(prefNameForCriteria(c.columnName));
       mFilter.remove(id);
-      refresh(true);
+      refreshAfterFilterChange();
     }
     return isFiltered;
   }
@@ -920,7 +939,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       prefHandler.remove(prefNameForCriteria(getFilterCriteria().valueAt(i).columnName));
     }
     mFilter.clear();
-    refresh(true);
+    refreshAfterFilterChange();
   }
 
   @Override
