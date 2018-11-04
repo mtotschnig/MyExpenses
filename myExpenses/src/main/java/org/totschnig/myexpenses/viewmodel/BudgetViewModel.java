@@ -48,8 +48,8 @@ public class BudgetViewModel extends AndroidViewModel {
   }
 
   public void loadBudgets(final long accountId, @NonNull final String currencyStr, Function<Cursor, Budget> budgetCreatorFunction) {
-    String selection = (accountId != 0 ? KEY_ACCOUNTID : KEY_CURRENCY) + " = ?";
-    String[] selectionArgs = new String[] {accountId != 0 ? String.valueOf(accountId) : currencyStr};
+    String selection = (accountId > 0 ? KEY_ACCOUNTID : KEY_CURRENCY) + " = ?";
+    String[] selectionArgs = new String[] {accountId > 0 ? String.valueOf(accountId) : currencyStr};
     final String[] projection = {KEY_ROWID, KEY_GROUPING, KEY_BUDGET};
     budgetDisposable = briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
         projection, selection, selectionArgs, null, true)

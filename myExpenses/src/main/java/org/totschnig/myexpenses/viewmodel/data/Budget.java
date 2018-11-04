@@ -68,7 +68,7 @@ public class Budget {
     final ContentValues contentValues = new ContentValues();
     contentValues.put(KEY_GROUPING, grouping.name());
     contentValues.put(KEY_BUDGET, amount.getAmountMinor());
-    if (accountId != 0) {
+    if (accountId > 0) {
       contentValues.put(KEY_ACCOUNTID, accountId);
     } else {
       contentValues.put(KEY_CURRENCY, isHomeAggregate ?
