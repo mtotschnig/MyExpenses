@@ -1261,7 +1261,7 @@ public class TransactionProvider extends ContentProvider {
                 " ELSE " + KEY_CR_STATUS +
                 " END" +
                 " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
-            new String[]{uri.getLastPathSegment()});
+            new String[]{uri.getPathSegments().get(1)});
         count = 1;
         break;
       case CURRENCIES_CHANGE_FRACTION_DIGITS:
