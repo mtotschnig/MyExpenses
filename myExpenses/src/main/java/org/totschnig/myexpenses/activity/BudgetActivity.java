@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -71,9 +72,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     budgetViewModel.getData().observe(this, result -> {
       if (result.isEmpty()) {
         showNewBudgetDialog(null);
+        findViewById(R.id.fragment_container).setVisibility(View.INVISIBLE);
       } else {
+        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
         Grouping currentType = getCurrentTypeFromPreference();
         budgetList = result;
+        invalidateOptionsMenu();
         setBudget(Stream.of(budgetList).filter(
             budget -> budget.getGrouping().equals(currentType)).findFirst().orElse(budgetList.get(0)));
         invalidateOptionsMenu();
@@ -97,17 +101,22 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   private void showNewBudgetDialog(Grouping newType) {
     final AmountEdit amountEdit = buildAmountField(null, null, null, false, false);
     final FormElement[] fields;
+    final int dialog_title_new_budget;
     if (newType == null) {
       final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
         .items(Stream.of(Budget.BUDGET_TYPES)
-            .map(grouping -> grouping.getBudgetLabel(this)).toArray(String[]::new))
+            .map(this::getBudgetLabelForSpinner)
+            .map(this::getString)
+            .toArray(String[]::new))
         .required().preset(0);
       fields = new FormElement[]{typeSpinner, amountEdit};
+      dialog_title_new_budget = R.string.dialog_title_new_budget;
     } else {
+      dialog_title_new_budget = getBudgetLabelForDialogTitle(newType);
       fields = new FormElement[]{amountEdit};
     }
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
-        .title(R.string.dialog_title_new_budget)
+        .title(dialog_title_new_budget)
         .neg()
         .fields(fields);
     if (newType != null) {
@@ -175,15 +184,27 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.budget, menu);
-    return true;
+    if (hasBudgets()) {
+      super.onCreateOptionsMenu(menu);
+      getMenuInflater().inflate(R.menu.budget, menu);
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean hasBudgets() {
+    return budgetList != null;
   }
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), getCurrentTypeFromPreference());
-    return super.onPrepareOptionsMenu(menu);
+    super.onPrepareOptionsMenu(menu);
+    final MenuItem item = menu.findItem(R.id.GROUPING_COMMAND);
+    if (item != null) {
+      Utils.configureGroupingMenu(item.getSubMenu(), getCurrentTypeFromPreference());
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -261,10 +282,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
             amount, isHomeAggregate);
         persistTypeToPreference(budgetType);
         budgetViewModel.createBudget(budget);
-        return true;
       } else if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
         budgetViewModel.updateBudget(currentBudget.getId(), extras.getLong(KEY_CATID), amount);
       }
+      return true;
+    } else if (!hasBudgets()) {
+      finish();
     }
     return false;
   }
@@ -281,5 +304,33 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   @Override
   public void onBudgetClick(Category category, Category parentItem) {
     showEditBudgetDialog(category, parentItem);
+  }
+
+  public int getBudgetLabelForDialogTitle(Grouping type) {
+    switch (type) {
+      case DAY:
+        return R.string.daily_budget;
+      case WEEK:
+        return R.string.weekly_budget;
+      case MONTH:
+        return R.string.monthly_budget;
+      case YEAR:
+        return R.string.yearly_budget;
+    }
+    throw new IllegalStateException();
+  }
+
+  public int getBudgetLabelForSpinner(Grouping type) {
+    switch (type) {
+      case DAY:
+        return R.string.daily_plain;
+      case WEEK:
+        return R.string.weekly_plain;
+      case MONTH:
+        return R.string.monthly;
+      case YEAR:
+        return R.string.yearly_plain;
+    }
+    throw new IllegalStateException();
   }
 }

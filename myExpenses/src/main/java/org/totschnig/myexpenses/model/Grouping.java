@@ -12,8 +12,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import io.reactivex.annotations.NonNull;
-
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
@@ -110,21 +108,6 @@ public enum Grouping {
       default:
         return null;
     }
-  }
-
-  @NonNull
-  public String getBudgetLabel(Context context) {
-    switch (this) {
-      case DAY:
-        return context.getString(R.string.daily_plain);
-      case WEEK:
-        return context.getString(R.string.weekly_plain);
-      case MONTH:
-        return context.getString(R.string.monthly);
-      case YEAR:
-        return context.getString(R.string.yearly_plain);
-    }
-    throw new IllegalStateException();
   }
 
   public static final String JOIN;
