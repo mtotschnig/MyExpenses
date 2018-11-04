@@ -977,6 +977,23 @@ public class TransactionList extends ContextualActionBarFragment implements
     } else {
       CrashHandler.report("Search menu not found");
     }
+
+    MenuItem groupingItem = menu.findItem(R.id.GROUPING_COMMAND);
+    if (groupingItem != null) {
+      SubMenu groupingMenu = groupingItem.getSubMenu();
+      Utils.configureGroupingMenu(groupingMenu, mAccount.getGrouping());
+    }
+
+    MenuItem sortDirectionItem = menu.findItem(R.id.SORT_DIRECTION_COMMAND);
+    if (sortDirectionItem != null) {
+      SubMenu sortDirectionMenu = sortDirectionItem.getSubMenu();
+      Utils.configureSortDirectionMenu(sortDirectionMenu, mAccount.getSortDirection());
+    }
+
+    MenuItem balanceItem = menu.findItem(R.id.BALANCE_COMMAND);
+    if (balanceItem != null) {
+      Utils.menuItemSetEnabledAndVisible(balanceItem, mAccount.getType() != AccountType.CASH);
+    }
   }
 
   @Override

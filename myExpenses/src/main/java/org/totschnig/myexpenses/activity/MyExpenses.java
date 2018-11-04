@@ -46,7 +46,6 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -365,44 +364,6 @@ public class MyExpenses extends LaunchActivity implements
     } catch (IllegalArgumentException e) {
       return Sort.USAGES;
     }
-  }
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    MenuItem balanceItem = menu.findItem(R.id.BALANCE_COMMAND);
-    if (balanceItem != null) {
-      boolean showBalanceCommand = false;
-      if (mAccountId > 0 && mAccountsCursor != null && !mAccountsCursor.isClosed() &&
-          mAccountsCursor.moveToPosition(mCurrentPosition)) {
-        try {
-          if (AccountType.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
-              != AccountType.CASH) {
-            showBalanceCommand = true;
-          }
-        } catch (IllegalArgumentException ex) {/*aggregate*/}
-      }
-      Utils.menuItemSetEnabledAndVisible(balanceItem, showBalanceCommand);
-    }
-
-    Account account = Account.getInstanceFromDb(mAccountId);
-
-    MenuItem groupingItem = menu.findItem(R.id.GROUPING_COMMAND);
-    if (groupingItem != null) {
-      SubMenu groupingMenu = groupingItem.getSubMenu();
-      if (account != null) {
-        Utils.configureGroupingMenu(groupingMenu, account.getGrouping());
-      }
-    }
-
-    MenuItem sortDirectionItem = menu.findItem(R.id.SORT_DIRECTION_COMMAND);
-    if (sortDirectionItem != null) {
-      SubMenu sortDirectionMenu = sortDirectionItem.getSubMenu();
-      if (account != null) {
-        Utils.configureSortDirectionMenu(sortDirectionMenu, account.getSortDirection());
-      }
-    }
-    return true;
   }
 
   @Override
