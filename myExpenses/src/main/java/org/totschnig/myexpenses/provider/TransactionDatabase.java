@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.provider;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
@@ -142,7 +143,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 79;
+  public static final int DATABASE_VERSION = 80;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1754,6 +1755,50 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 79) {
         db.execSQL("DROP INDEX if exists transactions_account_uuid_index");
         db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(account_id,uuid,status)");
+      }
+      if (oldVersion < 80) {
+        db.execSQL("CREATE TABLE budgets (_id integer primary key autoincrement," +
+            "grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')), budget integer not null, "
+            + "account_id integer references accounts(_id) ON DELETE CASCADE, "
+            + "currency text)");
+        db.execSQL("CREATE TABLE budget_categories ( "
+            + "budget_id integer references budgets(_id) ON DELETE CASCADE, "
+            + "cat_id integer references categories(_id), "
+            + "budget integer not null, "
+            + "primary key (budget_id,cat_id));");
+        db.execSQL("ALTER TABLE currency add column grouping text not null check (grouping in " +
+            "('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
+        Cursor c = db.rawQuery("SELECT distinct currency from accounts", null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
+            final SharedPreferences settings = MyApplication.getInstance().getSettings();
+            final SharedPreferences.Editor editor = settings.edit();
+            boolean updated = false;
+            while (!c.isAfterLast()) {
+              final String currency = c.getString(0);
+              final String key = GROUPING_PREF_PREFIX + currency;
+              final String grouping = settings.getString(key, "NONE");
+              if (!grouping.equals("NONE")) {
+                ContentValues initialValues = new ContentValues();
+                initialValues.put("grouping", grouping);
+                try {
+                  db.update("currency", initialValues, "code = ?", new String[]{currency});
+                  editor.remove(key);
+                  updated = true;
+                } catch (Exception e) {
+                  //since this setting is not critical, we can live with failure of migration
+                  Timber.e(e);
+                }
+              }
+              c.moveToNext();
+            }
+            if (updated) {
+              editor.apply();
+            }
+          }
+          c.close();
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
