@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -37,6 +38,7 @@ import eltos.simpledialogfragment.form.SimpleFormDialogWithoutDefaultFocus;
 import eltos.simpledialogfragment.form.Spinner;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
+import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -209,6 +211,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.MANAGE_CATEGORIES_COMMAND) {
+      Intent i = new Intent(this, ManageCategories.class);
+      i.setAction(ACTION_MANAGE);
+      startActivity(i);
+      return true;
+    }
     return handleGrouping(item) || super.onOptionsItemSelected(item);
   }
 

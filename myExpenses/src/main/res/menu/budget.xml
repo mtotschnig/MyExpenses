@@ -15,4 +15,8 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@+id/MANAGE_CATEGORIES_COMMAND"
+        android:title="@string/pref_manage_categories_title"
+        app:showAsAction="never"/>
 </menu>
