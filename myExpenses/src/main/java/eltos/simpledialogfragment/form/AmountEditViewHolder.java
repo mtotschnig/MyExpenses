@@ -70,7 +70,7 @@ class AmountEditViewHolder extends FormElementViewHolder<AmountEdit> {
 
   @Override
   protected boolean focus(SimpleFormDialog.FocusActions actions) {
-    return false;
+    return amountEditText.requestFocus();
   }
 
   @Override

@@ -34,7 +34,6 @@ import java.util.Locale;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.FormElement;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
-import eltos.simpledialogfragment.form.SimpleFormDialogWithoutDefaultFocus;
 import eltos.simpledialogfragment.form.Spinner;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
@@ -104,6 +103,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     final AmountEdit amountEdit = buildAmountField(null, null, null, false, false);
     final FormElement[] fields;
     final int dialog_title_new_budget;
+    boolean autofocus;
     if (newType == null) {
       final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
         .items(Stream.of(Budget.BUDGET_TYPES)
@@ -113,14 +113,17 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         .required().preset(0);
       fields = new FormElement[]{typeSpinner, amountEdit};
       dialog_title_new_budget = R.string.dialog_title_new_budget;
+      autofocus = false;
     } else {
       dialog_title_new_budget = getBudgetLabelForDialogTitle(newType);
       fields = new FormElement[]{amountEdit};
+      autofocus = true;
     }
-    final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
+    final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
         .title(dialog_title_new_budget)
         .neg()
-        .fields(fields);
+        .fields(fields)
+        .autofocus(autofocus);
     if (newType != null) {
       Bundle extras = new Bundle(1);
       extras.putSerializable(KEY_BUDGET_TYPE, newType);
@@ -150,7 +153,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   private void showEditBudgetDialog(Category category, Category parentItem) {
     final Money amount, max, min;
-    final SimpleFormDialog simpleFormDialog = new SimpleFormDialogWithoutDefaultFocus()
+    final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
         .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
         .neg();
     final Currency currency = getCurrency();
