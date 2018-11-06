@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
@@ -159,7 +159,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         final int columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
         final int columnIndexParentId = cursor.getColumnIndex(KEY_PARENTID);
         final int columnIndexSum = cursor.getColumnIndex(KEY_SUM);
-        final int columnIndexAmount = cursor.getColumnIndex(KEY_AMOUNT);
+        final int columnIndexBudget = cursor.getColumnIndex(KEY_BUDGET);
         final int columnIndexMapTransactions = cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS);
         final int columnIndexMapTemplates = cursor.getColumnIndex(KEY_MAPPED_TEMPLATES);
         final int columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
@@ -172,7 +172,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
               columnIndexMapTemplates == -1 ? null : cursor.getInt(columnIndexMapTemplates) > 0,
               columnIndexMapTransactions == -1 ? null : cursor.getInt(columnIndexMapTransactions) > 0,
               cursor.getInt(columnIndexColor),
-              columnIndexAmount == -1 ? null : cursor.getLong(columnIndexAmount));
+              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget));
           if (parentId == null) {
             newList.add(category);
             positionMap.put(id, position);
