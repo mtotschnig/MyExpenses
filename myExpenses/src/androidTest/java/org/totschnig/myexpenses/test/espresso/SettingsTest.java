@@ -1,8 +1,12 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import android.support.annotation.NonNull;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
@@ -27,8 +31,8 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.instanceOf;
 
 public class SettingsTest {
 
@@ -38,7 +42,7 @@ public class SettingsTest {
 
   @Test
   public void manageCategories() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_categories_title)),
             click()));
     intended(hasComponent(ManageCategories.class.getName()));
@@ -47,15 +51,20 @@ public class SettingsTest {
 
   @Test
   public void manageParties() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_parties_title)),
             click()));
     intended(hasComponent(ManageParties.class.getName()));
   }
 
+  @NonNull
+  private Matcher<View> getRootMatcher() {
+    return instanceOf(RecyclerView.class);
+  }
+
   @Test
   public void manageMethods() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_methods_title)),
             click()));
     intended(hasComponent(ManageMethods.class.getName()));
@@ -63,7 +72,7 @@ public class SettingsTest {
 
   @Test
   public void importGrisbi() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_import_from_grisbi_title)),
             click()));
     intended(hasComponent(GrisbiImport.class.getName()));
@@ -71,7 +80,7 @@ public class SettingsTest {
 
   @Test
   public void importQif() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_import_title, "QIF"))),
             click()));
@@ -81,7 +90,7 @@ public class SettingsTest {
 
   @Test
   public void importCsv() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_import_title, "CSV"))),
             click()));
@@ -94,7 +103,7 @@ public class SettingsTest {
 
   @Test
   public void backup() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.menu_backup)),
             click()));
     intended(hasComponent(BackupRestoreActivity.class.getName()));
@@ -103,7 +112,7 @@ public class SettingsTest {
 
   @Test
   public void restore() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_restore_title) + " (ZIP)")),
             click()));
@@ -113,7 +122,7 @@ public class SettingsTest {
 
   @Test
   public void restoreLegacy() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_restore_title) + " (" +
                 mActivityRule.getActivity().getString(R.string.pref_restore_alternative) + ")")),
@@ -124,7 +133,7 @@ public class SettingsTest {
 
   @Test
   public void manageSync() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
             click()));
     intended(hasComponent(ManageSyncBackends.class.getName()));
@@ -132,7 +141,7 @@ public class SettingsTest {
 
   @Test
   public void roadmap() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.roadmap_vote)),
             click()));
     intended(hasComponent(RoadmapVoteActivity.class.getName()));
@@ -140,7 +149,7 @@ public class SettingsTest {
 
   @Test
   public void manageCurrencies() {
-    onView(withId(R.id.list))
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_custom_currency_title)),
             click()));
     intended(hasComponent(ManageCurrencies.class.getName()));

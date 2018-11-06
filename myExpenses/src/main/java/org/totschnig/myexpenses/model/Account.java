@@ -158,13 +158,13 @@ public class Account extends Model {
 
   static {
     PROJECTION_BASE = new String[]{
-        TABLE_ACCOUNTS + "." + KEY_ROWID,
+        TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
         KEY_LABEL,
         KEY_DESCRIPTION,
         KEY_OPENING_BALANCE,
-        TABLE_ACCOUNTS + "." + KEY_CURRENCY,
+        TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
         KEY_COLOR,
-        TABLE_ACCOUNTS + "." + KEY_GROUPING,
+        TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
         KEY_TYPE,
         KEY_SORT_KEY,
         KEY_EXCLUDE_FROM_TOTALS,

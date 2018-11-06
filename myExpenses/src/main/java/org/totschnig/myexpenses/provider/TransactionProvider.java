@@ -1219,7 +1219,7 @@ public class TransactionProvider extends ContentProvider {
         break;
       case TEMPLATES_INCREASE_USAGE:
         db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
-            KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + uri.getLastPathSegment());
+            KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + uri.getPathSegments().get(1));
         count = 1;
         break;
       //   when we move a transaction to a new target we apply two checks
