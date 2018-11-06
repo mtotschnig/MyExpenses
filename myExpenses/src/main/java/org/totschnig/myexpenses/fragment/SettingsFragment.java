@@ -241,6 +241,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
   }
 
+
+  private void unsetIconSpaceReservedRecursive(PreferenceGroup preferenceGroup) {
+    for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
+      final Preference preference = preferenceGroup.getPreference(i);
+      if (preference instanceof PreferenceCategory) {
+        unsetIconSpaceReservedRecursive(((PreferenceCategory) preference));
+      } else {
+        preference.setIconSpaceReserved(false);
+      }
+    }
+  }
+
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     setPreferencesFromResource(R.xml.preferences, rootKey);
@@ -249,6 +261,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     final PreferenceScreen preferenceScreen = getPreferenceScreen();
     setListenerRecursive(preferenceScreen, UI_HOME_SCREEN_SHORTCUTS.getKey().equals(rootKey) ?
         homeScreenShortcutPrefClickHandler : this);
+    unsetIconSpaceReservedRecursive(preferenceScreen);
 
     if (rootKey == null) {//ROOT screen
       findPreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
