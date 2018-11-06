@@ -685,7 +685,15 @@ public class Account extends Model {
         return false;
     } else if (!openingBalance.equals(other.openingBalance))
       return false;
-    else if (!criterion.equals(other.criterion))
+    if (criterion == null) {
+      if (other.criterion != null)
+        return false;
+    } else if (!criterion.equals(other.criterion))
+      return false;
+    if (budget == null) {
+      if (other.budget != null)
+        return false;
+    } else if (!budget.equals(other.budget))
       return false;
     if (getType() != other.getType())
       return false;

@@ -254,4 +254,7 @@ public class DbUtils {
       planCursor.close();
     }
   }
+  public static String fqcn(String table, String column) {
+    return String.format(Locale.ROOT, "%s.%s", table, column);
+  }
 }
