@@ -38,6 +38,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Bilang templat berasingan tidak terhad</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Hak mengundi dalam &lt;/b&gt;peta jalan pembangunan&lt;/b&gt;</string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Carta sejarah (Aliran tunai)</string>
   <string name="licence_status_free">Percuma</string>
   <string name="contrib_key">Kunci Contrib</string>
   <string name="extended_key">Kunci Lanjutan</string>
@@ -608,6 +609,7 @@
   <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
   <string name="auto_backup_cloud_create_backend">Cipta bahagian belakang penyegerakan melalui skrin tetapan utama.</string>
   <string name="auto_backup_cloud_failure">Satu ralat berlaku ketika cuba menyimpan fail sandar %1$s pada bahagian belakang %2$s:</string>
+  <string name="auto_backup_cloud_success">Fail sandar %1$s berjaya disimpan dalam bahagian belakang %2$s.</string>
   <string name="home_screen_shortcuts_nougate_info">Pintasan boleh ditambah dengan mengetik-lama pada ikon apl di Skrin Rumah.</string>
   <string name="currency_symbol">Simbol matawang</string>
   <string name="number_of_fraction_digits">Bilangan digit pecahan</string>
@@ -687,14 +689,65 @@
   <string name="pref_warning_only_one_protection">Sebelum anda guna perlindungan oleh %1$s, anda mesti matikan perlindungan oleh %2$s.</string>
   <string name="warning_device_lock_screen_not_set_up_1">Selamatkan skrin kunci peranti belum dipasangkan.</string>
   <string name="warning_device_lock_screen_not_set_up_2">Pergi ke \'Tetapan -&gt; Keselamatan -&gt; KunciSkrin\' untuk tetapkan skrin kunci.</string>
+  <string name="snackbar_dismiss">Singkir</string>
+  <string name="menu_history_show_balance">Tunjuk baki</string>
+  <string name="menu_history_transfers">Sertakan pemindahan</string>
+  <string name="menu_history">Sejarah</string>
   <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Perbelanjaan</string>
   <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Pendapatan</string>
+  <string name="menu_history_totals">Tunjuk jumlah</string>
+  <string name="pref_home_currency_title">Matawang negara sendiri</string>
+  <string name="grand_total">Jumlah keseluruhan</string>
+  <string name="menu_original_amount">Amaun asal</string>
+  <string name="menu_equivalent_amount">Amaun setara</string>
+  <string name="home_currency_change_warning">Jika anda mengubah matawang negara anda, amaun setara dan kadar pertukaran akan hilang, dan perlu ditakrif sekali lagi. Anda mahu teruskan?</string>
+  <string name="warning_split_transactions">Transaksi terpilih akan dikumpulkan menjadi satu transaksi pengasingan. Maklumat tarikhnya akan hilang iaitu diganti secara purata.</string>
+  <string name="warning_ungroup_split_transactions">Transaksi pengasingan terpilih akan dinyahkumpulkan, iaitu bahagian asing mereka akan menjadi transaksi biasa.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Nyahkumpul asing</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="other">Transaksi pengasingan %1$d berjaya dinyakumpulkan.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">Ketika menyahkumpul transaksi pengasingan, %1$d dari %2$d gagal.</string>
+  <string name="split_transaction_one_success">Transaksi berjaya diubah untuk diasingkan.</string>
   <string name="split_transaction_one_error">Tidak dapat ubah transaksi untuk pengasingan.</string>
+  <string name="split_transaction_group_success">Transaki %1$d berjaya dikumpulkan menjadi satu transaksi pengasingan.</string>
+  <string name="split_transaction_group_error">Tidak dapat kumpulkan transaksi menjadi pengasingan.</string>
+  <string name="split_transaction_not_possible">Hanya transaksi yang mempunyai akaun, pembayar, dan status yang sama boleh dikumpulkan menjadi satu transaksi pengasingan.</string>
+  <string name="pref_transaction_time_summary">Benarkan penetapan waktu transaksi.</string>
+  <string name="pref_value_date_summary">Benarkan penetapan tarikh nilai selain dari tarikh tempahan. Waktu transaksi akan disembunyikan. Tetapan ini tidak dilaksanakan pada akaun tunai.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Tarikh tempahan</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Tarikh nilai</string>
+  <string name="licence_expires_n_days">Kunci profesional anda akan tamat tempoh dalam %d hari</string>
+  <string name="licence_expires_tomorrow">Kunci profesional anda akan tamat tempoh esok hari</string>
+  <string name="licence_expires_today">Kunci profesional anda akan tamat tempoh hari ini</string>
+  <string name="licence_expired_yesterday">Kunci profesional anda akan tamat tempoh semalam</string>
+  <string name="licence_has_expired_n_days">Kunci profesional anda akan tamat tempoh %d hari yang lalu</string>
+  <string name="pref_category_title_privacy">Kerahsiaan</string>
+  <string name="pref_ad_consent_title">Iklan peribadi</string>
+  <string name="ad_consent_non_personalized">Iklan bukan-peribadi</string>
+  <string name="gdpr_consent_message">Kami bekerjasama dengan {ad_provider} untuk memastikan kelangsungan sokongan, penyelenggaraan dan pembangunan {app_name} dengan memaparkan iklan kepada anda. Oleh itu kami mahukan keizinan anda. Jika anda tidak mahu iklan, sila beli versi bebas iklan.</string>
+  <string name="gdpr_consent_button_yes">Ya, teruskan melihat iklan</string>
+  <string name="gdpr_consent_button_no">Beli untuk versi tanpa-iklan</string>
+  <string name="sort_order">Tertib isih</string>
+  <string name="navigation_drawer_accounts_title">Urus akaun</string>
+  <string name="pref_sync_wifi_only_summary">Hanya segerak jika guna Wi-Fi</string>
+  <string name="wifi_not_connected">Peranti tidak bersambung dengan Wi-Fi. Penyegerakan ditunda.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Terjemahan</string>
   <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Kuncup</string>
   <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Kembang</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Matlamat / Had</string>
+  <string name="saving_goal">Matlamat simpanan</string>
+  <string name="credit_limit">Had kredit</string>
+  <string name="clear_all_filters">Kosongkan semua penapis</string>
+  <string name="pref_scroll_to_current_date_summary">Ketika apl mula, tatal senarai transaksi dengan tarikh semasa</string>
+  <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
 </resources>

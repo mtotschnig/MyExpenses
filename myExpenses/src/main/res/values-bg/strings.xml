@@ -739,6 +739,7 @@
   <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни</string>
   <string name="pref_category_title_privacy">Поверителност</string>
   <string name="pref_ad_consent_title">Персонализирани реклами</string>
+  <string name="ad_consent_non_personalized">Не-персонализирани реклами</string>
   <string name="gdpr_consent_message">Ние си сътрудничим с {ad_provider}, за да продължаваме поддръжката и развитието на {app_name}, като Ви показваме реклами. Бихме желали да получим Вашето съгласие. Ако предпочитате да не виждате реклами, моля, платете за версия без реклами.</string>
   <string name="gdpr_consent_button_yes">Да, продължавам да гледам реклами</string>
   <string name="gdpr_consent_button_no">Плащам за версия без реклама</string>

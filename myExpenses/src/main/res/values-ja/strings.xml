@@ -729,6 +729,7 @@
   <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています</string>
   <string name="pref_category_title_privacy">プライバシー</string>
   <string name="pref_ad_consent_title">パーソナライズされた広告</string>
+  <string name="ad_consent_non_personalized">パーソナライズされていない広告</string>
   <string name="gdpr_consent_message">{app_name} のサポート、メンテナンス、開発を維持するために {ad_provider} と提携して広告を表示しています。 あなたの同意を求めます。 広告が表示されないようにするには、広告なしバージョンの料金をお支払いください。</string>
   <string name="gdpr_consent_button_yes">はい、続行して広告を表示します</string>
   <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
@@ -747,4 +748,6 @@
   <string name="saving_goal">貯蓄目標</string>
   <string name="credit_limit">クレジット限度</string>
   <string name="clear_all_filters">すべてのフィルターをクリア</string>
+  <string name="pref_scroll_to_current_date_summary">アプリの起動時に、取引リストを現在の日付にスクロールします</string>
+  <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
 </resources>

@@ -690,6 +690,7 @@
   <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
   <string name="feature_deprecated">Wycofano</string>
   <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
+  <string name="warning_device_lock_screen_not_set_up_1">Ekran bezpiecznej blokady dla urządzenia nie został ustawiony.</string>
   <string name="snackbar_dismiss">Odwołaj</string>
   <string name="menu_history_show_balance">Pokaż bilans</string>
   <string name="menu_history_transfers">Uwzględnij transfery</string>
@@ -706,9 +707,20 @@
   <string name="warning_ungroup_split_transactions">Zaznaczone podzielone transakcje zostaną rozgrupowane, tj. ich podzielone części staną się zwykłymi transakcjami.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">Rozgrupuj podział</string>
+  <string name="split_transaction_one_success">Transakcja z powodzeniem zamieniona w podział.</string>
   <string name="split_transaction_one_error">Zamiana transakcji w podział nie była możliwa</string>
+  <string name="split_transaction_group_error">Nie można było zgrupować kilku transakcji w podział.</string>
+  <string name="pref_transaction_time_summary">Pozwól na ustawienie dokładnego czasu transakcji.</string>
+  <string name="pref_value_date_summary">Pozwól na ustawienie nie tylko daty księgowania ale i daty wartości. Czas transakcji zostanie ukryty. To ustawienie nie tyczy się kont gotówkowych.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Data księgowania</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="licence_expires_tomorrow">Twój klucz profesjonalny wygasa jutro</string>
+  <string name="licence_expires_today">Twój klucz profesjonalny wygasa dzisiaj</string>
+  <string name="licence_expired_yesterday">Twój klucz profesjonalny wygasł wczoraj</string>
+  <string name="pref_category_title_privacy">Prywatność</string>
+  <string name="pref_ad_consent_title">Spersonalizowane reklamy</string>
+  <string name="ad_consent_non_personalized">Reklamy bez personalizacji</string>
   <string name="gdpr_consent_button_yes">Tak, dalej wyświetlaj reklamy</string>
   <string name="gdpr_consent_button_no">Zapłać za wersję bez reklam</string>
   <string name="sort_order">Kolejność sortowania</string>
@@ -724,6 +736,7 @@
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
   <string name="goal_or_limit">Cel / Limit</string>
   <string name="saving_goal">Cel oszczędzania</string>
+  <string name="credit_limit">Limit kredytu</string>
   <string name="clear_all_filters">Wyczyść wszystkie filtry</string>
   <string name="pref_scroll_to_current_date_summary">Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty</string>
   <string name="professional_key_fallback_info">Subskrypcja Klucza Profesjonalnego, która była aktywna przez przynajmniej rok, a która nie zostanie odnowiona, automatycznie zamieni się w nieograniczony Klucz Rozszerzony.</string>

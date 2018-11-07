@@ -738,7 +738,8 @@
   <string name="licence_expired_yesterday">Ihr professioneller Schlüssel ist gestern abgelaufen</string>
   <string name="licence_has_expired_n_days">Ihr professioneller Schlüssel ist vor  %d Tagen abgelaufen</string>
   <string name="pref_category_title_privacy">Privatsphäre</string>
-  <string name="pref_ad_consent_title">Personalisierte Anzeigen</string>
+  <string name="pref_ad_consent_title">Personalisierte Werbung</string>
+  <string name="ad_consent_non_personalized">Nicht personalisierte Werbung</string>
   <string name="gdpr_consent_message">Wir arbeiten mit {ad_provider} zusammen, um den Support, die Wartung und die Entwicklung von {app_name} durch das Anzeigen von Werbung zu unterstützen. Wir möchten um Ihre Zustimmung bitten. Wenn Sie keine Anzeigen sehen möchten, zahlen Sie bitte für die werbefreie Version.</string>
   <string name="gdpr_consent_button_yes">Ja, weiterhin Werbung anzeigen</string>
   <string name="gdpr_consent_button_no">Für die werbefreie Version bezahlen</string>

@@ -617,6 +617,7 @@
   <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
   <string name="auto_backup_cloud_create_backend">Crear un servicio de sincronización desde la pantalla de configuración principal.</string>
   <string name="auto_backup_cloud_failure">Ha ocurrido un error al intentar almacenar la copia de seguridad %1$s en el servicio %2$s:</string>
+  <string name="auto_backup_cloud_success">El respaldo del archivo %1$s ha sido guardado correctamente en %2$s</string>
   <string name="home_screen_shortcuts_nougate_info">Se pueden añadir accesos directos con una pulsación larga en el icono de la aplicación desde la Pantalla Inicio.</string>
   <string name="currency_symbol">Símbolo de moneda</string>
   <string name="number_of_fraction_digits">Número de dígitos de fracción</string>
@@ -738,13 +739,25 @@
   <string name="licence_has_expired_n_days">Su licencia profesional expiró hace %d días</string>
   <string name="pref_category_title_privacy">Privacidad</string>
   <string name="pref_ad_consent_title">Publicidad personalizada</string>
+  <string name="ad_consent_non_personalized">Anuncios no personalizados</string>
   <string name="gdpr_consent_message">Con la intención de continuar con el soporte, mantenimiento y desarrollo de {app_name}, nos hemos asociado con {ad_provider} para mostrar publicidad. Nos gustaría pedirle su consentimiento. Si prefiere no tener ningún tipo de publicidad, por favor, adquiera la versión de pago.</string>
   <string name="gdpr_consent_button_yes">Sí, continuar viendo publicidad</string>
   <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
   <string name="sort_order">Orden de clasificación</string>
   <string name="navigation_drawer_accounts_title">Administrar cuentas</string>
+  <string name="pref_sync_wifi_only_summary">Sincronizar sólo con Wi-Fi</string>
+  <string name="wifi_not_connected">El dispositivo no está conectado a Wi-Fi. Se pospone la sincronización.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Traducción</string>
   <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Encoger</string>
   <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Expandir</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Meta / Límite</string>
+  <string name="saving_goal">Meta de ahorro</string>
+  <string name="credit_limit">Límite de crédito</string>
+  <string name="clear_all_filters">Limpiar todos los filtros</string>
+  <string name="pref_scroll_to_current_date_summary">Al iniciar la aplicación, desplazar la lista de transacciones hasta la fecha actual</string>
+  <string name="professional_key_fallback_info">Una suscripción de Llave Profesional que lleve activa durante un año y no se renueve, se convertirá automáticamente en una Llave Extendida ilimitada.</string>
 </resources>

@@ -759,6 +759,7 @@
   <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים</string>
   <string name="pref_category_title_privacy">פרטיות</string>
   <string name="pref_ad_consent_title">מודעות מותאמות אישית</string>
+  <string name="ad_consent_non_personalized">מודעות שאינן מותאמות אישית</string>
   <string name="gdpr_consent_message">אנו משתפים פעולה עם {ad_provider} כדי לשמור על התמיכה, התחזוקה והפיתוח של {app_name} על ידי הצגת מודעות. ברצוננו לבקש את הסכמתך. אם אתה מעדיף שלא לראות מודעות, עליך לשלם עבור הגרסה ללא מודעות.</string>
   <string name="gdpr_consent_button_yes">כן, המשך לראות מודעות</string>
   <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
