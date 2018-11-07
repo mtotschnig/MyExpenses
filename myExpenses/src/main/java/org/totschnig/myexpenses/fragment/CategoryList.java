@@ -488,7 +488,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     if (!TextUtils.isEmpty(mFilter)) {
       outState.putString("filter", mFilter);

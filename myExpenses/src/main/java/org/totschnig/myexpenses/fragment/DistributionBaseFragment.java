@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.util.Pair;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -216,5 +217,51 @@ public abstract class DistributionBaseFragment extends CategoryList {
     TransactionListDialogFragment.newInstance(
         mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.BACK_COMMAND:
+        back();
+        return true;
+      case R.id.FORWARD_COMMAND:
+        forward();
+        return true;
+    }
+    return false;
+  }
+
+  public void back() {
+    if (mGrouping.equals(Grouping.YEAR))
+      mGroupingYear--;
+    else {
+      mGroupingSecond--;
+      if (mGroupingSecond < minValue) {
+        mGroupingYear--;
+        mGroupingSecond = maxValue;
+      }
+    }
+    reset();
+  }
+
+  public void forward() {
+    if (mGrouping.equals(Grouping.YEAR))
+      mGroupingYear++;
+    else {
+      mGroupingSecond++;
+      if (mGroupingSecond > maxValue) {
+        mGroupingYear++;
+        mGroupingSecond = minValue;
+      }
+    }
+    reset();
+  }
+
+  @Override
+  public void reset() {
+    super.reset();
+    updateSum();
+    updateDateInfo(true);
   }
 }

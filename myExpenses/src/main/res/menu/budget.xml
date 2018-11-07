@@ -19,4 +19,14 @@
         android:id="@+id/MANAGE_CATEGORIES_COMMAND"
         android:title="@string/pref_manage_categories_title"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/BACK_COMMAND"
+        android:icon="@drawable/ic_menu_back"
+        android:title="@string/menu_back"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/FORWARD_COMMAND"
+        android:icon="@drawable/ic_menu_forward"
+        android:title="@string/menu_forward"
+        app:showAsAction="never"/>
 </menu>

@@ -200,6 +200,7 @@
     <string-array name="BudgetActivity_menuitems" tools:ignore="UnusedResources">
         <item>switch_budget</item>
         <item>manage_categories</item>
+        <item>back.forward</item>
     </string-array>
     <string-array name="BudgetActivity_cabitems" tools:ignore="UnusedResources">
         <item>color</item>

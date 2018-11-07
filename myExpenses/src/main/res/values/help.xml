@@ -180,5 +180,5 @@
   <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">The budgeting screen allows you to define a daily, weekly, monthly or yearly budget. First you set the total money that you want to spend for each period. Then you can allocate amounts for categories and sub-categories, and monitor how much you have spent and how much remains to be spent. Clicking on the budgeted amounts allows to change them.</string>
   <string name="menu_switch_budget_help_text">Switch to a different type of budget.</string>
   <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
-
+  <string name="menu_BudgetActivity_back.forward_help_text">Compare budget with spending of past and future periods of time.</string>
 </resources>

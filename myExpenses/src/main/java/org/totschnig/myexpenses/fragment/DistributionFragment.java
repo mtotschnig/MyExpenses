@@ -361,32 +361,6 @@ public class DistributionFragment extends DistributionBaseFragment {
     reset();
   }
 
-  public void back() {
-    if (mGrouping.equals(Grouping.YEAR))
-      mGroupingYear--;
-    else {
-      mGroupingSecond--;
-      if (mGroupingSecond < minValue) {
-        mGroupingYear--;
-        mGroupingSecond = maxValue;
-      }
-    }
-    reset();
-  }
-
-  public void forward() {
-    if (mGrouping.equals(Grouping.YEAR))
-      mGroupingYear++;
-    else {
-      mGroupingSecond++;
-      if (mGroupingSecond > maxValue) {
-        mGroupingYear++;
-        mGroupingSecond = minValue;
-      }
-    }
-    reset();
-  }
-
   private boolean handleGrouping(MenuItem item) {
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
@@ -401,13 +375,8 @@ public class DistributionFragment extends DistributionBaseFragment {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (handleGrouping(item)) return true;
+    if (super.onOptionsItemSelected(item)) return true;
     switch (item.getItemId()) {
-      case R.id.BACK_COMMAND:
-        back();
-        return true;
-      case R.id.FORWARD_COMMAND:
-        forward();
-        return true;
       case R.id.TOGGLE_CHART_COMMAND:
         showChart = !showChart;
         PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
@@ -498,13 +467,6 @@ public class DistributionFragment extends DistributionBaseFragment {
   private void updateColor() {
     if (bottomLine != null)
       bottomLine.setBackgroundColor(mAccount.color);
-  }
-
-  @Override
-  public void reset() {
-    super.reset();
-    updateSum();
-    updateDateInfo(true);
   }
 
   @Override
