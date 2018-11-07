@@ -82,7 +82,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
         saveFileContents(ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
         createWarningFile();
       }
-    } catch (DbxException | IOException e) {
+    } catch (DbxException e) {
       throw new IOException(e);
     }
   }
@@ -318,11 +318,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean isAuthException(IOException e) {
-    if (Utils.getCause(e) instanceof InvalidAccessTokenException) {
-      return true;
-    } else {
-      return false;
-    }
+  public boolean isAuthException(Exception e) {
+    return Utils.getCause(e) instanceof InvalidAccessTokenException;
   }
 }

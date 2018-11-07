@@ -798,5 +798,8 @@
     <string name="sub_budget_exceeded_error_1_2">All the amount allocated to the main category has been allocated to other sub-categories.</string>
     <string name="sub_budget_exceeded_error_2">Increase the amount allocated to the main category, or remove money from other sub-categories.</string>
     <string name="sub_budget_under_allocated_error">%s have already been allocated to sub-categories. Unless you remove money from them, you must at least allocate that amount to the main category.</string>
-
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">Clear method</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">Clear category</string>
 </resources>

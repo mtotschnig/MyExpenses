@@ -52,7 +52,7 @@ public interface SyncBackendProvider {
    * @param e Exception thrown during sync operation
    * @return true if exception is caused by invalid auth token
    */
-  boolean isAuthException(IOException e);
+  boolean isAuthException(Exception e);
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {

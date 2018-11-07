@@ -95,7 +95,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   @Override
-  public boolean isAuthException(IOException e) {
+  public boolean isAuthException(Exception e) {
     return false;
   }
 

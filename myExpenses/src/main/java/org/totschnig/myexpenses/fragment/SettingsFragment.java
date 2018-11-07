@@ -959,7 +959,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void updateHomeCurrency(String currencyCode) {
-    ((ListPreference) findPreference(HOME_CURRENCY)).setValue(currencyCode);
+    final ListPreference preference = (ListPreference) findPreference(HOME_CURRENCY);
+    if (preference != null) {
+      preference.setValue(currencyCode);
+    } else {
+      prefHandler.putString(HOME_CURRENCY, currencyCode);
+    }
     activity().startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
         null, null, R.string.progress_dialog_saving);
   }

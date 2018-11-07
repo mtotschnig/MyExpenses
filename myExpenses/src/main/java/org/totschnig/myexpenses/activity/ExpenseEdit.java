@@ -262,6 +262,8 @@ public class ExpenseEdit extends AmountActivity implements
   TextView equivalentAmountLabel;
   @BindView(R.id.ClearMethod)
   ImageView clearMethodButton;
+  @BindView(R.id.ClearCategory)
+  ImageView clearCategoryButton;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mRecurrenceSpinner;
@@ -1465,6 +1467,10 @@ public class ExpenseEdit extends AmountActivity implements
   private void setCategoryButton() {
     if (mLabel != null && mLabel.length() != 0) {
       mCategoryButton.setText(mLabel);
+      clearCategoryButton.setVisibility(View.VISIBLE);
+    } else {
+      mCategoryButton.setText(R.string.select);
+      clearCategoryButton.setVisibility(View.GONE);
     }
   }
 
@@ -2526,5 +2532,12 @@ public class ExpenseEdit extends AmountActivity implements
   public void clearMethodSelection(View view) {
     mMethodId = null;
     setMethodSelection();
+  }
+
+
+  public void clearCategorySelection(View view) {
+    mCatId = null;
+    mLabel = null;
+    setCategoryButton();
   }
 }
