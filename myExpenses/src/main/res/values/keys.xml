@@ -119,6 +119,7 @@
     <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title" tools:ignore="UnusedResources">@string/pref_manage_categories_title</string>
     <string name="help_Distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
+    <string name="help_BudgetActivity_title" tools:ignore="UnusedResources">@string/menu_budget</string>
     <string name="help_ManageCategories_select_mapping_title" tools:ignore="UnusedResources">@string/select_category</string>
     <string name="help_ManageCategories_select_filter_title" tools:ignore="UnusedResources">@string/search_category</string>
     <string name="help_ManageCurrencies_title" tools:ignore="UnusedResources">@string/pref_custom_currency_title</string>
@@ -167,6 +168,8 @@
     <string name="menu_set_weight">Set weight</string>
     <string name="menu_result">Result</string>
     <string name="menu_color">@string/color</string>
+    <string name="menu_manage_categories">@string/pref_manage_categories_title</string>
+    <string name="menu_manage_categories_help_text">@string/pref_manage_categories_summary</string>
     <string name="help_RoadmapVoteActivity_title" tools:ignore="UnusedResources">@string/roadmap_vote</string>
     <string name="help_RoadmapVoteActivity_info" tools:ignore="UnusedResources"><![CDATA[Please help us define the future development roadmap! This screen lists all the open tickets from <a href="https://github.com/mtotschnig/MyExpenses/issues">Github</a> . Distribute 10 points (50 if you own a professional licence key) among those tickets that are most important for you. Long press on an issue to learn more about it and to spend weight on it. Once you have finished, do not forget to submit your vote. Thank you for your participation!]]></string>
     <string name="menu_RoadmapVoteActivity_search_help_text" tools:ignore="UnusedResources">Only tickets which match your query will be displayed.</string>
