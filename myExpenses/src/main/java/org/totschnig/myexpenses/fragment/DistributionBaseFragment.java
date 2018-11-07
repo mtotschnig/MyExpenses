@@ -200,8 +200,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
         });
   }
 
-  abstract void updateIncome(Long amount);
-  abstract void updateExpense(Long amount);
+  abstract void updateIncome(long amount);
+  abstract void updateExpense(long amount);
 
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
     menu.findItem(R.id.EDIT_COMMAND).setVisible(false);

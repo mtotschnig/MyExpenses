@@ -320,12 +320,12 @@ public class DistributionFragment extends DistributionBaseFragment {
   }
 
   @Override
-  void updateIncome(Long amount) {
+  void updateIncome(long amount) {
     updateSum("+", incomeSumTv, amount);
   }
 
   @Override
-  void updateExpense(Long amount) {
+  void updateExpense(long amount) {
     updateSum("-", expenseSumTv, amount);
   }
 

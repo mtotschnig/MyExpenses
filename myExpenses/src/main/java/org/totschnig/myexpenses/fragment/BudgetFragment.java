@@ -58,7 +58,7 @@ public class BudgetFragment extends DistributionBaseFragment {
     return allocated;
   }
 
-  private long allocated;
+  private long allocated, spent;
 
   @Override
   protected QueryObservable createQuery() {
@@ -111,6 +111,8 @@ public class BudgetFragment extends DistributionBaseFragment {
     }
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
+    budgetProgress.setFinishedStrokeColor(mAccount.color);
+    budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
     totalBudget.setOnClickListener(view1 -> ((BudgetActivity) getActivity()).onBudgetClick(null, null));
     registerForContextMenu(mListView);
     return view;
@@ -124,7 +126,6 @@ public class BudgetFragment extends DistributionBaseFragment {
   public void setBudget(Budget budget) {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
-    totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, budget.getCurrency());
       mListView.setAdapter(mAdapter);
@@ -138,6 +139,7 @@ public class BudgetFragment extends DistributionBaseFragment {
       loadData();
     }
     this.budget = budget;
+    updateTotals();
   }
 
   @Override
@@ -174,25 +176,29 @@ public class BudgetFragment extends DistributionBaseFragment {
   }
 
   @Override
-  void updateIncome(Long amount) {
+  void updateIncome(long amount) {
 
   }
 
   @Override
-  void updateExpense(Long amount) {
-    totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -amount)));
+  void updateExpense(long amount) {
+    this.spent = amount;
+    updateTotals();
+  }
+
+  private void updateTotals() {
+    totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
+    totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -spent)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
-    long available = allocated - amount;
+    long available = allocated - spent;
     totalAvailable.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, available)));
     boolean onBudget = available >=0;
     totalAvailable.setBackgroundResource(onBudget ? R.drawable.round_background_income :
         R.drawable.round_background_expense);
     totalAvailable.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
         ((ProtectedFragmentActivity) getActivity()).getColorExpense());
-    int progress = available <= 0 || allocated == 0 ? 100 : Math.round(amount * 100F / allocated);
+    int progress = available <= 0 || allocated == 0 ? 100 : Math.round(spent * 100F / allocated);
     budgetProgress.setProgress(progress);
     budgetProgress.setText(String.valueOf(progress));
-    budgetProgress.setFinishedStrokeColor(mAccount.color);
-    budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
   }
 }
