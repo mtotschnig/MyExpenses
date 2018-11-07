@@ -592,6 +592,8 @@
   <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng. Bạn có chắc là muốn tiếp tục không?</string>
   <string name="dialog_confirm_sync_link_local">Những dữ liệu từ xa của tài khoản này sẽ bị xoá. Đảm bảo rằng không có thiết bị nào khác được liên kết với tài khoản này.</string>
   <string name="dialog_confirm_sync_link_remote">Dữ liệu nội bộ của tài khoản này sẽ bị xoá.</string>
+  <string name="warning_limited_trial">Tính năng %1$s có thể được dùng thử cho tới %2$s</string>
+  <string name="warning_trial_limit_reached">Thời gian dùng thử tính năng %s đã kết thúc.</string>
   <string name="warning_synchronization_folder_usage">Thư mục này được sử dụng cho việc đồng bộ dữ liệu giữa các bản cài của ứng dụng trên những thiết bị khác nhau ({app_name}). Vui lòng không tuỳ ý chỉnh sửa các thư mục này và nội dung của nó.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Thư mục bạn đã chọn tương ứng với một tài khoản của một backend sẵn có. Bạn cần chọn thư mục mẹ của nó để dùng lại backend này.</string>
   <string name="select_unsynced_accounts">Chọn tài khoản để đồng bộ với backend này</string>

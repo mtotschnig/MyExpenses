@@ -72,8 +72,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Yeni bir şablon girmek için veya mevcut bir şablonu düzenlemek için bu formu kullanabilirsiniz. Muamele ve havale şablonları arasında geçiş yapmak için etkinlik çubuğundaki aşağıya doğru açılan menüyü kullanın.</string>
   <string name="help_ExpenseEdit_split_info">Bölünmüş bir muamele, parçalara ayrılmış tek bir muameledir ve her parça değişik bir kategoriye atanabilir ya da başka bir hesaba transfer edilebilir.</string>
   <string name="form_account_help_text">Muamelenin ait olduğu hesabı seçin.</string>
-  <string name="form_date.time_help_text">Muamelenin gerçekleştiği tarih ve zamanı girin.</string>
-  <string name="form_date.time_help_text_configuration">Ayarlarda, zaman girişini devre dışı bırakabilir ve muamele tarihi ile değer tarihi arasındaki farklılığı etkinleştirebilirsiniz.</string>
+  <string name="form_date_time_help_text">Muamelenin gerçekleştiği tarih ve zamanı girin.</string>
+  <string name="form_date_time_help_text_configuration">Ayarlarda, zaman girişini devre dışı bırakabilir ve muamele tarihi ile değer tarihi arasındaki farklılığı etkinleştirebilirsiniz.</string>
   <string name="form_payer_or_payee_help_text">Bu alan girdiğiniz değerleri hatırlar ve gelecekte onları tekrar önerir.</string>
   <string name="form_amount_switch_help_text">Harcamalar ve gelirler arası geçiş yapmak için düğmeyi kullanın.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> düğme hesap makinesini açar.]]></string>
@@ -84,7 +84,7 @@
   <string name="form_category_help_text">Bu düğme kategorilerin listesini açar ve burada muameleyi ilişkilendireceğiniz kategoriyi seçebilirsiniz.</string>
   <string name="form_split_parts_heading_help_text">Kayan eylem düğmesini ne kadar gerekiyorsa o kadar bölünmüş parça girmek için kullanın. Muamele ile parçaların toplamı arasındaki fark ekranın altında gösterilir. Bölünmüş muameleyi sadece muamele miktarı tam olarak atanmışsa kaydedebilirsiniz.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Bu bölünmüş kısım için bir kategori seç.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Bu unsurun aktarıldığı kaynak ya da hedef hesapları atayın.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Bu unsurun aktarıldığı kaynak ya da hedef hesapları atayın.</string>
   <string name="form_exchange_rate_help_text">Döviz kurunu virmanın tek ya da iki yönü için belirtebilirsiniz. Ters oran ve döviz kuru bağımlı kısmına tekabül eden meblağ otomatik olarak hesaplanır.</string>
   <string name="form_title_help_text">Şablonu benzersiz bir biçimde tanımlayacak bir başlık girin.</string>
   <string name="form_plan_help_text">Herhangi bir şablon için bir planlama oluşturduğunuz zaman, bu takvim uygulamanız tarafından yönetilen özel bir takvime eklenir. Planlamayı tek bir kerelik ya da günlük, haftalık, aylık ya da yıllık olarak tekrar edecek şekilde belirtebilirsiniz.</string>

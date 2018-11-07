@@ -78,7 +78,7 @@
   <string name="form_category_help_text">Butang ini membuka senarai kategori, yang mana anda boleh pilih kategori yang anda mahu petakan ke dalam transaksi.</string>
   <string name="form_split_parts_heading_help_text">Guna butang tindakan apung untuk memasukkan sebanyak mungkin bahagian pengasingan yang diperlukan. Perbezaan diantara jumlah bahagian dan transaksi dipaparkan pada bahagian bawah skrin.  Anda boleh menyimpan transaksi pengasingan, jika amaun transaksi telah diumpuk dengan tepat.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Pilih satu kategori untuk bahagian pengasingan ini.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Umpuk akaun yang mana objek ini dipindahkan daripada atau kepada.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Umpuk akaun yang mana objek ini dipindahkan daripada atau kepada.</string>
   <string name="form_exchange_rate_help_text">Anda boleh nyatakan kadar sama ada kedua-dua arah pemindahan. Kadar songsang dan amaun berkenaan pada bahagian dependan bagi kadar pertukaran dikira secara automatik.</string>
   <string name="form_title_help_text">Masukkan tajuk mengenalpasti templat secara unik.</string>
   <string name="form_plan_help_text">Bila anda mencipta satu plan bagi sesebuah templat, ditambah ke kalendar persendirian oleh apl Kalendar anda. Anda boleh takrifkan plan sebagai peristiwa berlaku sekali-sahaja, atau berulang harian, mingguan, bulanan atau tahunan.</string>

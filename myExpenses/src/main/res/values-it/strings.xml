@@ -600,6 +600,8 @@
   <string name="dialog_confirm_sync_remove_backend">Il backend remoto %s verrà rimosso. Ciò non influirà sui dati memorizzati localmente o in remoto, ma lo stato di sincronizzazione verrà perso. Si desidera continuare?</string>
   <string name="dialog_confirm_sync_link_local">I dati remoti per questo account saranno cancellati. Accertati che non ci siano altri dispositivi collegati all\'account.</string>
   <string name="dialog_confirm_sync_link_remote">I dati locali per questo account saranno cancellati.</string>
+  <string name="warning_limited_trial">La funzionalità %1$s può essere provata fino al %2$s.</string>
+  <string name="warning_trial_limit_reached">Il periodo di prova per provare la funzionalità %s è terminato.</string>
   <string name="warning_synchronization_folder_usage">Questa cartella è usata per la sincronizzazione dei dati tra le installazioni di {app_name} sui diversi dispositivi. Per favore non modificarne il contenuto manualmente.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La cartella che hai selezionato corrisponde ad un account di un backend esistente. E\' necessario selezionare la propria cartella principale per poter riusare questo backend.</string>
   <string name="select_unsynced_accounts">Seleziona gli account da sincronizzare con questo backend</string>

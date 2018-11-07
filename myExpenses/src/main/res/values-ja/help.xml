@@ -70,8 +70,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">このフォームを使用して、新しい取引を入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、取引、振替、分割のテンプレートを切り替えることができます。</string>
   <string name="help_ExpenseEdit_split_info">分割取引は、一部が分割された一つの取引で、各部分が別の分類に割り当てられ、または別の勘定に振替することができます。</string>
   <string name="form_account_help_text">取引が属する勘定を選択します。</string>
-  <string name="form_date.time_help_text">取引が行われた日時を入力します。</string>
-  <string name="form_date.time_help_text_configuration">設定で、時間入力を無効にして、予約日と実行日を区別するようにすることができます。</string>
+  <string name="form_date_time_help_text">取引が行われた日時を入力します。</string>
+  <string name="form_date_time_help_text_configuration">設定で、時間入力を無効にして、予約日と実行日を区別するようにすることができます。</string>
   <string name="form_payer_or_payee_help_text">このフィールドは入力した値を記憶し、将来それらを提案します。</string>
   <string name="form_amount_switch_help_text">支出と収入を切り替えるには、スイッチを使用します。</string>
   <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> ボタンは電卓を開きます。]]></string>
@@ -82,7 +82,7 @@
   <string name="form_category_help_text">このボタンは、取引にマップしたい分類を選択できる、分類のリストが表示されます。</string>
   <string name="form_split_parts_heading_help_text">フローティングアクションボタンを使用して、必要な数の分割部分を入力してください。部分の合計と取引の差は、画面の下部に表示されます。取引金額が正確に割り当てられている場合にのみ、分割取引を保存することができます。</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">分割部分の分類を選択します。</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">この対象の振替元または先の勘定を割り当てます。</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">この対象の振替元または先の勘定を割り当てます。</string>
   <string name="form_exchange_rate_help_text">振替の双方のいずれかのレートを指定することができます。逆のレートと為替レートの依存する部分に相当する金額は自動的に計算されます。</string>
   <string name="form_title_help_text">テンプレートを一意に識別するタイトルを入力してください。</string>
   <string name="form_plan_help_text">テンプレート用の計画を作成すると、お使いのカレンダーアプリが扱うプライベート カレンダーに追加されます。1回のイベントとして、または毎日、毎週、毎月、毎年の繰り返しイベントとして、計画を定義することができます。</string>

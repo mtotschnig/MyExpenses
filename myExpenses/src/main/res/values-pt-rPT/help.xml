@@ -75,7 +75,7 @@
   <string name="form_category_help_text">Este botão abre a lista de categorias, onde poderá selecionar a categoria que pretende atribuir à transação.</string>
   <string name="form_split_parts_heading_help_text">Utilize o botão de ação flutuante para introduzir as divisões que forem necessárias. A diferença entre a soma das partes e a transação é exibida na parte inferior do ecrã. Apenas pode guardar a transação dividida, se a quantia da transação foi exatamente designada.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selecionar a categoria para esta divisão.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Designar as contas de ou para onde este objeto é transferido.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Designar as contas de ou para onde este objeto é transferido.</string>
   <string name="form_exchange_rate_help_text">Pode especificar uma taxa em ambas as direções da transferência. A taxa inversa e o montante correspondente à parte dependente da taxa de câmbio são calculados automaticamente.</string>
   <string name="form_title_help_text">Introduzir um título que identifica unicamente o modelo.</string>
   <string name="form_plan_help_text">Quando cria um plano para um modelo, o mesmo é adicionado a um calendário privado gerido pela sua aplicação de calendário. Pode definir o plano como evento único, ou para ocorrer diariamente, semanalmente, mensalmente ou anualmente.</string>

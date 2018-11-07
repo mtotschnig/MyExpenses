@@ -600,6 +600,8 @@
   <string name="dialog_confirm_sync_remove_backend">Das entfernte Backend %s wird entfernt. Dadurch werden lokal und entfernt gespeicherte Daten nicht berührt, aber der Status der Synchronisation geht verloren. Möchten Sie fortfahren?</string>
   <string name="dialog_confirm_sync_link_local">Entfernte Daten für dieses Konto werden gelöscht. Achten Sie darauf, dass keine anderen Geräte mit diesem verbunden sind.</string>
   <string name="dialog_confirm_sync_link_remote">Lokale Daten für dieses Konto werden gelöscht.</string>
+  <string name="warning_limited_trial">Die Funktion %1$s kann bis %2$s getestet werden.</string>
+  <string name="warning_trial_limit_reached">Die Probezeit für die Funktion %s ist abgelaufen.</string>
   <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von {app_name} auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
   <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen.</string>

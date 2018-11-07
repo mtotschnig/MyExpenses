@@ -309,9 +309,10 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   private CharSequence resolveStringOrArray(String resString, boolean separateComponentsByLinefeeds) {
-    int arrayId = resolveArray(resString.replace('.', '_'));
+    final String resIdString = resString.replace('.', '_');
+    int arrayId = resolveArray(resIdString);
     if (arrayId == 0) {
-      int stringId = resolveString(resString);
+      int stringId = resolveString(resIdString);
       if (stringId == 0) {
         return null;
       } else {

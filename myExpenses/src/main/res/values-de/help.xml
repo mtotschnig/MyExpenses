@@ -72,8 +72,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Verwenden Sie dieses Formular, um eine neue Vorlage einzugeben oder eine bestehende zu bearbeiten. Verwenden Sie das Dropdown-Menü in der Aktionsleiste, um zwischen Vorlagen für Buchungen, Umbuchungen und mehrteiligen Buchungen zu wechseln.</string>
   <string name="help_ExpenseEdit_split_info">Eine Splittbuchung ist eine einzelne Buchung, aufgeteilt in Teile, wo jeder Teil einer anderen Kategorie zugewiesen oder auf ein anderes Konto übertragen werden kann.</string>
   <string name="form_account_help_text">Wählen Sie das Konto, zu dem die Buchung gehört.</string>
-  <string name="form_date.time_help_text">Geben Sie die Datum und Zeit an, wann die Buchung stattgefunden hat.</string>
-  <string name="form_date.time_help_text_configuration">In den Einstellungen können Sie die Zeiteingabe deaktivieren und die Unterscheidung zwischen Buchungsdatum und Wertstellung aktivieren.</string>
+  <string name="form_date_time_help_text">Geben Sie die Datum und Zeit an, wann die Buchung stattgefunden hat.</string>
+  <string name="form_date_time_help_text_configuration">In den Einstellungen können Sie die Zeiteingabe deaktivieren und die Unterscheidung zwischen Buchungsdatum und Wertstellung aktivieren.</string>
   <string name="form_payer_or_payee_help_text">Dieses Feld merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor.</string>
   <string name="form_amount_switch_help_text">Verwenden Sie den Schalter, um zwischen Ausgabe und Einnahme umzuschalten</string>
   <string name="form_calculator_help_text"><![CDATA[Die <img src=\"?calcIcon\"> Schaltfläche öffnet den Taschenrechner.]]></string>
@@ -84,7 +84,7 @@
   <string name="form_category_help_text">Diese Schaltfläche öffnet die Liste der Kategorien, aus der Sie die Kategorie auswählen können, der Sie die Buchung zuordnen möchten.</string>
   <string name="form_split_parts_heading_help_text">Verwenden Sie die schwebende Aktionsschaltfläche, um Teile nach Bedarf hinzuzufügen. Die Differenz zwischen der Summe der Teile und dem Betrag der Buchung wird am unteren Rand des Bildschirms angezeigt. Die Splittbuchung kann nur gespeichert werden, wenn der Betrag vollständig zugewiesen wurde.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Wählen Sie eine Kategorie für diesen Buchungsteil aus.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Wählen Sie die Konten aus, zwischen denen dieses Objekt übertragen wird.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Wählen Sie die Konten aus, zwischen denen dieses Objekt übertragen wird.</string>
   <string name="form_exchange_rate_help_text">Sie können den Kurs in jedem der beiden Richtungen der Überweisung angeben. Der reziproke Kurs und die Höhe des abhängigen Teils des Wechselkurses werden automatisch berechnet.</string>
   <string name="form_title_help_text">Geben Sie einen Titel an, der die Vorlage eindeutig identifiziert.</string>
   <string name="form_plan_help_text">Wenn Sie für eine Vorlage einen Plan definieren, wird dieser in einem privaten Kalender Ihrer Kalender App gespeichert. Ein Plan kann als einmaliges Ereignis oder als täglich, wöchentlich, monatlich, jährlich wiederkehrend definiert werden.</string>

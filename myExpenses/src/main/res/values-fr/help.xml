@@ -73,8 +73,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Utilisez ce formulaire pour entrer un nouveau modèle ou pour en modifier un existant. Utilisez le menu déroulant de la barre d\'actions pour basculer entre les modèles pour les transactions, transferts et opérations ventilées.</string>
   <string name="help_ExpenseEdit_split_info">Une opération ventilée est une opération unique, séparé en parties, où chaque partie peut être assignée à une catégorie différente, ou un transfert vers un autre compte.</string>
   <string name="form_account_help_text">Sélectionnez le compte auquel appartient l\'opération.</string>
-  <string name="form_date.time_help_text">Entrez la date et l\'heure auxquelles l\'opération a eu lieu.</string>
-  <string name="form_date.time_help_text_configuration">Dans les paramètres, vous pouvez désactiver la saisie de l\'heure et activer la différenciation entre la date d\'enregistrement et la date de valeur.</string>
+  <string name="form_date_time_help_text">Entrez la date et l\'heure auxquelles l\'opération a eu lieu.</string>
+  <string name="form_date_time_help_text_configuration">Dans les paramètres, vous pouvez désactiver la saisie de l\'heure et activer la différenciation entre la date d\'enregistrement et la date de valeur.</string>
   <string name="form_payer_or_payee_help_text">Ce champ se souvient des valeurs que vous avez entré et vous les proposera à l\'avenir.</string>
   <string name="form_amount_switch_help_text">Utilisez le commutateur pour basculer entre dépenses et revenus.</string>
   <string name="form_calculator_help_text"><![CDATA[Le <img src=\"?calcIcon\"> bouton permettant d\'ouvrir la calculatrice.]]></string>
@@ -85,7 +85,7 @@
   <string name="form_category_help_text">Ce bouton ouvre la liste des catégories, où vous pouvez sélectionner la catégorie dont vous souhaitez attribuer à l\'opération.</string>
   <string name="form_split_parts_heading_help_text">Utilisez le bouton d\'action flottant pour la saisie des ventilations nécessaires. La différence entre la somme des parties et l\'opération est affichée au bas de l\'écran. Vous ne pourrez  enregistrer l\'opération ventilée que si le montant total est exactement attribué.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Sélectionnez une catégorie pour cette partie ventilée.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Affecter les comptes desquels ou vers lesquels cet objet est transféré.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Affecter les comptes desquels ou vers lesquels cet objet est transféré.</string>
   <string name="form_exchange_rate_help_text">Vous pouvez spécifier le taux dans une des deux directions du transfert. Le taux inverse et le montant correspondant à la partie dépendante du taux de change seront calculés automatiquement.</string>
   <string name="form_title_help_text">Entrez un titre qui identifie le modèle.</string>
   <string name="form_plan_help_text">Quand vous créez une échéance pour un modèle, celui-ci est ajouté dans un calendrier privé géré par votre application Calendrier. Vous pouvez définir l\'échéance comme événement unique ou périodique : quotidien, hebdomadaire, mensuel ou annuel.</string>

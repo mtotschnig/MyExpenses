@@ -566,6 +566,8 @@
   <string name="dialog_command_sync_link_local">Загрузить из локального хранилища</string>
   <string name="menu_remove">Удалить</string>
   <string name="dialog_confirm_sync_link_remote">Локальные данные для этого счета будут удалены.</string>
+  <string name="warning_limited_trial">Функция %1$s будет доступна до %2$s.</string>
+  <string name="warning_trial_limit_reached">Пробный период функции %s завершился.</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
   <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>

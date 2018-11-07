@@ -601,6 +601,8 @@ continuar?</string>
   <string name="dialog_confirm_sync_remove_backend">O servidor remoto %s será removido. Isto não afetará os dados armazenados local ou remotamente, mas o status da sincronização será perdido. Deseja continuar?</string>
   <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão excluídos. Certifique-se de que nenhum outro dispositivo se encontra associado à ela.</string>
   <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão excluídos.</string>
+  <string name="warning_limited_trial">O recurso %1$s pode ser testada até %2$s.</string>
+  <string name="warning_trial_limit_reached">O período de testes do recurso %s encerrou.</string>
   <string name="warning_synchronization_folder_usage">Esta pasta é usada para sincronizar dados entre instalações do {app_name} em diferentes dispositivos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta selecionada corresponde a uma conta de um servidor existente. É necessário selecionar a pasta superior para reutilizar este servidor.</string>
   <string name="select_unsynced_accounts">Selecione as contas a serem sincronizadas com este servidor</string>

@@ -600,6 +600,8 @@
   <string name="dialog_confirm_sync_remove_backend">El servicio remoto %s será eliminado. Esto no afectará a los datos almacenados a nivel local o remoto, pero el estado de sincronización será interrumpido. ¿Desea continuar?</string>
   <string name="dialog_confirm_sync_link_local">Los datos remotos para esta cuenta serán eliminado. Asegúrese de que ningún otro dispositivo está unido a ellos.</string>
   <string name="dialog_confirm_sync_link_remote">Los datos locales de esta cuenta serán eliminados.</string>
+  <string name="warning_limited_trial">La funcionalidad %1$s puede utilizarse hasta %2$s.</string>
+  <string name="warning_trial_limit_reached">El periodo de prueba para la funcionalidad %s ha terminado.</string>
   <string name="warning_synchronization_folder_usage">Esta carpeta se utiliza para la sincronización de datos en las instalaciones de {app_name} en diferentes dispositivos. Por favor, no modifique nada de su contenido manualmente.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La carpeta que ha seleccionado corresponde a una cuenta de un servicio existente. Necesita seleccionar la carpeta principal para poder reutilizar este servicio.</string>
   <string name="select_unsynced_accounts">Seleccione qué cuentas serán sincronizadas con este servicio</string>

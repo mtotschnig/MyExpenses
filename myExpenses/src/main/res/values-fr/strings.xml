@@ -600,6 +600,8 @@
   <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra. Voulez-vous continuer ?</string>
   <string name="dialog_confirm_sync_link_local">Les données à distance pour ce compte seront supprimées. Assurez-vous qu\'aucun autre appareil n\'y est lié.</string>
   <string name="dialog_confirm_sync_link_remote">Les données locales pour ce compte seront supprimées.</string>
+  <string name="warning_limited_trial">La fonction %1$s peut être testée jusqu\'au %2$s.</string>
+  <string name="warning_trial_limit_reached">La période d\'essai pour tester la fonctionnalité %s est terminée.</string>
   <string name="warning_synchronization_folder_usage">Ce dossier est utilisé pour la synchronisation des données entre les installations de {app_name} sur différents appareils. S\'il vous plaît ne pas modifier son contenu manuellement.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Le dossier que vous avez sélectionné correspond à un compte d\'un backend existant. Vous devez sélectionner son dossier parent afin de réutiliser ce backend.</string>
   <string name="select_unsynced_accounts">Sélectionnez les comptes à être synchronisés avec ce backend</string>

@@ -77,7 +77,7 @@
   <string name="form_category_help_text">Questo pulsante apre l\'elenco delle categorie, dove è possibile selezionare la categoria che si desidera associare all\'operazione.</string>
   <string name="form_split_parts_heading_help_text">Utilizzare il pulsante di azione galleggiante per entrare come molti parti divise secondo le necessità. La differenza tra la somma delle parti e l\'operazione è visualizzata nella parte inferiore dello schermo. È possibile salvare l\'operazione frazionata, solo se l\'importo dell\'operazione è stato assegnato esattamente.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selezionare una categoria per questa parte divisa.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Assegnare i conti da dove o dove questo oggetto viene trasferito.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Assegnare i conti da dove o dove questo oggetto viene trasferito.</string>
   <string name="form_exchange_rate_help_text">È possibile specificare il tasso di cambio in ognuna delle due direzioni del trasferimento. Il tasso inverso e l\'importo corrispondente alla seconda parte del tasso di cambio vengono calcolati automaticamente.</string>
   <string name="form_title_help_text">Inserisci un titolo che identifica in modo univoco il modello.</string>
   <string name="form_plan_help_text">Quando si crea un scadenza per un modello, questa viene aggiunta ad un calendario privato gestito dalla tua applicazione calendario. È possibile definire la scadenza come evento unico, o ricorrente giornaliera, settimanale, mensile, annuale.</string>

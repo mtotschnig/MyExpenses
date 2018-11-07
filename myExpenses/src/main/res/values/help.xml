@@ -95,8 +95,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Use this form to enter a new template or to edit an existing one. Use the dropdown menu in the actionbar to switch between templates for transactions, transfers and splits.</string>
   <string name="help_ExpenseEdit_split_info">A split transaction is a single transaction split up in parts, where each part can be assigned to a different category, or transferred to a different account.</string>
   <string name="form_account_help_text">Select the account to which the transaction belongs.</string>
-  <string name="form_date.time_help_text">Enter the date and time when the transaction took place.</string>
-  <string name="form_date.time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
+  <string name="form_date_time_help_text">Enter the date and time when the transaction took place.</string>
+  <string name="form_date_time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
   <string name="form_payer_or_payee_help_text">This field remembers the values you enter and will suggest them in the future.</string>
   <string name="form_amount_switch_help_text">Use the switch to toggle between expense and income.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
@@ -107,7 +107,7 @@
   <string name="form_category_help_text">This button opens the list of categories, where you can select the category you want to map to the transaction.</string>
   <string name="form_split_parts_heading_help_text">Use the floating action button for entering as many split parts as needed. The difference between the sum of the parts and the transaction is displayed at the bottom of the screen. You can only save the split transaction, if the transaction amount has been exactly assigned.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Select a category for this split part.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Assign the accounts where this object is transferred from or to.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Assign the accounts where this object is transferred from or to.</string>
   <string name="form_exchange_rate_help_text">You can specify the rate in either of the both directions of the transfer. The inverse rate and the amount corresponding to the dependent part of the exchange rate are calculated automatically.</string>
   <string name="form_title_help_text">Enter a title that uniquely identifies the template.</string>
   <string name="form_plan_help_text">When you create a plan for a template, it is added to a private calendar handled by your Calendar app. You can define the plan as a one-time event, or as recurring daily, weekly, monthly or yearly.</string>
@@ -180,5 +180,5 @@
   <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">The budgeting screen allows you to define a daily, weekly, monthly or yearly budget. First you set the total money that you want to spend for each period. Then you can allocate amounts for categories and sub-categories, and monitor how much you have spent and how much remains to be spent. Clicking on the budgeted amounts allows to change them.</string>
   <string name="menu_switch_budget_help_text">Switch to a different type of budget.</string>
   <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
-  <string name="menu_BudgetActivity_back.forward_help_text">Compare budget with spending of past and future periods of time.</string>
+  <string name="menu_BudgetActivity_back_forward_help_text">Compare budget with spending of past and future periods of time.</string>
 </resources>

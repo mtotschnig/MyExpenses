@@ -79,7 +79,7 @@
   <string name="form_category_help_text">Ten przycisk otwiera listę kategorii, w których możesz wybrać kategorię, którą chcesz przenieść na transakcję.</string>
   <string name="form_split_parts_heading_help_text">Użyj pływającego przycisku akcji, aby wprowadzić tyle podzielonych części, ile potrzeba. Różnica między sumą części a transakcją jest wyświetlana u dołu ekranu. Możesz zapisać tylko transakcję podziału, jeśli kwota transakcji została dokładnie przypisana.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Wybierz kategorię dla tej podzielonej części.</string>
-  <string name="form_transfer_from_account.transfer_to_account_help_text">Przypisywanie kont, do których ten obiekt jest przesyłany \'Od\' lub \'Do\'.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Przypisywanie kont, do których ten obiekt jest przesyłany \'Od\' lub \'Do\'.</string>
   <string name="form_exchange_rate_help_text">Możesz określić stawkę w jednym z obu kierunków transferu. Odwrotna stawka i kwota odpowiadająca zależnej części kursu walutowego jest obliczana automatycznie.</string>
   <string name="form_title_help_text">Wprowadź tytuł który unikalnie zidentyfikuje szablon.</string>
   <string name="form_plan_help_text">Po utworzeniu planu szablonu jest on dodawany do prywatnego kalendarza obsługiwanego przez aplikację Kalendarz. Możesz zdefiniować plan jako jednorazowe wydarzenie lub cyklicznie codziennie, co tydzień, co miesiąc lub co rok.</string>
