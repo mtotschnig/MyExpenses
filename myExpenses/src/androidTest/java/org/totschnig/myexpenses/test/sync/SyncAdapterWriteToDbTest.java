@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.test.sync;
 
 import android.content.ContentProviderOperation;
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.test.mock.MockContext;
 
 import org.junit.Assume;
 import org.junit.Before;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +29,7 @@ public class SyncAdapterWriteToDbTest {
   public void setup() {
     Assume.assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
 
-    syncAdapter = spy(new SyncAdapter(new MockContext(), true, true));
+    syncAdapter = spy(new SyncAdapter(mock(Context.class), true, true));
     when(syncAdapter.getAccount()).thenReturn(new Account());
     ops = new ArrayList<>();
   }

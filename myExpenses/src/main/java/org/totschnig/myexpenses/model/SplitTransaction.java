@@ -97,9 +97,6 @@ public class SplitTransaction extends Transaction {
 
   @Override
   public Uri save() {
-    if (status == STATUS_UNCOMMITTED) {
-      ContribFeature.SPLIT_TRANSACTION.recordUsage();
-    }
     Uri uri = super.save();
     inEditState = false;
     return uri;
@@ -211,7 +208,6 @@ public class SplitTransaction extends Transaction {
         .build());
     try {
       cr.applyBatch(TransactionProvider.AUTHORITY, operations);
-      ContribFeature.SPLIT_TRANSACTION.recordUsage();
       return count == 1 ? Result.ofSuccess(R.string.split_transaction_one_success) :
           Result.ofSuccess(R.string.split_transaction_group_success, null, count);
     }  catch (RemoteException | OperationApplicationException e) {

@@ -586,8 +586,6 @@
   <string name="dialog_confirm_sync_remove_backend">O backend remoto %s será removido. Isto não afetará os dados armazenados localmente ou remotamente, mas o estado da sincronização será perdido. Pretende continuar?</string>
   <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão eliminados. Certifique-se que mais nenhum dispositivo se encontra associado à conta.</string>
   <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão eliminados.</string>
-  <string name="warning_synchronization_limited_trial">A funcionalidade de sincronização pode ser testada até %s.</string>
-  <string name="warning_synchronization_limit_reached">O período de testes da funcionalidade de sincronização terminou.</string>
   <string name="warning_synchronization_folder_usage">A pasta é usada para sincronizar dados entre instalações do {app_name} em diferentes dispositivos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta que selecionou corresponde a uma conta de um backend existente. Necessita de selecionar a pasta superior para reutilizar este backend.</string>
   <string name="select_unsynced_accounts">Selecionar as contas a ser sincronizadas com este backend</string>

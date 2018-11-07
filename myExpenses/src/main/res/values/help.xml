@@ -30,6 +30,7 @@
   <string name="menu_grouping_help_text">You can group transactions by day, week, month or year. For each group, the sum of income, expenses and transfers is calculated and displayed. When you click on a group header, the group of transactions is collapsed and only the header is displayed. Click again to expand.</string>
   <string name="menu_sort_direction_help_text">Transactions can be sorted in ascending (oldest on top) or descending (latest on top) direction.</string>
   <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also long click on a group header to inspect the distribution for a specific period of time.</string>
+  <string name="menu_budget_help_text">Manage daily, weekly, monthly or yearly budgets for the currently displayed account.</string>
   <string name="menu_history_help_text">Display a cash flow diagram: How did your expense and income evolve over days, weeks, months or years?</string>
   <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
   <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
@@ -174,4 +175,10 @@
   <string name="menu_HistoryActivity_grouping_help_text">Switch between daily, weekly, monthly or annual grouping of your cash flow data.</string>
   <string name="menu_HistoryActivity_history_show_balance_help_text">Toggle the visibility of the balance.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Toggle, if transfers should be treated like a regular income or expense.</string>
+
+  <!-- Budget -->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">The budgeting screen allows you to define a daily, weekly, monthly or yearly budget. First you set the total money that you want to spend for each period. Then you can allocate amounts for categories and sub-categories, and monitor how much you have spent and how much remains to be spent. Clicking on the budgeted amounts allows to change them.</string>
+  <string name="menu_switch_budget_help_text">Switch to a different type of budget.</string>
+  <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
+  <string name="menu_BudgetActivity_back.forward_help_text">Compare budget with spending of past and future periods of time.</string>
 </resources>

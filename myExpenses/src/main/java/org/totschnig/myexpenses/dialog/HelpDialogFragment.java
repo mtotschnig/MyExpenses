@@ -116,6 +116,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("equivalent_amount", null);
     iconMap.put("color", R.drawable.ic_color);
     iconMap.put("history", R.drawable.ic_history);
+    iconMap.put("budget", R.drawable.ic_budget);
+    iconMap.put("switch_budget", R.drawable.ic_budget);
+    iconMap.put("manage_categories", null);
+    iconMap.put("show_transactions", null);
+    iconMap.put("back.forward", null);
   }
 
   private LayoutInflater layoutInflater;
@@ -255,15 +260,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       View row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout, false);
 
       String title = "";
-      if (prefix.equals("form")) {
-        //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
-        for (String resIdPart : item.split("\\.")) {
-          if (!title.equals(""))
-            title += "/";
-          title += resolveStringOrThrowIf0(resIdPart);
-        }
-      } else {
-        title = resolveStringOrThrowIf0("menu_" + item);
+      //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
+      for (String resIdPart : item.split("\\.")) {
+        if (!title.equals(""))
+          title += "/";
+        title += resolveStringOrThrowIf0((prefix.equals("form") ? "" : "menu_") + resIdPart);
       }
 
       ((TextView) row.findViewById(R.id.title)).setText(title);

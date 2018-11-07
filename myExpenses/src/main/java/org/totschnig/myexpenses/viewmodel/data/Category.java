@@ -8,6 +8,7 @@ public class Category {
   public final long id;
   public final Long parentId;
   public final String label;
+  public final Long budget;
   public final Long sum;
   public final Boolean hasMappedTemplates;
   public final Boolean hasMappedTransactions;
@@ -15,7 +16,7 @@ public class Category {
   public final int color;
 
   public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
-                  Boolean hasMappedTransactions, int color) {
+                  Boolean hasMappedTransactions, int color, Long budget) {
     this.id = id;
     this.parentId = parentId;
     this.label = label;
@@ -23,6 +24,7 @@ public class Category {
     this.hasMappedTemplates = hasMappedTemplates;
     this.hasMappedTransactions = hasMappedTransactions;
     this.color = color;
+    this.budget = budget;
   }
 
   public void addChild(Category child) {

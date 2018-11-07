@@ -13,7 +13,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.TimePreference;
 
@@ -31,7 +33,8 @@ public class DailyAutoBackupScheduler {
   public static void updateAutoBackupAlarms(Context context) {
     if (PrefKey.AUTO_BACKUP.getBoolean(false) &&
         PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
-      if (ContribFeature.AUTO_BACKUP.hasAccess() || ContribFeature.AUTO_BACKUP.usagesLeft() > 0) {
+      final PrefHandler prefHandler = ((MyApplication) context.getApplicationContext()).getAppComponent().prefHandler();
+      if (ContribFeature.AUTO_BACKUP.hasAccess() || ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) > 0) {
         scheduleAutoBackup(context);
       }
     } else {

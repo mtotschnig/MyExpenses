@@ -616,8 +616,6 @@
   <string name="dialog_confirm_sync_remove_backend">Backend מרחוק %s יוסר. פעולה זו לא תשפיע על נתונים המאוחסנים מקומית או מרחוק, אך מצב הסינכרון הולך לאיבוד. האם אתה רוצה להמשיך?</string>
   <string name="dialog_confirm_sync_link_local">נתונים מרוחקים עבור החשבון הזה יימחקו. ודא שאין התקנים אחרים מקושרים אליו.</string>
   <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>
-  <string name="warning_synchronization_limited_trial">ניתן לבדוק את תכונת הסנכרון עד %s .</string>
-  <string name="warning_synchronization_limit_reached">תקופת הניסיון לבדיקת תכונת הסנכרון הסתיימה.</string>
   <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה {app_name} במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">התיקייה שבחרת מסומנת לחשבון אחד של backend קיים. עליך לבחור את תיקיית האב כדי לעשות שימוש חוזר ב- backend זה.</string>
   <string name="select_unsynced_accounts">בחר חשבונות לסנכרון עם backend זה</string>

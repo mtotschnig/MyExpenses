@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
@@ -193,6 +194,9 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
+    if (taskId == TASK_CREATE_SYNC_ACCOUNT && ((Result) o).isSuccess()) {
+      recordUsage(ContribFeature.SYNCHRONIZATION);
+    }
     switch (taskId) {
       case TASK_WEBDAV_TEST_LOGIN: {
         getWebdavFragment().onTestLoginResult((Exceptional<Void>) o);

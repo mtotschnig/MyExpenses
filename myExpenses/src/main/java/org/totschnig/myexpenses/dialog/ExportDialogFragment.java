@@ -18,8 +18,10 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -65,7 +67,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class ExportDialogFragment extends CommitSafeDialogFragment implements android.content.DialogInterface.OnClickListener, OnCheckedChangeListener {
+public class ExportDialogFragment extends CommitSafeDialogFragment implements OnClickListener, OnCheckedChangeListener {
   private static final String KEY_IS_FILTERED = "is_filtered";
   RadioGroup handleDeletedGroup;
   CheckBox notYetExportedCB, deleteCB;
@@ -89,6 +91,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     return dialogFragment;
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx = (MyExpenses) getActivity();

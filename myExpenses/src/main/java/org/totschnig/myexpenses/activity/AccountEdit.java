@@ -326,14 +326,15 @@ public class AccountEdit extends AmountActivity implements
   public void onPostExecute(Object result) {
     if (result == null) {
       showSnackbar("Unknown error while saving account", Snackbar.LENGTH_SHORT);
+      super.onPostExecute(result);
     } else {
       Intent intent = new Intent();
       long id = ContentUris.parseId((Uri) result);
       mAccount.requestSync();
       intent.putExtra(DatabaseConstants.KEY_ROWID, id);
       setResult(RESULT_OK, intent);
+      finish();
     }
-    finish();
     //no need to call super after finish
   }
 

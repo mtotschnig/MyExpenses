@@ -63,6 +63,13 @@
         app:showAsAction="ifRoom">
     </item>
     <item
+        android:id="@id/BUDGET_COMMAND"
+        android:icon="@drawable/ic_budget"
+        android:orderInCategory="10"
+        android:title="@string/menu_budget"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
         android:id="@id/DISTRIBUTION_COMMAND"
         android:icon="@drawable/ic_menu_chart"
         android:orderInCategory="10"

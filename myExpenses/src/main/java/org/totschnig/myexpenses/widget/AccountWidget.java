@@ -131,7 +131,7 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   @Override
   Account getObject(Cursor c) {
-    Account a = Account.fromCacheOrFromCursor(c);
+    Account a = Account.fromCursor(c);
     mCurrentBalance = new Money(a.currency,
         c.getLong(c.getColumnIndexOrThrow(KEY_CURRENT_BALANCE)));
     return a;

@@ -118,7 +118,8 @@
     <string name="help_ManageParties_title" tools:ignore="UnusedResources">@string/pref_manage_parties_title</string>
     <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title" tools:ignore="UnusedResources">@string/pref_manage_categories_title</string>
-    <string name="help_ManageCategories_distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
+    <string name="help_Distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
+    <string name="help_BudgetActivity_title" tools:ignore="UnusedResources">@string/menu_budget</string>
     <string name="help_ManageCategories_select_mapping_title" tools:ignore="UnusedResources">@string/select_category</string>
     <string name="help_ManageCategories_select_filter_title" tools:ignore="UnusedResources">@string/search_category</string>
     <string name="help_ManageCurrencies_title" tools:ignore="UnusedResources">@string/pref_custom_currency_title</string>
@@ -136,6 +137,9 @@
     <string name="pref_protection_password_title">@string/hint_password</string>
     <string name="form_AccountEdit_exchange_rate_help_text" tools:ignore="UnusedResources">@string/menu_equivalent_amount_help_text</string>
     <string name="cab_ungroup_split_transaction_help_text" tools:ignore="UnusedResources">@string/warning_ungroup_split_transactions</string>
+    <string name="help_Distribution_info">@string/help_ManageCategories_distribution_info</string>
+    <string name="menu_Distribution_grouping_help_text">@string/menu_ManageCategories_distribution_grouping_help_text</string>
+    <string name="cab_color_help_text">@string/cab_ManageCategories_color_help_text</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
@@ -151,6 +155,7 @@
     <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">@string/pref_security_question_title</string>
+    <string name="contrib_feature_budget_label" tools:ignore="UnusedResources">@string/menu_budget</string>
     <string name="currency_not_supported">%s not supported by your OS. Please select a different currency.</string>
     <string name="drive_backend_upgrade">Since 2.8.0, My Expenses supports synchronization with Drive folders from multiple Google accounts. Please select the Google account from which your existing Drive backends were created.</string>
     <string name="button_label_try_again">Try again</string>
@@ -163,6 +168,8 @@
     <string name="menu_set_weight">Set weight</string>
     <string name="menu_result">Result</string>
     <string name="menu_color">@string/color</string>
+    <string name="menu_manage_categories">@string/pref_manage_categories_title</string>
+    <string name="menu_manage_categories_help_text">@string/pref_manage_categories_summary</string>
     <string name="help_RoadmapVoteActivity_title" tools:ignore="UnusedResources">@string/roadmap_vote</string>
     <string name="help_RoadmapVoteActivity_info" tools:ignore="UnusedResources"><![CDATA[Please help us define the future development roadmap! This screen lists all the open tickets from <a href="https://github.com/mtotschnig/MyExpenses/issues">Github</a> . Distribute 10 points (50 if you own a professional licence key) among those tickets that are most important for you. Long press on an issue to learn more about it and to spend weight on it. Once you have finished, do not forget to submit your vote. Thank you for your participation!]]></string>
     <string name="menu_RoadmapVoteActivity_search_help_text" tools:ignore="UnusedResources">Only tickets which match your query will be displayed.</string>

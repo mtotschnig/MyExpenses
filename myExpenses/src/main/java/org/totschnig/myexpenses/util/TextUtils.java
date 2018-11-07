@@ -2,9 +2,13 @@ package org.totschnig.myexpenses.util;
 
 import android.content.Context;
 
+import org.totschnig.myexpenses.model.Money;
+
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class TextUtils {
   public static <E extends Enum<E>> String joinEnum(Class<E> enumClass) {
@@ -28,5 +32,13 @@ public class TextUtils {
       }
     }
     return result.toString();
+  }
+
+  public static String appendCurrencySymbol(Context context, int resId, Currency currency) {
+    return appendCurrencySymbol(context, resId, Money.getSymbol(currency));
+  }
+
+  public static String appendCurrencySymbol(Context context, int resId, String symbol) {
+    return String.format(Locale.ROOT, "%s (%s)", context.getString(resId), symbol);
   }
 }

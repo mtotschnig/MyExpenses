@@ -43,7 +43,6 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -242,6 +241,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
   }
 
+
+  private void unsetIconSpaceReservedRecursive(PreferenceGroup preferenceGroup) {
+    for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
+      final Preference preference = preferenceGroup.getPreference(i);
+      if (preference instanceof PreferenceCategory) {
+        unsetIconSpaceReservedRecursive(((PreferenceCategory) preference));
+      } else {
+        preference.setIconSpaceReserved(false);
+      }
+    }
+  }
+
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     setPreferencesFromResource(R.xml.preferences, rootKey);
@@ -250,6 +261,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     final PreferenceScreen preferenceScreen = getPreferenceScreen();
     setListenerRecursive(preferenceScreen, UI_HOME_SCREEN_SHORTCUTS.getKey().equals(rootKey) ?
         homeScreenShortcutPrefClickHandler : this);
+    unsetIconSpaceReservedRecursive(preferenceScreen);
 
     if (rootKey == null) {//ROOT screen
       findPreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
@@ -492,7 +504,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           if (prefKey.equals(AUTO_BACKUP)) {
             if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
               activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
-              if (ContribFeature.AUTO_BACKUP.usagesLeft() <= 0) {
+              if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
                 buttonView.setChecked(false);
                 return;
               }
@@ -953,7 +965,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else {
       prefHandler.putString(HOME_CURRENCY, currencyCode);
     }
-    Account.invalidateHomeAccount();
     activity().startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
         null, null, R.string.progress_dialog_saving);
   }

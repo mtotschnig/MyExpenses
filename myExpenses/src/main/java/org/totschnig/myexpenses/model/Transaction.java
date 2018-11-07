@@ -686,11 +686,6 @@ public class Transaction extends Model {
     } catch (RemoteException | OperationApplicationException e) {
       return null;
     }
-
-    if (pictureUri != null) {
-      ContribFeature.ATTACH_PICTURE.recordUsage();
-    }
-
     if (initialPlan != null && initialPlan.first != null && initialPlan.second != null) {
       String title = isEmpty(getPayee()) ?
           (isSplit() || isEmpty(getLabel()) ?

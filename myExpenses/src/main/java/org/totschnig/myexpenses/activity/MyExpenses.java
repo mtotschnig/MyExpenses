@@ -46,14 +46,12 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -89,6 +87,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -132,7 +131,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
@@ -163,6 +161,7 @@ public class MyExpenses extends LaunchActivity implements
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
   private long mAccountId = 0;
+  private String currentCurrency;
   private int mAccountCount = 0;
 
   private AdHandler adHandler;
@@ -232,7 +231,7 @@ public class MyExpenses extends LaunchActivity implements
     ButterKnife.bind(this);
 
     mToolbar = setupToolbar(false);
-    getLayoutInflater().inflate(R.layout.custom_title, mToolbar);
+    mToolbar.setOnClickListener(v -> copyToClipBoard());
     if (mDrawerLayout != null) {
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
           mToolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -367,44 +366,6 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    MenuItem balanceItem = menu.findItem(R.id.BALANCE_COMMAND);
-    if (balanceItem != null) {
-      boolean showBalanceCommand = false;
-      if (mAccountId > 0 && mAccountsCursor != null && !mAccountsCursor.isClosed() &&
-          mAccountsCursor.moveToPosition(mCurrentPosition)) {
-        try {
-          if (AccountType.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
-              != AccountType.CASH) {
-            showBalanceCommand = true;
-          }
-        } catch (IllegalArgumentException ex) {/*aggregate*/}
-      }
-      Utils.menuItemSetEnabledAndVisible(balanceItem, showBalanceCommand);
-    }
-
-    Account account = Account.getInstanceFromDb(mAccountId);
-
-    MenuItem groupingItem = menu.findItem(R.id.GROUPING_COMMAND);
-    if (groupingItem != null) {
-      SubMenu groupingMenu = groupingItem.getSubMenu();
-      if (account != null) {
-        Utils.configureGroupingMenu(groupingMenu, account.getGrouping());
-      }
-    }
-
-    MenuItem sortDirectionItem = menu.findItem(R.id.SORT_DIRECTION_COMMAND);
-    if (sortDirectionItem != null) {
-      SubMenu sortDirectionMenu = sortDirectionItem.getSubMenu();
-      if (account != null) {
-        Utils.configureSortDirectionMenu(sortDirectionMenu, account.getSortDirection());
-      }
-    }
-    return true;
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.expenses, menu);
@@ -472,8 +433,8 @@ public class MyExpenses extends LaunchActivity implements
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     //if we are called from an aggregate cursor, we also hand over the currency
-    if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
-      i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
+    if (mAccountId < 0) {
+      i.putExtra(KEY_CURRENCY, currentCurrency);
       i.putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
     } else {
       //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
@@ -500,6 +461,9 @@ public class MyExpenses extends LaunchActivity implements
     Intent i;
     TransactionList tl;
     switch (command) {
+      case R.id.BUDGET_COMMAND:
+        contribFeatureRequested(ContribFeature.BUDGET, null);
+        return true;
       case R.id.DISTRIBUTION_COMMAND:
         tl = getCurrentFragment();
         if (tl != null && tl.hasMappedCategories()) {
@@ -528,7 +492,7 @@ public class MyExpenses extends LaunchActivity implements
         tl = getCurrentFragment();
         if (tl != null && hasCleared()) {
           mAccountsCursor.moveToPosition(mCurrentPosition);
-          Currency currency = Utils.getSaveInstance(mAccountsCursor.getString(columnIndexCurrency));
+          Currency currency = Utils.getSaveInstance(currentCurrency);
           Bundle bundle = new Bundle();
           bundle.putLong(KEY_ROWID,
               mAccountsCursor.getLong(columnIndexRowId));
@@ -704,11 +668,7 @@ public class MyExpenses extends LaunchActivity implements
 
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
-      long accountId = cursor.getLong(columnIndexRowId);
-      //calling the constructors, puts the objects into the cache from where the fragment can
-      //retrieve it, without needing to create a new cursor
-      Account.fromCacheOrFromCursor(cursor);
-      return TransactionList.newInstance(accountId);
+      return TransactionList.newInstance(cursor.getLong(columnIndexRowId));
     }
   }
 
@@ -736,8 +696,7 @@ public class MyExpenses extends LaunchActivity implements
       case DISTRIBUTION: {
         Account a = Account.getInstanceFromDb(mAccountId);
         recordUsage(feature);
-        Intent i = new Intent(this, ManageCategories.class);
-        i.setAction(ManageCategories.ACTION_DISTRIBUTION);
+        Intent i = new Intent(this, Distribution.class);
         i.putExtra(KEY_ACCOUNTID, mAccountId);
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);
@@ -750,14 +709,11 @@ public class MyExpenses extends LaunchActivity implements
         break;
       }
       case HISTORY: {
-        Account a = Account.getInstanceFromDb(mAccountId);
-        if (a != null) {
-          recordUsage(feature);
-          Intent i = new Intent(this, HistoryActivity.class);
-          i.putExtra(KEY_ACCOUNTID, mAccountId);
-          startActivity(i);
-          break;
-        }
+        recordUsage(feature);
+        Intent i = new Intent(this, HistoryActivity.class);
+        i.putExtra(KEY_ACCOUNTID, mAccountId);
+        startActivity(i);
+        break;
       }
       case SPLIT_TRANSACTION: {
         if (tag != null) {
@@ -784,6 +740,14 @@ public class MyExpenses extends LaunchActivity implements
         }
         break;
       }
+      case BUDGET: {
+        recordUsage(feature);
+        Intent i = new Intent(this, BudgetActivity.class);
+        i.putExtra(KEY_ACCOUNTID, mAccountId);
+        i.putExtra(KEY_CURRENCY, currentCurrency);
+        startActivity(i);
+        break;
+      }
     }
   }
 
@@ -794,6 +758,7 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     switch (id) {
@@ -802,7 +767,7 @@ public class MyExpenses extends LaunchActivity implements
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
         return new CursorLoader(this, builder.build(), null, null, null, null);
     }
-    return null;
+    throw new IllegalStateException("Unknown loader id " + id);
   }
 
   /**
@@ -823,16 +788,17 @@ public class MyExpenses extends LaunchActivity implements
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       //noinspection InlinedApi
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      int color700 = UiUtils.get700Tint(color);
+      int color700 = ColorUtils.get700Tint(color);
       window.setStatusBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //noinspection InlinedApi
         getWindow().getDecorView().setSystemUiVisibility(
-            UiUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
     mAccountId = newAccountId;
+    currentCurrency = mAccountsCursor.getString(columnIndexCurrency);
     setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
@@ -841,7 +807,7 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
     switch (loader.getId()) {
-      case ACCOUNTS_CURSOR:
+      case ACCOUNTS_CURSOR: {
         mAccountCount = 0;
         mAccountsCursor = cursor;
         if (mAccountsCursor == null) {
@@ -876,9 +842,9 @@ public class MyExpenses extends LaunchActivity implements
           }
           mCurrentPosition = position;
           moveToPosition(mCurrentPosition);
-          //should be triggered through onPageSelected
-          //setCurrentAccount(mCurrentPosition);
         }
+        break;
+      }
     }
   }
 
@@ -941,7 +907,14 @@ public class MyExpenses extends LaunchActivity implements
     String msg;
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TaskExecutionFragment.TASK_SPLIT:
+      case TaskExecutionFragment.TASK_SPLIT: {
+        Result result = (Result) o;
+        if (((Result) o).isSuccess()) {
+          recordUsage(ContribFeature.SPLIT_TRANSACTION);
+        }
+        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+        break;
+      }
       case TaskExecutionFragment.TASK_REVOKE_SPLIT: {
         Result result = (Result) o;
         showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
@@ -1023,15 +996,10 @@ public class MyExpenses extends LaunchActivity implements
   private void setBalance() {
     long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
         (KEY_CURRENT_BALANCE));
-    mCurrentBalance = currencyFormatter.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
-        .getString(columnIndexCurrency)), balance));
-    TextView balanceTextView = mToolbar.findViewById(R.id.current_balance);
-    balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
-    balanceTextView.setText(mCurrentBalance);
-  }
-
-  public void setTitle(String title) {
-    ((TextView) mToolbar.findViewById(R.id.action_bar_title)).setText(title);
+    mCurrentBalance = currencyFormatter.formatCurrency(new Money(
+        Utils.getSaveInstance(currentCurrency), balance));
+    mToolbar.setSubtitle(mCurrentBalance);
+    mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
   }
 
   public TransactionList getCurrentFragment() {
@@ -1140,7 +1108,7 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
 
-  public void copyToClipBoard(View view) {
+  public void copyToClipBoard() {
     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
     clipboard.setText(mCurrentBalance);
     showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);

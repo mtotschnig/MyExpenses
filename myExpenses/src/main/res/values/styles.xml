@@ -292,4 +292,10 @@
         <item name="android:textSize">?textSizeSmall</item>
     </style>
 
+    <style name="BudgetButton" parent="Widget.AppCompat.Button">
+        <item name="android:minWidth">0dip</item>
+        <item name="android:padding">@dimen/budget_table_padding</item>
+        <item name="android:focusable">false</item>
+    </style>
+
 </resources>

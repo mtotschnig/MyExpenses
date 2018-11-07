@@ -23,6 +23,7 @@ import android.widget.ExpandableListView;
 import com.annimon.stream.Collectors;
 import com.dropbox.core.InvalidAccessTokenException;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -32,6 +33,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
@@ -44,6 +46,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import static android.support.design.widget.BaseTransientBottomBar.LENGTH_INDEFINITE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
@@ -60,8 +64,12 @@ public class SyncBackendList extends Fragment implements
   private int metadataLoadingCount = 0;
   private Snackbar snackbar;
 
+  @Inject
+  PrefHandler prefHandler;
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
+    MyApplication.getInstance().getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     mManager = getLoaderManager();
@@ -89,7 +97,7 @@ public class SyncBackendList extends Fragment implements
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) menuInfo).packedPosition;
     int commandId;
     int titleId;
-    boolean isSyncAvailable = ContribFeature.SYNCHRONIZATION.isAvailable();
+    boolean isSyncAvailable = ContribFeature.SYNCHRONIZATION.isAvailable(prefHandler);
     if (ExpandableListView.getPackedPositionType(packedPosition) ==
         ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
       if (isSyncAvailable) {

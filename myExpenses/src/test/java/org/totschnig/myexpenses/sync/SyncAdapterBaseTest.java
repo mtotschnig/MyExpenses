@@ -1,9 +1,10 @@
 package org.totschnig.myexpenses.sync;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.test.mock.MockContext;
 
 import org.junit.Before;
+import org.mockito.Mockito;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 class SyncAdapterBaseTest {
@@ -11,7 +12,7 @@ class SyncAdapterBaseTest {
 
   @Before
   public void setup() {
-    syncAdapter = new SyncAdapter(new MockContext(), true, true);
+    syncAdapter = new SyncAdapter(Mockito.mock(Context.class), true, true);
   }
 
   protected TransactionChange.Builder buildCreated() {

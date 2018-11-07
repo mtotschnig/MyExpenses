@@ -172,4 +172,6 @@
     <item name="GDPR_CONSENT_COMMAND" type="id"/>
     <item name="CLEAR_FILTER_COMMAND" type="id"/>
     <item name="COLOR_COMMAND" type="id"/>
+    <item name="BUDGET_COMMAND" type="id"/>
+    <item name="MANAGE_CATEGORIES_COMMAND" type="id"/>
 </resources>

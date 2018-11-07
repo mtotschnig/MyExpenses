@@ -11,9 +11,9 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1" >
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,25 +26,25 @@
             android:id="@+id/type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/expense"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/expense" />
+                android:text="@string/expense"/>
 
             <RadioButton
                 android:id="@+id/income"
                 android:layout_weight="1"
-                android:text="@string/income" />
+                android:text="@string/income"/>
         </RadioGroup>
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shrinkColumns="0"
-            android:stretchColumns="1" >
+            android:stretchColumns="1">
 
             <TableRow>
 
@@ -53,30 +53,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/comparison_operator_entries"
-                    android:entryValues="@array/comparison_operator_values" />
+                    android:entryValues="@array/comparison_operator_values"/>
 
-                <EditText
+                <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:digits="@string/amount_digits"
-                    android:inputType="numberDecimal" />
+                    android:layout_height="wrap_content"/>
             </TableRow>
 
             <TableRow
                 android:id="@+id/Amount2Row"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <TextView
                     android:gravity="center_horizontal"
-                    android:text="@string/and" />
+                    android:text="@string/and"/>
 
-                <EditText
+                <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:digits="@string/amount_digits"
-                    android:inputType="numberDecimal" />
+                    android:layout_height="wrap_content"/>
             </TableRow>
         </TableLayout>
     </LinearLayout>

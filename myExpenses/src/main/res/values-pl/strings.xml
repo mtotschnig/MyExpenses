@@ -603,8 +603,6 @@
   <string name="dialog_confirm_sync_remove_backend">Zdalny serwer %s zostanie usunięty. Nie wpłynie to na dane przechowywane lokalnie lub zdalnie, ale status synchronizacji zostanie utracony. Chcesz kontynuować? </string>
   <string name="dialog_confirm_sync_link_local">Zdalne dane dla tego konta zostaną usunięte. Upewnij się, że żadne inne urządzenia nie są z nim połączone.</string>
   <string name="dialog_confirm_sync_link_remote">Dane lokalne dla tego konta zostaną usunięte.</string>
-  <string name="warning_synchronization_limited_trial">Funkcja synchronizacji może być testowana do %s.</string>
-  <string name="warning_synchronization_limit_reached">Okres próbny do testowania funkcji synchronizacji został zakończony.</string>
   <string name="warning_synchronization_folder_usage">Ten folder służy do synchronizowania danych między instalacjami {app_name} na różnych urządzeniach. Nie modyfikuj żadnej jego zawartości ręcznie.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Wybrany folder odpowiada jednemu kontu istniejącego serwera. Musisz wybrać folder nadrzędny, aby ponownie użyć ten serwer.</string>
   <string name="select_unsynced_accounts">Wybierz konta, które chcesz zsynchronizować z tym serwerem</string>

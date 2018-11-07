@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@id/GROUPING_COMMAND"
+        android:title="@string/menu_switch_budget"
+        android:icon="@drawable/ic_budget"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@id/GROUPING_DAY_COMMAND" android:title="@string/daily_budget"/>
+                <item android:id="@id/GROUPING_WEEK_COMMAND" android:title="@string/weekly_budget"/>
+                <item android:id="@id/GROUPING_MONTH_COMMAND" android:title="@string/monthly_budget" />
+                <item android:id="@id/GROUPING_YEAR_COMMAND" android:title="@string/yearly_budget" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/MANAGE_CATEGORIES_COMMAND"
+        android:title="@string/pref_manage_categories_title"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/BACK_COMMAND"
+        android:icon="@drawable/ic_menu_back"
+        android:title="@string/menu_back"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/FORWARD_COMMAND"
+        android:icon="@drawable/ic_menu_forward"
+        android:title="@string/menu_forward"
+        app:showAsAction="never"/>
+</menu>

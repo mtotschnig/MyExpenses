@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.provider;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
@@ -57,6 +58,8 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -114,6 +117,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
@@ -138,7 +143,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 79;
+  public static final int DATABASE_VERSION = 80;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -361,8 +366,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String CURRENCY_CREATE =
       "CREATE TABLE " + TABLE_CURRENCIES
-          + " (" + KEY_ROWID + " integer primary key autoincrement, " + KEY_CODE
-          + " text UNIQUE not null);";
+          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
+          KEY_CODE + " text UNIQUE not null," +
+          KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "');";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -417,6 +423,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
+
+  private static final String BUDGETS_CREATE =
+      "CREATE TABLE " + TABLE_BUDGETS + " ( "
+          + KEY_ROWID + " integer primary key autoincrement, "
+          + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
+          + KEY_BUDGET + " integer not null, "
+          + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_CURRENCY + " text)";
+
+  private static final String BUDGETS_CATEGORY_CREATE =
+      "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
+          + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
+          + KEY_BUDGET + " integer not null, "
+          + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
+
 
   private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
   private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
@@ -696,6 +718,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   SELECT RAISE (FAIL, 'split category can not be deleted'); " +
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
+    db.execSQL(BUDGETS_CREATE);
+    db.execSQL(BUDGETS_CATEGORY_CREATE);
 
     //Run on ForTest build type
     //insertTestData(db);
@@ -1731,6 +1755,50 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 79) {
         db.execSQL("DROP INDEX if exists transactions_account_uuid_index");
         db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(account_id,uuid,status)");
+      }
+      if (oldVersion < 80) {
+        db.execSQL("CREATE TABLE budgets (_id integer primary key autoincrement," +
+            "grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')), budget integer not null, "
+            + "account_id integer references accounts(_id) ON DELETE CASCADE, "
+            + "currency text)");
+        db.execSQL("CREATE TABLE budget_categories ( "
+            + "budget_id integer references budgets(_id) ON DELETE CASCADE, "
+            + "cat_id integer references categories(_id), "
+            + "budget integer not null, "
+            + "primary key (budget_id,cat_id));");
+        db.execSQL("ALTER TABLE currency add column grouping text not null check (grouping in " +
+            "('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
+        Cursor c = db.rawQuery("SELECT distinct currency from accounts", null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
+            final SharedPreferences settings = MyApplication.getInstance().getSettings();
+            final SharedPreferences.Editor editor = settings.edit();
+            boolean updated = false;
+            while (!c.isAfterLast()) {
+              final String currency = c.getString(0);
+              final String key = GROUPING_PREF_PREFIX + currency;
+              final String grouping = settings.getString(key, "NONE");
+              if (!grouping.equals("NONE")) {
+                ContentValues initialValues = new ContentValues();
+                initialValues.put("grouping", grouping);
+                try {
+                  db.update("currency", initialValues, "code = ?", new String[]{currency});
+                  editor.remove(key);
+                  updated = true;
+                } catch (Exception e) {
+                  //since this setting is not critical, we can live with failure of migration
+                  Timber.e(e);
+                }
+              }
+              c.moveToNext();
+            }
+            if (updated) {
+              editor.apply();
+            }
+          }
+          c.close();
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

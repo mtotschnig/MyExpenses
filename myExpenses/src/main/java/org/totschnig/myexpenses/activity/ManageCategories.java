@@ -21,14 +21,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SwitchCompat;
-import android.util.DisplayMetrics;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,9 +30,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
-import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -49,7 +41,6 @@ import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.ArrayList;
 
-import eltos.simpledialogfragment.color.SimpleColorDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -64,20 +55,14 @@ public class ManageCategories extends CategoryActivity implements
     SimpleInputDialog.OnDialogResultListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
 
   public static final String ACTION_MANAGE = "MANAGE";
-  public static final String ACTION_DISTRIBUTION = "DISTRIBUTION";
   public static final String ACTION_SELECT_MAPPING = "SELECT_MAPPING";
   public static final String ACTION_SELECT_FILTER = "SELECT_FILTER";
 
   public enum HelpVariant {
-    manage, distribution, select_mapping, select_filter
+    manage, select_mapping, select_filter
   }
 
   private Category mCategory;
-  private GestureDetector mDetector;
-  private static final int SWIPE_MIN_DISTANCE = 120;
-  private static final int SWIPE_MAX_OFF_PATH = 250;
-  private static final int SWIPE_THRESHOLD_VELOCITY = 100;
-  private CategoryList mListFragment;
 
   @NonNull
   @Override
@@ -87,16 +72,17 @@ public class ManageCategories extends CategoryActivity implements
     return action == null ? ACTION_SELECT_MAPPING : action;
   }
 
-  public CategoryList getListFragment() {
-    return mListFragment;
+  @Override
+  protected int getContentView() {
+    return R.layout.activity_category;
   }
+
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     String action = getAction();
     int title = 0;
-    setTheme(ACTION_DISTRIBUTION.equals(action) ?
-        MyApplication.getThemeId() : MyApplication.getThemeIdEditDialog());
+    setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     switch (action) {
       case Intent.ACTION_MAIN:
@@ -104,35 +90,6 @@ public class ManageCategories extends CategoryActivity implements
         setHelpVariant(HelpVariant.manage);
         title = R.string.pref_manage_categories_title;
         break;
-      case ACTION_DISTRIBUTION: {
-        setHelpVariant(HelpVariant.distribution);
-        //title is set in categories list
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-
-        final int REL_SWIPE_MIN_DISTANCE = (int) (SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
-        final int REL_SWIPE_MAX_OFF_PATH = (int) (SWIPE_MAX_OFF_PATH * dm.densityDpi / 160.0f);
-        final int REL_SWIPE_THRESHOLD_VELOCITY = (int) (SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f);
-        mDetector = new GestureDetector(this,
-            new GestureDetector.SimpleOnGestureListener() {
-              @Override
-              public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                     float velocityX, float velocityY) {
-                if (Math.abs(e1.getY() - e2.getY()) > REL_SWIPE_MAX_OFF_PATH)
-                  return false;
-                if (e1.getX() - e2.getX() > REL_SWIPE_MIN_DISTANCE
-                    && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
-                  mListFragment.forward();
-                  return true;
-                } else if (e2.getX() - e1.getX() > REL_SWIPE_MIN_DISTANCE
-                    && Math.abs(velocityX) > REL_SWIPE_THRESHOLD_VELOCITY) {
-                  mListFragment.back();
-                  return true;
-                }
-                return false;
-              }
-            });
-      }
-      break;
       case ACTION_SELECT_FILTER:
         setHelpVariant(HelpVariant.select_filter);
         title = R.string.search_category;
@@ -141,11 +98,7 @@ public class ManageCategories extends CategoryActivity implements
         setHelpVariant(HelpVariant.select_mapping);
         title = R.string.select_category;
     }
-    setContentView(R.layout.activity_category);
-    setupToolbar(true);
     if (title != 0) getSupportActionBar().setTitle(title);
-    FragmentManager fm = getSupportFragmentManager();
-    mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
     if (action.equals(ACTION_SELECT_MAPPING) || action.equals(ACTION_MANAGE)) {
       configureFloatingActionButton(R.string.menu_create_main_cat);
     } else {
@@ -157,17 +110,7 @@ public class ManageCategories extends CategoryActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     String action = getAction();
-    if (action.equals(ACTION_DISTRIBUTION)) {
-      inflater.inflate(R.menu.distribution, menu);
-      inflater.inflate(R.menu.grouping, menu);
-
-
-      SwitchCompat typeButton = MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
-          .findViewById(R.id.TaType);
-
-      typeButton.setOnCheckedChangeListener((buttonView, isChecked) -> mListFragment.setType(isChecked));
-
-    } else if (!action.equals(ACTION_SELECT_FILTER)) {
+    if (!action.equals(ACTION_SELECT_FILTER)) {
       inflater.inflate(R.menu.sort, menu);
       inflater.inflate(R.menu.categories, menu);
     }
@@ -243,7 +186,6 @@ public class ManageCategories extends CategoryActivity implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    final long id = extras.getLong(KEY_ROWID);
     if ((DIALOG_NEW_CATEGORY.equals(dialogTag) || DIALOG_EDIT_CATEGORY.equals(dialogTag))
         && which == BUTTON_POSITIVE) {
       Long parentId = null;
@@ -251,23 +193,14 @@ public class ManageCategories extends CategoryActivity implements
         parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);
       }
       mCategory = new Category(
-          id,
+          extras.getLong(KEY_ROWID),
           extras.getString(SimpleInputDialog.TEXT),
           parentId);
       startDbWriteTask(false);
       finishActionMode();
       return true;
     }
-    if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
-      startTaskExecution(
-          TaskExecutionFragment.TASK_CATEGORY_COLOR,
-          new Long[]{id},
-          extras.getInt(SimpleColorDialog.COLOR),
-          R.string.progress_dialog_saving);
-      finishActionMode();
-      return true;
-    }
-    return false;
+    return super.onResult(dialogTag, which, extras);
   }
 
   @Override
@@ -279,11 +212,6 @@ public class ManageCategories extends CategoryActivity implements
         ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
         target == 0L ? null : target,
         R.string.progress_dialog_saving);
-  }
-
-  private void finishActionMode() {
-    if (mListFragment != null)
-      mListFragment.finishActionMode();
   }
 
   @Override
@@ -321,7 +249,7 @@ public class ManageCategories extends CategoryActivity implements
           }
           break;
         case TaskExecutionFragment.TASK_MOVE_CATEGORY:
-          getListFragment().reset();
+          mListFragment.reset();
           break;
       }
     }
@@ -336,12 +264,4 @@ public class ManageCategories extends CategoryActivity implements
     return mCategory;
   }
 
-  @Override
-  public boolean dispatchTouchEvent(MotionEvent event) {
-    if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE) && mDetector.onTouchEvent(event)) {
-      return true;
-    }
-    // Be sure to call the superclass implementation
-    return super.dispatchTouchEvent(event);
-  }
 }

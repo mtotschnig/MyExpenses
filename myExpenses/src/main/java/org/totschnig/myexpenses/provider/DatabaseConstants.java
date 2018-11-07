@@ -185,6 +185,7 @@ public class DatabaseConstants {
   public static final String KEY_ORIGINAL_CURRENCY = "original_currency";
   public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
   public static final String KEY_TRANSFER_PEER_PARENT = "transfer_peer_parent";
+  public static final String KEY_BUDGETID = "budget_id";
   /**
    * Used for both saving goal and credit limit on accounts
    */
@@ -194,6 +195,11 @@ public class DatabaseConstants {
    * column alias for the second group (month or week)
    */
   public static final String KEY_SECOND_GROUP = "second";
+
+  /**
+   * Budget set for the grouping type that is active on an account
+   */
+  public static final String KEY_BUDGET = "budget";
 
   /**
    * No special status
@@ -241,6 +247,9 @@ public class DatabaseConstants {
    * used on backup and restore
    */
   public static final String TABLE_EVENT_CACHE = "event_cache";
+
+  static final String TABLE_BUDGETS = "budgets";
+  static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
 
   /**
    * an SQL CASE expression for transactions
@@ -453,7 +462,7 @@ public class DatabaseConstants {
 
   public static String getAmountHomeEquivalent(String forTable) {
     return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+        getExchangeRate(forTable) + " * " + KEY_AMOUNT + ")";
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
@@ -465,9 +474,10 @@ public class DatabaseConstants {
         + KEY_EQUIVALENT_AMOUNT + " END";
   }
 
-  public static String getExchangeRate(String accountReference) {
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
-        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
+  public static String getExchangeRate(String forTable) {
+    forTable = forTable == null ? "" : forTable + ".";
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + forTable + KEY_ROWID +
+        " AND " + KEY_CURRENCY_SELF + "=" + forTable + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
   }
 
   private static String getAmountCalculation(boolean forHome) {

@@ -173,6 +173,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 /**
  * Activity for editing a transaction
@@ -517,7 +518,7 @@ public class ExpenseEdit extends AmountActivity implements
           allowed = prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
         } else {
           contribFeature = ContribFeature.SPLIT_TRANSACTION;
-          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft() > 0;
+          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft(prefHandler) > 0;
         }
         if (!allowed) {
           abortWithMessage(contribFeature.buildRequiresString(this));
@@ -1838,8 +1839,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void addCurrencyToLabel(TextView label, String symbol, int textResId) {
-    //noinspection SetTextI18n
-    label.setText(getString(textResId) + " (" + symbol + ")");
+    label.setText(appendCurrencySymbol(this, textResId, symbol));
   }
 
   private void resetOperationType() {
@@ -1903,6 +1903,12 @@ public class ExpenseEdit extends AmountActivity implements
         if (mRecordTemplateWidget) {
           recordUsage(ContribFeature.TEMPLATE_WIDGET);
           TemplateWidget.showContribMessage(this);
+        }
+        if (mTransaction instanceof SplitTransaction) {
+          recordUsage(ContribFeature.SPLIT_TRANSACTION);
+        }
+        if (mPictureUri != null) {
+          recordUsage(ContribFeature.ATTACH_PICTURE);
         }
         if (mCreateNew) {
           mCreateNew = false;
@@ -2091,7 +2097,7 @@ public class ExpenseEdit extends AmountActivity implements
         String currencyExtra = didUserSetAccount ? null : getIntent().getStringExtra(KEY_CURRENCY);
         while (!data.isAfterLast()) {
           int position = data.getPosition();
-          Account a = Account.fromCacheOrFromCursor(data);
+          Account a = Account.fromCursor(data);
           mAccounts[position] = a;
           if (!selectionSet &&
               (a.currency.getCurrencyCode().equals(currencyExtra) ||
