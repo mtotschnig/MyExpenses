@@ -13,6 +13,8 @@
         <LinearLayout
             android:layout_width="@dimen/budget_container_width_landscape"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/budget_table_padding"
+            android:layout_marginRight="@dimen/budget_table_padding"
             android:layout_gravity="end"
             android:orientation="horizontal">
 
@@ -71,19 +73,20 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/BudgetButton"
                     android:id="@+id/totalBudget"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="end"
+                    android:layout_gravity="end"
                     tools:text="1000000"/>
 
                 <TextView
                     android:id="@+id/totalAllocated"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/budget_table_padding"
+                    android:layout_marginRight="@dimen/budget_table_padding"
                     tools:text="1000000"/>
 
             </LinearLayout>

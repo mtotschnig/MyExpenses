@@ -92,7 +92,7 @@ public class BudgetFragment extends DistributionBaseFragment {
         "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM,
         KEY_BUDGET
     };
-    sortOrder = "abs(" + KEY_SUM + ") DESC";
+    sortOrder = KEY_BUDGET + " DESC";
     selectionArgs = accountSelector != null ? new String[]{accountSelector} : null;
     return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId())).build(),
@@ -124,6 +124,7 @@ public class BudgetFragment extends DistributionBaseFragment {
   public void setBudget(Budget budget) {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
+    totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, budget.getCurrency());
       mListView.setAdapter(mAdapter);
@@ -179,7 +180,6 @@ public class BudgetFragment extends DistributionBaseFragment {
 
   @Override
   void updateExpense(Long amount) {
-    totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
     totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -amount)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
     long available = allocated - amount;

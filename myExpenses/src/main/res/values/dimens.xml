@@ -57,4 +57,5 @@
     <dimen tools:override="true" name="design_navigation_separator_vertical_padding">0dp</dimen>
     <dimen name="budget_container_width_landscape">450dp</dimen>
     <dimen name="budget_container_cell_width_landscape">150dp</dimen>
+    <dimen name="budget_table_padding">10dp</dimen>
 </resources>
