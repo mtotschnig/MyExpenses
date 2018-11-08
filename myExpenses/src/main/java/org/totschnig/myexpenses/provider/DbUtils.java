@@ -23,6 +23,7 @@ import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.VisibleForTesting;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -254,6 +255,8 @@ public class DbUtils {
       planCursor.close();
     }
   }
+
+  @VisibleForTesting
   public static String fqcn(String table, String column) {
     return String.format(Locale.ROOT, "%s.%s", table, column);
   }

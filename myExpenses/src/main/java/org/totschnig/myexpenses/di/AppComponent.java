@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.di;
 
+import android.support.annotation.VisibleForTesting;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -79,6 +81,7 @@ public interface AppComponent {
 
   PrefHandler prefHandler();
 
+  @VisibleForTesting
   LicenceHandler licenceHandler();
 
   @Named("userCountry") String userCountry();

@@ -5,9 +5,7 @@ import android.database.Cursor;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.provider.AccountInfo;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.PayeeInfo;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
 

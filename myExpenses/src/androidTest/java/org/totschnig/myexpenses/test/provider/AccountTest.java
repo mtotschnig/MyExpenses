@@ -24,7 +24,6 @@ import android.net.Uri;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
-import org.totschnig.myexpenses.provider.AccountInfo;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;

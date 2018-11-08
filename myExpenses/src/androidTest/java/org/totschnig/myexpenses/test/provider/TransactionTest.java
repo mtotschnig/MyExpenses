@@ -24,10 +24,7 @@ import android.net.Uri;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.provider.AccountInfo;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.PayeeInfo;
-import org.totschnig.myexpenses.provider.TransactionInfo;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseDbTest;
 
