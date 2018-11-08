@@ -18,6 +18,8 @@ package org.totschnig.myexpenses.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -116,6 +118,8 @@ import org.totschnig.myexpenses.util.UiUtils.DateMode;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.ExpenseEditViewModel;
+import org.totschnig.myexpenses.viewmodel.data.PaymentMethod;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
@@ -161,7 +165,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -268,7 +271,8 @@ public class ExpenseEdit extends AmountActivity implements
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mRecurrenceSpinner;
   private Spinner mCurrencySpinner;
-  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
+  private SimpleCursorAdapter mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
+  private ArrayAdapter<PaymentMethod> mMethodsAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
 
@@ -304,7 +308,6 @@ public class ExpenseEdit extends AmountActivity implements
    */
   private int mOperationType;
 
-  public static final int METHODS_CURSOR = 2;
   public static final int ACCOUNTS_CURSOR = 3;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
@@ -324,6 +327,8 @@ public class ExpenseEdit extends AmountActivity implements
   private boolean mPlanUpdateNeeded;
   private boolean didUserSetAccount;
   private CurrencyAdapter currencyAdapter;
+
+  private ExpenseEditViewModel viewModel;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
@@ -352,6 +357,21 @@ public class ExpenseEdit extends AmountActivity implements
 
     setupToolbar();
     mManager = getSupportLoaderManager();
+    viewModel =  ViewModelProviders.of(this).get(ExpenseEditViewModel.class);
+    viewModel.getMethods().observe(this, new Observer<List<PaymentMethod>>() {
+      @Override
+      public void onChanged(@Nullable List<PaymentMethod> paymentMethods) {
+        if (mMethodsAdapter == null || paymentMethods == null || paymentMethods.isEmpty()) {
+          methodRow.setVisibility(View.GONE);
+          mMethodId = null;
+        } else {
+          methodRow.setVisibility(View.VISIBLE);
+          mMethodsAdapter.clear();
+          mMethodsAdapter.addAll(paymentMethods);
+          setMethodSelection();
+        }
+      }
+    });
     ButterKnife.bind(this);
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     amountInput.setTypeEnabled(false);
@@ -669,8 +689,12 @@ public class ExpenseEdit extends AmountActivity implements
     if (mIsMainTransactionOrTemplate) {
 
       // Spinner for methods
-      mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
-          new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
+      mMethodsAdapter = new ArrayAdapter<PaymentMethod>(this, android.R.layout.simple_spinner_item) {
+        @Override
+        public long getItemId(int position) {
+          return getItem(position).id();
+        }
+      };
       mMethodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(new NothingSelectedSpinnerAdapter(
           mMethodsAdapter,
@@ -926,7 +950,7 @@ public class ExpenseEdit extends AmountActivity implements
     super.onTypeChanged(isClicked);
     if (mTransaction != null && mIsMainTransactionOrTemplate) {
       mMethodId = null;
-      Utils.requireLoader(mManager, METHODS_CURSOR, null, this);
+      loadMethods(getCurrentAccount());
     }
   }
 
@@ -1776,6 +1800,12 @@ public class ExpenseEdit extends AmountActivity implements
     configureDateInput(account);
   }
 
+  private void loadMethods(@Nullable Account account) {
+    if (account != null) {
+      viewModel.loadMethods(isIncome(), account.getType());
+    }
+  }
+
   private void updateAccount(Account account) {
     didUserSetAccount = true;
     mTransaction.setAccountId(account.getId());
@@ -1786,7 +1816,7 @@ public class ExpenseEdit extends AmountActivity implements
       configureTransferInput();
     } else {
       if (!mTransaction.isSplitpart()) {
-        Utils.requireLoader(mManager, METHODS_CURSOR, null, this);
+        loadMethods(account);
       }
       if (mOperationType == TYPE_SPLIT) {
         final SplitPartList splitPartList = findSplitPartList();
@@ -1966,15 +1996,6 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     switch (id) {
-      case METHODS_CURSOR:
-        Account a = getCurrentAccount();
-        final AccountType type = a == null ? AccountType.CASH : a.getType();
-        return new CursorLoader(this,
-            TransactionProvider.METHODS_URI.buildUpon()
-                .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
-                .appendPath(isIncome() ? "1" : "-1")
-                .appendPath(type.name()).build(),
-            null, null, null, null);
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
             null, null, null, null);
@@ -2026,9 +2047,8 @@ public class ExpenseEdit extends AmountActivity implements
     //ignore first row "select" merged in
     int position = mMethodSpinner.getSelectedItemPosition();
     if (position > 0) {
-      Cursor c = (Cursor) mMethodsAdapter.getItem(position - 1);
-      mReferenceNumberText.setVisibility(c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
-          View.VISIBLE : View.INVISIBLE);
+      PaymentMethod pm = mMethodsAdapter.getItem(position - 1);
+      mReferenceNumberText.setVisibility(pm !=null && pm.isNumbered() ? View.VISIBLE : View.INVISIBLE);
     } else {
       mReferenceNumberText.setVisibility(View.GONE);
     }
@@ -2038,9 +2058,9 @@ public class ExpenseEdit extends AmountActivity implements
     if (mMethodId != null) {
       boolean found = false;
       for (int i = 0; i < mMethodsAdapter.getCount(); i++) {
-        Cursor c = (Cursor) mMethodsAdapter.getItem(i);
-        if (c != null) {
-          if (c.getLong(c.getColumnIndex(KEY_ROWID)) == mMethodId) {
+        PaymentMethod pm  = mMethodsAdapter.getItem(i);
+        if (pm != null) {
+          if (pm.id() == mMethodId) {
             mMethodSpinner.setSelection(i + 1);
             found = true;
             break;
@@ -2065,16 +2085,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     int id = loader.getId();
     switch (id) {
-      case METHODS_CURSOR:
-        if (mMethodsAdapter == null || !data.moveToFirst()) {
-          methodRow.setVisibility(View.GONE);
-          mMethodId = null;
-        } else {
-          methodRow.setVisibility(View.VISIBLE);
-          mMethodsAdapter.swapCursor(data);
-          setMethodSelection();
-        }
-        break;
       case ACCOUNTS_CURSOR:
         if (data.getCount() == 0) {
           abortWithMessage("No accounts found");
@@ -2131,7 +2141,7 @@ public class ExpenseEdit extends AmountActivity implements
           //the methods cursor is based on the current account,
           //hence it is loaded only after the accounts cursor is loaded
           if (!mTransaction.isSplitpart()) {
-            mManager.initLoader(METHODS_CURSOR, null, this);
+            loadMethods(getCurrentAccount());
           }
         }
         amountInput.setTypeEnabled(true);
@@ -2191,6 +2201,7 @@ public class ExpenseEdit extends AmountActivity implements
             for (int i = 0; i < mAccounts.length; i++) {
               if (mAccounts[i].getId().equals(accountId)) {
                 mAccountSpinner.setSelection(i);
+                updateAccount(mAccounts[i]);
                 break;
               }
             }
@@ -2240,11 +2251,6 @@ public class ExpenseEdit extends AmountActivity implements
     //should not be necessary to empty the autocompletetextview
     int id = loader.getId();
     switch (id) {
-      case METHODS_CURSOR:
-        if (mMethodsAdapter != null) {
-          mMethodsAdapter.swapCursor(null);
-        }
-        break;
       case ACCOUNTS_CURSOR:
         if (mAccountsAdapter != null) {
           mAccountsAdapter.swapCursor(null);
