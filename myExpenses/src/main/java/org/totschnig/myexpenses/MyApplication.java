@@ -41,8 +41,6 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import net.pubnative.sdk.core.Pubnative;
-
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
@@ -171,7 +169,6 @@ public class MyApplication extends MultiDexApplication implements
     if (licenceHandler.getLicenceStatus() != null) {
       crashHandler.setLicenceStatus(licenceHandler.getLicenceStatus());
     }
-    Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
     SecurityProvider.init(this);
   }

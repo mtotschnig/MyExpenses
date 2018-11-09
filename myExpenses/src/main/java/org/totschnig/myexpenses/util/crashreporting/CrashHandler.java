@@ -9,6 +9,9 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -25,13 +28,13 @@ public abstract class CrashHandler {
 
   public static void report(Exception e, Map<String, String> customData) {
     for (Map.Entry<String, String> entry : customData.entrySet()) {
-      Timber.e("%s: %s", entry.getKey(), entry.getValue());
+      Timber.w("%s: %s", entry.getKey(), entry.getValue());
     }
-    Timber.e(e);
+    report(e);
   }
 
   public static void report(Exception e, String key, String data) {
-    Timber.e("%s: %s", key, data);
+    Timber.w("%s: %s", key, data);
     report(e);
   }
 
@@ -47,7 +50,12 @@ public abstract class CrashHandler {
   }
 
   public static void report(String message) {
-    report(new Exception(message));
+    final Exception e = new Exception(message);
+    e.fillInStackTrace();
+    List<StackTraceElement> stack = new ArrayList<StackTraceElement>(Arrays.asList(e.getStackTrace()));
+    stack.remove(0);
+    e.setStackTrace(stack.toArray(new StackTraceElement[stack.size()]));
+    report(e);
   }
 
   public abstract void onAttachBaseContext(MyApplication application);
