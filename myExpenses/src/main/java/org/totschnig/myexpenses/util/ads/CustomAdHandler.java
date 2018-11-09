@@ -38,8 +38,6 @@ public class CustomAdHandler extends AdHandler {
         hide();
       } else {
         adView = new AdView(context);
-        // Implement a SampleAdListener and forward callbacks to mediation. The callback forwarding
-        // is handled by SampleBannerEventForwarder.
         adView.setAdListener(new AdListener() {
           @Override
           public void onBannerLoaded(View view) {

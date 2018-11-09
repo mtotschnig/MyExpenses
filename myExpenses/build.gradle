@@ -221,9 +221,7 @@ dependencies {
     }
 
     implementation supportCompile
-
-    implementation 'net.pubnative:sdk:2.0.12'
-
+    
     implementation project(path: ':setupwizard')
 
     //licence validation

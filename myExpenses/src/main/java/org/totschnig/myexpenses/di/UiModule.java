@@ -24,6 +24,11 @@ public class UiModule {
   @Provides
   @Singleton
   AdHandlerFactory provideAdHandlerFactory(MyApplication application, PrefHandler prefHandler, @Named("userCountry") String userCountry) {
-    return new DefaultAdHandlerFactory(application, prefHandler, userCountry);
+    return new DefaultAdHandlerFactory(application, prefHandler, userCountry) {
+      @Override
+      public boolean isAdDisabled() {
+        return true;
+      }
+    };
   }
 }

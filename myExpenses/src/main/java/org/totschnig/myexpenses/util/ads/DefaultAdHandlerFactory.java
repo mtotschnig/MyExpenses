@@ -81,9 +81,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
   @Override
   public AdHandler create(ViewGroup adContainer) {
     return isAdDisabled() ? new NoOpAdHandler(this, adContainer) :
-        new WaterfallAdHandler(this, adContainer,
-            new CustomAdHandler(this, adContainer),
-            new PubNativeAdHandler(this, adContainer));
+        new CustomAdHandler(this, adContainer);
   }
 
   @Override
