@@ -57,7 +57,7 @@ public enum PartnerProgram {
 
   private final List<String> distributionCountries;
   /**
-   * List should be sorted by width then height, since this order is expected by {@link #pickContentResId(Context, int, int)}
+   * List should be sorted by width then height, since this order is expected by {@link #pickContentResId(Context, int)}
    */
   private final List<MyAdSize> adSizes;
 
