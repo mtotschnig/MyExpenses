@@ -52,7 +52,7 @@ public abstract class CrashHandler {
   public static void report(String message) {
     final Exception e = new Exception(message);
     e.fillInStackTrace();
-    List<StackTraceElement> stack = new ArrayList<StackTraceElement>(Arrays.asList(e.getStackTrace()));
+    List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
     stack.remove(0);
     e.setStackTrace(stack.toArray(new StackTraceElement[stack.size()]));
     report(e);

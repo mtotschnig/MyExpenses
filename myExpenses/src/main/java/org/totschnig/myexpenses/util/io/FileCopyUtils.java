@@ -25,7 +25,7 @@ public class FileCopyUtils {
           srcStream.getChannel().size());
       return true;
     } catch (IOException e) {
-      Timber.w(e);
+      Timber.e(e);
       return false;
     } finally {
       try {
