@@ -13,11 +13,13 @@ import com.google.gson.reflect.TypeToken;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
@@ -42,18 +44,21 @@ import timber.log.Timber;
 
 public class RoadmapViewModel extends AndroidViewModel {
   public static final String ROADMAP_URL = BuildConfig.DEBUG ?
-      "https://votedb-staging.herokuapp.com/"  : "https://roadmap.myexpenses.mobi/";
+      "http://10.0.2.2:3000/"  : "https://roadmap.myexpenses.mobi/";
 
   @Inject
   OkHttpClient.Builder builder;
   @Inject
   LicenceHandler licenceHandler;
+  @Inject
+  PrefHandler prefHandler;
 
   private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
   private final MutableLiveData<Vote> lastVote = new MutableLiveData<>();
-  private final MutableLiveData<Vote> voteResult = new MutableLiveData<>();
+  private final MutableLiveData<Result<Vote>> voteResult = new MutableLiveData<>();
   private static final String ISSUE_CACHE = "issue_cache.json";
   private static final String ROADMAP_VOTE = "roadmap_vote.json";
+  private static final int EXPECTED_MINIMAL_VERSION  = 1;
   private RoadmapService roadmapService;
   private Gson gson;
   private Call currentCall;
@@ -84,7 +89,7 @@ public class RoadmapViewModel extends AndroidViewModel {
     return data;
   }
 
-  public LiveData<Vote> getVoteResult() {
+  public LiveData<Result<Vote>> getVoteResult() {
     return voteResult;
   }
 
@@ -93,11 +98,12 @@ public class RoadmapViewModel extends AndroidViewModel {
   }
 
   public void loadData(boolean withCache) {
+    withCache = withCache && EXPECTED_MINIMAL_VERSION <= getVersionFromPref();
     new LoadIssuesTask(withCache).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
-  public void submitVote(String key, Map<Integer, Integer> voteWeights) {
-    new VoteTask(key).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, voteWeights);
+  public void submitVote(Vote vote) {
+    new VoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, vote);
   }
 
   public void cancel() {
@@ -117,38 +123,35 @@ public class RoadmapViewModel extends AndroidViewModel {
         new HashMap<>();
   }
 
-  private class VoteTask extends AsyncTask<Map<Integer, Integer>, Void, Vote> {
-
-    @Nullable
-    private final String key;
-
-    public VoteTask(@Nullable String key) {
-      this.key = key;
-    }
-
+  private class VoteTask extends AsyncTask<Vote, Void, Result<Vote>> {
     @Override
-    protected Vote doInBackground(Map<Integer, Integer>... votes) {
-      boolean isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
-      Vote vote = new Vote(key != null ? key : licenceHandler.buildRoadmapVoteKey(), votes[0], isPro);
+    protected Result<Vote> doInBackground(Vote... votes) {
       try {
-        Call<Void> voteCall = roadmapService.createVote(vote);
+        final Vote vote = votes[0];
+        Call<Void> voteCall = roadmapService.createVote(getVersionFromPref(), vote);
         currentCall = voteCall;
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
           writeToFile(ROADMAP_VOTE, gson.toJson(vote));
-          return vote;
+          return Result.ofSuccess(R.string.roadmap_vote_success, vote);
+        } else if (voteResponse.code() == 452) {
+          return Result.ofFailure(R.string.roadmap_vote_outdated);
         }
       } catch (IOException | SecurityException e) {
         Timber.i(e);
       }
-      return null;
+      return Result.ofFailure(R.string.roadmap_vote_failure);
     }
 
     @Override
-    protected void onPostExecute(Vote result) {
+    protected void onPostExecute(Result<Vote> result) {
       currentCall = null;
       voteResult.setValue(result);
     }
+  }
+
+  private int getVersionFromPref() {
+    return prefHandler.getInt(PrefKey.ROADMAP_VERSION, 0 );
   }
 
   private class LoadIssuesTask extends AsyncTask<Void, Void, List<Issue>> {
@@ -219,9 +222,17 @@ public class RoadmapViewModel extends AndroidViewModel {
       Call<List<Issue>> issuesCall = roadmapService.getIssues();
       currentCall = issuesCall;
       Response<List<Issue>> response = issuesCall.execute();
+      @Nullable String version = response.headers().get("X-Version");
       issueList = response.body();
       if (response.isSuccessful() && issueList != null) {
-        Timber.i("Loaded %d issues from network", issueList.size());
+        if (version != null) {
+          final int versionInt;
+          try {
+            versionInt = Integer.parseInt(version);
+            prefHandler.putInt(PrefKey.ROADMAP_VERSION, versionInt);
+          } catch (NumberFormatException ignored) {}
+        }
+        Timber.i("Loaded %d issues (version %s) from network", issueList.size(), version);
         writeToFile(ISSUE_CACHE, gson.toJson(issueList));
       }
     } catch (IOException | SecurityException e) {

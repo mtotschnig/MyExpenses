@@ -6,10 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 public class Vote {
-  public Vote(String key, Map<Integer, Integer> vote, boolean isPro) {
+
+  public Vote(String key, Map<Integer, Integer> vote, boolean isPro, String email) {
     this.key = key;
     this.vote = vote;
     this.isPro = isPro;
+    this.email = email;
   }
 
   public boolean isPro() {
@@ -24,6 +26,9 @@ public class Vote {
     return vote;
   }
 
+  @SerializedName("email")
+  String email;
+
   @SerializedName("pro")
   boolean isPro;
 
@@ -32,4 +37,8 @@ public class Vote {
 
   @SerializedName("vote")
   Map<Integer, Integer> vote;
+
+  public String getEmail() {
+    return email;
+  }
 }

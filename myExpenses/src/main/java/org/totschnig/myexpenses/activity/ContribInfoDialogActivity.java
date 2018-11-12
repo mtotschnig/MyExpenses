@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
@@ -52,7 +51,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   private static final String KEY_SHOULD_REPLACE_EXISTING = "shouldReplaceExisting";
   private OpenIabHelper mHelper;
   private boolean mSetupDone;
-  private LicenceHandler licenceHandler;
 
   public static Intent getIntentFor(Context context, @Nullable ContribFeature feature) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
@@ -76,7 +74,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String packageFromExtra = getIntent().getStringExtra(KEY_PACKAGE);
-    licenceHandler = MyApplication.getInstance().getLicenceHandler();
     mHelper = licenceHandler.getIabHelper(this);
 
     if (mHelper != null) {

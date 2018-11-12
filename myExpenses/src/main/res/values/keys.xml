@@ -181,6 +181,11 @@
     <string name="roadmap_intro">Please help us shape the future of this app by taking part in the vote on the future development roadmap.</string>
     <string name="roadmap_particpate">Participate</string>
     <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
+    <string name="roadmap_update_confirmation">Your vote will be updated</string>
+    <string name="roadmap_email_rationale">Please submit your email together with your vote. When we start working on an issue that you have voted for, we might contact you in order to discuss your expectacions on how it should be implemented, and verify that you are still interested in the issue.</string>
+    <string name="roadmap_vote_success">Your vote has been recorded</string>
+    <string name="roadmap_vote_failure">Failure while submitting your vote</string>
+    <string name="roadmap_vote_outdated">Your vote cannot be recorded, because your locally cached issue list is outdated. Please select Refresh from the menu and submit your vote again.</string>
     <string-array name="whats_new_294" tools:ignore="UnusedResources">
         <item>@string/pref_scroll_to_current_date_summary</item>
     </string-array>
