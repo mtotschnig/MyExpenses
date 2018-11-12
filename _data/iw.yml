@@ -1,4 +1,4 @@
-iw:
+he:
   imprint: חותם
   imprint_text: אחראי לתוכן האתר ולפיתוח, תחזוקה והפצה של<i> {app_name} </i>
   privacy_policy_heading: מדיניות הפרטיות
@@ -38,7 +38,7 @@ iw:
     homescreen: <b>ישומון</b> במסך הבית ו- <b>קיצור דרך</b> להכנסת נתונים מהירה
   contrib:
     thank_you: |
-      התרומה שלך תומכת בפיתוח נוסף של האפליקציה "הוצאות שלי". תודה!
+        התרומה שלך תומכת בפיתוח נוסף של האפליקציה "הוצאות שלי". תודה!
     feature-list-title: "אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:"
     feature:
       accounts_unlimited: מספר <b>חשבונות</b> בלתי מוגבל
@@ -89,3 +89,4 @@ iw:
   professional-key: מפתח מקצועי
   all_contrib_key_features: כל התכונות של מפתח Contrib
   all_extended_key_features: כל התכונות של מפתח מורחב
+  customer_support: שירות לקוחות

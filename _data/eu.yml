@@ -18,42 +18,24 @@ eu:
     sourcecode: Iturburu kodea
     links: Estekak
   features:
-    manage_accounts: gehienez 5 kontu transferentziekin
-    plans: Zehaztu txantiloiak eta etorkizunerako planak zein transakzio errepikakorrak
-    grouped_list: Taldekatu transakzioak eguneko, asteko, hileko, urteko eta taldearen baturak bistaratu.
     distribution: Bi kategoria maila (Grisbi XML eta QIF inportazioa)
     split: Banatu transakzioak (Kontribuzio bertsioa)
     calculator: Kalkulagailua
-    export: Esportatu QIF eta CSV (MS Excel) formatuetara, automatikoki partekatu daiteke (e-posta, FTP, Dropbox... bidez)
     import: Inportatu QIF datuak
-    password: Pasahitz bidezko babesa
     help: Laguntza integratua
     backup: Datuen babeskopia egin eta berreskuratu
-    light_theme: "Bi gai: Argia eta iluna"
     attach_picture: Erantsi irudia transakzioari
   contrib:
     thank_you: |
-      Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
+        Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
     feature-list-title: "Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:"
-    feature:
-      accounts_unlimited: Kontu kopuru mugagabea
-      plans_unlimited: Plan kopuru mugagabea
-      split_transaction: Banatu transakzioa
-      security_question: Segurtasun galdera
-      template_widget: Trepeta txantiloia
-      print: Esportatu transakzio zerrenda PDFra
-      attach_picture: Erantsi irudia transakzioari
-      ad_free: Iragarkirik gabe
-      csv_import: CSV inportazioa
-      auto_backup: Babeskopia automatikoa
-      cloud_sync: Sinkronizazioa hodeian
-  permissions-heading: |
-    Nire Gastuak honako baimen hauek behar ditu:
-  permissions-calendar: |
-    Egutegian irakurri eta idatzi: Etorkizunerako planak eta transakzio errepikakorrak tokiko egutegi berezi batetara edo zuk aukeratutako egutegira esleitzen dira.
-  permissions-external-storage: |
-    USB biltegiratzera idatzi: QIF eta CSV esportazioak eta babeskopiak gordetzeko.
-  permissions-internet: |
-    Sare komunikazioa: Kraskatze txostenak garatzaileari automatiko bidaltzen zaizkio erabiltzaileak aplikazioaren hobespenetan ezgaitzen ez badu.
-  permissions-accounts: |
-    Kontuak: Gailuen arteko sinkronizazioa hodeiko zerbitzuen bidez
+  permissions:
+    internet:
+      explanation_crash_reporting: Kraskatze txostenak
+      explanation_cloud_sync: Sinkronizazioa hodeian
+    accounts:
+      label: Kontuak
+  contrib-key: Kontribuzio Gakoa
+  extended-key: Gako hedatua
+  all_contrib_key_features: Kontribuzio gakoaren eginbide guztiak
+  customer_support: Bezeroarentzako arreta

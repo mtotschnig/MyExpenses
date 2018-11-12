@@ -38,7 +38,7 @@ fr:
     homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
   contrib:
     thank_you: |
-      Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
+        Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
     feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i> et vous aurez accès sans restriction aux caractéristiques suivantes:"
     feature:
       accounts_unlimited: Nombre illimité de <b>comptes</b>
@@ -89,3 +89,4 @@ fr:
   professional-key: Clé professionnelle
   all_contrib_key_features: Toutes les fonctions de la Clé Contrib
   all_extended_key_features: Toutes les fonctions de la Clé Étendue
+  customer_support: Service client

@@ -38,7 +38,7 @@ de:
     homescreen: Widget und Verknüpfungen für den Startbildschirm zur schnellen Dateneingabe
   contrib:
     thank_you: |
-      Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
+        Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
     feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
     feature:
       accounts_unlimited: Unbegrenzte Anzahl von <b>Konten</b>
@@ -89,3 +89,4 @@ de:
   professional-key: Professioneller Schlüssel
   all_contrib_key_features: Alle Funktionen des Contrib Schlüssels
   all_extended_key_features: Alle Funktionen des erweiterten Schlüssels
+  customer_support: Kundendienst

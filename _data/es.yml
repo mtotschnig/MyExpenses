@@ -38,7 +38,7 @@ es:
     homescreen: <b>Widgets</b> y <b>accesos directos</b> en su pantalla de inicio para introducir información rápidamente
   contrib:
     thank_you: |
-      Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
+        Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
     feature-list-title: "Por favor, contribuya actualizando <i>{app_name}</i> y obtenga acceso sin limitaciones a las siguientes características:"
     feature:
       accounts_unlimited: Número de <b>cuentas</b> ilimitadas
@@ -56,12 +56,17 @@ es:
       split_template: Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
       email_support: <b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables
       roadmap_voting: Derecho a participar en la <b>hoja de ruta de desarrollo</b>
+      history_chart: Gráfico de historial (flujo de efectivo)
     one-time-payment: Pago único
     subscription: Suscripción
   store:
     short_description: "Fácil de usar como gestor financiero personal: gran cantidad de funcionalidades y de código abierto"
     full_description_intro: "{app_name} permite el seguimiento de gastos e ingresos, directamente desde tu teléfono o tablet."
     full_description_contrib: "Las características premium se desbloquean al comprar una de la siguientes llaves de licencia:"
+    full_description_contrib_amazon: "Muchas características adiciones se desbloquean al comprar una de las llaves de licencia, por ejemplo:"
+    highlight_1: "Control de tus gastos e ingresos a través de múltiples cuentas, plantillas y categorías"
+    highlight_2: "Comparta sus datos entre múltiples teléfonos y tablets a través de WebDAV y Google Drive"
+    highlight_3: "Recapitule su situación financiera en días, semanas, meses o años"
   permissions:
     heading: <i>{app_name}</i> requiere los siguientes <u>permisos</u>
     calendar:
@@ -84,3 +89,4 @@ es:
   professional-key: Llave Profesional
   all_contrib_key_features: Todas las características de licencia Contrib
   all_extended_key_features: Todas las características de la llave Extendida
+  customer_support: Atención al cliente

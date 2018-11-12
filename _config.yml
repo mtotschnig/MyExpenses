@@ -116,6 +116,146 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.9.5
+    - "2018-09-27"
+    -
+      en: |
+        Custom colors for main categories.
+      fr: |
+        Couleurs personnalisées pour les catégories principales.
+      de: |
+        Benutzerdefinierte Farben für Hauptkategorien.
+      es: |
+        Colores personalizados para categorías principales.
+      tr: |
+        Ana kategoriler için özel renkler.
+      bg: |
+        Избор на цвят за главните категории.
+      ms: |
+        Warna suai untuk kategori utama.
+      ja: |
+        主分類の色をカスタム.
+      iw: |
+        צבעים מותאמים אישית עבור קטגוריות עיקריות.
+  -
+    - 2.9.4
+    - "2018-09-20"
+    -
+      en: |
+        Upon app start, scroll transaction list to current date.
+      fr: |
+        Au démarrage de l\'application, défiler la liste des opérations jusqu\'à la date actuelle.
+      de: |
+        Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen.
+      tr: |
+        Uygulama başladığında muamele listesini güncel tarihe kaydı.
+      bg: |
+        При стартиране на приложението превърти списъка с транзакции до текущата дата.
+      ja: |
+        アプリの起動時に、取引リストを現在の日付にスクロールします.
+      iw: |
+        בהפעלת היישום, גלול רשימת עסקאות לתאריך הנוכחי.
+      it: |
+        All'avvio dell'app, scorrere l'elenco delle transazioni sulla data corrente.
+      ms: |
+        Ketika apl mula, tatal senarai transaksi dengan tarikh semasa.
+      pl: |
+        Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty.
+      es: |
+        Al iniciar la aplicación, desplazar la lista de transacciones hasta la fecha actual
+  -
+    - 2.9.3
+    - "2018-09-16"
+    -
+      en: |
+        Saving goals and credit limits. Account groups (per type or currency) can be collapsed.
+      fr: |
+        Objectifs d'économie et limites de crédit. Les groupes de comptes (par type ou devise) peuvent être réduits.
+      de: |
+        Sparziele und Kreditlimits. Kontogruppen (pro Typ oder Währung) können zugeklappt werden.
+      es: |
+        Objetivos de ahorro y límites de crédito. Grupo de cuentas (por tipo y divisa) pueden agruparse.
+      tr: |
+        Tasarruf hedefleri ve kredi limitleri. Hesap grupları (tür veya para birimine göre) küçültülebilir.
+      bg: |
+        Цел за спестяване и кредитен лимит. Групи от сметки (по тип или валута) могат да бъдат намалени.
+      ms: |
+        Matlamat simpanan dan had kredit. Kumpulan akaun (per jenis atau matawang) boleh dikuncupkan.
+      ja: |
+        貯蓄目標とクレジット限度. 勘定科目グループ (種類または通貨単位) を折りたたむことができます.
+      iw: |
+        שמירת יעדים ומגבלות אשראי. ניתן לצמצם קבוצות חשבון (לפי סוג או מטבע).
+  -
+    - 2.9.2
+    - "2018-09-07"
+    -
+      en: |
+        Account list redesign. Synchronization can be limited to Wi-Fi.
+      fr: |
+        Refonte de la liste des comptes. La synchronisation peut être limitée au Wi-Fi.
+      de: |
+        Neugestaltung der Kontoliste. Die Synchronisierung kann auf WLAN beschränkt werden.
+      it: |
+        Riprogettazione dell'elenco degli conti. La sincronizzazione può essere limitata al Wi-Fi.
+      es: |
+        Lista de cuenta rediseñada. La sincronización puede limitarse a vía Wi-Fi.
+      tr: |
+        Hesap listesi yeniden tasarlandı. Eşleşme sadece Wi-Fi ile sınırlanabilir.
+      bg: |
+        Обновен дизайн на списъка на сметките. Синхронизирането може да се ограничи до Wi-Fi.
+      ms: |
+        Senarai akaun direka semula. Penyegerakan boleh dihadkan dengan Wi-Fi.
+      ja: |
+        勘定リストの再設計. 同期を Wi-Fi 接続時に限定.
+      iw: |
+        עצוב מחדש של רשימת החשבונות. סנכרון יכול להיות מוגבל לרשת Wi-Fi.
+  -
+    - 2.9.1
+    - "2018-05-28"
+    -
+      en: |
+        Transaction time is now optional. Optionally distinguish between booking date and value date.
+      fr: |
+        L'heure de l'opération est maintenant optionnelle. Possibilité de distinguer entre la date d'enregistrement et la date de valeur.
+      de: |
+        Buchungszeit ist jetzt optional. Optional kann zwischen Buchungsdatum und Wertstellung unterscheiden werden.
+      es: |
+        La hora de transacción ahora es opcional. Se diferencia entre fecha de reserva y fecha de valor de forma opcional.
+      tr: |
+        Muamele zamanı artık seçime dayalıdır. Seçime dayalı olarak muamele tarihi ve değer tarihi arasında ayrım yapabilirsiniz.
+      bg: |
+        Времето на транзакцията вече е по избор. По желание можете да направите разлика между датата на резервацията и датата на вальора.
+      ms: |
+        Masa transaksi kini adalah pilihan. Boleh bezakan di antara tarikh tempahan dengan tarikh nilai secara pilihan.
+      ja: |
+        取引時刻がオプションになりました. オプションで、予約日と実行日を区別できます.
+      iw: |
+        זמן העסקה אופציונלי כעת. לחלופין, הבחן בין תאריך ההזמנה לבין תאריך הערך.
+  -
+    - 2.9.0
+    - "2018-04-07"
+    -
+      en: |
+        Multiple transactions can be grouped into one split transaction. Split transaction can be ungrouped.
+      fr: |
+        Plusieurs opérations peuvent être regroupées en une seule opération ventilée.. L'opération ventilée peut être dissociée..
+      de: |
+        Mehrere Buchungen können zu einer mehrteiligen Buchung zusammengefasst werden. Die Gruppierung einer mehrteiligen Buchung kann aufgelöst werden.
+      es: |
+        Múltiple transacciones puedes agruparte en una transacción dividida. Las transacciones divididas pueden desagruparse.
+      tr: |
+        Birden fazla muamele bir bölünmüş muamele içinde gruplandırılabilir. Bölünmüş muameleler gruplanmamış yapılabilir.
+      bg: |
+        Няколко транзакции могат да бъдат групирани в една разпределена транзакция. Разпределена транзакция може да се раздели на отделни транзакции.
+      ru: |
+        Несколько операций могут быть сгруппированы в одну дробную операцию.. Дробные операции могут быть разгруппированы.
+      ms: |
+        Transaksi berbilang boleh dikumpulkan menjadi satu transaksi pengasingan. Transaksi pengasingan boleh dinyahkumpulkan.
+      ja: |
+        複数の取引を1つの分割取引にグループ化できます. 分割取引がグループ化解除できます.
+      iw: |
+        עסקאות מרובות ניתן לקבץ לעסקה ספליט אחד. ניתן לפצל את העסקה המפוצלת.
+  -
     - 2.8.9
     - "2018-03-19"
     -

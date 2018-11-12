@@ -1,59 +1,46 @@
-pt:
-  imprint: Impresso
-  hero_main: "Gestor de finanças pessoal para o Android"
+pt_BR:
+  imprint: Marca
+  hero_main: "Gerenciador de finanças pessoais para o Android"
   hero_sub:
-    use: "Fácil de utilizar"
-    functionality: "Repleto de funcionalidades"
-    source: "Código aberto"
+    use: "Fácil de usar"
+    functionality: "Funcionalidade Rich"
+    source: "Open Source"
   menu_title:
     more_information: Mais informações
   sections:
-    features: Funcionalidades
-    premium: Obter Premium
+    features: Características
+    premium: Ir Premium
     participate: Participar
     faq: FAQ
-    versionlist: Registo de alterações
+    versionlist: Registro de alterações
     credits: Créditos
     licence: Licença
-    sourcecode: Código fonte
+    sourcecode: Código-fonte
     links: Links
   features:
-    manage_accounts: Até cinco contas com transferências
-    plans: Definir planos para transações futuras e recorrentes
-    grouped_list: Agrupar transações por dia, semana, mês e ano e exibir as somas por grupo
-    distribution: Dois níveis de categorias (importar a partir de XML do Grisbi e QIF)
-    split: Transações divididas (versão Contrib)
+    distribution: Dois níveis de categorias (importação de XML Grisbi e QIF)
+    split: Transação de divisão (versão Contrib)
     calculator: Calculadora
-    export: Exportar para QIF e CSV (MS Excel), pode ser partilhado automaticamente (via email, FTP, Dropbox, ...)
-    import: Importar dados QIF
-    password: Proteção por palavra-passe
+    import: Importe dados QIF
     help: Ajuda integrada
-    backup: Cópia de segurança e restauro dos dados
-    light_theme: "Dois temas: claro e escuro"
+    backup: Restauração e backup de dados
     attach_picture: Anexar imagem à transação
   contrib:
     thank_you: |
-      A sua contribuição apoia o constante desenvolvimento do My Expenses. Obrigado!
-    feature-list-title: "Contribua ao atualizar o <i>{app_name}</i> e tenha acesso sem restrições às seguintes funcionalidades:"
+        Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
+    feature-list-title: "Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:"
     feature:
-      accounts_unlimited: Número ilimitado de contas
-      plans_unlimited: Número ilimitado de planos
-      split_transaction: Dividir transação
-      security_question: Pergunta de segurança
-      template_widget: Widget de modelos
-      print: Exportar a lista de transações para PDF
-      attach_picture: Anexar imagem à transação
-      ad_free: Sem anúncios
-      csv_import: Importar CSV
-      auto_backup: Cópia de segurança automática
-      cloud_sync: Sincronização na nuvem
-  permissions-heading: |
-    O My Expenses requer as seguintes permissões
-  permissions-calendar: |
-    Leitura e escrita no calendário: Planos para transações futuras e recorrentes são guardados numa pasta local especial ou em qualquer outro calendário que atribuir.
-  permissions-external-storage: |
-    Escrita no armazenamento USB: Armazenamento de exportações QIF e CSV e ficheiros de cópia de segurança
-  permissions-internet: |
-    Comunicação de rede: Relatórios de falhas são enviados automaticamente aos desenvolvedores, a menos que sejam desativados pelo utilizador nas definições da aplicação.
-  permissions-accounts: |
-    Contas: Sincronização entre dispositivos através de serviços na nuvem
+      email_support: <b>Suporte por e-mail</b> com garantia de resposta em até dois dias úteis
+      history_chart: Diagrama histórico (fluxo de caixa)
+  permissions:
+    internet:
+      explanation_crash_reporting: Relatórios de falhas
+      explanation_cloud_sync: Sincronização na nuvem
+    accounts:
+      label: Contas
+  contrib-key: Chave de contribuição
+  extended-key: Chave estendida
+  professional-key: Chave Profissional
+  all_contrib_key_features: Todas as funcionalidades da Chave Contrib
+  all_extended_key_features: Todos os recursos da chave estendida
+  customer_support: Suporte ao cliente

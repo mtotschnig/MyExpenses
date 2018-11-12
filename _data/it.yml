@@ -30,7 +30,7 @@ it:
     attach_picture: Allegare immagine per transazione
   contrib:
     thank_you: |
-      Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
+        Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
     feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere l'accesso illimitato alle seguenti caratteristiche:"
     feature:
       accounts_unlimited: Numero illimitato di <b>conti</b>
@@ -55,3 +55,4 @@ it:
   contrib-key: Chiave Contrib
   extended-key: Chiave Ampliata
   all_contrib_key_features: Tutte le caratteristiche di Contrib chiave
+  customer_support: Servizio Clienti

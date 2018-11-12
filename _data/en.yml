@@ -38,7 +38,7 @@ en:
     homescreen: Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
   contrib:
     thank_you: |
-      Your contribution supports the further development of My Expenses. Thank you!
+        Your contribution supports the further development of My Expenses. Thank you!
     feature-list-title: "Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:"
     feature:
       accounts_unlimited: Unlimited number of <b>accounts</b>
@@ -89,4 +89,5 @@ en:
   professional-key: Professional Key
   all_contrib_key_features: All features of Contrib Key
   all_extended_key_features: All features of Extended Key
+  customer_support: Customer support
     

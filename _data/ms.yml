@@ -1,4 +1,4 @@
-ms:
+ms_MY:
   imprint: Imprint
   imprint_text: Bertanggungjawab atas kandungan laman sesawang dan juga pembangunan, penyelenggaraan dan pengedaran <i>{app_name}</i>
   privacy_policy_heading: Polisi kerahsiaan
@@ -38,7 +38,7 @@ ms:
     homescreen: <b>Widget</b> skrin rumah dan <b>pintasan</b> untuk masukan data secara pantas
   contrib:
     thank_you: |
-      Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
+        Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
     feature-list-title: "Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:"
     feature:
       accounts_unlimited: Bilangan <b>akaun</b> tanpa had
@@ -88,3 +88,4 @@ ms:
   professional-key: Kunci profesional
   all_contrib_key_features: Semua fitur Kunci Contrib
   all_extended_key_features: Semua fitur Kunci Lanjutan
+  customer_support: Sokongan pengguna

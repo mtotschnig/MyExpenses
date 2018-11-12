@@ -38,7 +38,7 @@ tr:
     homescreen: Çabuk veri girişi için ana ekran <b>widget'leri</b> ve <b>kısayolları</b>
   contrib:
     thank_you: |
-      Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
+        Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
     feature-list-title: "Lütfen <i>{app_name}</i>'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:"
     feature:
       accounts_unlimited: Sınırsız sayıda <b>hesap</b>
@@ -56,6 +56,7 @@ tr:
       split_template: Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
       email_support: 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
       roadmap_voting: <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
+      history_chart: Tarihçe grafiği (Nakit akışı)
     one-time-payment: Bir defalık ödeme
     subscription: Abonlelik
   store:
@@ -88,3 +89,4 @@ tr:
   professional-key: Profesyonel Anahtar
   all_contrib_key_features: Katkı Anahtarının tüm işlevleri
   all_extended_key_features: Genişletilmiş Anahtar'ın tüm işlevleri
+  customer_support: Müşteri desteği
