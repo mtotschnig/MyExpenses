@@ -760,4 +760,6 @@
   <string name="credit_limit">Limite di credito</string>
   <string name="clear_all_filters">Cancella tutti i filtri</string>
   <string name="pref_scroll_to_current_date_summary">All\'avvio dell\'app, scorrere l\'elenco delle transazioni sulla data corrente</string>
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>

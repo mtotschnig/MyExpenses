@@ -762,4 +762,6 @@
   <string name="clear_all_filters">Effacer tous les filtres</string>
   <string name="pref_scroll_to_current_date_summary">Au démarrage de l\'application, défiler la liste des opérations jusqu\'à la date actuelle</string>
   <string name="professional_key_fallback_info">Un abonnement à la clé professionnelle, actif depuis au moins un an et non renouvelé, sera automatiquement transformé en clé étendue illimitée.</string>
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>

@@ -762,4 +762,6 @@
   <string name="clear_all_filters">Limpiar todos los filtros</string>
   <string name="pref_scroll_to_current_date_summary">Al iniciar la aplicación, desplazar la lista de transacciones hasta la fecha actual</string>
   <string name="professional_key_fallback_info">Una suscripción de Llave Profesional que lleve activa durante un año y no se renueve, se convertirá automáticamente en una Llave Extendida ilimitada.</string>
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>

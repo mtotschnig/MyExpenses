@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">メニュー コマンド</string>
   <string name="help_contextual_actions">コンテキスト アクション</string>
+  <string name="help_contextual_actions_help">コンテキストアクションのメニューは、リスト項目を長押しすると表示されます。</string>
   <string name="help_form_fields">フォーム フィールド</string>
   <string name="cab_delete_help_text">選択したアイテムを削除</string>
   <string name="cab_edit_help_text">選択したアイテムを編集</string>
@@ -13,6 +14,7 @@
   <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および振替の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
   <string name="menu_sort_direction_help_text">取引は昇順 (古いものが先頭) または降順 (新しいものが先頭) にソートできます。</string>
   <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
+  <string name="menu_budget_help_text">現在表示されている勘定の、毎日、毎週、毎月、または毎年の予算を管理します。</string>
   <string name="menu_history_help_text">キャッシュフロー図を表示します: 日、週、月、年にわたって支出と収入は増えましたか?</string>
   <string name="menu_manage_plans_help_text">テンプレートと計画のリストを開いて、適用、編集または削除することができます。また、将来の計画や繰り返し取引を定義することができます。</string>
   <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消込した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消込済にマークした取引と比較することができます。オプションで、照合済の取引を削除することを指定することができます。</string>
@@ -57,6 +59,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
   <string name="menu_ManageCategories_search_help_text">クエリに一致するメインとサブカテゴリーのみ表示されます。</string>
   <string name="menu_ManageCategories_sort_help_text">分類リストは、タイトル (アルファベット順)、使用頻度、または取引がマップされた最後の時間によってソートすることができます。</string>
+  <string name="cab_ManageCategories_color_help_text">主分類に色を割り当てることができます。 この色は、グラフの分類を表すために使用されます。 副分類は、主分類の色の陰影を使用します。</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">取引用のフォーム</string>
   <string name="help_ExpenseEdit_transfer_title">振替用のフォーム</string>
@@ -146,4 +149,9 @@
   <string name="menu_HistoryActivity_grouping_help_text">日、週、月、年のキャッシュフローデータの分類を切り替えます。</string>
   <string name="menu_HistoryActivity_history_show_balance_help_text">残高の表示を切り替えます。</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">振替を通常の収入または支出のように扱う必要がある場合、切り替えます。</string>
+  <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">予算画面では、毎日、毎週、毎月、または毎年の予算を定義できます。 まず、各期間に費やしたい金額を設定します。 その後、分類や副分類に金額を割り当て、あなたが費やした金額と費やされる金額を監視することができます。 予算額をクリックすると、予算額を変更することができます。</string>
+  <string name="menu_switch_budget_help_text">別のタイプの予算に切り替えます。</string>
+  <string name="cab_show_transactions_help_text">現在の勘定で選択した分類にマップされているすべての取引を一覧表示するダイアログを開きます。</string>
+  <string name="menu_BudgetActivity_back_forward_help_text">過去と将来の支出と予算を比較する。</string>
 </resources>

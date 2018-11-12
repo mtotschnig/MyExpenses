@@ -762,4 +762,6 @@
   <string name="clear_all_filters">Alle Filter löschen</string>
   <string name="pref_scroll_to_current_date_summary">Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen</string>
   <string name="professional_key_fallback_info">Ein Abonnement für den Professionellen Schlüssel, das seit mindestens einem Jahr aktiv ist und nicht erneuert wird, wird automatisch in einen unbegrenzten Erweiterten Schlüssel umgewandelt.</string>
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">תפריט פקודות</string>
+  <string name="help_menu_commands">פקודות תפריט</string>
   <string name="help_contextual_actions">פעולות הקשר</string>
   <string name="help_contextual_actions_help">התפריט עבור פעולות קשורות מוצג על ידי הקשה ארוכה על ערך רשימה.</string>
   <string name="help_form_fields">טופס שדות</string>
@@ -14,6 +14,7 @@
   <string name="menu_grouping_help_text">ניתן לקבץ עסקאות לפי יום, שבוע, חודש או שנה. עבור כל קבוצה, סכום ההכנסות, ההוצאות וההעברות מחושב ומוצג. כאשר תלחץ על כותרת קבוצה, תצוגת קבוצת העסקאות תסגר ורק הכותרת תוצג. לחץ שוב כדי להרחיב.</string>
   <string name="menu_sort_direction_help_text">עסקאות ניתן למיין בסדר עולה (הישן בראש) או יורד (האחרון בראש).</string>
   <string name="menu_distribution_help_text">הצג את התפלגות ההוצאות שלך לפי קטגוריה. אתה יכול גם ללחוץ לחיצה ארוכה על כותרת קבוצה כדי לבדוק את החלוקה לתקופה מסוימת של זמן.</string>
+  <string name="menu_budget_help_text">נהל תקציבים יומיים, שבועיים, חודשיים או שנתיים עבור החשבון המוצג כעת.</string>
   <string name="menu_history_help_text">הצגת דיאגרמת תזרים מזומנים: כיצד חשבונך והכנסותיך התפתחו במשך ימים, שבועות, חודשים או שנים?</string>
   <string name="menu_manage_plans_help_text">פותח את רשימת התבניות והתוכניות, שבהן ניתן להחיל, לערוך או למחוק אותן, וכן להגדיר תוכניות לעסקאות עתידיות וחוזרות.</string>
   <string name="menu_balance_help_text">פקודה זו פותחת תיבת דו-שיח המציגה את המאזן האחרון שמסומן reconcield. אתה יכול להשוות את זה האחרון לדוח הבנק שלך, והעביר את כל העסקות המסומנות cleared למצב reconciled. לחלופין, תוכל להחליט למחוק עסקאות המסומנות reconciled.</string>
@@ -148,4 +149,9 @@
   <string name="menu_HistoryActivity_grouping_help_text">החלף בין קיבוץ יומי, שבועי, חודשי או שנתי של נתוני תזרים המזומנים שלך.</string>
   <string name="menu_HistoryActivity_history_show_balance_help_text">החלף את החשיפה של היתרה.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">החלף, אם העברות צריך להיות מטופל כמו הכנסה קבועה או הוצאה.</string>
+  <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">מסך התקצוב מאפשר לך להגדיר תקציב יומי, שבועי, חודשי או שנתי. ראשית אתה קובע את הסכום הכולל שאתה רוצה להוציא עבור כל תקופה. אז אתה יכול להקצות סכומים עבור קטגוריות ותתי קטגוריות, ולנטר כמה אתה השקיע וכמה נשאר להישאר. לחיצה על הסכומים המתוקצבים מאפשרת לשנות אותם.</string>
+  <string name="menu_switch_budget_help_text">עבור לסוג אחר של תקציב.</string>
+  <string name="cab_show_transactions_help_text">פתיחת תיבת דו-שיח המפרטת את כל העסקאות הממופות לקטגוריה שנבחרה בחשבון הנוכחי.</string>
+  <string name="menu_BudgetActivity_back_forward_help_text">השווה את התקציב עם ההוצאות של תקופות העבר והעתיד.</string>
 </resources>

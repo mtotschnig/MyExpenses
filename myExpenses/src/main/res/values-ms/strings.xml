@@ -752,4 +752,6 @@
   <string name="clear_all_filters">Kosongkan semua penapis</string>
   <string name="pref_scroll_to_current_date_summary">Ketika apl mula, tatal senarai transaksi dengan tarikh semasa</string>
   <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>

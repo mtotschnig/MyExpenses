@@ -43,7 +43,7 @@
   <string name="contrib_key">Klucz Contrib</string>
   <string name="extended_key">Klucz Rozszerzony</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Wymaga %s.</string>
+  <string name="contrib_key_requires">Wymaga: %1$s.</string>
   <string name="currency">Waluta</string>
   <string name="current_balance">Bieżący bilans</string>
   <string name="date">Data</string>
@@ -167,7 +167,7 @@
   <string name="menu_create_transaction">Nowa Transakcja</string>
   <string name="menu_create_transfer">Nowy Przelew</string>
   <string name="menu_delete">Usuń</string>
-  <string name="menu_distribution">Dystrybucja</string>
+  <string name="menu_distribution">Rozkład wydatków</string>
   <string name="menu_edit">Edytuj</string>
   <string name="menu_edit_account">Edytuj Konto</string>
   <string name="menu_edit_cat">Edytuj kategorię</string>
@@ -335,8 +335,8 @@
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
   <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
   <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
-  <string name="pref_template_click_default_summary">Po krótkim dotknięciu wejścia na liście szablonów</string>
-  <string name="pref_ui_fontsize_title">Powiększ rozmiar czcionki</string>
+  <string name="pref_template_click_default_summary">Po krótkim dotknięciu wpisu na liście szablonów</string>
+  <string name="pref_ui_fontsize_title">Wielkość kroju pisma</string>
   <string name="pref_ui_home_screen_shortcuts">Skróty</string>
   <string name="pref_ui_language_default">Domyślne systemowe</string>
   <!--Title of the preference for selecting the UI language-->
@@ -390,7 +390,7 @@
   <string name="sum_transfer">Przelewy</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Personalny menadżer finansów dla systemu {platform}, {website}</string>
-  <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
+  <string name="thank_you">Dziękujemy za Twoje wsparcie!</string>
   <string name="time">Czas</string>
   <string name="title">Tytuł</string>
   <string name="total_cleared">Wyczyszczono w sumie</string>
@@ -682,11 +682,12 @@
   <string name="extend_validity">Przedłuż ważność</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Pobieranie danych z odległego serwera. To może zająć trochę czasu.</string>
   <string name="donate_button_invoice">Faktura</string>
-  <string name="menu_sort_direction">Sortuj kierunek</string>
+  <string name="menu_sort_direction">Kierunek sortowania</string>
   <string name="sort_direction_ascending">rosnąco</string>
   <string name="sort_direction_descending">malejąco</string>
   <string name="never">nigdy</string>
   <string name="always">zawsze</string>
+  <string name="dropbox_folder_name_prompt">Podaj nazwę istniejącego foldera na głównym poziomie Twojego konta Dropbox.</string>
   <string name="dropbox_folder_not_found">Folder nie został odnaleziony</string>
   <string name="sync_auth_exception_login_again">Autoryzacja się nie powiodła. Zaloguj się proszę ponowie.</string>
   <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
@@ -698,7 +699,9 @@
   <string name="menu_history_transfers">Uwzględnij transfery</string>
   <string name="menu_history">Historia</string>
   <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Wydatki</string>
   <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Przychody</string>
   <string name="menu_history_totals">Pokaż sumy</string>
   <string name="pref_home_currency_title">Waluta rodzima</string>
   <string name="grand_total">Suma całkowita</string>
@@ -742,4 +745,21 @@
   <string name="clear_all_filters">Wyczyść wszystkie filtry</string>
   <string name="pref_scroll_to_current_date_summary">Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty</string>
   <string name="professional_key_fallback_info">Subskrypcja Klucza Profesjonalnego, która była aktywna przez przynajmniej rok, a która nie zostanie odnowiona, automatycznie zamieni się w nieograniczony Klucz Rozszerzony.</string>
+  <string name="menu_budget">Przydzielanie budżetu</string>
+  <string name="dialog_title_new_budget">Nowy budżet</string>
+  <string name="dialog_title_edit_budget">Edycja budżetu</string>
+  <string name="daily_budget">Budżet dzienny</string>
+  <string name="weekly_budget">Budżet tygodniowy</string>
+  <string name="monthly_budget">Budżet miesięczny</string>
+  <string name="yearly_budget">Budżet roczny</string>
+  <string name="menu_switch_budget">Przełącz</string>
+  <string name="budget_table_header_budgeted">Rozdzielono</string>
+  <string name="budget_table_header_allocated">Zaalokowano</string>
+  <string name="budget_table_header_spent">Wydano</string>
+  <string name="budget_table_header_remainder">Pozostałość</string>
+  <string name="budget_allocated_amount">Kwota przydzielona</string>
+  <string name="budget_exceeded_error_1_2">Cały Twój budżet został przydzielony do pozostałych kategorii.</string>
+  <string name="budget_exceeded_error_2">Zwiększ rozmiar budżetu lub usuń pieniądze z pozostałych kategorii.</string>
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>

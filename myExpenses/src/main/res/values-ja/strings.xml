@@ -752,4 +752,29 @@
   <string name="clear_all_filters">すべてのフィルターをクリア</string>
   <string name="pref_scroll_to_current_date_summary">アプリの起動時に、取引リストを現在の日付にスクロールします</string>
   <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
+  <string name="menu_budget">予算作成</string>
+  <string name="dialog_title_new_budget">新しい予算</string>
+  <string name="dialog_title_edit_budget">予算を編集</string>
+  <string name="daily_budget">毎日の予算</string>
+  <string name="weekly_budget">毎週の予算</string>
+  <string name="monthly_budget">毎月の予算</string>
+  <string name="yearly_budget">毎年の予算</string>
+  <string name="menu_switch_budget">切り替え</string>
+  <string name="budget_table_header_budgeted">予算計画済</string>
+  <string name="budget_table_header_allocated">割り当て済</string>
+  <string name="budget_table_header_spent">消費</string>
+  <string name="budget_table_header_remainder">リマインダー</string>
+  <string name="budget_allocated_amount">割り当て済金額</string>
+  <string name="budget_exceeded_error_1_1">%s を除いたすべての予算は、他の分類に割り当てられています。</string>
+  <string name="budget_exceeded_error_1_2">すべての予算は、他の分類に割り当てられています。</string>
+  <string name="budget_exceeded_error_2">予算金額を増やすか、他の分類から費用を取り除いてください。</string>
+  <string name="budget_under_allocated_error">%s は既に分類に割り当てられています。 そこから費用を取り除かない限り、少なくともその金額の予算を立てる必要があります。</string>
+  <string name="sub_budget_exceeded_error_1_1">主分類に割り当てられた金額のうち %s を除くすべては、他の副分類に割り当てられています。</string>
+  <string name="sub_budget_exceeded_error_1_2">主分類に割り当てられた金額はすべて、他の副分類に割り当てられています。</string>
+  <string name="sub_budget_exceeded_error_2">主分類に割り当てられた金額を増やすか、他の副分類から金額を取り除いてください。</string>
+  <string name="sub_budget_under_allocated_error">%s は既に副分類に割り当てられています。 そこから費用を取り除かない限り、少なくともその金額を主分類に割り当てる必要があります。</string>
+  <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">方法をクリア</string>
+  <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">分類をクリア</string>
 </resources>

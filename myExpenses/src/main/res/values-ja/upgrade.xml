@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_295">
+    <item>主分類の色をカスタム</item>
+  </string-array>
   <string-array name="whats_new_293">
     <item>貯蓄目標とクレジット限度</item>
     <item>勘定科目グループ (種類または通貨単位) を折りたたむことができます</item>

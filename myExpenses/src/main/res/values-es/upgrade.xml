@@ -18,6 +18,17 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_295">
+    <item>Colores personalizados para categorías principales</item>
+  </string-array>
+  <string-array name="whats_new_293">
+    <item>Objetivos de ahorro y límites de crédito</item>
+    <item>Grupo de cuentas (por tipo y divisa) pueden agruparse</item>
+  </string-array>
+  <string-array name="whats_new_292">
+    <item>Lista de cuenta rediseñada</item>
+    <item>La sincronización puede limitarse a vía Wi-Fi</item>
+  </string-array>
   <string-array name="whats_new_291">
     <item>La hora de transacción ahora es opcional</item>
     <item>Se diferencia entre fecha de reserva y fecha de valor de forma opcional</item>

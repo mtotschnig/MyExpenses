@@ -762,4 +762,29 @@
   <string name="clear_all_filters">Премахни филтрите</string>
   <string name="pref_scroll_to_current_date_summary">При стартиране на приложението превърти списъка с транзакции до текущата дата</string>
   <string name="professional_key_fallback_info">Абонамент за Професионален ключ, който е бил активен най-малко една година и не е подновен, ще бъде автоматично преобразуван в неограничен Разширен ключ.</string>
+  <string name="menu_budget">Бюджетиране</string>
+  <string name="dialog_title_new_budget">Нов бюджет</string>
+  <string name="dialog_title_edit_budget">Редактиране на бюджет</string>
+  <string name="daily_budget">Дневен бюджет</string>
+  <string name="weekly_budget">Седмичен бюджет</string>
+  <string name="monthly_budget">Месечен бюджет</string>
+  <string name="yearly_budget">Годишен бюджет</string>
+  <string name="menu_switch_budget">Превключи</string>
+  <string name="budget_table_header_budgeted">В бюджета</string>
+  <string name="budget_table_header_allocated">Разпределена</string>
+  <string name="budget_table_header_spent">Похарчено</string>
+  <string name="budget_table_header_remainder">Остатък</string>
+  <string name="budget_allocated_amount">Заделена сума</string>
+  <string name="budget_exceeded_error_1_1">Всички, освен %s от вашия бюджет, са заделени в други категории.</string>
+  <string name="budget_exceeded_error_1_2">Целият бюджет е заделен в други категории.</string>
+  <string name="budget_exceeded_error_2">Увеличете бюджета или премахнете сума от други категории.</string>
+  <string name="budget_under_allocated_error">%s вече са заделени по категории. Ако не премахвате пари от там, трябва включите в бюджета поне тази сума.</string>
+  <string name="sub_budget_exceeded_error_1_1">Всичко, без %s от сумата, заделена в главната категория, е разпределено в други подкатегории.</string>
+  <string name="sub_budget_exceeded_error_1_2">Цялата сума, заделена в главната категория, е разпределена в подкатегории.</string>
+  <string name="sub_budget_exceeded_error_2">Увеличете сумата, заделена в главната категория, или премахнете средства от подкатегории.</string>
+  <string name="sub_budget_under_allocated_error">%s вече са разпределени в подкатегории. Ако не премахвате пари от тях, трябва да заделите поне тази сума в главната категория.</string>
+  <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Изчисти метод</string>
+  <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Изчисти категория</string>
 </resources>

@@ -616,6 +616,8 @@
   <string name="dialog_confirm_sync_remove_backend">Backend מרחוק %s יוסר. פעולה זו לא תשפיע על נתונים המאוחסנים מקומית או מרחוק, אך מצב הסינכרון הולך לאיבוד. האם אתה רוצה להמשיך?</string>
   <string name="dialog_confirm_sync_link_local">נתונים מרוחקים עבור החשבון הזה יימחקו. ודא שאין התקנים אחרים מקושרים אליו.</string>
   <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>
+  <string name="warning_limited_trial">תכונה %1$s ניתנת לבדיקה עד %2$s.</string>
+  <string name="warning_trial_limit_reached">תקופת הזמן לבדיקת התכונה %s הסתיימה</string>
   <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה {app_name} במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">התיקייה שבחרת מסומנת לחשבון אחד של backend קיים. עליך לבחור את תיקיית האב כדי לעשות שימוש חוזר ב- backend זה.</string>
   <string name="select_unsynced_accounts">בחר חשבונות לסנכרון עם backend זה</string>
@@ -780,4 +782,31 @@
   <string name="clear_all_filters">בטל את כל המסננים</string>
   <string name="pref_scroll_to_current_date_summary">בהפעלת היישום, גלול רשימת עסקאות לתאריך הנוכחי</string>
   <string name="professional_key_fallback_info">מנוי על המפתח המקצועי הפועל במשך שנה לפחות ולא יחודש, יהפוך אוטומטית למפתח מורחב לזמן בלתי מוגבל.</string>
+  <string name="menu_budget">תקצוב</string>
+  <string name="dialog_title_new_budget">תקציב חדש</string>
+  <string name="dialog_title_edit_budget">ערוך תקציב</string>
+  <string name="daily_budget">תקציב יומי</string>
+  <string name="weekly_budget">תקציב שבועי</string>
+  <string name="monthly_budget">תקציב חודשי</string>
+  <string name="yearly_budget">תקציב שנתי</string>
+  <string name="menu_switch_budget">החלף</string>
+  <string name="budget_table_header_budgeted">מתוקצב</string>
+  <string name="budget_table_header_allocated">מוקצה</string>
+  <string name="budget_table_header_spent">הוצאה</string>
+  <string name="budget_table_header_remainder">תזכורת</string>
+  <string name="budget_allocated_amount">סכום מוקצה</string>
+  <string name="budget_exceeded_error_1_1">הכול פרט ל-%sמהתקציב שלך הוקצה לקטגוריות אחרות</string>
+  <string name="budget_exceeded_error_1_2">כל התקציב שלך הוקצה לקטגוריות אחרות.</string>
+  <string name="budget_exceeded_error_2">הגדל את הסכום המתוקצב, או הסר כסף מקטגוריות אחרות.</string>
+  <string name="budget_under_allocated_error">%sכבר הוקצו לקטגוריות. אלא אם כן אתה מסיר כסף מהם, אתה חייב לפחות לתקצב סכום זה.
+</string>
+  <string name="sub_budget_exceeded_error_1_1">כל פרט ל- %s מהכמות שהוקצתה לקטגוריה הראשית הוקצה לקטגוריות משנה אחרות.</string>
+  <string name="sub_budget_exceeded_error_1_2">כל הסכום שהוקצה לקטגוריה הראשית הוקצה לתתי קטגוריות אחרות.</string>
+  <string name="sub_budget_exceeded_error_2">הגדל את הסכום שהוקצה לקטגוריה העיקרית, או להסיר כסף מתתי קטגוריות אחרות.</string>
+  <string name="sub_budget_under_allocated_error">%sכבר הוקצו לתתי-קטגוריות. אלא אם כן אתה מסיר כסף מהם, עליך לפחות להקצות את הסכום לקטגוריה העיקרית.
+</string>
+  <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">שיטה ברורה</string>
+  <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">קטגוריה ברורה</string>
 </resources>

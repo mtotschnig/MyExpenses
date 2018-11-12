@@ -452,4 +452,6 @@
   <!--Content description for accessibility on image that allows to collapse content-->
   <!--Content description for accessibility on image that allows to expand content-->
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <!--Description for button that allows to clear the selected method-->
+  <!--Description for button that allows to clear the selected category-->
 </resources>
