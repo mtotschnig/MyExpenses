@@ -291,7 +291,12 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
-    ((CommitSafeDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).showSnackbar(message, duration, snackbarAction);
+    final CommitSafeDialogFragment fragment = (CommitSafeDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+    if (fragment != null) {
+      fragment.showSnackbar(message, duration, snackbarAction);
+    } else {
+      super.showSnackbar(message, duration, snackbarAction);
+    }
   }
 
   @Override
