@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -285,7 +286,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           .createConfirmDeviceCredentialIntent(null, null);
       if (intent != null) {
         if (shouldHideWindow) hideWindow();
-        startActivityForResult(intent, requestCode);
+        try {
+          startActivityForResult(intent, requestCode);
+        } catch (ActivityNotFoundException e) {
+          showSnackbar("No activity found for confirming device credentials", Snackbar.LENGTH_LONG);
+        }
       } else {
         showDeviceLockScreenWarning();
         if (legacyUnlockCallback != null) {
