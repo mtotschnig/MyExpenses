@@ -194,10 +194,16 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    if (taskId == TASK_CREATE_SYNC_ACCOUNT && ((Result) o).isSuccess()) {
+    if (taskId == TASK_CREATE_SYNC_ACCOUNT && ((Exceptional) o).isPresent()) {
       recordUsage(ContribFeature.SYNCHRONIZATION);
     }
     switch (taskId) {
+      case TASK_CREATE_SYNC_ACCOUNT: {
+        if (((Exceptional) o).isPresent()) {
+          recordUsage(ContribFeature.SYNCHRONIZATION);
+        }
+        break;
+      }
       case TASK_WEBDAV_TEST_LOGIN: {
         getWebdavFragment().onTestLoginResult((Exceptional<Void>) o);
         break;
