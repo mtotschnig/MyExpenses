@@ -343,7 +343,9 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public void onDestroyView() {
-    listState = mListView.getWrappedList().onSaveInstanceState();
+    if (mListView != null) {
+      listState = mListView.getWrappedList().onSaveInstanceState();
+    }
     super.onDestroyView();
   }
 
