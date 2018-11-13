@@ -79,14 +79,12 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -399,6 +397,17 @@ public class Utils {
       return (System.currentTimeMillis() -
           context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
               .firstInstallTime) / DAY_IN_MILLIS;
+    } catch (NameNotFoundException e) {
+      return 0;
+    }
+  }
+
+
+  public static long getDaysSinceUpdate(Context context) {
+    try {
+      return (System.currentTimeMillis() -
+          context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
+              .lastUpdateTime) / DAY_IN_MILLIS;
     } catch (NameNotFoundException e) {
       return 0;
     }

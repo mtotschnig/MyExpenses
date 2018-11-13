@@ -45,6 +45,9 @@ import timber.log.Timber;
 public class RoadmapViewModel extends AndroidViewModel {
   public static final String ROADMAP_URL = BuildConfig.DEBUG ?
       "http://10.0.2.2:3000/"  : "https://roadmap.myexpenses.mobi/";
+  public static final int EXPECTED_MINIMAL_VERSION  = 1;
+  public static final String ISSUE_CACHE = "issue_cache.json";
+  public static final String ROADMAP_VOTE = "roadmap_vote.json";
 
   @Inject
   OkHttpClient.Builder builder;
@@ -56,9 +59,6 @@ public class RoadmapViewModel extends AndroidViewModel {
   private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
   private final MutableLiveData<Vote> lastVote = new MutableLiveData<>();
   private final MutableLiveData<Result<Vote>> voteResult = new MutableLiveData<>();
-  private static final String ISSUE_CACHE = "issue_cache.json";
-  private static final String ROADMAP_VOTE = "roadmap_vote.json";
-  private static final int EXPECTED_MINIMAL_VERSION  = 1;
   private RoadmapService roadmapService;
   private Gson gson;
   private Call currentCall;
@@ -98,7 +98,6 @@ public class RoadmapViewModel extends AndroidViewModel {
   }
 
   public void loadData(boolean withCache) {
-    withCache = withCache && EXPECTED_MINIMAL_VERSION <= getVersionFromPref();
     new LoadIssuesTask(withCache).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
@@ -128,7 +127,7 @@ public class RoadmapViewModel extends AndroidViewModel {
     protected Result<Vote> doInBackground(Vote... votes) {
       try {
         final Vote vote = votes[0];
-        Call<Void> voteCall = roadmapService.createVote(getVersionFromPref(), vote);
+        Call<Void> voteCall = roadmapService.createVote(vote);
         currentCall = voteCall;
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
@@ -148,10 +147,6 @@ public class RoadmapViewModel extends AndroidViewModel {
       currentCall = null;
       voteResult.setValue(result);
     }
-  }
-
-  private int getVersionFromPref() {
-    return prefHandler.getInt(PrefKey.ROADMAP_VERSION, 0 );
   }
 
   private class LoadIssuesTask extends AsyncTask<Void, Void, List<Issue>> {

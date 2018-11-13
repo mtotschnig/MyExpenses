@@ -177,7 +177,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (prev_version == -1) {
         return;
       }
-      boolean showImportantUpgradeInfo = prev_version < 309;
+      boolean showImportantUpgradeInfo = false;
       prefHandler.putInt(CURRENT_VERSION, current_version);
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       Editor edit = settings.edit();

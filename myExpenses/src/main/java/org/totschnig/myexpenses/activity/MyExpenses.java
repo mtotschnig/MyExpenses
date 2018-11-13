@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -96,6 +97,7 @@ import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -186,7 +188,8 @@ public class MyExpenses extends LaunchActivity implements
   private long sequenceCount = 0;
   @BindView(R.id.left_drawer)
   ExpandableStickyListHeadersListView mDrawerList;
-  @Nullable @BindView(R.id.drawer_layout)
+  @Nullable
+  @BindView(R.id.drawer_layout)
   DrawerLayout mDrawerLayout;
   @BindView(R.id.viewpager)
   ViewPager myPager;
@@ -201,6 +204,8 @@ public class MyExpenses extends LaunchActivity implements
 
   @Inject
   CurrencyFormatter currencyFormatter;
+
+  private RoadmapViewModel roadmapViewModel;
 
   @Override
   protected void injectDependencies() {
@@ -322,7 +327,11 @@ public class MyExpenses extends LaunchActivity implements
     if (mAccountId == 0) {
       mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
     }
+    roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
     setup();
+    if (savedInstanceState == null) {
+      voteReminderCheck();
+    }
   }
 
   private void setup() {
@@ -338,6 +347,29 @@ public class MyExpenses extends LaunchActivity implements
     myPager.setPageMarginDrawable(margin.resourceId);
     mManager = getSupportLoaderManager();
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+  }
+
+  private void voteReminderCheck() {
+    final String prefKey = "vote_reminder_shown_" + RoadmapViewModel.EXPECTED_MINIMAL_VERSION;
+    if (Utils.getDaysSinceUpdate(this) > 1 &&
+        !prefHandler.getBoolean(prefKey, false)) {
+      roadmapViewModel.getLastVote().observe(this, vote -> {
+        boolean hasNotVoted = vote == null;
+        if (hasNotVoted || vote.getVersion() < RoadmapViewModel.EXPECTED_MINIMAL_VERSION) {
+          Bundle bundle = new Bundle();
+          bundle.putCharSequence(
+              ConfirmationDialogFragment.KEY_MESSAGE, hasNotVoted ? getString(R.string.roadmap_intro) :
+                  TextUtils.concatResStrings(MyExpenses.this, " ",
+                      R.string.roadmap_intro, R.string.roadmap_intro_update));
+          bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.ROADMAP_COMMAND);
+          bundle.putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey);
+          bundle.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.roadmap_vote);
+          ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
+              "ROAD_MAP_VOTE_REMINDER");
+        }
+      });
+      roadmapViewModel.loadLastVote();
+    }
   }
 
   private void moveToPosition(int position) {
@@ -643,7 +675,12 @@ public class MyExpenses extends LaunchActivity implements
       }
       case R.id.CLEAR_FILTER_COMMAND: {
         getCurrentFragment().clearFilter();
-        break;
+        return true;
+      }
+      case R.id.ROADMAP_COMMAND : {
+        Intent intent = new Intent(this, RoadmapVoteActivity.class);
+        startActivity(intent);
+        return true;
       }
     }
     return false;

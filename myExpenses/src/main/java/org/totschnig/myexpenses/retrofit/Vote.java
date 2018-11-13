@@ -7,11 +7,12 @@ import java.util.Map;
 
 public class Vote {
 
-  public Vote(String key, Map<Integer, Integer> vote, boolean isPro, String email) {
+  public Vote(String key, Map<Integer, Integer> vote, boolean isPro, String email, int version) {
     this.key = key;
     this.vote = vote;
     this.isPro = isPro;
     this.email = email;
+    this.version = version;
   }
 
   public boolean isPro() {
@@ -26,6 +27,14 @@ public class Vote {
     return vote;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public int getVersion() {
+    return version;
+  }
+
   @SerializedName("email")
   String email;
 
@@ -38,7 +47,6 @@ public class Vote {
   @SerializedName("vote")
   Map<Integer, Integer> vote;
 
-  public String getEmail() {
-    return email;
-  }
+  @SerializedName("version")
+  int version = 0;
 }

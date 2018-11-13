@@ -45,7 +45,6 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import java.util.List;
@@ -120,7 +119,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       }
     };
     lv.setAdapter(adapter);
-    if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
+/*    if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
       view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
       TextView importantUpgradeInfoBody = view.findViewById(R.id.ImportantUpgradeInfoBody);
       importantUpgradeInfoBody.setVisibility(View.VISIBLE);
@@ -132,7 +131,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
          getActivity().startActivity(new Intent(getContext(), RoadmapVoteActivity.class));
         }
       });
-    }
+    }*/
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(getString(R.string.help_heading_whats_new))

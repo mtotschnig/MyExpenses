@@ -29,6 +29,7 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.Vote;
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView;
@@ -50,6 +51,7 @@ import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.viewmodel.RoadmapViewModel.EXPECTED_MINIMAL_VERSION;
 import static org.totschnig.myexpenses.viewmodel.RoadmapViewModel.ROADMAP_URL;
 
 public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
@@ -119,7 +121,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
               validateAndUpdateUi();
             }
           }
-          roadmapViewModel.loadData(true);
+          roadmapViewModel.loadData(EXPECTED_MINIMAL_VERSION <= getVersionFromPref());
         });
   }
 
@@ -127,6 +129,11 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   protected void onPause() {
     super.onPause();
     roadmapViewModel.cacheWeights(voteWeights);
+  }
+
+
+  private int getVersionFromPref() {
+    return prefHandler.getInt(PrefKey.ROADMAP_VERSION, 0 );
   }
 
   private void validateAndUpdateUi() {
@@ -231,7 +238,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         return true;
       }
       case R.id.ROADMAP_SUBMIT_VOTE: {
-        if (lastVote != null && lastVote.getVote().equals(voteWeights)) {
+        if (lastVote != null && lastVote.getVote().equals(voteWeights) && lastVote.getVersion() == getVersionFromPref()) {
           showSnackbar("Modify your vote, before submitting it again.", Snackbar.LENGTH_LONG);
         } else {
           final boolean emailIsKnown = getEmail() != null;
@@ -346,7 +353,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
             email = extras.getString(KEY_EMAIL);
           }
           String key = lastVote != null ? lastVote.getKey() : licenceHandler.buildRoadmapVoteKey();
-          Vote vote = new Vote(key, new HashMap<>(voteWeights), isPro, email);
+          Vote vote = new Vote(key, new HashMap<>(voteWeights), isPro, email, getVersionFromPref());
           roadmapViewModel.submitVote(vote);
           return true;
         }
