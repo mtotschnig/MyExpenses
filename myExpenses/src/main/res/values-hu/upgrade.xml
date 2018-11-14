@@ -18,7 +18,4 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_276">
-    <item>Apróbb fejlesztések</item>
-  </string-array>
   </resources>

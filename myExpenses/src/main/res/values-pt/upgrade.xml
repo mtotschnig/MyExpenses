@@ -37,14 +37,5 @@
     <item>Tradução hebraica</item>
     <item>Picker para cores de conta personalizada</item>
   </string-array>
-  <string-array name="whats_new_271">
-    <item>Problemas com planos em dispositivos Samsung são resolvidos</item>
-    <item>Editar transações da tela de distribuição</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Novo ícone do lançador</item>
-    <item>Busca de transferências</item>
-    <item>Classificar os planos da próxima instância</item>
-  </string-array>
     <string name="bug_fixes">Correções de erros</string>
     </resources>

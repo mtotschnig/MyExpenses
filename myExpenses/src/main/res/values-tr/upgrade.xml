@@ -71,30 +71,6 @@
     <item>İbranice tercüme</item>
     <item>Özel hesap rengi için seçici</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Para birimi sembolleri yapılandırılabilir</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Android 7.1 için uygulama kısayolları</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Otomatik yedeklemeler bulut arka ucunda stoklanabilir</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Küçük iyileştirmeler</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Cihazlar arası bulut hizmetleri ile eşleşme</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Samsung cihazlarında planlamalar ile ilgili sorunlar giderildi</item>
-    <item>Dağıtım ekranında mumaleleri düzenleme</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Yeni başlatma ikonu</item>
-    <item>Transferler için arama</item>
-    <item>Planlamaları sonraki örneklemeye dayalı sıralama</item>
-  </string-array>
     <string name="bug_fixes">Hata düzeltmeleri</string>
     <string name="performance_enhancement">Performans arttırıldı</string>
     <string name="stability_improvements">Kararlılık geliştirmeleri</string>

@@ -56,30 +56,6 @@
     <item>Перевод на иврит</item>
     <item>Выбор уникального цвета счета</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Возможность настройки символов валюты</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Ярлыки приложений для Android 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Автоматическое резервное копирование в облачных сервисах</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Незначительные улучшения</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Синхронизация между устройствами через облачные сервисы</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Исправлены проблемы с планами на устройствах Samsung</item>
-    <item>Редактирование операций с экрана распределения</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Новая иконка</item>
-    <item>Поиск переводов</item>
-    <item>Сортировать планы по ближайшему событию</item>
-  </string-array>
     <string name="bug_fixes">Исправления ошибок</string>
     <string name="performance_enhancement">Улучшение производительности</string>
     <string name="stability_improvements">Улучшение стабильности</string>

@@ -18,13 +18,5 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_275">
-    <item>Συγχρονισμό μεταξύ συσκευών μέσω υπηρεσιών σύννεφου</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Νέο εικονίδιο εκκίνησης</item>
-    <item>Αναζήτηση για μεταφορές</item>
-    <item>Ταξινόμηση σχεδίων με την επόμενη εμφάνιση</item>
-  </string-array>
-    <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
+  <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
     </resources>

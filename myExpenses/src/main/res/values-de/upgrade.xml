@@ -71,30 +71,6 @@
     <item>Hebräische Übersetzung</item>
     <item>Auswahl einer benutzerdefinierten Farbe für Konten</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Währungssymbole können konfiguriert werden</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>App Verknüpfungen für Android 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Automatische Sicherungen können auf Cloud-Backend gespeichert werden</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Gerinfügige Verbesserungen</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Synchronisierung zwischen mehreren Geräten über Cloud-Dienste</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Probleme mit Plänen auf Samsung-Geräten behoben</item>
-    <item>Buchungen können von der Verteilungsansicht aus bearbeitet werden.</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Neues Start-Symbol</item>
-    <item>Suche nach Umbuchung</item>
-    <item>Pläne können nach dem nächsten Vorkommen sortiert werden</item>
-  </string-array>
     <string name="bug_fixes">Bugs behoben</string>
     <string name="performance_enhancement">Performance-Verbesserung</string>
     <string name="stability_improvements">Stabilitätsverbesserungen</string>

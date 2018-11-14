@@ -23,29 +23,5 @@
     <item>Introdução da chave de licença profissional</item>
     <item>Os widgets da tela inicial se adaptam ao tamanho de fonte preferido pelo usuário</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Símbolos das moedas podem ser configurados</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Atalhos da aplicação para o Android 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Cópias de segurança automáticas podem ser armazenadas na nuvem</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Pequenas melhorias</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Sincronização entre dispositivos através de serviços na nuvem</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Problemas com planos em dispositivos Samsung estão corrigidos</item>
-    <item>Editar transações a partir do ecrã de distribuição</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Novo ícone</item>
-    <item>Pesquisar por transferências</item>
-    <item>Ordenar planos pela próxima ocorrência</item>
-  </string-array>
-    <string name="bug_fixes">Correções de erros</string>
+  <string name="bug_fixes">Correções de erros</string>
     </resources>

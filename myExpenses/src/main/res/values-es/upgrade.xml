@@ -71,30 +71,6 @@
     <item>Traducción a Hebreo</item>
     <item>Seleccionar un color de cuenta personalizado</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Los símbolos de moneda se pueden configurar</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Accesos directos a la aplicación para Android 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Las copias de seguridad automáticas se pueden guardar en los servicios de nube</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Pequeñas mejoras</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Sincronización entre varios dispositivos vía servicios en la nube</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Se han resuelto problemas en los proyectos con dispositivos Samsung</item>
-    <item>Editar transacciones desde la pantalla de distribución</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Nuevo icono</item>
-    <item>Búsqueda para transferencias</item>
-    <item>Los proyectos pueden ser ordenados por futuras instancias</item>
-  </string-array>
     <string name="bug_fixes">Corrección de errores</string>
     <string name="performance_enhancement">Mejora de rendimiento</string>
     <string name="stability_improvements">Mejoras en la estabilidad</string>

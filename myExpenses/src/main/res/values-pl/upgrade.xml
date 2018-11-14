@@ -37,29 +37,5 @@
     <item>Tłumaczenie hebrajskie</item>
     <item>Wybór dla niestandardowego koloru konta</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Możliwość konfiguracji symboli walut</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Skróty aplikacji na Androidzie 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Automatyczne kopie zapasowe można przechowywać w zapleczu chmury</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Mniejsze usprawnienia</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Synchronizacja pomiędzy urządzeniami przez chmurę</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Problemy z planami na urządzeniach Samsung są naprawione</item>
-    <item>Edytuj transakcje na ekranie statystyk</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Nowa ikona aplikacji</item>
-    <item>Wyszukaj transfery</item>
-    <item>Sortuj plany według następnej instancji</item>
-  </string-array>
     <string name="bug_fixes">Poprawki błędów</string>
     </resources>

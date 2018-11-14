@@ -71,30 +71,6 @@
     <item>Traduction en hébreu</item>
     <item>Choix personnalisé pour la couleur du compte</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Les symboles des devises peuvent être configurés</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Raccourcis d\'application pour Android 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Les sauvegardes automatiques peuvent être stockées sur un serveur cloud</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Améliorations mineures</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Synchronisation des dispositifs via les services cloud</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Problèmes avec les échéances sur les appareils Samsung sont résolus</item>
-    <item>Modifier les opérations à partir de l’écran de distribution</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Nouvelle icône de lancement</item>
-    <item>Recherche de transferts</item>
-    <item>Tri des échéances par date</item>
-  </string-array>
     <string name="bug_fixes">Corrections des erreurs</string>
     <string name="performance_enhancement">Amélioration de performance</string>
     <string name="stability_improvements">Améliorations de la stabilité</string>

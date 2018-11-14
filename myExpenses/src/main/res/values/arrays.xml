@@ -433,7 +433,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>345;2.9.6</item>
+        <item>346;2.9.6</item>
         <item>343;2.9.5</item>
         <item>341;2.9.4</item>
         <item>339;2.9.3</item>
@@ -450,13 +450,6 @@
         <item>297;2.8.2</item>
         <item>294;2.8.1</item>
         <item>291;2.8.0</item>
-        <item>285;2.7.9</item>
-        <item>279;2.7.8</item>
-        <item>275;2.7.7</item>
-        <item>268;2.7.6</item>
-        <item>261;2.7.5</item>
-        <item>257;2.7.1</item>
-        <item>254;2.7.0</item>
     </string-array>
 
     <string-array name="contributors_280" tools:ignore="UnusedResources">
@@ -465,93 +458,50 @@
     </string-array>
 
     <!-- first member is Facebook post id, second Google+ post id -->
-    <string-array name="version_more_info_270" tools:ignore="UnusedResources">
-        <item>1751340485127422</item>
-        <item>H2XZeUfmrex</item>
-    </string-array>
-    <string-array name="version_more_info_271" tools:ignore="UnusedResources">
-        <item>1759029381025199</item>
-        <item>SKdUYd8tAuM</item>
-    </string-array>
-    <string-array name="version_more_info_275" tools:ignore="UnusedResources">
-        <item>1857229294538540</item>
-        <item>Eeb8TkcyEve</item>
-    </string-array>
-    <string-array name="version_more_info_276" tools:ignore="UnusedResources">
-        <item>1864894397105363</item>
-        <item>ezWH2qMgNV5</item>
-    </string-array>
-    <string-array name="version_more_info_277" tools:ignore="UnusedResources">
-        <item>1872269629701173</item>
-        <item>P95T53b1Kyd</item>
-    </string-array>
-    <string-array name="version_more_info_278" tools:ignore="UnusedResources">
-        <item>1878781945716608</item>
-        <item>PkJQQPgqJdZ</item>
-    </string-array>
-    <string-array name="version_more_info_279" tools:ignore="UnusedResources">
-        <item>1885586188369517</item>
-        <item>ftiKBPquoSh</item>
-    </string-array>
     <string-array name="version_more_info_280" tools:ignore="UnusedResources">
         <item>1948276905433778</item>
-        <item>VE38PhBM3Ee</item>
     </string-array>
     <string-array name="version_more_info_281" tools:ignore="UnusedResources">
         <item>1952456441682491</item>
-        <item>Q3EAMDShEes</item>
     </string-array>
     <string-array name="version_more_info_282" tools:ignore="UnusedResources">
         <item>1967469653514503</item>
-        <item>Ukn7qzikUCm</item>
     </string-array>
     <string-array name="version_more_info_284" tools:ignore="UnusedResources">
         <item>1983867061874762</item>
-        <item>bgHZpPmvL2C</item>
     </string-array>
     <string-array name="version_more_info_285" tools:ignore="UnusedResources">
         <item>2005941416333993</item>
-        <item>EK2FxVZYGVv</item>
     </string-array>
     <string-array name="version_more_info_286" tools:ignore="UnusedResources">
         <item>2011905835737551</item>
-        <item>eHY1EDAFFed</item>
     </string-array>
     <string-array name="version_more_info_287" tools:ignore="UnusedResources">
         <item>2015787268682741</item>
-        <item>U5x8S49ieAP</item>
     </string-array>
     <string-array name="version_more_info_288" tools:ignore="UnusedResources">
         <item>2025818994346235</item>
-        <item>GVfrc3JXkUy</item>
     </string-array>
     <string-array name="version_more_info_289" tools:ignore="UnusedResources">
         <item>2035974853330649</item>
-        <item>AYT8u2EQosF</item>
     </string-array>
     <string-array name="version_more_info_290" tools:ignore="UnusedResources">
         <item>2045407622387372</item>
-        <item>hd787BzVgVh</item>
     </string-array>
     <string-array name="version_more_info_291" tools:ignore="UnusedResources">
         <item>2068809903380477</item>
-        <item>8dBCx6eTZBf</item>
     </string-array>
     <string-array name="version_more_info_292" tools:ignore="UnusedResources">
         <item>327179561182858</item>
-        <item>bHD3Bz3b6PJ</item>
     </string-array>
     <string-array name="version_more_info_293" tools:ignore="UnusedResources">
         <item>2162839063977560</item>
-        <item>UjLYSEtxLRh</item>
     </string-array>
     <string-array name="version_more_info_294" tools:ignore="UnusedResources">
         <item>2164440550484078</item>
-        <item>6uLJLd8fobB</item>
     </string-array>
     <string-array name="version_more_info_295" tools:ignore="UnusedResources">
         <item>2167854050142728</item>
-        <item>NW8sewugzAJ</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">

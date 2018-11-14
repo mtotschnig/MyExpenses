@@ -71,30 +71,6 @@
     <item>Превод на еврейски език </item>
     <item>Палитра за избор на цвят на сметка</item>
   </string-array>
-  <string-array name="whats_new_279">
-    <item>Може да се задават знаци за валута</item>
-  </string-array>
-  <string-array name="whats_new_278">
-    <item>Шорткъти на приложението за Андроид 7.1</item>
-  </string-array>
-  <string-array name="whats_new_277">
-    <item>Автоматичните бекъпи могат да се записват на  отдалечено облачно място</item>
-  </string-array>
-  <string-array name="whats_new_276">
-    <item>Малки подобрения</item>
-  </string-array>
-  <string-array name="whats_new_275">
-    <item>Синхронизиране между няколко устройства чрез облачни услуги</item>
-  </string-array>
-  <string-array name="whats_new_271">
-    <item>Отстранени проблеми с плановете на устройства Samsung</item>
-    <item>Редактиране на транзакцията на екрана за разпределение</item>
-  </string-array>
-  <string-array name="whats_new_270">
-    <item>Нова икона за стартиране</item>
-    <item>Търсене на преводи</item>
-    <item>Сортиране на плановете по следваща инстанция</item>
-  </string-array>
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>
     <string name="stability_improvements">Подобрения на стабилността</string>
