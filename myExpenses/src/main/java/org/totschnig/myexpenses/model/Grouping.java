@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.model;
 import android.content.Context;
 import android.database.Cursor;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -11,6 +12,7 @@ import org.totschnig.myexpenses.util.Utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
@@ -33,6 +35,7 @@ public enum Grouping {
    */
   public String getDisplayTitle(Context ctx, int groupYear, int groupSecond, Cursor c) {
     Calendar cal;
+    final Locale userPreferedLocale = MyApplication.getUserPreferedLocale();
     switch (this) {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
@@ -42,7 +45,7 @@ public enum Grouping {
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-        String title = DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime());
+        String title = DateFormat.getDateInstance(DateFormat.FULL, userPreferedLocale).format(cal.getTime());
         if (groupYear == this_year) {
           if (groupSecond == this_day)
             return ctx.getString(R.string.grouping_today) + " (" + title + ")";
@@ -74,9 +77,9 @@ public enum Grouping {
         if (monthStarts == 1) {
           cal.set(groupYear, groupSecond, 1);
           //noinspection SimpleDateFormat
-          return new SimpleDateFormat("MMMM y").format(cal.getTime());
+          return new SimpleDateFormat("MMMM y", userPreferedLocale).format(cal.getTime());
         } else {
-          DateFormat dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);
+          DateFormat dateformat = DateFormat.getDateInstance(java.text.DateFormat.LONG, userPreferedLocale);
           int beginYear = groupYear, beginMonth = groupSecond;
           cal = Calendar.getInstance();
           cal.set(beginYear, beginMonth, 1);

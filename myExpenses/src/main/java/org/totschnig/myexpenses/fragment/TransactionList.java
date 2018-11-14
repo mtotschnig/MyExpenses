@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -119,10 +118,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -165,7 +161,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 
 public class TransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
@@ -214,10 +210,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   private LongSparseArray<Long[]> headerData = new LongSparseArray<>();
 
   /**
-   * needs to be static, because a new instance is created, but loader is reused
-   */
-  private static boolean scheduledRestart = false;
-  /**
    * used to restore list selection when drawer is reopened
    */
   private SparseBooleanArray mCheckedListItems;
@@ -260,7 +252,6 @@ public class TransactionList extends ContextualActionBarFragment implements
       Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
     });
     viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
-    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
   }
@@ -294,12 +285,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   @Override
-  public void onDestroy() {
-    super.onDestroy();
-    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-  }
-
-  @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
     mManager = getLoaderManager();
@@ -314,10 +299,6 @@ public class TransactionList extends ContextualActionBarFragment implements
     setAdapter();
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
-    if (scheduledRestart) {
-      refresh(false);
-      scheduledRestart = false;
-    }
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
     mListView.setOnItemClickListener((a, v1, position, id) -> {
@@ -670,15 +651,6 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   public boolean isFiltered() {
     return !mFilter.isEmpty();
-  }
-
-  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    if (key.equals(prefHandler.getKey(UI_LANGUAGE)) ||
-        key.equals(prefHandler.getKey(GROUP_MONTH_STARTS)) ||
-        key.equals(prefHandler.getKey(GROUP_WEEK_STARTS))) {
-      scheduledRestart = true;
-    }
   }
 
   public boolean hasItems() {
