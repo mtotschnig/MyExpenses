@@ -18,9 +18,6 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_296">
-    <item>@string/menu_budget</item>
-  </string-array>
   <string-array name="whats_new_295">
     <item>Custom colors for main categories</item>
   </string-array>

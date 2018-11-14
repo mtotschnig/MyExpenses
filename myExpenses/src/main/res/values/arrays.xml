@@ -503,6 +503,9 @@
     <string-array name="version_more_info_295" tools:ignore="UnusedResources">
         <item>2167854050142728</item>
     </string-array>
+    <string-array name="version_more_info_296" tools:ignore="UnusedResources">
+        <item>2193911547536978</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
