@@ -762,6 +762,29 @@
   <string name="clear_all_filters">Alle Filter löschen</string>
   <string name="pref_scroll_to_current_date_summary">Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen</string>
   <string name="professional_key_fallback_info">Ein Abonnement für den Professionellen Schlüssel, das seit mindestens einem Jahr aktiv ist und nicht erneuert wird, wird automatisch in einen unbegrenzten Erweiterten Schlüssel umgewandelt.</string>
+  <string name="menu_budget">Budgetierung</string>
+  <string name="dialog_title_new_budget">Neues Budget</string>
+  <string name="dialog_title_edit_budget">Budget bearbeiten</string>
+  <string name="daily_budget">Tagesbudget</string>
+  <string name="weekly_budget">Wochenbudget</string>
+  <string name="monthly_budget">Monatsbudget</string>
+  <string name="yearly_budget">Jahresbudget</string>
+  <string name="menu_switch_budget">Wechseln</string>
+  <string name="budget_table_header_budgeted">Budgetiert</string>
+  <string name="budget_table_header_allocated">Zugewiesen</string>
+  <string name="budget_table_header_spent">Ausgegeben</string>
+  <string name="budget_table_header_remainder">Rest</string>
+  <string name="budget_allocated_amount">Zugewiesener Betrag</string>
+  <string name="budget_exceeded_error_1_1">Alles bis auf %s Ihres Budgets wurde anderen Kategorien zugewiesen.</string>
+  <string name="budget_exceeded_error_1_2">Ihr gesamtes Budget wurde anderen Kategorien zugewiesen.</string>
+  <string name="budget_exceeded_error_2">Erhöhen Sie den budgetierten Betrag oder entfernen Sie Geld von anderen Kategorien.</string>
+  <string name="budget_under_allocated_error">%s wurde bereits Kategorien zugeordnet. Wenn Sie kein Geld von diesen entfernen, müssen Sie mindestens diesen Betrag budgetieren.</string>
+  <string name="sub_budget_exceeded_error_1_1">Alles bis auf %s des der Hauptkategorie zugewiesenen Betrages wurde anderen Unterkategorien zugewiesen.</string>
+  <string name="sub_budget_exceeded_error_1_2">Der gesamte der Hauptkategorie zugewiesene Betrag wurde anderen Unterkategorien zugewiesen.</string>
+  <string name="sub_budget_exceeded_error_2">Erhöhen Sie den der Hauptkategorie zugewiesenen Betrag, oder entfernen Sie Geld von anderen Unterkategorien.</string>
+  <string name="sub_budget_under_allocated_error">%s wurde bereits Unterkategorien zugeordnet. Wenn Sie kein Geld von diesen entfernen, müssen Sie mindestens diesen Betrag der Hauptkategorie zuordnen.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Methode löschen</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Kategorie löschen</string>
 </resources>

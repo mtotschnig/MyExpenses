@@ -14,6 +14,7 @@
   <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux de revenus, dépenses et transferts sont calculés et affichés. Lorsque vous cliquez sur une entête de groupe, le groupe des opérations est réduit et seul l\'entête s\'affiche. Recliquez pour l\'élargir.</string>
   <string name="menu_sort_direction_help_text">Les opérations peuvent être triées en direction ascendante (les plus anciennes en haut) ou descendante (les plus récentes en haut).</string>
   <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer longuement sur un groupe pour inspecter une répartition spécifique.</string>
+  <string name="menu_budget_help_text">Gérez les budgets quotidiens, hebdomadaires, mensuels ou annuels du compte actuellement affiché.</string>
   <string name="menu_history_help_text">Afficher un diagramme des flux de trésorerie: Comment vos dépenses et vos revenus ont évolué au fil des jours, semaines, mois ou années ?</string>
   <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances, où vous pouvez les appliquer, modifier ou supprimez et également définir d\'autres pour des opérations futures et répétitives.</string>
   <string name="menu_balance_help_text">Cette commande ouvre une boîte de dialogue affichant le dernier solde rapproché et le solde pointé. Vous pouvez comparer ce dernier à votre relevé bancaire et marquer toutes les opérations pointées comme rapprochées. Facultativement, vous pourrez décider de supprimer ces opérations rapprochées.</string>
@@ -149,4 +150,9 @@
   <string name="menu_HistoryActivity_grouping_help_text">Basculez entre le regroupement quotidien, hebdomadaire, mensuel ou annuel de vos données de flux de trésorerie.</string>
   <string name="menu_HistoryActivity_history_show_balance_help_text">Basculer l\'affichage du solde.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Basculer, si les transferts doivent être traités comme un revenu ou une dépense régulière.</string>
+  <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">L\'écran de budgétisation vous permet de définir un budget quotidien, hebdomadaire, mensuel ou annuel. Tout d\'abord, vous définissez le montant total que vous souhaitez dépenser pour chaque période. Ensuite, vous pouvez allouer des montants pour des catégories et des sous-catégories et contrôler le montant que vous avez dépensé et le montant restant à dépenser. En cliquant sur les montants budgétés, vous pouvez les modifier.</string>
+  <string name="menu_switch_budget_help_text">Basculez vers un type de budget différent.</string>
+  <string name="cab_show_transactions_help_text">Ouvre une boîte de dialogue répertoriant toutes les transactions associées à la catégorie sélectionnée dans le compte actuel.</string>
+  <string name="menu_BudgetActivity_back_forward_help_text">Comparez le budget aux dépenses des périodes passées et futures.</string>
 </resources>

@@ -762,6 +762,29 @@
   <string name="clear_all_filters">Effacer tous les filtres</string>
   <string name="pref_scroll_to_current_date_summary">Au démarrage de l\'application, défiler la liste des opérations jusqu\'à la date actuelle</string>
   <string name="professional_key_fallback_info">Un abonnement à la clé professionnelle, actif depuis au moins un an et non renouvelé, sera automatiquement transformé en clé étendue illimitée.</string>
+  <string name="menu_budget">Budgétisation</string>
+  <string name="dialog_title_new_budget">Nouveau budget</string>
+  <string name="dialog_title_edit_budget">Modifier le budget</string>
+  <string name="daily_budget">Budget quotidien</string>
+  <string name="weekly_budget">Budget hebdomadaire</string>
+  <string name="monthly_budget">Budget mensuel</string>
+  <string name="yearly_budget">Budget annuel</string>
+  <string name="menu_switch_budget">Changer</string>
+  <string name="budget_table_header_budgeted">Budgétisé</string>
+  <string name="budget_table_header_allocated">Alloué</string>
+  <string name="budget_table_header_spent">Dépensé</string>
+  <string name="budget_table_header_remainder">Reste</string>
+  <string name="budget_allocated_amount">Montant alloué</string>
+  <string name="budget_exceeded_error_1_1">Tout votre budget, sauf %s, a été alloué à d\'autres catégories.</string>
+  <string name="budget_exceeded_error_1_2">Tout votre budget a été alloué à d\'autres catégories.</string>
+  <string name="budget_exceeded_error_2">Augmentez le montant budgété ou retirez de l\'argent des autres catégories.</string>
+  <string name="budget_under_allocated_error">%s ont déjà été attribués à des catégories. À moins que vous ne leur retiriez de l\'argent, vous devez au moins budgétiser ce montant.</string>
+  <string name="sub_budget_exceeded_error_1_1">Tout le montant affecté à la catégorie principale, sauf %s, a été affecté à d\'autres sous-catégories.</string>
+  <string name="sub_budget_exceeded_error_1_2">Tout le montant affecté à la catégorie principale a été attribué à d\'autres sous-catégories.</string>
+  <string name="sub_budget_exceeded_error_2">Augmentez le montant alloué à la catégorie principale ou supprimez des fonds d\'autres sous-catégories.</string>
+  <string name="sub_budget_under_allocated_error">%s ont déjà été attribués à des sous-catégories. Sauf si vous leur retirez de l\'argent, vous devez au moins affecter ce montant à la catégorie principale.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Effacer la méthode</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Effacer la catégorie</string>
 </resources>
