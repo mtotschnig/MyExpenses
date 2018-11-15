@@ -243,12 +243,14 @@ public enum ContribFeature {
 
   public String buildUsageLimitString(Context context) {
     String currentLicence = getCurrentLicence(context);
-    if (trialMode == TrialMode.NUMBER_OF_TIMES) {
-      return context.getString(R.string.dialog_contrib_usage_limit, USAGES_LIMIT, currentLicence);
-    } else if (trialMode == TrialMode.DURATION) {
-      return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
+    switch (trialMode) {
+      case NUMBER_OF_TIMES:
+        return context.getString(R.string.dialog_contrib_usage_limit, USAGES_LIMIT, currentLicence);
+      case DURATION:
+        return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
+      default:
+        return "";
     }
-    throw new IllegalStateException();
   }
 
   @NonNull
