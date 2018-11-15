@@ -67,6 +67,7 @@ public class TemplateTest extends ModelTest {
     assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start + 2 * amount);
     Template restored;
     restored = Template.getInstanceFromDb(t.getId());
+    assertNotNull(restored);
     assertEquals(t, restored);
 
     Template.delete(t.getId(), false);
@@ -112,6 +113,7 @@ public class TemplateTest extends ModelTest {
     t.save();
     assertEquals(t.operationType(), type);
     restored = Template.getInstanceFromDb(t.getId());
+    assertNotNull(restored);
     assertEquals(t, restored);
   }
 
