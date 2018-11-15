@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
@@ -100,6 +101,7 @@ public class AmountEditText extends AppCompatEditText {
     final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
     setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     setKeyListener(DigitsKeyListener.getInstance(getContext().getString(R.string.amount_digits)));
+    setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
     setFilters(new InputFilter[]{(source, start, end, dest, dstart, dend) -> {
       int separatorPositionInDest = dest.toString().indexOf(decimalSeparator);
       char[] v = new char[end - start];
