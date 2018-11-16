@@ -1135,7 +1135,7 @@ public class TransactionProvider extends ContentProvider {
             whereArgs);
         break;
       case TRANSACTION_UNDELETE:
-        segment = uri.getLastPathSegment();
+        segment = uri.getPathSegments().get(1);
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());

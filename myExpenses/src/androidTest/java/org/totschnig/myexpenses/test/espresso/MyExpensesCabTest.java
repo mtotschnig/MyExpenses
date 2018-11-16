@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.RemoteException;
+import android.support.test.espresso.matcher.CursorMatchers;
 import android.support.test.filters.FlakyTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -21,6 +22,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
@@ -37,11 +39,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 
@@ -146,6 +150,14 @@ public final class MyExpensesCabTest extends BaseUiTest {
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
         .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));
+    onView(getWrappedList()).check(matches(withListSize(origListSize)));
+    onData(is(instanceOf(Cursor.class)))
+        .inAdapterView(getWrappedList())
+        .atPosition(1) // position 0 is header
+        .perform(longClick());
+    performContextMenuClick(R.string.menu_delete, R.id.UNDELETE_COMMAND);
+    onView(getWrappedList())
+        .check(matches(not(withAdaptedData(CursorMatchers.withRowString(DatabaseConstants.KEY_CR_STATUS, "VOID")))));
     onView(getWrappedList()).check(matches(withListSize(origListSize)));
   }
 
