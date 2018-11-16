@@ -56,7 +56,8 @@ en:
       split_template: Unlimited number of <b>templates and plans for split transactions</b>
       email_support: <b>Email support</b> with guaranteed response after 2 business days
       roadmap_voting: Voting right on <b>development roadmap</b>
-      history_chart: History chart (Cash flow)
+      history_chart: <b>History chart</b> (Cash flow)
+      budgeting: <b>Budgeting</b>
     one-time-payment: One-time payment
     subscription: Subscription
   store:

@@ -56,7 +56,7 @@ es:
       split_template: Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
       email_support: <b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables
       roadmap_voting: Derecho a participar en la <b>hoja de ruta de desarrollo</b>
-      history_chart: Gráfico de historial (flujo de efectivo)
+      history_chart: <b>Gráfico de historial</b> (flujo de efectivo)
     one-time-payment: Pago único
     subscription: Suscripción
   store:

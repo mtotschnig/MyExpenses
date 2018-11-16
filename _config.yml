@@ -116,6 +116,24 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.9.6
+    - "2018-11-15"
+    -
+      en: |
+        Budgeting.
+      fr: |
+        Budgétisation.
+      de: |
+        Budgetierung.
+      bg: |
+        Бюджетиране.
+      ja: |
+        予算作成.
+      iw: |
+        תקצוב.
+      pl: |
+        Przydzielanie budżetu.
+  -
     - 2.9.5
     - "2018-09-27"
     -
@@ -499,6 +517,10 @@ versions:
         Moneta-ikurrak konfiguratu daitezke.
       bg: |
         Може да се задават знаци за валута.
+      ru: |
+        Возможность настройки символов валюты.
+      ms: |
+        Simbol matawang boleh dikonfigurkan.
       ja: |
         通貨記号を設定できます.
       pl: |
@@ -525,13 +547,16 @@ versions:
         Lasterbideak aplikaziora Android 7.1-erako.
       bg: |
         Шорткъти на приложението за Андроид 7.1.
+      ru: |
+        Ярлыки приложений для Android 7.1.
+      ms: |
+        Pintasan Apl untuk Android 7.1.
       ja: |
         Android 7.1 用アプリショートカット.
       pl: |
         Skróty aplikacji na Androidzie 7.1.
       iw: |
         קיצורי דרך עבור אנדרואיד 7.1.
-
   -
     - 2.7.7
     - "2017-03-18"
@@ -552,6 +577,8 @@ versions:
         Babeskopia automatikoak hodeiko atzealdekoan biltegiratu daitezke.
       bg: |
         Автоматичните бекъпи могат да се записват на  отдалечено облачно място.
+      ru: |
+        Автоматическое резервное копирование в облачных сервисах.
       ms: |
         Auto sandar boleh disimpan dalam bahagian belakang awan.
       ja: |
@@ -580,6 +607,8 @@ versions:
         Bigarren mailako hobekuntzak.
       bg: |
         Малки подобрения.
+      ru: |
+        Незначительные улучшения.
       ms: |
         Penambahbaikan kecil.
       ja: |
@@ -610,6 +639,8 @@ versions:
         Gailuen arteko sinkronizazioa hodeiko zerbitzuen bidez.
       bg: |
         Синхронизиране между няколко устройства чрез облачни услуги.
+      ru: |
+        Синхронизация между устройствами через облачные сервисы.
       ms: |
         Penyegerakan merentasi peranti melalui perkhidmatan awan.
       ja: |
@@ -668,6 +699,8 @@ versions:
         Novo ícone do lançador. Busca de transferências. Classificar os planos da próxima instância.
       tr: |
         Yeni başlatma ikonu. Transferler için arama. Planlamaları sonraki örneklemeye dayalı sıralama.
+      el: |
+        Νέο εικονίδιο εκκίνησης. Αναζήτηση για μεταφορές. Ταξινόμηση σχεδίων με την επόμενη εμφάνιση.
       eu: |
         Ikono berria. Tranferentzien bilaketa. Ordenatu planak hurrengo gertaeraren arabera.
       bg: |

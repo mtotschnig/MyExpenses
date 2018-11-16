@@ -56,6 +56,7 @@ pl:
       split_template: Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
       email_support: <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
       roadmap_voting: Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
+      budgeting: <b>Przydzielanie budżetu</b>
     one-time-payment: Płatność jednorazowa
     subscription: Subskrypcja
   store:
