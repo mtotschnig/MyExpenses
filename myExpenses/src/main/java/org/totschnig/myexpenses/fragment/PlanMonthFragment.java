@@ -36,7 +36,6 @@ import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -90,11 +89,11 @@ public class PlanMonthFragment extends CaldroidFragment
   @State
   protected HashMap<DateTime,Long> dateTime2TimeStampMap = new HashMap<>();
 
-  public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color, boolean readOnly) {
+  public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color, boolean readOnly, ProtectedFragmentActivity.ThemeType themeType) {
     PlanMonthFragment f = new PlanMonthFragment();
     Bundle args = new Bundle();
     args.putString(TOOLBAR_TITLE, title);
-    darkThemeSelected = MyApplication.getThemeType().equals(MyApplication.ThemeType.dark);
+    darkThemeSelected = themeType.equals(ProtectedFragmentActivity.ThemeType.dark);
     args.putInt(CaldroidFragment.THEME_RESOURCE,
         darkThemeSelected ?
             R.style.CaldroidCustomDark : R.style.CaldroidCustom);

@@ -23,7 +23,6 @@ import android.support.v4.provider.DocumentFile;
 
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
@@ -37,11 +36,11 @@ import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.util.ArrayList;
 
@@ -63,7 +62,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   int taskResult = RESULT_OK;
 
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdTranslucent());
+    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     ComponentName callingActivity = getCallingActivity();
     if (callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)

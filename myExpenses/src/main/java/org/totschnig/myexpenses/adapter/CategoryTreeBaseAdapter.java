@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -46,6 +45,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   protected final int colorIncome;
   protected boolean withMainColors;
   private boolean withSubColors;
+  protected final ProtectedFragmentActivity.ThemeType themeType;
 
   public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
                                  Currency currency, boolean withMainColors, boolean withSubColors) {
@@ -56,6 +56,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     this.colorIncome = ctx.getColorIncome();
     this.withMainColors = withMainColors;
     this.withSubColors = withSubColors;
+    this.themeType = ctx.getThemeType();
   }
 
   @Override
@@ -195,7 +196,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   public List<Integer> getSubColors(int color) {
     List<Integer> result = subColorMap.get(color);
     if (result == null) {
-      result = MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
+      result = themeType.equals(ProtectedFragmentActivity.ThemeType.dark) ?
           getTints(color) : getShades(color);
       subColorMap.put(color, result);
     }

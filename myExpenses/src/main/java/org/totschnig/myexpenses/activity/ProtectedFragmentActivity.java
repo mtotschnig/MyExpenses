@@ -33,6 +33,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -159,9 +160,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected AdHandlerFactory adHandlerFactory;
 
   @Inject
-  protected PrefHandler prefHandler;
-
-  @Inject
   protected LicenceHandler licenceHandler;
 
   public int getColorIncome() {
@@ -210,6 +208,61 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   protected void injectDependencies() {
     MyApplication.getInstance().getAppComponent().inject(this);
+  }
+
+
+  public ThemeType getThemeType() {
+    try {
+      return ThemeType.valueOf(getPrefHandler().getString(PrefKey.UI_THEME_KEY,
+          ThemeType.dark.name()));
+    } catch (IllegalArgumentException e) {
+      return ThemeType.dark;
+    }
+  }
+
+  @StyleRes
+  public int getThemeId() {
+    return getThemeId("");
+  }
+
+  @StyleRes
+  public int getThemeIdEditDialog() {
+    return getThemeId("EditDialog");
+  }
+
+  public int getThemeIdTranslucent() {
+    return getThemeId("Translucent");
+  }
+
+  public int getThemeIdOnboarding() {
+    return getThemeId("Onboarding");
+  }
+
+  @StyleRes
+  private  int getThemeId(String subStyle) {
+    int fontScale;
+    try {
+      fontScale = PrefKey.UI_FONTSIZE.getInt(0);
+    } catch (Exception e) {
+      // in a previous version, the same key was holding an integer
+      fontScale = 0;
+      PrefKey.UI_FONTSIZE.remove();
+    }
+    String style = getThemeType() == ThemeType.light ? "ThemeLight" : "ThemeDark";
+    if (!TextUtils.isEmpty(subStyle)) {
+      style += "." + subStyle;
+    }
+    String resolve = style;
+    if (fontScale > 0 && fontScale < 4) {
+      resolve = style + ".s" + fontScale;
+    }
+    int resId = getResources().getIdentifier(resolve, "style", getPackageName());
+    if (resId == 0) {
+      //try style without font scaling as fallback
+      resId = getResources().getIdentifier(style, "style", getPackageName());
+      if (resId == 0) throw new RuntimeException(style + " is not defined");
+    }
+    return resId;
   }
 
   @Override
@@ -315,7 +368,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (prefHandler.matches(key, UI_THEME_KEY, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
+    if (getPrefHandler().matches(key, UI_THEME_KEY, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY)) {
       scheduledRestart = true;
     }
@@ -651,7 +704,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void recordUsage(ContribFeature f) {
-    f.recordUsage(prefHandler);
+    f.recordUsage(getPrefHandler());
   }
 
   /**
@@ -762,7 +815,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    if (prefHandler.getBoolean(permissionGroup.prefKey,false)) {
+    if (getPrefHandler().getBoolean(permissionGroup.prefKey,false)) {
       if (!permissionGroup.hasPermission(this)) {
         if (!permissionGroup.shouldShowRequestPermissionRationale(this)) {
           return true;
@@ -870,7 +923,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       View snackbarView = snackbar.getView();
       TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
       textView.setMaxLines(4);
-      UiUtils.configureSnackbarForDarkTheme(snackbar);
+      UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
       if (snackbarAction != null) {
         snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
       }
@@ -922,5 +975,13 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (helpVariant != null) {
       crashHandler.addBreadcrumb(helpVariant.toString());
     }
+  }
+
+  protected PrefHandler getPrefHandler() {
+    return MyApplication.getInstance().getAppComponent().prefHandler();
+  }
+
+  public enum ThemeType {
+    dark, light
   }
 }

@@ -19,7 +19,6 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
@@ -31,7 +30,7 @@ public class QifImport extends ProtectedFragmentActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdTranslucent());
+    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       QifImportDialogFragment.newInstance().show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");

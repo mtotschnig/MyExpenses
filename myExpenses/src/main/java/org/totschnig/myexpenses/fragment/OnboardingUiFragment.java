@@ -21,6 +21,7 @@ import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -85,6 +86,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View view = inflater.inflate(R.layout.onboarding_wizzard_1, container, false);
     ButterKnife.bind(this, view);
 
@@ -117,12 +119,12 @@ public class OnboardingUiFragment extends OnboardingFragment {
 
     //theme
     SwitchCompat themeSwitch = view.findViewById(R.id.theme);
-    boolean isLight = MyApplication.getThemeType().equals(MyApplication.ThemeType.light);
+    boolean isLight = ctx.getThemeType().equals(ProtectedFragmentActivity.ThemeType.light);
     themeSwitch.setChecked(isLight);
     setContentDescriptonToThemeSwitch(themeSwitch, isLight);
     themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
       PrefKey.UI_THEME_KEY.putString(
-          (isChecked ? MyApplication.ThemeType.light : MyApplication.ThemeType.dark).name());
+          (isChecked ? ProtectedFragmentActivity.ThemeType.light : ProtectedFragmentActivity.ThemeType.dark).name());
       recreate();
     });
 

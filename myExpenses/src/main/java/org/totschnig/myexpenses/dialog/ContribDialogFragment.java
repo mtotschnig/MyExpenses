@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +35,7 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -93,13 +93,13 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx = getActivity();
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     Context wrappedContext = new ContextThemeWrapper(ctx,  R.style.ThemeDark);
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     //noinspection InflateParams
     dialogView = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
-        MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
+        ctx.getThemeType().equals(ProtectedFragmentActivity.ThemeType.dark) ?
             R.style.ContribDialogThemeDark : R.style.ContribDialogThemeLight);
 
     //preapre HEADER

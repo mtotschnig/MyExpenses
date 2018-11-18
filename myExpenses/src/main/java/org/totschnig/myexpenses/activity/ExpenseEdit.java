@@ -409,7 +409,7 @@ public class ExpenseEdit extends AmountActivity implements
             !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
           //moveToPosition should not be necessary,
           //but has been reported to not be positioned correctly on samsung GT-I8190N
-          if (prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN,false)) {
+          if (getPrefHandler().getBoolean(AUTO_FILL_HINT_SHOWN,false)) {
             if (PreferenceUtils.shouldStartAutoFill()) {
               startAutoFill(payeeId, false);
             }
@@ -421,7 +421,7 @@ public class ExpenseEdit extends AmountActivity implements
                 .hint_auto_fill));
             b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND);
             b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-                prefHandler.getKey(AUTO_FILL_HINT_SHOWN));
+                getPrefHandler().getKey(AUTO_FILL_HINT_SHOWN));
             b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
             b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
             ConfirmationDialogFragment.newInstance(b).show(supportFragmentManager,
@@ -448,7 +448,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     };
     mCurrencySpinner.setAdapter(currencyAdapter);
-    final String lastOriginalCurrency = prefHandler.getString(LAST_ORIGINAL_CURRENCY, null);
+    final String lastOriginalCurrency = getPrefHandler().getString(LAST_ORIGINAL_CURRENCY, null);
     if (lastOriginalCurrency != null) {
       try {
         mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(lastOriginalCurrency)));
@@ -535,10 +535,10 @@ public class ExpenseEdit extends AmountActivity implements
         ContribFeature contribFeature;
         if (isNewTemplate) {
           contribFeature = ContribFeature.SPLIT_TEMPLATE;
-          allowed = prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
+          allowed = getPrefHandler().getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
         } else {
           contribFeature = ContribFeature.SPLIT_TRANSACTION;
-          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft(prefHandler) > 0;
+          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft(getPrefHandler()) > 0;
         }
         if (!allowed) {
           abortWithMessage(contribFeature.buildRequiresString(this));
@@ -577,15 +577,15 @@ public class ExpenseEdit extends AmountActivity implements
           switch (mOperationType) {
             case TYPE_TRANSACTION:
               if (accountId == 0L) {
-                accountId = prefHandler.getLong(TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L);
+                accountId = getPrefHandler().getLong(TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L);
               }
               mTransaction = Transaction.getNewInstance(accountId, parentId != 0 ? parentId : null);
               break;
             case TYPE_TRANSFER:
               Long transferAccountId = 0L;
               if (accountId == 0L) {
-                accountId = prefHandler.getLong(TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L);
-                transferAccountId = prefHandler.getLong(TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L);
+                accountId = getPrefHandler().getLong(TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L);
+                transferAccountId = getPrefHandler().getLong(TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L);
               }
               mTransaction = Transfer.getNewInstance(accountId,
                   transferAccountId != 0 ? transferAccountId : null,
@@ -593,7 +593,7 @@ public class ExpenseEdit extends AmountActivity implements
               break;
             case TYPE_SPLIT:
               if (accountId == 0L) {
-                accountId = prefHandler.getLong(SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L);
+                accountId = getPrefHandler().getLong(SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L);
               }
               mTransaction = SplitTransaction.getNewInstance(accountId);
               //Split transactions are returned persisted to db and already have an id
@@ -808,7 +808,7 @@ public class ExpenseEdit extends AmountActivity implements
                   mTransaction.originTemplate.getTitle(),
                   mTransaction.originTemplate.getId(),
                   mTransaction.originTemplate.planId,
-                  currentAccount.color, true).show(getSupportFragmentManager(),
+                  currentAccount.color, true, getThemeType()).show(getSupportFragmentManager(),
                   TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG);
             }
           });
@@ -1170,14 +1170,14 @@ public class ExpenseEdit extends AmountActivity implements
       if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
         switch (mOperationType) {
           case TYPE_TRANSACTION:
-            prefHandler.putLong(TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
+            getPrefHandler().putLong(TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
             break;
           case TYPE_TRANSFER:
-            prefHandler.putLong(TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
-            prefHandler.putLong(TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.getTransferAccountId());
+            getPrefHandler().putLong(TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
+            getPrefHandler().putLong(TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.getTransferAccountId());
             break;
           case TYPE_SPLIT:
-            prefHandler.putLong(SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
+            getPrefHandler().putLong(SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
             break;
         }
       }
@@ -1698,7 +1698,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (id > 0) {
           if (CALENDAR.hasPermission(this)) {
             boolean newSplitTemplateEnabled = NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true);
-            boolean newPlanEnabled = prefHandler.getBoolean(NEW_PLAN_ENABLED, true);
+            boolean newPlanEnabled = getPrefHandler().getBoolean(NEW_PLAN_ENABLED, true);
             if (newPlanEnabled && (newSplitTemplateEnabled || mOperationType != TYPE_SPLIT)) {
               visibility = View.VISIBLE;
               showCustomRecurrenceInfo();
@@ -1828,7 +1828,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configureDateInput(Account account) {
-    DateMode dateMode = UiUtils.getDateMode(account, prefHandler);
+    DateMode dateMode = UiUtils.getDateMode(account, getPrefHandler());
     setVisibility(timeEdit, dateMode == DateMode.DATE_TIME);
     setVisibility(date2Edit, dateMode == DateMode.BOOKING_VALUE);
     String dateLabel;
@@ -2010,24 +2010,24 @@ public class ExpenseEdit extends AmountActivity implements
             null, null, null, null);
       case AUTOFILL_CURSOR:
         List<String> dataToLoad = new ArrayList<>();
-        String autoFillAccountFromPreference = prefHandler.getString(AUTO_FILL_ACCOUNT, "never");
+        String autoFillAccountFromPreference = getPrefHandler().getString(AUTO_FILL_ACCOUNT, "never");
         boolean autoFillAccountFromExtra = getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false);
         boolean overridePreferences = args.getBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES);
         boolean mayLoadAccount = overridePreferences && autoFillAccountFromExtra ||
             autoFillAccountFromPreference.equals("always") ||
             (autoFillAccountFromPreference.equals("aggregate") && autoFillAccountFromExtra);
-        if (overridePreferences || prefHandler.getBoolean(AUTO_FILL_AMOUNT, false)) {
+        if (overridePreferences || getPrefHandler().getBoolean(AUTO_FILL_AMOUNT, false)) {
           dataToLoad.add(KEY_CURRENCY);
           dataToLoad.add(KEY_AMOUNT);
         }
-        if (overridePreferences || prefHandler.getBoolean(AUTO_FILL_CATEGORY, false)) {
+        if (overridePreferences || getPrefHandler().getBoolean(AUTO_FILL_CATEGORY, false)) {
           dataToLoad.add(KEY_CATID);
           dataToLoad.add(CAT_AS_LABEL);
         }
-        if (overridePreferences || prefHandler.getBoolean(AUTO_FILL_COMMENT, false)) {
+        if (overridePreferences || getPrefHandler().getBoolean(AUTO_FILL_COMMENT, false)) {
           dataToLoad.add(KEY_COMMENT);
         }
-        if (overridePreferences || prefHandler.getBoolean(AUTO_FILL_METHOD, false)) {
+        if (overridePreferences || getPrefHandler().getBoolean(AUTO_FILL_METHOD, false)) {
           dataToLoad.add(KEY_METHODID);
         }
         if (mayLoadAccount) {

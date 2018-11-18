@@ -16,7 +16,6 @@ package org.totschnig.myexpenses.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.text.ClipboardManager;
@@ -27,11 +26,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -40,6 +36,10 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Stack;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+
+//import android.os.Vibrator;
 
 //TODO move to DialogFragment in order to have material styled ok and cancel buttons
 public class CalculatorInput extends ProtectedFragmentActivity implements OnClickListener {
@@ -66,7 +66,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ? R.style
+    setTheme(getThemeType().equals(ProtectedFragmentActivity.ThemeType.dark) ? R.style
         .Theme_AppCompat_Dialog_NoTitle : R.style.Theme_AppCompat_Light_Dialog_NoTitle);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.calculator);

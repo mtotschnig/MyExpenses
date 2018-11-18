@@ -11,7 +11,6 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import com.annimon.stream.Exceptional;
 import com.dropbox.core.android.Auth;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectUnSyncedAccountDialogFragment;
@@ -52,14 +51,14 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.manage_sync_backends);
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
     if (savedInstanceState == null) {
-      if (!ContribFeature.SYNCHRONIZATION.isAvailable(prefHandler)) {
+      if (!ContribFeature.SYNCHRONIZATION.isAvailable(getPrefHandler())) {
         contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
       }
       sanityCheck();

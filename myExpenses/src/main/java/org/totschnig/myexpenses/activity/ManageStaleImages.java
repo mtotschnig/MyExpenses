@@ -17,13 +17,12 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 public class ManageStaleImages extends ProtectedFragmentActivity  {
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_stale_images);
     setupToolbar(true);
