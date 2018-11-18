@@ -172,7 +172,7 @@ public class Account extends Model {
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
         KEY_SORT_DIRECTION,
-        DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS) + " AS " + KEY_EXCHANGE_RATE,
+        DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
         KEY_CRITERION
     };
     int baseLength = PROJECTION_BASE.length;
