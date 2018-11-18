@@ -90,7 +90,7 @@ public class Exporter {
 
   public Result<Uri> export() throws IOException {
     MyApplication ctx = MyApplication.getInstance();
-    DecimalFormat nfFormat = Utils.getDecimalFormat(account.currency, decimalSeparator);
+    DecimalFormat nfFormat = Utils.getDecimalFormat(account.getCurrencyUnit(), decimalSeparator);
     Timber.i("now starting export");
     //first we check if there are any exportable transactions
     String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null";
@@ -184,7 +184,7 @@ public class Exporter {
           c.getColumnIndexOrThrow(KEY_DATE)) * 1000));
       long amount = c.getLong(
           c.getColumnIndexOrThrow(KEY_AMOUNT));
-      BigDecimal bdAmount = new Money(account.currency, amount).getAmountMajor();
+      BigDecimal bdAmount = new Money(account.getCurrencyUnit(), amount).getAmountMajor();
       String amountQIF = nfFormat.format(bdAmount);
       String amountAbsCSV = nfFormat.format(bdAmount.abs());
       try {
@@ -274,7 +274,7 @@ public class Exporter {
           }
           amount = splits.getLong(
               splits.getColumnIndexOrThrow(KEY_AMOUNT));
-          bdAmount = new Money(account.currency, amount).getAmountMajor();
+          bdAmount = new Money(account.getCurrencyUnit(), amount).getAmountMajor();
           amountQIF = nfFormat.format(bdAmount);
           amountAbsCSV = nfFormat.format(bdAmount.abs());
           sb.clear();

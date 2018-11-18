@@ -39,9 +39,9 @@ import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -64,6 +64,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -229,11 +231,22 @@ public class TransactionProvider extends ContentProvider {
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
+  private boolean injected = false;
+
+  @Inject
+  CurrencyContext currencyContext;
 
   @Override
   public boolean onCreate() {
     initOpenHelper();
     return true;
+  }
+
+  private void ensureInjected() {
+    if (!injected) {
+      MyApplication.getInstance().getAppComponent().inject(this);
+      injected = true;
+    }
   }
 
   private void initOpenHelper() {
@@ -1117,6 +1130,7 @@ public class TransactionProvider extends ContentProvider {
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
     setDirty();
+    ensureInjected();
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
     int count;
@@ -1271,7 +1285,7 @@ public class TransactionProvider extends ContentProvider {
             List<String> segments = uri.getPathSegments();
             segment = segments.get(2);
             String[] bindArgs = new String[]{segment};
-            int oldValue = Money.getFractionDigits(Currency.getInstance(segment));
+            int oldValue = currencyContext.getFractionDigits(Currency.getInstance(segment));
             int newValue = Integer.parseInt(segments.get(3));
             if (oldValue == newValue) {
               return 0;
@@ -1304,7 +1318,7 @@ public class TransactionProvider extends ContentProvider {
                       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
             }
-            Money.storeCustomFractionDigits(segment, newValue);
+            currencyContext.storeCustomFractionDigits(segment, newValue);
             db.setTransactionSuccessful();
           } finally {
             db.endTransaction();

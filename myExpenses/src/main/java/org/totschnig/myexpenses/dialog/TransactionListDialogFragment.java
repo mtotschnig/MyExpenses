@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -76,6 +77,8 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   CurrencyFormatter currencyFormatter;
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  CurrencyContext currencyContext;
   private long catId;
 
   public static TransactionListDialogFragment newInstance(
@@ -118,7 +121,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         getActivity(),
         R.layout.expense_row,
         null,
-        0, currencyFormatter, prefHandler) {
+        0, currencyFormatter, prefHandler, currencyContext) {
       @Override
       protected CharSequence getCatText(CharSequence catText,
                                         String label_sub) {
@@ -165,7 +168,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + "=0)";
-      accountSelect = mAccount.currency.getCurrencyCode();
+      accountSelect = mAccount.getCurrencyUnit().code();
     } else {
       selection = KEY_ACCOUNTID + " = ?";
       accountSelect = String.valueOf(mAccount.getId());
@@ -231,7 +234,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       case SUM_CURSOR:
         cursor.moveToFirst();
         String title = getArguments().getString(KEY_LABEL) + TABS +
-            currencyFormatter.convAmount(cursor.getString(0), mAccount.currency);
+            currencyFormatter.convAmount(cursor.getLong(0), mAccount.getCurrencyUnit());
         getDialog().setTitle(title);
     }
   }

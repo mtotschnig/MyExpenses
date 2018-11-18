@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
@@ -38,6 +37,11 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
   }
 
+  @Override
+  protected void injectDependencies() {
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
+
   public void onFinishCurrencyEdit(String currency, String symbol, int numberFractionDigits) {
     this.currency = currency;
     handleSymbolUpdate(symbol);
@@ -50,14 +54,14 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void handleSymbolUpdate(String symbol) {
-    if (Money.storeCustomSymbol(currency, symbol)) {
+    if (currencyContext.storeCustomSymbol(currency, symbol)) {
       CurrencyFormatter.instance().invalidate(currency);
       refreshList();
     }
   }
 
   private void handleFractionDigitsUpdate() {
-    int oldValue = Money.getFractionDigits(Currency.getInstance(this.currency));
+    int oldValue = currencyContext.getFractionDigits(Currency.getInstance(this.currency));
     if (oldValue != this.numberFractionDigits) {
       if (Account.count(KEY_CURRENCY + "=?", new String[]{this.currency}) > 0) {
         String message = getString(R.string.warning_change_fraction_digits_1);
@@ -84,7 +88,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void updateFractionDigitsImmediate() {
-    Money.storeCustomFractionDigits(currency, numberFractionDigits);
+    currencyContext.storeCustomFractionDigits(currency, numberFractionDigits);
     CurrencyFormatter.instance().invalidate(currency);
     refreshList();
   }

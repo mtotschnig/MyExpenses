@@ -22,18 +22,19 @@ import java.math.BigDecimal;
 import java.util.Currency;
 
 public class MoneyTest extends TestCase {
-  Currency c;
+  int DEFAULTFRACTIONDIGITS = 8;
+  CurrencyUnit c;
   Money m;
 
   /**
    * test a Currency with 2 FractionDigits
    */
   public void testEUR() {
-    c = Currency.getInstance("EUR");
+    c = buildCurrencyUnit("EUR");
     m = new Money(c, (long) 2345);
     Assert.assertEquals(m.getAmountMinor().longValue(), (long) 2345);
     Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("23.45")));
-    m.setAmountMajor(new BigDecimal("34.56"));
+    m = new Money(c, new BigDecimal("34.56"));
     Assert.assertEquals(m.getAmountMinor().longValue(), (long) 3456);
   }
 
@@ -41,11 +42,11 @@ public class MoneyTest extends TestCase {
    * test a Currency with 3 FractionDigits
    */
   public void testBHD() {
-    c = Currency.getInstance("BHD");
+    c = buildCurrencyUnit("BHD");
     m = new Money(c, (long) 2345);
     Assert.assertEquals(m.getAmountMinor().longValue(), (long) 2345);
     Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2.345")));
-    m.setAmountMajor(new BigDecimal("3.456"));
+    m = new Money(c, new BigDecimal("3.456"));
     Assert.assertEquals(m.getAmountMinor().longValue(), (long) 3456);
   }
 
@@ -53,11 +54,11 @@ public class MoneyTest extends TestCase {
    * test a Currency with 0 FractionDigits
    */
   public void testJPY() {
-    c = Currency.getInstance("JPY");
+    c = buildCurrencyUnit("JPY");
     m = new Money(c, (long) 2345);
     Assert.assertEquals(m.getAmountMinor().longValue(), (long) 2345);
     Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2345")));
-    m.setAmountMajor(new BigDecimal("3456"));
+    m = new Money(c, new BigDecimal("3456"));
     Assert.assertEquals(m.getAmountMinor().longValue(), (long) 3456);
   }
 
@@ -65,40 +66,49 @@ public class MoneyTest extends TestCase {
    * test no Currency
    */
   public void testXXX() {
-    c = Currency.getInstance("XXX");
-    long minor = (long) (2345 * Math.pow(10, Money.DEFAULTFRACTIONDIGITS));
+    c = buildCurrencyUnit("XXX");
+    long minor = (long) (2345 * Math.pow(10, DEFAULTFRACTIONDIGITS));
     m = new Money(c, minor);
     Assert.assertEquals(m.getAmountMinor().longValue(), minor);
     Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2345")));
-    m.setAmountMajor(new BigDecimal("3456.789"));
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) (3456.789 * Math.pow(10, Money.DEFAULTFRACTIONDIGITS)));
+    m = new Money(c, new BigDecimal("3456.789"));
+    Assert.assertEquals(m.getAmountMinor().longValue(), (long) (3456.789 * Math.pow(10, DEFAULTFRACTIONDIGITS)));
   }
 
   public void testBuildWithMicrosEUR() {
-    c = Currency.getInstance("EUR");
-    assertEquals(2, Money.getFractionDigits(c));
+    c = buildCurrencyUnit("EUR");
+    assertEquals(2, c.fractiondigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(2345L, m.getAmountMinor().longValue());
   }
 
   public void testBuildWithMicrosBHD() {
-    c = Currency.getInstance("BHD");
-    assertEquals(3, Money.getFractionDigits(c));
+    c = buildCurrencyUnit("BHD");
+    assertEquals(3, c.fractiondigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(23450L, m.getAmountMinor().longValue());
   }
 
   public void testBuildWithMicrosJPY() {
-    c = Currency.getInstance("JPY");
-    assertEquals(0, Money.getFractionDigits(c));
+    c = buildCurrencyUnit("JPY");
+    assertEquals(0, c.fractiondigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(23L, m.getAmountMinor().longValue());
   }
 
   public void testBuildWithMicrosXXX() {
-    c = Currency.getInstance("XXX");
-    assertEquals(8, Money.getFractionDigits(c));
+    c = buildCurrencyUnit("XXX");
+    assertEquals(8, c.fractiondigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(2345000000L, m.getAmountMinor().longValue());
+  }
+
+  private CurrencyUnit buildCurrencyUnit(String code) {
+    Currency currency = Currency.getInstance(code);
+    return CurrencyUnit.create(code, currency.getSymbol(), currency.getDefaultFractionDigits());
+  }
+
+  private CurrencyUnit buildXXX() {
+    return CurrencyUnit.create("XXX", "XXX", DEFAULTFRACTIONDIGITS);
   }
 }

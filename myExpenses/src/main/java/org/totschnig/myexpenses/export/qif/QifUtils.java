@@ -12,13 +12,12 @@ package org.totschnig.myexpenses.export.qif;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -143,8 +142,8 @@ public class QifUtils {
    * @param currency
    * @return
    */
-  public static BigDecimal parseMoney(@NonNull String money, Currency currency) {
-    return parseMoney(money, 18 - Money.getFractionDigits(currency));
+  public static BigDecimal parseMoney(@NonNull String money, CurrencyUnit currency) {
+    return parseMoney(money, 18 - currency.fractiondigits());
   }
 
   /**

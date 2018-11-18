@@ -107,14 +107,14 @@ public class ExportTest extends ModelTest {
       fail();
       return;
     }
-    op.setAmount(new Money(account1.currency, -expense1));
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
     op.setCrStatus(Transaction.CrStatus.CLEARED);
     op.setReferenceNumber("1");
     op.setDate(new Date(baseSinceEpoch));
     op.save();
 
-    op.setAmount(new Money(account1.currency, -expense2));
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense2));
     op.setCatId(cat1Id);
     op.setPayee("N.N.");
     op.setCrStatus(Transaction.CrStatus.UNRECONCILED);
@@ -122,7 +122,7 @@ public class ExportTest extends ModelTest {
     op.setDate(new Date(baseSinceEpoch + 1000));
     op.saveAsNew();
 
-    op.setAmount(new Money(account1.currency, income1));
+    op.setAmount(new Money(account1.getCurrencyUnit(), income1));
     op.setCatId(cat2Id);
     op.setPayee(null);
     op.setMethodId(null);
@@ -133,7 +133,7 @@ public class ExportTest extends ModelTest {
     contentValues.put(KEY_PICTURE_URI, "file://sdcard/picture.png");
     getMockContentResolver().update(ContentUris.withAppendedId(Transaction.CONTENT_URI,op.getId()), contentValues, null, null);
 
-    op.setAmount(new Money(account1.currency, income2));
+    op.setAmount(new Money(account1.getCurrencyUnit(), income2));
     op.setComment("Note for myself with \"quote\"");
     op.setDate(new Date(baseSinceEpoch + 3000));
     op.saveAsNew();
@@ -143,13 +143,13 @@ public class ExportTest extends ModelTest {
       fail();
       return;
     }
-    op.setAmount(new Money(account1.currency, transferP));
+    op.setAmount(new Money(account1.getCurrencyUnit(), transferP));
     op.setCrStatus(Transaction.CrStatus.RECONCILED);
     op.setDate(new Date(baseSinceEpoch + 4000));
     op.save();
 
     op.setCrStatus(Transaction.CrStatus.UNRECONCILED);
-    op.setAmount(new Money(account1.currency, -transferN));
+    op.setAmount(new Money(account1.getCurrencyUnit(), -transferN));
     op.setDate(new Date(baseSinceEpoch + 5000));
     op.saveAsNew();
 
@@ -158,18 +158,18 @@ public class ExportTest extends ModelTest {
       fail();
       return;
     }
-    split.setAmount(new Money(account1.currency, split1));
+    split.setAmount(new Money(account1.getCurrencyUnit(), split1));
     split.setDate(new Date(baseSinceEpoch + 6000));
     Transaction part = Transaction.getNewInstance(account1.getId(), split.getId());
     if (part == null) {
       fail();
       return;
     }
-    part.setAmount(new Money(account1.currency, part1));
+    part.setAmount(new Money(account1.getCurrencyUnit(), part1));
     part.setCatId(cat1Id);
     part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     part.save();
-    part.setAmount(new Money(account1.currency, part2));
+    part.setAmount(new Money(account1.getCurrencyUnit(), part2));
     part.setCatId(cat2Id);
     part.saveAsNew();
     split.save();
@@ -182,13 +182,13 @@ public class ExportTest extends ModelTest {
       fail();
       return;
     }
-    op.setAmount(new Money(account1.currency, -expense3));
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense3));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
     op.setComment("Expense inserted after first export");
     op.setReferenceNumber("3");
     op.setDate(new Date(baseSinceEpoch));
     op.save();
-    op.setAmount(new Money(account1.currency, income3));
+    op.setAmount(new Money(account1.getCurrencyUnit(), income3));
     op.setComment("Income inserted after first export");
     op.setPayee("N.N.");
     op.setMethodId(null);

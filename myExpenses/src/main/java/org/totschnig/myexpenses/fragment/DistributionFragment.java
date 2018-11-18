@@ -147,7 +147,7 @@ public class DistributionFragment extends DistributionBaseFragment {
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount.currency, showChart, showChart);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount.getCurrencyUnit(), showChart, showChart);
     mListView.setAdapter(mAdapter);
     loadData();
     mListView.setOnGroupClickListener((parent, v12, groupPosition, id) ->
@@ -247,7 +247,7 @@ public class DistributionFragment extends DistributionBaseFragment {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = mAccount.currency.getCurrencyCode();
+      accountSelector = mAccount.getCurrencyUnit().code();
     } else {
       accountSelection = " = " + mAccount.getId();
     }
@@ -333,7 +333,7 @@ public class DistributionFragment extends DistributionBaseFragment {
     if (tv != null) {
       //noinspection SetTextI18n
       tv.setText(prefix + currencyFormatter.formatCurrency(
-          new Money(mAccount.currency, amount)));
+          new Money(mAccount.getCurrencyUnit(), amount)));
     }
   }
 

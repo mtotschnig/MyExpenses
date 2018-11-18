@@ -23,6 +23,8 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
@@ -34,7 +36,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Currency;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,9 +91,11 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexTransferPeer;
   private int columnIndexEquivalentAmount;
 
+  private CurrencyContext currencyContext;
+
   protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
-                               PrefHandler prefHandler) {
+                               PrefHandler prefHandler, CurrencyContext currencyContext) {
     super(context, layout, c, flags);
     if (context instanceof ManageCategories) {
       insideFragment = true;
@@ -108,11 +111,13 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     monthStart = Integer.parseInt(prefHandler.getString(GROUP_MONTH_STARTS, "1"));
     shouldShowTime = UiUtils.getDateMode(account, prefHandler) == UiUtils.DateMode.DATE_TIME;
     refreshDateFormat();
+    this.currencyContext = currencyContext;
   }
 
   public TransactionAdapter(Account account, Context context, int layout, Cursor c, int flags,
-                            CurrencyFormatter currencyFormatter, PrefHandler prefHandler) {
-    this(account, null, context, layout, c, flags, currencyFormatter, prefHandler);
+                            CurrencyFormatter currencyFormatter, PrefHandler prefHandler,
+                            CurrencyContext currencyContext) {
+    this(account, null, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
   }
 
   @Override
@@ -137,8 +142,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
     //for the Grand Total account, we show equivalent amounts in the home currency for normal transactions
     //but show transfers in there real currency
-    Currency currency = isTransfer && columnIndexCurrency > -1 ?
-        Currency.getInstance(cursor.getString(columnIndexCurrency)) : mAccount.currency;
+    CurrencyUnit currency = isTransfer && columnIndexCurrency > -1 ?
+        currencyContext.get(cursor.getString(columnIndexCurrency)) : mAccount.getCurrencyUnit();
     long amount = cursor.getLong(isTransfer || columnIndexEquivalentAmount == -1 ?
         columnIndexAmount : columnIndexEquivalentAmount);
     TextView tv1 = viewHolder.amount;

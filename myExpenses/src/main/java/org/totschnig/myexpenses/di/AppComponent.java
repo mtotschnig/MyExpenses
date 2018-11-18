@@ -6,20 +6,26 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
+import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.CurrencyList;
 import org.totschnig.myexpenses.fragment.HistoryChart;
+import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
@@ -86,9 +92,21 @@ public interface AppComponent {
 
   @Named("userCountry") String userCountry();
 
+  CurrencyContext currencyContext();
+
   void inject(DonateDialogFragment donateDialogFragment);
 
   void inject(AutoBackupService autoBackupService);
 
   void inject(SyncBackendList syncBackendList);
+
+  void inject(AmountFilterDialog amountFilterDialog);
+
+  void inject(CurrencyList currencyList);
+
+  void inject(EditCurrencyDialog editCurrencyDialog);
+
+  void inject(TransactionProvider transactionProvider);
+
+  void inject(OnboardingDataFragment onboardingDataFragment);
 }

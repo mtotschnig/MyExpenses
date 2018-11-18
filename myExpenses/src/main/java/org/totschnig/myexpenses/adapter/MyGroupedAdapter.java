@@ -17,13 +17,13 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.ui.ExpansionPanel;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
-import java.util.Currency;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -58,14 +58,16 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   private LayoutInflater inflater;
   private ProtectedFragmentActivity activity;
   private PrefHandler prefHandler;
+  private CurrencyContext currencyContext;
 
   public MyGroupedAdapter(ProtectedFragmentActivity context, Cursor c,
-                          CurrencyFormatter currencyFormatter, PrefHandler prefHandler) {
+                          CurrencyFormatter currencyFormatter, PrefHandler prefHandler, CurrencyContext currencyContext) {
     super(context, R.layout.account_row_ng, c, 0);
     inflater = LayoutInflater.from(context);
     this.currencyFormatter = currencyFormatter;
     this.activity = context;
     this.prefHandler = prefHandler;
+    this.currencyContext = currencyContext;
   }
 
   public void setGrouping(AccountGrouping grouping) {
@@ -91,7 +93,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     } else {
       switch (grouping) {
         case CURRENCY:
-          headerText = CurrencyEnum.valueOf(c.getString(c.getColumnIndex(KEY_CURRENCY))).toString();
+          headerText = Currency.create(c.getString(c.getColumnIndex(KEY_CURRENCY))).toString();
           break;
         case NONE:
           headerText = activity.getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
@@ -118,7 +120,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     switch (grouping) {
       case CURRENCY:
         return c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME ?
-            Long.MAX_VALUE : CurrencyEnum.valueOf(c.getString(c.getColumnIndex(KEY_CURRENCY))).ordinal();
+            Long.MAX_VALUE : c.getString(c.getColumnIndex(KEY_CURRENCY)).hashCode(); //TODO check if hashCode is safe to use as header id
       case NONE:
         return c.getLong(c.getColumnIndex(KEY_ROWID)) > 0 ? 0 : 1;
       case TYPE:
@@ -147,7 +149,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
     long id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
 
-    Currency currency = Utils.getSaveInstance(cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)));
+    CurrencyUnit currency = currencyContext.get(cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)));
     long sum_transfer = cursor.getLong(cursor.getColumnIndex(KEY_SUM_TRANSFERS));
     long criterion = cursor.getLong(cursor.getColumnIndex(KEY_CRITERION));
     long currentBalance = cursor.getLong(cursor.getColumnIndex(KEY_CURRENT_BALANCE));
@@ -172,7 +174,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       }
       colorInt = activity.getColorAggregate();
       expansionPrefKey = String.format(Locale.ROOT, "%s%s", EXPANSION_PREF_PREFIX,
-          isHome ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.getCurrencyCode());
+          isHome ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.code());
       holder.colorAccount.setImageResource(R.drawable.ic_action_equal_white);
     } else {
       holder.label.setText(label);
@@ -243,14 +245,14 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     holder.label.setMaxLines(expanded ? 2 : 1);
   }
 
-  private void setConvertedAmount(Currency currency, Cursor c, String columnName, boolean isHome, TextView ... tvs) {
+  private void setConvertedAmount(CurrencyUnit currency, Cursor c, String columnName, boolean isHome, TextView ... tvs) {
     final String result = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.convAmount(c.getLong(c.getColumnIndex(columnName)), currency));
     for (TextView tv: tvs) {
       tv.setText(result);
     }
   }
-  private void setConvertedAmount(Currency currency, long value, boolean isHome, TextView ... tvs) {
+  private void setConvertedAmount(CurrencyUnit currency, long value, boolean isHome, TextView ... tvs) {
     final String result = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.convAmount(value, currency));
     for (TextView tv: tvs) {

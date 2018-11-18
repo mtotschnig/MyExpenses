@@ -33,12 +33,12 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
@@ -82,7 +82,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   private MergeCursor mAccountsCursor;
   private SimpleCursorAdapter mAccountsAdapter;
   private long accountId = 0;
-  private CurrencyEnum currency = null;
+  private String currency = null;
   private AccountType type = null;
 
 
@@ -90,7 +90,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
-      currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+      currency = savedInstanceState.getString(KEY_CURRENCY);
       type = (AccountType) savedInstanceState.getSerializable(KEY_TYPE);
     }
 
@@ -99,7 +99,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
     mDelimiterSpinner = DialogUtils.configureDelimiter(view, getActivity(), PREFKEY_IMPORT_CSV_DELIMITER);
     mFilename = DialogUtils.configureFilename(view);
-    mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
+    mAccountSpinner = view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
     mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,
         new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
@@ -147,7 +147,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       outState.putString(getPrefKey(), mUri.toString());
     }
     outState.putLong(KEY_ACCOUNTID, accountId);
-    outState.putSerializable(KEY_CURRENCY, currency);
+    outState.putString(KEY_CURRENCY, currency);
   }
 
   @Override
@@ -251,7 +251,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     extras.addRow(new String[]{
         "0",
         getString(R.string.menu_create_account),
-        Utils.getHomeCurrency().getCurrencyCode(),
+        Utils.getHomeCurrency().code(),
         AccountType.CASH.name()
     });
     mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
@@ -270,7 +270,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
                              long id) {
     if (parent.getId() == R.id.Currency) {
       if (accountId == 0) {
-        currency = (CurrencyEnum) parent.getSelectedItem();
+        currency = ((Currency) parent.getSelectedItem()).code();
       }
       return;
     }
@@ -285,18 +285,16 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       accountId = id;
       mAccountsCursor.moveToPosition(position);
 
-      CurrencyEnum currency = (accountId == 0 && this.currency != null) ?
+      String currency = (accountId == 0 && this.currency != null) ?
           this.currency :
-          CurrencyEnum
-              .valueOf(
-                  mAccountsCursor.getString(2));//2=KEY_CURRENCY
+          mAccountsCursor.getString(2);//2=KEY_CURRENCY
       AccountType type = (accountId == 0 && this.type != null) ?
           this.type :
           AccountType.valueOf(
               mAccountsCursor.getString(3));//3=KEY_TYPE
       mCurrencySpinner.setSelection(
-          ((ArrayAdapter<CurrencyEnum>) mCurrencySpinner.getAdapter())
-              .getPosition(currency));
+          ((ArrayAdapter<Currency>) mCurrencySpinner.getAdapter())
+              .getPosition(Currency.create(currency)));
       mTypeSpinner.setSelection(type.ordinal());
       mCurrencySpinner.setEnabled(position == 0);
       mTypeSpinner.setEnabled(position == 0);
@@ -312,7 +310,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   public String getCurrency() {
-    return ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+    return ((Currency) mCurrencySpinner.getSelectedItem()).code();
   }
 
   public QifDateFormat getDateFormat() {

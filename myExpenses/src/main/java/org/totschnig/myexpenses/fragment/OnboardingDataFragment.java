@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,25 +20,28 @@ import android.widget.Spinner;
 
 import com.android.setupwizardlib.SetupWizardLayout;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.UiUtils;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
-import java.util.Currency;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +80,11 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   boolean moreOptionsShown = false;
   @State
   int accountColor = Account.DEFAULT_COLOR;
-  private int lastSelectedCurrencyPosition;
+
+  @Inject
+  CurrencyContext currencyContext;
+
+  private CurrencyViewModel currencyViewModel;
 
   public static OnboardingDataFragment newInstance() {
     return new OnboardingDataFragment();
@@ -87,12 +94,14 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
   }
 
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable(KEY_CURRENCY, ((CurrencyEnum) currencySpinner.getSelectedItem()));
+    outState.putString(KEY_CURRENCY, currencySpinner.getSelectedItem().toString());
     String label = labelEditText.getText().toString();
     outState.putBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY, TextUtils.isEmpty(label) ||
         label.equals(getString(R.string.default_account_name)));
@@ -101,7 +110,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
   @Override
   protected void onNextButtonClicked() {
-    PrefKey.HOME_CURRENCY.putString(getSelectedCurrencyWithFallback().getCurrencyCode());
+    PrefKey.HOME_CURRENCY.putString(validateSelectedCurrency().code());
     ((SplashActivity) getActivity()).finishOnboarding();
   }
 
@@ -151,6 +160,9 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     //currency
     currencySpinner = DialogUtils.configureCurrencySpinner(view, this);
 
+    currencyViewModel.getCurrencies().observe(this, currencies -> ((CurrencyAdapter) currencySpinner.getAdapter()).addAll(currencies));
+    currencyViewModel.loadCurrencies();
+
     //type
     accountTypeSpinner = DialogUtils.configureTypeSpinner(view);
 
@@ -179,7 +191,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     super.onViewStateRestored(savedInstanceState);
     if (savedInstanceState != null) {
       currencySpinner.setSelection(((CurrencyAdapter) currencySpinner.getAdapter())
-          .getPosition((CurrencyEnum) savedInstanceState.get(KEY_CURRENCY)));
+          .getPosition(Currency.create((String) savedInstanceState.get(KEY_CURRENCY))));
       if(savedInstanceState.getBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY)) {
         setDefaultLabel();
       }
@@ -200,33 +212,14 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (parent.getId()) {
       case R.id.Currency:
-        Currency instance = validateSelectedCurrency();
-        if (instance != null) {
-          amountInput.setFractionDigits(Money.getFractionDigits(instance));
-          lastSelectedCurrencyPosition = position;
-        } else {
-          currencySpinner.setSelection(lastSelectedCurrencyPosition);
-        }
+        amountInput.setFractionDigits(validateSelectedCurrency().fractiondigits());
         break;
     }
   }
 
-  private Currency validateSelectedCurrency() {
-    final String currency = ((CurrencyEnum) currencySpinner.getSelectedItem()).name();
-    try {
-      return Currency.getInstance(currency);
-    } catch (IllegalArgumentException e) {
-      ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
-    }
-    return null;
-  }
-
-  private Currency getSelectedCurrencyWithFallback() {
-    Currency currency = validateSelectedCurrency();
-    if (currency == null) {
-      currency = Utils.getHomeCurrency();
-    }
-    return currency;
+  private CurrencyUnit validateSelectedCurrency() {
+    final String currency = ((Currency) currencySpinner.getSelectedItem()).code();
+    return currencyContext.get(currency);
   }
 
   @Override
@@ -240,7 +233,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
       label = getString(R.string.default_account_name);
     }
     BigDecimal openingBalance = amountInput.getTypedValue();
-    Currency currency = getSelectedCurrencyWithFallback();
+    CurrencyUnit currency = validateSelectedCurrency();
     return new Account(label, currency, new Money(currency, openingBalance),
         descriptionEditText.getText().toString(),
         (AccountType) accountTypeSpinner.getSelectedItem(), accountColor);

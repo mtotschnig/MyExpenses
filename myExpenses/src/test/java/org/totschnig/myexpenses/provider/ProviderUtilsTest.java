@@ -14,6 +14,7 @@ import org.robolectric.annotation.Config;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
@@ -43,9 +44,10 @@ public class ProviderUtilsTest {
 
   @Before
   public void setupAccounts() {
-    euroAccount = new Account("EUR-Account", Currency.getInstance("EUR"), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR);
+
+    euroAccount = new Account("EUR-Account", CurrencyUnit.create(Currency.getInstance("EUR")), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR);
     euroAccount.save();
-    dollarAccount = new Account("USD-Account", Currency.getInstance("USD"), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR);
+    dollarAccount = new Account("USD-Account", CurrencyUnit.create(Currency.getInstance("USD")), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR);
     dollarAccount.save();
   }
 
@@ -85,7 +87,7 @@ public class ProviderUtilsTest {
     extras.putString(CURRENCY, "EUR");
     extras.putLong(AMOUNT_MICROS, 1230000);
     Transaction transaction = ProviderUtils.buildFromExtras(extras);
-    Assert.assertEquals(new Money(Currency.getInstance("EUR"), 123L), transaction.getAmount());
+    Assert.assertEquals(new Money(CurrencyUnit.create(Currency.getInstance("EUR")), 123L), transaction.getAmount());
   }
 
   @Test

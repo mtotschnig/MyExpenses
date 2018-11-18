@@ -62,7 +62,6 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -253,7 +252,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
     switch (which) {
       case AlertDialog.BUTTON_POSITIVE:
-        if (mTransaction instanceof Transfer && DbUtils.hasParent(((Transfer) mTransaction).getTransferPeer())) {
+        //TODO strict mode
+        if (mTransaction instanceof Transfer && Transaction.hasParent(((Transfer) mTransaction).getTransferPeer())) {
           showSnackbar(R.string.warning_splitpartcategory_context);
           return;
         }
@@ -326,7 +326,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
       // Now create a simple cursor adapter and set it to display
       mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-          mTransaction.getAmount().getCurrency(), currencyFormatter);
+          mTransaction.getAmount().getCurrencyUnit(), currencyFormatter);
       listView.setAdapter(mAdapter);
       listView.setEmptyView(emptyView);
 
@@ -378,7 +378,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       originalAmountView.setText(formatCurrencyAbs(mTransaction.getOriginalAmount()));
     }
 
-    if (!(mTransaction instanceof Transfer) && !account.currency.getCurrencyCode().equals(Utils.getHomeCurrency().getCurrencyCode())) {
+    if (!(mTransaction instanceof Transfer) && !account.getCurrencyUnit().code().equals(Utils.getHomeCurrency().code())) {
       equivalentAmountRow.setVisibility(View.VISIBLE);
       Money equivalentAmount = mTransaction.getEquivalentAmount();
       if (equivalentAmount == null) {
@@ -457,6 +457,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   @NonNull
   private String formatCurrencyAbs(Money money) {
-    return currencyFormatter.formatCurrency(money.getAmountMajor().abs(), money.getCurrency());
+    return currencyFormatter.formatCurrency(money.getAmountMajor().abs(), money.getCurrencyUnit());
   }
 }

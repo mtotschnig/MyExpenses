@@ -411,11 +411,13 @@ public class Transaction extends Model {
   /**
    * factory method for retrieving an instance from the db with the given id
    *
+   *
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer} or null if not found
    */
   public static Transaction getInstanceFromDb(long id) {
     Transaction t;
+    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
@@ -435,14 +437,14 @@ public class Transaction extends Model {
     Long transfer_peer = getLongOrNull(c, KEY_TRANSFER_PEER);
     long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
-    Money money = new Money(Utils.getSaveInstance(DbUtils.getString(c, KEY_CURRENCY)), amount);
+    Money money = new Money(currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY))), amount);
     Long parent_id = getLongOrNull(c, KEY_PARENTID);
     Long catId = getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
       Long transferAccountId = getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
       Transfer transfer = new Transfer(account_id, money, transferAccountId, parent_id);
       transfer.setTransferPeer(transfer_peer);
-      transfer.setTransferAmount(new Money(Account.getInstanceFromDb(transferAccountId).currency,
+      transfer.setTransferAmount(new Money(Account.getInstanceFromDb(transferAccountId).getCurrencyUnit(),
           c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT))));
       t = transfer;
     } else {
@@ -473,7 +475,7 @@ public class Transaction extends Model {
 
     Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
     if (originalAmount != null) {
-      t.setOriginalAmount(new Money(Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_ORIGINAL_CURRENCY))), originalAmount));
+      t.setOriginalAmount(new Money(currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_ORIGINAL_CURRENCY))), originalAmount));
     }
     Long equivalentAmount = getLongOrNull(c, KEY_EQUIVALENT_AMOUNT);
     if (equivalentAmount != null) {
@@ -575,7 +577,7 @@ public class Transaction extends Model {
     if (account == null) {
       return null;
     }
-    return new Transaction(accountId, new Money(account.currency, 0L), parentId);
+    return new Transaction(accountId, new Money(account.getCurrencyUnit(), 0L), parentId);
   }
 
   public static void delete(long id, boolean markAsVoid) {
@@ -863,7 +865,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_UUID, requireUuid());
 
     initialValues.put(KEY_ORIGINAL_AMOUNT, originalAmount == null ? null : originalAmount.getAmountMinor());
-    initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrency().getCurrencyCode());
+    initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().code());
     initialValues.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount == null ? null : equivalentAmount.getAmountMinor());
 
     savePicture(initialValues);
@@ -1197,12 +1199,20 @@ public class Transaction extends Model {
   public static long findByAccountAndUuid(long accountId, String uuid) {
     String selection = KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?";
     String[] selectionArgs = new String[]{uuid, String.valueOf(accountId)};
-    return findBySelection(selection, selectionArgs);
+    return findBySelection(selection, selectionArgs, KEY_ROWID);
   }
 
-  private static long findBySelection(String selection, String[] selectionArgs) {
+
+  public static boolean hasParent(Long id) {
+    String selection = KEY_ROWID + " = ?";
+    String[] selectionArgs = new String[]{String.valueOf(id)};
+    return findBySelection(selection, selectionArgs, KEY_PARENTID) != -1;
+  }
+
+
+  private static long findBySelection(String selection, String[] selectionArgs, String column) {
     Cursor cursor = cr().query(CONTENT_URI,
-        new String[]{KEY_ROWID}, selection, selectionArgs, null);
+        new String[]{column}, selection, selectionArgs, null);
     if (cursor == null) {
       return -1;
     }

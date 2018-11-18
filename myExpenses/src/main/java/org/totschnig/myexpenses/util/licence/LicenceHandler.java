@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -33,7 +34,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -56,10 +56,12 @@ public class LicenceHandler {
 
   protected LicenceStatus licenceStatus;
   PreferenceObfuscator licenseStatusPrefs;
+  CurrencyUnit currencyUnit;
 
   public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
     this.context = context;
     this.licenseStatusPrefs = preferenceObfuscator;
+    this.currencyUnit = CurrencyUnit.create("EUR", "€", 2);
   }
 
   public boolean isContribEnabled() {
@@ -147,7 +149,7 @@ public class LicenceHandler {
 
   @Nullable
   private String getFormattedPriceWithExtra(Package aPackage, boolean withExtra) {
-    return aPackage.getFormattedPrice(context, withExtra);
+    return aPackage.getFormattedPrice(context, currencyUnit, withExtra);
   }
 
   public String getFormattedPriceWithSaving(Package aPackage) {
@@ -167,7 +169,7 @@ public class LicenceHandler {
         aPackage.getDuration(false));
     return context.getString(R.string.extend_until,
         Utils.getDateFormatSafe(context).format(extendedDate),
-        aPackage.getFormattedPriceRaw());
+        aPackage.getFormattedPriceRaw(currencyUnit));
   }
 
   @NonNull
@@ -222,7 +224,7 @@ public class LicenceHandler {
   protected String getMinimumProfessionalMonthlyPrice(boolean withExtra) {
     final Package aPackage = Package.Professional_30;
     return CurrencyFormatter.instance().formatCurrency(
-        new Money(Currency.getInstance("EUR"), aPackage.getMonthlyPrice(withExtra)));
+        new Money(currencyUnit, aPackage.getMonthlyPrice(withExtra)));
   }
 
   @Nullable

@@ -1,13 +1,11 @@
 package org.totschnig.myexpenses.model;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 
 import org.totschnig.myexpenses.util.Utils;
 
 import java.text.Collator;
 import java.util.Arrays;
-import java.util.Currency;
 
 /**
  * @see <a href="http://www.currency-iso.org/dl_iso_table_a1.xml">http://www.currency-iso.org/dl_iso_table_a1.xml</a>
@@ -184,14 +182,7 @@ public enum CurrencyEnum {
     this.description = description;
   }
 
-  @TargetApi(Build.VERSION_CODES.KITKAT)
-  public String toString() {
-    if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-      try {
-        return Currency.getInstance(name()).getDisplayName();
-      } catch (IllegalArgumentException e) {
-      }
-    }
+  public String getDescription() {
     return description;
   }
 

@@ -34,10 +34,10 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
@@ -1507,7 +1507,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         if (c != null) {
           if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
-              Money.ensureFractionDigitsAreCached(Utils.getSaveInstance(c.getString(0)));
+              CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+              currencyContext.ensureFractionDigitsAreCached(currencyContext.get(c.getString(0)));
               c.moveToNext();
             }
           }

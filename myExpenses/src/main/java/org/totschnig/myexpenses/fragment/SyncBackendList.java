@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -66,6 +67,8 @@ public class SyncBackendList extends Fragment implements
 
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  CurrencyContext currencyContext;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class SyncBackendList extends Fragment implements
     listView = v.findViewById(R.id.list);
     View emptyView = v.findViewById(R.id.empty);
     List<String> data = getAccountList();
-    syncBackendAdapter = new SyncBackendAdapter(context, data);
+    syncBackendAdapter = new SyncBackendAdapter(context, currencyContext, data);
     listView.setAdapter(syncBackendAdapter);
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);

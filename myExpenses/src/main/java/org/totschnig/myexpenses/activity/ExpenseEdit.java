@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -89,7 +88,7 @@ import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
@@ -118,7 +117,9 @@ import org.totschnig.myexpenses.util.UiUtils.DateMode;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExpenseEditViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -127,7 +128,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
@@ -329,6 +329,7 @@ public class ExpenseEdit extends AmountActivity implements
   private CurrencyAdapter currencyAdapter;
 
   private ExpenseEditViewModel viewModel;
+  private CurrencyViewModel currencyViewModel;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
@@ -358,21 +359,21 @@ public class ExpenseEdit extends AmountActivity implements
     setupToolbar();
     mManager = getSupportLoaderManager();
     viewModel =  ViewModelProviders.of(this).get(ExpenseEditViewModel.class);
-    viewModel.getMethods().observe(this, new Observer<List<PaymentMethod>>() {
-      @Override
-      public void onChanged(@Nullable List<PaymentMethod> paymentMethods) {
-        if (mMethodsAdapter == null || paymentMethods == null || paymentMethods.isEmpty()) {
-          methodRow.setVisibility(View.GONE);
-          mMethodId = null;
-        } else {
-          methodRow.setVisibility(View.VISIBLE);
-          mMethodsAdapter.clear();
-          mMethodsAdapter.addAll(paymentMethods);
-          setMethodSelection();
-        }
+    viewModel.getMethods().observe(this, paymentMethods -> {
+      if (mMethodsAdapter == null || paymentMethods == null || paymentMethods.isEmpty()) {
+        methodRow.setVisibility(View.GONE);
+        mMethodId = null;
+      } else {
+        methodRow.setVisibility(View.VISIBLE);
+        mMethodsAdapter.clear();
+        mMethodsAdapter.addAll(paymentMethods);
+        setMethodSelection();
       }
     });
     ButterKnife.bind(this);
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    currencyViewModel.getCurrencies().observe(this, currencies -> currencyAdapter.addAll(currencies));
+
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     amountInput.setTypeEnabled(false);
     mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
@@ -443,15 +444,16 @@ public class ExpenseEdit extends AmountActivity implements
       @Override
       public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
-        ((TextView) view).setText(getItem(position).name());
+        ((TextView) view).setText(getItem(position).code());
         return view;
       }
     };
     mCurrencySpinner.setAdapter(currencyAdapter);
+    currencyViewModel.loadCurrencies();
     final String lastOriginalCurrency = prefHandler.getString(LAST_ORIGINAL_CURRENCY, null);
     if (lastOriginalCurrency != null) {
       try {
-        mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(lastOriginalCurrency)));
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(lastOriginalCurrency)));
       } catch (IllegalArgumentException ignored) {
       }
     }
@@ -656,7 +658,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setup() {
-    amountInput.setFractionDigits(Money.getFractionDigits(mTransaction.getAmount().getCurrency()));
+    amountInput.setFractionDigits(mTransaction.getAmount().getCurrencyUnit().fractiondigits());
     linkInputsWithLabels();
     if (mOperationType == TYPE_SPLIT) {
       amountInput.addTextChangedListener(new MyTextWatcher() {
@@ -879,9 +881,9 @@ public class ExpenseEdit extends AmountActivity implements
       exchangeRateRow.setVisibility(View.VISIBLE);
     }
     if (mIsMainTransaction) {
-      final Currency homeCurrency = Utils.getHomeCurrency();
-      addCurrencyToLabel(equivalentAmountLabel, homeCurrency.getSymbol(), R.string.menu_equivalent_amount);
-      equivalentAmountText.setFractionDigits(Money.getFractionDigits(homeCurrency));
+      final CurrencyUnit homeCurrency = Utils.getHomeCurrency();
+      addCurrencyToLabel(equivalentAmountLabel, homeCurrency.symbol(), R.string.menu_equivalent_amount);
+      equivalentAmountText.setFractionDigits(homeCurrency.fractiondigits());
     }
   }
 
@@ -972,7 +974,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   protected boolean hasHomeCurrency(@NonNull Account account) {
-    return account.currency.equals(Utils.getHomeCurrency());
+    return account.getCurrencyUnit().equals(Utils.getHomeCurrency());
   }
 
   @Override
@@ -1136,8 +1138,8 @@ public class ExpenseEdit extends AmountActivity implements
       originalAmountVisible = true;
       originalAmountRow.setVisibility(View.VISIBLE);
       originalAmountText.setAmount(cachedOrSelf.getOriginalAmount().getAmountMajor());
-      mCurrencySpinner.setSelection(currencyAdapter.getPosition(
-          CurrencyEnum.valueOf(cachedOrSelf.getOriginalAmount().getCurrency().getCurrencyCode())));
+      mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(
+          cachedOrSelf.getOriginalAmount().getCurrencyUnit().code())));
     }
     if (cachedOrSelf.getEquivalentAmount() != null) {
       equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
@@ -1206,8 +1208,7 @@ public class ExpenseEdit extends AmountActivity implements
       //Snackbar is shown in validateAmountInput
       validP = false;
     } else {
-      mTransaction.getAmount().setCurrency(account.currency);
-      mTransaction.getAmount().setAmountMajor(amount);//TODO refactor to better respect encapsulation
+      mTransaction.setAmount(new Money(account.getCurrencyUnit(), amount));
     }
     mTransaction.setAccountId(account.getId());
 
@@ -1235,7 +1236,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (transferAccount == null) {
         return false;
       }
-      boolean isSame = account.currency.equals(transferAccount.currency);
+      boolean isSame = account.getCurrencyUnit().equals(transferAccount.getCurrencyUnit());
       if (mTransaction instanceof Template) {
         if (!isSame && amount == null) {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
@@ -1245,19 +1246,17 @@ public class ExpenseEdit extends AmountActivity implements
             if (isIncome()) {
               transferAmount = transferAmount.negate();
             }
-            mTransaction.setAmount(new Money(transferAccount.currency, transferAmount));
+            mTransaction.setAmount(new Money(transferAccount.getCurrencyUnit(), transferAmount));
             amountInput.getAmountEditText().setError(null);
             validP = true; //we only need either amount or transfer amount
           }
         }
       } else {
-        mTransaction.getTransferAmount().setCurrency(transferAccount.currency);
+        BigDecimal transferAmount = null;
         if (isSame) {
-          if (amount != null) {
-            mTransaction.getTransferAmount().setAmountMajor(amount.negate());
-          }
+          if (amount != null) transferAmount = amount.negate();
         } else {
-          BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
+          transferAmount = validateAmountInput(mTransferAmountText, forSave);
 
           if (transferAmount == null) {
             //Snackbar is shown in validateAmountInput
@@ -1266,16 +1265,21 @@ public class ExpenseEdit extends AmountActivity implements
             if (isIncome()) {
               transferAmount = transferAmount.negate();
             }
-            mTransaction.getTransferAmount().setAmountMajor(transferAmount);
           }
         }
+        mTransaction.setTransferAmount(new Money(transferAccount.getCurrencyUnit(), transferAmount != null ?
+            transferAmount : mTransaction.getTransferAmount().getAmountMajor()));
       }
     } else if (mIsMainTransaction) {
       BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
-      final String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
-      LAST_ORIGINAL_CURRENCY.putString(currency);
-      mTransaction.setOriginalAmount(originalAmount == null ? null :
-          new Money(Utils.getSaveInstance(currency), originalAmount));
+      final Currency selectedItem = (Currency) mCurrencySpinner.getSelectedItem();
+      if (selectedItem != null && originalAmount != null) {
+        final String currency = selectedItem.code();
+        LAST_ORIGINAL_CURRENCY.putString(currency);
+        mTransaction.setOriginalAmount(new Money(currencyContext.get(currency), originalAmount));
+      } else {
+        mTransaction.setOriginalAmount(null);
+      }
       BigDecimal equivalentAmount = validateAmountInput(equivalentAmountText, false);
       mTransaction.setEquivalentAmount(equivalentAmount == null ? null :
           new Money(Utils.getHomeCurrency(), isIncome() ? equivalentAmount : equivalentAmount.negate()));
@@ -1548,13 +1552,9 @@ public class ExpenseEdit extends AmountActivity implements
     Account a = getCurrentAccount();
     if (a == null)
       return null;
-    Money result = new Money(a.currency, 0L);
     BigDecimal amount = validateAmountInput(false);
-    if (amount == null) {
-      return result;
-    }
-    result.setAmountMajor(amount);
-    return result;
+    return amount == null ? new Money(a.getCurrencyUnit(), 0L) :
+        new Money(a.getCurrencyUnit(), amount);
   }
 
   /*
@@ -1770,9 +1770,8 @@ public class ExpenseEdit extends AmountActivity implements
         configureTransferInput();
         break;
       case R.id.OriginalCurrency:
-        String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
-        originalAmountText.setFractionDigits(Money.getFractionDigits(
-            Currency.getInstance(currency)));
+        String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
+        originalAmountText.setFractionDigits(currencyContext.get(currency).fractiondigits());
         break;
     }
   }
@@ -1789,13 +1788,14 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configureAccountDependent(Account account) {
-    addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency), R.string.amount);
+    final String symbol = account.getCurrencyUnit().symbol();
+    addCurrencyToLabel(mAmountLabel, symbol, R.string.amount);
     if (hasHomeCurrency(account)) {
       equivalentAmountRow.setVisibility(View.GONE);
       exchangeRateRow.setVisibility(View.GONE);
       equivalentAmountVisible = false;
     } else {
-      mExchangeRateEdit.setSymbols(Money.getSymbol(account.currency), Money.getSymbol(Utils.getHomeCurrency()));
+      mExchangeRateEdit.setSymbols(symbol, Utils.getHomeCurrency().symbol());
     }
     configureDateInput(account);
   }
@@ -1824,7 +1824,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
     configureStatusSpinner();
-    amountInput.setFractionDigits(Money.getFractionDigits(account.currency));
+    amountInput.setFractionDigits(account.getCurrencyUnit().fractiondigits());
   }
 
   private void configureDateInput(Account account) {
@@ -1849,20 +1849,20 @@ public class ExpenseEdit extends AmountActivity implements
     if (transferAccount == null || currentAccount == null) {
       return;
     }
-    final Currency currency = currentAccount.currency;
-    final boolean isSame = currency.equals(transferAccount.currency);
+    final CurrencyUnit currency = currentAccount.getCurrencyUnit();
+    final CurrencyUnit transferAccountCurrencyUnit = transferAccount.getCurrencyUnit();
+    final boolean isSame = currency.equals(transferAccountCurrencyUnit);
     setVisibility(transferAmountRow, !isSame);
     setVisibility(exchangeRateRow, !isSame && !(mTransaction instanceof Template));
-    final String symbol2 = Money.getSymbol(transferAccount.currency);
+    final String symbol2 = transferAccountCurrencyUnit.symbol();
     //noinspection SetTextI18n
     addCurrencyToLabel(transferAmountLabel, symbol2, R.string.amount);
-    mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
-    final String symbol1 = Money.getSymbol(currency);
+    mTransferAmountText.setFractionDigits(transferAccountCurrencyUnit.fractiondigits());
+    final String symbol1 = currency.symbol();
     mExchangeRateEdit.setSymbols(symbol1, symbol2);
 
     Bundle bundle = new Bundle(2);
-    bundle.putStringArray(KEY_CURRENCY, new String[]{currency.getCurrencyCode(), transferAccount
-        .currency.getCurrencyCode()});
+    bundle.putStringArray(KEY_CURRENCY, new String[]{currency.code(), transferAccountCurrencyUnit.code()});
     if (!isSame && !mSavedInstance && (mNewInstance || mPlanInstanceId == -1) && !(mTransaction instanceof Template)) {
       mManager.restartLoader(LAST_EXCHANGE_CURSOR, bundle, this);
     }
@@ -2110,7 +2110,7 @@ public class ExpenseEdit extends AmountActivity implements
           Account a = Account.fromCursor(data);
           mAccounts[position] = a;
           if (!selectionSet &&
-              (a.currency.getCurrencyCode().equals(currencyExtra) ||
+              (a.getCurrencyUnit().code().equals(currencyExtra) ||
                   (currencyExtra == null && a.getId().equals(mTransaction.getAccountId())))) {
             mAccountSpinner.setSelection(position);
             configureAccountDependent(a);
@@ -2156,10 +2156,10 @@ public class ExpenseEdit extends AmountActivity implements
           if (transferAccount == null || currentAccount == null) {
             return;
           }
-          final Currency currency1 = currentAccount.currency;
-          final Currency currency2 = transferAccount.currency;
-          if (currency1.getCurrencyCode().equals(data.getString(0)) &&
-              currency2.getCurrencyCode().equals(data.getString(1))) {
+          final CurrencyUnit currency1 = currentAccount.getCurrencyUnit();
+          final CurrencyUnit currency2 = transferAccount.getCurrencyUnit();
+          if (currency1.code().equals(data.getString(0)) &&
+              currency2.code().equals(data.getString(1))) {
             BigDecimal amount = new Money(currency1, data.getLong(2)).getAmountMajor();
             BigDecimal transferAmount = new Money(currency2, data.getLong(3)).getAmountMajor();
             mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
@@ -2184,7 +2184,7 @@ public class ExpenseEdit extends AmountActivity implements
           int columnIndexCurrency = data.getColumnIndex(KEY_CURRENCY);
           if (TextUtils.isEmpty(amountInput.getAmountEditText().getText().toString()) && columnIndexAmount != -1 && columnIndexCurrency != -1) {
             boolean beforeType = isIncome();
-            fillAmount(new Money(Currency.getInstance(data.getString(columnIndexCurrency)), data.getLong(columnIndexAmount)).getAmountMajor());
+            fillAmount(new Money(currencyContext.get(data.getString(columnIndexCurrency)), data.getLong(columnIndexAmount)).getAmountMajor());
             configureType();
             typeHasChanged = beforeType != isIncome();
           }

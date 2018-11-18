@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
@@ -78,7 +79,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Before
   public void fixture() {
-    account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
+    account = new Account("Test account 1", CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     Intent i = new Intent();

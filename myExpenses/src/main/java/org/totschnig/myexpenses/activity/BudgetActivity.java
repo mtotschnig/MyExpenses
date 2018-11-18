@@ -17,9 +17,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,7 +55,8 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   private BudgetViewModel budgetViewModel;
   private long accountId;
   @NonNull
-  private String currency;
+  private CurrencyUnit currencyUnit;
+  private boolean isHomeAggregate;
   private List<Budget> budgetList;
   private Budget currentBudget;
 
@@ -66,10 +66,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     super.onCreate(savedInstanceState);
     budgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
     accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
-    currency = getIntent().getStringExtra(KEY_CURRENCY);
+    String currency = getIntent().getStringExtra(KEY_CURRENCY);
     if (currency == null) {
       throw new NullPointerException();
     }
+    isHomeAggregate = AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE.equals(currency);
+    currencyUnit = isHomeAggregate ? Utils.getHomeCurrency() : currencyContext.get(currency);
     budgetViewModel.getData().observe(this, result -> {
       if (result.isEmpty()) {
         showNewBudgetDialog(null);
@@ -85,13 +87,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       }
     });
     budgetViewModel.loadBudgets(accountId, currency,
-        cursor -> {
-          final boolean isHomeAggregate = isHomeAggregate();
-          Currency currency = getCurrency();
-          return new Budget(cursor.getLong(0), accountId, currency,
-              Grouping.valueOf(cursor.getString(1)),
-              new Money(currency, cursor.getLong(2)), isHomeAggregate);
-        });
+        cursor -> new Budget(cursor.getLong(0), accountId, currencyUnit,
+            Grouping.valueOf(cursor.getString(1)),
+            new Money(currencyUnit, cursor.getLong(2)), isHomeAggregate));
   }
 
   private void setBudget(Budget budget) {
@@ -133,10 +131,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   }
 
   private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min, boolean isMainCategory, boolean isSubCategory) {
-    final Currency currency = getCurrency();
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
-        .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currency))
-        .fractionDigits(Money.getFractionDigits(currency)).required();
+        .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currencyUnit))
+        .fractionDigits(currencyUnit.fractiondigits()).required();
     if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
       amountEdit.amount(amount);
     }
@@ -156,7 +153,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
         .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
         .neg();
-    final Currency currency = getCurrency();
     if (category != null) {
       long allocated = parentItem == null ? mListFragment.getAllocated() :
           Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.budget).sum();
@@ -173,13 +169,13 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       Bundle bundle = new Bundle(1);
       bundle.putLong(KEY_CATID, category.id);
       simpleFormDialog.extra(bundle);
-      amount = new Money(currency, category.budget);
-      max = new Money(currency, maxLong);
-      min = parentItem != null ? null : new Money(currency, Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
+      amount = new Money(currencyUnit, category.budget);
+      max = new Money(currencyUnit, maxLong);
+      min = parentItem != null ? null : new Money(currencyUnit, Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
     } else {
       amount = currentBudget.getAmount();
       max = null;
-      min = new Money(currency, mListFragment.getAllocated());
+      min = new Money(currencyUnit, mListFragment.getAllocated());
     }
     simpleFormDialog
         .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor(),
@@ -262,7 +258,8 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @NonNull
   private String getPrefKey() {
-    return PREFKEY_PREFIX + (accountId != 0 ? String.valueOf(accountId) : currency);
+    return PREFKEY_PREFIX + (accountId != 0 ? String.valueOf(accountId) :
+        (isHomeAggregate ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currencyUnit.code()));
   }
 
   @NonNull
@@ -282,14 +279,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       return true;
     }
     if (which == BUTTON_POSITIVE) {
-      Currency currency = getCurrency();
-      final Money amount = new Money(currency, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
+      final Money amount = new Money(currencyUnit, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
       if (dialogTag.equals(NEW_BUDGET_DIALOG)) {
-        final boolean isHomeAggregate = isHomeAggregate();
         Grouping budgetType = extras.containsKey(KEY_BUDGET_TYPE) ?
             (Grouping) extras.getSerializable(KEY_BUDGET_TYPE) :
             Budget.BUDGET_TYPES[extras.getInt(KEY_TYPE)];
-        Budget budget = new Budget(0, accountId, currency, budgetType,
+        Budget budget = new Budget(0, accountId, currencyUnit, budgetType,
             amount, isHomeAggregate);
         persistTypeToPreference(budgetType);
         budgetViewModel.createBudget(budget);
@@ -301,15 +296,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       finish();
     }
     return false;
-  }
-
-  protected Currency getCurrency() {
-    return Currency.getInstance(isHomeAggregate() ?
-        prefHandler.getString(PrefKey.HOME_CURRENCY, "EUR") : this.currency);
-  }
-
-  protected boolean isHomeAggregate() {
-    return AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE.equals(this.currency);
   }
 
   @Override

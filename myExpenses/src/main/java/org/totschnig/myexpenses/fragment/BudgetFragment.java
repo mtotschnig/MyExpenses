@@ -74,7 +74,7 @@ public class BudgetFragment extends DistributionBaseFragment {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = budget.getCurrency().getCurrencyCode();
+      accountSelector = budget.getCurrency().code();
     } else {
       accountSelection = " = " + budget.getAccountId();
     }
@@ -171,7 +171,7 @@ public class BudgetFragment extends DistributionBaseFragment {
   protected void onLoadFinished() {
     super.onLoadFinished();
     allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
-    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency,
+    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(),
         allocated)));
   }
 
@@ -188,10 +188,10 @@ public class BudgetFragment extends DistributionBaseFragment {
 
   private void updateTotals() {
     totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, -spent)));
+    totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(), -spent)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
     long available = allocated - spent;
-    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(mAccount.currency, available)));
+    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(), available)));
     boolean onBudget = available >=0;
     totalAvailable.setBackgroundResource(onBudget ? R.drawable.round_background_income :
         R.drawable.round_background_expense);

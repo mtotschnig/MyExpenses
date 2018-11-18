@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
@@ -27,7 +28,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
-import java.io.IOException;
 import java.util.Currency;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -41,7 +41,7 @@ import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 
 public class ExpenseEditLoadDataTest {
-  private static Currency currency;
+  private static CurrencyUnit currency;
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
       new ActivityTestRule<>(ExpenseEdit.class, false, false);
@@ -56,11 +56,11 @@ public class ExpenseEditLoadDataTest {
   private static Template template;
 
   @Before
-  public  void fixture() throws IOException {
-    currency = Currency.getInstance("EUR");
+  public void fixture()  {
+    currency = CurrencyUnit.create(Currency.getInstance("EUR"));
     account1 = new Account("Test account 1", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
-    account2 = new Account("Test account 2", Currency.getInstance("EUR"), 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
+    account2 = new Account("Test account 2", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
     transaction = Transaction.getNewInstance(account1.getId());
     transaction.setAmount(new Money(currency, 500L));

@@ -6,10 +6,9 @@ import android.view.ViewGroup;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.viewmodel.data.Category;
-
-import java.util.Currency;
 
 import butterknife.BindView;
 
@@ -17,7 +16,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDraw
 
 public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
   public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
-                             Currency currency, boolean withMainColors, boolean withSubColors) {
+                             CurrencyUnit currency, boolean withMainColors, boolean withSubColors) {
     super(ctx, currencyFormatter, currency, withMainColors, withSubColors);
   }
 

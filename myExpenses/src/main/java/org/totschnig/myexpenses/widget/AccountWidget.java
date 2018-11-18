@@ -94,7 +94,7 @@ public class AccountWidget extends AbstractWidget<Account> {
   private Intent buildButtonIntent(Context context, Account account) {
     Intent intent = new Intent(context, ExpenseEdit.class);
     if (account.getId() < 0) {
-      intent.putExtra(DatabaseConstants.KEY_CURRENCY, account.currency.getCurrencyCode());
+      intent.putExtra(DatabaseConstants.KEY_CURRENCY, account.getCurrencyUnit().code());
     } else {
       intent.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.getId());
     }
@@ -132,7 +132,7 @@ public class AccountWidget extends AbstractWidget<Account> {
   @Override
   Account getObject(Cursor c) {
     Account a = Account.fromCursor(c);
-    mCurrentBalance = new Money(a.currency,
+    mCurrentBalance = new Money(a.getCurrencyUnit(),
         c.getLong(c.getColumnIndexOrThrow(KEY_CURRENT_BALANCE)));
     return a;
   }

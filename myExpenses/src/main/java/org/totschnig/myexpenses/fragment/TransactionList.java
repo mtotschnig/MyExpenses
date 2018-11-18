@@ -80,6 +80,7 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
@@ -227,6 +228,8 @@ public class TransactionList extends ContextualActionBarFragment implements
   CurrencyFormatter currencyFormatter;
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  CurrencyContext currencyContext;
 
   public static Fragment newInstance(long accountId) {
     TransactionList pageFragment = new TransactionList();
@@ -463,7 +466,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0)";
-      selectionArgs = new String[]{mAccount.currency.getCurrencyCode()};
+      selectionArgs = new String[]{mAccount.getCurrencyUnit().code()};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
       selectionArgs = new String[]{String.valueOf(mAccount.getId())};
@@ -512,7 +515,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             .appendPath(mAccount.getGrouping().name());
         if (!mAccount.isHomeAggregate()) {
           if (mAccount.isAggregate()) {
-            builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+            builder.appendQueryParameter(KEY_CURRENCY, mAccount.getCurrencyUnit().code());
           } else {
             builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
           }
@@ -665,7 +668,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     private LayoutInflater inflater;
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
-      super(mAccount, context, layout, c, flags, currencyFormatter, prefHandler);
+      super(mAccount, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
       inflater = LayoutInflater.from(getActivity());
     }
 
@@ -694,18 +697,18 @@ public class TransactionList extends ContextualActionBarFragment implements
     private void fillSums(HeaderViewHolder holder, long headerId) {
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
-        holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.currency));
+        holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
         final Long expenssum = -data[1];
-        holder.sumExpense.setText("- " + currencyFormatter.convAmount(expenssum, mAccount.currency));
+        holder.sumExpense.setText("- " + currencyFormatter.convAmount(expenssum, mAccount.getCurrencyUnit()));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
-            data[2], mAccount.currency));
+            data[2], mAccount.getCurrencyUnit()));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
-            currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency));
-        currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency);
+            currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit()));
+        currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit());
         holder.interimBalance.setText(
             mFilter.isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
-                currencyFormatter.convAmount(data[3], mAccount.currency), formattedDelta,
-                currencyFormatter.convAmount(data[5], mAccount.currency)) :
+                currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
+                currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
         if (holder.budgetProgress != null) {
           long budget = mAccount.getBudget().getAmountMinor();
@@ -1008,7 +1011,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         return true;
       case R.id.FILTER_AMOUNT_COMMAND:
         if (!removeFilter(command)) {
-          AmountFilterDialog.newInstance(mAccount.currency)
+          AmountFilterDialog.newInstance(mAccount.getCurrencyUnit())
               .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
         }
         return true;

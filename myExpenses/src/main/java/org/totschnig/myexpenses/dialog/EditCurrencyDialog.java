@@ -4,21 +4,25 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator;
 import org.totschnig.myexpenses.util.form.FormValidator;
 import org.totschnig.myexpenses.util.form.NumberRangeValidator;
 
 import java.util.Currency;
+
+import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
@@ -26,12 +30,21 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
 
   private EditText editTextSymbol, editTextFractionDigits;
 
+  @Inject
+  CurrencyContext currencyContext;
+
   public static EditCurrencyDialog newInstance(String currency) {
     Bundle arguments = new Bundle(1);
     arguments.putString(KEY_CURRENCY, currency);
     EditCurrencyDialog editCurrencyDialog = new EditCurrencyDialog();
     editCurrencyDialog.setArguments(arguments);
     return editCurrencyDialog;
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @NonNull
@@ -43,10 +56,10 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     View view = li.inflate(R.layout.edit_currency, null);
     String strCurrency = getCurrency();
     Currency currency = Currency.getInstance(strCurrency);
-    editTextSymbol = ((EditText) view.findViewById(R.id.edt_currency_symbol));
-    editTextSymbol.setText(Money.getSymbol(currency));
-    editTextFractionDigits = ((EditText) view.findViewById(R.id.edt_number_fraction_digits));
-    editTextFractionDigits.setText(String.valueOf(Money.getFractionDigits(currency)));
+    editTextSymbol = view.findViewById(R.id.edt_currency_symbol);
+    editTextSymbol.setText(currencyContext.getSymbol(currency));
+    editTextFractionDigits = view.findViewById(R.id.edt_number_fraction_digits);
+    editTextFractionDigits.setText(String.valueOf(currencyContext.getFractionDigits(currency)));
     AlertDialog alertDialog = new AlertDialog.Builder(ctx)
         .setTitle(CurrencyEnum.valueOf(strCurrency).toString())
         .setView(view)

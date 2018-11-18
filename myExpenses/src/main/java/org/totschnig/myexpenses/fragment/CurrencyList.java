@@ -9,20 +9,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.Money;
 
 import java.util.Currency;
 import java.util.Locale;
 
-public class CurrencyList extends ListFragment {
+import javax.inject.Inject;
 
+public class CurrencyList extends ListFragment {
   private CurrencyEnum[] sortedValues;
+
+  @Inject
+  CurrencyContext currencyContext;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,7 +48,8 @@ public class CurrencyList extends ListFragment {
         CurrencyEnum item = sortedValues[position];
         try {
           Currency c = Currency.getInstance(item.name());
-          text = String.format(Locale.getDefault(), "%s, %d", Money.getSymbol(c), Money.getFractionDigits(c));
+          text = String.format(Locale.getDefault(), "%s, %d",
+              currencyContext.getSymbol(c), currencyContext.getFractionDigits(c));
         } catch (IllegalArgumentException e) {
           text = "not supported by your OS";
         }

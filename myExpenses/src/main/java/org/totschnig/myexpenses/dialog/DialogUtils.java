@@ -52,12 +52,12 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.util.Arrays;
 import java.util.List;
@@ -321,8 +321,7 @@ public class DialogUtils {
     CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext());
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
-    spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
-        Utils.getHomeCurrency().getCurrencyCode())));
+    spinner.setSelection(curAdapter.getPosition(Currency.create(Utils.getHomeCurrency().code())));
     return spinner;
   }
 

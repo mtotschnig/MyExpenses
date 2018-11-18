@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
@@ -115,7 +114,7 @@ public class Account extends Model {
 
   public Money openingBalance;
 
-  public Currency currency;
+  private CurrencyUnit currencyUnit;
 
   public String description;
 
@@ -150,6 +149,10 @@ public class Account extends Model {
 
   public void setExchangeRate(double exchangeRate) {
     this.exchangeRate = exchangeRate;
+  }
+
+  public CurrencyUnit getCurrencyUnit() {
+    return currencyUnit;
   }
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
@@ -247,26 +250,26 @@ public class Account extends Model {
     return account;
   }
 
-  public Uri buildExchangeRateUri() {
+  private Uri buildExchangeRateUri() {
     return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
-        .appendEncodedPath(currency.getCurrencyCode())
-        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode())).build();
+        .appendEncodedPath(currencyUnit.code())
+        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currencyUnit.code())).build();
   }
 
   private double adjustExchangeRate(double raw) {
-    int minorUnitDelta = Money.getFractionDigits(currency) - Money.getFractionDigits(Utils.getHomeCurrency());
+    int minorUnitDelta = currencyUnit.fractiondigits() - Utils.getHomeCurrency().fractiondigits();
     return raw * Math.pow(10, minorUnitDelta);
   }
 
   private void storeExchangeRate() {
     ContentValues exchangeRateValues = new ContentValues();
-    int minorUnitDelta = Money.getFractionDigits(Utils.getHomeCurrency()) - Money.getFractionDigits(currency);
+    int minorUnitDelta = Utils.getHomeCurrency().fractiondigits() - currencyUnit.fractiondigits();
     exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
     cr().insert(buildExchangeRateUri(), exchangeRateValues);
   }
 
   private boolean hasForeignCurrency() {
-    return !PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode()).equals(currency.getCurrencyCode());
+    return !PrefKey.HOME_CURRENCY.getString(currencyUnit.code()).equals(currencyUnit.code());
   }
 
   static Account getInstanceFromDbWithFallback(long id) {
@@ -332,15 +335,23 @@ public class Account extends Model {
     this(label, Utils.getHomeCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
   }
 
-  public Account(String label, Currency currency, long openingBalance, String description,
+  public Account(String label, CurrencyUnit currencyUnit, long openingBalance, AccountType accountType) {
+    this(label, currencyUnit, openingBalance, "", accountType, DEFAULT_COLOR);
+  }
+
+  public Account(String label, CurrencyUnit currencyUnit, Money openingBalance, String description, AccountType accountType) {
+    this(label, currencyUnit, openingBalance, description, accountType, DEFAULT_COLOR);
+  }
+
+  public Account(String label, CurrencyUnit currency, long openingBalance, String description,
                  AccountType type, int color) {
     this(label, currency, new Money(currency, openingBalance), description, type, color);
   }
 
-  public Account(String label, Currency currency, Money openingBalance, String description,
+  public Account(String label, CurrencyUnit currencyUnit, Money openingBalance, String description,
                  AccountType type, int color) {
     this.setLabel(label);
-    this.currency = currency;
+    this.currencyUnit = currencyUnit;
     this.openingBalance = openingBalance;
     this.description = description;
     this.setType(type);
@@ -361,11 +372,12 @@ public class Account extends Model {
    */
 
   protected void extract(Cursor c) {
+    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     this.setLabel(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
-    this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
-    this.openingBalance = new Money(this.currency,
+    this.currencyUnit = currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
+    this.openingBalance = new Money(this.currencyUnit,
         c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
     try {
       this.setType(AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
@@ -393,20 +405,20 @@ public class Account extends Model {
     }
     long criterion = DbUtils.getLongOr0L(c, KEY_CRITERION);
     if (criterion != 0) {
-      this.criterion = new Money(this.currency, criterion);
+      this.criterion = new Money(this.currencyUnit, criterion);
     }
     final int columnIndexBudget = c.getColumnIndex(KEY_BUDGET);
     if (columnIndexBudget != -1) {
       long budget = DbUtils.getLongOr0L(c, columnIndexBudget);
       if (budget != 0) {
-        this.budget = new Money(this.currency, budget);
+        this.budget = new Money(this.currencyUnit, budget);
       }
     }
   }
 
-  public void setCurrency(String currency) throws IllegalArgumentException {
-    this.currency = Currency.getInstance(currency);
-    openingBalance.setCurrency(this.currency);
+  public void setCurrency(CurrencyUnit currencyUnit) throws IllegalArgumentException {
+    this.currencyUnit = currencyUnit;
+    openingBalance = new Money(this.currencyUnit, openingBalance.getAmountMajor());
   }
 
   /**
@@ -414,7 +426,7 @@ public class Account extends Model {
    */
   @VisibleForTesting
   public Money getTotalBalance() {
-    return new Money(currency,
+    return new Money(currencyUnit,
         openingBalance.getAmountMinor() + getTransactionSum(null)
     );
   }
@@ -427,7 +439,7 @@ public class Account extends Model {
     WhereFilter filter = WhereFilter.empty();
     filter.put(R.id.FILTER_STATUS_COMMAND,
         new CrStatusCriteria(CrStatus.RECONCILED.name(), CrStatus.CLEARED.name()));
-    return new Money(currency,
+    return new Money(currencyUnit,
         openingBalance.getAmountMinor() +
             getTransactionSum(filter));
   }
@@ -437,7 +449,7 @@ public class Account extends Model {
    */
   @VisibleForTesting
   public Money getReconciledBalance() {
-    return new Money(currency,
+    return new Money(currencyUnit,
         openingBalance.getAmountMinor() +
             getTransactionSum(reconciledFilter()));
   }
@@ -448,7 +460,7 @@ public class Account extends Model {
    * @return the sum of opening balance and all transactions for the account
    */
   public Money getFilteredBalance(WhereFilter filter) {
-    return new Money(currency,
+    return new Money(currencyUnit,
         openingBalance.getAmountMinor() +
             getTransactionSum(filter));
   }
@@ -488,13 +500,13 @@ public class Account extends Model {
     ContentProviderOperation handleDeleteOperation = null;
     if (handleDelete == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
       long currentBalance = getFilteredBalance(filter).getAmountMinor();
-      openingBalance.setAmountMinor(currentBalance);
+      openingBalance = new Money(openingBalance.getCurrencyUnit(), currentBalance);
       handleDeleteOperation = ContentProviderOperation.newUpdate(
           CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValue(KEY_OPENING_BALANCE, currentBalance)
           .build();
     } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-      Transaction helper = new Transaction(getId(), new Money(currency,getTransactionSum(filter)));
+      Transaction helper = new Transaction(getId(), new Money(currencyUnit,getTransactionSum(filter)));
       helper.setComment(helperComment);
       helper.status = STATUS_HELPER;
       handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
@@ -552,7 +564,7 @@ public class Account extends Model {
         if (aa == null) {
           return false;
         }
-        selectionArgs = new String[]{aa.currency.getCurrencyCode()};
+        selectionArgs = new String[]{aa.getCurrencyUnit().code()};
       } else {
         selection = KEY_ACCOUNTID + " = ?";
         selectionArgs = new String[]{String.valueOf(accountId)};
@@ -607,7 +619,7 @@ public class Account extends Model {
     initialValues.put(KEY_LABEL, getLabel());
     initialValues.put(KEY_OPENING_BALANCE, openingBalance.getAmountMinor());
     initialValues.put(KEY_DESCRIPTION, description);
-    initialValues.put(KEY_CURRENCY, currency.getCurrencyCode());
+    initialValues.put(KEY_CURRENCY, currencyUnit.code());
     initialValues.put(KEY_TYPE, getType().name());
     initialValues.put(KEY_GROUPING, getGrouping().name());
     initialValues.put(KEY_COLOR, color);
@@ -632,7 +644,6 @@ public class Account extends Model {
     if (hasForeignCurrency()) {
       storeExchangeRate();
     }
-    Money.ensureFractionDigitsAreCached(currency);
     updateNewAccountEnabled();
     updateTransferShortcut();
     return uri;
@@ -663,10 +674,10 @@ public class Account extends Model {
     Account other = (Account) obj;
     if (color != other.color)
       return false;
-    if (currency == null) {
-      if (other.currency != null)
+    if (currencyUnit == null) {
+      if (other.currencyUnit != null)
         return false;
-    } else if (!currency.equals(other.currency))
+    } else if (!currencyUnit.equals(other.currencyUnit))
       return false;
     if (description == null) {
       if (other.description != null)
@@ -704,7 +715,7 @@ public class Account extends Model {
   public int hashCode() {
     int result = this.getLabel() != null ? this.getLabel().hashCode() : 0;
     result = 31 * result + (this.openingBalance != null ? this.openingBalance.hashCode() : 0);
-    result = 31 * result + (this.currency != null ? this.currency.hashCode() : 0);
+    result = 31 * result + (this.currencyUnit != null ? this.currencyUnit.hashCode() : 0);
     result = 31 * result + (this.description != null ? this.description.hashCode() : 0);
     result = 31 * result + this.color;
     result = 31 * result + (this.excludeFromTotals ? 1 : 0);
@@ -922,7 +933,7 @@ public class Account extends Model {
 
   public void setCriterion(BigDecimal criterion) {
     if (criterion.compareTo(BigDecimal.ZERO) != 0) {
-      this.criterion = new Money(currency, criterion);
+      this.criterion = new Money(currencyUnit, criterion);
     }
   }
 

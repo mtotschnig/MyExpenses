@@ -34,20 +34,20 @@ import org.totschnig.myexpenses.export.qif.QifTransaction;
 import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -72,7 +72,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
    */
   boolean withPartiesP, withCategoriesP, withTransactionsP;
 
-  private Currency mCurrency;
+  private CurrencyUnit currencyUnit;
 
   public QifImportTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -82,7 +82,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.withTransactionsP = b.getBoolean(TaskExecutionFragment.KEY_WITH_TRANSACTIONS);
-    this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
+    this.currencyUnit = (CurrencyUnit) b.getSerializable(DatabaseConstants.KEY_CURRENCY);
     this.encoding = b.getString(TaskExecutionFragment.KEY_ENCODING);
   }
 
@@ -125,7 +125,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           .getString(R.string.parse_error_other_exception, e.getMessage()));
       return null;
     }
-    parser = new QifParser(r, dateFormat, mCurrency);
+    parser = new QifParser(r, dateFormat, currencyUnit);
     try {
       parser.parse();
       long t1 = System.currentTimeMillis();
@@ -280,7 +280,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
               dbAccountId);
         }
       } else {
-        Account a = account.toAccount(mCurrency);
+        Account a = account.toAccount(currencyUnit);
         if (TextUtils.isEmpty(a.getLabel())) {
           String displayName = DialogUtils.getDisplayName(fileUri);
           if (FileUtils.getExtension(displayName).equalsIgnoreCase(".qif")) {

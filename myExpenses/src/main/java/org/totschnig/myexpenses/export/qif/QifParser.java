@@ -9,14 +9,15 @@
 
 package org.totschnig.myexpenses.export.qif;
 
-import java.io.*;
+import android.text.TextUtils;
+
+import org.totschnig.myexpenses.model.CurrencyUnit;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import android.text.TextUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,9 +34,9 @@ public class QifParser {
   public final Set<QifCategory> categoriesFromTransactions = new HashSet<>();
   public final Set<String> payees = new HashSet<>();
   public final Set<String> classes = new HashSet<>();
-  private final Currency currency;
+  private final CurrencyUnit currency;
 
-  public QifParser(QifBufferedReader r, QifDateFormat dateFormat, Currency currency) {
+  public QifParser(QifBufferedReader r, QifDateFormat dateFormat, CurrencyUnit currency) {
     this.r = r;
     this.dateFormat = dateFormat;
     this.currency = currency;

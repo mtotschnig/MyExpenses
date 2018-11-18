@@ -98,7 +98,7 @@ public class AggregateAccount extends Account {
     if (isHomeAggregate()) {
       return AGGREGATE_HOME_CURRENCY_CODE;
     } else {
-      return currency.getCurrencyCode();
+      return getCurrencyUnit().code();
     }
   }
 }

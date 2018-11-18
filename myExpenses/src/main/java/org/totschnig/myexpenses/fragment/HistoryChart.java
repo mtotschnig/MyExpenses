@@ -310,7 +310,7 @@ public class HistoryChart extends Fragment
           .appendPath(grouping.name());
       if (!account.isHomeAggregate()) {
         if (account.isAggregate()) {
-          builder.appendQueryParameter(KEY_CURRENCY, account.currency.getCurrencyCode());
+          builder.appendQueryParameter(KEY_CURRENCY, account.getCurrencyUnit().code());
         } else {
           builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(account.getId()));
         }
@@ -437,7 +437,7 @@ public class HistoryChart extends Fragment
   }
 
   private String convAmount(float value) {
-    return currencyFormatter.convAmount((long) value, account.currency);
+    return currencyFormatter.convAmount((long) value, account.getCurrencyUnit());
   }
 
   @Override

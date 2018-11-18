@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -163,6 +164,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Inject
   protected LicenceHandler licenceHandler;
+
+  @Inject
+  protected CurrencyContext currencyContext;
 
   public int getColorIncome() {
     return colorIncome;

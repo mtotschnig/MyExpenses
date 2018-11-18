@@ -637,7 +637,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           List<String> accountUuids = Arrays.asList((String[]) ids);
           int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
-              .map(AccountMetaData::toAccount)
+              .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {
                 account.setSyncAccountName(syncAccountName);
                 return account.save() == null ? 0 : 1;

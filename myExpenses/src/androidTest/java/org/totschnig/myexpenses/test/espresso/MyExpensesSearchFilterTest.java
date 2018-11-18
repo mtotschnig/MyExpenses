@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -51,13 +52,13 @@ public final class MyExpensesSearchFilterTest extends BaseUiTest {
   public static void fixture() {
     catLabel1 = "Test category 1";
     catLabel2 = "Test category 2";
-    account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
+    account = new Account("Test account 1",  CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     long categoryId1 = Category.write(0L, catLabel1, null);
     long categoryId2 = Category.write(0L, catLabel2,null);
     Transaction op = Transaction.getNewInstance(account.getId());
-    op.setAmount(new Money(Currency.getInstance("USD"), -1200L));
+    op.setAmount(new Money(CurrencyUnit.create(Currency.getInstance("USD")), -1200L));
     op.setCatId(categoryId1);
     op.save();
     op.setCatId(categoryId2);

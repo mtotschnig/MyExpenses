@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.fortest.test.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
@@ -32,7 +33,6 @@ import org.totschnig.myexpenses.util.Utils;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
@@ -42,13 +42,13 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 @SuppressLint("InlinedApi")
 public class Fixture {
   private final Context testContext;
-  private final Context appContext;
+  private final MyApplication appContext;
   private final Locale locale;
   private  Account account1, account2, account3, account4;
 
   public Fixture(Instrumentation inst, Locale locale) {
     testContext = inst.getContext();
-    appContext = inst.getTargetContext().getApplicationContext();
+    appContext = (MyApplication) inst.getTargetContext().getApplicationContext();
     this.locale = locale;
   }
 
@@ -57,8 +57,8 @@ public class Fixture {
   }
 
   public void setup() {
-    Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
-    Currency defaultCurrency = Utils.getHomeCurrency();
+    CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(testContext.getString(R.string.testData_account2Currency));
+    CurrencyUnit defaultCurrency = Utils.getHomeCurrency();
 
     account1 = new Account(
         testContext.getString(R.string.testData_account1Label),
@@ -280,7 +280,7 @@ public class Fixture {
       return this;
     }
 
-    private TransactionBuilder amount(Currency currency, long amountMinor) {
+    private TransactionBuilder amount(CurrencyUnit currency, long amountMinor) {
       this.amount = new Money(currency, amountMinor);
       return this;
     }

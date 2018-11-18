@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -44,7 +46,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -55,11 +57,11 @@ import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Currency;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,7 +97,8 @@ public class AccountEdit extends AmountActivity implements
 
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
   private Account mAccount;
-  private ArrayAdapter<CurrencyEnum> currencyAdapter;
+  private CurrencyAdapter currencyAdapter;
+  private CurrencyViewModel currencyViewModel;
 
   private void requireAccount() {
     if (mAccount == null) {
@@ -143,12 +146,12 @@ public class AccountEdit extends AmountActivity implements
       String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
       if (currency != null)
         try {
-          mAccount.setCurrency(currency);
+          mAccount.setCurrency(currencyContext.get(currency));
         } catch (IllegalArgumentException e) {
           //if not supported ignore
         }
     }
-    amountInput.setFractionDigits(Money.getFractionDigits(mAccount.currency));
+    amountInput.setFractionDigits(mAccount.getCurrencyUnit().fractiondigits());
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     currencyAdapter = new CurrencyAdapter(this);
@@ -160,6 +163,16 @@ public class AccountEdit extends AmountActivity implements
     configureSyncBackendAdapter();
     linkInputsWithLabels();
     populateFields();
+
+
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    currencyViewModel.getCurrencies().observe(this, currencies -> currencyAdapter.addAll(currencies));
+    currencyViewModel.loadCurrencies();
+  }
+
+  @Override
+  protected void injectDependencies() {
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
@@ -222,11 +235,10 @@ public class AccountEdit extends AmountActivity implements
    */
   private void populateFields() {
     amountInput.setAmount(mAccount.openingBalance.getAmountMajor());
-    String currencyCode = mAccount.currency.getCurrencyCode();
-    mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(currencyCode)));
+    mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
-    setExchangeRateVisibility(currencyCode);
+    setExchangeRateVisibility(mAccount.getCurrencyUnit());
     final Money criterion = mAccount.getCriterion();
     if (criterion != null) {
       this.criterion.setAmount(criterion.getAmountMajor());
@@ -234,14 +246,13 @@ public class AccountEdit extends AmountActivity implements
     }
   }
 
-  private void setExchangeRateVisibility(String currencyCode) {
-    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyCode);
-    final boolean isHomeAccount = homeCurrencyPref.equals(currencyCode);
+  private void setExchangeRateVisibility(CurrencyUnit currencyUnit) {
+    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyUnit.code());
+    final boolean isHomeAccount = currencyUnit.code().equals(homeCurrencyPref);
     exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
-      mExchangeRateEdit.setSymbols(Money.getSymbol(Utils.getSaveInstance(currencyCode)),
-          Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
-      mExchangeRateEdit.setRate(new BigDecimal(mAccount.currency.getCurrencyCode().equals(currencyCode) ?
+      mExchangeRateEdit.setSymbols(currencyUnit.symbol(), currencyContext.get(homeCurrencyPref).symbol());
+      mExchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
           mAccount.getExchangeRate() : 1));
     }
   }
@@ -257,13 +268,8 @@ public class AccountEdit extends AmountActivity implements
     if (openingBalance == null)
       return;
     String label;
-    String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
-    try {
-      mAccount.setCurrency(currency);
-    } catch (IllegalArgumentException e) {
-      showSnackbar(getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
-      return;
-    }
+    String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
+    mAccount.setCurrency(currencyContext.get(currency));
 
     label = mLabelText.getText().toString();
     if (label.equals("")) {
@@ -272,7 +278,7 @@ public class AccountEdit extends AmountActivity implements
     }
     mAccount.setLabel(label);
     mAccount.description = mDescriptionText.getText().toString();
-    mAccount.openingBalance.setAmountMajor(openingBalance);
+    mAccount.openingBalance = new Money(mAccount.getCurrencyUnit(), openingBalance);
     mAccount.setType((AccountType) mAccountTypeSpinner.getSelectedItem());
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
@@ -300,10 +306,10 @@ public class AccountEdit extends AmountActivity implements
     switch (parent.getId()) {
       case R.id.Currency:
         try {
-          String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
-          amountInput.setFractionDigits(Money.getFractionDigits(
-              Currency.getInstance(currency)));
-          setExchangeRateVisibility(currency);
+          String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
+          CurrencyUnit currencyUnit = currencyContext.get(currency);
+          amountInput.setFractionDigits(currencyUnit.fractiondigits());
+          setExchangeRateVisibility(currencyUnit);
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
@@ -333,6 +339,7 @@ public class AccountEdit extends AmountActivity implements
       mAccount.requestSync();
       intent.putExtra(DatabaseConstants.KEY_ROWID, id);
       setResult(RESULT_OK, intent);
+      currencyContext.ensureFractionDigitsAreCached(mAccount.getCurrencyUnit());
       finish();
     }
     //no need to call super after finish
