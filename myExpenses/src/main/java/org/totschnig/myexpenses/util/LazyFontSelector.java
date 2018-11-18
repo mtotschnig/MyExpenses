@@ -24,7 +24,7 @@ public class LazyFontSelector {
     NORMAL(12, Font.NORMAL, null), TITLE(18, Font.BOLD, null), HEADER(12,
         Font.BOLD, BaseColor.BLUE), BOLD(12, Font.BOLD, null), ITALIC(12,
         Font.ITALIC, null), UNDERLINE(12, Font.UNDERLINE, null), INCOME(12,
-        Font.NORMAL, BaseColor.GREEN), EXPENSE(12, Font.NORMAL, BaseColor.RED);
+        Font.NORMAL, new BaseColor(0xff006800)), EXPENSE(12, Font.NORMAL, new BaseColor(0xff800000));
 
     SparseArray<Font> fonts = new SparseArray<>();
     float size;
