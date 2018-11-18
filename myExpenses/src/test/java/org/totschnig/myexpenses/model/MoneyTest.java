@@ -66,7 +66,7 @@ public class MoneyTest extends TestCase {
    * test no Currency
    */
   public void testXXX() {
-    c = buildCurrencyUnit("XXX");
+    c = buildXXX();
     long minor = (long) (2345 * Math.pow(10, DEFAULTFRACTIONDIGITS));
     m = new Money(c, minor);
     Assert.assertEquals(m.getAmountMinor().longValue(), minor);
@@ -97,7 +97,7 @@ public class MoneyTest extends TestCase {
   }
 
   public void testBuildWithMicrosXXX() {
-    c = buildCurrencyUnit("XXX");
+    c = buildXXX();
     assertEquals(8, c.fractiondigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(2345000000L, m.getAmountMinor().longValue());
