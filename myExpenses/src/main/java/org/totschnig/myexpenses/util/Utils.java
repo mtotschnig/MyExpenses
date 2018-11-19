@@ -269,7 +269,7 @@ public class Utils {
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
     nf.setDecimalFormatSymbols(symbols);
-    int fractionDigits = currency.fractiondigits();
+    int fractionDigits = currency.fractionDigits();
     nf.setMinimumFractionDigits(fractionDigits);
     nf.setMaximumFractionDigits(fractionDigits);
     nf.setGroupingUsed(false);

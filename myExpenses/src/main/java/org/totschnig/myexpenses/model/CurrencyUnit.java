@@ -18,5 +18,5 @@ public abstract class CurrencyUnit implements Serializable {
 
   public abstract String code();
   public abstract String symbol();
-  public abstract int fractiondigits();
+  public abstract int fractionDigits();
 }

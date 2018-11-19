@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.util.Arrays;
 import java.util.List;
@@ -318,10 +317,9 @@ public class DialogUtils {
   public static Spinner configureCurrencySpinner(
       View view, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = view.findViewById(R.id.Currency);
-    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext());
+    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext(), android.R.layout.simple_spinner_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
-    spinner.setSelection(curAdapter.getPosition(Currency.create(Utils.getHomeCurrency().code())));
     return spinner;
   }
 

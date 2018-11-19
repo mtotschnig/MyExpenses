@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,6 +30,7 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -38,6 +40,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
@@ -54,6 +57,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   static final String PREFKEY_IMPORT_CSV_ENCODING = "import_csv_encoding";
   static final String PREFKEY_IMPORT_CSV_DELIMITER = "import_csv_delimiter";
   private Uri mUri;
+  private CurrencyViewModel currencyViewModel;
 
   @Override
   public String getPrefKey() {
@@ -85,7 +89,6 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   private String currency = null;
   private AccountType type = null;
 
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (savedInstanceState != null) {
@@ -107,6 +110,12 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    currencyViewModel.getCurrencies().observe(this, currencies -> {
+      final CurrencyAdapter adapter = (CurrencyAdapter) mCurrencySpinner.getAdapter();
+      adapter.addAll(currencies);
+      mCurrencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
+    });
+    currencyViewModel.loadCurrencies();
     mTypeSpinner = DialogUtils.configureTypeSpinner(view);
     mTypeSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
@@ -118,6 +127,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
   }
 
   @Override

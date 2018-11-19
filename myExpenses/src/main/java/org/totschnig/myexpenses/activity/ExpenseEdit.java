@@ -439,7 +439,7 @@ public class ExpenseEdit extends AmountActivity implements
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
     mCurrencySpinner = findViewById(R.id.OriginalCurrency);
-    currencyAdapter = new CurrencyAdapter(this) {
+    currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item) {
       @NonNull
       @Override
       public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -658,7 +658,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setup() {
-    amountInput.setFractionDigits(mTransaction.getAmount().getCurrencyUnit().fractiondigits());
+    amountInput.setFractionDigits(mTransaction.getAmount().getCurrencyUnit().fractionDigits());
     linkInputsWithLabels();
     if (mOperationType == TYPE_SPLIT) {
       amountInput.addTextChangedListener(new MyTextWatcher() {
@@ -883,7 +883,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mIsMainTransaction) {
       final CurrencyUnit homeCurrency = Utils.getHomeCurrency();
       addCurrencyToLabel(equivalentAmountLabel, homeCurrency.symbol(), R.string.menu_equivalent_amount);
-      equivalentAmountText.setFractionDigits(homeCurrency.fractiondigits());
+      equivalentAmountText.setFractionDigits(homeCurrency.fractionDigits());
     }
   }
 
@@ -1771,7 +1771,7 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case R.id.OriginalCurrency:
         String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
-        originalAmountText.setFractionDigits(currencyContext.get(currency).fractiondigits());
+        originalAmountText.setFractionDigits(currencyContext.get(currency).fractionDigits());
         break;
     }
   }
@@ -1824,7 +1824,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
     configureStatusSpinner();
-    amountInput.setFractionDigits(account.getCurrencyUnit().fractiondigits());
+    amountInput.setFractionDigits(account.getCurrencyUnit().fractionDigits());
   }
 
   private void configureDateInput(Account account) {
@@ -1857,7 +1857,7 @@ public class ExpenseEdit extends AmountActivity implements
     final String symbol2 = transferAccountCurrencyUnit.symbol();
     //noinspection SetTextI18n
     addCurrencyToLabel(transferAmountLabel, symbol2, R.string.amount);
-    mTransferAmountText.setFractionDigits(transferAccountCurrencyUnit.fractiondigits());
+    mTransferAmountText.setFractionDigits(transferAccountCurrencyUnit.fractionDigits());
     final String symbol1 = currency.symbol();
     mExchangeRateEdit.setSymbols(symbol1, symbol2);
 

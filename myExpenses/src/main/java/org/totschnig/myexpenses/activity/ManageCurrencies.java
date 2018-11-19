@@ -36,11 +36,6 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
   }
 
-  @Override
-  protected void injectDependencies() {
-    MyApplication.getInstance().getAppComponent().inject(this);
-  }
-
   public void onFinishCurrencyEdit(String currency, String symbol, int numberFractionDigits) {
     this.currency = currency;
     handleSymbolUpdate(symbol);

@@ -100,6 +100,6 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
   @Override
   public void ensureFractionDigitsAreCached(CurrencyUnit currency) {
-    storeCustomFractionDigits(currency.code(), currency.fractiondigits());
+    storeCustomFractionDigits(currency.code(), currency.fractionDigits());
   }
 }

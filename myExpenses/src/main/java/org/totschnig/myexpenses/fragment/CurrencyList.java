@@ -1,26 +1,28 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.model.CurrencyContext;
-import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
-import java.util.Currency;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
 public class CurrencyList extends ListFragment {
-  private CurrencyEnum[] sortedValues;
+  private CurrencyViewModel currencyViewModel;
+  private CurrencyAdapter currencyAdapter;
 
   @Inject
   CurrencyContext currencyContext;
@@ -29,48 +31,29 @@ public class CurrencyList extends ListFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
-  }
-  @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    sortedValues = CurrencyEnum.sortedValues();
     setAdapter();
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    currencyViewModel.getCurrencies().observe(this, currencies -> currencyAdapter.addAll(currencies));
+    currencyViewModel.loadCurrencies();
   }
 
   private void setAdapter() {
-    ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<CurrencyEnum>(
-        getActivity(), android.R.layout.simple_list_item_1, sortedValues) {
+    currencyAdapter = new CurrencyAdapter(getActivity(), android.R.layout.simple_list_item_1) {
       @NonNull
       @Override
       public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        String text;
         TextView v = (TextView) super.getView(position, convertView, parent);
-        CurrencyEnum item = sortedValues[position];
-        try {
-          Currency c = Currency.getInstance(item.name());
-          text = String.format(Locale.getDefault(), "%s, %d",
-              currencyContext.getSymbol(c), currencyContext.getFractionDigits(c));
-        } catch (IllegalArgumentException e) {
-          text = "not supported by your OS";
-        }
-        //noinspection SetTextI18n
-        v.setText(String.format(Locale.getDefault(), "%s (%s)", v.getText(), text));
+        Currency item = currencyAdapter.getItem(position);
+        v.setText(String.format(Locale.getDefault(), "%s (%s)", v.getText(), currencyContext.get(item.code()).fractionDigits()));
         return v;
       }
     };
-
-    setListAdapter(curAdapter);
+    setListAdapter(currencyAdapter);
   }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
-    super.onListItemClick(l, v, position, id);
-    CurrencyEnum item = sortedValues[position];
-    try {
-      Currency.getInstance(item.name());
-      EditCurrencyDialog.newInstance(item.name()).show(getFragmentManager(), "SET_FRACTION_DIGITS");
-    } catch (IllegalArgumentException e) {
-      // "not supported by your OS";
-    }
+    Currency item = currencyAdapter.getItem(position);
+    EditCurrencyDialog.newInstance(item.code()).show(getFragmentManager(), "SET_FRACTION_DIGITS");
   }
 }

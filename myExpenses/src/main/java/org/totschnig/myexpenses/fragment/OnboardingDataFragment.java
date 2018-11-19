@@ -160,7 +160,11 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     //currency
     currencySpinner = DialogUtils.configureCurrencySpinner(view, this);
 
-    currencyViewModel.getCurrencies().observe(this, currencies -> ((CurrencyAdapter) currencySpinner.getAdapter()).addAll(currencies));
+    currencyViewModel.getCurrencies().observe(this, currencies -> {
+      final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();
+      adapter.addAll(currencies);
+      currencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
+    });
     currencyViewModel.loadCurrencies();
 
     //type
@@ -212,7 +216,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (parent.getId()) {
       case R.id.Currency:
-        amountInput.setFractionDigits(validateSelectedCurrency().fractiondigits());
+        amountInput.setFractionDigits(validateSelectedCurrency().fractionDigits());
         break;
     }
   }

@@ -67,7 +67,7 @@ public class CurrencyFormatter {
     NumberFormat numberFormat = numberFormats.get(currencyUnit.code());
     if (numberFormat == null) {
       numberFormat = initNumberFormat();
-      int fractionDigits = currencyUnit.fractiondigits();
+      int fractionDigits = currencyUnit.fractionDigits();
       try {
         numberFormat.setCurrency(Currency.getInstance(currencyUnit.code()));
       } catch (Exception ignored) { /*Custom locale}*/ }

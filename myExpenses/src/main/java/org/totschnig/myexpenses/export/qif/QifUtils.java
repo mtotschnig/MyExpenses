@@ -143,7 +143,7 @@ public class QifUtils {
    * @return
    */
   public static BigDecimal parseMoney(@NonNull String money, CurrencyUnit currency) {
-    return parseMoney(money, 18 - currency.fractiondigits());
+    return parseMoney(money, 18 - currency.fractionDigits());
   }
 
   /**

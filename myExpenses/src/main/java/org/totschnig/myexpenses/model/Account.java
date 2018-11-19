@@ -257,13 +257,13 @@ public class Account extends Model {
   }
 
   private double adjustExchangeRate(double raw) {
-    int minorUnitDelta = currencyUnit.fractiondigits() - Utils.getHomeCurrency().fractiondigits();
+    int minorUnitDelta = currencyUnit.fractionDigits() - Utils.getHomeCurrency().fractionDigits();
     return raw * Math.pow(10, minorUnitDelta);
   }
 
   private void storeExchangeRate() {
     ContentValues exchangeRateValues = new ContentValues();
-    int minorUnitDelta = Utils.getHomeCurrency().fractiondigits() - currencyUnit.fractiondigits();
+    int minorUnitDelta = Utils.getHomeCurrency().fractionDigits() - currencyUnit.fractionDigits();
     exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
     cr().insert(buildExchangeRateUri(), exchangeRateValues);
   }

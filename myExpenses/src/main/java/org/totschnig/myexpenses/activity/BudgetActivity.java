@@ -132,7 +132,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min, boolean isMainCategory, boolean isSubCategory) {
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currencyUnit))
-        .fractionDigits(currencyUnit.fractiondigits()).required();
+        .fractionDigits(currencyUnit.fractionDigits()).required();
     if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
       amountEdit.amount(amount);
     }

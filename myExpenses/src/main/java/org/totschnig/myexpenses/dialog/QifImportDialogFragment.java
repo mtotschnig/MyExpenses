@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses.dialog;
 
 import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -21,11 +23,13 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -43,9 +47,16 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   private MergeCursor mAccountsCursor;
   private long accountId = 0;
   private String currency = null;
+  private CurrencyViewModel currencyViewModel;
 
   public static QifImportDialogFragment newInstance() {
     return new QifImportDialogFragment();
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
   }
 
   @Override
@@ -166,6 +177,12 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
     mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    currencyViewModel.getCurrencies().observe(this, currencies -> {
+      final CurrencyAdapter adapter = (CurrencyAdapter) mCurrencySpinner.getAdapter();
+      adapter.addAll(currencies);
+      mCurrencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
+    });
+    currencyViewModel.loadCurrencies();
     view.findViewById(R.id.AccountType).setVisibility(View.GONE);//QIF data should specify type
   }
 

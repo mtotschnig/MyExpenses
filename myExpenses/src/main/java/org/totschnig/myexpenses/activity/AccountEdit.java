@@ -151,10 +151,10 @@ public class AccountEdit extends AmountActivity implements
           //if not supported ignore
         }
     }
-    amountInput.setFractionDigits(mAccount.getCurrencyUnit().fractiondigits());
+    amountInput.setFractionDigits(mAccount.getCurrencyUnit().fractionDigits());
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
-    currencyAdapter = new CurrencyAdapter(this);
+    currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item);
     mCurrencySpinner.setAdapter(currencyAdapter);
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
@@ -164,9 +164,12 @@ public class AccountEdit extends AmountActivity implements
     linkInputsWithLabels();
     populateFields();
 
-
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
-    currencyViewModel.getCurrencies().observe(this, currencies -> currencyAdapter.addAll(currencies));
+    currencyViewModel.getCurrencies().observe(this, currencies -> {
+      currencyAdapter.addAll(currencies);
+      mCurrencySpinner.setSelection(currencyAdapter.getPosition(currencyViewModel.getDefault()));
+
+    });
     currencyViewModel.loadCurrencies();
   }
 
@@ -308,7 +311,7 @@ public class AccountEdit extends AmountActivity implements
         try {
           String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
           CurrencyUnit currencyUnit = currencyContext.get(currency);
-          amountInput.setFractionDigits(currencyUnit.fractiondigits());
+          amountInput.setFractionDigits(currencyUnit.fractionDigits());
           setExchangeRateVisibility(currencyUnit);
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe

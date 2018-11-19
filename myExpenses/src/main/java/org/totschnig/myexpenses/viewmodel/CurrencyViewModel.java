@@ -59,5 +59,7 @@ public class CurrencyViewModel extends AndroidViewModel {
           this.currencies.postValue(currencies);
         });
   }
-
+  public Currency getDefault() {
+    return Currency.create(Utils.getHomeCurrency().code());
+  }
 }
