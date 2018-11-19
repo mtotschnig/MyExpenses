@@ -214,7 +214,7 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(getThemeId());
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -270,7 +270,7 @@ public class MyExpenses extends LaunchActivity implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler, currencyContext);
+    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, getPrefHandler(), currencyContext);
 
     navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
     View navigationMenuView = navigationView.getChildAt(0);
@@ -352,7 +352,7 @@ public class MyExpenses extends LaunchActivity implements
   private void voteReminderCheck() {
     final String prefKey = "vote_reminder_shown_" + RoadmapViewModel.EXPECTED_MINIMAL_VERSION;
     if (Utils.getDaysSinceUpdate(this) > 1 &&
-        !prefHandler.getBoolean(prefKey, false)) {
+        !getPrefHandler().getBoolean(prefKey, false)) {
       roadmapViewModel.getLastVote().observe(this, vote -> {
         boolean hasNotVoted = vote == null;
         if (hasNotVoted || vote.getVersion() < RoadmapViewModel.EXPECTED_MINIMAL_VERSION) {

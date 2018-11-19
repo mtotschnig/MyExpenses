@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.viewmodel.data.Budget;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
@@ -193,10 +194,10 @@ public class BudgetFragment extends DistributionBaseFragment {
     long available = allocated - spent;
     totalAvailable.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(), available)));
     boolean onBudget = available >=0;
-    totalAvailable.setBackgroundResource(onBudget ? R.drawable.round_background_income :
-        R.drawable.round_background_expense);
-    totalAvailable.setTextColor(onBudget ? ((ProtectedFragmentActivity) getActivity()).getColorIncome() :
-        ((ProtectedFragmentActivity) getActivity()).getColorExpense());
+    final ProtectedFragmentActivity context = (ProtectedFragmentActivity) getActivity();
+    totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget, context.getThemeType()));
+    totalAvailable.setTextColor(onBudget ? context.getColorIncome() :
+        context.getColorExpense());
     int progress = available <= 0 || allocated == 0 ? 100 : Math.round(spent * 100F / allocated);
     budgetProgress.setProgress(progress);
     budgetProgress.setText(String.valueOf(progress));

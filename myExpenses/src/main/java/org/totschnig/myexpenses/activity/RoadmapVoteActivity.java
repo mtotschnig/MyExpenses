@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -74,7 +73,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private boolean isLoading;
 
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.roadmap);
     ButterKnife.bind(this);
@@ -133,7 +132,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
 
   private int getVersionFromPref() {
-    return prefHandler.getInt(PrefKey.ROADMAP_VERSION, 0 );
+    return getPrefHandler().getInt(PrefKey.ROADMAP_VERSION, 0 );
   }
 
   private void validateAndUpdateUi() {

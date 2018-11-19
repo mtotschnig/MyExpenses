@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.CursorLoader;
@@ -79,7 +78,7 @@ public class SyncBackendList extends Fragment implements
   }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    FragmentActivity context = getActivity();
+    ProtectedFragmentActivity context = (ProtectedFragmentActivity) getActivity();
     View v = inflater.inflate(R.layout.sync_backends_list, container, false);
     listView = v.findViewById(R.id.list);
     View emptyView = v.findViewById(R.id.empty);
@@ -89,7 +88,7 @@ public class SyncBackendList extends Fragment implements
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
     snackbar = Snackbar.make(listView, R.string.sync_loading_accounts_from_backend, LENGTH_INDEFINITE);
-    UiUtils.configureSnackbarForDarkTheme(snackbar);
+    UiUtils.configureSnackbarForDarkTheme(snackbar, context.getThemeType());
     mManager.initLoader(ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
     registerForContextMenu(listView);
     return v;

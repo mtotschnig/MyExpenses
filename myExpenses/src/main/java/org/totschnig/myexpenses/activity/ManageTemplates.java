@@ -26,7 +26,6 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -69,7 +68,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setHelpVariant(HelpVariant.templates);
     setContentView(R.layout.manage_templates);

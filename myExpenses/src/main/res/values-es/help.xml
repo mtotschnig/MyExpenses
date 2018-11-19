@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Comandos de menú</string>
   <string name="help_contextual_actions">Acciones contextuales</string>
+  <string name="help_contextual_actions_help">El menú contextual de acciones se muestra al realizar una pulsación prolongada en una entrada de la lista.</string>
   <string name="help_form_fields">Campos de formulario</string>
   <string name="cab_delete_help_text">Eliminar los elementos seleccionados.</string>
   <string name="cab_edit_help_text">Editar el elemento seleccionado.</string>
@@ -13,6 +14,7 @@
   <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año. Se calcula y se muestra para cada grupo, la suma de los ingresos, gastos y transferencias. Cuando hace clic en un encabezado de grupo, el grupo de las transacciones se contrae y se muestra sólo la cabecera. Vuelva a hacer clic para ampliar.</string>
   <string name="menu_sort_direction_help_text">Las transacciones se pueden ordenar en dirección ascendente (la más antigua arriba) o descendente (la más reciente arriba).</string>
   <string name="menu_distribution_help_text">Muestra la distribución de los gastos por categoría. También puede hacer un clic largo en un encabezado de grupo para inspeccionar la distribución de un grupo específico.</string>
+  <string name="menu_budget_help_text">Maneje los presupuestos diarios, semanales, mensuales o anuales desde la cuenta que se muestra actualmente.</string>
   <string name="menu_history_help_text">Mostrar un diagrama de flujo: ¿Cómo evoluciona tus gastos e ingresos en días, semanas, meses o años?</string>
   <string name="menu_manage_plans_help_text">Abre la lista de plantillas y planes, donde se puede aplicar, editar o borrar, y también definir planes para futuras o recurrentes transacciones.</string>
   <string name="menu_balance_help_text">Este comando abre un cuadro de diálogo, mostrando el último saldo conciliado y el saldo despejado. Puede comparar el último saldo con su cuenta bancaria y marcar las transacciones despejadas como reconciliadas. Opcionalmente puede decidir eliminar transacciones reconciliadas.</string>
@@ -57,6 +59,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoría seleccionada se utilizará para filtrar la lista de transacciones.</string>
   <string name="menu_ManageCategories_search_help_text">Sólo se mostrarán las categorías principales y las subcategorías que coinciden con su consulta.</string>
   <string name="menu_ManageCategories_sort_help_text">La lista de categorías puede ordenarse por título (alfabéticamente), por la frecuencia de uso o por la última vez en que se le asignó una transacción.</string>
+  <string name="cab_ManageCategories_color_help_text">Puede asignar colores a las categorías principales. Este color podrá usarse para representar la categoría en los gráficos. Las subcategorías usarán tonos del color de la categoría principal.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulario para transacciones</string>
   <string name="help_ExpenseEdit_transfer_title">Formulario para transferencias</string>
@@ -70,7 +73,7 @@
   <string name="help_ExpenseEdit_templateCategory_info">Use este formulario para introducir una nueva plantilla o para editar una existente. Use el menú desplegable en la barra de acción para cambiar entre plantillas de transacciones, transferencias y divisiones.</string>
   <string name="help_ExpenseEdit_split_info">Una transacción dividida es una única transacción dividida en partes, donde cada parte puede ser asignada a una categoría diferente o transferida a otra cuenta diferente.</string>
   <string name="form_account_help_text">Seleccione la cuenta a la que pertenece la transacción.</string>
-  <string name="form_date_time_help_text">Introducir la fecha y hora de cuando la transacción fue realizada.</string>
+  <string name="form_date_time_help_text">Introducir la fecha y hora de cuándo se realizó la transacción.</string>
   <string name="form_date_time_help_text_configuration">En configuración, puede deshabilitar la entrada de tiempo y añadir una diferenciación entre la fecha de reserva y la fecha de valor.</string>
   <string name="form_payer_or_payee_help_text">Este campo recordará los valores que introduzca y los sugerirá en el futuro.</string>
   <string name="form_amount_switch_help_text">Utilice el interruptor para alternar entre ingresos y gastos.</string>
@@ -82,7 +85,7 @@
   <string name="form_category_help_text">Este botón abre la lista de categorías, donde puede seleccionar la categoría que desea asignar a la transacción.</string>
   <string name="form_split_parts_heading_help_text">Use el botón de acción flotante para ingresar tantas partes divididas como sean necesarias. La diferencia entre la suma de las partes y la transacción se muestra en la parte inferior de la pantalla. Sólo podrá guardar la transacción dividida, si el total de la transacción ha sido asignada de forma exacta.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Seleccione una categoría para esta parte dividida.</string>
-  <string name="form_transfer_from_account_transfer_to_account_help_text">Asignar las cuentas, desde o hacia dónde este objeto se transfiere.</string>
+  <string name="form_transfer_from_account_transfer_to_account_help_text">Asignar las cuentas desde o hacia las que se transfiere este objeto.</string>
   <string name="form_exchange_rate_help_text">Puede especificar la tasa de cambio en cualquiera de los dos sentidos de la transferencia. La tasa de cambio inversa y el importe correspondiente a la parte dependiente del tipo de cambio se calculan automáticamente.</string>
   <string name="form_title_help_text">Escriba un título que identifique la plantilla.</string>
   <string name="form_plan_help_text">Cuando cree un proyecto para una plantilla, se agregará a un calendario privado manejado por su aplicación Calendario. Puede definir el proyecto como un evento único o recurrente: diario, semanal, mensual o anual.</string>
@@ -94,6 +97,7 @@
   <string name="menu_equivalent_amount_help_text">Para calcular el total a través de todas las cuentas, las transacciones de cuentas de monedas extranjeras se multiplican por el tipo de cambio que esté establecido para la cuenta. No obstante, se puede sobrescribir la cantidad implícita calculada, configurando una cantidad equivalente para la transacción de forma individual.</string>
   <string name="menu_invert_transfer_help_text">Invertir la dirección de la transferencia mediante el cambio de \'De\' y \'A\' de las cuentas.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si las monedas de las cuentas de \'Desde\' y \'A\' son diferentes, especifique la cantidad de solo uno de ellos. El otro se calculará al crear instancias desde la plantilla.</string>
+  <string name="form_goal_or_limit_help_text">Este campo le permite especificar tanto un objetivo de ahorro positivo o un límite de crédito negativo. En cualquier caso, desde la lista de cuenta, un indicador progresivo visualizará la distancia entre el balance actual y el objetivo o límite.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulario para cuentas</string>
   <string name="form_AccountEdit_label_help_text">La etiqueta identifica la cuenta en la lista de cuentas.</string>
@@ -145,4 +149,7 @@
   <string name="menu_HistoryActivity_grouping_help_text">Cambie entre diario, semanal, mensual o anual al agrupar la información del flujo de efectivo.</string>
   <string name="menu_HistoryActivity_history_show_balance_help_text">Cambie la visibilidad del balance.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Cambie si las transferencias deberían de ser tratadas como un ingreso o gasto regular.</string>
+  <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">La pantalla de presupuestos le permite definir un presupuesto diario, semanal, mensual o anual. Antes deberá de establecer el dinero total que quiere gastar en cada periodo. Posteriormente podrá distribuir cantidades entre las categorías y subcategorías, y monitorizar cuánto lleva gastado, así como cuánto queda por gastar. Presionar sobre las cantidades de presupuesto, le permitirá cambiar dichas cantidades.</string>
+  <string name="menu_switch_budget_help_text">Cambiar a un tipo de presupuesto diferente.</string>
 </resources>

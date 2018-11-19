@@ -27,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 
@@ -61,7 +60,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     TypedValue typedValue = new TypedValue();
     TypedArray a = obtainStyledAttributes(typedValue.data,

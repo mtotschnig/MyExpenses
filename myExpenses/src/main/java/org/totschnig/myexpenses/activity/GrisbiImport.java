@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -30,7 +29,7 @@ public class GrisbiImport extends ProtectedFragmentActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdTranslucent());
+    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       GrisbiSourcesDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");

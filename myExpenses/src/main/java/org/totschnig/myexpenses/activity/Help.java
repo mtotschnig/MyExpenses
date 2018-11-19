@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.activity;
 import android.content.ComponentName;
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -28,7 +27,7 @@ public class Help extends ProtectedFragmentActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdTranslucent());
+    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String context = getIntent().getStringExtra(KEY_CONTEXT);
     if (context == null) {

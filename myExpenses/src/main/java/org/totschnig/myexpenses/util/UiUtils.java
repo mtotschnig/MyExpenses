@@ -18,8 +18,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -31,8 +31,8 @@ public class UiUtils {
 
   private UiUtils() {}
 
-  public static void configureSnackbarForDarkTheme(Snackbar snackbar) {
-    if (MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)) {
+  public static void configureSnackbarForDarkTheme(Snackbar snackbar, ProtectedFragmentActivity.ThemeType themeType) {
+    if (themeType.equals(ProtectedFragmentActivity.ThemeType.dark)) {
       //Workaround for https://issuetracker.google.com/issues/37120757
       View snackbarView = snackbar.getView();
       snackbarView.setBackgroundColor(Color.WHITE);

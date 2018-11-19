@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -30,7 +29,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
       currency = savedInstanceState.getString(KEY_CURRENCY);
       numberFractionDigits = savedInstanceState.getInt(KEY_NUMBER_FRACTION_DIGITS);
     }
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.currency_list);
     setupToolbar(true);

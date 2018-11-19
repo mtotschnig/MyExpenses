@@ -26,7 +26,6 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
@@ -82,7 +81,7 @@ public class ManageCategories extends CategoryActivity implements
   public void onCreate(Bundle savedInstanceState) {
     String action = getAction();
     int title = 0;
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     switch (action) {
       case Intent.ACTION_MAIN:

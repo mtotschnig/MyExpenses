@@ -30,11 +30,9 @@ import android.os.Process;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
-import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -271,65 +269,8 @@ public class MyApplication extends MultiDexApplication implements
         testId + ".xml").delete();
   }
 
-  @StyleRes
-  public static int getThemeId() {
-    return getThemeId("");
-  }
-
-  @StyleRes
-  public static int getThemeIdEditDialog() {
-    return getThemeId("EditDialog");
-  }
-
-  public static int getThemeIdTranslucent() {
-    return getThemeId("Translucent");
-  }
-
-  public static int getThemeIdOnboarding() {
-    return getThemeId("Onboarding");
-  }
-
   public LicenceHandler getLicenceHandler() {
     return licenceHandler;
-  }
-
-  public enum ThemeType {
-    dark, light
-  }
-
-  public static ThemeType getThemeType() {
-    try {
-      return ThemeType.valueOf(PrefKey.UI_THEME_KEY.getString(ThemeType.dark.name()));
-    } catch (IllegalArgumentException e) {
-      return ThemeType.dark;
-    }
-  }
-
-  @StyleRes
-  private static int getThemeId(String subStyle) {
-    int fontScale;
-    try {
-      fontScale = PrefKey.UI_FONTSIZE.getInt(0);
-    } catch (Exception e) {
-      // in a previous version, the same key was holding an integer
-      fontScale = 0;
-      PrefKey.UI_FONTSIZE.remove();
-    }
-    String style = getThemeType() == ThemeType.light ? "ThemeLight" : "ThemeDark";
-    if (!TextUtils.isEmpty(subStyle)) {
-      style += "." + subStyle;
-    }
-    String resolve = style;
-    if (fontScale > 0 && fontScale < 4) {
-      resolve = style + ".s" + fontScale;
-    }
-    int resId = mSelf.getResources().getIdentifier(resolve, "style", mSelf.getPackageName());
-    if (resId == 0) {
-      //try style without font scaling as fallback
-      resId = mSelf.getResources().getIdentifier(style, "style", mSelf.getPackageName());
-      if (resId == 0) throw new RuntimeException(style + " is not defined");
-    }
-    return resId;
   }
 
   @Override

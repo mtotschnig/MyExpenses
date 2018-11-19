@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 
 import org.apache.commons.csv.CSVRecord;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -36,7 +35,7 @@ public class CsvImportActivity extends TabbedActivity implements
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
 
     final ActionBar actionBar = getSupportActionBar();

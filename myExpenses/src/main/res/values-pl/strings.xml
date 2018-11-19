@@ -691,6 +691,12 @@
   <string name="dropbox_folder_not_found">Folder nie został odnaleziony</string>
   <string name="sync_auth_exception_login_again">Autoryzacja się nie powiodła. Zaloguj się proszę ponowie.</string>
   <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Z powodzeniem usunięto jeden obiekt.</item>
+    <item quantity="few">Z powodzeniem usunięto %d obiektów.</item>
+    <item quantity="many">Z powodzeniem usunięto %d obiektów.</item>
+    <item quantity="other">Z powodzeniem usunięto %d obiektów.</item>
+  </plurals>
   <string name="feature_deprecated">Wycofano</string>
   <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
   <string name="warning_device_lock_screen_not_set_up_1">Ekran bezpiecznej blokady dla urządzenia nie został ustawiony.</string>
@@ -720,10 +726,11 @@
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <string name="booking_date">Data księgowania</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="licence_expires_n_days">Twój klucz profesjonalny wygaśnie za %d dni.</string>
+  <string name="licence_expires_n_days">Twój klucz profesjonalny wygaśnie za %d dni</string>
   <string name="licence_expires_tomorrow">Twój klucz profesjonalny wygasa jutro</string>
   <string name="licence_expires_today">Twój klucz profesjonalny wygasa dzisiaj</string>
   <string name="licence_expired_yesterday">Twój klucz profesjonalny wygasł wczoraj</string>
+  <string name="licence_has_expired_n_days">Twój klucz profesjonalny wygasł %d dni temu</string>
   <string name="pref_category_title_privacy">Prywatność</string>
   <string name="pref_ad_consent_title">Spersonalizowane reklamy</string>
   <string name="ad_consent_non_personalized">Reklamy bez personalizacji</string>

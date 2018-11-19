@@ -6,7 +6,6 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.DistributionFragment;
 import org.totschnig.myexpenses.model.Grouping;
@@ -20,7 +19,7 @@ public class Distribution extends CategoryActivity<DistributionFragment> {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     DisplayMetrics dm = getResources().getDisplayMetrics();
 

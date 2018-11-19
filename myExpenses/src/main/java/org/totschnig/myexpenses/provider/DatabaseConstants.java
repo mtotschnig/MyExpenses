@@ -457,12 +457,8 @@ public class DatabaseConstants {
   }
 
   public static String getAmountHomeEquivalent() {
-    return getAmountHomeEquivalent(VIEW_EXTENDED);
-  }
-
-  public static String getAmountHomeEquivalent(String forTable) {
-    return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable) + " * " + KEY_AMOUNT + ")";
+    return "coalesce(" + calcEquivalentAmountForSplitParts(VIEW_EXTENDED) + "," +
+        getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
@@ -474,9 +470,9 @@ public class DatabaseConstants {
         + KEY_EQUIVALENT_AMOUNT + " END";
   }
 
-  public static String getExchangeRate(String forTable) {
+  public static String getExchangeRate(String forTable, String accountIdColumn) {
     forTable = forTable == null ? "" : forTable + ".";
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + forTable + KEY_ROWID +
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + forTable + accountIdColumn +
         " AND " + KEY_CURRENCY_SELF + "=" + forTable + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
   }
 

@@ -12,7 +12,6 @@ import android.view.View;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
@@ -62,7 +61,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     budgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
     accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
@@ -232,7 +231,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   }
 
   private void persistTypeToPreference(Grouping newType) {
-    prefHandler.putString(getPrefKey(), newType.name());
+    getPrefHandler().putString(getPrefKey(), newType.name());
   }
 
   private void switchBudget(Grouping newGrouping) {
@@ -246,7 +245,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   }
 
   private @NonNull Grouping getCurrentTypeFromPreference() {
-    final String typeFromPreference = prefHandler.getString(getPrefKey(), null);
+    final String typeFromPreference = getPrefHandler().getString(getPrefKey(), null);
     if (typeFromPreference != null) {
       try {
         return Grouping.valueOf(typeFromPreference);
@@ -329,5 +328,12 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         return R.string.yearly_plain;
     }
     throw new IllegalStateException();
+  }
+
+  public static int getBackgroundForAvailable(boolean onBudget, ProtectedFragmentActivity.ThemeType themeType) {
+    boolean darkTheme = themeType == ProtectedFragmentActivity.ThemeType.dark;
+    return onBudget ?
+        (darkTheme ? R.drawable.round_background_income_dark : R.drawable.round_background_income_light) :
+        (darkTheme ? R.drawable.round_background_expense_dark : R.drawable.round_background_expense_light);
   }
 }

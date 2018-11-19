@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.PartiesList;
@@ -37,7 +36,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_parties);
     setupToolbar(true);

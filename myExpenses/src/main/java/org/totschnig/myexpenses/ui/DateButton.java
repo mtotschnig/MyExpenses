@@ -14,7 +14,7 @@ import android.widget.CalendarView;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
-import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -33,12 +33,13 @@ public class DateButton extends ButtonWithDialog {
   public Dialog onCreateDialog() {
     requireDate();
     boolean brokenSamsungDevice = isBrokenSamsungDevice();
+    final Context base = getContext();
     @SuppressLint("InlinedApi")
     Context context = brokenSamsungDevice ?
-        new ContextThemeWrapper(getContext(),
-            MyApplication.getThemeType() == MyApplication.ThemeType.dark ?
+        new ContextThemeWrapper(base,
+            base instanceof ProtectedFragmentActivity && ((ProtectedFragmentActivity) base).getThemeType() == ProtectedFragmentActivity.ThemeType.dark ?
                 android.R.style.Theme_Holo_Dialog : android.R.style.Theme_Holo_Light_Dialog) :
-        getContext();
+        base;
     int yearOld = date.getYear();
     int monthOld = date.getMonthValue() - 1;
     int dayOld = date.getDayOfMonth();

@@ -51,8 +51,8 @@ android {
             minSdkVersion project.minSdkVersion
         }
         targetSdkVersion project.targetSdkVersion
-        versionCode 347
-        versionName '2.9.6.1'
+        versionCode 348
+        versionName '2.9.6.2'
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""

@@ -93,7 +93,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.settings);
     setupToolbar(true);
@@ -113,7 +113,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         getIntent().getStringExtra(KEY_OPEN_PREF_KEY) : null;
 
     //when a user no longer has access to auto backup we do not want him to believe that it works
-    if (!ContribFeature.AUTO_BACKUP.hasAccess() && ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) < 1) {
+    if (!ContribFeature.AUTO_BACKUP.hasAccess() && ContribFeature.AUTO_BACKUP.usagesLeft(getPrefHandler()) < 1) {
       AUTO_BACKUP.putBoolean(false);
     }
   }

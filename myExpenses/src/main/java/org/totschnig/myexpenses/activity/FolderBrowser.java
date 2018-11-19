@@ -10,7 +10,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
@@ -23,7 +22,7 @@ public class FolderBrowser extends ProtectedFragmentActivity implements
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeIdEditDialog());
+    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.folder_browser);
     setupToolbar(true);

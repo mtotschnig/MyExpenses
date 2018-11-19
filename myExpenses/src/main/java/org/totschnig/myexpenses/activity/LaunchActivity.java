@@ -104,7 +104,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             if (licenceValidity != 0) {
               final long daysToGo = TimeUnit.MILLISECONDS.toDays(licenceValidity - now);
               if (daysToGo <= 7 && (now -
-                  prefHandler.getLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, 0)
+                  getPrefHandler().getLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, 0)
                   > DAY_IN_MILLIS)) {
                 String message;
                 if (daysToGo > 1) {
@@ -127,7 +127,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                       @Override
                       public void onDismissed(Snackbar transientBottomBar, int event) {
                         if ((event == DISMISS_EVENT_SWIPE) || (event == DISMISS_EVENT_ACTION)) {
-                          prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
+                          getPrefHandler().putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
                         }
                       }
                     });
@@ -171,18 +171,18 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
-    int prev_version = prefHandler.getInt(CURRENT_VERSION, -1);
+    int prev_version = getPrefHandler().getInt(CURRENT_VERSION, -1);
     int current_version = DistribHelper.getVersionNumber();
     if (prev_version < current_version) {
       if (prev_version == -1) {
         return;
       }
       boolean showImportantUpgradeInfo = false;
-      prefHandler.putInt(CURRENT_VERSION, current_version);
+      getPrefHandler().putInt(CURRENT_VERSION, current_version);
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       Editor edit = settings.edit();
       if (prev_version < 19) {
-        edit.putString(prefHandler.getKey(SHARE_TARGET), settings.getString("ftp_target", ""));
+        edit.putString(getPrefHandler().getKey(SHARE_TARGET), settings.getString("ftp_target", ""));
         edit.remove("ftp_target");
         edit.apply();
       }
@@ -192,8 +192,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null));
       }
       if (prev_version < 30) {
-        if (!"".equals(prefHandler.getString(SHARE_TARGET, ""))) {
-          edit.putBoolean(prefHandler.getKey(SHARE_TARGET), true);
+        if (!"".equals(getPrefHandler().getString(SHARE_TARGET, ""))) {
+          edit.putBoolean(getPrefHandler().getKey(SHARE_TARGET), true);
           edit.apply();
         }
       }
@@ -232,24 +232,24 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         edit.apply();
       }
       if (prev_version < 202) {
-        String appDir = prefHandler.getString(APP_DIR, null);
+        String appDir = getPrefHandler().getString(APP_DIR, null);
         if (appDir != null) {
-          prefHandler.putString(APP_DIR, Uri.fromFile(new File(appDir)).toString());
+          getPrefHandler().putString(APP_DIR, Uri.fromFile(new File(appDir)).toString());
         }
       }
       if (prev_version < 221) {
-        prefHandler.putString(SORT_ORDER_LEGACY,
-            prefHandler.getBoolean(CATEGORIES_SORT_BY_USAGES_LEGACY, true) ?
+        getPrefHandler().putString(SORT_ORDER_LEGACY,
+            getPrefHandler().getBoolean(CATEGORIES_SORT_BY_USAGES_LEGACY, true) ?
                 "USAGES" : "ALPHABETIC");
       }
       if (prev_version < 303) {
-        if (prefHandler.getBoolean(AUTO_FILL_LEGACY, false)) {
+        if (getPrefHandler().getBoolean(AUTO_FILL_LEGACY, false)) {
           PreferenceUtils.enableAutoFill();
         }
-        prefHandler.remove(AUTO_FILL_LEGACY);
+        getPrefHandler().remove(AUTO_FILL_LEGACY);
       }
       if (prev_version < 316) {
-        prefHandler.putString(HOME_CURRENCY, Utils.getHomeCurrency().code());
+        getPrefHandler().putString(HOME_CURRENCY, Utils.getHomeCurrency().code());
       }
 
 
@@ -257,7 +257,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           .show(getSupportFragmentManager(), TAG_VERSION_INFO);
     } else {
       if (MyApplication.getInstance().getLicenceHandler().needsMigration() &&
-          !prefHandler.getBoolean(LICENCE_MIGRATION_INFO_SHOWN, false)) {
+          !getPrefHandler().getBoolean(LICENCE_MIGRATION_INFO_SHOWN, false)) {
         Bundle bundle = new Bundle();
         bundle.putCharSequence(
             ConfirmationDialogFragment.KEY_MESSAGE,
@@ -270,9 +270,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
             "RESTORE");
       }
-      if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft(prefHandler) < 1 &&
-          !prefHandler.getBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, false)) {
-        prefHandler.putBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, true);
+      if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft(getPrefHandler()) < 1 &&
+          !getPrefHandler().getBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, false)) {
+        getPrefHandler().putBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, true);
         ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION);
       }
     }
@@ -280,7 +280,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   }
 
   private void checkCalendarPermission() {
-    if (!prefHandler.getString(PLANNER_CALENDAR_ID, "-1").equals("-1")) {
+    if (!getPrefHandler().getString(PLANNER_CALENDAR_ID, "-1").equals("-1")) {
       if (!CALENDAR.hasPermission(this)) {
         requestPermission(CALENDAR);
       }
