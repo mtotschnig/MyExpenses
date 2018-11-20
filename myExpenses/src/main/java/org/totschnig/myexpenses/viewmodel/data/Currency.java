@@ -7,10 +7,13 @@ import com.google.auto.value.AutoValue;
 
 import org.totschnig.myexpenses.model.CurrencyEnum;
 
+import java.io.Serializable;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 
 @AutoValue
-public abstract class Currency {
+public abstract class Currency implements Serializable {
   public abstract String code();
   //should not count for equals
   private String displayName;
@@ -27,8 +30,8 @@ public abstract class Currency {
   public static Currency create(Cursor cursor) {
     final String code = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CODE));
     Currency currency = new AutoValue_Currency(code);
-    String displayName = null;// cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL));
-    if (displayName == null) {
+    currency.displayName = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL));
+    if (currency.displayName == null) {
       currency.displayName = findDisplayName(code);
     }
     return currency;

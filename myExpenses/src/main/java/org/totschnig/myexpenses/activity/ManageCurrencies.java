@@ -11,8 +11,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
-
-import java.util.Currency;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
@@ -20,13 +19,13 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener {
 
   private static final String KEY_NUMBER_FRACTION_DIGITS = "number_fraction_digtis";
-  String currency;
+  Currency currency;
   int numberFractionDigits;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
-      currency = savedInstanceState.getString(KEY_CURRENCY);
+      currency = (Currency) savedInstanceState.getSerializable(KEY_CURRENCY);
       numberFractionDigits = savedInstanceState.getInt(KEY_NUMBER_FRACTION_DIGITS);
     }
     setTheme(getThemeIdEditDialog());
@@ -36,7 +35,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
   }
 
-  public void onFinishCurrencyEdit(String currency, String symbol, int numberFractionDigits) {
+  public void onFinishCurrencyEdit(Currency currency, String symbol, int numberFractionDigits) {
     this.currency = currency;
     handleSymbolUpdate(symbol);
     this.numberFractionDigits = numberFractionDigits;
@@ -48,16 +47,16 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void handleSymbolUpdate(String symbol) {
-    if (currencyContext.storeCustomSymbol(currency, symbol)) {
-      CurrencyFormatter.instance().invalidate(currency);
+    if (currencyContext.storeCustomSymbol(currency.code(), symbol)) {
+      CurrencyFormatter.instance().invalidate(currency.code());
       refreshList();
     }
   }
 
   private void handleFractionDigitsUpdate() {
-    int oldValue = currencyContext.getFractionDigits(Currency.getInstance(this.currency));
+    int oldValue = currencyContext.get(this.currency.code()).fractionDigits();
     if (oldValue != this.numberFractionDigits) {
-      if (Account.count(KEY_CURRENCY + "=?", new String[]{this.currency}) > 0) {
+      if (Account.count(KEY_CURRENCY + "=?", new String[]{this.currency.code()}) > 0) {
         String message = getString(R.string.warning_change_fraction_digits_1);
         int delta = oldValue - this.numberFractionDigits;
         message += " " + getString(
@@ -82,14 +81,14 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void updateFractionDigitsImmediate() {
-    currencyContext.storeCustomFractionDigits(currency, numberFractionDigits);
-    CurrencyFormatter.instance().invalidate(currency);
+    currencyContext.storeCustomFractionDigits(currency.code(), numberFractionDigits);
+    CurrencyFormatter.instance().invalidate(currency.code());
     refreshList();
   }
 
   protected void updateFractionDigitsAsyncWithDatabaseUpdate() {
     startTaskExecution(TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS,
-        new String[]{currency}, numberFractionDigits, R.string.progress_dialog_saving);
+        new String[]{currency.code()}, numberFractionDigits, R.string.progress_dialog_saving);
   }
 
   @Override
@@ -102,7 +101,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putString(KEY_CURRENCY, currency);
+    outState.putSerializable(KEY_CURRENCY, currency);
     outState.putInt(KEY_NUMBER_FRACTION_DIGITS, numberFractionDigits);
   }
 

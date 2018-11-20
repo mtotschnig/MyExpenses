@@ -28,5 +28,6 @@
             android:layout_marginLeft="@dimen/margin_list"
             android:layout_marginRight="@dimen/margin_list"
             android:layout_weight="1"/>
+        <include layout="@layout/floating_action_button"/>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

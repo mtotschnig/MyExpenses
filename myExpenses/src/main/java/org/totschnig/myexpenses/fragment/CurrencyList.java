@@ -54,6 +54,6 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     Currency item = currencyAdapter.getItem(position);
-    EditCurrencyDialog.newInstance(item.code()).show(getFragmentManager(), "SET_FRACTION_DIGITS");
+    EditCurrencyDialog.newInstance(item).show(getFragmentManager(), "SET_FRACTION_DIGITS");
   }
 }

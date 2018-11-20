@@ -18,17 +18,13 @@ package org.totschnig.myexpenses.util.form;
 
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
+import android.view.View;
 import android.view.ViewParent;
 import android.widget.TextView;
 
 public abstract class AbstractFormFieldValidator {
   protected Context context;
   protected TextView[] fields;
-
-  public AbstractFormFieldValidator(TextView field) {
-    this.context = field.getContext();
-    this.fields = new TextView[]{field};
-  }
 
   public AbstractFormFieldValidator(TextView... fields) {
     this.context = fields[0].getContext();
@@ -73,12 +69,23 @@ public abstract class AbstractFormFieldValidator {
 
   protected abstract boolean isValid();
 
-  private static void setError(TextView field, String error) {
-    ViewParent parent = field.getParent();
-    if (parent instanceof TextInputLayout) {
-      ((TextInputLayout) parent).setError(error);
+  private void setError(TextView field, String error) {
+    TextInputLayout container = findTextInputLayoutRecursively(field) ;
+    if (container != null) {
+      container.setError(error);
     } else {
       field.setError(error);
     }
+  }
+
+  private static TextInputLayout findTextInputLayoutRecursively(View view) {
+    if (view instanceof TextInputLayout) {
+      return (TextInputLayout) view;
+    }
+    ViewParent parent = view.getParent();
+    if (!(parent instanceof View)) {
+      return null;
+    }
+    return findTextInputLayoutRecursively((View) parent);
   }
 }

@@ -143,7 +143,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 80;
+  public static final int DATABASE_VERSION = 81;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -368,7 +368,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TABLE " + TABLE_CURRENCIES
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
           KEY_CODE + " text UNIQUE not null," +
-          KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "');";
+          KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "'," +
+          KEY_LABEL + " text);";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -1800,6 +1801,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+      }
+      if (oldVersion < 81) {
+        db.execSQL("ALTER TABLE currency add column label text");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
