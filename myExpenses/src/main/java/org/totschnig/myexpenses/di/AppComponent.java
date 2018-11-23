@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import javax.inject.Named;
@@ -109,4 +110,6 @@ public interface AppComponent {
   void inject(TransactionProvider transactionProvider);
 
   void inject(OnboardingDataFragment onboardingDataFragment);
+
+  void inject(EditCurrencyViewModel editCurrencyViewModel);
 }
