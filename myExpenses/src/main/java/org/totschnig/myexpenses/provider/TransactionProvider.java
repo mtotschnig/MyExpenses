@@ -59,7 +59,6 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -1285,7 +1284,7 @@ public class TransactionProvider extends ContentProvider {
             List<String> segments = uri.getPathSegments();
             segment = segments.get(2);
             String[] bindArgs = new String[]{segment};
-            int oldValue = currencyContext.getFractionDigits(Currency.getInstance(segment));
+            int oldValue = currencyContext.get(segment).fractionDigits();
             int newValue = Integer.parseInt(segments.get(3));
             if (oldValue == newValue) {
               return 0;
@@ -1461,6 +1460,10 @@ public class TransactionProvider extends ContentProvider {
         values.put(KEY_BUDGETID, uri.getPathSegments().get(1));
         values.put(KEY_CATID, uri.getPathSegments().get(2));
         count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        break;
+      }
+      case CURRENCIES: {
+        count = db.update(TABLE_CURRENCIES, values, where, whereArgs);
         break;
       }
       default:

@@ -297,12 +297,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
             values, null, null);
         return null;
-      case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
-        return cr.update(TransactionProvider.CURRENCIES_URI.buildUpon()
-            .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
-            .appendPath((String) ids[0])
-            .appendPath(String.valueOf((Integer) mExtra))
-            .build(), null, null, null);
       case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
         values = new ContentValues();
         values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean) mExtra);

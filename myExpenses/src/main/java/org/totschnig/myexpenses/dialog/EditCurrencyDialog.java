@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,6 +42,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 public class EditCurrencyDialog extends CommitSafeDialogFragment {
 
+  public static final String KEY_RESULT = "result";
   @BindView(R.id.edt_currency_symbol)
   EditText editTextSymbol;
 
@@ -82,6 +85,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
     editCurrencyViewModel = ViewModelProviders.of(this).get(EditCurrencyViewModel.class);
+    editCurrencyViewModel.getUpdateComplete().observe(this, result -> dismiss(result));
   }
 
   @NonNull
@@ -154,12 +158,12 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     return alertDialog;
   }
 
-  private String currentSymbol() {
-    return currencyContext.get(getCurrency().code()).symbol();
-  }
-
   private String readSymbolfromUI() {
     return editTextSymbol.getText().toString();
+  }
+
+  private String readLabelfromUI() {
+    return editTextLabel.getText().toString();
   }
 
   private int currentFractionDigits() {
@@ -192,17 +196,27 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     validator.add(new FormFieldNotEmptyValidator(editTextSymbol));
     validator.add(new NumberRangeValidator(editTextFractionDigits, 0, 8));
     if (validator.validate()) {
+      final boolean withUpdate = checkBox.isChecked();
       final Currency currency = getCurrency();
-      final String symbol = readSymbolfromUI();
-      if (!symbol.equals(currentSymbol())) {
-        editCurrencyViewModel.saveSymbol(currency, symbol);
+      final boolean frameworkCurrency = isFrameworkCurrency(currency.code());
+      String label = frameworkCurrency ? null : readLabelfromUI();
+      editCurrencyViewModel.save(currency.code(), readSymbolfromUI(), readFractionDigitsFromUI(), label, withUpdate);
+      if (!withUpdate && frameworkCurrency) {
+        dismiss();
+      } else {
+        ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
       }
-      int numberFractionDigits = readFractionDigitsFromUI();
-      if (numberFractionDigits != currentFractionDigits()) {
-        boolean withUpdate = checkBox.isChecked();
-        editCurrencyViewModel.saveFractionDigits(currency, numberFractionDigits, withUpdate);
-      }
-      dismiss();
     }
+  }
+
+  public void dismiss(Integer result) {
+    Intent data = null;
+    if (result != null) {
+      data = new Intent();
+      data.putExtra(KEY_RESULT, result.intValue());
+      data.putExtra(KEY_CURRENCY, getCurrency().code());
+    }
+    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, data);
+    super.dismiss();
   }
 }

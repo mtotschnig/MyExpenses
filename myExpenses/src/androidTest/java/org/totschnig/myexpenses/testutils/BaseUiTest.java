@@ -82,7 +82,11 @@ public abstract class BaseUiTest {
   private ViewGroup getList() {
     Fragment currentFragment = getTestRule().getActivity().getCurrentFragment();
     if (currentFragment == null) return null;
-    return (ViewGroup) currentFragment.getView().findViewById(R.id.list);
+    return (ViewGroup) currentFragment.getView().findViewById(getListId());
+  }
+
+  protected int getListId() {
+    return R.id.list;
   }
 
   private Adapter getAdapter() {

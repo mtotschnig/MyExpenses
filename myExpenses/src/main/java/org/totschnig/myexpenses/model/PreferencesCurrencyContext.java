@@ -44,23 +44,19 @@ public class PreferencesCurrencyContext implements CurrencyContext {
     }
   }
 
-  @Override
   public String getCustomSymbol(String currencyCode) {
     return prefHandler.getString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, null);
   }
 
-  @Override
   public int getCustomFractionDigits(String currencyCode) {
     return prefHandler.getInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, -1);
   }
 
-  @Override
   public String getSymbol(@NonNull Currency currency) {
     String custom = getCustomSymbol(currency.getCurrencyCode());
     return custom != null ? custom : currency.getSymbol();
   }
 
-  @Override
   public int getFractionDigits(Currency currency) {
     int customFractionDigits = getCustomFractionDigits(currency.getCurrencyCode());
     if (customFractionDigits != -1) {
@@ -80,22 +76,18 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   }
 
   @Override
-  public boolean storeCustomSymbol(String currencyCode, String symbol) {
+  public void storeCustomSymbol(String currencyCode, String symbol) {
     Currency currency = null;
     try {
       currency = Currency.getInstance(currencyCode);
     } catch (Exception ignored) {}
-    if (currency == null || !getSymbol(currency).equals(symbol)) {
-      String key = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL;
-      if (currency != null && currency.getSymbol().equals(symbol)) {
-        prefHandler.remove(key);
-      } else {
-        prefHandler.putString(key, symbol);
-      }
-      INSTANCES.remove(currencyCode);
-      return true;
+    String key = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL;
+    if (currency != null && currency.getSymbol().equals(symbol)) {
+      prefHandler.remove(key);
+    } else {
+      prefHandler.putString(key, symbol);
     }
-    return false;
+    INSTANCES.remove(currencyCode);
   }
 
   @Override

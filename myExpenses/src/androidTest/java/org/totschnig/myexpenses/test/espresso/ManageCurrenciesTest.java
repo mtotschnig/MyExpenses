@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -16,6 +17,8 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
 
@@ -32,47 +35,48 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
-import static org.totschnig.myexpenses.model.CurrencyEnum.EUR;
 
-public class ManageCurrenciesTest {
+public class ManageCurrenciesTest extends BaseUiTest {
 
+  private static final String CURRENCY_CODE = "EUR";
   @Rule
   public ActivityTestRule<ManageCurrencies> mActivityRule =
       new ActivityTestRule<>(ManageCurrencies.class);
 
 
   @Test
-  public void changeOfFractionDigitsWithUpdateShouldKeepTransactionSum() throws RemoteException, OperationApplicationException, InterruptedException {
+  public void changeOfFractionDigitsWithUpdateShouldKeepTransactionSum() throws RemoteException, OperationApplicationException {
     testHelper(true);
   }
 
   @Test
-  public void changeOfFractionDigitsWithoutUpdateShouldChangeTransactionSum() throws RemoteException, OperationApplicationException, InterruptedException {
+  public void changeOfFractionDigitsWithoutUpdateShouldChangeTransactionSum() throws RemoteException, OperationApplicationException {
     testHelper(false);
   }
 
-  private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException, InterruptedException {
+  private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException {
     final AppComponent appComponent = ((MyApplication) mActivityRule.getActivity().getApplicationContext()).getAppComponent();
     CurrencyContext currencyContext = appComponent.currencyContext();
-    final CurrencyUnit currency = currencyContext.get("EUR");
-    Account account = new Account("TEST ACCOUNT", currency, 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR);
+    final CurrencyUnit currencyUnit = currencyContext.get(CURRENCY_CODE);
+    Account account = new Account("TEST ACCOUNT", currencyUnit, 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
+    waitForAdapter();
     try {
       Transaction op = Transaction.getNewInstance(account.getId());
-      op.setAmount(new Money(currency, -1200L));
+      op.setAmount(new Money(currencyUnit, -1200L));
       op.save();
       Money before = account.getTotalBalance();
       assertEquals(0, before.getAmountMajor().compareTo(new BigDecimal(38)));
-      onData(is(EUR))
+      final Currency currency = Currency.create(CURRENCY_CODE);
+      onData(is(currency))
           .inAdapterView(withId(android.R.id.list)).perform(click());
-      onView(withId(R.id.edt_number_fraction_digits))
+      onView(withId(R.id.edt_currency_fraction_digits))
           .perform(replaceText("3"), closeSoftKeyboard());
+      if (withUpdate) {
+        onView(withId(R.id.checkBox)).perform(click());
+      }
       onView(withText(android.R.string.ok)).perform(click());
-      if (withUpdate)
-        onView(withId(R.id.checkbox)).perform(click());
-      onView(withText(android.R.string.ok)).perform(click());
-      onView(withText(allOf(containsString(EUR.toString()), containsString("3")))).check(matches(isDisplayed()));
-      Thread.sleep(500);
+      onView(withText(allOf(containsString(currency.toString()), containsString("3")))).check(matches(isDisplayed()));
       Money after = Account.getInstanceFromDb(account.getId()).getTotalBalance();
       if (withUpdate) {
         assertEquals(0, before.getAmountMajor().compareTo(after.getAmountMajor()));
@@ -83,7 +87,17 @@ public class ManageCurrenciesTest {
       }
     } finally {
       Account.delete(account.getId());
-      currencyContext.storeCustomFractionDigits("EUR", 2);
+      currencyContext.storeCustomFractionDigits(CURRENCY_CODE, 2);
     }
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
+  }
+
+  @Override
+  protected int getListId() {
+    return android.R.id.list;
   }
 }

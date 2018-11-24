@@ -147,7 +147,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1) // position 0 is header
         .perform(longClick());
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
-    onView(withId(R.id.checkbox)).perform(click());
+    onView(withId(R.id.checkBox)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
         .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));

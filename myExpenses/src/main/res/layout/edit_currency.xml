@@ -26,7 +26,6 @@
             android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
 
-
     <!-- code (only custom) -->
     <android.support.design.widget.TextInputLayout
         android:id="@+id/container_currency_code"
@@ -42,7 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/currency_code"
-            android:inputType="text"
+            android:focusable="false"
+            android:enabled="false"
+            android:inputType="none"
             android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
 
