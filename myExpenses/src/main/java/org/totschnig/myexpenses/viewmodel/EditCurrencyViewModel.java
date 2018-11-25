@@ -7,6 +7,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -20,28 +21,46 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 
 public class EditCurrencyViewModel extends AndroidViewModel {
-  interface Listener {
+
+  interface UpdateListener {
     void onUpdateComplete(int token, int result);
+  }
+
+  interface InsertListener {
+    void onInsertComplete(int token, boolean success);
   }
 
   private static final int TOKEN_UPDATE_FRACTION_DIGITS = 1;
   private static final int TOKEN_UPDATE_LABEL = 2;
+  private static final int TOKEN_INSERT_CURRENCY = 3;
   @Inject
   protected CurrencyContext currencyContext;
-  private final UpdateHandler asyncUpdateHandler;
+  private final DatabaseHandler asyncDatabaseHandler;
   private int updateOperationsCount = 0;
   private Integer updatedAccountsCount = null;
 
   private MutableLiveData<Integer> updateComplete = new MutableLiveData<>();
 
+  private MutableLiveData<Boolean> insertComplete = new MutableLiveData<>();
+
   public LiveData<Integer> getUpdateComplete() {
     return updateComplete;
+  }
+
+  public MutableLiveData<Boolean> getInsertComplete() {
+    return insertComplete;
   }
 
   public EditCurrencyViewModel(@NonNull Application application) {
     super(application);
     final ContentResolver contentResolver = application.getContentResolver();
-    asyncUpdateHandler = new UpdateHandler(contentResolver, (token, result) -> {
+    asyncDatabaseHandler = new DatabaseHandler(contentResolver);
+
+    ((MyApplication) application).getAppComponent().inject(this);
+  }
+
+  public void save(String currency, String symbol, int fractionDigits, String label, boolean withUpdate) {
+    UpdateListener updateListener = (token, result) -> {
       updateOperationsCount--;
       if (token == TOKEN_UPDATE_FRACTION_DIGITS) {
         updatedAccountsCount = result;
@@ -49,17 +68,12 @@ public class EditCurrencyViewModel extends AndroidViewModel {
       if (updateOperationsCount == 0) {
         updateComplete.postValue(updatedAccountsCount);
       }
-    });
-
-    ((MyApplication) application).getAppComponent().inject(this);
-  }
-
-  public void save(String currency, String symbol, int fractionDigits, String label, boolean withUpdate) {
+    };
     CurrencyFormatter.instance().invalidate(currency);
     currencyContext.storeCustomSymbol(currency, symbol);
     if (withUpdate) {
       updateOperationsCount++;
-      asyncUpdateHandler.startUpdate(TOKEN_UPDATE_FRACTION_DIGITS, null,
+      asyncDatabaseHandler.startUpdate(TOKEN_UPDATE_FRACTION_DIGITS, updateListener,
           TransactionProvider.CURRENCIES_URI.buildUpon()
               .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
               .appendPath(currency)
@@ -72,7 +86,7 @@ public class EditCurrencyViewModel extends AndroidViewModel {
       updateOperationsCount++;
       ContentValues contentValues = new ContentValues(1);
       contentValues.put(KEY_LABEL, label);
-      asyncUpdateHandler.startUpdate(TOKEN_UPDATE_LABEL, null,
+      asyncDatabaseHandler.startUpdate(TOKEN_UPDATE_LABEL, updateListener,
           TransactionProvider.CURRENCIES_URI, contentValues, KEY_CODE + " = ?", new String[]{currency});
     }
     if (updateOperationsCount == 0) {
@@ -80,18 +94,35 @@ public class EditCurrencyViewModel extends AndroidViewModel {
     }
   }
 
-  static class UpdateHandler extends AsyncQueryHandler {
 
-    private final Listener listener;
+  public void newCurrency(String code, String symbol, int fractionDigits, String label) {
+    ContentValues contentValues = new ContentValues(2);
+    contentValues.put(KEY_LABEL, label);
+    contentValues.put(KEY_CODE, code);
+    asyncDatabaseHandler.startInsert(TOKEN_INSERT_CURRENCY, (InsertListener) (token, success) -> {
+      if (success) {
+        currencyContext.storeCustomSymbol(code, symbol);
+        currencyContext.storeCustomFractionDigits(code, fractionDigits);
+      }
+      insertComplete.postValue(success);
+    }, TransactionProvider.CURRENCIES_URI, contentValues);
+  }
 
-    UpdateHandler(ContentResolver cr, Listener listener) {
+
+  static class DatabaseHandler extends AsyncQueryHandler {
+
+    public DatabaseHandler(ContentResolver cr) {
       super(cr);
-      this.listener = listener;
     }
 
     @Override
     protected void onUpdateComplete(int token, Object cookie, int result) {
-     listener.onUpdateComplete(token, result);
+      ((UpdateListener) cookie).onUpdateComplete(token, result);
+    }
+
+    @Override
+    protected void onInsertComplete(int token, Object cookie, Uri uri) {
+      ((InsertListener) cookie).onInsertComplete(token, uri != null);
     }
   }
 }

@@ -949,7 +949,16 @@ public class TransactionProvider extends ContentProvider {
       }
       case BUDGETS: {
         id = db.insertOrThrow(TABLE_BUDGETS, null, values);
-        newUri = TRANSACTIONS_URI + "/" + id;
+        newUri = BUDGETS_URI + "/" + id;
+        break;
+      }
+      case CURRENCIES: {
+        try {
+          id = db.insertOrThrow(TABLE_CURRENCIES, null, values);
+        } catch (SQLiteConstraintException e) {
+          return null;
+        }
+        newUri = CURRENCIES_URI + "/" + id;
         break;
       }
       default:

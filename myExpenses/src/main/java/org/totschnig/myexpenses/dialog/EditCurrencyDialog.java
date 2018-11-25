@@ -9,8 +9,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +87,15 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
     editCurrencyViewModel = ViewModelProviders.of(this).get(EditCurrencyViewModel.class);
-    editCurrencyViewModel.getUpdateComplete().observe(this, result -> dismiss(result));
+    editCurrencyViewModel.getUpdateComplete().observe(this, this::dismiss);
+    editCurrencyViewModel.getInsertComplete().observe(this, success -> {
+      if (success != null && success) {
+        dismiss();
+      } else {
+        showSnackbar(R.string.currency_code_already_definded);
+        setButtonState(true);
+      }
+    });
   }
 
   @NonNull
@@ -94,64 +104,73 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     Activity ctx = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
-    View view = li.inflate(R.layout.edit_currency, null);
-    ButterKnife.bind(this, view);
+    dialogView = li.inflate(R.layout.edit_currency, null);
+    ButterKnife.bind(this, dialogView);
     Currency currency = getCurrency();
-    CurrencyUnit currencyUnit = currencyContext.get(currency.code());
-    editTextSymbol.setText(currencyUnit.symbol());
-    editTextFractionDigits.setText(String.valueOf(currencyUnit.fractionDigits()));
-    editTextFractionDigits.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    boolean frameworkCurrency;
+    String title = null;
+    if (currency != null) {
+      CurrencyUnit currencyUnit = currencyContext.get(currency.code());
+      editTextSymbol.setText(currencyUnit.symbol());
+      editTextCode.setText(currency.code());
 
+      final String displayName = currency.toString();
+      frameworkCurrency = isFrameworkCurrency(currency.code());
+      if (frameworkCurrency) {
+        editTextSymbol.requestFocus();
+        title = String.format(Locale.ROOT, "%s (%s)", displayName, currency.code());
+        containerLabel.setVisibility(View.GONE);
+        containerCode.setVisibility(View.GONE);
+      } else {
+        editTextLabel.setText(displayName);
       }
+      editTextFractionDigits.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {
-        final int newValue = readFractionDigitsFromUI();
-        final int oldValue = currentFractionDigits();
-        final boolean valueUpdate = newValue != -1 && newValue != oldValue;
-        checkBox.setVisibility(valueUpdate ? View.VISIBLE : View.GONE);
-        warning.setVisibility(valueUpdate ? View.VISIBLE : View.GONE);
-        if (valueUpdate) {
-          String message = getString(R.string.warning_change_fraction_digits_1);
-          int delta = oldValue - newValue;
-          message += " " + getString(
-              delta > 0 ? R.string.warning_change_fraction_digits_2_multiplied :
-                  R.string.warning_change_fraction_digits_2_divided,
-              Utils.pow(10, Math.abs(delta)));
-          if (delta > 0) {
-            message += " " + getString(R.string.warning_change_fraction_digits_3);
-          }
-          warning.setText(message);
         }
-      }
-    });
-    editTextCode.setText(currency.code());
-    final String displayName = currency.toString();
-    final boolean frameworkCurrency = isFrameworkCurrency(currency.code());
-    if (frameworkCurrency) {
-      editTextSymbol.requestFocus();
-    } else {
-      containerLabel.setVisibility(View.VISIBLE);
-      containerCode.setVisibility(View.VISIBLE);
-      editTextLabel.setText(displayName);
-    }
-    final AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-        .setView(view)
-        .setNegativeButton(android.R.string.cancel, null)
-        .setPositiveButton(android.R.string.ok, null);
-    if (frameworkCurrency) {
-      builder.setTitle(String.format(Locale.ROOT, "%s (%s)", displayName, currency.code()));
-    }
-    AlertDialog alertDialog = builder.create();
-    alertDialog.setOnShowListener(dialog -> {
 
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+          final int newValue = readFractionDigitsFromUI();
+          final int oldValue = currentFractionDigits();
+          final boolean valueUpdate = newValue != -1 && newValue != oldValue;
+          checkBox.setVisibility(valueUpdate ? View.VISIBLE : View.GONE);
+          warning.setVisibility(valueUpdate ? View.VISIBLE : View.GONE);
+          if (valueUpdate) {
+            String message = getString(R.string.warning_change_fraction_digits_1);
+            int delta = oldValue - newValue;
+            message += " " + getString(
+                delta > 0 ? R.string.warning_change_fraction_digits_2_multiplied :
+                    R.string.warning_change_fraction_digits_2_divided,
+                Utils.pow(10, Math.abs(delta)));
+            if (delta > 0) {
+              message += " " + getString(R.string.warning_change_fraction_digits_3);
+            }
+            warning.setText(message);
+          }
+        }
+      });
+    } else {
+      title = getString(R.string.dialog_title_new_currency);
+      editTextCode.setFocusable(true);
+      editTextCode.setFocusableInTouchMode(true);
+      editTextCode.setEnabled(true);
+      editTextCode.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(3)});
+    }
+    editTextFractionDigits.setText(String.valueOf(currentFractionDigits()));
+    final AlertDialog alertDialog = new AlertDialog.Builder(ctx)
+        .setView(dialogView)
+        .setNegativeButton(android.R.string.cancel, null)
+        .setPositiveButton(android.R.string.ok, null)
+        .setTitle(title)
+        .create();
+    alertDialog.setOnShowListener(dialog -> {
       Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
       button.setOnClickListener(this::onOkClick);
     });
@@ -166,8 +185,16 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     return editTextLabel.getText().toString();
   }
 
+  private String readCodefromUI() {
+    return editTextCode.getText().toString();
+  }
+
   private int currentFractionDigits() {
-    return currencyContext.get(getCurrency().code()).fractionDigits();
+    final Currency currency = getCurrency();
+    if (currency != null) {
+      return currencyContext.get(currency.code()).fractionDigits();
+    }
+    return 2;
   }
 
   private int readFractionDigitsFromUI() {
@@ -187,36 +214,55 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     }
   }
 
+  @Nullable
   private Currency getCurrency() {
     return (Currency) getArguments().getSerializable(KEY_CURRENCY);
   }
 
   private void onOkClick(View view) {
+    final Currency currency = getCurrency();
     FormValidator validator = new FormValidator();
     validator.add(new FormFieldNotEmptyValidator(editTextSymbol));
     validator.add(new NumberRangeValidator(editTextFractionDigits, 0, 8));
+    if (currency == null) {
+      validator.add(new FormFieldNotEmptyValidator(editTextCode));
+      validator.add(new FormFieldNotEmptyValidator(editTextLabel));
+    }
     if (validator.validate()) {
       final boolean withUpdate = checkBox.isChecked();
-      final Currency currency = getCurrency();
-      final boolean frameworkCurrency = isFrameworkCurrency(currency.code());
-      String label = frameworkCurrency ? null : readLabelfromUI();
-      editCurrencyViewModel.save(currency.code(), readSymbolfromUI(), readFractionDigitsFromUI(), label, withUpdate);
-      if (!withUpdate && frameworkCurrency) {
-        dismiss();
+      String label = readLabelfromUI();
+      final String symbol = readSymbolfromUI();
+      final int fractionDigits = readFractionDigitsFromUI();
+      if (currency == null) {
+        editCurrencyViewModel.newCurrency(readCodefromUI(), symbol, fractionDigits, label);
+        setButtonState(false);
       } else {
-        ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+        final boolean frameworkCurrency = isFrameworkCurrency(currency.code());
+        editCurrencyViewModel.save(currency.code(), symbol, fractionDigits, frameworkCurrency ? null : label, withUpdate);
+        if (!withUpdate && frameworkCurrency) {
+          dismiss();
+        } else {
+          setButtonState(false);
+        }
       }
     }
   }
 
+  private void setButtonState(boolean enabled) {
+    ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(enabled);
+  }
+
   public void dismiss(Integer result) {
     Intent data = null;
-    if (result != null) {
-      data = new Intent();
-      data.putExtra(KEY_RESULT, result.intValue());
-      data.putExtra(KEY_CURRENCY, getCurrency().code());
+    final Fragment targetFragment = getTargetFragment();
+    if (targetFragment != null) {
+      if (result != null) {
+        data = new Intent();
+        data.putExtra(KEY_RESULT, result.intValue());
+        data.putExtra(KEY_CURRENCY, getCurrency().code());
+      }
+      targetFragment.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, data);
     }
-    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, data);
     super.dismiss();
   }
 }
