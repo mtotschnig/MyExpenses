@@ -227,6 +227,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int BUDGETS = 50;
   private static final int BUDGET_ID = 51;
   private static final int BUDGET_CATEGORY = 52;
+  private static final int CURRENCIES_CODE = 53;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -1107,6 +1108,19 @@ public class TransactionProvider extends ContentProvider {
         }
         break;
       }
+      case CURRENCIES_CODE: {
+        String currency = uri.getLastPathSegment();
+        if (Utils.isFrameworkCurrency(currency)) {
+          throw new IllegalArgumentException("Can only delete custom currencies");
+        }
+        try {
+          count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
+              currency, prefixAnd(where)), whereArgs);
+        } catch (SQLiteConstraintException e) {
+          return 0;
+        }
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1471,8 +1485,10 @@ public class TransactionProvider extends ContentProvider {
         count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
         break;
       }
-      case CURRENCIES: {
-        count = db.update(TABLE_CURRENCIES, values, where, whereArgs);
+      case CURRENCIES_CODE: {
+        final String currency = uri.getLastPathSegment();
+        count = db.update(TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
+            currency, prefixAnd(where)), whereArgs);
         break;
       }
       default:
@@ -1642,6 +1658,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets", BUDGETS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#", BUDGET_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#/#", BUDGET_CATEGORY);
+    URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
   }
 
   /**

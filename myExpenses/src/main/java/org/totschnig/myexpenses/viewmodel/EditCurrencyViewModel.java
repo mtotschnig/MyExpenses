@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.AsyncQueryHandler;
@@ -20,7 +19,7 @@ import javax.inject.Inject;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 
-public class EditCurrencyViewModel extends AndroidViewModel {
+public class EditCurrencyViewModel extends CurrencyViewModel {
 
   interface UpdateListener {
     void onUpdateComplete(int token, int result);
@@ -30,9 +29,15 @@ public class EditCurrencyViewModel extends AndroidViewModel {
     void onInsertComplete(int token, boolean success);
   }
 
+  interface DeleteListener {
+    void onDeleteComplete(int token, boolean success);
+  }
+
   private static final int TOKEN_UPDATE_FRACTION_DIGITS = 1;
   private static final int TOKEN_UPDATE_LABEL = 2;
   private static final int TOKEN_INSERT_CURRENCY = 3;
+  private static final int TOKEN_DELETE_CURRENCY = 4;
+
   @Inject
   protected CurrencyContext currencyContext;
   private final DatabaseHandler asyncDatabaseHandler;
@@ -43,12 +48,18 @@ public class EditCurrencyViewModel extends AndroidViewModel {
 
   private MutableLiveData<Boolean> insertComplete = new MutableLiveData<>();
 
+  private MutableLiveData<Boolean> deleteComplete = new MutableLiveData<>();
+
   public LiveData<Integer> getUpdateComplete() {
     return updateComplete;
   }
 
-  public MutableLiveData<Boolean> getInsertComplete() {
+  public LiveData<Boolean> getInsertComplete() {
     return insertComplete;
+  }
+
+  public LiveData<Boolean> getDeleteComplete() {
+    return deleteComplete;
   }
 
   public EditCurrencyViewModel(@NonNull Application application) {
@@ -86,8 +97,8 @@ public class EditCurrencyViewModel extends AndroidViewModel {
       updateOperationsCount++;
       ContentValues contentValues = new ContentValues(1);
       contentValues.put(KEY_LABEL, label);
-      asyncDatabaseHandler.startUpdate(TOKEN_UPDATE_LABEL, updateListener,
-          TransactionProvider.CURRENCIES_URI, contentValues, KEY_CODE + " = ?", new String[]{currency});
+      asyncDatabaseHandler.startUpdate(TOKEN_UPDATE_LABEL, updateListener, buildItemUri(currency),
+          contentValues, null, null);
     }
     if (updateOperationsCount == 0) {
       updateComplete.postValue(null);
@@ -109,6 +120,16 @@ public class EditCurrencyViewModel extends AndroidViewModel {
   }
 
 
+  public void deleteCurrency(String currency) {
+    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DeleteListener) (token, success) -> {
+      deleteComplete.postValue(success);
+    }, buildItemUri(currency), null, null);
+  }
+
+  protected Uri buildItemUri(String currency) {
+    return TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(currency).build();
+  }
+
   static class DatabaseHandler extends AsyncQueryHandler {
 
     public DatabaseHandler(ContentResolver cr) {
@@ -123,6 +144,11 @@ public class EditCurrencyViewModel extends AndroidViewModel {
     @Override
     protected void onInsertComplete(int token, Object cookie, Uri uri) {
       ((InsertListener) cookie).onInsertComplete(token, uri != null);
+    }
+
+    @Override
+    protected void onDeleteComplete(int token, Object cookie, int result) {
+      ((DeleteListener) cookie).onDeleteComplete(token, result == 1);
     }
   }
 }

@@ -27,7 +27,6 @@ public class CurrencyViewModel extends AndroidViewModel {
 
   public CurrencyViewModel(@NonNull Application application) {
     super(application);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(application.getContentResolver(), Schedulers.io());
   }
 
   public MutableLiveData<List<Currency>> getCurrencies() {
@@ -46,9 +45,10 @@ public class CurrencyViewModel extends AndroidViewModel {
   }
 
   public void loadCurrencies() {
+    ensureSqlBrite();
     final Collator collator = Collator.getInstance();
     disposable = briteContentResolver.createQuery(TransactionProvider.CURRENCIES_URI,
-        null, null, null, null, false)
+        null, null, null, null, true)
         .mapToList(Currency::create)
         .subscribe(currencies -> {
           Collections.sort(currencies, (lhs, rhs) -> {
@@ -59,7 +59,13 @@ public class CurrencyViewModel extends AndroidViewModel {
           this.currencies.postValue(currencies);
         });
   }
+
+  private void ensureSqlBrite() {
+    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(getApplication().getContentResolver(), Schedulers.io());
+  }
+
   public Currency getDefault() {
     return Currency.create(Utils.getHomeCurrency().code());
   }
+
 }

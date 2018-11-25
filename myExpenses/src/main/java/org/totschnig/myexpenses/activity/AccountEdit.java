@@ -34,6 +34,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -108,6 +109,8 @@ public class AccountEdit extends AmountActivity implements
         mAccount = Account.getInstanceFromDb(rowId);
       } else {
         mAccount = new Account();
+        String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
+        mAccount.setCurrency(currencyContext.get(currency != null ? currency : currencyViewModel.getDefault().code()));
       }
     }
   }
@@ -124,6 +127,7 @@ public class AccountEdit extends AmountActivity implements
 
     setContentView(R.layout.one_account);
     setupToolbar();
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
 
     ButterKnife.bind(this);
 
@@ -131,7 +135,7 @@ public class AccountEdit extends AmountActivity implements
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
     requireAccount();
     if (mAccount == null) {
-      showSnackbar("Error instantiating account " + rowId, Snackbar.LENGTH_SHORT);
+      Toast.makeText(this, "Error instantiating account " + rowId, Toast.LENGTH_LONG).show();
       finish();
       return;
     }
@@ -142,14 +146,6 @@ public class AccountEdit extends AmountActivity implements
       mDescriptionText.setText(mAccount.description);
     } else {
       setTitle(R.string.menu_create_account);
-      mAccount = new Account();
-      String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
-      if (currency != null)
-        try {
-          mAccount.setCurrency(currencyContext.get(currency));
-        } catch (IllegalArgumentException e) {
-          //if not supported ignore
-        }
     }
     amountInput.setFractionDigits(mAccount.getCurrencyUnit().fractionDigits());
 
@@ -164,11 +160,9 @@ public class AccountEdit extends AmountActivity implements
     linkInputsWithLabels();
     populateFields();
 
-    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.addAll(currencies);
-      mCurrencySpinner.setSelection(currencyAdapter.getPosition(currencyViewModel.getDefault()));
-
+      mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
     });
     currencyViewModel.loadCurrencies();
   }
@@ -238,7 +232,6 @@ public class AccountEdit extends AmountActivity implements
    */
   private void populateFields() {
     amountInput.setAmount(mAccount.openingBalance.getAmountMajor());
-    mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
     setExchangeRateVisibility(mAccount.getCurrencyUnit());

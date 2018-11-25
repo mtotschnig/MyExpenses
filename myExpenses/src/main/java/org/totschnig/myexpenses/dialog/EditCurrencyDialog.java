@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.util.Utils.isFrameworkCurrency;
 
 public class EditCurrencyDialog extends CommitSafeDialogFragment {
 
@@ -202,15 +202,6 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
       return Integer.parseInt(editTextFractionDigits.getText().toString());
     } catch (NumberFormatException e) {
       return -1;
-    }
-  }
-
-  private boolean isFrameworkCurrency(String currencyCode) {
-    try {
-      final java.util.Currency instance = java.util.Currency.getInstance(currencyCode);
-      return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && instance.getNumericCode() != 0;
-    } catch (IllegalArgumentException e) {
-      return false;
     }
   }
 

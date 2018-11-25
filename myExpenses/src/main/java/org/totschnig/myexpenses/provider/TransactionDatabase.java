@@ -255,7 +255,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_LABEL + " text not null, "
           + KEY_OPENING_BALANCE + " integer, "
           + KEY_DESCRIPTION + " text, "
-          + KEY_CURRENCY + " text not null, "
+          + KEY_CURRENCY + " text not null  references " + TABLE_CURRENCIES + "(" + KEY_CODE + "), "
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + AccountType.JOIN + ")) default '" + AccountType.CASH.name() + "', "
           + KEY_COLOR + " integer default -3355444, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "', "
@@ -1804,6 +1804,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 81) {
         db.execSQL("ALTER TABLE currency add column label text");
+        //add foreign key link to currency table
+        db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
+        db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, "
+            + "opening_balance integer, description text, currency text not null references currency (code), "
+            + "type text not null check (type in ('CASH','BANK','CCARD','ASSET','LIABILITY')) default 'CASH', "
+            + "color integer default -3355444, "
+            + "grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', "
+            + "usages integer default 0, last_used datetime, sort_key integer, sync_account_name text, "
+            + "sync_sequence_local integer default 0, exclude_from_totals boolean default 0, "
+            + "uuid text, sort_direction text not null check (sort_direction  in ('ASC','DESC')) default 'DESC', criterion integer);");
+        db.execSQL("INSERT INTO accounts " +
+            "(_id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid,sort_direction,criterion) " +
+            " SELECT " +
+            " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid,sort_direction,criterion " +
+            "FROM accounts_old");
+        db.execSQL("DROP TABLE accounts_old");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
