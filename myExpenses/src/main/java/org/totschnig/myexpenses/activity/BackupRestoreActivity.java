@@ -249,7 +249,10 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public boolean hasBackups() {
     DocumentFile appDir = AppDirHelper.getAppDir(this);
     return appDir != null && Stream.of(appDir.listFiles())
-        .anyMatch(documentFile -> documentFile.getName().endsWith(".zip"));
+        .anyMatch(documentFile -> {
+          final String name = documentFile.getName();
+          return name != null && name.endsWith(".zip");
+        });
   }
 
   @Override
