@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -39,12 +37,6 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     AmountFilterDialog f = new AmountFilterDialog();
     f.setArguments(bundle);
     return f;
-  }
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @NonNull

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
@@ -29,7 +30,7 @@ public class CurrencyViewModel extends AndroidViewModel {
     super(application);
   }
 
-  public MutableLiveData<List<Currency>> getCurrencies() {
+  public LiveData<List<Currency>> getCurrencies() {
     return currencies;
   }
 

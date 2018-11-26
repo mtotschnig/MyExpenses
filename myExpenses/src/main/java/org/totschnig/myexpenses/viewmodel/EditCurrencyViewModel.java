@@ -40,6 +40,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
 
   @Inject
   protected CurrencyContext currencyContext;
+
   private final DatabaseHandler asyncDatabaseHandler;
   private int updateOperationsCount = 0;
   private Integer updatedAccountsCount = null;

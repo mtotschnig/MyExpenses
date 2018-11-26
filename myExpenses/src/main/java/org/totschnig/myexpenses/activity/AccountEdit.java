@@ -39,7 +39,6 @@ import android.widget.Toast;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -165,11 +164,6 @@ public class AccountEdit extends AmountActivity implements
       mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
     });
     currencyViewModel.loadCurrencies();
-  }
-
-  @Override
-  protected void injectDependencies() {
-    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override

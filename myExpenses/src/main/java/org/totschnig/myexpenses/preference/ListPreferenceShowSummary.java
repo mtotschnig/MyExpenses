@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
 import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
 import android.util.AttributeSet;
 
 /**
@@ -38,13 +37,9 @@ public class ListPreferenceShowSummary extends ListPreference {
 
   private void init() {
 
-      setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-          @Override
-          public boolean onPreferenceChange(Preference arg0, Object arg1) {
-              arg0.setSummary(getEntry());
-              return true;
-          }
+      setOnPreferenceChangeListener((arg0, arg1) -> {
+          arg0.setSummary(getEntry());
+          return true;
       });
   }
 

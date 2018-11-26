@@ -1,12 +1,5 @@
 package org.totschnig.myexpenses.model;
 
-import android.os.Build;
-
-import org.totschnig.myexpenses.util.Utils;
-
-import java.text.Collator;
-import java.util.Arrays;
-
 /**
  * @see <a href="http://www.currency-iso.org/dl_iso_table_a1.xml">http://www.currency-iso.org/dl_iso_table_a1.xml</a>
  */
@@ -184,32 +177,5 @@ public enum CurrencyEnum {
 
   public String getDescription() {
     return description;
-  }
-
-  public static CurrencyEnum[] sortedValues() {
-    CurrencyEnum[] result = values();
-    if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-      final Collator collator = Collator.getInstance();
-      Arrays.sort(result, (lhs, rhs) -> {
-        int classCompare = Utils.compare(lhs.sortClass(), rhs.sortClass());
-        return classCompare == 0 ?
-            collator.compare(lhs.toString(), rhs.toString()) : classCompare;
-      });
-    }
-    return result;
-  }
-
-  private int sortClass() {
-    switch (this) {
-      case XXX:
-        return 3;
-      case XAU:
-      case XPD:
-      case XPT:
-      case XAG:
-        return 2;
-      default:
-        return 1;
-    }
   }
 }
