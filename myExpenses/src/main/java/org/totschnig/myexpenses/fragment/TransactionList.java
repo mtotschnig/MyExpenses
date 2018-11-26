@@ -454,6 +454,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     return super.dispatchCommandSingle(command, info);
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;

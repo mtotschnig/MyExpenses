@@ -48,6 +48,7 @@
         android:dividerHeight="2dp"
         android:background="?attr/drawerBackground"
         android:listSelector="@android:color/transparent"
+        android:fastScrollEnabled="true"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"/>
 </org.totschnig.myexpenses.ui.ExpansionPanel>
