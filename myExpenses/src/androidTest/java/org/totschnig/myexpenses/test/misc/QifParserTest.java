@@ -11,6 +11,7 @@ package org.totschnig.myexpenses.test.misc;
 
 import android.test.AndroidTestCase;
 import org.totschnig.myexpenses.export.qif.*;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.testutils.DateTime;
 
 import java.io.BufferedReader;
@@ -700,19 +701,14 @@ public class QifParserTest extends AndroidTestCase {
 
     public void parseQif(String fileContent, QifDateFormat dateFormat) throws IOException {
         QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), "UTF-8")));
-        p = new QifParser(r, dateFormat, Currency.getInstance("EUR"));
+        p = new QifParser(r, dateFormat, CurrencyUnit.create(Currency.getInstance("EUR")));
         p.parse();
     }
 
     private List<QifCategory> getCategoriesList(QifParser p) {
         List<QifCategory> categories = new ArrayList<>(p.categories.size());
         categories.addAll(p.categories);
-        Collections.sort(categories, new Comparator<QifCategory>() {
-            @Override
-            public int compare(QifCategory c1, QifCategory c2) {
-                return c1.getName().compareTo(c2.getName());
-            }
-        });
+        Collections.sort(categories, (c1, c2) -> c1.getName().compareTo(c2.getName()));
         return categories;
     }
 

@@ -9,6 +9,8 @@ import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 @AutoValue
@@ -46,7 +48,7 @@ public abstract class AccountMetaData implements Parcelable {
     return label() + " (" + currency() + ")";
   }
 
-  public Account toAccount() {
+  public Account toAccount(CurrencyContext currencyContext) {
     AccountType accountType;
     try {
       accountType = AccountType.valueOf(type());
@@ -54,7 +56,7 @@ public abstract class AccountMetaData implements Parcelable {
       accountType = AccountType.CASH;
     }
     Account account = new Account(label(),
-        org.totschnig.myexpenses.util.Utils.getSaveInstance(currency()),
+        currencyContext.get(currency()),
         openingBalance(), description(), accountType, color());
     account.uuid = uuid();
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
@@ -67,7 +69,7 @@ public abstract class AccountMetaData implements Parcelable {
 
   public static AccountMetaData from(Account account) {
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-    final String accountCurrency = account.currency.getCurrencyCode();
+    final String accountCurrency = account.getCurrencyUnit().code();
     final Builder builder = builder()
         .setCurrency(accountCurrency)
         .setColor(account.color)

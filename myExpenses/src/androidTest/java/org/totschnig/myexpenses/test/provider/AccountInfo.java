@@ -25,15 +25,9 @@ public class AccountInfo {
     this.currency = currency;
   }
 
-  /*
-   * Returns a ContentValues instance (a map) for this NoteInfo instance. This is useful for
-   * inserting a NoteInfo into a database.
-   */
   public ContentValues getContentValues() {
-    // Gets a new ContentValues object
     ContentValues v = new ContentValues();
 
-    // Adds map entries for the user-controlled fields in the map
     v.put(DatabaseConstants.KEY_LABEL, label);
     v.put(DatabaseConstants.KEY_DESCRIPTION, getDescription());
     v.put(DatabaseConstants.KEY_OPENING_BALANCE, openingBalance);

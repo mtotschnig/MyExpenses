@@ -9,10 +9,9 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetActivity;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.viewmodel.data.Category;
-
-import java.util.Currency;
 
 import butterknife.BindView;
 
@@ -25,7 +24,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     void onBudgetClick(Category category, Category parentItem);
   }
 
-  public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter, Currency currency) {
+  public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter, CurrencyUnit currency) {
     super(ctx, currencyFormatter, currency, true, true);
     this.listener = ctx;
   }

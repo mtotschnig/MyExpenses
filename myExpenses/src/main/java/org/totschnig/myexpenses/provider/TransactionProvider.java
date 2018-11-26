@@ -39,9 +39,9 @@ import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -59,11 +59,12 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -226,14 +227,26 @@ public class TransactionProvider extends ContentProvider {
   private static final int BUDGETS = 50;
   private static final int BUDGET_ID = 51;
   private static final int BUDGET_CATEGORY = 52;
+  private static final int CURRENCIES_CODE = 53;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
+  private boolean injected = false;
+
+  @Inject
+  CurrencyContext currencyContext;
 
   @Override
   public boolean onCreate() {
     initOpenHelper();
     return true;
+  }
+
+  private void ensureInjected() {
+    if (!injected) {
+      MyApplication.getInstance().getAppComponent().inject(this);
+      injected = true;
+    }
   }
 
   private void initOpenHelper() {
@@ -937,7 +950,16 @@ public class TransactionProvider extends ContentProvider {
       }
       case BUDGETS: {
         id = db.insertOrThrow(TABLE_BUDGETS, null, values);
-        newUri = TRANSACTIONS_URI + "/" + id;
+        newUri = BUDGETS_URI + "/" + id;
+        break;
+      }
+      case CURRENCIES: {
+        try {
+          id = db.insertOrThrow(TABLE_CURRENCIES, null, values);
+        } catch (SQLiteConstraintException e) {
+          return null;
+        }
+        newUri = CURRENCIES_URI + "/" + id;
         break;
       }
       default:
@@ -1086,6 +1108,19 @@ public class TransactionProvider extends ContentProvider {
         }
         break;
       }
+      case CURRENCIES_CODE: {
+        String currency = uri.getLastPathSegment();
+        if (Utils.isFrameworkCurrency(currency)) {
+          throw new IllegalArgumentException("Can only delete custom currencies");
+        }
+        try {
+          count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
+              currency, prefixAnd(where)), whereArgs);
+        } catch (SQLiteConstraintException e) {
+          return 0;
+        }
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1117,6 +1152,7 @@ public class TransactionProvider extends ContentProvider {
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
     setDirty();
+    ensureInjected();
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
     int count;
@@ -1271,7 +1307,7 @@ public class TransactionProvider extends ContentProvider {
             List<String> segments = uri.getPathSegments();
             segment = segments.get(2);
             String[] bindArgs = new String[]{segment};
-            int oldValue = Money.getFractionDigits(Currency.getInstance(segment));
+            int oldValue = currencyContext.get(segment).fractionDigits();
             int newValue = Integer.parseInt(segments.get(3));
             if (oldValue == newValue) {
               return 0;
@@ -1304,7 +1340,7 @@ public class TransactionProvider extends ContentProvider {
                       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
             }
-            Money.storeCustomFractionDigits(segment, newValue);
+            currencyContext.storeCustomFractionDigits(segment, newValue);
             db.setTransactionSuccessful();
           } finally {
             db.endTransaction();
@@ -1447,6 +1483,12 @@ public class TransactionProvider extends ContentProvider {
         values.put(KEY_BUDGETID, uri.getPathSegments().get(1));
         values.put(KEY_CATID, uri.getPathSegments().get(2));
         count = db.replace(TABLE_BUDGET_CATEGORIES, null, values) == -1 ? 0 : 1;
+        break;
+      }
+      case CURRENCIES_CODE: {
+        final String currency = uri.getLastPathSegment();
+        count = db.update(TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
+            currency, prefixAnd(where)), whereArgs);
         break;
       }
       default:
@@ -1616,6 +1658,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets", BUDGETS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#", BUDGET_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/#/#", BUDGET_CATEGORY);
+    URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
   }
 
   /**

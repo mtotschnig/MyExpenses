@@ -3,14 +3,58 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:paddingTop="8dp"
               android:paddingLeft="@dimen/padding_input_dialog_side"
               android:paddingRight="@dimen/padding_input_dialog_side">
+
+    <!-- label (only custom) -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/container_currency_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/edt_currency_label"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/label"
+            android:inputType="text"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- code (only custom) -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/container_currency_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/edt_currency_code"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/currency_code"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:enabled="false"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+
+
     <!-- symbol -->
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="0dp"
-        android:paddingRight="0dp">
+        android:paddingRight="0dp"
+        android:layout_marginBottom="8dp">
 
         <EditText
             android:id="@+id/edt_currency_symbol"
@@ -29,7 +73,7 @@
         android:paddingRight="0dp">
 
         <EditText
-            android:id="@+id/edt_number_fraction_digits"
+            android:id="@+id/edt_currency_fraction_digits"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/number_of_fraction_digits"
@@ -37,4 +81,15 @@
             android:maxLength="1"
             android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
+    <CheckBox
+        android:visibility="gone"
+        android:id="@+id/checkBox"
+        android:text="@string/warning_change_fraction_digits_checkbox_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/warning_change_fraction_digits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

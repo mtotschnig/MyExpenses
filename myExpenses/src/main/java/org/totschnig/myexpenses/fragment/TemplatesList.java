@@ -55,6 +55,8 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -125,6 +127,8 @@ public class TemplatesList extends SortableListFragment
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  CurrencyContext currencyContext;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -477,7 +481,7 @@ public class TemplatesList extends SortableListFragment
       long amount = c.getLong(columnIndexAmount);
       tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
       tv1.setText(currencyFormatter.convAmount(amount,
-          Utils.getSaveInstance(c.getString(columnIndexCurrency))));
+          currencyContext.get(c.getString(columnIndexCurrency))));
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
       TextView tv2 = (TextView) convertView.findViewById(R.id.category);
@@ -585,7 +589,7 @@ public class TemplatesList extends SortableListFragment
         Account transferAccount = Account.getInstanceFromDb(
             mTemplatesCursor.getLong(columnIndexTransferAccount));
         return !mTemplatesCursor.getString(columnIndexCurrency).equals(
-            transferAccount.currency.getCurrencyCode());
+            transferAccount.getCurrencyUnit().code());
       }
     }
     return false;

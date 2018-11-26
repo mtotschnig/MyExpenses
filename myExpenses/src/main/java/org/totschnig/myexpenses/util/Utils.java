@@ -47,12 +47,13 @@ import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
@@ -124,9 +125,12 @@ public class Utils {
     return null;
   }
 
-  public static Currency getHomeCurrency() {
-    String home = PrefKey.HOME_CURRENCY.getString(null);
-    return home != null ? getSaveInstance(home) : getLocalCurrency();
+  public static CurrencyUnit getHomeCurrency() {
+    //TODO provide home currency in a cleaner way
+    AppComponent appComponent = MyApplication.getInstance().getAppComponent();
+    String home = appComponent.prefHandler().getString(PrefKey.HOME_CURRENCY,null);
+    final CurrencyContext currencyContext = appComponent.currencyContext();
+    return currencyContext.get(home != null ? home : getLocalCurrency().getCurrencyCode());
   }
 
   private static Currency getLocalCurrency() {
@@ -134,16 +138,11 @@ public class Utils {
     String userCountry = getCountryFromTelephonyManager();
     if (!TextUtils.isEmpty(userCountry)) {
       try {
-        result = getSaveInstance(Currency.getInstance(new Locale("", userCountry)));
+        result = Currency.getInstance(new Locale("", userCountry));
       } catch (Exception ignore) {}
     }
     if (result == null) {
-      try {
-        //makeSure we know about the currency
-        result = getSaveInstance(getSaveDefault());
-      } catch (IllegalArgumentException e) {
-        result = Currency.getInstance("EUR");
-      }
+      result = getSaveDefault();
     }
     return result;
   }
@@ -265,18 +264,14 @@ public class Utils {
    * currency, and with the given separator, but without the currency
    * symbol appropriate for CSV and QIF export
    */
-  public static DecimalFormat getDecimalFormat(Currency currency, char separator) {
+  public static DecimalFormat getDecimalFormat(CurrencyUnit currency, char separator) {
     DecimalFormat nf = new DecimalFormat();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
     nf.setDecimalFormatSymbols(symbols);
-    int fractionDigits = Money.getFractionDigits(currency);
-    if (fractionDigits != -1) {
-      nf.setMinimumFractionDigits(fractionDigits);
-      nf.setMaximumFractionDigits(fractionDigits);
-    } else {
-      nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
-    }
+    int fractionDigits = currency.fractionDigits();
+    nf.setMinimumFractionDigits(fractionDigits);
+    nf.setMaximumFractionDigits(fractionDigits);
     nf.setGroupingUsed(false);
     return nf;
   }
@@ -320,7 +315,8 @@ public class Utils {
     return format.format(date);
   }
 
-  public static Currency getSaveDefault() {
+  @NonNull
+  private static Currency getSaveDefault() {
     try {
       return Currency.getInstance(MyApplication.getSystemLocale());
     } catch (NullPointerException | IllegalArgumentException ex) {
@@ -328,28 +324,18 @@ public class Utils {
     }
   }
 
-  public static Currency getSaveInstance(@Nullable String strCurrency) {
-    Currency c = null;
+  @Nullable
+  public static Currency getInstance(@Nullable String strCurrency) {
     if (strCurrency != null) {
       if (strCurrency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)) {
         strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
       }
       try {
-        c = Currency.getInstance(strCurrency);
-      } catch (IllegalArgumentException e) {
-        Timber.e("%s is not defined in ISO 4217", strCurrency);
+        return Currency.getInstance(strCurrency);
+      } catch (IllegalArgumentException ignored) {
       }
     }
-    return getSaveInstance(c == null ? getSaveDefault() : c);
-  }
-
-  private static Currency getSaveInstance(@NonNull Currency currency) {
-    try {
-      CurrencyEnum.valueOf(currency.getCurrencyCode());
-      return currency;
-    } catch (IllegalArgumentException e) {
-      return Currency.getInstance("EUR");
-    }
+    return null;
   }
 
   /**
@@ -869,5 +855,14 @@ public class Utils {
       result = cause;
     }
     return result;
+  }
+
+  public static boolean isFrameworkCurrency(String currencyCode) {
+    try {
+      final java.util.Currency instance = java.util.Currency.getInstance(currencyCode);
+      return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && instance.getNumericCode() != 0;
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
   }
 }

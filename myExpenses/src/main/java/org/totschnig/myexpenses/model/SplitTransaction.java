@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -86,7 +85,7 @@ public class SplitTransaction extends Transaction {
   }
 
   static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
-    SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.currency, 0L));
+    SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.getCurrencyUnit(), 0L));
     if (forEdit) {
       t.status = STATUS_UNCOMMITTED;
       //TODO: Strict mode
@@ -176,7 +175,7 @@ public class SplitTransaction extends Transaction {
       return FAILURE;
     }
     final long accountId = cursor.getLong(cIAccountId);
-    final Money amount = new Money(Utils.getSaveInstance(cursor.getString(cICurrency)), cursor.getLong(ciAmount));
+    final Money amount = new Money(application.getAppComponent().currencyContext().get(cursor.getString(cICurrency)), cursor.getLong(ciAmount));
     final Long payeeId = DbUtils.getLongOrNull(cursor, cIPayeeId);
     final long date = cursor.getLong(ciDate);
     final String crStatusString = cursor.getString(ciCrStatus);

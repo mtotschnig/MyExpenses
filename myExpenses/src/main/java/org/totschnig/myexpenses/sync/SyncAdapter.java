@@ -36,9 +36,11 @@ import com.annimon.stream.Stream;
 
 import org.apache.commons.collections4.ListUtils;
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -58,7 +60,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -693,7 +694,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } else {
       amount = 0L;
     }
-    Money money = new Money(getAccount().currency, amount);
+    Money money = new Money(getAccount().getCurrencyUnit(), amount);
     Transaction t = null;
     if (change.splitParts() != null) {
       t = new SplitTransaction(getAccount().getId(), money);
@@ -755,15 +756,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       t.setPictureUri(Uri.parse(change.pictureUri()));
     }
     if (change.originalAmount() != null && change.originalCurrency() != null) {
-      Currency originalCurrency;
-      try {
-        originalCurrency = Currency.getInstance(change.originalCurrency());
-        t.setOriginalAmount(new Money(originalCurrency, change.originalAmount()));
-      } catch (IllegalArgumentException ignore) {/** there is no way to interpret this currency **/}
+      CurrencyUnit originalCurrency = ((MyApplication) getContext().getApplicationContext())
+          .getAppComponent().currencyContext().get(change.originalCurrency());
+      t.setOriginalAmount(new Money(originalCurrency, change.originalAmount()));
     }
     if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
-      final Currency homeCurrency = Utils.getHomeCurrency();
-      if (change.equivalentCurrency().equals(homeCurrency.getCurrencyCode())) {
+      final CurrencyUnit homeCurrency = Utils.getHomeCurrency();
+      if (change.equivalentCurrency().equals(homeCurrency.code())) {
         t.setEquivalentAmount(new Money(homeCurrency, change.equivalentAmount()));
       }
     }
@@ -814,8 +813,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       values.put(KEY_ORIGINAL_CURRENCY, change.originalCurrency());
     }
     if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
-      final Currency homeCurrency = Utils.getHomeCurrency();
-      if (change.equivalentCurrency().equals(homeCurrency.getCurrencyCode())) {
+      final CurrencyUnit homeCurrency = Utils.getHomeCurrency();
+      if (change.equivalentCurrency().equals(homeCurrency.code())) {
         values.put(KEY_EQUIVALENT_AMOUNT, change.equivalentAmount());
       }
     }

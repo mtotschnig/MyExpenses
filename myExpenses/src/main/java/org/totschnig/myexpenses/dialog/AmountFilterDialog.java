@@ -16,13 +16,13 @@ import android.widget.Spinner;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.filter.AmountCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.AmountEditText;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
@@ -31,7 +31,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
   private AmountEditText mAmount2Text;
   private Spinner mOperatorSpinner;
 
-  public static AmountFilterDialog newInstance(Currency currency) {
+  public static AmountFilterDialog newInstance(CurrencyUnit currency) {
     Bundle bundle = new Bundle();
     bundle.putSerializable(KEY_CURRENCY, currency);
     AmountFilterDialog f = new AmountFilterDialog();
@@ -66,8 +66,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
         .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAmount1Text = view.findViewById(R.id.amount1);
     mAmount2Text = view.findViewById(R.id.amount2);
-    int fractionDigits = Money.getFractionDigits(
-        (Currency) getArguments().getSerializable(KEY_CURRENCY));
+    int fractionDigits = ((CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY)).fractionDigits();
     mAmount1Text.setFractionDigits(fractionDigits);
     mAmount2Text.setFractionDigits(fractionDigits);
 
@@ -92,7 +91,6 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     BigDecimal bdAmount2 = null;
     String selectedOp = getResources().getStringArray(R.array.comparison_operator_values)
         [mOperatorSpinner.getSelectedItemPosition()];
-    Currency currency = (Currency) getArguments().getSerializable(KEY_CURRENCY);
     AlertDialog dlg = (AlertDialog) dialog;
     boolean type = ((RadioGroup) dlg.findViewById(R.id.type)).getCheckedRadioButtonId() == R.id.income;
     if (selectedOp.equals("BTW")) {
@@ -101,10 +99,13 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
         return;
       }
     }
+
+    final CurrencyUnit currency = (CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY);
     ctx.addFilterCriteria(R.id.FILTER_AMOUNT_COMMAND, new AmountCriteria(
         WhereFilter.Operation.valueOf(selectedOp),
-        currency,
+        currency.code(),
         type,
-        bdAmount1, bdAmount2));
+        new Money(currency, bdAmount1).getAmountMinor(),
+        new Money(currency, bdAmount2).getAmountMinor()));
   }
 }

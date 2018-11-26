@@ -129,7 +129,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     // Now create a simple cursor adapter and set it to display
     final Account account = Account.getInstanceFromDb(accountId);
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-        account.currency, currencyFormatter);
+        account.getCurrencyUnit(), currencyFormatter);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
     lv.setOnItemClickListener((a, v1, position, id) -> {
@@ -221,7 +221,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     //when we are called before transaction is loaded in parent activity
     if (unsplitAmount == null)
       return;
-    unsplitAmount.setAmountMinor(unsplitAmount.getAmountMinor()-transactionSum);
+    unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor()-transactionSum);
     if (balanceTv != null)
       balanceTv.setText(currencyFormatter.formatCurrency(unsplitAmount));
   }
@@ -235,7 +235,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   public void updateAccount(Account account) {
     accountId = account.getId();
-    mAdapter.setCurrency(account.currency);
+    mAdapter.setCurrency(account.getCurrencyUnit());
     mAdapter.notifyDataSetChanged();
     updateBalance();
     updateFabColor(account.color);

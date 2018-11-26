@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -44,7 +45,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +55,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   int[] column2FieldMap;
   SparseBooleanArrayParcelable discardedRows;
   private long accountId;
-  private Currency mCurrency;
+  private CurrencyUnit currencyUnit;
   private AccountType mAccountType;
   private final Map<String, Long> payeeToId = new HashMap<>();
   private final Map<String, Long> categoryToId = new HashMap<>();
@@ -67,7 +67,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     this.column2FieldMap = (int[]) b.getSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN);
     this.discardedRows = b.getParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS);
     this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
-    this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
+    this.currencyUnit = (CurrencyUnit) b.getSerializable(DatabaseConstants.KEY_CURRENCY);
     this.mAccountType = (AccountType) b.getSerializable(DatabaseConstants.KEY_TYPE);
   }
 
@@ -93,14 +93,12 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     ContentResolver contentResolver = application.getContentResolver();
     Account a;
     if (accountId == 0) {
-      a = new Account();
-      a.currency = mCurrency;
-      a.setLabel(application.getString(R.string.pref_import_title, "CSV"));
-      a.setType(mAccountType);
+      a = new Account(application.getString(R.string.pref_import_title, "CSV"), currencyUnit, 0, mAccountType);
       a.save();
       accountId = a.getId();
     } else {
       a = Account.getInstanceFromDb(accountId);
+      currencyUnit = a.getCurrencyUnit();
     }
     int columnIndexAmount = findColumnIndex(R.string.amount);
     int columnIndexExpense = findColumnIndex(R.string.expense);
@@ -133,20 +131,20 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         }
         try {
           if (columnIndexAmount != -1) {
-            amount = QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), mCurrency);
+            amount = QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), currencyUnit);
           } else {
             BigDecimal income = columnIndexIncome != -1 ?
-                QifUtils.parseMoney(saveGetFromRecord(record, columnIndexIncome), mCurrency).abs() :
+                QifUtils.parseMoney(saveGetFromRecord(record, columnIndexIncome), currencyUnit).abs() :
                 new BigDecimal(0);
             BigDecimal expense = columnIndexExpense != -1 ?
-                QifUtils.parseMoney(saveGetFromRecord(record, columnIndexExpense), mCurrency).abs() :
+                QifUtils.parseMoney(saveGetFromRecord(record, columnIndexExpense), currencyUnit).abs() :
                 new BigDecimal(0);
             amount = income.subtract(expense);
           }
         } catch (IllegalArgumentException e) {
           return Result.ofFailure("Amounts in data exceed storage limit");
         }
-        Money m = new Money(a.currency, amount);
+        Money m = new Money(currencyUnit, amount);
 
         if (!isSplitParent && columnIndexCategory != -1) {
           String category = saveGetFromRecord(record, columnIndexCategory);

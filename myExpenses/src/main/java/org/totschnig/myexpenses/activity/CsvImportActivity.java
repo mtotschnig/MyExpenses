@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
@@ -149,9 +150,9 @@ public class CsvImportActivity extends TabbedActivity implements
         mSectionsPagerAdapter.getFragmentName(0));
   }
 
-  public String getCurrency() {
+  public CurrencyUnit getCurrency() {
     CsvImportParseFragment pf = getParseFragment();
-    return pf.getCurrency();
+    return currencyContext.get(pf.getCurrency());
   }
 
   public QifDateFormat getDateFormat() {

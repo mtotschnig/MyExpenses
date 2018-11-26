@@ -25,16 +25,15 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Locale;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
@@ -257,16 +256,17 @@ public class Template extends Transaction {
    */
   public Template(Cursor c) {
     super();
-    Currency currency;
+    CurrencyUnit currency;
+    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     int currencyColumnIndex = c.getColumnIndex(KEY_CURRENCY);
     long accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     //we allow the object to be instantiated without instantiation of
     //the account, because the latter triggers an error (getDatabase called recursively)
     //when we need a template instance in database onUpgrade
     if (currencyColumnIndex != -1) {
-      currency = Utils.getSaveInstance(c.getString(currencyColumnIndex));
+      currency = currencyContext.get(c.getString(currencyColumnIndex));
     } else {
-      currency = Account.getInstanceFromDb(accountId).currency;
+      currency = Account.getInstanceFromDb(accountId).getCurrencyUnit();
     }
     Money amount = new Money(currency, c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT)));
     boolean isTransfer = !c.isNull(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));

@@ -86,11 +86,11 @@ public class Transfer extends Transaction {
 
   @Override
   public void setAmount(Money amount) {
-    if (getTransferAmount() != null && !amount.getCurrency().getCurrencyCode().equals(getTransferAmount().getCurrency().getCurrencyCode())) {
+    if (getTransferAmount() != null && !amount.getCurrencyUnit().code().equals(getTransferAmount().getCurrencyUnit().code())) {
       throw new UnsupportedOperationException("for foreign exchange transfers, use setAmountAndTransferAmount");
     }
     super.setAmount(amount);
-    this.setTransferAmount(new Money(amount.getCurrency(), amount.getAmountMajor().negate()));
+    this.setTransferAmount(new Money(amount.getCurrencyUnit(), amount.getAmountMajor().negate()));
   }
 
   public void setAmountAndTransferAmount(Money amount, Money transferAmount) {
@@ -122,7 +122,7 @@ public class Transfer extends Transaction {
         return null;
       }
     }
-    return new Transfer(accountId, new Money(account.currency, 0L), transferAccountId, parentId);
+    return new Transfer(accountId, new Money(account.getCurrencyUnit(), 0L), transferAccountId, parentId);
   }
 
   @Override
@@ -242,7 +242,7 @@ public class Transfer extends Transaction {
   }
 
   public boolean isSameCurrency() {
-    return getAmount().getCurrency().equals(getTransferAmount().getCurrency());
+    return getAmount().getCurrencyUnit().equals(getTransferAmount().getCurrencyUnit());
   }
 
   public static String getIndicatorPrefixForLabel(long amount) {

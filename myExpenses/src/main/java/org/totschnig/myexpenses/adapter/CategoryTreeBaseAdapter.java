@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +35,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.getShades;
 import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 
 public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter {
-  protected final Currency currency;
+  protected final CurrencyUnit currency;
   private List<Category> mainCategories = new ArrayList<>();
   private LongSparseArray<Integer> positionMap = new LongSparseArray<>();
   private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
@@ -48,7 +48,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   protected final ProtectedFragmentActivity.ThemeType themeType;
 
   public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
-                                 Currency currency, boolean withMainColors, boolean withSubColors) {
+                                 CurrencyUnit currency, boolean withMainColors, boolean withSubColors) {
     inflater = LayoutInflater.from(ctx);
     this.currencyFormatter = currencyFormatter;
     this.currency = currency;

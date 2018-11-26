@@ -3,12 +3,9 @@ package org.totschnig.myexpenses.viewmodel.data;
 import android.content.ContentValues;
 
 import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
-
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
@@ -20,11 +17,11 @@ public class Budget {
   final Grouping grouping;
   final Money amount;
   final long accountId;
-  final Currency currency;
+  final CurrencyUnit currency;
   final boolean isHomeAggregate;
   public final static Grouping[] BUDGET_TYPES =  {Grouping.YEAR, Grouping.MONTH, Grouping.WEEK, Grouping.DAY};
 
-  public Budget(long id, long accountId, Currency currency, Grouping grouping, Money amount, boolean isHomeAggregate) {
+  public Budget(long id, long accountId, CurrencyUnit currency, Grouping grouping, Money amount, boolean isHomeAggregate) {
     this.id = id;
     this.accountId = accountId;
     this.currency = currency;
@@ -32,8 +29,6 @@ public class Budget {
     this.amount = amount;
     this.isHomeAggregate = isHomeAggregate;
   }
-
-  private final List<Category> categories = new ArrayList<>();
 
   public long getId() {
     return id;
@@ -60,7 +55,7 @@ public class Budget {
     return amount;
   }
 
-  public Currency getCurrency() {
+  public CurrencyUnit getCurrency() {
     return currency;
   }
 
@@ -72,7 +67,7 @@ public class Budget {
       contentValues.put(KEY_ACCOUNTID, accountId);
     } else {
       contentValues.put(KEY_CURRENCY, isHomeAggregate ?
-          AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.getCurrencyCode());
+          AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.code());
     }
     return contentValues;
   }

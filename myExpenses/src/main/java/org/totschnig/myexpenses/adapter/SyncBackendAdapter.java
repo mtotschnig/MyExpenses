@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.List;
@@ -30,10 +31,12 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   private SparseArray<List<AccountMetaData>> accountMetaDataMap = new SparseArray<>();
   private LayoutInflater layoutInflater;
   private Map<String, String> localAccountInfo;
+  private CurrencyContext currencyContext;
 
-  public SyncBackendAdapter(Context context, List<String> syncAccounts) {
+  public SyncBackendAdapter(Context context, CurrencyContext currencyContext, List<String> syncAccounts) {
     this.layoutInflater = LayoutInflater.from(context);
     this.syncAccounts = syncAccounts;
+    this.currencyContext = currencyContext;
   }
 
   @Override
@@ -167,7 +170,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   public Account getAccountForSync(long packedPosition) {
     int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
     Account account = ((AccountMetaData) getChild(groupPosition,
-        ExpandableListView.getPackedPositionChild(packedPosition))).toAccount();
+        ExpandableListView.getPackedPositionChild(packedPosition))).toAccount(currencyContext);
     account.setSyncAccountName((String) getGroup(groupPosition));
     return account;
   }

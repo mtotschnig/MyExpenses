@@ -47,7 +47,7 @@ public class QifImport extends ProtectedFragmentActivity {
       boolean withParties, String encoding) {
     TaskExecutionFragment taskExecutionFragment =
         TaskExecutionFragment.newInstanceQifImport(
-            mUri, qifDateFormat, accountId, currency, withTransactions,
+            mUri, qifDateFormat, accountId, currencyContext.get(currency), withTransactions,
             withCategories, withParties, encoding);
     getSupportFragmentManager()
         .beginTransaction()

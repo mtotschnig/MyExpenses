@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -59,28 +60,30 @@ public class CurrencyFormatter {
         //fallback to default currency instance
       }
     }
-    return NumberFormat.getCurrencyInstance();
+    return NumberFormat.getCurrencyInstance(MyApplication.getUserPreferedLocale());
   }
 
-  private NumberFormat getNumberFormat(Currency currency) {
-    NumberFormat numberFormat = numberFormats.get(currency.getCurrencyCode());
+  private NumberFormat getNumberFormat(CurrencyUnit currencyUnit) {
+    NumberFormat numberFormat = numberFormats.get(currencyUnit.code());
     if (numberFormat == null) {
       numberFormat = initNumberFormat();
-      int fractionDigits = Money.getFractionDigits(currency);
-      numberFormat.setCurrency(currency);
+      int fractionDigits = currencyUnit.fractionDigits();
+      try {
+        numberFormat.setCurrency(Currency.getInstance(currencyUnit.code()));
+      } catch (Exception ignored) { /*Custom locale}*/ }
       if (fractionDigits <= 3) {
         numberFormat.setMinimumFractionDigits(fractionDigits);
         numberFormat.setMaximumFractionDigits(fractionDigits);
       } else {
         numberFormat.setMaximumFractionDigits(fractionDigits);
       }
-      String currencySymbol = Money.getCustomSymbol(currency.getCurrencyCode());
+      String currencySymbol = currencyUnit.symbol();
       if (currencySymbol != null) {
         DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
         decimalFormatSymbols.setCurrencySymbol(currencySymbol);
         ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
       }
-      numberFormats.put(currency.getCurrencyCode(), numberFormat);
+      numberFormats.put(currencyUnit.code(), numberFormat);
     }
     return numberFormat;
   }
@@ -93,11 +96,10 @@ public class CurrencyFormatter {
    */
   public String formatCurrency(Money money) {
     BigDecimal amount = money.getAmountMajor();
-    Currency currency = money.getCurrency();
-    return formatCurrency(amount, currency);
+    return formatCurrency(amount, money.getCurrencyUnit());
   }
 
-  public String formatCurrency(BigDecimal amount, Currency currency) {
+  public String formatCurrency(BigDecimal amount, CurrencyUnit currency) {
     return getNumberFormat(currency).format(amount);
   }
 
@@ -110,7 +112,7 @@ public class CurrencyFormatter {
    * @return formated string
    */
   @Deprecated
-  public String convAmount(String text, Currency currency) {
+  public String convAmount(String text, CurrencyUnit currency) {
     try {
       return convAmount(TextUtils.isEmpty(text) ? 0 : Double.valueOf(text).longValue(), currency);
     } catch (NumberFormatException e) {
@@ -127,7 +129,7 @@ public class CurrencyFormatter {
    * @param currency
    * @return formated string
    */
-  public String convAmount(Long amount, Currency currency) {
+  public String convAmount(Long amount, CurrencyUnit currency) {
     return formatCurrency(new Money(currency, amount));
   }
 }

@@ -30,7 +30,6 @@ import com.android.calendar.CalendarContractCompat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
@@ -156,10 +155,6 @@ public class DbUtils {
     if (c.isNull(columnIndex))
       return "";
     return c.getString(columnIndex);
-  }
-
-  public static boolean hasParent(Long id) {
-    return Transaction.getInstanceFromDb(id).getParentId() != null;
   }
 
   public static String weekStartFromGroupSqlExpression(int year, int week) {

@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.Matchers;
 
@@ -40,15 +41,17 @@ public class ExpenseEditTest {
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
       new ActivityTestRule<>(ExpenseEdit.class, false, false);
-  private static String accountLabel1 = "Test label 1";
-  private static String accountLabel2 = "Test label 2";
-  private static Account account1;
-  private static Account account2;
-  private static Currency currency1 = Currency.getInstance("USD");
-  private static Currency currency2 = Currency.getInstance("EUR");
+  private String accountLabel1 = "Test label 1";
+  private String accountLabel2 = "Test label 2";
+  private Account account1;
+  private Account account2;
+  private CurrencyUnit currency1;
+  private CurrencyUnit currency2;
 
   @Before
   public void fixture() {
+    currency1 = CurrencyUnit.create(Currency.getInstance("USD"));
+    currency2 = CurrencyUnit.create(Currency.getInstance("EUR"));
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
     account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
@@ -115,14 +118,14 @@ public class ExpenseEditTest {
 
   @Test
   public void currencyInExtraShouldPopulateSpinner() {
-    Currency[] allCurrencies = {currency1, currency2};
-    for (Currency c : allCurrencies) {
+    CurrencyUnit[] allCurrencies = {currency1, currency2};
+    for (CurrencyUnit c : allCurrencies) {
       //we assume that Fixture has set up the default account with id 1
       Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
-      i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCurrencyCode());
+      i.putExtra(DatabaseConstants.KEY_CURRENCY, c.code());
       mActivityRule.launchActivity(i);
-      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().currency);
+      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrencyUnit());
       mActivityRule.getActivity().finish();
     }
   }

@@ -5,6 +5,7 @@
 package org.totschnig.myexpenses.export.qif;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -13,11 +14,13 @@ import org.totschnig.myexpenses.model.Transfer;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import static org.totschnig.myexpenses.export.qif.QifUtils.*;
+import static org.totschnig.myexpenses.export.qif.QifUtils.isTransferCategory;
+import static org.totschnig.myexpenses.export.qif.QifUtils.parseDate;
+import static org.totschnig.myexpenses.export.qif.QifUtils.parseMoney;
+import static org.totschnig.myexpenses.export.qif.QifUtils.trimFirstChar;
 
 /**
  * Created by IntelliJ IDEA. User: Denis Solonenko Date: 2/8/11 12:52 AM
@@ -41,6 +44,7 @@ public class QifTransaction {
   public boolean isSplit() {
     return splits != null;
   }
+
   public boolean isOpeningBalance() {
     return payee != null && payee.equals("Opening Balance");
   }
@@ -49,7 +53,7 @@ public class QifTransaction {
     this.splits = splits;
   }
 
-  public void readFrom(QifBufferedReader r, QifDateFormat dateFormat, Currency currency)
+  public void readFrom(QifBufferedReader r, QifDateFormat dateFormat, CurrencyUnit currency)
       throws IOException {
     QifTransaction split = null;
     String line;
@@ -140,7 +144,7 @@ public class QifTransaction {
 
   public Transaction toTransaction(Account a) {
     Transaction t;
-    Money m = new Money(a.currency,amount);
+    Money m = new Money(a.getCurrencyUnit(), amount);
     if (isSplit()) {
       t = new SplitTransaction(a.getId(), m);
     } else if (isTransfer()) {
@@ -148,7 +152,7 @@ public class QifTransaction {
     } else {
       t = new Transaction(a.getId(), m);
     }
-    if (date!=null) {
+    if (date != null) {
       t.setDate(date);
     }
     t.setComment(memo);

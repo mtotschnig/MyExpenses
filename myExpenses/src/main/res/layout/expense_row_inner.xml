@@ -56,6 +56,8 @@
             tools:ignore="RtlHardcoded"/>
 
         <TextView
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -318,11 +317,9 @@ public class DialogUtils {
   public static Spinner configureCurrencySpinner(
       View view, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = view.findViewById(R.id.Currency);
-    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext());
+    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext(), android.R.layout.simple_spinner_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
-    spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
-        Utils.getHomeCurrency().getCurrencyCode())));
     return spinner;
   }
 

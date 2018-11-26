@@ -71,7 +71,7 @@ public class ProviderUtils {
     transaction.setAccountId(account.getId());
     long amountMicros = extras.getLong(AMOUNT_MICROS);
     if (amountMicros != 0) {
-      transaction.setAmount(Money.buildWithMicros(account.currency, amountMicros));
+      transaction.setAmount(Money.buildWithMicros(account.getCurrencyUnit(), amountMicros));
     }
     long date = extras.getLong(DATE);
     if (date != 0) {

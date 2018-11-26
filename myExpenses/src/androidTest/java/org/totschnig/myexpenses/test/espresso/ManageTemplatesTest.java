@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -44,11 +45,11 @@ public class ManageTemplatesTest extends BaseUiTest {
 
   @Before
   public void fixture() {
-    account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
+    account = new Account("Test account 1",  CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     template = new Template(account, TYPE_TRANSACTION, null);
-    template.setAmount(new Money(account.currency, -1200L));
+    template.setAmount(new Money(account.getCurrencyUnit(), -1200L));
     template.setTitle("Espresso Test Template");
     template.save();
     assertThat(Transaction.countPerAccount(account.getId())).isEqualTo(0);

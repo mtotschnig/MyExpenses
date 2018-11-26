@@ -169,7 +169,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
     if (!mAccount.isHomeAggregate()) {
       if (mAccount.isAggregate()) {
-        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+        builder.appendQueryParameter(KEY_CURRENCY, mAccount.getCurrencyUnit().code());
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
       }

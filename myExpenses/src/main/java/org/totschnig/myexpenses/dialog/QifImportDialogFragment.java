@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses.dialog;
 
 import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -21,12 +23,14 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -42,17 +46,24 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   public static final String PREFKEY_IMPORT_ENCODING = "import_qif_encoding";
   private MergeCursor mAccountsCursor;
   private long accountId = 0;
-  private CurrencyEnum currency = null;
+  private String currency = null;
+  private CurrencyViewModel currencyViewModel;
 
   public static QifImportDialogFragment newInstance() {
     return new QifImportDialogFragment();
   }
 
   @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+  }
+
+  @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
-      currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+      currency = savedInstanceState.getString(KEY_CURRENCY);
     }
     return super.onCreateDialog(savedInstanceState);
   }
@@ -99,7 +110,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
           mUri,
           format,
           mAccountSpinner.getSelectedItemId(),
-          ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name(),
+          ((Currency) mCurrencySpinner.getSelectedItem()).code(),
           mImportTransactions.isChecked(),
           mImportCategories.isChecked(),
           mImportParties.isChecked(),
@@ -136,7 +147,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     extras.addRow(new String[]{
         "0",
         getString(R.string.menu_create_account),
-        Utils.getHomeCurrency().getCurrencyCode()
+        Utils.getHomeCurrency().code()
     });
     mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
@@ -166,6 +177,12 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
     mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    currencyViewModel.getCurrencies().observe(this, currencies -> {
+      final CurrencyAdapter adapter = (CurrencyAdapter) mCurrencySpinner.getAdapter();
+      adapter.addAll(currencies);
+      mCurrencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
+    });
+    currencyViewModel.loadCurrencies();
     view.findViewById(R.id.AccountType).setVisibility(View.GONE);//QIF data should specify type
   }
 
@@ -174,7 +191,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
                              long id) {
     if (parent.getId() == R.id.Currency) {
       if (accountId == 0) {
-        currency = (CurrencyEnum) parent.getSelectedItem();
+        currency = ((Currency) parent.getSelectedItem()).code();
       }
       return;
     }
@@ -182,14 +199,12 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
       accountId = id;
       mAccountsCursor.moveToPosition(position);
 
-      CurrencyEnum currency = (accountId == 0 && this.currency != null) ?
+      String currency = (accountId == 0 && this.currency != null) ?
           this.currency :
-          CurrencyEnum
-              .valueOf(
-                  mAccountsCursor.getString(2));//2=KEY_CURRENCY
+          mAccountsCursor.getString(2);//2=KEY_CURRENCY
       mCurrencySpinner.setSelection(
-          ((ArrayAdapter<CurrencyEnum>) mCurrencySpinner.getAdapter())
-              .getPosition(currency));
+          ((ArrayAdapter<Currency>) mCurrencySpinner.getAdapter())
+              .getPosition(Currency.create(currency)));
       mCurrencySpinner.setEnabled(position == 0);
     }
   }

@@ -13,11 +13,10 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-
-import java.util.Currency;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -31,17 +30,17 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   int colorExpense;
   int colorIncome;
 
-  public void setCurrency(Currency currency) {
+  public void setCurrency(CurrencyUnit currency) {
     this.currency = currency;
   }
 
-  Currency currency;
+  CurrencyUnit currency;
   boolean insideFragment;
 
   private CurrencyFormatter currencyFormatter;
 
   public SplitPartAdapter(Context context, int layout, Cursor c,
-                          String[] from, int[] to, int flags, Currency currency,
+                          String[] from, int[] to, int flags, CurrencyUnit currency,
                           CurrencyFormatter currencyFormatter) {
     super(context, layout, c, from, to, flags);
     if (context instanceof MyExpenses) {

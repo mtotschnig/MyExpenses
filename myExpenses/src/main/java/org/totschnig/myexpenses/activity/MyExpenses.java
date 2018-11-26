@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Sort;
@@ -103,7 +104,6 @@ import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Currency;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -270,7 +270,7 @@ public class MyExpenses extends LaunchActivity implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, getPrefHandler());
+    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, getPrefHandler(), currencyContext);
 
     navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
     View navigationMenuView = navigationView.getChildAt(0);
@@ -524,7 +524,7 @@ public class MyExpenses extends LaunchActivity implements
         tl = getCurrentFragment();
         if (tl != null && hasCleared()) {
           mAccountsCursor.moveToPosition(mCurrentPosition);
-          Currency currency = Utils.getSaveInstance(currentCurrency);
+          CurrencyUnit currency = currencyContext.get(currentCurrency);
           Bundle bundle = new Bundle();
           bundle.putLong(KEY_ROWID,
               mAccountsCursor.getLong(columnIndexRowId));
@@ -1034,7 +1034,7 @@ public class MyExpenses extends LaunchActivity implements
     long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
         (KEY_CURRENT_BALANCE));
     mCurrentBalance = currencyFormatter.formatCurrency(new Money(
-        Utils.getSaveInstance(currentCurrency), balance));
+        currencyContext.get(currentCurrency), balance));
     mToolbar.setSubtitle(mCurrentBalance);
     mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
   }

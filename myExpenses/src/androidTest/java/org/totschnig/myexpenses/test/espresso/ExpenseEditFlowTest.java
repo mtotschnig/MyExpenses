@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.PaymentMethod;
 
 import java.util.Currency;
@@ -30,7 +31,7 @@ public class ExpenseEditFlowTest {
   public ActivityTestRule<ExpenseEdit> mActivityRule = new ActivityTestRule<>(ExpenseEdit.class);
   private static String accountLabel1 = "Test label 1";
   private static Account account1;
-  private static Currency currency1 = Currency.getInstance("USD");
+  private static CurrencyUnit currency1 = CurrencyUnit.create(Currency.getInstance("USD"));
   private static PaymentMethod paymentMethod;
 
   @BeforeClass

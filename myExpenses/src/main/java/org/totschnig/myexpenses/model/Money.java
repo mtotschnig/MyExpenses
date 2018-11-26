@@ -15,66 +15,41 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Currency;
 
 public class Money implements Serializable {
   private static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
   private static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
-  private Currency currency;
+  private CurrencyUnit currencyUnit;
   private Long amountMinor;
-  private int fractionDigits;
-  /**
-   * used with currencies where Currency.getDefaultFractionDigits returns -1
-   */
-  public static final int DEFAULTFRACTIONDIGITS = 8;
 
-  public Money(Currency currency, Long amountMinor) {
-    this.currency = currency;
+  public Money(CurrencyUnit currencyUnit, Long amountMinor) {
+    this.currencyUnit = currencyUnit;
     this.amountMinor = amountMinor;
-    this.fractionDigits = getFractionDigits(currency);
   }
 
-  public Money(Currency currency, BigDecimal amountMajor) {
-    setCurrency(currency);
+  public Money(CurrencyUnit currencyUnit, BigDecimal amountMajor) {
+    this.currencyUnit = currencyUnit;
     setAmountMajor(amountMajor);
   }
 
-  public Currency getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(Currency currency) {
-    this.currency = currency;
-    this.fractionDigits = getFractionDigits(currency);
+  public CurrencyUnit getCurrencyUnit() {
+    return currencyUnit;
   }
 
   public Long getAmountMinor() {
     return amountMinor;
   }
 
-  public void setAmountMinor(Long amountMinor) {
-    this.amountMinor = amountMinor;
-  }
-
-  public void setAmountMajor(BigDecimal amountMajor) {
-    this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10, fractionDigits))).longValue();
+  private void setAmountMajor(BigDecimal amountMajor) {
+    this.amountMinor = amountMajor.movePointRight(currencyUnit.fractionDigits()).longValue();
   }
 
   public BigDecimal getAmountMajor() {
-    return new BigDecimal(amountMinor).divide(
-        new BigDecimal(Math.pow(10, fractionDigits)),
-        fractionDigits,
-        RoundingMode.DOWN);
+    return new BigDecimal(amountMinor).movePointLeft(currencyUnit.fractionDigits());
   }
 
   @Override
@@ -91,79 +66,19 @@ public class Money implements Serializable {
         return false;
     } else if (!amountMinor.equals(other.amountMinor))
       return false;
-    if (currency == null) {
-      if (other.currency != null)
+    if (currencyUnit == null) {
+      if (other.currencyUnit != null)
         return false;
-    } else if (!currency.equals(other.currency))
+    } else if (!currencyUnit.equals(other.currencyUnit))
       return false;
     return true;
   }
 
   @Override
   public int hashCode() {
-    int result = this.currency != null ? this.currency.hashCode() : 0;
+    int result = this.currencyUnit != null ? this.currencyUnit.hashCode() : 0;
     result = 31 * result + (this.amountMinor != null ? this.amountMinor.hashCode() : 0);
-    result = 31 * result + this.fractionDigits;
     return result;
-  }
-
-  /**
-   * @param c
-   * @return getDefaultFractionDigits for a currency, unless it is -1,
-   * then we return {@link Money#DEFAULTFRACTIONDIGITS} in order to allow fractions with currencies like XXX
-   */
-  public static int getFractionDigits(Currency c) {
-    MyApplication context = MyApplication.getInstance();
-    //in testing environment context might be null
-    if (context != null) {
-      int customFractionDigits = context.getSettings()
-          .getInt(c.getCurrencyCode() + KEY_CUSTOM_FRACTION_DIGITS, -1);
-      if (customFractionDigits != -1) {
-        return customFractionDigits;
-      }
-    }
-    int digits = c.getDefaultFractionDigits();
-    if (digits != -1) {
-      return digits;
-    }
-    return DEFAULTFRACTIONDIGITS;
-  }
-
-  public static void storeCustomFractionDigits(String currencyCode, int newValue) {
-    MyApplication.getInstance().getSettings().edit()
-        .putInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, newValue).apply();
-  }
-
-  public static void ensureFractionDigitsAreCached(Currency currency) {
-    storeCustomFractionDigits(currency.getCurrencyCode(), getFractionDigits(currency));
-  }
-
-  @Nullable
-  public static String getCustomSymbol(@NonNull String currencyCode) {
-    return MyApplication.getInstance().getSettings()
-        .getString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, null);
-  }
-
-  @NonNull
-  public static String getSymbol(@NonNull Currency currency) {
-    String custom = getCustomSymbol(currency.getCurrencyCode());
-    return custom != null ? custom : currency.getSymbol();
-  }
-
-  public static boolean storeCustomSymbol(String currencyCode, String symbol) {
-    Currency currency = Currency.getInstance(currencyCode);
-    if (!getSymbol(currency).equals(symbol)) {
-      SharedPreferences.Editor edit = MyApplication.getInstance().getSettings().edit();
-      String key = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL;
-      if (currency.getSymbol().equals(symbol)) {
-        edit.remove(key);
-      } else {
-        edit.putString(key, symbol);
-      }
-      edit.apply();
-      return true;
-    }
-    return false;
   }
 
   /**
@@ -171,9 +86,9 @@ public class Money implements Serializable {
    *
    * @return a new Money object
    */
-  public static Money buildWithMicros(Currency currency, long amountMicros) {
+  public static Money buildWithMicros(CurrencyUnit currency, long amountMicros) {
     long amountMinor;
-    int fractionDigits = getFractionDigits(currency);
+    int fractionDigits = currency.fractionDigits();
     switch (Utils.compare(6, fractionDigits)) {
       case -1:
         amountMinor = amountMicros * (long) Math.pow(10, fractionDigits - 6);

@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -91,7 +92,6 @@ public class TaskExecutionFragment<T> extends Fragment {
    */
   public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
   public static final int TASK_UPDATE_SORT_KEY = 27;
-  public static final int TASK_CHANGE_FRACTION_DIGITS = 28;
   public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
   public static final int TASK_REVOKE_SPLIT = 31;
@@ -186,7 +186,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceQifImport(
-      Uri mUri, QifDateFormat qifDateFormat, long accountId, String currency,
+      Uri mUri, QifDateFormat qifDateFormat, long accountId, CurrencyUnit currency,
       boolean withTransactions, boolean withCategories, boolean withParties,
       String encoding) {
     TaskExecutionFragment f = new TaskExecutionFragment();
@@ -195,7 +195,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     bundle.putParcelable(KEY_FILE_PATH, mUri);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
+    bundle.putSerializable(DatabaseConstants.KEY_CURRENCY, currency);
     bundle.putBoolean(KEY_WITH_TRANSACTIONS, withTransactions);
     bundle.putBoolean(KEY_WITH_PARTIES, withParties);
     bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
@@ -221,7 +221,7 @@ public class TaskExecutionFragment<T> extends Fragment {
       int[] fieldToColumnMap,
       SparseBooleanArrayParcelable discardedRows,
       QifDateFormat qifDateFormat,
-      long accountId, String currency, AccountType type) {
+      long accountId, CurrencyUnit currency, AccountType type) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);
@@ -229,7 +229,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     bundle.putSerializable(CsvImportDataFragment.KEY_FIELD_TO_COLUMN, fieldToColumnMap);
     bundle.putParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS, discardedRows);
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
+    bundle.putSerializable(DatabaseConstants.KEY_CURRENCY, currency);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
     bundle.putSerializable(DatabaseConstants.KEY_TYPE, type);
     f.setArguments(bundle);

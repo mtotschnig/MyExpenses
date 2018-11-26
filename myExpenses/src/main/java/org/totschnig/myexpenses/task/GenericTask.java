@@ -297,12 +297,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
             values, null, null);
         return null;
-      case TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS:
-        return cr.update(TransactionProvider.CURRENCIES_URI.buildUpon()
-            .appendPath(TransactionProvider.URI_SEGMENT_CHANGE_FRACTION_DIGITS)
-            .appendPath((String) ids[0])
-            .appendPath(String.valueOf((Integer) mExtra))
-            .build(), null, null, null);
       case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
         values = new ContentValues();
         values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean) mExtra);
@@ -637,7 +631,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           List<String> accountUuids = Arrays.asList((String[]) ids);
           int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
-              .map(AccountMetaData::toAccount)
+              .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {
                 account.setSyncAccountName(syncAccountName);
                 return account.save() == null ? 0 : 1;

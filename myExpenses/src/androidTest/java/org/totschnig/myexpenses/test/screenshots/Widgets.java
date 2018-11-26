@@ -1,21 +1,20 @@
 package org.totschnig.myexpenses.test.screenshots;
 
-import java.util.Currency;
-import java.util.Locale;
-
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.fortest.test.R;
-
-import org.junit.Ignore;
-import org.totschnig.myexpenses.model.Transaction;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
+
+import org.junit.Ignore;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.fortest.test.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Template;
+
+import java.util.Currency;
+import java.util.Locale;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
@@ -51,7 +50,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
   }
   private void helperTestLang(String lang, String country) {
     Locale l = new Locale(lang,country);
-    Currency c = Currency.getInstance(l);
+    CurrencyUnit c = CurrencyUnit.create(Currency.getInstance(l));
     Account a = new Account(
         translate(l,R.string.testData_account1Label),
         c,

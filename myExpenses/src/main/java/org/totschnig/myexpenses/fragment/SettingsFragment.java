@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +45,6 @@ import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -74,6 +74,8 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Currency;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.net.URI;
@@ -167,9 +169,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Inject
   AdHandlerFactory adHandlerFactory;
 
+  CurrencyViewModel currencyViewModel;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     MyApplication.getInstance().getAppComponent().inject(this);
+    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
     super.onCreate(savedInstanceState);
     if (MyApplication.isInstrumentationTest()) {
       getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
@@ -347,10 +352,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       findPreference(getString(R.string.pref_follow_gplus_key)).setTitle(
           Utils.getTextWithAppName(getContext(), R.string.pref_follow_gplus_title));
 
-      ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
-      CurrencyEnum[] currencies = CurrencyEnum.sortedValues();
-      homeCurrencyPref.setEntries(Stream.of(currencies).map(CurrencyEnum::toString).toArray(CharSequence[]::new));
-      homeCurrencyPref.setEntryValues(Stream.of(currencies).map(CurrencyEnum::name).toArray(CharSequence[]::new));
+      currencyViewModel.getCurrencies().observe(this, currencies -> {
+        ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
+        homeCurrencyPref.setEntries(Stream.of(currencies).map(Currency::toString).toArray(CharSequence[]::new));
+        homeCurrencyPref.setEntryValues(Stream.of(currencies).map(Currency::code).toArray(CharSequence[]::new));
+        homeCurrencyPref.setSummary(homeCurrencyPref.getEntry());
+
+      });
+      currencyViewModel.loadCurrencies();
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {

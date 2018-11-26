@@ -56,7 +56,7 @@ public class TemplateTest extends ModelTest {
     Long amount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     assert op1 != null;
-    op1.setAmount(new Money(mAccount1.currency, amount));
+    op1.setAmount(new Money(mAccount1.getCurrencyUnit(), amount));
     op1.setComment("test transaction");
     op1.save();
     assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start + amount);

@@ -24,7 +24,7 @@ class RevokeSplitCommandTask extends ExtraTask<Result> {
     int success = 0;
     for (long id: ids ) {
       Transaction split = Transaction.getInstanceFromDb(id);
-      if (split != null && split instanceof SplitTransaction) {
+      if (split instanceof SplitTransaction) {
         if (((SplitTransaction) split).unsplit()) {
           success++;
         }

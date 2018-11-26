@@ -22,6 +22,7 @@ import android.os.RemoteException;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
@@ -76,21 +77,21 @@ public class AccountTest extends ModelTest {
     catId = Category.write(0, TEST_CAT, null);
     op = Transaction.getNewInstance(account1.getId());
     assert op != null;
-    op.setAmount(new Money(account1.currency, -expense1));
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
     op.setCrStatus(CrStatus.CLEARED);
     op.save();
-    op.setAmount(new Money(account1.currency, -expense2));
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense2));
     op.saveAsNew();
-    op.setAmount(new Money(account1.currency, income1));
+    op.setAmount(new Money(account1.getCurrencyUnit(), income1));
     op.saveAsNew();
-    op.setAmount(new Money(account1.currency, income2));
+    op.setAmount(new Money(account1.getCurrencyUnit(), income2));
     op.setCatId(catId);
     op.saveAsNew();
     Transfer op1 = Transfer.getNewInstance(account1.getId(), account2.getId());
     assert op1 != null;
-    op1.setAmount(new Money(account1.currency, transferP));
+    op1.setAmount(new Money(account1.getCurrencyUnit(), transferP));
     op1.save();
-    op1.setAmount(new Money(account1.currency, -transferN));
+    op1.setAmount(new Money(account1.getCurrencyUnit(), -transferN));
     op1.saveAsNew();
   }
 
@@ -99,8 +100,8 @@ public class AccountTest extends ModelTest {
     Account account, restored;
     Long openingBalance = (long) 100;
     account = new Account("TestAccount", openingBalance, "Testing with Junit");
-    account.setCurrency("EUR");
-    assertEquals("EUR", account.currency.getCurrencyCode());
+    account.setCurrency(CurrencyUnit.create(java.util.Currency.getInstance("EUR")));
+    assertEquals("EUR", account.getCurrencyUnit().code());
     account.save();
     assertTrue(account.getId() > 0);
     restored = Account.getInstanceFromDb(account.getId());
@@ -108,7 +109,7 @@ public class AccountTest extends ModelTest {
     Long trAmount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(account.getId());
     assert op1 != null;
-    op1.setAmount(new Money(account.currency, trAmount));
+    op1.setAmount(new Money(account.getCurrencyUnit(), trAmount));
     op1.setComment("test transaction");
     op1.save();
     assertEquals(account.getTotalBalance().getAmountMinor().longValue(), openingBalance + trAmount);
@@ -193,7 +194,7 @@ public class AccountTest extends ModelTest {
 
   public void testGetAggregateAccountFromDb() {
     insertData();
-    String currency = Utils.getHomeCurrency().getCurrencyCode();
+    String currency = Utils.getHomeCurrency().code();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
         new String[]{KEY_ROWID},
@@ -206,7 +207,7 @@ public class AccountTest extends ModelTest {
     c.close();
     AggregateAccount aa = (AggregateAccount) Account.getInstanceFromDb(id);
     assert aa != null;
-    assertEquals(currency, aa.currency.getCurrencyCode());
+    assertEquals(currency, aa.getCurrencyUnit().code());
     assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor().longValue());
   }
 

@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
@@ -401,7 +402,7 @@ public class CsvImportDataFragment extends Fragment {
         if (validateMapping(columnToFieldMap)) {
           PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.putString(header2FieldMap.toString());
           long accountId = ((CsvImportActivity) getActivity()).getAccountId();
-          String currency = ((CsvImportActivity) getActivity()).getCurrency();
+          CurrencyUnit currency = ((CsvImportActivity) getActivity()).getCurrency();
           QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
           AccountType type = ((CsvImportActivity) getActivity()).getAccountType();
           TaskExecutionFragment taskExecutionFragment =

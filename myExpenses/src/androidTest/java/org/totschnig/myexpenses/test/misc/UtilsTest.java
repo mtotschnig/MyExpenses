@@ -17,18 +17,16 @@ package org.totschnig.myexpenses.test.misc;
 
 import android.os.Parcel;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
-import org.totschnig.myexpenses.export.qif.QifUtils;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class UtilsTest extends TestCase {
   public void testValidateNumber() {
@@ -46,10 +44,6 @@ public class UtilsTest extends TestCase {
     nfDLocal.setParseIntegerOnly(true);
     Assert.assertEquals(0, Utils.validateNumber(nfDLocal, "470").compareTo(new BigDecimal(470)));
     Assert.assertNull(Utils.validateNumber(nfDLocal, "470.123"));
-  }
-
-  public void testGetSaveInstance() {
-    Assert.assertNotNull(CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
   }
 
   public void testPdfHelper() {
