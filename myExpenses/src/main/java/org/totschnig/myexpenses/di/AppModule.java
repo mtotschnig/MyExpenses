@@ -45,8 +45,8 @@ public class AppModule {
 
   @Provides
   @Singleton
-  LicenceHandler providesLicenceHandler(PreferenceObfuscator preferenceObfuscator, CurrencyContext currencyContext) {
-    return new HashLicenceHandler(application, preferenceObfuscator, currencyContext);
+  LicenceHandler providesLicenceHandler(PreferenceObfuscator preferenceObfuscator) {
+    return new HashLicenceHandler(application, preferenceObfuscator);
   }
 
   @Provides

@@ -6,14 +6,13 @@ import android.support.annotation.Nullable;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 @Deprecated
 public class HashLicenceHandler extends LicenceHandler {
   private boolean hasLegacyLicence = false;
 
-  public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CurrencyContext currencyContext) {
+  public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
     super(context, preferenceObfuscator);
   }
 
