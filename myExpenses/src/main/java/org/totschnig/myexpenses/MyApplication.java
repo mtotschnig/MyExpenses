@@ -527,9 +527,12 @@ public class MyApplication extends MultiDexApplication implements
     //older Android versions have populated both dtend and duration
     //restoring those on newer versions leads to IllegalArgumentException
     Long dtEnd = DbUtils.getLongOrNull(eventCursor, 1);
-    String duration = dtEnd != null ? null : eventCursor.getString(6);
-    if (duration == null) {
-      duration = "P0S";
+    String duration = null;
+    if (dtEnd == null) {
+      duration = eventCursor.getString(6);
+      if (duration == null) {
+        duration = "P0S";
+      }
     }
     eventValues.put(Events.DTEND, dtEnd);
     eventValues.put(Events.RRULE, eventCursor.getString(2));
