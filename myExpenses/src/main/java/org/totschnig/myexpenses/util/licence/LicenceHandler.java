@@ -64,6 +64,10 @@ public class LicenceHandler {
     this.currencyUnit = CurrencyUnit.create("EUR", "€", 2);
   }
 
+  public boolean hasValidKey() {
+    return isContribEnabled() && !hasLegacyLicence();
+  }
+
   public boolean isContribEnabled() {
     return isEnabledFor(LicenceStatus.CONTRIB);
   }

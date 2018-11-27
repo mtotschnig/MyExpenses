@@ -562,7 +562,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE),
         licenceKeyPref = findPreference(NEW_LICENCE);
-    if (!licenceHandler.needsKeyEntry()) {
+    if (licenceHandler.needsKeyEntry()) {
+      if (licenceHandler.hasValidKey()) {
+        licenceKeyPref.setTitle(getKeyInfo());
+        licenceKeyPref.setSummary(concatResStrings(getActivity()," / ",
+            R.string.button_validate, R.string.menu_remove));
+      }
+    } else {
       if (licenceKeyPref != null) {
         ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
       }
@@ -745,17 +751,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     if (matches(preference, NEW_LICENCE)) {
-      String licenceKey = NEW_LICENCE.getString("");
-      String licenceEmail = LICENCE_EMAIL.getString("");
-      if (licenceHandler.isContribEnabled() && !licenceHandler.hasLegacyLicence()) {
+      if (licenceHandler.hasValidKey()) {
         SimpleDialog.build()
             .title(R.string.licence_key)
-            .msg(String.format("%s: %s", licenceEmail, licenceKey))
+            .msg(getKeyInfo())
             .pos(R.string.button_validate)
             .neg(R.string.menu_remove)
             .show(this, DIALOG_MANAGE_LICENCE);
 
       } else {
+        String licenceKey = prefHandler.getString(NEW_LICENCE, "");
+        String licenceEmail = prefHandler.getString(LICENCE_EMAIL,"");
         SimpleFormDialog.build()
             .title(R.string.pref_enter_licence_title)
             .fields(
@@ -787,6 +793,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       activity().checkGdprConsent(true);
     }
     return false;
+  }
+
+  private String getKeyInfo() {
+    return String.format("%s: %s", prefHandler.getString(LICENCE_EMAIL,""), prefHandler.getString(NEW_LICENCE, ""));
   }
 
   private void showOnlyOneProtectionWarning(boolean legacyProtectionByPasswordIsActive) {
