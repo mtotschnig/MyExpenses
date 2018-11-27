@@ -600,7 +600,7 @@
   <string name="dialog_confirm_sync_remove_backend">El servicio remoto %s será eliminado. Esto no afectará a los datos almacenados a nivel local o remoto, pero el estado de sincronización será interrumpido. ¿Desea continuar?</string>
   <string name="dialog_confirm_sync_link_local">Los datos remotos para esta cuenta serán eliminado. Asegúrese de que ningún otro dispositivo está unido a ellos.</string>
   <string name="dialog_confirm_sync_link_remote">Los datos locales de esta cuenta serán eliminados.</string>
-  <string name="warning_limited_trial">La funcionalidad %1$s puede utilizarse hasta %2$s.</string>
+  <string name="warning_limited_trial">La funcionalidad %1$s puede probarse hasta %2$s.</string>
   <string name="warning_trial_limit_reached">El periodo de prueba para la funcionalidad %s ha terminado.</string>
   <string name="warning_synchronization_folder_usage">Esta carpeta se utiliza para la sincronización de datos en las instalaciones de {app_name} en diferentes dispositivos. Por favor, no modifique nada de su contenido manualmente.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La carpeta que ha seleccionado corresponde a una cuenta de un servicio existente. Necesita seleccionar la carpeta principal para poder reutilizar este servicio.</string>
@@ -762,6 +762,29 @@
   <string name="clear_all_filters">Limpiar todos los filtros</string>
   <string name="pref_scroll_to_current_date_summary">Al iniciar la aplicación, desplazar la lista de transacciones hasta la fecha actual</string>
   <string name="professional_key_fallback_info">Una suscripción de Llave Profesional que lleve activa durante un año y no se renueve, se convertirá automáticamente en una Llave Extendida ilimitada.</string>
+  <string name="menu_budget">Presupuestar</string>
+  <string name="dialog_title_new_budget">Nuevo presupuesto</string>
+  <string name="dialog_title_edit_budget">Editar presupuesto</string>
+  <string name="daily_budget">Presupuesto diario</string>
+  <string name="weekly_budget">Presupuesto semanal</string>
+  <string name="monthly_budget">Presupuesto mensual</string>
+  <string name="yearly_budget">Presupuesto anual</string>
+  <string name="menu_switch_budget">Cambiar</string>
+  <string name="budget_table_header_budgeted">Presupuestado</string>
+  <string name="budget_table_header_allocated">Asignado</string>
+  <string name="budget_table_header_spent">Gastado</string>
+  <string name="budget_table_header_remainder">Recordatorio</string>
+  <string name="budget_allocated_amount">Cantidad asignada</string>
+  <string name="budget_exceeded_error_1_1">Todo salvo %s de tu presupuesto ha sido asignado a otras categorías.</string>
+  <string name="budget_exceeded_error_1_2">Todo tu presupuesto ha sido asignado a otras categorías.</string>
+  <string name="budget_exceeded_error_2">Incremente la cantidad presupuestada o quite dinero de otras categorías.</string>
+  <string name="budget_under_allocated_error">%s ha sido asignado a otras categorías. A menos que quite dinero de ellas, tendrá que presupuestar al menos esa cantidad.</string>
+  <string name="sub_budget_exceeded_error_1_1">Todo salvo %s de la cantidad asignada a la categoría principal ha sido asignada a otra sub-categoría.</string>
+  <string name="sub_budget_exceeded_error_1_2">Toda la cantidad asignada a la categoría principal a sido asignada a otras sub-categorías.</string>
+  <string name="sub_budget_exceeded_error_2">Incremente la cantidad asignada a la categoría principal o quite dinero de otras sub-categorías.</string>
+  <string name="sub_budget_under_allocated_error">%s ya ha sido asignado a las sub-categorías. A menos que quite dinero de ellas, tendrá que asignar al menos esa cantidad en la categoría principal.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Borrar proceso</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Borrar categoría</string>
 </resources>
