@@ -395,6 +395,12 @@
         <item>up</item>
     </string-array>
 
+    <string-array name="help_ManageCurrencies_info" tools:ignore="UnusedResources">
+        <item>help_ManageCurrencies_info</item>
+        <item>help_ManageCurrencies_symbol</item>
+        <item>help_ManageCurrencies_new</item>
+    </string-array>
+
     <string-array name="help_ManageSyncBackends_info" tools:ignore="UnusedResources">
         <item>help_ManageSyncBackends_intro</item>
         <item>help_ManageSyncBackends_webdav</item>
@@ -433,7 +439,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>348;2.9.6.2</item>
+        <item>349;2.9.7</item>
         <item>346;2.9.6</item>
         <item>343;2.9.5</item>
         <item>341;2.9.4</item>

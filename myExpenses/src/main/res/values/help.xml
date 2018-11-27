@@ -141,6 +141,8 @@
   <string name="form_MethodEdit_account_types_help_text">Select the account types for which this method is applicable.</string>
   <!--  ManageCurrencies -->
   <string name="help_ManageCurrencies_info">For each currency, you can modify the number of fraction digits used. For example, if for Euro, you need to handle 1/10 of a ¢, i.e. 1/1000 of a Euro, you would set the number to three. Existing accounts which use the currency, will be switched to the new setting.</string>
+  <string name="help_ManageCurrencies_symbol">You can also configure the currency symbol, which is used when amounts in a specific currency are formatted.</string>
+  <string name="help_ManageCurrencies_new">For custom currencies, you additionally define a label, which is shown in menus for selecting a currency, and an alphabetic code, which by convention consists of three characters.</string>
   <!--  FolderBrowser title is in keys -->
   <string name="help_FolderBrowser_info">The folder you select here, will be used for storing backups and exports. Navigate through the folder hierarchy until you reach the desired folder.</string>
   <string name="menu_create_folder_help_text">Create a new folder inside the current folder.</string>
