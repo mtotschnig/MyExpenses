@@ -27,17 +27,20 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 
 - Alle Funktionen des Contrib Schlüssels
 - <b>Cloud-Synchronisierung</b>: Daten können über WebDAV und Google Drive zwischen mehreren Geräten synchronisiert werden
-- Tägliche<b>automatische Sicherung</b>mit optionalem Upload in den Cloud-Speicher
+- Tägliche <b>automatische Sicherung</b> mit optionalem Upload in den Cloud-Speicher
 - Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
 
 <b>Professioneller Schlüssel</b>
 
 - Alle Funktionen des erweiterten Schlüssels
+- <b> Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich.
+- <b>Verlaufsdiagramm</b> (Cashflow)
 - Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
 - <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
 - Stimmrecht zum <b>Entwicklungsfahrplan</b>
 
 <i>Meine Ausgaben</i> verwendet folgende <u>Berechtigungen</u>:
+
 - <i>Kalender</i>: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
 - <i>Speicher</i>: Speichern von QIF und CSV-Export und Backup-Dateien.
 - <i>Internet</i>: Lizenzschlüssel-Validierung, Cloud-Synchronisierung.

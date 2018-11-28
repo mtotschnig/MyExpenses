@@ -33,11 +33,14 @@ Les fonctions Premium sont déverrouillées en achetant l'une des clés de licen
 <b>Clé professionnelle</b>
 
 - Toutes les fonctions de la Clé Étendue
+- <b> Budgétisation</b>: comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle.
+- <b>Graphique historique</b> (flux de trésorerie)
 - Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
 - <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
 - Voter sur la <b>feuille de route pour le développement</b>
 
 <i>Mes dépenses</i> demande les <u>permissions</u> suivantes:
+
 - <i>Agenda</i>: Les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
 - <i>Stockage</i>: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.
 - <i>Internet</i>: Validation de clé de licence, Synchronisation dans le cloud.
