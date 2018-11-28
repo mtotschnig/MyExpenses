@@ -33,6 +33,8 @@ Premium features are unlocked by purchase of one of the following licence keys:
 <b>Professional Key</b>
 
 - All features of Extended Key
+- <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
+- <b>History chart</b> (Cash flow)
 - Unlimited number of <b>templates and plans for split transactions</b>
 - <b>Email support</b> with guaranteed response after 2 business days
 - Voting right on <b>development roadmap</b>
