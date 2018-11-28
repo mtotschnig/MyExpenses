@@ -33,7 +33,7 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 <b>Professioneller Schlüssel</b>
 
 - Alle Funktionen des erweiterten Schlüssels
-- <b> Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich.
+- <b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich.
 - <b>Verlaufsdiagramm</b> (Cashflow)
 - Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
 - <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
