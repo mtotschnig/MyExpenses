@@ -115,6 +115,7 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 import eltos.simpledialogfragment.list.MenuDialog;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import timber.log.Timber;
 
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
@@ -1146,9 +1147,13 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public void copyToClipBoard() {
-    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-    clipboard.setText(mCurrentBalance);
-    showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);
+    try {
+      ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+      clipboard.setText(mCurrentBalance);
+      showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);
+    } catch (RuntimeException e) {
+      Timber.e(e);
+    }
   }
 
   protected boolean handleSortOption(int itemId) {
