@@ -119,6 +119,8 @@
   <string name="form_MethodEdit_account_types_help_text">Sélectionnez les types de comptes pour lesquels ce mode est applicable.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Pour chaque devise, vous pouvez modifier le nombre de décimales utilisées. Par exemple, si pour l\'Euro, vous devez gérer 1/10ème de ¢, c\'est-à-dire 1/1000ème d\'Euro, vous définirez le nombre à trois. Les comptes existants qui utilisent la devise, seront actualisés avec ce nouveau paramètre.</string>
+  <string name="help_ManageCurrencies_symbol">Vous pouvez également configurer le symbole monétaire utilisé lors de la mise en forme de montants dans une devise spécifique.</string>
+  <string name="help_ManageCurrencies_new">Pour les devises personnalisées, vous définissez en outre une étiquette, affichée dans les menus permettant de sélectionner une devise, et un code alphabétique, composé par convention de trois caractères.</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Le dossier sélectionné ici sera utilisé pour stocker les sauvegardes et exportations. Naviguez dans la hiérarchie jusqu\'à ce que vous trouviez le dossier souhaité.</string>
   <string name="menu_create_folder_help_text">Créer un nouveau dossier dans le dossier actuel.</string>

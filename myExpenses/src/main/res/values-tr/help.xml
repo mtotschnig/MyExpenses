@@ -148,4 +148,5 @@
   <string name="menu_HistoryActivity_grouping_help_text">Nakit akışı verilerinizin günlük, haftalık, aylık ve yıllık gruplamaları arasında geçiş yapın.</string>
   <string name="menu_HistoryActivity_history_show_balance_help_text">Bakiyenin gösterilmesini aç ya da kapat</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Transferlerin düzenli gelir veya masraf olarak değerlendirilmesi arasında geçiş yapın.</string>
+  <!--Budget-->
 </resources>

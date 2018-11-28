@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Perintah menu</string>
   <string name="help_contextual_actions">Tindakan konteksual</string>
+  <string name="help_contextual_actions_help">Menu untuk tindakan konteksual dipaparkan dengan mengetik lama pada masukan senarai.</string>
   <string name="help_form_fields">Medan borang</string>
   <string name="cab_delete_help_text">Padam item terpilih.</string>
   <string name="cab_edit_help_text">Sunting item terpilih.</string>
@@ -13,12 +14,14 @@
   <string name="menu_grouping_help_text">Anda boleh kumpulkan transaksi mengikut hari, minggu, bulan atau tahun. Bagi setiap kumpulan, jumlah pendapatan, perbelanjaan dan pemindahan dikira dan dipaparkan. Bila anda mengklik tajuk kumpulan, kumpulan transaksi dikuncupkan dan hanya tajuk dipaparkan. Klik sekali lagi untuk dikembangkannya.</string>
   <string name="menu_sort_direction_help_text">Transaksi boleh diisih secara arah menaik (paling lama di bahagian atas) atau menurun (terkini di bahagian atas)</string>
   <string name="menu_distribution_help_text">Papar agihan perbelanjaan per kategori anda. Anda juga boleh mengklik-lama pada tajuk kumpulan untuk memeriksa agihan untuk tempoh masa tertentu.</string>
+  <string name="menu_history_help_text">Papar rajah aliran tunai: Bagaimana perbelanjaan dan pendapatan anda berubah secara harian, mingguan, bulanan atau tahunan?</string>
   <string name="menu_manage_plans_help_text">Buka senarai templat dan plan, yang mana anda boleh laksana, sunting atau padam ia, dan juga takrifkan plan untuk transaksi akan datang dan berulang.</string>
   <string name="menu_balance_help_text">Perintah ini membuka satu dialog yang memaparkan baki tersesuai dan baki selesai. Anda boleh bandingkan kemudian dengan penyata bank anda, dan tandakan semua transaksi selesai sebagai disesuaikan. Atau anda boleh cadang untuk padamkan transaksi tersesuai.</string>
   <string name="menu_print_help_text">Jana paparan boleh cetak bagi transaksi semasa yang dipapar.</string>
   <string name="menu_search_help_text">Masukan ini membuka satu submenu yang membolehkan anda takrif kriteria gelintar berasaskan kategori, amaun, ulasan, status, pembayar/penerima dan kaedah pembayaran. Bila penapis gelintar diaktifkan, andah hanya klik pada masukannya pada submenu untuk dinyahaktifkan.</string>
   <string name="cab_create_template_from_transaction_help_text">Takrif templat baharu yang berdasarkan pada transaksi terpilih. Akan maklumkan anda untuk masukkan tajuk templat tersebut.</string>
   <string name="cab_clone_transaction_help_text">Transaksi terpilih akan diklonkan dengan tarikh dan waktu semasa. Anda boleh buat perubahan sebelum menyimpan salinan tersebut.</string>
+  <string name="cab_split_help_text">Anda boleh sunting transaksi kemudian untuk mencipta bahagian tambahan yang diperlukan.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Skrin ini menyenaraikan kaedah pembayaran pratakrif (Cek, Kad kredir, Deposit, Debit terus) dan membolehkan anda takrifkan yang baharu. Guna butang tindakan apung  buka borang untuk mencipta kaedah baharu.</string>
   <!--ManageParties title is in keys-->
@@ -55,6 +58,7 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
   <string name="menu_ManageCategories_search_help_text">Hanya kategori utama dan sub-kategori yang sepadan dengan pertanyaan anda akan dipaparkan.</string>
   <string name="menu_ManageCategories_sort_help_text">Senarai kategori boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau mengikut kali terakhir transaksi dipetakan.</string>
+  <string name="cab_ManageCategories_color_help_text">Anda boleh umpuk satu warna untuk kategori utama. Warna ini akan digunakan untuk mewakili kategori dalam carta. Subkategori akan guna lorekan dari warna kategori utama mereka.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Borang  untuk transaksi</string>
   <string name="help_ExpenseEdit_transfer_title">Borang untuk pemindahan</string>
@@ -68,6 +72,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Guna borang ini untuk masukkan transaksi baharu atau sunting sedia ada. Guna menu tarik-turun dalam palang tindakan untuk antara templat untuk transaksi, pemindahan dan pengasingan.</string>
   <string name="help_ExpenseEdit_split_info">Pengasingan transaksi ialah satu transaksi yang diasingkan kepada beberapa bahagian, yang mana setiap bahagian boleh diumpuk ke kategori berbeza, atau dipindah ke akaun berbeza.</string>
   <string name="form_account_help_text">Pilih akaun yang mana milik transaksi tersebut.</string>
+  <string name="form_date_time_help_text">Masukkan tarikh dan waktu bila transaksi berlaku.</string>
+  <string name="form_date_time_help_text_configuration">Dalam tetapan anda boleh lumpuhkan input waktu dan benarkan perbezaan diantara tarikh tempahan dengan tarikh nilai.</string>
   <string name="form_payer_or_payee_help_text">Medan ini mengingati nilai yang anda masukkan dan akan cadangkannya pada masa hadapan.</string>
   <string name="form_amount_switch_help_text">Guna suis untuk togol diantara perbelanjaan dengan pendapatan.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> butang yang membuka kalculator.]]></string>
@@ -86,8 +92,11 @@
   <string name="form_plan_help_text_mode">Plan boleh ditetapkan menjadi automatik atau manual. Bila sesebuah tika plan automatik berlaku, transaksi akan dicipta, dan seterusnya anda akan menerima pemberitahuan. Apabila plan adalah manual, anda juga menerima pemberitahuan, yang memberikan pilihan untuk batalkan, ubahsuai atau laksanakan templat untuk anda.</string>
   <string name="menu_save_help_text">Simpan data dan tutup borang.</string>
   <string name="menu_save_and_new_help_text">Simpan data, biarkan borang terbuka untuk mencipta transaksi baharu dengan data yang sama.</string>
+  <string name="menu_original_amount_help_text">Tunjuk satu medan yang boleh takrifkan amaun tambahan. Sebagai contoh jika anda bayar dengan kad kredit dalam matawang asing, anda boleh ingat harga asal selain dari amaun yang didebitkan dari kad anda. Amaun asal diabaikan untuk mengira jumlah.</string>
+  <string name="menu_equivalent_amount_help_text">Untuk mengira jumlah keseluruhan merentasi semua akaun, transaksi bagi akaun matawang asing, digandakan dengan kadar pertukaran yang anda tetapkan untuk akaun. Tetapi anda juga boleh batalkan amaun kiraan terhad ini, dengan menetapkan satu amaun setara untuk mana-mana transaksi individu.</string>
   <string name="menu_invert_transfer_help_text">Songsang arah pemindahan dengan menyilih akaun \"Daripada\' dan \'Kepada\'.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Jika matawang bagi akaun \'Daripada\' dan \'Kepada\' berlainan, anda boleh nyatakan amaun hanya salah satu daripada mereka. Yang lagi satu akan dikara bila anda wujudkan tika dari templat.</string>
+  <string name="form_goal_or_limit_help_text">Medan ini membolehkan penentuan sama had matlamat simpanan positif atau had kredit negatif. Ataupun, pada senarai akaun, satu penunjuk kemajuan visualkan jarak diantara baki semasa dengan matlamat atau had.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Borang untuk akaun</string>
   <string name="form_AccountEdit_label_help_text">Label mengenalpasti akaun di dalam senarai akaun.</string>
@@ -121,6 +130,7 @@
   <string name="help_NavigationDrawer_info">Senarai akaun memudahkan anda menavigasi diantara akaun dengan hanya mengklik pada masukan tersebut.</string>
   <string name="menu_create_account_help_text">Cipta satu akaun baharu. Versi percuma terhad kepada lima akaun.</string>
   <string name="menu_NavigationDrawer_sort_help_text">Senarai akaun boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau kali terakhir transaksi dicipta untuknya.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">Dengan mengklik pada \"Suai\" anda bebas konfigur kedudukan setiap akaun.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Senarai akaun boleh dipapar berkempulan mengikut jenis akaun, mengikut matawang, atau tidak dikelompokkan.</string>
   <string name="form_instant_plan_help_text">Di sini anda boleh tetapkan transaksi yang berulang secara harian, mingguan, bulanan atau tahunan. Pada skrin \'Templat dan Plan\', anda boleh periksa plan yang dihasilkan dan konfigur pilihan lanjutannya. Jika sesebuah transaksi sudah dipautkan dengan plan, anda tidak boleh lagi mengubah jenis pengulangan, tetapi anda boleh buka paparan kalendar yang memaparkan semua tarikh pengulangan.</string>
   <!--SyncBackends-->
@@ -134,4 +144,9 @@
   <string name="cab_sync_link_help_text">Mulakan penyegerakan untuk akaun yang wujud secara setempat dan jauh. Anda perlu tentukan jika data setempat atau jauh perlu disimpan ketika penyegerakan pertama.</string>
   <string name="cab_sync_unlink_help_text">Akaun terpilih tiada lagi disegerakkan dengan bahagian belakang</string>
   <!--History-->
+  <string name="help_HistoryActivity_info">Skrin ini memaparkan aliran tunai anda, bagaimana perbelanjaan dan pendapatan anda berubah mengikut tahun, bulan, minggu atau hari.</string>
+  <string name="menu_HistoryActivity_grouping_help_text">Tukar antara pengumpulan data aliran tunai anda mengikut harian, mingguan, bulanan atau tahunan.</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">Togol ketampakan baki.</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">Togol, jika pemindahan patut dianggap seperti pendapatan atau perbelanjaan biasa.</string>
+  <!--Budget-->
 </resources>

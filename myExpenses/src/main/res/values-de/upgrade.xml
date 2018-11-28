@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_297">
+    <item>Benutzerdefinierte Währungen</item>
+  </string-array>
   <string-array name="whats_new_295">
     <item>Benutzerdefinierte Farben für Hauptkategorien</item>
   </string-array>

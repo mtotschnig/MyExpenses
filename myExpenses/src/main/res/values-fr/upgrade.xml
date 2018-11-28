@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_297">
+    <item>Devises personnalisées</item>
+  </string-array>
   <string-array name="whats_new_295">
     <item>Couleurs personnalisées pour les catégories principales</item>
   </string-array>

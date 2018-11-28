@@ -787,4 +787,8 @@
   <string name="content_description_clear_method">Effacer la méthode</string>
   <!--Description for button that allows to clear the selected category-->
   <string name="content_description_clear_category">Effacer la catégorie</string>
+  <string name="currency_code">Code</string>
+  <string name="dialog_title_new_currency">Nouvelle monnaie</string>
+  <string name="currency_code_already_definded">Le code de devise est déjà défini.</string>
+  <string name="currency_still_used">La devise est en cours d\'utilisation, ne peut pas être supprimée.</string>
 </resources>
