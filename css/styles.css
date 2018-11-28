@@ -157,7 +157,7 @@ Back to top button
 
 td.checked {
   text-align: center;
-  vertical-align: middle;
+  vertical-align: middle !important;
   color: darkgreen;
   font-size: x-large; 
 }
