@@ -1202,13 +1202,11 @@ public class Transaction extends Model {
     return findBySelection(selection, selectionArgs, KEY_ROWID);
   }
 
-
   public static boolean hasParent(Long id) {
     String selection = KEY_ROWID + " = ?";
     String[] selectionArgs = new String[]{String.valueOf(id)};
-    return findBySelection(selection, selectionArgs, KEY_PARENTID) != -1;
+    return findBySelection(selection, selectionArgs, KEY_PARENTID) != 0;
   }
-
 
   private static long findBySelection(String selection, String[] selectionArgs, String column) {
     Cursor cursor = cr().query(CONTENT_URI,
