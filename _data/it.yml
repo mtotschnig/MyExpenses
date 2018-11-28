@@ -35,6 +35,8 @@ it:
     feature:
       accounts_unlimited: Numero illimitato di <b>conti</b>
       ad_free: <b>Nessun annuncio</b>
+      email_support: <b>Supporto email</b> con risposta garantita dopo 2 giorni lavorativi
+      roadmap_voting: Votare direttamente sulla <b>roadmap di sviluppo</b>
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
   permissions:
@@ -54,5 +56,7 @@ it:
       explanation: Sincronizzare tra dispositivi attraverso i servizi cloud
   contrib-key: Chiave Contrib
   extended-key: Chiave Ampliata
+  professional-key: Chiave Professionale
   all_contrib_key_features: Tutte le caratteristiche di Contrib chiave
+  all_extended_key_features: Tutte le funzionalità della Chiave Ampliata
   customer_support: Servizio Clienti

@@ -38,7 +38,7 @@ pl:
     homescreen: <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania danych
   contrib:
     thank_you: |
-      Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
+        Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
     feature-list-title: "Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj nieograniczony dostęp do następujących funkcji:"
     feature:
       accounts_unlimited: Nielimitowana liczba <b>kont</b>
@@ -56,7 +56,6 @@ pl:
       split_template: Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
       email_support: <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
       roadmap_voting: Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
-      budgeting: <b>Przydzielanie budżetu</b>
     one-time-payment: Płatność jednorazowa
     subscription: Subskrypcja
   store:

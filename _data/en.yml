@@ -57,7 +57,7 @@ en:
       email_support: <b>Email support</b> with guaranteed response after 2 business days
       roadmap_voting: Voting right on <b>development roadmap</b>
       history_chart: <b>History chart</b> (Cash flow)
-      budgeting: <b>Budgeting</b>
+      budgeting: "<b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis."
     one-time-payment: One-time payment
     subscription: Subscription
   store:

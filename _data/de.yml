@@ -57,7 +57,7 @@ de:
       email_support: <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
       roadmap_voting: Stimmrecht zum <b>Entwicklungsfahrplan</b>
       history_chart: <b>Verlaufsdiagramm</b> (Cashflow)
-      budgeting: <b>Budgetierung</b>
+      budgeting: "<b> Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich."
     one-time-payment: Einmalige Zahlung
     subscription: Abonnement
   store:

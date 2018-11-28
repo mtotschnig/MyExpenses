@@ -57,7 +57,6 @@ bg:
       email_support: <b> Поддръжка по имейл </b> с гарантиран отговор до 2 работни дни
       roadmap_voting: Право да гласувате на <b> карта за развитие </b>
       history_chart: <b>Графика на историята</b> (паричен поток)
-      budgeting: <b>Бюджетиране</b>
     one-time-payment: Еднократно плащане
     subscription: Абонамент
   store:

@@ -18,38 +18,20 @@ ro:
     sourcecode: Codul sursă
     links: Link-uri
   features:
-    manage_accounts: Până la cinci conturi cu transferuri
-    plans: Definire şabloane şi planuri pentru tranzacţiile viitoare şi periodice
-    grouped_list: Grupare tranzacţii pe zile, săptămâni, ani şi afişare total pe grup
     distribution: Două niveluri de categorii (import din Grisbi XML)
     split: Split tranzacţii (Contrib versiune)
     calculator: Calculator
-    export: Export către QIF şi CSV (MS Excel), pot fi partajate automat (prin e-mail, FTP, Dropbox,...)
     import: 'Import date QIF '
-    password: Protecţie parolă
     help: Ajutor integrat
     backup: Date de backup şi restaurare
-    light_theme: "Doua teme: deschis şi întunecat"
     attach_picture: Ataseaza imagine la tranzactie
   contrib:
     thank_you: |
-      Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
-    feature:
-      accounts_unlimited: Număr nelimitat de conturi
-      plans_unlimited: Număr nelimitat de planuri
-      split_transaction: Tranzacţie repartizată
-      security_question: Întrebări securitate
-      template_widget: Şablon widget
-      print: Export listă tranzacţii în PDF
-      attach_picture: Ataseaza imagine la tranzactie
-      ad_free: Fără reclame
-      csv_import: CSV import
-      auto_backup: Activează auto-backup
-  permissions-heading: |
-    Cheltuielile Mele necesită următoarele permisiuni
-  permissions-calendar: |
-    Citieşte şi scrie în calendar: Planurile pentru tranzacţiile viitoare şi periodice sunt stocate într-un calendar special local  sau în orice alt calendar atribuit dvs.
-  permissions-external-storage: |
-    Scriere memorie  USB: Stocarea fişierelor de export şi backup QIF şi CSV
-  permissions-internet: |
-    Comunicare de reţea: Rapoartele  de blocare sunt automat trimise pentru dezvoltatori doar dacă nu s-a dezactivat de utilizator în  preferinţe aplicaţie.
+        Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
+  permissions:
+    internet:
+      explanation_crash_reporting: Rapoarte blocare
+    accounts:
+      label: Conturi
+  contrib-key: Cheie Contrib
+  extended-key: Cheie Extinse
