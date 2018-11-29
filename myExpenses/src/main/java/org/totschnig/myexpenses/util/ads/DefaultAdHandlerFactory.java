@@ -89,11 +89,10 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
     if (forceShow || (!isAdDisabled() && isRequestLocationInEeaOrUnknown() && !prefHandler.isSet(PERSONALIZED_AD_CONSENT))) {
       int positiveString;
       MessageDialogFragment.Button neutral = null;
-      String adProviders = "FinanceAds, PubNative";
+      String adProviders = "Google";
       if (DistribHelper.isGithub()) {
         positiveString = R.string.gdpr_consent_button_yes;
       } else {
-        adProviders = "Google, " + adProviders;
         positiveString = R.string.pref_ad_consent_title;
         neutral = new MessageDialogFragment.Button(R.string.ad_consent_non_personalized, R.id.GDPR_CONSENT_COMMAND, false);
       }
