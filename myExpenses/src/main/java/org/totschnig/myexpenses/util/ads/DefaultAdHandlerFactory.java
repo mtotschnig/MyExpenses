@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -90,12 +89,8 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
       int positiveString;
       MessageDialogFragment.Button neutral = null;
       String adProviders = "Google";
-      if (DistribHelper.isGithub()) {
-        positiveString = R.string.gdpr_consent_button_yes;
-      } else {
-        positiveString = R.string.pref_ad_consent_title;
-        neutral = new MessageDialogFragment.Button(R.string.ad_consent_non_personalized, R.id.GDPR_CONSENT_COMMAND, false);
-      }
+      positiveString = R.string.pref_ad_consent_title;
+      neutral = new MessageDialogFragment.Button(R.string.ad_consent_non_personalized, R.id.GDPR_CONSENT_COMMAND, false);
       MessageDialogFragment.Button positive = new MessageDialogFragment.Button(positiveString, R.id.GDPR_CONSENT_COMMAND, true);
 
       MessageDialogFragment.newInstance(
