@@ -101,7 +101,10 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putString(KEY_CURRENCY, currencySpinner.getSelectedItem().toString());
+    final Currency selectedItem = (Currency) currencySpinner.getSelectedItem();
+    if (selectedItem != null) {
+      outState.putString(KEY_CURRENCY, selectedItem.code());
+    }
     String label = labelEditText.getText().toString();
     outState.putBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY, TextUtils.isEmpty(label) ||
         label.equals(getString(R.string.default_account_name)));
@@ -160,10 +163,13 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     //currency
     currencySpinner = DialogUtils.configureCurrencySpinner(view, this);
 
+    Currency currency = savedInstanceState == null ? currencyViewModel.getDefault() :
+        Currency.create((String) savedInstanceState.get(KEY_CURRENCY));
+
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();
       adapter.addAll(currencies);
-      currencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
+      currencySpinner.setSelection(adapter.getPosition(currency));
     });
     currencyViewModel.loadCurrencies();
 
@@ -194,8 +200,6 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
     super.onViewStateRestored(savedInstanceState);
     if (savedInstanceState != null) {
-      currencySpinner.setSelection(((CurrencyAdapter) currencySpinner.getAdapter())
-          .getPosition(Currency.create((String) savedInstanceState.get(KEY_CURRENCY))));
       if(savedInstanceState.getBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY)) {
         setDefaultLabel();
       }
