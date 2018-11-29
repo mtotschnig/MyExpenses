@@ -245,11 +245,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     setHasOptionsMenu(true);
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
     viewModel.getAccount().observe(this, account -> {
-      boolean budgetChange = (mAccount == null || mAccount.getBudget() == null) != (account.getBudget() == null);
       mAccount = account;
-      if (mAdapter == null || budgetChange ) {
-        setAdapter();
-      }
+      setAdapter();
       setGrouping();
       Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
       Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
@@ -269,6 +266,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       Context ctx = getActivity();
       if (mAdapter == null) {
         mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
+      } else {
+        mAdapter.setAccount(mAccount);
       }
       mListView.setAdapter(mAdapter);
     }

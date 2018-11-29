@@ -291,6 +291,10 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     return super.swapCursor(cursor);
   }
 
+  public void setAccount(Account account) {
+    this.mAccount = account;
+  }
+
   class ViewHolder {
     @BindView(R.id.amount) TextView amount;
     @BindView(R.id.colorAccount) View colorAccount;
