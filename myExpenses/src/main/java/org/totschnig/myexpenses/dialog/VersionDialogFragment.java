@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -25,6 +26,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -148,7 +150,11 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     String uri = "https://www.facebook.com/MyExpenses/posts/" + postId;
     Intent i = new Intent(Intent.ACTION_VIEW);
     i.setData(Uri.parse(uri));
-    startActivity(i);
+    try {
+      startActivity(i);
+    } catch (ActivityNotFoundException e) {
+      showSnackbar("No acitivy found for opening release info", Snackbar.LENGTH_LONG, null);
+    }
   }
 
   @Override
