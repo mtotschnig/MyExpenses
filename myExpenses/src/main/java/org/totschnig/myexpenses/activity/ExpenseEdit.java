@@ -1207,8 +1207,6 @@ public class ExpenseEdit extends AmountActivity implements
     if (amount == null) {
       //Snackbar is shown in validateAmountInput
       validP = false;
-    } else {
-      mTransaction.setAmount(new Money(account.getCurrencyUnit(), amount));
     }
     mTransaction.setAccountId(account.getId());
 
@@ -1267,22 +1265,31 @@ public class ExpenseEdit extends AmountActivity implements
             }
           }
         }
-        mTransaction.setTransferAmount(new Money(transferAccount.getCurrencyUnit(), transferAmount != null ?
-            transferAmount : mTransaction.getTransferAmount().getAmountMajor()));
+        if (validP) {
+          ((Transfer) mTransaction).setAmountAndTransferAmount(
+              new Money(account.getCurrencyUnit(), amount),
+              new Money(transferAccount.getCurrencyUnit(), transferAmount != null ?
+              transferAmount : mTransaction.getTransferAmount().getAmountMajor()));
+        }
       }
-    } else if (mIsMainTransaction) {
-      BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
-      final Currency selectedItem = (Currency) mCurrencySpinner.getSelectedItem();
-      if (selectedItem != null && originalAmount != null) {
-        final String currency = selectedItem.code();
-        LAST_ORIGINAL_CURRENCY.putString(currency);
-        mTransaction.setOriginalAmount(new Money(currencyContext.get(currency), originalAmount));
-      } else {
-        mTransaction.setOriginalAmount(null);
+    } else {
+      if (validP) {
+        mTransaction.setAmount(new Money(account.getCurrencyUnit(), amount));
       }
-      BigDecimal equivalentAmount = validateAmountInput(equivalentAmountText, false);
-      mTransaction.setEquivalentAmount(equivalentAmount == null ? null :
-          new Money(Utils.getHomeCurrency(), isIncome() ? equivalentAmount : equivalentAmount.negate()));
+      if (mIsMainTransaction) {
+        BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
+        final Currency selectedItem = (Currency) mCurrencySpinner.getSelectedItem();
+        if (selectedItem != null && originalAmount != null) {
+          final String currency = selectedItem.code();
+          LAST_ORIGINAL_CURRENCY.putString(currency);
+          mTransaction.setOriginalAmount(new Money(currencyContext.get(currency), originalAmount));
+        } else {
+          mTransaction.setOriginalAmount(null);
+        }
+        BigDecimal equivalentAmount = validateAmountInput(equivalentAmountText, false);
+        mTransaction.setEquivalentAmount(equivalentAmount == null ? null :
+            new Money(Utils.getHomeCurrency(), isIncome() ? equivalentAmount : equivalentAmount.negate()));
+      }
     }
     if (mIsMainTemplate) {
       title = mTitleText.getText().toString();

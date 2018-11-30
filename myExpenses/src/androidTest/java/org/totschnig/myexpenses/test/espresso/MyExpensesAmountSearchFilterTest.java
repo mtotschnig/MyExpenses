@@ -86,7 +86,7 @@ public final class MyExpensesAmountSearchFilterTest extends BaseUiTest {
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_AMOUNT, amount))
         .inAdapterView(getWrappedList()).check(matches(isDisplayed()));
   }
-  
+
   private void amountIsNotDisplayed(long amount) {
     onView(getWrappedList())
         .check(matches(not(Matchers.withAdaptedData(
