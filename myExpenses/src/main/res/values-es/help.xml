@@ -118,6 +118,8 @@
   <string name="form_MethodEdit_account_types_help_text">Seleccione los tipos de cuenta para las que este método es aplicable.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Para cada moneda, puede modificar el número de dígitos fraccionados a utilizar. Por ejemplo con el euro, si tiene que manejar 1/10 de centavo, es decir, 1/1000 de euro, se establecería el número a tres. Las cuentas existentes que utilizan esa moneda, se cambiarán con la nueva configuración.</string>
+  <string name="help_ManageCurrencies_symbol">También puede configurar el símbolo de divisa, usada en las cantidades de una divisa específica ya configurada. </string>
+  <string name="help_ManageCurrencies_new">Para divisas personalizadas, puede establecer un nombre que se mostrará en los menús cuando se seleccione una divisa y un código alfabético, formado por tres caracteres.</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">La carpeta que seleccione aquí, se utilizará para almacenar copias de seguridad y exportaciones. Puede navegar a través de las carpetas hasta llegar a la carpeta deseada.</string>
   <string name="menu_create_folder_help_text">Crear una nueva carpeta dentro de la carpeta actual.</string>

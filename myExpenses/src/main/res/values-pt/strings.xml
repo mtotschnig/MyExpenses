@@ -718,8 +718,14 @@ continuar?</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">Desagrupar divisão</string>
   <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
+  <string name="pref_transaction_time_summary">Permitir a definição da data da transação exata.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="licence_expires_n_days">A sua chave profissional irá expirar em %d dias</string>
+  <string name="licence_expires_tomorrow">A sua chave profissional irá expirar amanhã</string>
+  <string name="licence_expires_today">A sua chave profissional expira hoje</string>
+  <string name="licence_expired_yesterday">A sua chave profissional expirou ontem</string>
+  <string name="licence_has_expired_n_days">A sua chave profissional expirou %d dias atrás</string>
   <string name="pref_category_title_privacy">Privacidade</string>
   <string name="pref_ad_consent_title">Anúncios personalizados</string>
   <string name="ad_consent_non_personalized">Anúncios não personalizados</string>
@@ -737,6 +743,18 @@ continuar?</string>
   <string name="content_description_expand">Expandir</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
   <string name="goal_or_limit">Objetivo / Limite</string>
+  <string name="credit_limit">Limite de crédito</string>
+  <string name="clear_all_filters">Limpar todos os filtros</string>
+  <string name="budget_table_header_allocated">Alocado</string>
+  <string name="budget_table_header_spent">Gasto</string>
+  <string name="budget_table_header_remainder">Restante</string>
+  <string name="budget_allocated_amount">Quantia alocada</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Limpar o método</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Limpar a categoria</string>
+  <string name="currency_code">Código</string>
+  <string name="dialog_title_new_currency">Nova moeda</string>
+  <string name="currency_code_already_definded">Esse código de moeda já está definido.</string>
+  <string name="currency_still_used">Essa moeda está em uso, não pode ser excluída.</string>
 </resources>

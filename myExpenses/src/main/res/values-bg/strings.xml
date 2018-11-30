@@ -787,4 +787,8 @@
   <string name="content_description_clear_method">Изчисти метод</string>
   <!--Description for button that allows to clear the selected category-->
   <string name="content_description_clear_category">Изчисти категория</string>
+  <string name="currency_code">Код</string>
+  <string name="dialog_title_new_currency">Нова валута</string>
+  <string name="currency_code_already_definded">Този код за валута вече е дефиниран.</string>
+  <string name="currency_still_used">Валутата се използва, не може да бъде изтрита.</string>
 </resources>

@@ -787,4 +787,8 @@
   <string name="content_description_clear_method">Borrar proceso</string>
   <!--Description for button that allows to clear the selected category-->
   <string name="content_description_clear_category">Borrar categoría</string>
+  <string name="currency_code">Código</string>
+  <string name="dialog_title_new_currency">Nueva divisa</string>
+  <string name="currency_code_already_definded">El código de divisa ya está definido.</string>
+  <string name="currency_still_used">La divisa se encuentra en uso, no puede eliminarse.</string>
 </resources>

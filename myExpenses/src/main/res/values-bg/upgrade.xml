@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_297">
+    <item>Валути, дефинирани от потребителя</item>
+  </string-array>
   <string-array name="whats_new_295">
     <item>Избор на цвят за главните категории</item>
   </string-array>
