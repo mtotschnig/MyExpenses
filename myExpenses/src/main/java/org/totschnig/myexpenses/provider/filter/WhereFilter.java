@@ -104,7 +104,9 @@ public class WhereFilter {
   }
 
   public void put(int id, Criteria criteria) {
-    criterias.put(id, criteria);
+    if (criteria != null) {
+      criterias.put(id, criteria);
+    }
   }
 
   public void remove(int id) {

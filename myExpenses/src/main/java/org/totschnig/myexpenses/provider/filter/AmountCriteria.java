@@ -164,11 +164,15 @@ public class AmountCriteria extends Criteria {
   public static AmountCriteria fromStringExtra(String extra) {
     String[] values = extra.split(EXTRA_SEPARATOR);
     Operation op = Operation.valueOf(values[0]);
-    return new AmountCriteria(
-        op,
-        values[1],
-        values[2].equals("1"),
-        Long.valueOf(values[3]),
-        op == Operation.BTW ? Long.valueOf(values[4]) : null);
+    try {
+      return new AmountCriteria(
+          op,
+          values[1],
+          values[2].equals("1"),
+          Long.valueOf(values[3]),
+          op == Operation.BTW ? Long.valueOf(values[4]) : null);
+    } catch (NumberFormatException e) {
+      return null;
+    }
   }
 }

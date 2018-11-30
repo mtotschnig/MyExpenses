@@ -439,7 +439,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>352;2.9.7</item>
+        <item>353;2.9.7.1</item>
         <item>351;2.9.7</item>
         <item>346;2.9.6</item>
         <item>343;2.9.5</item>
