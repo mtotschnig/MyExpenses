@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.support.annotation.NonNull;
+
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
@@ -26,12 +28,12 @@ public class Money implements Serializable {
   private CurrencyUnit currencyUnit;
   private Long amountMinor;
 
-  public Money(CurrencyUnit currencyUnit, Long amountMinor) {
+  public Money(CurrencyUnit currencyUnit, @NonNull Long amountMinor) {
     this.currencyUnit = currencyUnit;
     this.amountMinor = amountMinor;
   }
 
-  public Money(CurrencyUnit currencyUnit, BigDecimal amountMajor) {
+  public Money(CurrencyUnit currencyUnit, @NonNull BigDecimal amountMajor) {
     this.currencyUnit = currencyUnit;
     setAmountMajor(amountMajor);
   }

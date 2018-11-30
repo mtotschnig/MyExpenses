@@ -106,6 +106,6 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
         currency.code(),
         type,
         new Money(currency, bdAmount1).getAmountMinor(),
-        new Money(currency, bdAmount2).getAmountMinor()));
+        bdAmount2 != null ? new Money(currency, bdAmount2).getAmountMinor() : null));
   }
 }
