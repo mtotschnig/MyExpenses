@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -102,13 +101,9 @@ public class BudgetFragment extends DistributionBaseFragment {
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    long accountId = getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0);
-    mAccount = Account.getInstanceFromDb(accountId);
+    setupAccount();
     if (mAccount == null) {
-      TextView tv = new TextView(getContext());
-      //noinspection SetTextI18n
-      tv.setText("Error loading budget for account " + accountId);
-      return tv;
+      return errorView();
     }
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);

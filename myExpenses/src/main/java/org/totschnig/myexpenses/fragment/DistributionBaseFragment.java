@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.support.v4.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -56,6 +58,10 @@ public abstract class DistributionBaseFragment extends CategoryList {
   private Disposable dateInfoDisposable;
   private Disposable sumDisposable;
   protected Account mAccount;
+
+  protected void setupAccount() {
+    mAccount = Account.getInstanceFromDb(getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0));
+  }
 
   protected void disposeDateInfo() {
     if (dateInfoDisposable != null && !dateInfoDisposable.isDisposed()) {
@@ -123,6 +129,13 @@ public abstract class DistributionBaseFragment extends CategoryList {
             }
           }
         });
+  }
+
+  protected View errorView() {
+    TextView tv = new TextView(getContext());
+    //noinspection SetTextI18n
+    tv.setText("Error loading budget for account");
+    return tv;
   }
 
   protected void onDateInfoReceived(Cursor cursor) {

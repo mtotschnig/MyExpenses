@@ -34,7 +34,6 @@ import com.squareup.sqlbrite3.QueryObservable;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -80,20 +79,16 @@ public class DistributionFragment extends DistributionBaseFragment {
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    setupAccount();
+    if (mAccount == null) {
+      return errorView();
+    }
     aggregateTypes = PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
     showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
 
-    final long accountId = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
-    mAccount = Account.getInstanceFromDb(accountId);
-    if (mAccount == null) {
-      TextView tv = new TextView(ctx);
-      //noinspection SetTextI18n
-      tv.setText("Error loading distribution for account " + accountId);
-      return tv;
-    }
     Bundle b = savedInstanceState != null ? savedInstanceState : extras;
 
     mGrouping = (Grouping) b.getSerializable(KEY_GROUPING);
@@ -401,9 +396,9 @@ public class DistributionFragment extends DistributionBaseFragment {
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    updateSum();
-    updateDateInfo(true);
     if (mAccount != null) {
+      updateSum();
+      updateDateInfo(true);
       ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
       ActionBar actionBar = ctx.getSupportActionBar();
       actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
