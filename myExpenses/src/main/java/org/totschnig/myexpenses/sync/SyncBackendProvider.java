@@ -29,9 +29,9 @@ public interface SyncBackendProvider {
   void unlock() throws IOException;
 
   @NonNull
-  ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException;
+  ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException;
 
-  long writeChangeSet(long lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
+  @NonNull SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
 
   @NonNull
   Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException;

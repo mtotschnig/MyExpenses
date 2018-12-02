@@ -101,6 +101,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SHARD_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
@@ -264,6 +265,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_SORT_KEY + " integer, "
           + KEY_SYNC_ACCOUNT_NAME + " text, "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
+          + KEY_SYNC_SHARD_LOCAL + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
           + KEY_UUID + " text, "
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
@@ -407,6 +409,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " ( " + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer, "
+          + KEY_SYNC_SHARD_LOCAL + " integer, "
           + KEY_UUID + " text not null, "
           + KEY_TIMESTAMP + " datetime DEFAULT (strftime('%s','now')), "
           + KEY_PARENT_UUID + " text, "
@@ -442,11 +445,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
 
   private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
+  private static final String SELECT_SEQUCENE_SHARD_TEMLATE = "(SELECT " + KEY_SYNC_SHARD_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
   private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
 
   private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
       + KEY_SYNC_SEQUENCE_LOCAL + ", "
+      + KEY_SYNC_SHARD_LOCAL + ", "
       + KEY_UUID + ", "
       + KEY_PARENT_UUID + ", "
       + KEY_COMMENT + ", "
@@ -465,6 +470,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_REFERENCE_NUMBER + ", "
       + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "', "
       + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") + ", "
+      + String.format(Locale.US, SELECT_SEQUCENE_SHARD_TEMLATE, "new") + ", "
       + "new." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
       + "new." + KEY_COMMENT + ", "
@@ -486,10 +492,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String DELETE_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
       + KEY_SYNC_SEQUENCE_LOCAL + ", "
+      + KEY_SYNC_SHARD_LOCAL + ", "
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
       + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+      + String.format(Locale.US, SELECT_SEQUCENE_SHARD_TEMLATE, "old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "old." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
@@ -497,10 +505,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
       + KEY_SYNC_SEQUENCE_LOCAL + ", "
+      + KEY_SYNC_SHARD_LOCAL + ", "
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
       + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+      + String.format(Locale.US, SELECT_SEQUCENE_SHARD_TEMLATE, "old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "new." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
@@ -554,6 +564,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
           + KEY_TYPE + ","
           + KEY_SYNC_SEQUENCE_LOCAL + ", "
+          + KEY_SYNC_SHARD_LOCAL + ", "
           + KEY_UUID + ", "
           + KEY_ACCOUNTID + ", "
           + KEY_PARENT_UUID + ", "
@@ -572,6 +583,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_REFERENCE_NUMBER + ", "
           + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "', "
           + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+          + String.format(Locale.US, SELECT_SEQUCENE_SHARD_TEMLATE, "old") + ", "
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
           + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
@@ -625,7 +637,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + "AFTER UPDATE ON " + TABLE_ACCOUNTS
       + " WHEN new." + KEY_SYNC_ACCOUNT_NAME + " IS NULL AND old." + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL "
       + "BEGIN "
-      + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0 WHERE " + KEY_ROWID + " = old." + KEY_ROWID + "; "
+      + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0, " + KEY_SYNC_SHARD_LOCAL + " = 0 WHERE " + KEY_ROWID + " = old." + KEY_ROWID + "; "
       + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID + " = old." + KEY_ROWID + "; "
       + "END;";
 

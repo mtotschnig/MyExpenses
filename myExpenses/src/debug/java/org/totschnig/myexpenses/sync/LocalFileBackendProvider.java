@@ -3,15 +3,17 @@ package org.totschnig.myexpenses.sync;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import dagger.internal.Preconditions;
@@ -50,7 +53,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
           createWarningFile();
       }
     } else {
-      throw new IOException("Cannot create accout dir");
+      throw new IOException("Cannot create account dir");
     }
   }
 
@@ -112,35 +115,65 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected long getLastSequence(long start) {
-    return Stream.of(filterFiles(start))
-        .map(file -> getSequenceFromFileName(file.getName()))
-        .max(Utils::compare)
+  protected SequenceNumber getLastSequence(SequenceNumber start) {
+    final Comparator<File> fileComparator = (o1, o2) -> Utils.compare(getSequenceFromFileName(o1.getName()), getSequenceFromFileName(o2.getName()));
+    Optional<File> lastShardOptional = Stream.of(accountDir.listFiles(
+        file -> file.isDirectory() && isAtLeastShardDir(start.shard, file.getName())))
+        .max(fileComparator);
+    File lastShard;
+    int lastShardInt;
+    if (lastShardOptional.isPresent()) {
+      lastShard = lastShardOptional.get();
+      lastShardInt = getSequenceFromFileName(lastShard.getName());
+    } else {
+      if (start.shard > 0) return start;
+      lastShard = accountDir;
+      lastShardInt = 0;
+    }
+    return Stream.of(lastShard.listFiles(file -> isNewerJsonFile(start.number, file.getName())))
+        .max(fileComparator)
+        .map(file -> new SequenceNumber(lastShardInt, getSequenceFromFileName(file.getName())))
         .orElse(start);
   }
 
-  private File[] filterFiles(long sequenceNumber) {
+  private List<Pair<Integer, File>> filterFiles(SequenceNumber sequenceNumber) {
     Preconditions.checkNotNull(accountDir);
-    return accountDir.listFiles(file -> isNewerJsonFile(sequenceNumber, file.getName()));
+    File shardDir = sequenceNumber.shard == 0 ? accountDir : new File(accountDir, "_" +sequenceNumber.shard);
+    if (!shardDir.isDirectory()) return new ArrayList<>();
+    List<Pair<Integer, File>> result = Stream.of(shardDir.listFiles(file -> isNewerJsonFile(sequenceNumber.number, file.getName())))
+        .map(file -> Pair.create(0, file)).collect(Collectors.toList());
+    int nextShard = sequenceNumber.shard + 1;
+    while(true) {
+      File nextShardDir = new File(accountDir, "_" + nextShard);
+      if (nextShardDir.isDirectory()) {
+        int finalNextShard = nextShard;
+        Stream.of(nextShardDir.listFiles(file -> isNewerJsonFile(0, file.getName())))
+            .map(file -> Pair.create(finalNextShard, file)).forEach(result::add);
+        nextShard++;
+      } else {
+        break;
+      }
+    }
+    return result;
   }
 
   @Override
   public void lock() {
   }
 
-  @NonNull
   @Override
-  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
+  public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
     List<ChangeSet> changeSets = new ArrayList<>();
-    for (File file: filterFiles(sequenceNumber)) {
+    for (Pair<Integer, File> file: filterFiles(sequenceNumber)) {
       changeSets.add(getChangeSetFromFile(file));
     }
     return merge(Stream.of(changeSets)).orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getChangeSetFromFile(File file) throws IOException {
-    FileInputStream inputStream = new FileInputStream(file);
-    ChangeSet changeSetFromInputStream = getChangeSetFromInputStream(getSequenceFromFileName(file.getName()), inputStream);
+  private ChangeSet getChangeSetFromFile(Pair<Integer, File> file) throws IOException {
+    FileInputStream inputStream = new FileInputStream(file.second);
+    ChangeSet changeSetFromInputStream = getChangeSetFromInputStream(
+        new SequenceNumber(file.first, getSequenceFromFileName(file.second.getName())), inputStream);
     inputStream.close();
     return changeSetFromInputStream;
   }
@@ -166,9 +199,16 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
     Preconditions.checkNotNull(accountDir);
-    saveFileContents(new File(accountDir, fileName), fileContents);
+    File dir = folder == null ? accountDir : new File(accountDir, folder);
+    //noinspection ResultOfMethodCallIgnored
+    dir.mkdir();
+    if (dir.isDirectory()) {
+      saveFileContents(new File(dir, fileName), fileContents);
+    } else {
+      throw new IOException("Cannot create dir");
+    }
   }
 
   @Override

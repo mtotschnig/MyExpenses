@@ -79,7 +79,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       requireFolder(accountPath);
       String metadataPath = getResourcePath(ACCOUNT_METADATA_FILENAME);
       if (!exists(metadataPath)) {
-        saveFileContents(ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
+        saveFileContents(null, ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
         createWarningFile();
       }
     } catch (DbxException e) {
@@ -177,23 +177,24 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
+  public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
     return merge(filterMetadata(sequenceNumber).map(this::getChangeSetFromMetadata))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
 
   private ChangeSet getChangeSetFromMetadata(Metadata metadata) {
     try {
-      return getChangeSetFromInputStream(getSequenceFromFileName(metadata.getName()), getInputStream(metadata.getPathLower()));
+      return getChangeSetFromInputStream(new SequenceNumber(0, getSequenceFromFileName(metadata.getName())),
+          getInputStream(metadata.getPathLower()));
     } catch (IOException e) {
-      return ChangeSet.failed;
+      return null;
     }
   }
 
-  private Stream<Metadata> filterMetadata(long sequenceNumber) throws IOException {
+  private Stream<Metadata> filterMetadata(SequenceNumber sequenceNumber) throws IOException {
     try {
       return Stream.of(mDbxClient.files().listFolder(getAccountPath()).getEntries())
-          .filter(metadata -> isNewerJsonFile(sequenceNumber, metadata.getName()));
+          .filter(metadata -> isNewerJsonFile(sequenceNumber.number, metadata.getName()));
     } catch (DbxException e) {
       throw new IOException(e);
     }
@@ -241,15 +242,16 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected long getLastSequence(long start) throws IOException {
+  protected SequenceNumber getLastSequence(SequenceNumber start) throws IOException {
     return filterMetadata(start)
         .map(metadata -> getSequenceFromFileName(metadata.getName()))
         .max(Utils::compare)
+        .map(max -> new SequenceNumber(0, max))
         .orElse(start);
   }
 
   @Override
-  void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
     saveInputStream(getAccountPath() + "/" +  fileName, new ByteArrayInputStream(fileContents.getBytes()));
   }
 

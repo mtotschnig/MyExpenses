@@ -52,7 +52,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
   static final String MIMETYPE_JSON = "application/json";
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
-  private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
+  protected static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
   private static final long LOCK_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES);
@@ -99,12 +99,12 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return false;
   }
 
-  ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream)
+  @Nullable ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
       throws IOException {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     List<TransactionChange> changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
     if (changes == null || changes.size() == 0) {
-      return ChangeSet.failed;
+      return null;
     }
     for (ListIterator<TransactionChange> iterator = changes.listIterator(); iterator.hasNext(); ) {
       TransactionChange transactionChange = iterator.next();
@@ -159,20 +159,24 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
   }
 
-  boolean isNewerJsonFile(long sequenceNumber, String name) {
+  boolean isAtLeastShardDir(int shardNumber, String name) {
+    return FILE_PATTERN.matcher(name).matches() &&
+        Long.parseLong(name.substring(1)) >= shardNumber;
+  }
+
+  boolean isNewerJsonFile(int sequenceNumber, String name) {
     String fileName = getNameWithoutExtension(name);
     String fileExtension = getFileExtension(name);
     return fileExtension.equals("json") && FILE_PATTERN.matcher(fileName).matches() &&
-        Long.parseLong(fileName.substring(1)) > sequenceNumber;
+        Integer.parseInt(fileName.substring(1)) > sequenceNumber;
   }
 
   protected Optional<ChangeSet> merge(Stream<ChangeSet> changeSetStream) {
     return changeSetStream.reduce(ChangeSet::merge);
   }
 
-  @NonNull
-  Long getSequenceFromFileName(String fileName) {
-    return Long.parseLong(getNameWithoutExtension(fileName).substring(1));
+  int getSequenceFromFileName(String fileName) {
+    return Integer.parseInt(getNameWithoutExtension(fileName).substring(1));
   }
 
   //from Guava
@@ -204,8 +208,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   @Override
-  public long writeChangeSet(long lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException {
-    long nextSequence = getLastSequence(lastSequenceNumber) + 1;
+  public SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException {
+    SequenceNumber nextSequence = getLastSequence(lastSequenceNumber).next();
     for (int i = 0; i < changeSet.size(); i++) {
       TransactionChange mappedChange = mapPictureDuringWrite(changeSet.get(i));
       if (appInstance != null) {
@@ -218,11 +222,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       }
       changeSet.set(i, mappedChange);
     }
-    String fileName = "_" + nextSequence + ".json";
+    String fileName = "_" + nextSequence.number + ".json";
     String fileContents = gson.toJson(changeSet);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
-    saveFileContents(fileName, fileContents, MIMETYPE_JSON);
+    saveFileContents(nextSequence.shard == 0 ? null : "_"+ nextSequence.shard, fileName, fileContents, MIMETYPE_JSON);
     return nextSequence;
   }
 
@@ -243,13 +247,13 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         StringUtils.substringAfterLast(fileName, "/") : fileName;
   }
 
-  protected abstract long getLastSequence(long start) throws IOException;
+  protected abstract SequenceNumber getLastSequence(SequenceNumber start) throws IOException;
 
-  abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
+  abstract void saveFileContents(@Nullable String folder, String fileName, String fileContents, String mimeType) throws IOException;
 
   void createWarningFile() {
     try {
-      saveFileContents("IMPORTANT_INFORMATION.txt",
+      saveFileContents(null, "IMPORTANT_INFORMATION.txt",
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {

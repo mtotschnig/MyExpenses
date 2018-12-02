@@ -88,6 +88,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SHARD_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 
@@ -270,9 +271,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId);
           String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId);
 
-          long lastSyncedLocal = Long.parseLong(getUserDataWithDefault(accountManager, account,
+          SequenceNumber lastSyncedLocal = SequenceNumber.parse(getUserDataWithDefault(accountManager, account,
               lastLocalSyncKey, "0"));
-          long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
+          SequenceNumber lastSyncedRemote = SequenceNumber.parse(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           final org.totschnig.myexpenses.model.Account instanceFromDb = org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId);
           if (instanceFromDb == null) {
@@ -327,7 +328,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           try {
             ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
-            if (changeSetSince.isFailed()) {
+            if (changeSetSince == null) {
               syncResult.stats.numIoExceptions++;
               syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
               notifyIoException(R.string.sync_io_exception_reading_change_set, account);
@@ -339,13 +340,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             remoteChanges = changeSetSince.changes;
 
             List<TransactionChange> localChanges = new ArrayList<>();
-            long sequenceToTest = lastSyncedLocal + 1;
+
+            /* Start Fallback
+             * We could still have legacy sequences beyond the limit from before the introduction of shards */
+            SequenceNumber sequenceToTest;
+            if (lastSyncedLocal.shard == 0) {
+              while (true) {
+                sequenceToTest = new SequenceNumber(0, lastSyncedLocal.number + 1);
+                List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
+                if (nextChanges.size() > 0) {
+                  localChanges.addAll(nextChanges);
+                  lastSyncedLocal = sequenceToTest;
+                } else {
+                  break;
+                }
+              }
+            }
+            /* End Fallback */
+
             while (true) {
+              sequenceToTest = lastSyncedLocal.next();
               List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
               if (nextChanges.size() > 0) {
                 localChanges.addAll(nextChanges);
                 lastSyncedLocal = sequenceToTest;
-                sequenceToTest++;
               } else {
                 break;
               }
@@ -370,17 +388,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
               if (localChanges.size() > 0) {
                 lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
-                if (lastSyncedRemote != ChangeSet.FAILED) {
-                  if (!BuildConfig.DEBUG) {
-                    // on debug build for auditing purposes, we keep changes in the table
-                    provider.delete(TransactionProvider.CHANGES_URI,
-                        KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
-                        new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
-                  }
-                  accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
-                  accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-                  successLocal2Remote = localChanges.size();
+                if (!BuildConfig.DEBUG) {
+                  // on debug build for auditing purposes, we keep changes in the table
+                  final String shard = String.valueOf(lastSyncedLocal.shard);
+                  provider.delete(TransactionProvider.CHANGES_URI,
+                      KEY_ACCOUNTID + " = ? AND (" + KEY_SYNC_SHARD_LOCAL + " < ? OR (" + KEY_SYNC_SHARD_LOCAL + " = ? AND " +  KEY_SYNC_SEQUENCE_LOCAL + " <= ?  ))",
+                      new String[]{String.valueOf(accountId), shard, shard, String.valueOf(lastSyncedLocal.number)});
                 }
+                accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
+                accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                successLocal2Remote = localChanges.size();
               }
             }
             completedWithoutError = true;
@@ -531,18 +548,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,
-                                                  long sequenceNumber) throws RemoteException {
+                                                  SequenceNumber sequenceNumber) throws RemoteException {
     List<TransactionChange> result = new ArrayList<>();
     Uri changesUri = buildChangesUri(sequenceNumber, accountId);
     boolean hasLocalChanges = hasLocalChanges(provider, changesUri);
     if (hasLocalChanges) {
-      ContentValues currentSyncIncrease = new ContentValues(1);
-      long nextSequence = sequenceNumber + 1;
-      currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
+      ContentValues currentSyncIncrease = new ContentValues(2);
+      SequenceNumber nextSequence = sequenceNumber.next();
+      currentSyncIncrease.put(KEY_SYNC_SHARD_LOCAL, nextSequence.shard);
+      currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence.number);
       //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
       //we must take care to not decrease it here
-      provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
-          new String[]{String.valueOf(accountId), String.valueOf(nextSequence)});
+      final String shard = String.valueOf(nextSequence.shard);
+      provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ?  AND (" + KEY_SYNC_SHARD_LOCAL + " < ? OR (" + KEY_SYNC_SHARD_LOCAL + " = ? AND " +  KEY_SYNC_SEQUENCE_LOCAL + " <= ?  ))",
+          new String[]{String.valueOf(accountId), shard, shard, String.valueOf(nextSequence.number)});
     }
     if (hasLocalChanges) {
       Cursor c = provider.query(changesUri, null, null, null, null);
@@ -950,10 +969,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return builder.setCurrentTimeStamp().build();
   }
 
-  private Uri buildChangesUri(long current_sync, long accountId) {
+  private Uri buildChangesUri(SequenceNumber current_sync, long accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
         .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, String.valueOf(accountId))
-        .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync))
+        .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync.number))
+        .appendQueryParameter(KEY_SYNC_SHARD_LOCAL, String.valueOf(current_sync.shard))
         .build();
   }
 

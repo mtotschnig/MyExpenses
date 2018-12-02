@@ -132,23 +132,23 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
+  public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
     return merge(filterDavResources(sequenceNumber).map(this::getChangeSetFromDavResource))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
 
   private ChangeSet getChangeSetFromDavResource(DavResource davResource) {
     try {
-      return getChangeSetFromInputStream(getSequenceFromFileName(davResource.fileName()),
+      return getChangeSetFromInputStream(new SequenceNumber(0, getSequenceFromFileName(davResource.fileName())),
           davResource.get(MIMETYPE_JSON).byteStream());
     } catch (IOException | HttpException | DavException e) {
-      return ChangeSet.failed;
+      return null;
     }
   }
 
-  private Stream<DavResource> filterDavResources(long sequenceNumber) throws IOException {
+  private Stream<DavResource> filterDavResources(SequenceNumber sequenceNumber) throws IOException {
     return Stream.of(webDavClient.getFolderMembers(accountUuid))
-        .filter(davResource -> isNewerJsonFile(sequenceNumber, davResource.fileName()));
+        .filter(davResource -> isNewerJsonFile(sequenceNumber.number, davResource.fileName()));
   }
 
   @NonNull
@@ -235,15 +235,16 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected long getLastSequence(long start) throws IOException {
+  protected SequenceNumber getLastSequence(SequenceNumber start) throws IOException {
     return filterDavResources(start)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))
         .max(Utils::compare)
+        .map(max -> new SequenceNumber(0, max))
         .orElse(start);
   }
 
   @Override
-  void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
     try {
       webDavClient.upload(accountUuid, fileName, fileContents,
           MediaType.parse(mimeType + "; charset=utf-8"));
