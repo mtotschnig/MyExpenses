@@ -163,8 +163,16 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     //currency
     currencySpinner = DialogUtils.configureCurrencySpinner(view, this);
 
-    Currency currency = savedInstanceState == null ? currencyViewModel.getDefault() :
-        Currency.create((String) savedInstanceState.get(KEY_CURRENCY));
+    Currency currency = null;
+    if (savedInstanceState != null) {
+      final String code = (String) savedInstanceState.get(KEY_CURRENCY);
+      if (code != null) {
+        currency = Currency.create(code);
+      }
+    }
+    if (currency == null) {
+      currency = currencyViewModel.getDefault();
+    }
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();

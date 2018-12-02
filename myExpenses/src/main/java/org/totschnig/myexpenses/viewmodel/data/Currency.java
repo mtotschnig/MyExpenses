@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel.data;
 
 import android.database.Cursor;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
 
@@ -21,7 +22,7 @@ public abstract class Currency implements Serializable {
     return displayName;
   }
 
-  public static Currency create(String code) {
+  public static Currency create(@NonNull String code) {
     Currency currency = new AutoValue_Currency(code);
     currency.displayName = findDisplayName(code);
     return currency;
