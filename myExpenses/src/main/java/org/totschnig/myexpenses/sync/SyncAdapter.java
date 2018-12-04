@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -245,7 +246,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           //make sure user data did not stick around after a user might have cleared data
           accountManager.setUserData(account, KEY_LAST_SYNCED_LOCAL(accountId), null);
           accountManager.setUserData(account, KEY_LAST_SYNCED_REMOTE(accountId), null);
-        } catch (RemoteException e) {
+        } catch (RemoteException | SQLiteConstraintException e) {
           syncResult.databaseError = true;
           notifyDatabaseError(e, account);
           return;
