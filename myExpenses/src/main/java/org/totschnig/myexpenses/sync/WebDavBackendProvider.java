@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
-import at.bitfire.dav4android.LockableDavResource;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -27,9 +26,9 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import at.bitfire.dav4android.DavResource;
+import at.bitfire.dav4android.LockableDavResource;
 import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.exception.HttpException;
 import okhttp3.MediaType;
@@ -157,8 +156,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     if (!shardResource.exists()) {
       return new ArrayList<>();
     }
-    final Set<DavResource> folderMembers = webDavClient.getFolderMembers(shardResource);
-    List<Pair<Integer, DavResource>> result = Stream.of(folderMembers)
+    List<Pair<Integer, DavResource>> result = Stream.of(webDavClient.getFolderMembers(shardResource))
         .filter(davResource -> isNewerJsonFile(sequenceNumber.number, davResource.fileName()))
         .map(davResource -> Pair.create(sequenceNumber.shard, davResource)).collect(Collectors.toList());
     int nextShard = sequenceNumber.shard + 1;
@@ -265,18 +263,20 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         .filter(davResource -> LockableDavResource.isCollection(davResource) && isAtLeastShardDir(start.shard, davResource.fileName()))
         .max(resourceComparator);
     String[] lastShardPath;
-    int lastShardInt;
+    int lastShardInt, reference;
     if (lastShardOptional.isPresent()) {
       final String lastShardName = lastShardOptional.get().fileName();
       lastShardPath = new String[] {accountUuid, lastShardName};
       lastShardInt = getSequenceFromFileName(lastShardName);
+      reference = lastShardInt == start.shard ? start.number : 0;
     } else {
       if (start.shard > 0) return start;
       lastShardPath = new String[] {accountUuid};
       lastShardInt = 0;
+      reference = start.number;
     }
     return Stream.of(webDavClient.getFolderMembers(lastShardPath))
-        .filter(davResource -> isNewerJsonFile(start.number, davResource.fileName()))
+        .filter(davResource -> isNewerJsonFile(reference, davResource.fileName()))
         .max(resourceComparator)
         .map(davResource -> new SequenceNumber(lastShardInt, getSequenceFromFileName(davResource.fileName())))
         .orElse(start);

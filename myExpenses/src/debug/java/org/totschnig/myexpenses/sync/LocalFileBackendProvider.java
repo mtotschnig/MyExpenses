@@ -121,16 +121,18 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
         file -> file.isDirectory() && isAtLeastShardDir(start.shard, file.getName())))
         .max(fileComparator);
     File lastShard;
-    int lastShardInt;
+    int lastShardInt, reference;
     if (lastShardOptional.isPresent()) {
       lastShard = lastShardOptional.get();
       lastShardInt = getSequenceFromFileName(lastShard.getName());
+      reference = lastShardInt == start.shard ? start.number : 0;
     } else {
       if (start.shard > 0) return start;
       lastShard = accountDir;
       lastShardInt = 0;
+      reference = start.number;
     }
-    return Stream.of(lastShard.listFiles(file -> isNewerJsonFile(start.number, file.getName())))
+    return Stream.of(lastShard.listFiles(file -> isNewerJsonFile(reference, file.getName())))
         .max(fileComparator)
         .map(file -> new SequenceNumber(lastShardInt, getSequenceFromFileName(file.getName())))
         .orElse(start);

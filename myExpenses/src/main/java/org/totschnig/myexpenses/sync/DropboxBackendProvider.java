@@ -6,8 +6,10 @@ import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -34,6 +36,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,7 +69,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       String authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true);
       return setUp(authToken).isPresent();
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Timber.w(e,"Error getting auth token.");
+      Timber.w(e, "Error getting auth token.");
       return false;
     }
   }
@@ -75,25 +78,29 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     String accountPath = getAccountPath();
+    requireFolder(accountPath);
+    String metadataPath = getResourcePath(ACCOUNT_METADATA_FILENAME);
+    if (!exists(metadataPath)) {
+      saveFileContents(null, ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
+      createWarningFile();
+    }
+  }
+
+  private boolean exists(String path) throws IOException {
     try {
-      requireFolder(accountPath);
-      String metadataPath = getResourcePath(ACCOUNT_METADATA_FILENAME);
-      if (!exists(metadataPath)) {
-        saveFileContents(null, ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
-        createWarningFile();
-      }
+      return exists(mDbxClient, path);
     } catch (DbxException e) {
       throw new IOException(e);
     }
   }
 
-  private boolean exists(String path) throws DbxException {
-    return exists(mDbxClient, path);
-  }
-
-  private void requireFolder(String path) throws DbxException {
+  private void requireFolder(String path) throws IOException {
     if (!exists(path)) {
-      mDbxClient.files().createFolderV2(path);
+      try {
+        mDbxClient.files().createFolderV2(path);
+      } catch (DbxException e) {
+        throw new IOException(e);
+      }
     }
   }
 
@@ -138,12 +145,8 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   @Override
   protected String getExistingLockToken() throws IOException {
     String lockFilePath = getLockFilePath();
-    try {
-      if (exists(lockFilePath)) {
-        return new StreamReader(getInputStream(lockFilePath)).read();
-      }
-    } catch (DbxException e) {
-      throw new IOException(e);
+    if (exists(lockFilePath)) {
+      return new StreamReader(getInputStream(lockFilePath)).read();
     }
     return null;
   }
@@ -178,23 +181,40 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   @NonNull
   @Override
   public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
-    return merge(filterMetadata(sequenceNumber).map(this::getChangeSetFromMetadata))
+    return merge(Stream.of(filterMetadata(sequenceNumber)).map(this::getChangeSetFromMetadata))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getChangeSetFromMetadata(Metadata metadata) {
+  private ChangeSet getChangeSetFromMetadata(Pair<Integer, Metadata> metadata) {
     try {
-      return getChangeSetFromInputStream(new SequenceNumber(0, getSequenceFromFileName(metadata.getName())),
-          getInputStream(metadata.getPathLower()));
+      return getChangeSetFromInputStream(new SequenceNumber(metadata.first, getSequenceFromFileName(metadata.second.getName())),
+          getInputStream(metadata.second.getPathLower()));
     } catch (IOException e) {
       return null;
     }
   }
 
-  private Stream<Metadata> filterMetadata(SequenceNumber sequenceNumber) throws IOException {
+  private List<Pair<Integer, Metadata>> filterMetadata(SequenceNumber sequenceNumber) throws IOException {
+    final String accountPath = getAccountPath();
+    String shardPath = sequenceNumber.shard == 0 ? accountPath : accountPath + "/_" + sequenceNumber.shard;
     try {
-      return Stream.of(mDbxClient.files().listFolder(getAccountPath()).getEntries())
-          .filter(metadata -> isNewerJsonFile(sequenceNumber.number, metadata.getName()));
+      final List<Pair<Integer, Metadata>> entries = Stream.of(mDbxClient.files().listFolder(shardPath).getEntries())
+          .filter(metadata -> isNewerJsonFile(sequenceNumber.number, metadata.getName()))
+          .map(metadata -> Pair.create(sequenceNumber.shard, metadata)).collect(Collectors.toList());
+      int nextShard = sequenceNumber.shard + 1;
+      while (true) {
+        final String nextShardPath = accountPath + "/_" + nextShard;
+        if (exists(nextShardPath)) {
+          int finalNextShard = nextShard;
+          Stream.of(mDbxClient.files().listFolder(nextShardPath).getEntries())
+              .filter(metadata -> isNewerJsonFile(0, metadata.getName()))
+              .map(metadata -> Pair.create(finalNextShard, metadata)).forEach(entries::add);
+          nextShard++;
+        } else {
+          break;
+        }
+      }
+      return entries;
     } catch (DbxException e) {
       throw new IOException(e);
     }
@@ -217,13 +237,9 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public void storeBackup(Uri uri, String fileName) throws IOException {
-    try {
-      String backupPath = getBackupPath();
-      requireFolder(backupPath);
-      saveUriToFolder(fileName, uri, backupPath);
-    } catch (DbxException e) {
-      throw new IOException(e);
-    }
+    String backupPath = getBackupPath();
+    requireFolder(backupPath);
+    saveUriToFolder(fileName, uri, backupPath);
   }
 
   @Override
@@ -238,21 +254,52 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       throw new IOException("Could not read " + uri.toString());
     }
     String finalFileName = getLastFileNamePart(fileName);
-    saveInputStream(folder + "/" +  finalFileName, in);
+    saveInputStream(folder + "/" + finalFileName, in);
   }
 
   @Override
   protected SequenceNumber getLastSequence(SequenceNumber start) throws IOException {
-    return filterMetadata(start)
-        .map(metadata -> getSequenceFromFileName(metadata.getName()))
-        .max(Utils::compare)
-        .map(max -> new SequenceNumber(0, max))
-        .orElse(start);
+    final Comparator<Metadata> resourceComparator = (o1, o2) -> Utils.compare(getSequenceFromFileName(o1.getName()), getSequenceFromFileName(o2.getName()));
+    try {
+      final String accountPath = getAccountPath();
+      Optional<Metadata> lastShardOptional =
+          Stream.of(mDbxClient.files().listFolder(accountPath).getEntries())
+              .filter(metadata -> metadata instanceof FolderMetadata && isAtLeastShardDir(start.shard, metadata.getName()))
+              .max(resourceComparator);
+      String lastShardPath;
+      int lastShardInt, reference;
+      if (lastShardOptional.isPresent()) {
+        final String lastShardName = lastShardOptional.get().getName();
+        lastShardPath = accountPath + "/" + lastShardName;
+        lastShardInt = getSequenceFromFileName(lastShardName);
+        reference = lastShardInt == start.shard ? start.number : 0;
+      } else {
+        if (start.shard > 0) return start;
+        lastShardPath = accountPath;
+        lastShardInt = 0;
+        reference = start.number;
+      }
+      return Stream.of(mDbxClient.files().listFolder(lastShardPath).getEntries())
+          .filter(metadata -> isNewerJsonFile(reference, metadata.getName()))
+          .max(resourceComparator)
+          .map(metadata -> new SequenceNumber(lastShardInt, getSequenceFromFileName(metadata.getName())))
+          .orElse(start);
+    } catch (DbxException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
   void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
-    saveInputStream(getAccountPath() + "/" +  fileName, new ByteArrayInputStream(fileContents.getBytes()));
+    String path;
+    final String accountPath = getAccountPath();
+    if (folder == null) {
+      path = accountPath;
+    } else {
+      path = accountPath + "/" + folder;
+      requireFolder(path);
+    }
+    saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()));
   }
 
   private void saveInputStream(String path, InputStream contents) throws IOException {
@@ -308,7 +355,8 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
         return Stream.of(mDbxClient.files().listFolder(getBackupPath()).getEntries())
             .map(Metadata::getName)
             .toList();
-      } catch (DbxException ignored) {}
+      } catch (DbxException ignored) {
+      }
     }
     return new ArrayList<>();
   }
