@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.sync.webdav;
+package at.bitfire.dav4android;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -6,7 +6,6 @@ import android.text.TextUtils;
 
 import java.io.IOException;
 
-import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.GetETag;
 import at.bitfire.dav4android.property.ResourceType;
@@ -17,12 +16,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LockableDavResource extends DavResource {
-  LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
+  public LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
     super(httpClient, location);
   }
 
   public static boolean isCollection(DavResource davResource) {
-    ResourceType type = (ResourceType)davResource.properties.get(ResourceType.NAME);
+    ResourceType type = (ResourceType) davResource.properties.get(ResourceType.NAME);
     return type != null && type.types.contains(ResourceType.COLLECTION);
   }
 
@@ -31,8 +30,7 @@ public class LockableDavResource extends DavResource {
   }
 
   /**
-   *
-   * @param body content to be written to resource
+   * @param body     content to be written to resource
    * @param ifHeader DAV compliant If header
    * @throws IOException
    * @throws HttpException
@@ -51,8 +49,8 @@ public class LockableDavResource extends DavResource {
 
     checkStatus(response, true);
     if (response.code() == 207) {
-            /* Apache mod_dav returns 207 if update fails due to collection being locked
-             * we need to verify if 207 can also be returned in some cases of success */
+      /* Apache mod_dav returns 207 if update fails due to collection being locked
+       * we need to verify if 207 can also be returned in some cases of success */
       throw new HttpException(response);
     }
 
@@ -66,6 +64,7 @@ public class LockableDavResource extends DavResource {
   /**
    * Tries to establish if the Dav resource represented by this object exists on the server by sending
    * a HEAD request to it,
+   *
    * @throws HttpException if status is < 200 or > 299
    */
   public void head() throws HttpException, IOException {
@@ -73,12 +72,13 @@ public class LockableDavResource extends DavResource {
         .url(location)
         .head()
         .build();
-      Response response = httpClient.newCall(request).execute();
-      checkStatus(response, true);
+    Response response = httpClient.newCall(request).execute();
+    checkStatus(response, true);
   }
 
   /**
    * calls {@link #head()} without throwing exception
+   *
    * @return true if head request succeeds
    */
   public boolean exists() {
@@ -91,21 +91,35 @@ public class LockableDavResource extends DavResource {
   }
 
   /**
-   * calls {@link DavResource#mkCol(String)} after testing if collection exists. As a workaround for
+   * Tests first if collection exists. As a workaround for
    * Webservers where testing for existence with HEAD request does not work, as a fallback we check
    * if MKCOL request returned 405 which would indicate that folder already existed
-   * @param xmlBody
+   *
+   * @param ifHeader DAV compliant If header
    * @throws IOException
-   * @throws HttpException
    */
-  @Override
-  public void mkCol(String xmlBody) throws IOException, HttpException {
+  public void mkColWithLock(String ifHeader) throws IOException {
     if (!exists()) {
       try {
-        super.mkCol(null);
+        Response response = null;
+        for (int attempt = 0; attempt < MAX_REDIRECTS; attempt++) {
+          final Request.Builder builder = new Request.Builder()
+              .method("MKCOL", null)
+              .url(location);
+          if (ifHeader != null) {
+            builder.header("If", ifHeader);
+          }
+          response = httpClient.newCall(builder.build()).execute();
+          if (response.isRedirect()) {
+            processRedirection(response);
+          } else {
+            break;
+          }
+        }
+        checkStatus(response, true);
       } catch (HttpException e) {
         if (e.status != 405) {
-          throw e;
+          throw new IOException(e);
         }
       }
     }

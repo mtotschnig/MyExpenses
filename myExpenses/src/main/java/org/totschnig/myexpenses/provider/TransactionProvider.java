@@ -795,9 +795,10 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(VIEW_COMMITTED);
         break;
       case CHANGES:
-        String sequence = uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL);
-        selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
-        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
+        selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ? AND " + KEY_SYNC_SHARD_LOCAL + " = ?";
+        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID),
+            uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL),
+            uri.getQueryParameter(KEY_SYNC_SHARD_LOCAL)};
         qb.setTables(VIEW_CHANGES_EXTENDED);
         if (projection == null) {
           projection = TransactionChange.PROJECTION;
@@ -1461,8 +1462,8 @@ public class TransactionProvider extends ContentProvider {
               new String[]{uuid, uuid, uuid});
           //Change is recorded
           if (callerIsNotSyncAdatper(uri)) {
-            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s",
-                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
+            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s, %6$s) SELECT '%7$s', %8$s, %4$s, %5$s, ? FROM %9$s WHERE %8$s = %10$s",
+                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_SYNC_SHARD_LOCAL, KEY_UUID,
                 TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect), new String[]{uuid, uuid});
           }
           //parent is deleted
