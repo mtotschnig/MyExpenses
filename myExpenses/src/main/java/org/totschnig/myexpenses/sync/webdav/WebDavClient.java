@@ -45,7 +45,6 @@ import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.DisplayName;
 import at.bitfire.dav4android.property.ResourceType;
 import dagger.internal.Preconditions;
-import hugo.weaving.DebugLog;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -138,7 +137,6 @@ public class WebDavClient {
   /**
    * @param folderPath if null, members of base uri are returned
    */
-  @DebugLog
   public Set<DavResource> getFolderMembers(String... folderPath) throws IOException {
     return  getFolderMembers(new DavResource(httpClient, buildCollectionUri(folderPath)));
   }
