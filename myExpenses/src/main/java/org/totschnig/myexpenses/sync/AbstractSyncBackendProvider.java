@@ -161,7 +161,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   boolean isAtLeastShardDir(int shardNumber, String name) {
     return FILE_PATTERN.matcher(name).matches() &&
-        Long.parseLong(name.substring(1)) >= shardNumber;
+        Integer.parseInt(name.substring(1)) >= shardNumber;
   }
 
   boolean isNewerJsonFile(int sequenceNumber, String name) {

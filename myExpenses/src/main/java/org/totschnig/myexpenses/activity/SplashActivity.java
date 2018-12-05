@@ -197,7 +197,8 @@ public class SplashActivity extends SyncBackendSetupActivity {
               Timber.e(e, "Exception while starting resolution activity");
             }
           } else {
-            showSnackbar("Unable to set up account");
+            Timber.e(throwable);
+            showSnackbar("Unable to set up account: " + throwable.getMessage());
           }
         }
         break;

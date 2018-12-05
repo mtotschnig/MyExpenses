@@ -141,7 +141,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     File shardDir = sequenceNumber.shard == 0 ? accountDir : new File(accountDir, "_" +sequenceNumber.shard);
     if (!shardDir.isDirectory()) return new ArrayList<>();
     List<Pair<Integer, File>> result = Stream.of(shardDir.listFiles(file -> isNewerJsonFile(sequenceNumber.number, file.getName())))
-        .map(file -> Pair.create(0, file)).collect(Collectors.toList());
+        .map(file -> Pair.create(sequenceNumber.shard, file)).collect(Collectors.toList());
     int nextShard = sequenceNumber.shard + 1;
     while(true) {
       File nextShardDir = new File(accountDir, "_" + nextShard);

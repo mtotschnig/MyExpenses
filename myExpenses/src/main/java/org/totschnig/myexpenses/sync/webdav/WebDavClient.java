@@ -37,6 +37,7 @@ import javax.net.ssl.SSLHandshakeException;
 
 import at.bitfire.dav4android.BasicDigestAuthHandler;
 import at.bitfire.dav4android.DavResource;
+import at.bitfire.dav4android.LockableDavResource;
 import at.bitfire.dav4android.UrlUtils;
 import at.bitfire.dav4android.XmlUtils;
 import at.bitfire.dav4android.exception.DavException;
@@ -44,6 +45,7 @@ import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.DisplayName;
 import at.bitfire.dav4android.property.ResourceType;
 import dagger.internal.Preconditions;
+import hugo.weaving.DebugLog;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -104,40 +106,44 @@ public class WebDavClient {
     httpClient = builder.build();
   }
 
-  public void upload(String folderName, String fileName, String fileContent, MediaType mediaType) throws IOException, HttpException {
-    new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
-        .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
+  public void upload(String fileName, String fileContent, MediaType mediaType, DavResource parent) throws IOException, HttpException {
+    new LockableDavResource(httpClient, buildResourceUri(fileName, parent.location))
+        .put(RequestBody.create(mediaType, fileContent), buildIfHeader(parent.location));
   }
 
-  public void upload(String folderName, String fileName, byte[] fileContent, MediaType mediaType) throws IOException, HttpException {
-    new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
-        .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
-  }
-
-  public void upload(String folderName, String fileName, RequestBody requestBody) throws IOException, HttpException {
-    new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
-        .put(requestBody, buildIfHeader(folderName));
+  public void upload(String fileName, RequestBody requestBody, String folder) throws IOException, HttpException {
+    new LockableDavResource(httpClient, buildResourceUri(fileName, folder))
+        .put(requestBody, buildIfHeader(buildCollectionUri(folder)));
   }
 
   @Nullable
-  private String buildIfHeader(String folderName) {
+  private String buildIfHeader(HttpUrl folderPath) {
     if (currentLockToken == null) {
       return null;
     }
-    return webdavCodedUrl(buildCollectionUri(folderName).toString()) + " " +
+    return webdavCodedUrl(folderPath.toString()) + " " +
         webDavIfHeaderConditionList(webdavCodedUrl(currentLockToken));
   }
 
-  public void mkCol(String folderName) throws IOException, HttpException {
+  public void mkCol(String folderName) throws IOException {
     LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName));
-    folder.mkCol(null);
+    folder.mkColWithLock(null);
+  }
+
+  public void mkCol(String folderName, DavResource parent) throws IOException {
+    LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName, parent.location));
+    folder.mkColWithLock(buildIfHeader(parent.location));
   }
 
   /**
-   * @param folderName if null, members of base uri are returned
+   * @param folderPath if null, members of base uri are returned
    */
-  public Set<DavResource> getFolderMembers(String folderName) throws IOException {
-    DavResource folder = new DavResource(httpClient, buildCollectionUri(folderName));
+  @DebugLog
+  public Set<DavResource> getFolderMembers(String... folderPath) throws IOException {
+    return  getFolderMembers(new DavResource(httpClient, buildCollectionUri(folderPath)));
+  }
+
+  public Set<DavResource> getFolderMembers(DavResource folder) throws IOException {
     try {
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
     } catch (DavException | HttpException e) {
@@ -146,12 +152,16 @@ public class WebDavClient {
     return folder.members;
   }
 
-  public LockableDavResource getResource(String folderName, String resourceName) {
-    return new LockableDavResource(httpClient, buildResourceUri(folderName, resourceName));
+  public LockableDavResource getCollection(String collectionName, String... parentPath) {
+    return new LockableDavResource(httpClient, buildCollectionUri(collectionName, buildCollectionUri(parentPath)));
+  }
+
+  public LockableDavResource getResource(String resourceName, String... folderPath) {
+    return new LockableDavResource(httpClient, buildResourceUri(resourceName, folderPath));
   }
 
   public LockableDavResource getResource(HttpUrl folderUri, String resourceName) {
-    return new LockableDavResource(httpClient, folderUri.newBuilder().addPathSegment(resourceName).build());
+    return new LockableDavResource(httpClient, buildResourceUri(resourceName, folderUri));
   }
 
   public boolean lock(@Nullable String folderName) {
@@ -235,13 +245,37 @@ public class WebDavClient {
   }
 
   @NonNull
-  private HttpUrl buildCollectionUri(@Nullable String folderName) {
-    return folderName == null ? mBaseUri : mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment("").build();
+  private HttpUrl buildCollectionUri(@Nullable String... folderPath) {
+    if (folderPath == null) {
+      return mBaseUri;
+    } else {
+      final HttpUrl.Builder builder = mBaseUri.newBuilder();
+      for (String segment: folderPath) {
+        builder.addPathSegment(segment);
+      }
+      return builder.addPathSegment("").build();
+    }
   }
 
   @NonNull
-  private HttpUrl buildResourceUri(String folderName, String resourceName) {
-    return mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment(resourceName).build();
+  private HttpUrl buildCollectionUri(String collectionName, HttpUrl parent) {
+    return parent.newBuilder().addPathSegment(collectionName).addPathSegment("").build();
+  }
+
+  @NonNull
+  private HttpUrl buildResourceUri(String resourceName, @Nullable String... folderPath) {
+    final HttpUrl.Builder builder = mBaseUri.newBuilder();
+    if (folderPath != null) {
+      for (String segment: folderPath) {
+        builder.addPathSegment(segment);
+      }
+    }
+    return builder.addPathSegment(resourceName).build();
+  }
+
+  @NonNull
+  private HttpUrl buildResourceUri(String resourceName, HttpUrl parent) {
+    return parent.newBuilder().addPathSegment(resourceName).build();
   }
 
   public void testLogin() throws IOException, HttpException, DavException {

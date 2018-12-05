@@ -4,7 +4,9 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -14,7 +16,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
-import org.totschnig.myexpenses.sync.webdav.LockableDavResource;
+import at.bitfire.dav4android.LockableDavResource;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -23,7 +25,9 @@ import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.DavException;
@@ -71,9 +75,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
+    webDavClient.mkCol(accountUuid);
     try {
-      webDavClient.mkCol(accountUuid);
-      LockableDavResource metaData = webDavClient.getResource(accountUuid, ACCOUNT_METADATA_FILENAME);
+      LockableDavResource metaData = webDavClient.getResource(ACCOUNT_METADATA_FILENAME, accountUuid);
       if (!metaData.exists()) {
         metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
         createWarningFile();
@@ -127,28 +131,51 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private LockableDavResource getLockFile() {
-    return webDavClient.getResource(accountUuid, FALLBACK_LOCK_FILENAME);
+    return webDavClient.getResource(FALLBACK_LOCK_FILENAME, accountUuid);
   }
 
   @NonNull
   @Override
   public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
-    return merge(filterDavResources(sequenceNumber).map(this::getChangeSetFromDavResource))
+    return merge(Stream.of(filterDavResources(sequenceNumber)).map(this::getChangeSetFromDavResource))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getChangeSetFromDavResource(DavResource davResource) {
+  private ChangeSet getChangeSetFromDavResource(Pair<Integer, DavResource> davResource) {
     try {
-      return getChangeSetFromInputStream(new SequenceNumber(0, getSequenceFromFileName(davResource.fileName())),
-          davResource.get(MIMETYPE_JSON).byteStream());
+      return getChangeSetFromInputStream(new SequenceNumber(davResource.first, getSequenceFromFileName(davResource.second.fileName())),
+          davResource.second.get(MIMETYPE_JSON).byteStream());
     } catch (IOException | HttpException | DavException e) {
       return null;
     }
   }
 
-  private Stream<DavResource> filterDavResources(SequenceNumber sequenceNumber) throws IOException {
-    return Stream.of(webDavClient.getFolderMembers(accountUuid))
-        .filter(davResource -> isNewerJsonFile(sequenceNumber.number, davResource.fileName()));
+  private List<Pair<Integer, DavResource>> filterDavResources(SequenceNumber sequenceNumber) throws IOException {
+    LockableDavResource shardResource = sequenceNumber.shard == 0 ?
+        webDavClient.getCollection(accountUuid, (String[]) null) :
+        webDavClient.getCollection("_" + sequenceNumber.shard, accountUuid);
+    if (!shardResource.exists()) {
+      return new ArrayList<>();
+    }
+    final Set<DavResource> folderMembers = webDavClient.getFolderMembers(shardResource);
+    List<Pair<Integer, DavResource>> result = Stream.of(folderMembers)
+        .filter(davResource -> isNewerJsonFile(sequenceNumber.number, davResource.fileName()))
+        .map(davResource -> Pair.create(sequenceNumber.shard, davResource)).collect(Collectors.toList());
+    int nextShard = sequenceNumber.shard + 1;
+    while(true) {
+      final String nextShardFolder = "_" + nextShard;
+      LockableDavResource nextShardResource = webDavClient.getCollection(nextShardFolder, accountUuid);
+      if (nextShardResource.exists()) {
+        int finalNextShard = nextShard;
+        Stream.of(webDavClient.getFolderMembers(nextShardResource))
+            .filter(davResource -> isNewerJsonFile(0, davResource.fileName()))
+            .map(davResource -> Pair.create(finalNextShard, davResource)).forEach(result::add);
+        nextShard++;
+      } else {
+        break;
+      }
+    }
+    return result;
   }
 
   @NonNull
@@ -170,7 +197,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private InputStream getInputStream(String folderName, String resourceName) throws IOException {
     try {
-      return webDavClient.getResource(folderName, resourceName).get("*/*").byteStream();
+      return webDavClient.getResource(resourceName, folderName).get("*/*").byteStream();
     } catch (HttpException | DavException e) {
       throw new IOException(e);
     }
@@ -206,7 +233,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
           }
         }
       };
-      webDavClient.upload(folder, finalFileName, requestBody);
+      webDavClient.upload(finalFileName, requestBody, folder);
     } catch (HttpException e) {
       throw new IOException(e);
     }
@@ -214,11 +241,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public void storeBackup(Uri uri, String fileName) throws IOException {
-    try {
-      webDavClient.mkCol(BACKUP_FOLDER_NAME);
-    } catch (HttpException e) {
-      throw new IOException(e);
-    }
+    webDavClient.mkCol(BACKUP_FOLDER_NAME);
     saveUriToFolder(fileName, uri, BACKUP_FOLDER_NAME);
   }
 
@@ -236,18 +259,44 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected SequenceNumber getLastSequence(SequenceNumber start) throws IOException {
-    return filterDavResources(start)
-        .map(davResource -> getSequenceFromFileName(davResource.fileName()))
-        .max(Utils::compare)
-        .map(max -> new SequenceNumber(0, max))
+    final Comparator<DavResource> resourceComparator = (o1, o2) -> Utils.compare(getSequenceFromFileName(o1.fileName()), getSequenceFromFileName(o2.fileName()));
+    Optional<DavResource> lastShardOptional =
+        Stream.of(webDavClient.getFolderMembers(accountUuid))
+        .filter(davResource -> LockableDavResource.isCollection(davResource) && isAtLeastShardDir(start.shard, davResource.fileName()))
+        .max(resourceComparator);
+    String[] lastShardPath;
+    int lastShardInt;
+    if (lastShardOptional.isPresent()) {
+      final String lastShardName = lastShardOptional.get().fileName();
+      lastShardPath = new String[] {accountUuid, lastShardName};
+      lastShardInt = getSequenceFromFileName(lastShardName);
+    } else {
+      if (start.shard > 0) return start;
+      lastShardPath = new String[] {accountUuid};
+      lastShardInt = 0;
+    }
+    return Stream.of(webDavClient.getFolderMembers(lastShardPath))
+        .filter(davResource -> isNewerJsonFile(start.number, davResource.fileName()))
+        .max(resourceComparator)
+        .map(davResource -> new SequenceNumber(lastShardInt, getSequenceFromFileName(davResource.fileName())))
         .orElse(start);
   }
 
   @Override
   void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+    LockableDavResource base = webDavClient.getCollection(accountUuid, (String[]) null);
+    LockableDavResource parent;
+    if (folder != null) {
+      webDavClient.mkCol(folder, base);
+      parent = webDavClient.getCollection(folder, accountUuid);
+      if (!parent.exists()) {
+        throw new IOException("Cannot make folder");
+      }
+    } else {
+      parent = base;
+    }
     try {
-      webDavClient.upload(accountUuid, fileName, fileContents,
-          MediaType.parse(mimeType + "; charset=utf-8"));
+      webDavClient.upload(fileName, fileContents, MediaType.parse(mimeType + "; charset=utf-8"), parent);
     } catch (HttpException e) {
       throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
     }
@@ -271,7 +320,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @NonNull
   @Override
   public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
-    return Stream.of(webDavClient.getFolderMembers(null))
+    return Stream.of(webDavClient.getFolderMembers((String[]) null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
         .filter(LockableDavResource::exists)
