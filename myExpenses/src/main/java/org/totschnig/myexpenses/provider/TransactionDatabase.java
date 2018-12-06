@@ -101,7 +101,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SHARD_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
