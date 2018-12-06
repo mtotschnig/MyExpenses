@@ -313,7 +313,7 @@ public class WebDavClient {
   }
 
   public void testClass2Locking() throws Exception {
-    String folderName = ".testClass2Locking";
+    String folderName = "testClass2Locking";
     mkCol(folderName);
     LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName));
     try {
