@@ -26,6 +26,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.LockableDavResource;
@@ -258,24 +259,25 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @Override
   protected SequenceNumber getLastSequence(SequenceNumber start) throws IOException {
     final Comparator<DavResource> resourceComparator = (o1, o2) -> Utils.compare(getSequenceFromFileName(o1.fileName()), getSequenceFromFileName(o2.fileName()));
+    final Set<DavResource> mainMembers = webDavClient.getFolderMembers(accountUuid);
     Optional<DavResource> lastShardOptional =
-        Stream.of(webDavClient.getFolderMembers(accountUuid))
+        Stream.of(mainMembers)
         .filter(davResource -> LockableDavResource.isCollection(davResource) && isAtLeastShardDir(start.shard, davResource.fileName()))
         .max(resourceComparator);
-    String[] lastShardPath;
+    Set<DavResource> lastShard;
     int lastShardInt, reference;
     if (lastShardOptional.isPresent()) {
       final String lastShardName = lastShardOptional.get().fileName();
-      lastShardPath = new String[] {accountUuid, lastShardName};
+      lastShard = webDavClient.getFolderMembers(new String[] {accountUuid, lastShardName});
       lastShardInt = getSequenceFromFileName(lastShardName);
       reference = lastShardInt == start.shard ? start.number : 0;
     } else {
       if (start.shard > 0) return start;
-      lastShardPath = new String[] {accountUuid};
+      lastShard = mainMembers;
       lastShardInt = 0;
       reference = start.number;
     }
-    return Stream.of(webDavClient.getFolderMembers(lastShardPath))
+    return Stream.of(lastShard)
         .filter(davResource -> isNewerJsonFile(reference, davResource.fileName()))
         .max(resourceComparator)
         .map(davResource -> new SequenceNumber(lastShardInt, getSequenceFromFileName(davResource.fileName())))

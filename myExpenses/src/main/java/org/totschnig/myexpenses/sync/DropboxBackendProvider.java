@@ -262,24 +262,25 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     final Comparator<Metadata> resourceComparator = (o1, o2) -> Utils.compare(getSequenceFromFileName(o1.getName()), getSequenceFromFileName(o2.getName()));
     try {
       final String accountPath = getAccountPath();
+      final List<Metadata> mainEntries = mDbxClient.files().listFolder(accountPath).getEntries();
       Optional<Metadata> lastShardOptional =
-          Stream.of(mDbxClient.files().listFolder(accountPath).getEntries())
+          Stream.of(mainEntries)
               .filter(metadata -> metadata instanceof FolderMetadata && isAtLeastShardDir(start.shard, metadata.getName()))
               .max(resourceComparator);
-      String lastShardPath;
+      List<Metadata> lastShard;
       int lastShardInt, reference;
       if (lastShardOptional.isPresent()) {
         final String lastShardName = lastShardOptional.get().getName();
-        lastShardPath = accountPath + "/" + lastShardName;
+        lastShard = mDbxClient.files().listFolder(accountPath + "/" + lastShardName).getEntries();
         lastShardInt = getSequenceFromFileName(lastShardName);
         reference = lastShardInt == start.shard ? start.number : 0;
       } else {
         if (start.shard > 0) return start;
-        lastShardPath = accountPath;
+        lastShard = mainEntries;
         lastShardInt = 0;
         reference = start.number;
       }
-      return Stream.of(mDbxClient.files().listFolder(lastShardPath).getEntries())
+      return Stream.of(lastShard)
           .filter(metadata -> isNewerJsonFile(reference, metadata.getName()))
           .max(resourceComparator)
           .map(metadata -> new SequenceNumber(lastShardInt, getSequenceFromFileName(metadata.getName())))

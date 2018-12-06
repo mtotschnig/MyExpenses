@@ -99,7 +99,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return false;
   }
 
-  @Nullable ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
+  @Nullable
+  ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
       throws IOException {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     List<TransactionChange> changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
@@ -226,7 +227,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     String fileContents = gson.toJson(changeSet);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
-    saveFileContents(nextSequence.shard == 0 ? null : "_"+ nextSequence.shard, fileName, fileContents, MIMETYPE_JSON);
+    saveFileContents(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, MIMETYPE_JSON);
     return nextSequence;
   }
 
@@ -267,15 +268,15 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   @Override
   public void lock() throws IOException {
-      String existingLockTocken = getExistingLockToken();
-      log().i("ExistingLockTocken: %s", existingLockTocken);
-      if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
-        String lockToken = Model.generateUuid();
-        writeLockToken(lockToken);
-        saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
-      } else {
-        throw new IOException("Backend cannot be locked");
-      }
+    String existingLockTocken = getExistingLockToken();
+    log().i("ExistingLockTocken: %s", existingLockTocken);
+    if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
+      String lockToken = Model.generateUuid();
+      writeLockToken(lockToken);
+      saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
+    } else {
+      throw new IOException("Backend cannot be locked");
+    }
   }
 
   private boolean shouldOverrideLock(String locktoken) {
