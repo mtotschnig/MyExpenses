@@ -427,8 +427,8 @@ public class TransactionProvider extends ContentProvider {
       case CATEGORIES:
         final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
         qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
-          String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
-              TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery));
+            String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
+                TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery));
         qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
         if (projection == null) {
           projection = Category.PROJECTION;
@@ -482,7 +482,7 @@ public class TransactionProvider extends ContentProvider {
           having = "count(*) > 1";
           projection = new String[]{
               "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
-                  + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY +")  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+                  + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY + ")  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
               KEY_CURRENCY + " AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
               "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
@@ -632,7 +632,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
               KEY_BUDGET};
-          qb.appendWhere(TABLE_CURRENCIES + "." +KEY_ROWID + "= abs(" + currencyId + ")");
+          qb.appendWhere(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(" + currencyId + ")");
         }
         break;
       case ACCOUNT_ID:
@@ -795,10 +795,8 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(VIEW_COMMITTED);
         break;
       case CHANGES:
-        selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ? AND " + KEY_SYNC_SHARD_LOCAL + " = ?";
-        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID),
-            uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL),
-            uri.getQueryParameter(KEY_SYNC_SHARD_LOCAL)};
+        selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
+        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL)};
         qb.setTables(VIEW_CHANGES_EXTENDED);
         if (projection == null) {
           projection = TransactionChange.PROJECTION;
@@ -981,7 +979,7 @@ public class TransactionProvider extends ContentProvider {
   }
 
   private int suggestNewCategoryColor(SQLiteDatabase db) {
-    String[] projection = new String[] {
+    String[] projection = new String[]{
         "color",
         "(select count(*) from categories where parent_id is null and color=t.color) as count"
     };
@@ -1462,8 +1460,8 @@ public class TransactionProvider extends ContentProvider {
               new String[]{uuid, uuid, uuid});
           //Change is recorded
           if (callerIsNotSyncAdatper(uri)) {
-            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s, %6$s) SELECT '%7$s', %8$s, %4$s, %5$s, ? FROM %9$s WHERE %8$s = %10$s",
-                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_SYNC_SHARD_LOCAL, KEY_UUID,
+            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s",
+                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
                 TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect), new String[]{uuid, uuid});
           }
           //parent is deleted

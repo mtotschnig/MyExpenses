@@ -89,7 +89,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SHARD_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 
@@ -192,7 +191,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
           true);
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      log().w(e,"Error getting auth token.");
+      log().w(e, "Error getting auth token.");
       syncResult.stats.numAuthExceptions++;
       return;
     }
@@ -272,7 +271,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId);
           String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId);
 
-          SequenceNumber lastSyncedLocal = SequenceNumber.parse(getUserDataWithDefault(accountManager, account,
+          long lastSyncedLocal = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastLocalSyncKey, "0"));
           SequenceNumber lastSyncedRemote = SequenceNumber.parse(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
@@ -342,25 +341,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             List<TransactionChange> localChanges = new ArrayList<>();
 
-            /* Start Fallback
-             * We could still have legacy sequences beyond the limit from before the introduction of shards */
-            SequenceNumber sequenceToTest;
-            if (lastSyncedLocal.shard == 0) {
-              while (true) {
-                sequenceToTest = new SequenceNumber(0, lastSyncedLocal.number + 1);
-                List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
-                if (nextChanges.size() > 0) {
-                  localChanges.addAll(nextChanges);
-                  lastSyncedLocal = sequenceToTest;
-                } else {
-                  break;
-                }
-              }
-            }
-            /* End Fallback */
+            long sequenceToTest = lastSyncedLocal;
 
             while (true) {
-              sequenceToTest = lastSyncedLocal.next();
+              sequenceToTest++;
               List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
               if (nextChanges.size() > 0) {
                 localChanges.addAll(nextChanges);
@@ -391,10 +375,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
                 if (!BuildConfig.DEBUG) {
                   // on debug build for auditing purposes, we keep changes in the table
-                  final String shard = String.valueOf(lastSyncedLocal.shard);
                   provider.delete(TransactionProvider.CHANGES_URI,
-                      KEY_ACCOUNTID + " = ? AND (" + KEY_SYNC_SHARD_LOCAL + " < ? OR (" + KEY_SYNC_SHARD_LOCAL + " = ? AND " +  KEY_SYNC_SEQUENCE_LOCAL + " <= ?  ))",
-                      new String[]{String.valueOf(accountId), shard, shard, String.valueOf(lastSyncedLocal.number)});
+                      KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                      new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
                 }
                 accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
                 accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
@@ -549,20 +532,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,
-                                                  SequenceNumber sequenceNumber) throws RemoteException {
+                                                  long sequenceNumber) throws RemoteException {
     List<TransactionChange> result = new ArrayList<>();
     Uri changesUri = buildChangesUri(sequenceNumber, accountId);
     boolean hasLocalChanges = hasLocalChanges(provider, changesUri);
     if (hasLocalChanges) {
-      ContentValues currentSyncIncrease = new ContentValues(2);
-      SequenceNumber nextSequence = sequenceNumber.next();
-      currentSyncIncrease.put(KEY_SYNC_SHARD_LOCAL, nextSequence.shard);
-      currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence.number);
+      ContentValues currentSyncIncrease = new ContentValues(1);
+      long nextSequence = sequenceNumber + 1;
+      currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
       //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
       //we must take care to not decrease it here
-      final String shard = String.valueOf(nextSequence.shard);
-      provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ?  AND (" + KEY_SYNC_SHARD_LOCAL + " < ? OR (" + KEY_SYNC_SHARD_LOCAL + " = ? AND " +  KEY_SYNC_SEQUENCE_LOCAL + " <= ?  ))",
-          new String[]{String.valueOf(accountId), shard, shard, String.valueOf(nextSequence.number)});
+      provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
+          new String[]{String.valueOf(accountId), String.valueOf(nextSequence)});
     }
     if (hasLocalChanges) {
       Cursor c = provider.query(changesUri, null, null, null, null);
@@ -686,7 +667,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         break;
       case unsplit:
         ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
-                .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build())
+            .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build())
             .withValue(KEY_UUID, change.uuid())
             .build());
         break;
@@ -724,7 +705,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         //we create a Transfer, the Transfer class will take care in buildSaveOperations
         //of linking them together
         long transferAccount = findTransferAccount(change.transferAccount());
-        long transferPeer = Transaction.findByAccountAndUuid(transferAccount,change.uuid());
+        long transferPeer = Transaction.findByAccountAndUuid(transferAccount, change.uuid());
         if (transferPeer != -1) {
           t = new Transfer(getAccount().getId(), money, transferAccount);
         }
@@ -970,11 +951,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return builder.setCurrentTimeStamp().build();
   }
 
-  private Uri buildChangesUri(SequenceNumber current_sync, long accountId) {
+  private Uri buildChangesUri(long current_sync, long accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
         .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, String.valueOf(accountId))
-        .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync.number))
-        .appendQueryParameter(KEY_SYNC_SHARD_LOCAL, String.valueOf(current_sync.shard))
+        .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync))
         .build();
   }
 
@@ -1013,7 +993,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return dbAccount.get();
   }
 
-  private boolean isConnectedWifi(Context context){
+  private boolean isConnectedWifi(Context context) {
     ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     if (cm == null) return false;
     NetworkInfo info = cm.getActiveNetworkInfo();
