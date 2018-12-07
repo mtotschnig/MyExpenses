@@ -164,7 +164,7 @@ public class CategoryList extends SortableListFragment {
           final Cursor cursor = query.run();
           if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
-              mAdapter.ingest(cursor, getContext());
+              mAdapter.ingest(cursor);
               onLoadFinished();
             });
           }

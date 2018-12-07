@@ -41,6 +41,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   private List<Category> mainCategories = new ArrayList<>();
   private LongSparseArray<Integer> positionMap = new LongSparseArray<>();
   private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
+  private final Context context;
   private final LayoutInflater inflater;
   protected final CurrencyFormatter currencyFormatter;
   protected final int colorExpense;
@@ -52,6 +53,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
 
   public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
                                  CurrencyUnit currency, boolean withMainColors, boolean withSubColors, boolean withNullCategory) {
+    this.context = ctx;
     inflater = LayoutInflater.from(ctx);
     this.currencyFormatter = currencyFormatter;
     this.currency = currency;
@@ -118,6 +120,8 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     } else {
       indicator.setVisibility( View.VISIBLE );
       indicator.setImageResource( isExpanded ? R.drawable.expander_close : R.drawable.expander_open );
+      indicator.setContentDescription(context.getString(isExpanded ?
+              R.string.content_description_collapse : R.string.content_description_expand));
     }
     return view;
   }
@@ -167,7 +171,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
    * @param cursor
    * @param context
    */
-  public void ingest(Cursor cursor, Context context) {
+  public void ingest(Cursor cursor) {
     if (cursor != null) {
       try {
         List<Category> newList = new ArrayList<>();
