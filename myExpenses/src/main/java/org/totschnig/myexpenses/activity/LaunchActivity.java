@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -251,7 +252,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (prev_version < 316) {
         getPrefHandler().putString(HOME_CURRENCY, Utils.getHomeCurrency().code());
       }
-
+      if (prev_version < 354) {
+        showImportantUpgradeInfo = GenericAccountService.getAccountsAsArray(this). length > 0;
+      }
 
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
           .show(getSupportFragmentManager(), TAG_VERSION_INFO);

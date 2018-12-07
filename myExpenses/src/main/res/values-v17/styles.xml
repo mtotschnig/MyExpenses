@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ExpandableListRow">
+    <style name="ExpandableListRowWithCustomIndicator">
         <item name="android:paddingEnd">@dimen/general_padding</item>
         <item name="android:paddingStart">@dimen/general_padding</item>
+    </style>
+
+
+    <style name="ExpandableListRow">
+        <item name="android:paddingEnd">@dimen/general_padding</item>
+        <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
     <style name="OnBoardingTextInputLayout" parent="OnBoardingTextInputLayoutBase">

@@ -97,7 +97,14 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     itemDisposable = briteContentResolver.createQuery(getUri(),
         null, getSelection(), getSelectionArgs(), null, false)
         .mapToList((Cursor cursor) -> DataHolder.fromCursor(cursor, getColumn()))
-        .subscribe(adapter::addAll);
+        .subscribe(collection -> {
+          if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+              adapter.clear();
+              adapter.addAll(collection);
+            });
+          }
+        });
 
     final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setTitle(getDialogTitle())
@@ -108,13 +115,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     alertDialog.getListView().setItemsCanFocus(false);
     alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     //prevent automatic dismiss on button click
-    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-      @Override
-      public void onShow(DialogInterface dialog) {
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE));
-
-      }
-    });
+    alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE)));
     return alertDialog;
   }
 

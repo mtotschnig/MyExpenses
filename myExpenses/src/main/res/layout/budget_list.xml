@@ -28,7 +28,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            style="@style/ExpandableListRow"
+            style="@style/ExpandableListRowWithCustomIndicator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?android:attr/activatedBackgroundIndicator">

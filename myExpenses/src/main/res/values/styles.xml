@@ -122,9 +122,14 @@
         <item name="android:textSize">?textSizeSmall</item>
     </style>
 
-    <style name="ExpandableListRow">
+    <style name="ExpandableListRowWithCustomIndicator">
         <item name="android:paddingRight">@dimen/general_padding</item>
         <item name="android:paddingLeft">@dimen/general_padding</item>
+    </style>
+
+    <style name="ExpandableListRow">
+        <item name="android:paddingRight">@dimen/general_padding</item>
+        <item name="android:paddingLeft">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
     <style name="MyAlertDialogThemeLight" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
