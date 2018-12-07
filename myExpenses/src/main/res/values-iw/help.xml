@@ -118,6 +118,8 @@
   <string name="form_MethodEdit_account_types_help_text">בחר את סוגי החשבון שעבורם שיטה זו מתאימה.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">עבור כל מטבע, באפשרותך לשנות את מספר ספרות השבר להתמש בהן. לדוגמה, אם עבור Euro, אתה צריך לטפל 1/10 של סנט, כלומר 1/1000 של היורו, כדאי להגדיר את המספר לשלוש. חשבונות קיימים המשתמשים במטבע, יועברו להגדרה החדשה.</string>
+  <string name="help_ManageCurrencies_symbol">ניתן גם להגדיר את סמל המטבע, שבו נעשה שימוש כאשר סכומים במטבע מסוים מעוצבים.</string>
+  <string name="help_ManageCurrencies_new">במטבעות מותאמים אישית, אתה גם מגדיר תווית, המוצגת בתפריטים לבחירת מטבע וקוד אלפביתי, אשר לפי האמנה מורכב משלושה תווים.</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">התיקיה שתבחר כאן, תשמש לאחסון גיבויים ויצוא. נווט בהיררכית התיקיות עד שתגיע לתיקיה הרצויה.</string>
   <string name="menu_create_folder_help_text">צור תיקייה חדשה בתוך התיקיה הנוכחית.</string>

@@ -715,12 +715,26 @@ continuar?</string>
   <string name="menu_original_amount">Quantia original</string>
   <string name="menu_equivalent_amount">Quantia equivalente</string>
   <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente. Deseja continuar?</string>
+  <string name="warning_split_transactions">As transações atuais serão agrupadas em uma transação dividida. A informação das datas será perdida, sendo substituída pela sua média.</string>
+  <string name="warning_ungroup_split_transactions">As transações divididas selecionadas serão desagrupadas e suas divisões serão convertidas em transações normais.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">Desagrupar divisão</string>
-  <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
-  <string name="pref_transaction_time_summary">Permitir a definição da data da transação exata.</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">A transação dividida foi desagrupada com sucesso.</item>
+    <item quantity="other">%1$d transações divididas foram desagrupadas com sucesso.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">Ao desagrupar as transações divididas, ocorreu uma falha em %1$d das %2$d.</string>
+  <string name="split_transaction_one_success">A transação foi transformada em dividida com sucesso.</string>
+  <string name="split_transaction_one_error">Não foi possível transformar a transação em dividida.</string>
+  <string name="split_transaction_group_success">%1$d transações foram agrupadas em uma transação dividida com sucesso.</string>
+  <string name="split_transaction_group_error">Não foi possível agrupar as transações em uma dividida.</string>
+  <string name="split_transaction_not_possible">Somente transações que possuam a mesma conta, beneficiário e status podem ser agrupadas em uma transação dividida.</string>
+  <string name="pref_transaction_time_summary">Permitir a definição da data exata da transação.</string>
+  <string name="pref_value_date_summary">Permite a definição de uma data da contabilização, além da data do pagamento. A data da transação ficará oculta. Essa configuração não se aplica a contas de dinheiro.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Data do pagamento</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Data da contabilização</string>
   <string name="licence_expires_n_days">A sua chave profissional irá expirar em %d dias</string>
   <string name="licence_expires_tomorrow">A sua chave profissional irá expirar amanhã</string>
   <string name="licence_expires_today">A sua chave profissional expira hoje</string>
@@ -729,6 +743,7 @@ continuar?</string>
   <string name="pref_category_title_privacy">Privacidade</string>
   <string name="pref_ad_consent_title">Anúncios personalizados</string>
   <string name="ad_consent_non_personalized">Anúncios não personalizados</string>
+  <string name="gdpr_consent_message">Nós temos parceria com {ad_provider} à fim de sustentar o suporte, a manutenção e o desenvolvimento de {app_name}, exibindo propagandas. Nós gostaríamos de pedir o seu consentimento para isso. Caso prefira não ver nenhum anúncio, por favor, pague pela versão sem propagandas.</string>
   <string name="gdpr_consent_button_yes">Sim, continuar vendo anúncios</string>
   <string name="gdpr_consent_button_no">Pagar pela versão sem anúncios</string>
   <string name="sort_order">Ordem de classificação</string>
@@ -742,13 +757,33 @@ continuar?</string>
   <!--Content description for accessibility on image that allows to expand content-->
   <string name="content_description_expand">Expandir</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <string name="goal_or_limit">Objetivo / Limite</string>
+  <string name="goal_or_limit">Meta / Limite</string>
+  <string name="saving_goal">Meta de poupança</string>
   <string name="credit_limit">Limite de crédito</string>
   <string name="clear_all_filters">Limpar todos os filtros</string>
+  <string name="pref_scroll_to_current_date_summary">Ao iniciar o aplicativo, role a lista de transações até a data atual</string>
+  <string name="professional_key_fallback_info">Uma assinatura da Chave Profissional que esteve ativa por pelo menos um ano e não foi renovada será automaticamente transformada em uma Chave Estendida ilimitada.</string>
+  <string name="menu_budget">Orçamento</string>
+  <string name="dialog_title_new_budget">Novo orçamento</string>
+  <string name="dialog_title_edit_budget">Editar o orçamento</string>
+  <string name="daily_budget">Orçamento diário</string>
+  <string name="weekly_budget">Orçamento semanal</string>
+  <string name="monthly_budget">Orçamento mensal</string>
+  <string name="yearly_budget">Orçamento anual</string>
+  <string name="menu_switch_budget">Trocar</string>
+  <string name="budget_table_header_budgeted">Orçado</string>
   <string name="budget_table_header_allocated">Alocado</string>
   <string name="budget_table_header_spent">Gasto</string>
   <string name="budget_table_header_remainder">Restante</string>
   <string name="budget_allocated_amount">Quantia alocada</string>
+  <string name="budget_exceeded_error_1_1">Tudo menos %s do seu orçamento foi alocado em outras categorias.</string>
+  <string name="budget_exceeded_error_1_2">Todo o seu orçamento foi alocado em outras categorias.</string>
+  <string name="budget_exceeded_error_2">Aumente o montante do orçamento ou remova dinheiro de outras categorias.</string>
+  <string name="budget_under_allocated_error">%s já foi alocado para categorias. Ao menos que você remova dinheiro delas, você deve, pelo menos, orçar essa quantia.</string>
+  <string name="sub_budget_exceeded_error_1_1">Tudo menos %s da quantia alocada à categoria principal foi alocado para outras subcategorias.</string>
+  <string name="sub_budget_exceeded_error_1_2">Todo montante alocado à categoria principal foi alocado para outras subcategorias.</string>
+  <string name="sub_budget_exceeded_error_2">Aumente o montante alocado à categoria principal ou remova dinheiro de outras subcategorias.</string>
+  <string name="sub_budget_under_allocated_error">%s já foi alocado para subcategorias. Ao menos que você remova dinheiro delas, você deve, pelo menos, alocar essa quantia para a categoria principal.</string>
   <!--Description for button that allows to clear the selected method-->
   <string name="content_description_clear_method">Limpar o método</string>
   <!--Description for button that allows to clear the selected category-->

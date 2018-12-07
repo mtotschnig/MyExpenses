@@ -118,6 +118,8 @@
   <string name="form_MethodEdit_account_types_help_text">この方法を適用する、勘定の種類を選択します。</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">各通貨に対して、使用される小数点以下の桁数を変更することができます。例えばユーロで、1 ¢ の 1/10、すなわち 1/1000 を処理する必要がある場合は、番号に 3 を設定します。通貨を使用する既存の勘定は、新しい設定に切り替わります。</string>
+  <string name="help_ManageCurrencies_symbol">指定した通貨の金額の書式に使用される通貨記号を設定することもできます。</string>
+  <string name="help_ManageCurrencies_new">通貨をカスタマイズする場合は、通貨を選択するメニューに表示されるラベルと、通則 3 文字からなるアルファベットコードを追加定義します。</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">ここで選択したフォルダーは、バックアップやエクスポートを保存するために使用されます。目的のフォルダに到達するまで、フォルダーの階層を移動してください。</string>
   <string name="menu_create_folder_help_text">現在のフォルダーの中に新しいフォルダーを作成します。</string>

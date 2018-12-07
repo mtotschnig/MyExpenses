@@ -809,4 +809,8 @@
   <string name="content_description_clear_method">שיטה ברורה</string>
   <!--Description for button that allows to clear the selected category-->
   <string name="content_description_clear_category">קטגוריה ברורה</string>
+  <string name="currency_code">קוד</string>
+  <string name="dialog_title_new_currency">מטבע חדש</string>
+  <string name="currency_code_already_definded">קוד המטבע כבר מוגדר.</string>
+  <string name="currency_still_used">המטבע נמצא בשימוש, לא ניתן למחוק אותו.</string>
 </resources>

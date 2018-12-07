@@ -777,4 +777,8 @@
   <string name="content_description_clear_method">方法をクリア</string>
   <!--Description for button that allows to clear the selected category-->
   <string name="content_description_clear_category">分類をクリア</string>
+  <string name="currency_code">コード</string>
+  <string name="dialog_title_new_currency">新しい通貨</string>
+  <string name="currency_code_already_definded">通貨コードはすでに定義されています。</string>
+  <string name="currency_still_used">通貨は使用されています。削除できません。</string>
 </resources>
