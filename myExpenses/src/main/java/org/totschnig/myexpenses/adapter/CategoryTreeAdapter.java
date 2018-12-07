@@ -16,8 +16,9 @@ import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDraw
 
 public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
   public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
-                             CurrencyUnit currency, boolean withMainColors, boolean withSubColors) {
-    super(ctx, currencyFormatter, currency, withMainColors, withSubColors);
+                             CurrencyUnit currency, boolean withMainColors, boolean withSubColors,
+                             boolean withNullCategory) {
+    super(ctx, currencyFormatter, currency, withMainColors, withSubColors, withNullCategory);
   }
 
   @Override

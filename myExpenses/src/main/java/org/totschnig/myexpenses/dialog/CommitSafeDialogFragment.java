@@ -10,7 +10,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.ui.SnackbarAction;
@@ -47,17 +46,13 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
   }
 
   public void showSnackbar(CharSequence message, int duration, SnackbarAction snackbarAction) {
-    if (dialogView != null) {
-      Snackbar snackbar = Snackbar.make(dialogView, message, duration);
-      UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
-      if (snackbarAction != null) {
-        snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
-      }
-      snackbar.show();
-    } else {
-      Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-
+    View view = dialogView != null ? dialogView : getDialog().getWindow().getDecorView();
+    Snackbar snackbar = Snackbar.make(view, message, duration);
+    UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
+    if (snackbarAction != null) {
+      snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
     }
+    snackbar.show();
   }
 
   private ProtectedFragmentActivity.ThemeType getThemeType() {

@@ -96,6 +96,7 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.DateCriteria;
 import org.totschnig.myexpenses.provider.filter.MethodCriteria;
+import org.totschnig.myexpenses.provider.filter.NullCriteria;
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TransferCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -1118,12 +1119,18 @@ public class TransactionList extends ContextualActionBarFragment implements
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
         long catId = intent.getLongExtra(KEY_CATID, 0);
-        addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, new CategoryCriteria(label, catId));
+        addCategoryFilter(label, catId);
       }
       if (resultCode == Activity.RESULT_FIRST_USER) {
         long[] catIds = intent.getLongArrayExtra(KEY_CATID);
-        addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, new CategoryCriteria(label, catIds));
+        addCategoryFilter(label, catIds);
       }
     }
+  }
+
+  private void addCategoryFilter(String label, long... catIds) {
+    addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, catIds.length == 1 && catIds[0] == -1 ?
+        new NullCriteria(KEY_CATID) :
+        new CategoryCriteria(label, catIds));
   }
 }

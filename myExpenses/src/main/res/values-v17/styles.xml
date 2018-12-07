@@ -3,7 +3,7 @@
 
     <style name="ExpandableListRow">
         <item name="android:paddingEnd">@dimen/general_padding</item>
-        <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
+        <item name="android:paddingStart">@dimen/general_padding</item>
     </style>
 
     <style name="OnBoardingTextInputLayout" parent="OnBoardingTextInputLayoutBase">

@@ -21,10 +21,17 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.MethodCriteria;
+import org.totschnig.myexpenses.provider.filter.NullCriteria;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 
 
 public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragment
 {
+
+  public SelectMethodDialogFragment() {
+    super(true);
+  }
 
   @Override
   int getDialogTitle() {
@@ -49,6 +56,6 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
 
   @Override
   Criteria makeCriteria(String label, long... ids) {
-    return new MethodCriteria(label, ids);
+    return ids.length == 1 && ids[0] == -1 ? new NullCriteria(KEY_METHODID) : new MethodCriteria(label, ids);
   }
 }

@@ -11,12 +11,15 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ *
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
-*/
+ */
 
 package org.totschnig.myexpenses.provider.filter;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -24,21 +27,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CategoryCriteria extends IdCriteria {
 
   public CategoryCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.category),
-        KEY_CATID,label, ids
+        KEY_CATID, label, ids
     );
   }
 
@@ -55,26 +52,27 @@ public class CategoryCriteria extends IdCriteria {
   @Override
   public String getSelection() {
     String selection = WhereFilter.Operation.IN.getOp(values.length);
-    return KEY_CATID +" IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+    return KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " " + selection + " OR "
         + KEY_ROWID + " " + selection + ")";
   }
+
   @Override
   public String[] getSelectionArgs() {
-    return Utils.joinArrays(values,values);
+    return Utils.joinArrays(values, values);
   }
 
   public static final Parcelable.Creator<CategoryCriteria> CREATOR = new Parcelable.Creator<CategoryCriteria>() {
     public CategoryCriteria createFromParcel(Parcel in) {
-        return new CategoryCriteria(in);
+      return new CategoryCriteria(in);
     }
 
     public CategoryCriteria[] newArray(int size) {
-        return new CategoryCriteria[size];
+      return new CategoryCriteria[size];
     }
   };
-  
-  public static CategoryCriteria fromStringExtra(String extra) {
-    return IdCriteria.fromStringExtra(extra,CategoryCriteria.class);
+
+  public static Criteria fromStringExtra(String extra) {
+    return extra.equals("null") ? new NullCriteria(KEY_CATID) : IdCriteria.fromStringExtra(extra, CategoryCriteria.class);
   }
 }

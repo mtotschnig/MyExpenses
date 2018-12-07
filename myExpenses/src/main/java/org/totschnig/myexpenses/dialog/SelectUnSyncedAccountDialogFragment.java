@@ -16,6 +16,10 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK
 
 public class SelectUnSyncedAccountDialogFragment extends SelectFromTableDialogFragment {
 
+  public SelectUnSyncedAccountDialogFragment() {
+    super(false);
+  }
+
   public static SelectUnSyncedAccountDialogFragment newInstance(String accountName) {
     SelectUnSyncedAccountDialogFragment dialogFragment = new SelectUnSyncedAccountDialogFragment();
     Bundle args = new Bundle();
@@ -40,11 +44,12 @@ public class SelectUnSyncedAccountDialogFragment extends SelectFromTableDialogFr
   }
 
   @Override
-  void onResult(ArrayList<String> labelList, long[] itemIds) {
+  boolean onResult(ArrayList<String> labelList, long[] itemIds) {
     if (itemIds.length > 0) {
       ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TASK_SYNC_LINK_SAVE,
           ArrayUtils.toObject(itemIds), getArguments().getString(KEY_SYNC_ACCOUNT_NAME), 0);
     }
+    return true;
   }
 
   @Override
