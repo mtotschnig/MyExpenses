@@ -253,7 +253,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         getPrefHandler().putString(HOME_CURRENCY, Utils.getHomeCurrency().code());
       }
       if (prev_version < 354) {
-        showImportantUpgradeInfo = GenericAccountService.getAccountsAsArray(this). length > 0;
+        showImportantUpgradeInfo = GenericAccountService.getAccountsAsArray(this).length > 0;
       }
 
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)

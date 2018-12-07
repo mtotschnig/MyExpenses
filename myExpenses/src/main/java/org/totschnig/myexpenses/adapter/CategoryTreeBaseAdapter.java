@@ -169,7 +169,6 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   /**
    * This method expects the main categories to be sorted first
    * @param cursor
-   * @param context
    */
   public void ingest(Cursor cursor) {
     if (cursor != null) {
