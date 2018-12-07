@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -140,7 +141,7 @@ public class CategoryList extends SortableListFragment {
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
     mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, null, isWithMainColors(),
-        false);
+        false, getAction().equals(ACTION_SELECT_FILTER));
     mListView.setAdapter(mAdapter);
     loadData();
     registerForContextualActionBar(mListView);
@@ -275,28 +276,32 @@ public class CategoryList extends SortableListFragment {
         return true;
       }
       case R.id.SELECT_COMMAND_MULTIPLE: {
-        ArrayList<String> labelList = new ArrayList<>();
-        for (int i = 0; i < positions.size(); i++) {
-          Category c;
-          if (positions.valueAt(i)) {
-            int position = positions.keyAt(i);
-            long pos = mListView.getExpandableListPosition(position);
-            int type = ExpandableListView.getPackedPositionType(pos);
-            int group = ExpandableListView.getPackedPositionGroup(pos),
-                child = ExpandableListView.getPackedPositionChild(pos);
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-              c = mAdapter.getChild(group, child);
-            } else {
-              c = mAdapter.getGroup(group);
+        if (itemIds.length == 1 || Arrays.asList(itemIds).indexOf(-1L) == -1) {
+          ArrayList<String> labelList = new ArrayList<>();
+          for (int i = 0; i < positions.size(); i++) {
+            Category c;
+            if (positions.valueAt(i)) {
+              int position = positions.keyAt(i);
+              long pos = mListView.getExpandableListPosition(position);
+              int type = ExpandableListView.getPackedPositionType(pos);
+              int group = ExpandableListView.getPackedPositionGroup(pos),
+                  child = ExpandableListView.getPackedPositionChild(pos);
+              if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                c = mAdapter.getChild(group, child);
+              } else {
+                c = mAdapter.getGroup(group);
+              }
+              labelList.add(c.label);
             }
-            labelList.add(c.label);
           }
+          Intent intent = new Intent();
+          intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
+          intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
+          ctx.setResult(RESULT_FIRST_USER, intent);
+          ctx.finish();
+        } else {
+          ctx.showSnackbar(R.string.unmapped_filter_only_single, Snackbar.LENGTH_LONG);
         }
-        Intent intent = new Intent();
-        intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
-        intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
-        ctx.setResult(RESULT_FIRST_USER, intent);
-        ctx.finish();
         return true;
       }
       case R.id.MOVE_COMMAND:

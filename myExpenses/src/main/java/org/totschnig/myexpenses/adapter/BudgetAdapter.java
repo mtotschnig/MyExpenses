@@ -25,7 +25,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
   }
 
   public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter, CurrencyUnit currency) {
-    super(ctx, currencyFormatter, currency, true, true);
+    super(ctx, currencyFormatter, currency, true, true, false);
     this.listener = ctx;
   }
 

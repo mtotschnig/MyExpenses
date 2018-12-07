@@ -11,18 +11,21 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.dialog;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -32,10 +35,14 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
 
-public abstract class SelectFromMappedTableDialogFragment extends SelectFromTableDialogFragment
-{
+public abstract class SelectFromMappedTableDialogFragment extends SelectFromTableDialogFragment {
+
+  protected SelectFromMappedTableDialogFragment(boolean withNullItem) {
+    super(withNullItem);
+  }
 
   abstract Criteria makeCriteria(String label, long... id);
+
   abstract int getCommand();
 
   @Override
@@ -44,10 +51,16 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFromTabl
   }
 
   @Override
-  void onResult(ArrayList<String> labelList, long[] itemIds) {
-    ((MyExpenses) getActivity()).addFilterCriteria(
-        getCommand(),
-        makeCriteria(TextUtils.join(",", labelList), itemIds));
+  boolean onResult(ArrayList<String> labelList, long[] itemIds) {
+    if (itemIds.length == 1 || Arrays.asList(ArrayUtils.toObject(itemIds)).indexOf(-1L) == -1) {
+      ((MyExpenses) getActivity()).addFilterCriteria(
+          getCommand(),
+          makeCriteria(TextUtils.join(",", labelList), itemIds));
+      return true;
+    } else {
+      showSnackbar(R.string.unmapped_filter_only_single);
+      return false;
+    }
   }
 
   @Override

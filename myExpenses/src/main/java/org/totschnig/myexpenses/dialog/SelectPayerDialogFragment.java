@@ -20,10 +20,17 @@ import android.net.Uri;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.NullCriteria;
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 
 public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragment
 {
+
+  public SelectPayerDialogFragment() {
+    super(true);
+  }
 
   @Override
   int getDialogTitle() {
@@ -45,6 +52,6 @@ public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragme
   }
   @Override
   Criteria makeCriteria(String label, long... ids) {
-    return new PayeeCriteria(label, ids);
+    return ids.length == 1 && ids[0] == -1 ? new NullCriteria(KEY_PAYEEID) : new PayeeCriteria(label, ids);
   }
 }

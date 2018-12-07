@@ -25,6 +25,10 @@ import org.totschnig.myexpenses.provider.filter.TransferCriteria;
 public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDialogFragment
 {
 
+  public SelectTransferAccountDialogFragment() {
+    super(false);
+  }
+
   @Override
   int getDialogTitle() {
     return R.string.search_transfer;

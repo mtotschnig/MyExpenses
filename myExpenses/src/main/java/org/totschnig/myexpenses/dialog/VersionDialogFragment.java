@@ -114,19 +114,19 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       }
     };
     lv.setAdapter(adapter);
-/*    if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
+    if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
       view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
       TextView importantUpgradeInfoBody = view.findViewById(R.id.ImportantUpgradeInfoBody);
       importantUpgradeInfoBody.setVisibility(View.VISIBLE);
-      importantUpgradeInfoBody.setText(R.string.roadmap_intro);
-      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
+      importantUpgradeInfoBody.setText(R.string.upgrade_information_cloud_sync_storage_format);
+/*      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
       makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.roadmap_particpate, new ClickableSpan() {
         @Override
         public void onClick(View widget) {
          getActivity().startActivity(new Intent(getContext(), RoadmapVoteActivity.class));
         }
-      });
-    }*/
+      });*/
+    }
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(getString(R.string.help_heading_whats_new))

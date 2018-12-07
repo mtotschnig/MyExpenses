@@ -18,24 +18,25 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 
 public class MethodCriteria extends IdCriteria {
 
   public MethodCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.method),
-        DatabaseConstants.KEY_METHODID, label, ids);
+        KEY_METHODID, label, ids);
   }
 
   @SuppressWarnings("unused")
   public MethodCriteria(String label, String... ids) {
     super(MyApplication.getInstance().getString(R.string.method),
-        DatabaseConstants.KEY_METHODID, label, ids);
+        KEY_METHODID, label, ids);
   }
 
   public MethodCriteria(Parcel in) {
@@ -51,8 +52,8 @@ public class MethodCriteria extends IdCriteria {
         return new MethodCriteria[size];
     }
   };
-  public static MethodCriteria fromStringExtra(String extra) {
-    return IdCriteria.fromStringExtra(extra,MethodCriteria.class);
+  public static Criteria fromStringExtra(String extra) {
+    return extra.equals("null") ? new NullCriteria(KEY_METHODID) : IdCriteria.fromStringExtra(extra,MethodCriteria.class);
   }
 
   @Override

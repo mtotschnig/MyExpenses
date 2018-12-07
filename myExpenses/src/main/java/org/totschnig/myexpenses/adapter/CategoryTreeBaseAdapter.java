@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.adapter;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.util.LongSparseArray;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -39,16 +41,19 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   private List<Category> mainCategories = new ArrayList<>();
   private LongSparseArray<Integer> positionMap = new LongSparseArray<>();
   private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
+  private final Context context;
   private final LayoutInflater inflater;
   protected final CurrencyFormatter currencyFormatter;
   protected final int colorExpense;
   protected final int colorIncome;
   protected boolean withMainColors;
   private boolean withSubColors;
+  private final boolean withNullCategory;
   protected final ProtectedFragmentActivity.ThemeType themeType;
 
   public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
-                                 CurrencyUnit currency, boolean withMainColors, boolean withSubColors) {
+                                 CurrencyUnit currency, boolean withMainColors, boolean withSubColors, boolean withNullCategory) {
+    this.context = ctx;
     inflater = LayoutInflater.from(ctx);
     this.currencyFormatter = currencyFormatter;
     this.currency = currency;
@@ -57,6 +62,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     this.withMainColors = withMainColors;
     this.withSubColors = withSubColors;
     this.themeType = ctx.getThemeType();
+    this.withNullCategory = withNullCategory;
   }
 
   @Override
@@ -107,7 +113,17 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   @Override
   public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
     final Category item = getGroup(groupPosition);
-    return getView(item, null, convertView, parent, withMainColors ? item.color : 0);
+    final View view = getView(item, null, convertView, parent, withMainColors ? item.color : 0);
+    ImageView indicator = ((ViewHolder) view.getTag()).groupIndicator;
+    if( getChildrenCount( groupPosition ) == 0 ) {
+      indicator.setVisibility( View.INVISIBLE );
+    } else {
+      indicator.setVisibility( View.VISIBLE );
+      indicator.setImageResource( isExpanded ? R.drawable.expander_close : R.drawable.expander_open );
+      indicator.setContentDescription(context.getString(isExpanded ?
+              R.string.content_description_collapse : R.string.content_description_expand));
+    }
+    return view;
   }
 
   @Override
@@ -119,7 +135,9 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
       final List<Integer> subColors = getSubColors(parentCat.color);
       color = subColors.get(childPosition % subColors.size());
     }
-    return getView(item, parentCat, convertView, parent, color);
+    final View view = getView(item, parentCat, convertView, parent, color);
+    ((ViewHolder) view.getTag()).groupIndicator.setVisibility(View.INVISIBLE);
+    return view;
   }
 
   protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color) {
@@ -151,12 +169,17 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   /**
    * This method expects the main categories to be sorted first
    * @param cursor
+   * @param context
    */
   public void ingest(Cursor cursor) {
     if (cursor != null) {
       try {
         List<Category> newList = new ArrayList<>();
         int position = 0;
+        if (withNullCategory) {
+          newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, null, 0, null));
+          position = 1;
+        }
         final int columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
         final int columnIndexParentId = cursor.getColumnIndex(KEY_PARENTID);
         final int columnIndexSum = cursor.getColumnIndex(KEY_SUM);
@@ -212,6 +235,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   class ViewHolder {
     @BindView(R.id.label) TextView label;
     @BindView(R.id.amount) TextView amount;
+    @BindView(R.id.explist_indicator) ImageView groupIndicator;
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
     }

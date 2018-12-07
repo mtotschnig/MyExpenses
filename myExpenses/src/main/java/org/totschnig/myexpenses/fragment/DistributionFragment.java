@@ -142,7 +142,7 @@ public class DistributionFragment extends DistributionBaseFragment {
     updateColor();
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount.getCurrencyUnit(), showChart, showChart);
+    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount.getCurrencyUnit(), showChart, showChart, false);
     mListView.setAdapter(mAdapter);
     loadData();
     mListView.setOnGroupClickListener((parent, v12, groupPosition, id) ->
@@ -159,7 +159,6 @@ public class DistributionFragment extends DistributionBaseFragment {
           if (lastExpandedPosition == -1) {
             highlight(groupPosition);
           }
-
           return true;
         }
       }

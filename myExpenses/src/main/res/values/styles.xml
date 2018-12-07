@@ -122,6 +122,11 @@
         <item name="android:textSize">?textSizeSmall</item>
     </style>
 
+    <style name="ExpandableListRowWithCustomIndicator">
+        <item name="android:paddingRight">@dimen/general_padding</item>
+        <item name="android:paddingLeft">@dimen/general_padding</item>
+    </style>
+
     <style name="ExpandableListRow">
         <item name="android:paddingRight">@dimen/general_padding</item>
         <item name="android:paddingLeft">?android:attr/expandableListPreferredItemPaddingLeft</item>
