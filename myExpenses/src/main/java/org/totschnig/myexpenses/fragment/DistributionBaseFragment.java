@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.util.Pair;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -139,8 +140,14 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   protected void onDateInfoReceived(Cursor cursor) {
-    ((ProtectedFragmentActivity) getActivity()).getSupportActionBar().setSubtitle(
-        getSubTitle(cursor));
+    final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
+    if (activity != null) {
+      final ActionBar actionBar = activity.getSupportActionBar();
+      if (actionBar != null) {
+        actionBar.setSubtitle(
+            getSubTitle(cursor));
+      }
+    }
   }
 
   protected String getSubTitle(Cursor cursor) {
