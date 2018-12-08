@@ -754,4 +754,7 @@
   <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
   <!--Description for button that allows to clear the selected method-->
   <!--Description for button that allows to clear the selected category-->
+  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    to search for transactions without category, payee or method. The UI allows selection of multiple items,
+    but we warn the user if he includes this special item in the selection.-->
 </resources>

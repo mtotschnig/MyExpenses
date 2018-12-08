@@ -19,7 +19,7 @@
 ]>
 <resources>
   <string-array name="whats_new_298">
-    <item>Filter for unmapped categories, payees and methods</item>
+    <item>Filter for transactions without mapping to categories, payees or methods</item>
     <item>Optimized storage of synchronized data</item>
   </string-array>
   <string-array name="whats_new_297">

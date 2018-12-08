@@ -781,4 +781,7 @@
   <string name="dialog_title_new_currency">新しい通貨</string>
   <string name="currency_code_already_definded">通貨コードはすでに定義されています。</string>
   <string name="currency_still_used">通貨は使用されています。削除できません。</string>
+  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    to search for transactions without category, payee or method. The UI allows selection of multiple items,
+    but we warn the user if he includes this special item in the selection.-->
 </resources>

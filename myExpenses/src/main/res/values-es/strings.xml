@@ -791,4 +791,7 @@
   <string name="dialog_title_new_currency">Nueva divisa</string>
   <string name="currency_code_already_definded">El código de divisa ya está definido.</string>
   <string name="currency_still_used">La divisa se encuentra en uso, no puede eliminarse.</string>
+  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    to search for transactions without category, payee or method. The UI allows selection of multiple items,
+    but we warn the user if he includes this special item in the selection.-->
 </resources>

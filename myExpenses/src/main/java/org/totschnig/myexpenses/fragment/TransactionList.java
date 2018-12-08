@@ -267,10 +267,10 @@ public class TransactionList extends ContextualActionBarFragment implements
       Context ctx = getActivity();
       if (mAdapter == null) {
         mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
+        mListView.setAdapter(mAdapter);
       } else {
         mAdapter.setAccount(mAccount);
       }
-      mListView.setAdapter(mAdapter);
     }
   }
 
@@ -558,12 +558,12 @@ public class TransactionList extends ContextualActionBarFragment implements
               });
             }
           } else {
+            firstLoadCompleted = true;
             if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)) {
               mListView.post(() -> mListView.setSelection(findCurrentPosition(c)));
             }
           }
         }
-        firstLoadCompleted = true;
         invalidateCAB();
         break;
       case SUM_CURSOR:
@@ -612,7 +612,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (c.moveToLast()) {
           do {
             if (c.getLong(dateColumn) <= startOfToday) {
-              return c.isLast() ? c.getPosition() :  c.getPosition() + 1;
+              return c.isLast() ? c.getPosition() : c.getPosition() + 1;
             }
           } while (c.moveToPrevious());
         }
@@ -713,7 +713,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                 formattedDelta);
         if (holder.budgetProgress != null) {
           long budget = mAccount.getBudget().getAmountMinor();
-          int progress =  expenssum > budget || budget == 0 ? 100 : Math.round(expenssum * 100F / budget);
+          int progress = expenssum > budget || budget == 0 ? 100 : Math.round(expenssum * 100F / budget);
           holder.budgetProgress.setProgress(progress);
           holder.budgetProgress.setText(String.valueOf(progress));
           holder.budgetProgress.setFinishedStrokeColor(mAccount.color);

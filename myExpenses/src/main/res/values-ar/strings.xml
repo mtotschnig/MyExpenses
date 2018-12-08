@@ -438,4 +438,7 @@
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
   <!--Description for button that allows to clear the selected method-->
   <!--Description for button that allows to clear the selected category-->
+  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    to search for transactions without category, payee or method. The UI allows selection of multiple items,
+    but we warn the user if he includes this special item in the selection.-->
 </resources>

@@ -791,4 +791,10 @@
   <string name="dialog_title_new_currency">Neue Währung</string>
   <string name="currency_code_already_definded">Währungscode ist bereits definiert.</string>
   <string name="currency_still_used">Die Währung wird verwendet und kann nicht gelöscht werden.</string>
+  <string name="unmapped">Nicht zugeordnet</string>
+  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    to search for transactions without category, payee or method. The UI allows selection of multiple items,
+    but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">Der Filter \"Nicht zugeordnet\" kann nicht in die Mehrfachauswahl aufgenommen werden</string>
+  <string name="upgrade_information_cloud_sync_storage_format">Mit der Version 2.9.8 hat sich die Art und Weise geändert, wie Daten auf Synchronisations-Backends gespeichert werden. Aktualisieren Sie diese Version auf allen synchronisierten Geräten, bevor Sie neue Datensätze eingeben.</string>
 </resources>
