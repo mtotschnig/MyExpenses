@@ -177,7 +177,8 @@
                 style="@style/FormLabel.Condensed"
                 android:text="@string/status"/>
 
-            <LinearLayout>
+            <LinearLayout
+                style="@style/FormField.Dialog">
                 <!-- do not remove this linear layout, it prevents the enclosed textview from filling
                 the complete row https://github.com/mtotschnig/MyExpenses/issues/297
                  -->
