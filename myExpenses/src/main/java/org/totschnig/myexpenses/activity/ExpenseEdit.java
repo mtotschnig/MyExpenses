@@ -267,10 +267,11 @@ public class ExpenseEdit extends AmountActivity implements
   ImageView clearMethodButton;
   @BindView(R.id.ClearCategory)
   ImageView clearCategoryButton;
+  @BindView(R.id.OriginalCurrency)
+  Spinner mCurrencySpinner;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mRecurrenceSpinner;
-  private Spinner mCurrencySpinner;
   private SimpleCursorAdapter mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private ArrayAdapter<PaymentMethod> mMethodsAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
@@ -372,7 +373,13 @@ public class ExpenseEdit extends AmountActivity implements
     });
     ButterKnife.bind(this);
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
-    currencyViewModel.getCurrencies().observe(this, currencies -> currencyAdapter.addAll(currencies));
+    currencyViewModel.getCurrencies().observe(this, currencies -> {
+      currencyAdapter.addAll(currencies);
+      final String lastOriginalCurrency = getPrefHandler().getString(LAST_ORIGINAL_CURRENCY, null);
+      if (lastOriginalCurrency != null) {
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(lastOriginalCurrency)));
+      }
+    });
 
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     amountInput.setTypeEnabled(false);
@@ -438,7 +445,6 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mCurrencySpinner = findViewById(R.id.OriginalCurrency);
     currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item) {
       @NonNull
       @Override
@@ -450,13 +456,7 @@ public class ExpenseEdit extends AmountActivity implements
     };
     mCurrencySpinner.setAdapter(currencyAdapter);
     currencyViewModel.loadCurrencies();
-    final String lastOriginalCurrency = getPrefHandler().getString(LAST_ORIGINAL_CURRENCY, null);
-    if (lastOriginalCurrency != null) {
-      try {
-        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(lastOriginalCurrency)));
-      } catch (IllegalArgumentException ignored) {
-      }
-    }
+
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
     int manual = (int) paint.measureText(getString(R.string.plan_manual));
