@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,7 +27,7 @@ public class LicenceHandlerTest {
 
   @Before
   public void setUp() throws Exception {
-    licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class));
+    licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class), mock(CrashHandler.class));
   }
 
   @Test
@@ -45,7 +46,7 @@ public class LicenceHandlerTest {
       "PROFESSIONAL, PROFESSIONAL, true",
   })
   public void isEnabledFor(String hasStatus, String requestedStatus, boolean expected) throws Exception {
-    licenceHandler.licenceStatus = parse(hasStatus);
+    licenceHandler.setLicenceStatus(parse(hasStatus));
     assertEquals(expected, licenceHandler.isEnabledFor(LicenceStatus.valueOf(requestedStatus)));
   }
 
@@ -56,7 +57,7 @@ public class LicenceHandlerTest {
       "PROFESSIONAL, false"
   })
   public void isUpgradeable(String hasStatus, boolean expected) throws Exception {
-    licenceHandler.licenceStatus =parse(hasStatus);
+    licenceHandler.setLicenceStatus(parse(hasStatus));
     assertEquals(expected, licenceHandler.isUpgradeable());
   }
 

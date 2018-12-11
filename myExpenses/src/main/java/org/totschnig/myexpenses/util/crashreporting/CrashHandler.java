@@ -1,13 +1,11 @@
 package org.totschnig.myexpenses.util.crashreporting;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,15 +62,18 @@ public abstract class CrashHandler {
     enabled = PrefKey.CRASHREPORT_ENABLED.getBoolean(true);
     if (enabled) {
       setupLoggingDo(context);
-      putCustomData("Distribution", DistribHelper.getVersionInfo(context));
-      putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
-      putCustomData("Locale", Locale.getDefault().toString());
     }
+  }
+
+  protected void setKeys(Context context) {
+    putCustomData("Distribution", DistribHelper.getVersionInfo(context));
+    putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+    putCustomData("Locale", Locale.getDefault().toString());
   }
 
   abstract void setupLoggingDo(Context context);
 
-  abstract void putCustomData(String key, String value);
+  public abstract void putCustomData(String key, String value);
 
   public synchronized void addBreadcrumb(String breadcrumb) {
     Timber.i("Breadcrumb: %s", breadcrumb);
@@ -95,14 +96,8 @@ public abstract class CrashHandler {
     }
 
     @Override
-    void putCustomData(String key, String value) {
+    public void putCustomData(String key, String value) {
 
     }
   };
-
-  public void setLicenceStatus(@NonNull LicenceStatus licenceStatus) {
-    if (enabled) {
-      putCustomData("Licence", licenceStatus.name());
-    }
-  }
 }

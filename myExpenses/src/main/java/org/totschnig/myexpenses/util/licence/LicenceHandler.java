@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
@@ -48,20 +49,18 @@ public class LicenceHandler {
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
   public static final String TAG = "LicenceHandler";
   protected final MyApplication context;
+  private final CrashHandler crashHandler;
   private boolean isSandbox = BuildConfig.DEBUG;
 
-  @Nullable public LicenceStatus getLicenceStatus() {
-    return licenceStatus;
-  }
-
-  protected LicenceStatus licenceStatus;
+  private LicenceStatus licenceStatus;
   PreferenceObfuscator licenseStatusPrefs;
   CurrencyUnit currencyUnit;
 
-  public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
+  public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler) {
     this.context = context;
     this.licenseStatusPrefs = preferenceObfuscator;
     this.currencyUnit = CurrencyUnit.create("EUR", "€", 2);
+    this.crashHandler = crashHandler;
   }
 
   public boolean hasValidKey() {
@@ -91,9 +90,9 @@ public class LicenceHandler {
   public void init() {
     String licenseStatusPrefsString = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null);
     try {
-      licenceStatus = licenseStatusPrefsString != null ? LicenceStatus.valueOf(licenseStatusPrefsString) : null;
+      setLicenceStatus(licenseStatusPrefsString != null ? LicenceStatus.valueOf(licenseStatusPrefsString) : null);
     } catch (IllegalArgumentException e) {
-      licenceStatus = null;
+      setLicenceStatus(null);
     }
   }
 
@@ -109,12 +108,12 @@ public class LicenceHandler {
 
   public void updateLicenceStatus(Licence licence) {
     if (licence == null || licence.getType() == null) {
-      licenceStatus = null;
+      setLicenceStatus(null);
       licenseStatusPrefs.remove(LICENSE_STATUS_KEY);
       licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY);
       licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);
     } else {
-      licenceStatus = licence.getType();
+      setLicenceStatus(licence.getType());
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
       if (licence.getValidSince() != null) {
         ZonedDateTime validSince = licence.getValidSince().atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"));
@@ -139,7 +138,7 @@ public class LicenceHandler {
   @VisibleForTesting
   public void setLockState(boolean locked) {
     if (MyApplication.isInstrumentationTest()) {
-      licenceStatus = locked ? null : LicenceStatus.PROFESSIONAL;
+      setLicenceStatus(locked ? null : LicenceStatus.PROFESSIONAL);
       update();
     } else {
       throw new UnsupportedOperationException();
@@ -423,7 +422,7 @@ public class LicenceHandler {
   public void handleExpiration() {
     long licenceDuration = getValidUntilMillis() - getValidSinceMillis();
     if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
-      licenceStatus = LicenceStatus.EXTENDED;
+      setLicenceStatus(LicenceStatus.EXTENDED);
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
       licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);licenseStatusPrefs.commit();
       licenseStatusPrefs.commit();
@@ -448,5 +447,14 @@ public class LicenceHandler {
         resId = LicenceStatus.PROFESSIONAL.getResId();
     }
     return String.format("%s (%s)", context.getString(resId), getFormattedPriceWithExtra(aPackage, licenceStatus == LicenceStatus.EXTENDED));
+  }
+
+  protected void setLicenceStatus(@Nullable LicenceStatus licenceStatus) {
+    this.licenceStatus = licenceStatus;
+    crashHandler.putCustomData("Licence", licenceStatus != null ? licenceStatus.name() : "null");
+  }
+
+  @Nullable public LicenceStatus getLicenceStatus() {
+    return licenceStatus;
   }
 }
