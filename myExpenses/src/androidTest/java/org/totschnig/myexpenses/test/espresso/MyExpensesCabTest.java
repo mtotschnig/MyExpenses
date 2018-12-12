@@ -33,13 +33,13 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
@@ -47,7 +47,6 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
-import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -90,10 +89,11 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .perform(longClick());
     performContextMenuClick(R.string.menu_clone_transaction, R.id.CLONE_TRANSACTION_COMMAND);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
-    onView(getWrappedList()).check(matches(withListSize(origListSize + 1)));
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }
 
   @Test
+  @FlakyTest
   public void editCommandKeepsListSize() {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
@@ -102,8 +102,8 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .perform(longClick());
     performContextMenuClick(R.string.menu_edit, R.id.EDIT_COMMAND);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
-    onView(getWrappedList()).check(matches(withListSize(origListSize)));
-  }
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
+    }
 
   @Test
   public void createTemplateCommandCreatesTemplate() {
@@ -136,7 +136,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .perform(longClick());
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(getWrappedList()).check(matches(withListSize(origListSize - 1)));
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize - 1);
   }
 
   @Test
@@ -151,7 +151,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
         .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));
-    onView(getWrappedList()).check(matches(withListSize(origListSize)));
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
@@ -159,7 +159,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     performContextMenuClick(R.string.menu_delete, R.id.UNDELETE_COMMAND);
     onView(getWrappedList())
         .check(matches(not(withAdaptedData(CursorMatchers.withRowString(DatabaseConstants.KEY_CR_STATUS, "VOID")))));
-    onView(getWrappedList()).check(matches(withListSize(origListSize)));
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
   }
 
   @Test
@@ -171,21 +171,18 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .perform(longClick());
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(android.R.string.cancel)).perform(click());
-    onView(getWrappedList()).check(matches(withListSize(origListSize)));
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
   }
 
   @Test
-  public void splitCommandCreatesSplitTransaction() {
+  public void splitCommandCreatesSplitTransaction() throws InterruptedException {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
     performContextMenuClick(R.string.menu_split_transaction, R.id.SPLIT_TRANSACTION_COMMAND);
-    if (!ContribFeature.SPLIT_TRANSACTION.hasAccess()) {
-      onView(withText(R.string.dialog_title_contrib_feature)).check(matches(isDisplayed()));
-      onView(withText(R.string.dialog_contrib_no)).perform(scrollTo()).perform(click());
-    }
+    handleContribDialog(ContribFeature.SPLIT_TRANSACTION);
     onView(withText(R.string.menu_split_transaction)).perform(click());
     onView(withText(R.string.split_transaction)).check(matches(isDisplayed()));
     //CursoMatchers class does not allow to distinguish between null and 0 in database

@@ -2,14 +2,18 @@ package org.totschnig.myexpenses.testutils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.util.HumanReadables;
 import android.support.test.espresso.util.TreeIterables;
 import android.view.View;
 import android.view.ViewConfiguration;
 
 import org.hamcrest.Matcher;
+
+import java.util.concurrent.TimeoutException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -104,4 +108,45 @@ public class Espresso {
             android.support.v7.appcompat.R.string.abc_action_menu_overflow_description))),
         allOf(isDisplayed(), withClassName(endsWith("OverflowMenuButton"))));
   }
+
+  public static ViewAction wait(Matcher<View> viewMatcher, final long millis) {
+    return new ViewAction() {
+      @Override
+      public Matcher<View> getConstraints() {
+        return isRoot();
+      }
+
+      @Override
+      public String getDescription() {
+        return "wait for a specific view <" + viewMatcher.toString() + "> during " + millis + " millis.";
+      }
+
+      @Override
+      public void perform(final UiController uiController, final View view) {
+        uiController.loopMainThreadUntilIdle();
+        final long startTime = System.currentTimeMillis();
+        final long endTime = startTime + millis;
+
+        do {
+          for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+            // found view with required ID
+            if (viewMatcher.matches(child)) {
+              return;
+            }
+          }
+
+          uiController.loopMainThreadForAtLeast(50);
+        }
+        while (System.currentTimeMillis() < endTime);
+
+        // timeout happens
+        throw new PerformException.Builder()
+            .withActionDescription(this.getDescription())
+            .withViewDescription(HumanReadables.describe(view))
+            .withCause(new TimeoutException())
+            .build();
+      }
+    };
+  }
+
 }

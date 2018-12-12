@@ -30,6 +30,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -84,7 +85,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
     labelIsNotDisplayed(catLabel2);
     //switch off filter
     onView(withId(R.id.SEARCH_COMMAND)).perform(click());
-    onView(withText(catLabel1)).perform(click());
+    onView(withText(catLabel1)).inRoot(isPlatformPopup()).perform(click());
     labelIsDisplayed(catLabel2);
   }
 

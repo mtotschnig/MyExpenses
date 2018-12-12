@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 
@@ -107,5 +108,10 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
   protected void finishActionMode() {
     if (mListFragment != null)
       mListFragment.finishActionMode();
+  }
+
+  @Override
+  public Fragment getCurrentFragment() {
+    return mListFragment;
   }
 }

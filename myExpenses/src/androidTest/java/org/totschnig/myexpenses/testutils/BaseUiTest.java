@@ -14,6 +14,7 @@ import android.widget.ListView;
 import org.hamcrest.Matcher;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -21,6 +22,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -74,6 +77,15 @@ public abstract class BaseUiTest {
   protected void performContextMenuClick(int legacyString, int cabId) {
     onView(Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ? withId(cabId) : withText(legacyString))
         .perform(click());
+  }
+
+  protected void handleContribDialog(ContribFeature contribFeature) throws InterruptedException {
+    if (!contribFeature.hasAccess()) {
+      onView(withText(R.string.dialog_title_contrib_feature)).check(matches(isDisplayed()));
+      //OpenIAB on emulator displays a toast that is messing with our expectations, we wait for it to disappear
+      Thread.sleep(3500);
+      onView(withText(R.string.dialog_contrib_no)).perform(scrollTo()).perform(click());
+    }
   }
 
   protected abstract ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule();

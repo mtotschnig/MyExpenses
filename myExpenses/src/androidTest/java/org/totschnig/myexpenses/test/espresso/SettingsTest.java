@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -19,13 +20,14 @@ import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageParties;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -34,7 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.instanceOf;
 
-public class SettingsTest {
+public class SettingsTest extends BaseUiTest {
 
   @Rule
   public final IntentsTestRule<MyPreferenceActivity> mActivityRule =
@@ -89,15 +91,12 @@ public class SettingsTest {
 
 
   @Test
-  public void importCsv() {
+  public void importCsv() throws InterruptedException {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_import_title, "CSV"))),
             click()));
-    if (!ContribFeature.CSV_IMPORT.hasAccess()) {
-      onView(withText(R.string.dialog_title_extended_feature)).check(matches(isDisplayed()));
-      onView(withText(R.string.dialog_contrib_no)).perform(scrollTo()).perform(click());
-    }
+    handleContribDialog(ContribFeature.CSV_IMPORT);
     intended(hasComponent(CsvImportActivity.class.getName()));
   }
 
@@ -153,5 +152,10 @@ public class SettingsTest {
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_custom_currency_title)),
             click()));
     intended(hasComponent(ManageCurrencies.class.getName()));
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }

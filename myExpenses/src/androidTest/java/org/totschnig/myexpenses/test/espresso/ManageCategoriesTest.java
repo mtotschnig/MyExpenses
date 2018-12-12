@@ -9,18 +9,17 @@ import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.testutils.Matchers;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.greaterThan;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
-public class ManageCategoriesTest {
+public class ManageCategoriesTest extends BaseUiTest {
 
   @Rule
   public ActivityTestRule<ManageCategories> mActivityRule =
@@ -33,10 +32,14 @@ public class ManageCategoriesTest {
 
   @Test
   public void setupCategoriesShouldPopulateList() {
-    onView(withId(R.id.list)).check(matches(Matchers.withListSize(0)));
+    assertThat(waitForAdapter().getCount()).isEqualTo(0);
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
     onView(withText(R.string.menu_categories_setup_default)).perform(click());
-    onView(withId(R.id.list)).check(matches(Matchers.withListSize(greaterThan(0))));
-    //TODO cleanup
+    assertThat(waitForAdapter().getCount()).isGreaterThan(0);
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }
