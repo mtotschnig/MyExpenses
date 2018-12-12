@@ -734,6 +734,7 @@
   <string name="pref_category_title_privacy">Prywatność</string>
   <string name="pref_ad_consent_title">Spersonalizowane reklamy</string>
   <string name="ad_consent_non_personalized">Reklamy bez personalizacji</string>
+  <string name="gdpr_consent_message">Nawiązaliśmy współpracę z dostawcą reklam {ad_provider}, by móc dalej wspierać, utrzymywać i rozwijać aplikację {app_name} poprzez wyświetlanie Ci reklam. Chcielibyśmy prosić Cię o zgodę na to. Jeżeli wolisz nie widzieć żadnych reklam, zakup proszę wersję bez reklam.</string>
   <string name="gdpr_consent_button_yes">Tak, dalej wyświetlaj reklamy</string>
   <string name="gdpr_consent_button_no">Zapłać za wersję bez reklam</string>
   <string name="sort_order">Kolejność sortowania</string>
@@ -769,8 +770,17 @@
   <string name="budget_exceeded_error_1_2">Cały Twój budżet został przydzielony do pozostałych kategorii.</string>
   <string name="budget_exceeded_error_2">Zwiększ rozmiar budżetu lub usuń pieniądze z pozostałych kategorii.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Zdejmij metodę</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Zdejmij kategorię</string>
+  <string name="currency_code">Kod</string>
+  <string name="dialog_title_new_currency">Nowa waluta</string>
+  <string name="currency_code_already_definded">Kod waluty już jest zdefiniowany.</string>
+  <string name="currency_still_used">Waluta jest w użyciu, nie można jej usunąć.</string>
+  <string name="unmapped">Bez mapowania</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">Filtr \'Bez mapowania\' nie może być użyty przy wielokrotnym wyborze.</string>
+  <string name="upgrade_information_cloud_sync_storage_format">Wraz z wersją 2.9.8 zmienił się sposób przechowywania danych zdalnych. Proszę wykonać aktualizację na wszystkich urządzeniach korzystających z synchronizacji przed dodaniem nowych rekordów na tych urządzeniach.</string>
 </resources>

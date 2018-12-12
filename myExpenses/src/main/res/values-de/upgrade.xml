@@ -19,7 +19,7 @@
 ]>
 <resources>
   <string-array name="whats_new_298">
-    <item>Filtern für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden</item>
+    <item>Filter für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden</item>
     <item>Optimierte Speicherung synchronisierter Daten</item>
   </string-array>
   <string-array name="whats_new_297">

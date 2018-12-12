@@ -813,7 +813,10 @@
   <string name="dialog_title_new_currency">מטבע חדש</string>
   <string name="currency_code_already_definded">קוד המטבע כבר מוגדר.</string>
   <string name="currency_still_used">המטבע נמצא בשימוש, לא ניתן למחוק אותו.</string>
+  <string name="unmapped">לא ממופה</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">מסנן \'לא ממופה\' אינו יכול להיכלל בבחירה מרובה</string>
+  <string name="upgrade_information_cloud_sync_storage_format">עם גרסה 2.9.8,  האופן שבו הנתונים מאוחסנים על backends מסונכרן השתנה. שדרג לגרסה זו בכל המכשירים המסונכרנים, לפני הזנת רשומות חדשות בכל אחת מהן.</string>
 </resources>

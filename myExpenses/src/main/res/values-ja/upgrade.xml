@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_298">
+    <item>分類、支払先、または方法に配置せずに取引をフィルタリング</item>
+    <item>同期データのストレージを最適化</item>
+  </string-array>
   <string-array name="whats_new_297">
     <item>通貨のカスタマイズ</item>
   </string-array>

@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_298">
+    <item>סינון עבור עסקאות ללא מיפוי לקטגוריות, למשלמים או לשיטות</item>
+    <item>אחסון אופטימלי של נתונים מסונכרנים</item>
+  </string-array>
   <string-array name="whats_new_297">
     <item>מטבעות מותאמים אישית</item>
   </string-array>

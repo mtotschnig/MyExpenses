@@ -509,15 +509,15 @@
   <string name="menu_parse">解析</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">破棄</string>
-  <string name="csv_import_field_mapped_more_than_once">%s は複数にマップされます。</string>
+  <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
   <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
   <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
-  <string name="csv_import_subcategory_requires_category">副分類をマップする場合は、分類もマップする必要があります。</string>
+  <string name="csv_import_subcategory_requires_category">副分類を配置する場合は、分類も配置する必要があります。</string>
   <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>
   <string name="csv_import_delimiter_comma">カンマ</string>
   <string name="csv_import_delimiter_semicolon">セミコロン</string>
   <string name="csv_import_delimiter_tab">タブ</string>
-  <string name="csv_import_no_mapping_found_for_amount">金額を収入または支出のいずれかの列にマッピングしてください。</string>
+  <string name="csv_import_no_mapping_found_for_amount">金額を収入または支出のいずれかの列に配置してください。</string>
   <string name="menu_show_transactions">取引を表示</string>
   <string name="pref_custom_decimal_format_title">数値書式</string>
   <string name="pref_custom_decimal_format_summary">ロケールのデフォルト形式で充足しない場合、ニーズに適合します。デフォルト形式を復元する場合は、空白のままにします。</string>
@@ -781,7 +781,10 @@
   <string name="dialog_title_new_currency">新しい通貨</string>
   <string name="currency_code_already_definded">通貨コードはすでに定義されています。</string>
   <string name="currency_still_used">通貨は使用されています。削除できません。</string>
+  <string name="unmapped">未配置</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">\'未配置\' フィルターは複数選択に含めることはできません</string>
+  <string name="upgrade_information_cloud_sync_storage_format">バージョン2.9.8で、同期バックエンドにデータが格納される方法が変更されました。 新しいレコードを入力する前に、すべての同期されるデバイスでこのバージョンにアップグレードしてください。</string>
 </resources>
