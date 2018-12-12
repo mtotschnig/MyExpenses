@@ -6,7 +6,8 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+                 android:usesCleartextTraffic="true">
         <receiver android:name=".sync.SyncTrigger"
                   tools:ignore="ExportedReceiver">
             <!-- adb shell am broadcast -a TRIGGER_SYNC -e ACCOUNT accountName -->
