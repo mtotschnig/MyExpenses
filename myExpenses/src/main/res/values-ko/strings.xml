@@ -83,7 +83,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">잔고 %1$s</string>
   <string name="dialog_title_contrib_feature">프리미엄 기능</string>
-  <string name="dialog_title_extended_feature">확장된 기능</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">제목 설정</string>

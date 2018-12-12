@@ -98,7 +98,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Balance %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
-  <string name="dialog_title_extended_feature">Característica Extendida</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Establecer título</string>

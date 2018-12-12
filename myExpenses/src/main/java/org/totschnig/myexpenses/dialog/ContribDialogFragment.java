@@ -182,9 +182,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           ". ", R.string.professional_key_fallback_info, R.string.eu_vat_info));
     }
 
-    builder.setTitle(feature == null ? R.string.menu_contrib :
-            feature.isExtended() ? R.string.dialog_title_extended_feature :
-                R.string.dialog_title_contrib_feature)
+    builder.setTitle(feature == null ? R.string.menu_contrib : R.string.dialog_title_contrib_feature)
         .setView(dialogView)
         .setNegativeButton(R.string.dialog_contrib_no, this)
         .setIcon(R.mipmap.ic_launcher_alt)

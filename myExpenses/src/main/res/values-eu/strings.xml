@@ -96,7 +96,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s saldoa</string>
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
-  <string name="dialog_title_extended_feature">Bertsio hedatuaren ezaugarria</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Ezarri izenburua</string>
