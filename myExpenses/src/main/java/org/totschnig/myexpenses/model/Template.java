@@ -406,8 +406,7 @@ public class Template extends Transaction {
       }
     }
     Uri uri;
-    Long payee_id = (getPayee() != null && !getPayee().equals("")) ?
-        Payee.require(getPayee()) : null;
+    Long payee_id = Payee.require(getPayee());
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_AMOUNT, getAmount().getAmountMinor());

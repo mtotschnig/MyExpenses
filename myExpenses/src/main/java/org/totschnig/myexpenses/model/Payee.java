@@ -15,10 +15,12 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -40,9 +42,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 public class Payee extends Model {
   private String name;
 
-  public Payee(Long id, String name) {
+  public Payee(long id, String name) {
     this.setId(id);
-    this.name = StringUtils.strip(name);
+    this.name = strip(name);
+  }
+
+  private static String strip(String name) {
+    return StringUtils.strip(name);
   }
 
   public static final String[] PROJECTION = new String[]{
@@ -60,15 +66,19 @@ public class Payee extends Model {
    * @param name
    * @return id of the existing or the new party
    */
-  public static Long require(String name) {
+  static Long require(String name) {
+    if (TextUtils.isEmpty(name)) {
+      return null;
+    }
     long id = find(name);
     if (id == -1) {
-      Uri uri = new Payee(0L, name).save();
+      final Payee payee = new Payee(0L, name);
+      Uri uri = payee.save();
       if (uri == null) {
         CrashHandler.report(String.format("unable to save party %s", name));
         return null;
       } else {
-        return Long.valueOf(uri.getLastPathSegment());
+        return payee.getId();
       }
     } else {
       return id;
@@ -83,7 +93,7 @@ public class Payee extends Model {
    */
   public static long find(String name) {
     String selection = KEY_PAYEE_NAME + " = ?";
-    String[] selectionArgs = new String[]{name};
+    String[] selectionArgs = new String[]{strip(name)};
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{KEY_ROWID}, selection, selectionArgs, null);
     if (mCursor.getCount() == 0) {
@@ -102,8 +112,9 @@ public class Payee extends Model {
    * @return id of new record, or -1, if it already exists
    */
   public static long maybeWrite(String name) {
-    Uri uri = new Payee(0L, name).save();
-    return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
+    final Payee payee = new Payee(0L, name);
+    Uri uri = payee.save();
+    return uri == null ? -1 : payee.getId();
   }
 
   public static void delete(long id) {
@@ -134,6 +145,7 @@ public class Payee extends Model {
     if (getId() == 0) {
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
+        setId(ContentUris.parseId(uri));
       } catch (SQLiteConstraintException e) {
         uri = null;
       }

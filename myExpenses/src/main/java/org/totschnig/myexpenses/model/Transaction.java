@@ -846,10 +846,7 @@ public class Transaction extends Model {
     if (getPayeeId() != null) {
       payeeStore = getPayeeId();
     } else {
-      payeeStore =
-          (getPayee() != null && !getPayee().equals("")) ?
-              Payee.require(getPayee()) :
-              null;
+      payeeStore = Payee.require(getPayee());
     }
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_REFERENCE_NUMBER, getReferenceNumber());
