@@ -359,7 +359,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     setupToolbar();
     mManager = getSupportLoaderManager();
-    viewModel =  ViewModelProviders.of(this).get(ExpenseEditViewModel.class);
+    viewModel = ViewModelProviders.of(this).get(ExpenseEditViewModel.class);
     viewModel.getMethods().observe(this, paymentMethods -> {
       if (mMethodsAdapter == null || paymentMethods == null || paymentMethods.isEmpty()) {
         methodRow.setVisibility(View.GONE);
@@ -417,7 +417,7 @@ public class ExpenseEdit extends AmountActivity implements
             !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
           //moveToPosition should not be necessary,
           //but has been reported to not be positioned correctly on samsung GT-I8190N
-          if (getPrefHandler().getBoolean(AUTO_FILL_HINT_SHOWN,false)) {
+          if (getPrefHandler().getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
             if (PreferenceUtils.shouldStartAutoFill()) {
               startAutoFill(payeeId, false);
             }
@@ -537,7 +537,7 @@ public class ExpenseEdit extends AmountActivity implements
         ContribFeature contribFeature;
         if (isNewTemplate) {
           contribFeature = ContribFeature.SPLIT_TEMPLATE;
-          allowed = getPrefHandler().getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
+          allowed = getPrefHandler().getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true);
         } else {
           contribFeature = ContribFeature.SPLIT_TRANSACTION;
           allowed = contribFeature.hasAccess() || contribFeature.usagesLeft(getPrefHandler()) > 0;
@@ -1236,7 +1236,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
       boolean isSame = account.getCurrencyUnit().equals(transferAccount.getCurrencyUnit());
       if (mTransaction instanceof Template) {
-        if (!isSame && amount == null) {
+        if (amount != null) {
+          mTransaction.setAmount(new Money(account.getCurrencyUnit(), amount));
+        } else if (!isSame) {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
           if (transferAmount != null) {
             mTransaction.setAccountId(transferAccount.getId());
@@ -1269,7 +1271,7 @@ public class ExpenseEdit extends AmountActivity implements
           ((Transfer) mTransaction).setAmountAndTransferAmount(
               new Money(account.getCurrencyUnit(), amount),
               new Money(transferAccount.getCurrencyUnit(), transferAmount != null ?
-              transferAmount : mTransaction.getTransferAmount().getAmountMajor()));
+                  transferAmount : mTransaction.getTransferAmount().getAmountMajor()));
         }
       }
     } else {
@@ -2055,7 +2057,7 @@ public class ExpenseEdit extends AmountActivity implements
     int position = mMethodSpinner.getSelectedItemPosition();
     if (position > 0) {
       PaymentMethod pm = mMethodsAdapter.getItem(position - 1);
-      mReferenceNumberText.setVisibility(pm !=null && pm.isNumbered() ? View.VISIBLE : View.INVISIBLE);
+      mReferenceNumberText.setVisibility(pm != null && pm.isNumbered() ? View.VISIBLE : View.INVISIBLE);
     } else {
       mReferenceNumberText.setVisibility(View.GONE);
     }
@@ -2065,7 +2067,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mMethodId != null) {
       boolean found = false;
       for (int i = 0; i < mMethodsAdapter.getCount(); i++) {
-        PaymentMethod pm  = mMethodsAdapter.getItem(i);
+        PaymentMethod pm = mMethodsAdapter.getItem(i);
         if (pm != null) {
           if (pm.id() == mMethodId) {
             mMethodSpinner.setSelection(i + 1);

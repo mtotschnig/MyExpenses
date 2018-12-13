@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.Matchers;
 
@@ -33,6 +34,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 
@@ -130,7 +132,6 @@ public class ExpenseEditTest {
     }
   }
 
-
   @Test
   public void saveAsNewWorksMultipleTimesInARow() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
@@ -147,5 +148,21 @@ public class ExpenseEditTest {
     }
     //we assume two fraction digits
     assertEquals("Transaction sum does not match saved transactions", account1.getTransactionSum(null), -amount * times * 100);
+  }
+
+  @Test
+  public void shouldSaveTemplateWithAmount() {
+    Template template = Template.getTypedNewInstance(TYPE_TRANSFER, account1.getId(), false, null);
+    template.setTransferAccountId(account2.getId());
+    template.setTitle("Test template");
+    template.save();
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_TEMPLATEID, template.getId());
+    mActivityRule.launchActivity(i);
+    int amount = 2;
+    onView(withId(R.id.AmountEditText)).perform(typeText(String.valueOf(amount)));
+    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    Template restored = Template.getInstanceFromDb(template.getId());
+    assertEquals(-amount * 100, restored.getAmount().getAmountMinor().longValue());
   }
 }
