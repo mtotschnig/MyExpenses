@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.model;
 
@@ -23,10 +23,9 @@ import android.net.Uri;
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Map;
-
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS;
@@ -40,30 +39,33 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 
 public class Payee extends Model {
   private String name;
+
   public Payee(Long id, String name) {
     this.setId(id);
     this.name = StringUtils.strip(name);
   }
-  public static final String[] PROJECTION = new String[] {
-    KEY_ROWID,
-    KEY_PAYEE_NAME,
-    "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
-    "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES
+
+  public static final String[] PROJECTION = new String[]{
+      KEY_ROWID,
+      KEY_PAYEE_NAME,
+      "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
+      "(select count(*) from " + TABLE_TEMPLATES + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES
   };
   public static final Uri CONTENT_URI = TransactionProvider.PAYEES_URI;
 
 
   /**
    * check if a party exists, create it if not
+   *
    * @param name
    * @return id of the existing or the new party
    */
   public static Long require(String name) {
     long id = find(name);
     if (id == -1) {
-      Uri uri = new Payee(0L,name).save();
+      Uri uri = new Payee(0L, name).save();
       if (uri == null) {
-        Timber.e("unable to save party %s", name);
+        CrashHandler.report(String.format("unable to save party %s", name));
         return null;
       } else {
         return Long.valueOf(uri.getLastPathSegment());
@@ -72,16 +74,18 @@ public class Payee extends Model {
       return id;
     }
   }
+
   /**
    * Looks for a party with name
+   *
    * @param name
    * @return id or -1 if not found
    */
   public static long find(String name) {
     String selection = KEY_PAYEE_NAME + " = ?";
-    String[] selectionArgs =new String[]{name};
+    String[] selectionArgs = new String[]{name};
     Cursor mCursor = cr().query(CONTENT_URI,
-        new String[] {KEY_ROWID}, selection, selectionArgs, null);
+        new String[]{KEY_ROWID}, selection, selectionArgs, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;
@@ -92,12 +96,13 @@ public class Payee extends Model {
       return result;
     }
   }
+
   /**
    * @param name
    * @return id of new record, or -1, if it already exists
    */
   public static long maybeWrite(String name) {
-    Uri uri = new Payee(0L,name).save();
+    Uri uri = new Payee(0L, name).save();
     return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
   }
 

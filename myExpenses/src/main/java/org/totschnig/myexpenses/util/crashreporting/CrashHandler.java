@@ -47,13 +47,17 @@ public abstract class CrashHandler {
     Timber.e(e);
   }
 
-  public static void report(String message) {
+  public static void report(String message, String tag) {
     final Exception e = new Exception(message);
     e.fillInStackTrace();
     List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
     stack.remove(0);
     e.setStackTrace(stack.toArray(new StackTraceElement[stack.size()]));
-    report(e);
+    report(e, tag);
+  }
+
+  public static void report(String message) {
+    report(message, null);
   }
 
   public abstract void onAttachBaseContext(MyApplication application);

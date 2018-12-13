@@ -198,7 +198,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   void complain(String message) {
-    Timber.e("**** InAppPurchase Error: %s", message);
+    CrashHandler.report(String.format("**** InAppPurchase Error: %s", message));
     ContribDialogFragment fragment = ((ContribDialogFragment) getSupportFragmentManager().findFragmentByTag("CONTRIB"));
     if (fragment != null) {
       fragment.showSnackbar(message, Snackbar.LENGTH_LONG, null);
