@@ -399,6 +399,7 @@ public class AccountEdit extends AmountActivity implements
         }
         return true;
       case R.id.SYNC_UNLINK_COMMAND:
+        mAccount.setSyncAccountName(null);
         startTaskExecution(
             TASK_SYNC_UNLINK,
             new String[]{mAccount.uuid}, null, 0);
