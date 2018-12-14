@@ -117,6 +117,42 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.9.8
+    - "2018-12-24"
+    -
+      en: |
+        Filter for transactions without mapping to categories, payees or methods. Optimized storage of synchronized data.
+      fr: |
+        Filtrer les opérations qui ne sont pas liées à des catégories, des bénéficiaires ou des méthodes. Stockage optimisé des données synchronisées.
+      de: |
+        Filter für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden. Optimierte Speicherung synchronisierter Daten.
+      bg: |
+        Филтър за транзакции без зададена категория, получател или метод на плащане. Оптимизиран e начинa на съхранение на данните за синхронизация.
+      ja: |
+        分類、支払先、または方法に配置せずに取引をフィルタリング. 同期データのストレージを最適化.
+      iw: |
+        סינון עבור עסקאות ללא מיפוי לקטגוריות, למשלמים או לשיטות. אחסון אופטימלי של נתונים מסונכרנים.
+  -
+    - 2.9.7
+    - "2018-11-29"
+    -
+      en: |
+        Custom currencies.
+      fr: |
+        Devises personnalisées.
+      de: |
+        Benutzerdefinierte Währungen.
+      es: |
+        Divisas personalizadas.
+      pt: |
+        Moedas personalizadas.
+      bg: |
+        Валути, дефинирани от потребителя.
+      ja: |
+        通貨のカスタマイズ.
+      iw: |
+        מטבעות מותאמים אישית.
+  -
     - 2.9.6
     - "2018-11-15"
     -
