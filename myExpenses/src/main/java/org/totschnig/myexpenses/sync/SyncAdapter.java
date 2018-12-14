@@ -281,10 +281,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             continue;
           }
           dbAccount.set(instanceFromDb);
-          appendToNotification(getContext().getString(R.string.synchronization_start, instanceFromDb.getLabel()), account, true);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             try {
               backend.resetAccountData(uuidFromExtras);
+              appendToNotification(getContext().getString(R.string.sync_success_reset_account_data,
+                  instanceFromDb.getLabel()), account, true);
             } catch (IOException e) {
               log().w(e);
               if (handleAuthException(backend, e, account)) {
@@ -296,7 +297,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             break;
           }
-
+          appendToNotification(getContext().getString(R.string.synchronization_start, instanceFromDb.getLabel()), account, true);
           try {
             backend.withAccount(instanceFromDb);
           } catch (IOException e) {

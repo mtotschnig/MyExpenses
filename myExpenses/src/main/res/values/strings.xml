@@ -644,6 +644,7 @@
     <string name="sync_io_error_cannot_connect">Cannot connect to synchronization backend.</string>
     <string name="sync_error_will_try_again_later">Will try again later.</string>
     <string name="sync_io_exception_reset_account_data">Error while resetting remote account.</string>
+    <string name="sync_success_reset_account_data">Remote data for account %s has been deleted.</string>
     <string name="sync_io_exception_setup_remote_account">Error while setting up remote account.</string>
     <string name="sync_io_exception_reading_change_set">Error while reading changes from backend.</string>
     <string name="sync_io_exception_syncing">Error while syncing changes with server.</string>
