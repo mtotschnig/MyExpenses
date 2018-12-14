@@ -143,7 +143,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 81;
+  public static final int DATABASE_VERSION = 82;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1820,6 +1820,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid,sort_direction,criterion " +
             "FROM accounts_old");
         db.execSQL("DROP TABLE accounts_old");
+      }
+      if (oldVersion < 82) {
+        createOrRefreshAccountTriggers(db);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
