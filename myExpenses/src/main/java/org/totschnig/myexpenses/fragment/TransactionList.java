@@ -267,9 +267,11 @@ public class TransactionList extends ContextualActionBarFragment implements
       Context ctx = getActivity();
       if (mAdapter == null) {
         mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
-        mListView.setAdapter(mAdapter);
       } else {
         mAdapter.setAccount(mAccount);
+      }
+      if (mListView.getAdapter() == null) {
+        mListView.setAdapter(mAdapter);
       }
     }
   }

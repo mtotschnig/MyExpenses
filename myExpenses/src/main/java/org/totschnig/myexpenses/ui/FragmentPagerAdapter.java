@@ -33,7 +33,7 @@ import android.view.ViewGroup;
  * with one modification
  * <p>
  * <ol>
- * <li>The method {@link #makeFragmentName(int, int)} is declared "protected"
+ * <li>The method {@link #makeFragmentName(int, long)} is declared "protected"
  * in our class. We need to be able to re-define the fragment's name according to data
  * only available to sub-classes.</li>
  * <li>The method {@link #destroyItem(ViewGroup, int, Object)} destroys the item
