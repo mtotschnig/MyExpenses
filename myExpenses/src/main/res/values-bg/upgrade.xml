@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_298">
+    <item>Филтър за транзакции без зададена категория, получател или метод на плащане</item>
+    <item>Оптимизиран e начинa на съхранение на данните за синхронизация</item>
+  </string-array>
   <string-array name="whats_new_297">
     <item>Валути, дефинирани от потребителя</item>
   </string-array>

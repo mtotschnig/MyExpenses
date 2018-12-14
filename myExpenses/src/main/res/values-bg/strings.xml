@@ -790,7 +790,10 @@
   <string name="dialog_title_new_currency">Нова валута</string>
   <string name="currency_code_already_definded">Този код за валута вече е дефиниран.</string>
   <string name="currency_still_used">Валутата се използва, не може да бъде изтрита.</string>
+  <string name="unmapped">Без категория</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">Филтъра \"без категория\" не може да се включва в множествена селекция</string>
+  <string name="upgrade_information_cloud_sync_storage_format">От версия 2.9.8, е променен начинът, по който данните се съхраняват в отдалечените хранилища. Моля, преди да въведете нови записи надстройте до тази версия на всички синхронизирани устройства.</string>
 </resources>
