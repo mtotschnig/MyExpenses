@@ -51,7 +51,7 @@ android {
             minSdkVersion project.minSdkVersion
         }
         targetSdkVersion project.targetSdkVersion
-        versionCode 355
+        versionCode 356
         versionName '2.9.8'
         multiDexEnabled true
 
