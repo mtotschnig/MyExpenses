@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class BackupUtils {
   public static final String BACKUP_DB_FILE_NAME = "BACKUP";
@@ -47,7 +48,7 @@ public class BackupUtils {
             cacheDir,
             backupFile);
         return Result.ofSuccess(R.string.backup_success, backupFile);
-      } catch (IOException e) {
+      } catch (IOException | GeneralSecurityException e) {
         CrashHandler.report(e);
         failureMessage = e.getMessage();
       } finally {
