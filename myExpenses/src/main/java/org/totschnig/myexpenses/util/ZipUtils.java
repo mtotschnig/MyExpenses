@@ -48,7 +48,8 @@ public class ZipUtils {
    *
    * @param cacheDir
    * @param destZipFile
-   * @throws Exception
+   * @throws IOException
+   * @throws GeneralSecurityException
    */
   static void zipBackup(File cacheDir, DocumentFile destZipFile) throws IOException, GeneralSecurityException {
     /*

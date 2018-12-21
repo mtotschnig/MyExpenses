@@ -276,7 +276,7 @@
             <SwitchPreferenceCompat
                 android:key="@string/pref_protection_device_lock_screen_key"
                 android:title="@string/pref_protection_device_lock_screen_title"/>
-            <org.totschnig.myexpenses.preference.PasswordPreference
+            <org.totschnig.myexpenses.preference.LegacyPasswordPreference
                 android:key="@string/pref_protection_password_key"
                 android:title="@string/pref_protection_password_title"/>
             <EditTextPreference
@@ -313,6 +313,10 @@
                     android:title="@string/pref_protection_enable_data_entry_from_widget_title"/>
             </PreferenceCategory>
         </PreferenceScreen>
+        <org.totschnig.myexpenses.preference.SimplePasswordPreference
+            android:key="@string/pref_security_export_password_key"
+            android:title="@string/pref_security_export_password_title"
+            android:summary="@string/pref_security_export_password_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_more_information">

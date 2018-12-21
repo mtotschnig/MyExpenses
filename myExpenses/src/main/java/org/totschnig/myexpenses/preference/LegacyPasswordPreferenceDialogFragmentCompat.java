@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
-public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat
+public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat
     implements TextWatcher, CompoundButton.OnCheckedChangeListener {
 
   private boolean boolProtectOrig, boolProtect, changePW = false;
@@ -39,13 +39,13 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
         String hash = Utils.md5(strPass1);
         PrefKey.SET_PASSWORD.putString(hash);
       }
-      ((PasswordPreference) getPreference()).setValue(boolProtect);
+      ((LegacyPasswordPreference) getPreference()).setValue(boolProtect);
     }
   }
 
   @Override
   protected void onBindDialogView(View view) {
-    PasswordPreference preference = ((PasswordPreference) getPreference());
+    LegacyPasswordPreference preference = ((LegacyPasswordPreference) getPreference());
     password1 = view.findViewById(R.id.password1);
     password2 = view.findViewById(R.id.password2);
     protect = view.findViewById(R.id.performProtection);
@@ -127,8 +127,8 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
     }
   }
 
-  public static PasswordPreferenceDialogFragmentCompat newInstance(String key) {
-    PasswordPreferenceDialogFragmentCompat fragment = new PasswordPreferenceDialogFragmentCompat();
+  public static LegacyPasswordPreferenceDialogFragmentCompat newInstance(String key) {
+    LegacyPasswordPreferenceDialogFragmentCompat fragment = new LegacyPasswordPreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
     bundle.putString(ARG_KEY, key);
     fragment.setArguments(bundle);

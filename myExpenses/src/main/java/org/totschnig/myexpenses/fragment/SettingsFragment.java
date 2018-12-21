@@ -48,11 +48,13 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
-import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SimplePasswordPreference;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -885,7 +887,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         showOnlyOneProtectionWarning(false);
         return;
       } else {
-        fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
+        fragment = LegacyPasswordPreferenceDialogFragmentCompat.newInstance(key);
       }
     } else if (matches(preference, SECURITY_QUESTION)) {
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
@@ -894,6 +896,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         activity().showSnackbar(R.string.auto_backup_cloud_create_backend, Snackbar.LENGTH_LONG);
         return;
       }
+    } else if (preference instanceof SimplePasswordPreference) {
+      fragment = SimplePasswordDialogFragmentCompat.newInstance(key);
     }
     if (fragment != null) {
       fragment.setTargetFragment(this, 0);

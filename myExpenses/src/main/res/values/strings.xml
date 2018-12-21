@@ -812,4 +812,6 @@
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Unmapped\' filter cannot be included into multiple selection</string>
     <string name="upgrade_information_cloud_sync_storage_format">With version 2.9.8, the way data is stored on synchronization backends has changed. Please upgrade to this version on all synced devices, before entering any new records on any of them.</string>
+    <string name="pref_security_export_password_title">Password for backups and synchronization</string>
+    <string name="pref_security_export_password_summary">Backups and data used in synchronization will be encrypted with this password</string>
 </resources>

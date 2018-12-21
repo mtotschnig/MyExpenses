@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.preference;
 
@@ -21,26 +21,26 @@ import android.util.AttributeSet;
 
 import org.totschnig.myexpenses.R;
 
-public class PasswordPreference extends DialogPreference  {
+public class LegacyPasswordPreference extends DialogPreference {
   private boolean mValueSet;
 
-  public PasswordPreference(Context context, AttributeSet attrs, int defStyle) {
+  public LegacyPasswordPreference(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
     setDialogLayoutResource(R.layout.password_dialog);
-    }
+  }
 
-    public PasswordPreference(Context context, AttributeSet attrs) {
+  public LegacyPasswordPreference(Context context, AttributeSet attrs) {
     super(context, attrs);
     setDialogLayoutResource(R.layout.password_dialog);
-    }
+  }
 
   public void setValue(boolean value) {
     boolean oldValue = getValue();
     boolean changed = value != oldValue;
-    if(changed || !this.mValueSet) {
+    if (changed || !this.mValueSet) {
       this.mValueSet = true;
       this.persistBoolean(value);
-      if(changed) {
+      if (changed) {
         this.notifyChanged();
       }
     }
