@@ -111,7 +111,7 @@ public class PdfPrinter {
     DocumentFile outputFile = AppDirHelper.timeStampedFile(
         destDir,
         fileName,
-        "application/pdf", false);
+        "application/pdf", null);
     Document document = new Document();
     transactionCursor = Model.cr().query(
         account.getExtendedUriForTransactionList(false), account.getExtendedProjectionForTransactionList(),

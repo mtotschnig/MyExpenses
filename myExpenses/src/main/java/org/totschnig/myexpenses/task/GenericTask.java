@@ -286,7 +286,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_BACKUP:
-        return BackupUtils.doBackup();
+        return BackupUtils.doBackup(((String) mExtra));
       case TaskExecutionFragment.TASK_BALANCE:
         Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
         return null;
@@ -399,7 +399,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         DocumentFile outputFile = AppDirHelper.timeStampedFile(
             appDir,
             fileName,
-            "text/qif", false);
+            "text/qif", null);
         if (outputFile == null) {
           return Result.ofFailure(
               R.string.io_error_unable_to_create_file,

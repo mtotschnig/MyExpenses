@@ -75,6 +75,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
@@ -860,6 +861,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void doRestore(Bundle args) {
+    if (!args.containsKey(RestoreTask.KEY_PASSWORD)) {
+      String password = getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null);
+      if (password != null) {
+        args.putString(RestoreTask.KEY_PASSWORD, password);
+      }
+    }
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ASYNC_TAG)

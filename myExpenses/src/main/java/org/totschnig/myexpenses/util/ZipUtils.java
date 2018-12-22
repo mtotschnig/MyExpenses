@@ -38,6 +38,7 @@ public class ZipUtils {
 
 
   public static final String PICTURES = Environment.DIRECTORY_PICTURES;
+  private static final String MAGIC_NUMBER = "ME_ENC_01";
 
   private ZipUtils() {
   }
@@ -48,21 +49,27 @@ public class ZipUtils {
    *
    * @param cacheDir
    * @param destZipFile
+   * @param password
    * @throws IOException
    * @throws GeneralSecurityException
    */
-  static void zipBackup(File cacheDir, DocumentFile destZipFile) throws IOException, GeneralSecurityException {
-    /*
-     * create the output stream to zip file result
-     */
-    SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
-    final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-    final byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
-    new SecureRandom().nextBytes(iv);
-    cipher.init(Cipher.ENCRYPT_MODE, key);
+  static void zipBackup(File cacheDir, DocumentFile destZipFile, String password)
+      throws IOException, GeneralSecurityException {
     final OutputStream out = MyApplication.getInstance().getContentResolver().openOutputStream(destZipFile.getUri());
-    out.write(cipher.getIV());
-    ZipOutputStream zip = new ZipOutputStream(new CipherOutputStream(out, cipher));
+    final OutputStream out1;
+    if (password != null) {
+      out.write(MAGIC_NUMBER.getBytes());
+      SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
+      final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      final byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
+      new SecureRandom().nextBytes(iv);
+      cipher.init(Cipher.ENCRYPT_MODE, key);
+      out.write(cipher.getIV());
+      out1 = new CipherOutputStream(out, cipher);
+    } else {
+      out1 = out;
+    }
+    ZipOutputStream zip = new ZipOutputStream(out1);
     /*
      * add the folder to the zip
      */
@@ -192,16 +199,28 @@ public class ZipUtils {
   /**
    * @param fileIn
    * @param dirOut
+   * @param password
    * @return true on success
    */
-  public static boolean unzip(InputStream fileIn, File dirOut) {
+  public static boolean unzip(InputStream fileIn, File dirOut, String password) {
     try {
-      byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
-      read(fileIn, iv);
-      SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
-      final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-      cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
-      ZipInputStream zin = new ZipInputStream(new CipherInputStream(fileIn, cipher));
+      final InputStream in;
+      if (password != null) {
+        byte[] magic = new byte[MAGIC_NUMBER.length()];
+        read(fileIn, magic);
+        if (!MAGIC_NUMBER.equals(new String(magic))) {
+          return false;
+        }
+        byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
+        read(fileIn, iv);
+        SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
+        final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
+        in = new CipherInputStream(fileIn, cipher);
+      } else {
+        in = fileIn;
+      }
+      ZipInputStream zin = new ZipInputStream(in);
       ZipEntry ze;
       while ((ze = zin.getNextEntry()) != null) {
         Timber.v("Unzipping %s", ze.getName());

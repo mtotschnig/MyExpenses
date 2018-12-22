@@ -112,7 +112,7 @@ public class Exporter {
     DocumentFile outputFile = AppDirHelper.newFile(
         destDir,
         fileName,
-        format.getMimeType(), true);
+        format.getMimeType(), format.getMimeType().split("/")[1]);
     if (outputFile == null) {
       c.close();
       return Result.ofFailure(
