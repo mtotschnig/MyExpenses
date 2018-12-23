@@ -103,6 +103,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
@@ -277,7 +278,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
 
       pref = findPreference(RESTORE_LEGACY);
-      pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+      if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
+        ((PreferenceCategory) findPreference(CATEGORY_BACKUP)).removePreference(pref);
+      } else {
+        pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+      }
 
       pref = findPreference(CUSTOM_DECIMAL_FORMAT);
       pref.setOnPreferenceChangeListener(this);

@@ -48,6 +48,7 @@ public enum PrefKey {
   CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
   CATEGORY_MANAGE(R.string.pref_category_manage_key),
   CATEGORY_PRIVACY(R.string.pref_category_privacy_key),
+  CATEGORY_BACKUP(R.string.pref_category_backup_key),
   ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
   PLANNER_CALENDAR_PATH("planner_calendar_path"),
   CURRENT_VERSION("currentversion"),
