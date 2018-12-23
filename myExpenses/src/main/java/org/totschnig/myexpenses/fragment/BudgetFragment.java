@@ -183,6 +183,10 @@ public class BudgetFragment extends DistributionBaseFragment {
   }
 
   private void updateTotals() {
+    final ProtectedFragmentActivity context = (ProtectedFragmentActivity) getActivity();
+    if (context == null) {
+      return;
+    }
     totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
     totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(), -spent)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
