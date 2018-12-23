@@ -779,11 +779,13 @@ public class MyExpenses extends LaunchActivity implements
         break;
       }
       case BUDGET: {
-        recordUsage(feature);
-        Intent i = new Intent(this, BudgetActivity.class);
-        i.putExtra(KEY_ACCOUNTID, mAccountId);
-        i.putExtra(KEY_CURRENCY, currentCurrency);
-        startActivity(i);
+        if (mAccountId != 0 && currentCurrency != null) {
+          recordUsage(feature);
+          Intent i = new Intent(this, BudgetActivity.class);
+          i.putExtra(KEY_ACCOUNTID, mAccountId);
+          i.putExtra(KEY_CURRENCY, currentCurrency);
+          startActivity(i);
+        }
         break;
       }
     }

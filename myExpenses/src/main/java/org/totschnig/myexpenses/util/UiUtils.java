@@ -18,6 +18,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
@@ -108,5 +110,10 @@ public class UiUtils {
     }
     return prefHandler.getBoolean(TRANSACTION_WITH_TIME, true) ?
         DateMode.DATE_TIME : DateMode.DATE;
+  }
+
+  public static void configureProgress(DonutProgress donutProgress, int progress) {
+    donutProgress.setProgress(Math.min(progress, 100));
+    donutProgress.setText(progress < 1000 ? String.valueOf(progress) : ">1k");
   }
 }
