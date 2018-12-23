@@ -627,6 +627,8 @@ public class Account extends Model {
     initialValues.put(KEY_UUID, requireUuid());
     if (criterion != null) {
       initialValues.put(KEY_CRITERION, criterion.getAmountMinor());
+    } else {
+      initialValues.putNull(KEY_CRITERION);
     }
 
     if (getId() == 0) {
@@ -934,6 +936,8 @@ public class Account extends Model {
   public void setCriterion(BigDecimal criterion) {
     if (criterion.compareTo(BigDecimal.ZERO) != 0) {
       this.criterion = new Money(currencyUnit, criterion);
+    } else {
+      this.criterion = null;
     }
   }
 
