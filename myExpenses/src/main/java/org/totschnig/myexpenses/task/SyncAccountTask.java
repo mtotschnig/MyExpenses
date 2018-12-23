@@ -71,6 +71,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
         final Exceptional<Result> result = buildResult();
         if (result.isPresent()) {
           GenericAccountService.activateSync(account);
+          GenericTask.storeSetting(MyApplication.getInstance().getContentResolver(), accountName + " - " + KEY_PASSWORD_ENCRYPTION, encryptionPassword);
         } else {
           //we try to remove a failed account immediately, otherwise user would need to do it, before
           //being able to try again
