@@ -195,7 +195,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       syncResult.stats.numAuthExceptions++;
       return;
     }
-    final Exceptional<Void> setupResult = backend.setUp(authToken);
+    final Exceptional<Void> setupResult = backend.setUp(authToken, "TODO");
     if (!setupResult.isPresent()) {
       final Throwable exception = setupResult.getException();
       if (exception instanceof SyncBackendProvider.ResolvableSetupException) {

@@ -2,6 +2,9 @@ package org.totschnig.myexpenses.task;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -9,12 +12,13 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import java.io.IOException;
 import java.util.List;
 
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
@@ -22,16 +26,19 @@ import static android.accounts.AccountManager.KEY_PASSWORD;
 import static android.accounts.AccountManager.KEY_USERDATA;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.sync.GenericAccountService.Authenticator.AUTH_TOKEN_TYPE;
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_ENCRYPTED;
 
 public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccountTask.Result>> {
 
   public static final String KEY_RETURN_REMOTE_DATA_LIST = "returnRemoteDataList";
+  public static final String KEY_PASSWORD_ENCRYPTION = "passwordEncryption";
   private final TaskExecutionFragment taskExecutionFragment;
   private final String accountName;
   private final String password;
   private final Bundle userData;
   private final String authToken;
   private final boolean create;
+  private final String encryptionPassword;
   /**
    * if true returns list of backups and sync accounts from backend,
    * if false returns number of local accounts that are still unsynced
@@ -45,6 +52,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
     this.userData = args.getBundle(KEY_USERDATA);
     this.authToken = args.getString(AccountManager.KEY_AUTHTOKEN);
     this.shouldReturnRemoteDataList = args.getBoolean(KEY_RETURN_REMOTE_DATA_LIST);
+    this.encryptionPassword = args.getString(KEY_PASSWORD_ENCRYPTION);
     this.create = create;
   }
 
@@ -57,39 +65,56 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
         if (authToken != null) {
           accountManager.setAuthToken(account, AUTH_TOKEN_TYPE, authToken);
         }
-        GenericAccountService.activateSync(account);
+        if (encryptionPassword != null) {
+          accountManager.setUserData(account, KEY_ENCRYPTED, Boolean.toString(true));
+        }
+        final Exceptional<Result> result = buildResult();
+        if (result.isPresent()) {
+          GenericAccountService.activateSync(account);
+        } else {
+          //we try to remove a failed account immediately, otherwise user would need to do it, before
+          //being able to try again
+          final AccountManagerFuture<Boolean> accountManagerFuture = accountManager.removeAccount(account, null, null);
+          try {
+            accountManagerFuture.getResult();
+          } catch (OperationCanceledException | AuthenticatorException | IOException e) {
+            CrashHandler.report(e);
+          }
+        }
+        return result;
       } else {
         return Exceptional.of(new Exception("Error while adding account"));
       }
+    } else {
+      return buildResult();
     }
-    return buildResult();
   }
 
   private Exceptional<Result> buildResult() {
     final int localUnsynced = org.totschnig.myexpenses.model.Account.count(
         KEY_SYNC_ACCOUNT_NAME + " IS NULL", null);
-    List<AccountMetaData> syncAccounts = null;
-    List<String> backups = null;
-    if (shouldReturnRemoteDataList) {
-      SyncBackendProvider syncBackendProvider;
-
-      Account account = GenericAccountService.GetAccount(accountName);
-      try {
-        syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
-            account).getOrThrow();
-        Exceptional<Void> result = syncBackendProvider.setUp(authToken);
-        if (!result.isPresent()) {
-          return Exceptional.of(result.getException());
-        }
+    final List<AccountMetaData> syncAccounts;
+    final List<String> backups;
+    Account account = GenericAccountService.GetAccount(accountName);
+    SyncBackendProvider syncBackendProvider;
+    try {
+      syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
+          account).getOrThrow();
+      Exceptional<Void> result = syncBackendProvider.setUp(authToken, encryptionPassword);
+      if (!result.isPresent()) {
+        return Exceptional.of(result.getException());
+      }
+      if (shouldReturnRemoteDataList) {
         syncAccounts = syncBackendProvider.getRemoteAccountList(account).collect(Collectors.toList());
         backups = syncBackendProvider.getStoredBackups(account);
-      } catch (Throwable throwable) {
-        return Exceptional.of(throwable);
+      } else {
+        syncAccounts = null;
+        backups = null;
       }
+    } catch (Throwable throwable) {
+      return Exceptional.of(throwable);
     }
-    List<AccountMetaData> finalSyncAccounts = syncAccounts;
-    List<String> finalBackups = backups;
-    return Exceptional.of(() -> new Result(accountName, finalSyncAccounts, finalBackups, localUnsynced));
+    return Exceptional.of(() -> new Result(accountName, syncAccounts, backups, localUnsynced));
   }
 
   @Override

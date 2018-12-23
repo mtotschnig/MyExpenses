@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.util.io.StreamReader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,6 +75,15 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   @Override
   protected String getSharedPreferencesName() {
     return "local_file_backend"; // currently not used
+  }
+
+  @Override
+  protected String readEncryptionToken() throws IOException {
+    try {
+      return new StreamReader(new FileInputStream(new File(baseDir, ENCRYPTION_TOKEN_FILE_NAME))).read();
+    } catch (FileNotFoundException e) {
+      return null;
+    }
   }
 
   @NonNull
@@ -201,7 +211,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType) throws IOException {
     Preconditions.checkNotNull(accountDir);
     File dir = folder == null ? accountDir : new File(accountDir, folder);
     //noinspection ResultOfMethodCallIgnored
@@ -214,12 +224,17 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected String getExistingLockToken() throws IOException {
+  void saveFileContentsToBase(String fileName, String fileContents, String mimeType) throws IOException {
+    saveFileContents(new File(baseDir, fileName), fileContents);
+  }
+
+  @Override
+  protected String getExistingLockToken() {
     return null;
   }
 
   @Override
-  protected void writeLockToken(String lockToken) throws IOException {
+  protected void writeLockToken(String lockToken) {
   }
 
   private void saveFileContents(File file, String fileContents) throws IOException {

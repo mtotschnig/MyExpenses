@@ -190,8 +190,8 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
     switch (taskId) {
       case TASK_CREATE_SYNC_ACCOUNT: {
         Exceptional<SyncAccountTask.Result> result = (Exceptional<SyncAccountTask.Result>) o;
+        getListFragment().reloadAccountList();
         if (result.isPresent()) {
-          getListFragment().reloadAccountList();
           if (result.get().localUnsynced > 0) {
             showSelectUnsyncedAccount(result.get().accountName);
           }

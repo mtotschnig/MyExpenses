@@ -55,7 +55,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_BACKUP_FROM_SYNC = "backupFromSync";
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
-  public static final String KEY_PASSWORD = "password";
+  public static final String KEY_PASSWORD = "passwordEncryption";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
   private Uri fileUri;

@@ -183,6 +183,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return "webdav_backend";
   }
 
+  @Override
+  protected String readEncryptionToken() throws IOException {
+    return null;
+  }
+
   @NonNull
   @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
@@ -285,7 +290,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType) throws IOException {
     LockableDavResource base = webDavClient.getCollection(accountUuid, (String[]) null);
     LockableDavResource parent;
     if (folder != null) {
@@ -302,6 +307,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     } catch (HttpException e) {
       throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
     }
+  }
+
+  @Override
+  void saveFileContentsToBase(String fileName, String fileContents, String mimeType) throws IOException {
+    //TODO
   }
 
   @Override

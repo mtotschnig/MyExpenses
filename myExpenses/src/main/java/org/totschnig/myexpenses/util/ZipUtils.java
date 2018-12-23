@@ -31,6 +31,7 @@ import javax.crypto.spec.IvParameterSpec;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.util.crypt.EncryptionHelper.ALGORITHM_SYMMETRIC;
 import static org.totschnig.myexpenses.util.crypt.EncryptionHelper.ENCRYPTION_IV_LENGTH;
 
 
@@ -60,7 +61,7 @@ public class ZipUtils {
     if (password != null) {
       out.write(MAGIC_NUMBER.getBytes());
       SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
-      final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+      final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
       final byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
       new SecureRandom().nextBytes(iv);
       cipher.init(Cipher.ENCRYPT_MODE, key);

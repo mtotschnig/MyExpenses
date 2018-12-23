@@ -53,21 +53,33 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Exceptional<Void> setUp(String authToken) {
-    if (authToken == null) {
+  public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
+    if (!setupClient(authToken)) {
       return Exceptional.of(new Exception("authToken is null"));
+    }
+    return super.setUp(authToken, encryptionPassword);
+  }
+
+  private boolean setupClient(String authToken) {
+    if (authToken == null) {
+      return false;
     }
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build();
     mDbxClient = new DbxClientV2(requestConfig, authToken);
-    return super.setUp(authToken);
+    return true;
+  }
+
+  @Override
+  protected String readEncryptionToken() throws IOException {
+    return null;
   }
 
   private boolean requireSetup(android.accounts.Account account) {
     AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
     try {
       String authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true);
-      return setUp(authToken).isPresent();
+      return setupClient(authToken);
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
       Timber.w(e, "Error getting auth token.");
       return false;
@@ -81,7 +93,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     requireFolder(accountPath);
     String metadataPath = getResourcePath(ACCOUNT_METADATA_FILENAME);
     if (!exists(metadataPath)) {
-      saveFileContents(null, ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
+      saveFileContentsToAccountDir(null, ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
       createWarningFile();
     }
   }
@@ -291,7 +303,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType) throws IOException {
     String path;
     final String accountPath = getAccountPath();
     if (folder == null) {
@@ -301,6 +313,11 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       requireFolder(path);
     }
     saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()));
+  }
+
+  @Override
+  void saveFileContentsToBase(String fileName, String fileContents, String mimeType) throws IOException {
+    //TODO
   }
 
   private void saveInputStream(String path, InputStream contents) throws IOException {

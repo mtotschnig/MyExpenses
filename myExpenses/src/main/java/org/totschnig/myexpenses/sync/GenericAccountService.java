@@ -28,7 +28,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -39,6 +41,8 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import java.util.List;
+
 import timber.log.Timber;
 
 public class GenericAccountService extends Service {
@@ -48,6 +52,7 @@ public class GenericAccountService extends Service {
   public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
   public static final int HOUR_IN_SECONDS = 3600;
   public static final String KEY_BROKEN = "broken";
+  public static final String KEY_ENCRYPTED = "encrypted";
   private Authenticator mAuthenticator;
 
   /**
@@ -64,6 +69,12 @@ public class GenericAccountService extends Service {
     // This string should *not* be localized. If the user switches locale, we would not be
     // able to locate the old account, and may erroneously register multiple accounts.
     return new Account(accountName, ACCOUNT_TYPE);
+  }
+
+  public static List<Pair<String, Boolean>> getAccountNamesWithEncryption(Context context) {
+    return getAccountsAsStream(context)
+        .map(account -> Pair.create(account.name, AccountManager.get(context).getUserData(account, KEY_ENCRYPTED) != null))
+        .collect(Collectors.toList());
   }
 
   @Override

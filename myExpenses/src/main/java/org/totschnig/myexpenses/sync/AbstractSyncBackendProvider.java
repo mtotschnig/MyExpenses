@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.webkit.MimeTypeMap;
 
 import com.annimon.stream.Exceptional;
@@ -28,6 +29,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.crypt.EncryptionHelper;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.BufferedReader;
@@ -36,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -56,6 +59,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
   private static final long LOCK_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES);
+  protected static final String ENCRYPTION_TOKEN_FILE_NAME = "ENCRYPTION_TOKEN";
 
   /**
    * this holds the uuid of the db account which data is currently synced
@@ -86,8 +90,41 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Exceptional<Void> setUp(String authToken) {
-    return Exceptional.of(() -> null);
+  public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
+    try {
+      String encryptionToken = readEncryptionToken();
+      if (encryptionToken == null) {
+        if (encryptionPassword != null) {
+          //TODO randomize
+          saveFileContentsToBase(ENCRYPTION_TOKEN_FILE_NAME,
+              encrypt(EncryptionHelper.generateRandom(10), encryptionPassword),
+              "application/octet-stream");
+        }
+      } else {
+        if (encryptionPassword == null) {
+          return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_is_encrypted)));
+        } else {
+          try {
+            decrypt(encryptionToken, encryptionPassword);
+          } catch (GeneralSecurityException e) {
+            return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_encrypted_wrong_password)));
+          }
+        }
+      }
+      return Exceptional.of(() -> null);
+    } catch (IOException | GeneralSecurityException e) {
+      return Exceptional.of(e);
+    }
+  }
+
+  private void decrypt(String encryptionToken, String encryptionPassword) throws GeneralSecurityException {
+    EncryptionHelper.decrypt(Base64.decode(encryptionToken, Base64.DEFAULT), encryptionPassword);
+  }
+
+  protected abstract String readEncryptionToken() throws IOException;
+
+  private String encrypt(byte[] random, String encryptionPassword) throws GeneralSecurityException {
+    return Base64.encodeToString(EncryptionHelper.encrypt(random, encryptionPassword), Base64.DEFAULT);
   }
 
   @Override
@@ -227,7 +264,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     String fileContents = gson.toJson(changeSet);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
-    saveFileContents(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, MIMETYPE_JSON);
+    saveFileContentsToAccountDir(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, MIMETYPE_JSON);
     return nextSequence;
   }
 
@@ -250,11 +287,13 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   protected abstract SequenceNumber getLastSequence(SequenceNumber start) throws IOException;
 
-  abstract void saveFileContents(@Nullable String folder, String fileName, String fileContents, String mimeType) throws IOException;
+  abstract void saveFileContentsToAccountDir(@Nullable String folder, String fileName, String fileContents, String mimeType) throws IOException;
+
+  abstract void saveFileContentsToBase(String fileName, String fileContents, String mimeType) throws IOException;
 
   void createWarningFile() {
     try {
-      saveFileContents(null, "IMPORTANT_INFORMATION.txt",
+      saveFileContentsToAccountDir(null, "IMPORTANT_INFORMATION.txt",
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {

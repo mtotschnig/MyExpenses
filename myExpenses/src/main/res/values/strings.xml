@@ -815,4 +815,7 @@
     <string name="pref_security_export_password_title">Password for backups</string>
     <string name="pref_security_export_password_summary">Backups will be encrypted with this password</string>
     <string name="password_missing_for_encrypted_backup">The backup file you have selected is encrypted. In order to decrypt it, you need to specify its password.</string>
+    <string name="password_for_synchronization">Enter a password, if you want synchronization data on this backend to be encrypted.</string>
+    <string name="sync_backend_is_encrypted">Remote backend is encrypted. You need to specify a password.</string>
+    <string name="sync_backend_encrypted_wrong_password">Remote backend seems encrypted with a different password.</string>
 </resources>

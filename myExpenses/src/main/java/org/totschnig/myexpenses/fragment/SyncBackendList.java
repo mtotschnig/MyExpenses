@@ -11,6 +11,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,8 +83,7 @@ public class SyncBackendList extends Fragment implements
     View v = inflater.inflate(R.layout.sync_backends_list, container, false);
     listView = v.findViewById(R.id.list);
     View emptyView = v.findViewById(R.id.empty);
-    List<String> data = getAccountList();
-    syncBackendAdapter = new SyncBackendAdapter(context, currencyContext, data);
+    syncBackendAdapter = new SyncBackendAdapter(context, currencyContext, getAccountList());
     listView.setAdapter(syncBackendAdapter);
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
@@ -135,10 +135,8 @@ public class SyncBackendList extends Fragment implements
     super.onCreateContextMenu(menu, v, menuInfo);
   }
 
-  protected List<String> getAccountList() {
-    return GenericAccountService.getAccountsAsStream(getActivity())
-        .map(account -> account.name)
-        .collect(Collectors.toList());
+  protected List<Pair<String, Boolean>> getAccountList() {
+    return GenericAccountService.getAccountNamesWithEncryption(getActivity());
   }
 
   @Override
@@ -258,7 +256,7 @@ public class SyncBackendList extends Fragment implements
   private class AccountMetaDataLoaderCallbacks implements LoaderManager.LoaderCallbacks<AccountMetaDataLoaderResult> {
     @Override
     public Loader<AccountMetaDataLoaderResult> onCreateLoader(int id, Bundle args) {
-      return new AccountMetaDataLoader(getActivity(), (String) syncBackendAdapter.getGroup(id));
+      return new AccountMetaDataLoader(getActivity(), syncBackendAdapter.getBackendLabel(id));
     }
 
     @Override
@@ -273,7 +271,7 @@ public class SyncBackendList extends Fragment implements
       } else {
         ManageSyncBackends activity = (ManageSyncBackends) getActivity();
         if (result.getError() != null && Utils.getCause(result.getError()) instanceof InvalidAccessTokenException) {
-          activity.requestDropboxAccess((String) syncBackendAdapter.getGroup(loader.getId()));
+          activity.requestDropboxAccess(syncBackendAdapter.getBackendLabel(loader.getId()));
         } else {
           activity.showSnackbar(result.getError() != null ? result.getError().getMessage() :
               "Could not get account metadata for backend", Snackbar.LENGTH_SHORT);

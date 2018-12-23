@@ -36,7 +36,7 @@ public interface SyncBackendProvider {
   @NonNull
   Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException;
 
-  Exceptional<Void> setUp(String authToken);
+  Exceptional<Void> setUp(String authToken, String encryptionPassword);
 
   void tearDown();
 
@@ -75,6 +75,12 @@ public interface SyncBackendProvider {
     @Nullable
     public PendingIntent getResolution() {
       return resolution;
+    }
+  }
+
+  class EncryptionException extends Exception {
+    public EncryptionException(String message) {
+      super(message);
     }
   }
 }
