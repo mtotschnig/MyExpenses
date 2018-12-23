@@ -39,6 +39,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
   private static final String KEY_POSITIVE = "positive";
   private static final String KEY_NEUTRAL = "neutral";
   private static final String KEY_NEGATIVE = "negative";
+  private static final String KEY_ICON = "icon";
 
   public static class Button implements Serializable {
     int label;
@@ -78,6 +79,10 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
 
   public static final MessageDialogFragment newInstance(
       int title, CharSequence message, Button positive, Button neutral, Button negative) {
+   return newInstance(title, message, positive, neutral, negative, 0);
+  }
+  public static final MessageDialogFragment newInstance(
+      int title, CharSequence message, Button positive, Button neutral, Button negative, int icon) {
     MessageDialogFragment dialogFragment = new MessageDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TITLE, title);
@@ -85,6 +90,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     bundle.putSerializable(KEY_POSITIVE, positive);
     bundle.putSerializable(KEY_NEUTRAL, neutral);
     bundle.putSerializable(KEY_NEGATIVE, negative);
+    bundle.putInt(KEY_ICON, icon);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -111,6 +117,10 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     }
     if (negative != null) {
       builder.setNegativeButton(negative.label, negative.keepDialogOpen ? null : this);
+    }
+    final int icon = bundle.getInt(KEY_ICON);
+    if (icon != 0) {
+      builder.setIcon(icon);
     }
     AlertDialog alertDialog = builder.create();
     alertDialog.setOnShowListener(dialog -> {

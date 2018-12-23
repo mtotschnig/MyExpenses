@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -127,21 +128,24 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       }
       if (isEncrypted) {
         if (password == null) {
-          return Result.ofFailure(R.string.password_missing_for_encrypted_backup);
+          return Result.ofFailure(R.string.backup_is_encrypted);
         }
       }
-      boolean zipResult = ZipUtils.unzip(is, workingDir, password);
       try {
-        is.close();
+        ZipUtils.unzip(is, workingDir, password);
       } catch (IOException e) {
-        Timber.e(e);
+        return e.getCause() instanceof GeneralSecurityException ?
+            Result.ofFailure(R.string.backup_wrong_password) :
+            Result.ofFailure(R.string.restore_backup_archive_not_valid, fileUri);
+      } finally {
+        try {
+          is.close();
+        } catch (IOException e) {
+          Timber.e(e);
+        }
+
       }
-      if (!zipResult) {
-        return Result.ofFailure(
-            R.string.restore_backup_archive_not_valid,
-            fileUri);
-      }
-    } catch (FileNotFoundException | SecurityException e) {
+    } catch (FileNotFoundException | SecurityException | GeneralSecurityException e) {
       CrashHandler.report(e, "fileUri", fileUri.toString());
       return Result.ofFailure(
           R.string.parse_error_other_exception,

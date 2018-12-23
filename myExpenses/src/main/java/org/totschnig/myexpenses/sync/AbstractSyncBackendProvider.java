@@ -107,7 +107,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
           try {
             decrypt(encryptionToken, encryptionPassword);
           } catch (GeneralSecurityException e) {
-            return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_encrypted_wrong_password)));
+            return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_wrong_passphrase)));
           }
         }
       }

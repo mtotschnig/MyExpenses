@@ -173,8 +173,9 @@ public class SyncBackendList extends Fragment implements
       case R.id.SYNC_REMOVE_BACKEND_COMMAND: {
         String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
         Bundle b = new Bundle();
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-            getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName));
+        final String message = getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
+            + " " + getString(R.string.continue_confirmation);
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_REMOVE_BACKEND_COMMAND);
         b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
         b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);

@@ -23,6 +23,9 @@
 
 package org.totschnig.myexpenses.util.crypt;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
@@ -31,6 +34,8 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -39,6 +44,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class EncryptionHelper {
   public final static int ENCRYPTION_IV_LENGTH = 12;
   public final static String ALGORITHM_SYMMETRIC = "AES/GCM/NoPadding";
+  public final static String MAGIC_NUMBER = "ME_ENC_01";
 
 
   public static byte[] generateRandom(int length) {
@@ -86,5 +92,45 @@ public class EncryptionHelper {
     byte[] encrypted = Arrays.copyOfRange(cipherText, ENCRYPTION_IV_LENGTH, cipherText.length);
 
     return decrypt(generateSymmetricKeyFromPassword(password), new IvParameterSpec(iv), encrypted);
+  }
+
+  public static OutputStream encrypt(OutputStream outputStream, String password)
+      throws IOException, GeneralSecurityException {
+    outputStream.write(MAGIC_NUMBER.getBytes());
+    SecretKey key = generateSymmetricKeyFromPassword(password);
+    final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
+    final byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
+    new SecureRandom().nextBytes(iv);
+    cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
+    outputStream.write(iv);
+    return new CipherOutputStream(outputStream, cipher);
+  }
+
+  public static InputStream decrypt(InputStream inputStream, String password)
+      throws IOException, GeneralSecurityException {
+    byte[] magic = new byte[MAGIC_NUMBER.length()];
+    read(inputStream, magic);
+    if (!MAGIC_NUMBER.equals(new String(magic))) {
+      throw new GeneralSecurityException("Invalid Magic Number");
+    }
+    byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
+    read(inputStream, iv);
+    SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword(password);
+    final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+    cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
+    return new CipherInputStream(inputStream, cipher);
+  }
+
+  public static int read(InputStream in, byte[] b)
+      throws IOException {
+    int total = 0;
+    while (total < b.length) {
+      int result = in.read(b, total, b.length - total);
+      if (result == -1) {
+        break;
+      }
+      total += result;
+    }
+    return total;
   }
 }

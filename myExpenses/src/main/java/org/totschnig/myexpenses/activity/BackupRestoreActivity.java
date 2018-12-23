@@ -93,13 +93,20 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           abort(getString(R.string.io_error_appdir_null));
           return;
         }
+        boolean isProtected = getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null) != null;
+        StringBuilder message = new StringBuilder();
+        message.append(getString(R.string.warning_backup, FileUtils.getPath(this, appDir.getUri())))
+            .append(" ");
+        if (isProtected) {
+          message.append(getString(R.string.warning_backup_protected)).append(" ");
+        }
+        message.append(getString(R.string.continue_confirmation));
         MessageDialogFragment.newInstance(
-            R.string.menu_backup,
-            getString(R.string.warning_backup,
-                FileUtils.getPath(this, appDir.getUri())),
+            isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup,
+            message.toString(),
             new MessageDialogFragment.Button(android.R.string.yes,
                 R.id.BACKUP_COMMAND, null), null,
-            MessageDialogFragment.Button.noButton())
+            MessageDialogFragment.Button.noButton(), R.drawable.ic_lock)
             .show(getSupportFragmentManager(), "BACKUP");
         break;
       }
@@ -128,10 +135,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   private void showRestoreDialog(Uri fileUri, int restorePlanStrategy) {
     Bundle bundle = buildRestoreArgs(fileUri, restorePlanStrategy);
     bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title);
+    final String message = getString(R.string.warning_restore, DialogUtils.getDisplayName(fileUri))
+        + " " + getString(R.string.continue_confirmation);
     bundle.putString(
         ConfirmationDialogFragment.KEY_MESSAGE,
-        getString(R.string.warning_restore,
-            DialogUtils.getDisplayName(fileUri)));
+        message);
     bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
         R.id.RESTORE_COMMAND);
     ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
@@ -227,7 +235,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     if (calledFromOnboarding) {
       final Bundle args = buildRestoreArgs(mUri, restorePlanStrategy);
       if (FileUtils.getPath(this, mUri).endsWith("enc")) {
-        SimpleFormDialog.build().msg(R.string.password_missing_for_encrypted_backup)
+        SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
             .fields(Input.password(KEY_PASSWORD).required())
             .extra(args)
             .show(this, DIALOG_TAG_PASSWORD);

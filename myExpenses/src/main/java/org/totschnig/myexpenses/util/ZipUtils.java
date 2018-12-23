@@ -18,28 +18,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.GeneralSecurityException;
-import java.security.SecureRandom;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.util.crypt.EncryptionHelper.ALGORITHM_SYMMETRIC;
-import static org.totschnig.myexpenses.util.crypt.EncryptionHelper.ENCRYPTION_IV_LENGTH;
 
 
 public class ZipUtils {
 
 
   public static final String PICTURES = Environment.DIRECTORY_PICTURES;
-  private static final String MAGIC_NUMBER = "ME_ENC_01";
 
   private ZipUtils() {
   }
@@ -57,20 +46,7 @@ public class ZipUtils {
   static void zipBackup(File cacheDir, DocumentFile destZipFile, String password)
       throws IOException, GeneralSecurityException {
     final OutputStream out = MyApplication.getInstance().getContentResolver().openOutputStream(destZipFile.getUri());
-    final OutputStream out1;
-    if (password != null) {
-      out.write(MAGIC_NUMBER.getBytes());
-      SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
-      final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
-      final byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
-      new SecureRandom().nextBytes(iv);
-      cipher.init(Cipher.ENCRYPT_MODE, key);
-      out.write(cipher.getIV());
-      out1 = new CipherOutputStream(out, cipher);
-    } else {
-      out1 = out;
-    }
-    ZipOutputStream zip = new ZipOutputStream(out1);
+    ZipOutputStream zip = new ZipOutputStream(password != null ? EncryptionHelper.encrypt(out, password) : out);
     /*
      * add the folder to the zip
      */
@@ -201,68 +177,33 @@ public class ZipUtils {
    * @param fileIn
    * @param dirOut
    * @param password
-   * @return true on success
    */
-  public static boolean unzip(InputStream fileIn, File dirOut, String password) {
-    try {
-      final InputStream in;
-      if (password != null) {
-        byte[] magic = new byte[MAGIC_NUMBER.length()];
-        read(fileIn, magic);
-        if (!MAGIC_NUMBER.equals(new String(magic))) {
-          return false;
-        }
-        byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
-        read(fileIn, iv);
-        SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword("PASSWORD");
-        final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-        cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
-        in = new CipherInputStream(fileIn, cipher);
+  public static void unzip(InputStream fileIn, File dirOut, String password)
+      throws IOException, GeneralSecurityException {
+    ZipInputStream zin = new ZipInputStream(password != null ?
+        EncryptionHelper.decrypt(fileIn, password) : fileIn);
+    ZipEntry ze;
+    while ((ze = zin.getNextEntry()) != null) {
+      Timber.v("Unzipping %s", ze.getName());
+      File newFile = new File(dirOut, ze.getName());
+      newFile.getParentFile().mkdirs();
+      if (ze.isDirectory()) {
+        newFile.mkdir();
       } else {
-        in = fileIn;
-      }
-      ZipInputStream zin = new ZipInputStream(in);
-      ZipEntry ze;
-      while ((ze = zin.getNextEntry()) != null) {
-        Timber.v("Unzipping %s", ze.getName());
-        File newFile = new File(dirOut, ze.getName());
-        newFile.getParentFile().mkdirs();
-        if (ze.isDirectory()) {
-          newFile.mkdir();
-        } else {
-          FileOutputStream fout = new FileOutputStream(newFile);
-          long startTime = System.currentTimeMillis();
+        FileOutputStream fout = new FileOutputStream(newFile);
+        long startTime = System.currentTimeMillis();
 
-          byte[] buffer = new byte[1024];
-          int count;
-          while ((count = zin.read(buffer)) != -1) {
-            fout.write(buffer, 0, count);
-          }
-          long endTime = System.currentTimeMillis();
-
-          Timber.d("That took %d milliseconds", (endTime - startTime));
-          zin.closeEntry();
-          fout.close();
+        byte[] buffer = new byte[1024];
+        int count;
+        while ((count = zin.read(buffer)) != -1) {
+          fout.write(buffer, 0, count);
         }
-      }
-      zin.close();
-      return true;
-    } catch (IOException | GeneralSecurityException e) {
-      Timber.w(e);
-      return false;
-    }
-  }
+        long endTime = System.currentTimeMillis();
 
-  public static int read(InputStream in, byte[] b)
-      throws IOException {
-    int total = 0;
-    while (total < b.length) {
-      int result = in.read(b, total, b.length - total);
-      if (result == -1) {
-        break;
+        Timber.d("That took %d milliseconds", (endTime - startTime));
+        zin.closeEntry();
+        fout.close();
       }
-      total += result;
     }
-    return total;
   }
 }

@@ -410,7 +410,8 @@
     <string name="type">Type</string>
     <string name="unsplit_amount">Unsplit amount</string>
     <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
-    <string name="warning_backup">Database and preferences will be saved to \"%1$s\". Do you want to continue?</string>
+    <string name="warning_backup">Database and preferences will be saved to \"%1$s\".</string>
+    <string name="continue_confirmation">Do you want to continue?</string>
     <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
@@ -443,7 +444,7 @@
     <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
-    <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
+    <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall {app_name}. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Please set a number between %1$d and %2$d</string>
@@ -611,7 +612,7 @@
     <string name="dialog_command_sync_link_local">Upload from local</string>
     <string name="dialog_synced_to_other">An account with uuid %s already exists in the local database and is linked to a different remote backend.</string>
     <string name="menu_remove">Remove</string>
-    <string name="dialog_confirm_sync_remove_backend">Remote backend %s will be removed. This will not affect data stored locally or remotely, but synchronization status gets lost. Do you want to continue?</string>
+    <string name="dialog_confirm_sync_remove_backend">Remote backend %s will be removed. This will not affect data stored locally or remotely, but synchronization status gets lost.</string>
     <string name="dialog_confirm_sync_link_local">Remote data for this account will be deleted. Make sure no other devices are linked to it.</string>
     <string name="dialog_confirm_sync_link_remote">Local data for this account will be deleted.</string>
     <string name="warning_limited_trial">Feature %1$s can be tested until %2$s.</string>
@@ -728,7 +729,7 @@
     <string name="grand_total">Grand total</string>
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
-    <string name="home_currency_change_warning">If you change your home currency, equivalent amounts and exchange rates will be lost, and need to be defined again. Do you want to continue?</string>
+    <string name="home_currency_change_warning">If you change your home currency, equivalent amounts and exchange rates will be lost, and need to be defined again.</string>
     <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
     <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -812,10 +813,13 @@
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Unmapped\' filter cannot be included into multiple selection</string>
     <string name="upgrade_information_cloud_sync_storage_format">With version 2.9.8, the way data is stored on synchronization backends has changed. Please upgrade to this version on all synced devices, before entering any new records on any of them.</string>
-    <string name="pref_security_export_password_title">Password for backups</string>
-    <string name="pref_security_export_password_summary">Backups will be encrypted with this password</string>
-    <string name="password_missing_for_encrypted_backup">The backup file you have selected is encrypted. In order to decrypt it, you need to specify its password.</string>
-    <string name="password_for_synchronization">Enter a password, if you want synchronization data on this backend to be encrypted.</string>
-    <string name="sync_backend_is_encrypted">Remote backend is encrypted. You need to specify a password.</string>
-    <string name="sync_backend_encrypted_wrong_password">Remote backend seems encrypted with a different password.</string>
+    <string name="pref_security_export_passphrase_title">Passphrase for backups</string>
+    <string name="pref_security_export_passphrase_summary">Backups will be encrypted with this passphrase</string>
+    <string name="backup_is_encrypted">The backup file is encrypted. In order to decrypt it, you need to specify its passphrase.</string>
+    <string name="backup_wrong_password">The backup file seems encrypted with a different passphrase.</string>
+    <string name="passphrase_for_synchronization">Enter a passphrase, if you want synchronization data on this backend to be encrypted.</string>
+    <string name="sync_backend_is_encrypted">Remote backend is encrypted. You need to specify a passphrase.</string>
+    <string name="sync_backend_wrong_passphrase">Remote backend seems encrypted with a different passphrase.</string>
+    <string name="warning_backup_protected">The archive will be protected by your passphrase.</string>
+    <string name="dialog_title_backup_protected">Backup (encrypted)</string>
 </resources>
