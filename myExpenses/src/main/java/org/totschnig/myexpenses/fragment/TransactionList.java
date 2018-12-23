@@ -714,7 +714,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                 currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
-        if (holder.budgetProgress != null) {
+        if (holder.budgetProgress != null && mAccount.getBudget() != null) {
           long budget = mAccount.getBudget().getAmountMinor();
           int progress = budget == 0 ? 100 : Math.round(expenssum * 100F / budget);
           UiUtils.configureProgress(holder.budgetProgress, progress);
