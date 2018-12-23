@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.ui.ExpansionPanel;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.util.Locale;
@@ -194,12 +195,11 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     if (criterion != 0) {
       final int progress;
       if (criterion > 0 == currentBalance > 0) {
-        progress = Math.abs(currentBalance) > Math.abs(criterion) ? 100 : Math.round(currentBalance * 100F / criterion);
+        progress = Math.round(currentBalance * 100F / criterion);
       } else {
         progress = 0;
       }
-      holder.criterionProgress.setProgress(progress);
-      holder.criterionProgress.setText(String.valueOf(progress));
+      UiUtils.configureProgress(holder.criterionProgress, progress);
       holder.criterionProgress.setFinishedStrokeColor(colorInt);
       holder.criterionProgress.setUnfinishedStrokeColor(getContrastColor(colorInt));
       holder.criterionLabel.setText(criterion > 0 ? R.string.saving_goal : R.string.credit_limit);

@@ -104,6 +104,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
@@ -715,9 +716,8 @@ public class TransactionList extends ContextualActionBarFragment implements
                 formattedDelta);
         if (holder.budgetProgress != null) {
           long budget = mAccount.getBudget().getAmountMinor();
-          int progress = expenssum > budget || budget == 0 ? 100 : Math.round(expenssum * 100F / budget);
-          holder.budgetProgress.setProgress(progress);
-          holder.budgetProgress.setText(String.valueOf(progress));
+          int progress = budget == 0 ? 100 : Math.round(expenssum * 100F / budget);
+          UiUtils.configureProgress(holder.budgetProgress, progress);
           holder.budgetProgress.setFinishedStrokeColor(mAccount.color);
           holder.budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
         }
