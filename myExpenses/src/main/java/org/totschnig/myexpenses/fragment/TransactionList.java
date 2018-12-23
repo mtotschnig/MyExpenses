@@ -321,8 +321,10 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   protected void refresh(boolean invalidateMenu) {
-    mManager.restartLoader(TRANSACTION_CURSOR, null, this);
-    mManager.restartLoader(GROUPING_CURSOR, null, this);
+    if (mAccount != null) { //if we are refreshed from onActivityResult, it might happen, that mAccount is not yet set (report 5c1754c8f8b88c29631ef140)
+      mManager.restartLoader(TRANSACTION_CURSOR, null, this);
+      mManager.restartLoader(GROUPING_CURSOR, null, this);
+    }
     if (invalidateMenu) {
       getActivity().invalidateOptionsMenu();
     }
