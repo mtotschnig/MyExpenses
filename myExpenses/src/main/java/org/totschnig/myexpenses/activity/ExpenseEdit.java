@@ -267,11 +267,9 @@ public class ExpenseEdit extends AmountActivity implements
   ImageView clearMethodButton;
   @BindView(R.id.ClearCategory)
   ImageView clearCategoryButton;
-  @BindView(R.id.OriginalCurrency)
-  Spinner mCurrencySpinner;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mRecurrenceSpinner;
+      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
   private SimpleCursorAdapter mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private ArrayAdapter<PaymentMethod> mMethodsAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
@@ -299,6 +297,8 @@ public class ExpenseEdit extends AmountActivity implements
   boolean originalAmountVisible;
   @State
   boolean equivalentAmountVisible;
+
+  String originalCurrencyCode;
 
   private Account[] mAccounts;
   private Transaction mTransaction;
@@ -375,10 +375,7 @@ public class ExpenseEdit extends AmountActivity implements
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.addAll(currencies);
-      final String lastOriginalCurrency = getPrefHandler().getString(LAST_ORIGINAL_CURRENCY, null);
-      if (lastOriginalCurrency != null) {
-        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(lastOriginalCurrency)));
-      }
+      populateOriginalCurrency();
     });
 
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
@@ -445,6 +442,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
+    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.OriginalCurrency));
     currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item) {
       @NonNull
       @Override
@@ -933,7 +931,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
     final View originalAmountLabel = findViewById(R.id.OriginalAmountLabel);
     linkInputWithLabel(originalAmountText, originalAmountLabel);
-    linkInputWithLabel(mCurrencySpinner, originalAmountLabel);
+    linkInputWithLabel(mCurrencySpinner.getSpinner(), originalAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorOriginal), originalAmountLabel);
     final View equivalentAmountLabel = findViewById(R.id.EquivalentAmountLabel);
     linkInputWithLabel(equivalentAmountText, equivalentAmountLabel);
@@ -1138,9 +1136,11 @@ public class ExpenseEdit extends AmountActivity implements
       originalAmountVisible = true;
       originalAmountRow.setVisibility(View.VISIBLE);
       originalAmountText.setAmount(cachedOrSelf.getOriginalAmount().getAmountMajor());
-      mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(
-          cachedOrSelf.getOriginalAmount().getCurrencyUnit().code())));
+      originalCurrencyCode = cachedOrSelf.getOriginalAmount().getCurrencyUnit().code();
+    } else {
+      originalCurrencyCode = getPrefHandler().getString(LAST_ORIGINAL_CURRENCY, null);
     }
+    populateOriginalCurrency();
     if (cachedOrSelf.getEquivalentAmount() != null) {
       equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
       mExchangeRateEdit.calculateAndSetRate(cachedOrSelf.getAmount().getAmountMajor(), cachedOrSelf.getEquivalentAmount().getAmountMajor());
@@ -1155,6 +1155,12 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     isProcessingLinkedAmountInputs = false;
+  }
+
+  private void populateOriginalCurrency() {
+    if (originalCurrencyCode != null) {
+      mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(originalCurrencyCode)));
+    }
   }
 
   protected void fillAmount(BigDecimal amount) {
