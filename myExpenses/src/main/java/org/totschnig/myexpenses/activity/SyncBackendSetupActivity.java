@@ -34,11 +34,11 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_PASSWORD_ENCRYPTION;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1;
-import static org.totschnig.myexpenses.task.SyncAccountTask.KEY_PASSWORD_ENCRYPTION;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_DROPBOX_SETUP;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;

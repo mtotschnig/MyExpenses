@@ -43,7 +43,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
   public static final String KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1";
-  private final MediaType MIME_JSON = MediaType.parse(MIMETYPE_JSON + "; charset=utf-8");
+  private final MediaType MIME_JSON = MediaType.parse(getMimetypeForData() + "; charset=utf-8");
   private static final String FALLBACK_LOCK_FILENAME = ".lock";
 
   private WebDavClient webDavClient;
@@ -77,7 +77,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     setAccountUuid(account);
     webDavClient.mkCol(accountUuid);
     try {
-      LockableDavResource metaData = webDavClient.getResource(ACCOUNT_METADATA_FILENAME, accountUuid);
+      LockableDavResource metaData = webDavClient.getResource(getAccountMetadataFilename(), accountUuid);
       if (!metaData.exists()) {
         metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
         createWarningFile();
@@ -144,7 +144,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private ChangeSet getChangeSetFromDavResource(Pair<Integer, DavResource> davResource) {
     try {
       return getChangeSetFromInputStream(new SequenceNumber(davResource.first, getSequenceFromFileName(davResource.second.fileName())),
-          davResource.second.get(MIMETYPE_JSON).byteStream());
+          davResource.second.get(getMimetypeForData()).byteStream());
     } catch (IOException | HttpException | DavException e) {
       return null;
     }
@@ -290,7 +290,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     LockableDavResource base = webDavClient.getCollection(accountUuid, (String[]) null);
     LockableDavResource parent;
     if (folder != null) {
@@ -310,7 +310,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToBase(String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     //TODO
   }
 
@@ -334,7 +334,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
     return Stream.of(webDavClient.getFolderMembers((String[]) null))
         .filter(LockableDavResource::isCollection)
-        .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
+        .map(davResource -> webDavClient.getResource(davResource.location, getAccountMetadataFilename()))
         .filter(LockableDavResource::exists)
         .map(this::getAccountMetaDataFromDavResource)
         .filter(Optional::isPresent)
@@ -343,7 +343,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private Optional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
     try {
-      return getAccountMetaDataFromInputStream(lockableDavResource.get(MIMETYPE_JSON).byteStream());
+      return getAccountMetaDataFromInputStream(lockableDavResource.get(getMimetypeForData()).byteStream());
     } catch (DavException | HttpException | IOException e) {
       return Optional.empty();
     }

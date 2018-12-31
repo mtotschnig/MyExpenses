@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -168,42 +166,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     AccountManager accountManager = AccountManager.get(getContext());
 
     Exceptional<SyncBackendProvider> backendProviderExceptional =
-        SyncBackendProviderFactory.get(getContext(), account);
+        SyncBackendProviderFactory.get(getContext(), account, true);
     SyncBackendProvider backend;
     try {
       backend = backendProviderExceptional.getOrThrow();
     } catch (Throwable throwable) {
-      syncResult.databaseError = true;
-      CrashHandler.report(throwable);
-      GenericAccountService.deactivateSync(account);
-      accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1");
-      notifyUser("Synchronization backend deactivated",
-          String.format(Locale.ROOT,
-              "The backend could not be instantiated. Reason: %s. Please try to delete and recreate it.",
-              throwable.getMessage()),
-          null,
-          getManageSyncBackendsIntent());
-
-      return;
-    }
-    String authToken;
-    try {
-      authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
-          true);
-    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      log().w(e, "Error getting auth token.");
-      syncResult.stats.numAuthExceptions++;
-      return;
-    }
-    final Exceptional<Void> setupResult = backend.setUp(authToken, "TODO");
-    if (!setupResult.isPresent()) {
-      final Throwable exception = setupResult.getException();
-      if (exception instanceof SyncBackendProvider.ResolvableSetupException) {
-        notifyWithResolution((SyncBackendProvider.ResolvableSetupException) exception);
+      if (throwable instanceof SyncBackendProvider.SyncParseException) {
+        syncResult.databaseError = true;
+        CrashHandler.report(throwable);
+        GenericAccountService.deactivateSync(account);
+        accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1");
+        notifyUser("Synchronization backend deactivated",
+            String.format(Locale.ROOT,
+                "The backend could not be instantiated. Reason: %s. Please try to delete and recreate it.",
+                throwable.getMessage()),
+            null,
+            getManageSyncBackendsIntent());
+      } else if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
+        notifyWithResolution((SyncBackendProvider.ResolvableSetupException) throwable);
       } else {
+        log().w(throwable, "Error setting up account.");
         syncResult.stats.numIoExceptions++;
         syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
-        log().i(exception);
         appendToNotification(TextUtils.concatResStrings(getContext(), " ",
             R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
       }
@@ -1007,18 +991,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private String getStringSetting(ContentProviderClient provider, String prefKey) {
+    String result = null;
     try {
       Cursor cursor = provider.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
           KEY_KEY + " = ?", new String[]{prefKey}, null);
       if (cursor != null) {
         if (cursor.moveToFirst()) {
-          return cursor.getString(0);
+          result = cursor.getString(0);
         }
         cursor.close();
       }
     } catch (RemoteException ignored) {
     }
-    return null;
+    return result;
   }
 
   private void removeSetting(ContentProviderClient provider, String prefKey) {

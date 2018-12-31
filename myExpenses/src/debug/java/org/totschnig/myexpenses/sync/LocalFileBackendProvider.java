@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,9 +49,9 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     //noinspection ResultOfMethodCallIgnored
     accountDir.mkdir();
     if (accountDir.isDirectory()) {
-      File metaData = new File(accountDir, ACCOUNT_METADATA_FILENAME);
+      File metaData = new File(accountDir, getAccountMetadataFilename());
       if (!metaData.exists()) {
-          saveFileContents(metaData, buildMetadata(account));
+          saveFileContents(metaData, buildMetadata(account), true);
           createWarningFile();
       }
     } else {
@@ -94,7 +95,13 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void saveUriToAccountDir(String fileName, Uri uri) throws IOException {
-    saveUriToFolder(fileName, uri, accountDir);
+    try (InputStream input = getContext().getContentResolver().openInputStream(uri);
+         OutputStream output = maybeEncrypt(new FileOutputStream(new File(accountDir, fileName)))) {
+      if (input == null) {
+        throw new IOException("Could not open InputStream " + uri.toString());
+      }
+      FileCopyUtils.copy(input, output);
+    }
   }
 
   private void saveUriToFolder(String fileName, Uri uri, File folder) throws IOException {
@@ -197,6 +204,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
       inputStream.close();
       return result;
     } catch (IOException e) {
+      log().e(e);
       return Optional.empty();
     }
   }
@@ -211,21 +219,21 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     Preconditions.checkNotNull(accountDir);
     File dir = folder == null ? accountDir : new File(accountDir, folder);
     //noinspection ResultOfMethodCallIgnored
     dir.mkdir();
     if (dir.isDirectory()) {
-      saveFileContents(new File(dir, fileName), fileContents);
+      saveFileContents(new File(dir, fileName), fileContents, maybeEncrypt);
     } else {
       throw new IOException("Cannot create dir");
     }
   }
 
   @Override
-  void saveFileContentsToBase(String fileName, String fileContents, String mimeType) throws IOException {
-    saveFileContents(new File(baseDir, fileName), fileContents);
+  void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+    saveFileContents(new File(baseDir, fileName), fileContents, maybeEncrypt);
   }
 
   @Override
@@ -237,9 +245,10 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   protected void writeLockToken(String lockToken) {
   }
 
-  private void saveFileContents(File file, String fileContents) throws IOException {
+  private void saveFileContents(File file, String fileContents, boolean maybeEncrypt) throws IOException {
     OutputStreamWriter out;
-    out = new OutputStreamWriter(new FileOutputStream(file));
+    final FileOutputStream fileOutputStream = new FileOutputStream(file);
+    out = new OutputStreamWriter(maybeEncrypt ? maybeEncrypt(fileOutputStream) : fileOutputStream);
     out.write(fileContents);
     out.close();
   }
@@ -248,7 +257,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) {
     return Stream.of(baseDir.listFiles(File::isDirectory))
-        .map(directory -> new File(directory, ACCOUNT_METADATA_FILENAME))
+        .map(directory -> new File(directory, getAccountMetadataFilename()))
         .filter(File::exists)
         .map(this::getAccountMetaDataFromFile)
         .filter(Optional::isPresent)

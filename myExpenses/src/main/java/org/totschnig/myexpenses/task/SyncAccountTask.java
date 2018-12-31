@@ -27,11 +27,11 @@ import static android.accounts.AccountManager.KEY_USERDATA;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.sync.GenericAccountService.Authenticator.AUTH_TOKEN_TYPE;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_ENCRYPTED;
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_PASSWORD_ENCRYPTION;
 
 public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccountTask.Result>> {
 
   public static final String KEY_RETURN_REMOTE_DATA_LIST = "returnRemoteDataList";
-  public static final String KEY_PASSWORD_ENCRYPTION = "passwordEncryption";
   private final TaskExecutionFragment taskExecutionFragment;
   private final String accountName;
   private final String password;
@@ -71,7 +71,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
         final Exceptional<Result> result = buildResult();
         if (result.isPresent()) {
           GenericAccountService.activateSync(account);
-          GenericTask.storeSetting(MyApplication.getInstance().getContentResolver(), accountName + " - " + KEY_PASSWORD_ENCRYPTION, encryptionPassword);
+          GenericAccountService.storePassword(MyApplication.getInstance().getContentResolver(), accountName, encryptionPassword);
         } else {
           //we try to remove a failed account immediately, otherwise user would need to do it, before
           //being able to try again
@@ -100,7 +100,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
     SyncBackendProvider syncBackendProvider;
     try {
       syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
-          account).getOrThrow();
+          account, false).getOrThrow();
       Exceptional<Void> result = syncBackendProvider.setUp(authToken, encryptionPassword);
       if (!result.isPresent()) {
         return Exceptional.of(result.getException());

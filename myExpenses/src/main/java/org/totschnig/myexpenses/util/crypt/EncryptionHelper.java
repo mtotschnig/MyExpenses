@@ -61,13 +61,14 @@ public class EncryptionHelper {
   }
 
   public static byte[] encrypt(byte[] plaintext, String password) throws GeneralSecurityException {
+    final byte[] magicNumber = MAGIC_NUMBER.getBytes();
     final byte[] iv = generateRandom(ENCRYPTION_IV_LENGTH);
+    final byte[] cipherText = encrypt(generateSymmetricKeyFromPassword(password), new IvParameterSpec(iv), plaintext);
+    final byte[] combined = new byte[magicNumber.length + iv.length + cipherText.length];
 
-    byte[] cipherText = encrypt(generateSymmetricKeyFromPassword(password), new IvParameterSpec(iv), plaintext);
-
-    byte[] combined = new byte[iv.length + cipherText.length];
-    System.arraycopy(iv, 0, combined, 0, iv.length);
-    System.arraycopy(cipherText, 0, combined, iv.length, cipherText.length);
+    System.arraycopy(magicNumber, 0, combined, 0, magicNumber.length);
+    System.arraycopy(iv, 0, combined, magicNumber.length, iv.length);
+    System.arraycopy(cipherText, 0, combined, magicNumber.length + iv.length, cipherText.length);
 
     return combined;
   }
@@ -88,8 +89,14 @@ public class EncryptionHelper {
   }
 
   public static byte[] decrypt(byte[] cipherText, String password) throws GeneralSecurityException {
-    byte[] iv = Arrays.copyOfRange(cipherText, 0, ENCRYPTION_IV_LENGTH);
-    byte[] encrypted = Arrays.copyOfRange(cipherText, ENCRYPTION_IV_LENGTH, cipherText.length);
+    final int magicLength = MAGIC_NUMBER.length();
+    byte[] magic = Arrays.copyOfRange(cipherText, 0, magicLength);
+    if (!MAGIC_NUMBER.equals(new String(magic))) {
+      throw new GeneralSecurityException("Invalid Magic Number");
+    }
+    final int to = magicLength + ENCRYPTION_IV_LENGTH;
+    byte[] iv = Arrays.copyOfRange(cipherText, magicLength, to);
+    byte[] encrypted = Arrays.copyOfRange(cipherText, to, cipherText.length);
 
     return decrypt(generateSymmetricKeyFromPassword(password), new IvParameterSpec(iv), encrypted);
   }
@@ -99,8 +106,7 @@ public class EncryptionHelper {
     outputStream.write(MAGIC_NUMBER.getBytes());
     SecretKey key = generateSymmetricKeyFromPassword(password);
     final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
-    final byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
-    new SecureRandom().nextBytes(iv);
+    final byte[] iv = generateRandom(ENCRYPTION_IV_LENGTH);
     cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
     outputStream.write(iv);
     return new CipherOutputStream(outputStream, cipher);
@@ -116,7 +122,7 @@ public class EncryptionHelper {
     byte[] iv = new byte[ENCRYPTION_IV_LENGTH];
     read(inputStream, iv);
     SecretKey key = EncryptionHelper.generateSymmetricKeyFromPassword(password);
-    final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+    final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
     cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
     return new CipherInputStream(inputStream, cipher);
   }
