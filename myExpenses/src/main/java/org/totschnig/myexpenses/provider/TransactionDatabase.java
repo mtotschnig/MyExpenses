@@ -143,7 +143,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 82;
+  public static final int DATABASE_VERSION = 83;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1823,6 +1823,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 82) {
         createOrRefreshAccountTriggers(db);
+      }
+      if (oldVersion < 83) {
+        final String auto_backup_cloud = MyApplication.getInstance().getSettings().getString("auto_backup_cloud", null);
+        if (auto_backup_cloud != null) {
+          ContentValues values = new ContentValues(2);
+          values.put("key", "auto_backup_cloud");
+          values.put("value", auto_backup_cloud);
+          db.insert("settings", null, values);
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

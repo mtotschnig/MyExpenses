@@ -407,6 +407,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       String summary = getString(R.string.pref_auto_backup_summary) + " " +
           ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
       pref.setSummary(summary);
+      findPreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     }
     //GROUP start screen
     else if (rootKey.equals(GROUPING_START_SCREEN.getKey())) {

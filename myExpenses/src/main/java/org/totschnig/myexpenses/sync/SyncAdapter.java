@@ -411,20 +411,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private void handleAutoBackupSync(Account account, ContentProviderClient provider, SyncBackendProvider backend) {
     String autoBackupFileUri = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
     if (autoBackupFileUri != null) {
-      String fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
-      try {
-        log().i("Storing backup %s (%s)", fileName, autoBackupFileUri);
-        backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
-        removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
-        removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
-        maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
-            getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null, null);
-      } catch (Exception e) {
-        log().w(e);
-        if (!handleAuthException(backend, e, account)) {
-          notifyUser(getContext().getString(R.string.pref_auto_backup_title),
-              getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
-                  + " " + e.getMessage(), null, null);
+      String autoBackupCloud = getStringSetting(provider, PrefKey.AUTO_BACKUP_CLOUD.getKey());
+      if (autoBackupCloud != null && autoBackupCloud.equals(account.name)) {
+        String fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
+        try {
+          log().i("Storing backup %s (%s)", fileName, autoBackupFileUri);
+          backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
+          removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
+          removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
+          maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
+              getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null, null);
+        } catch (Exception e) {
+          log().w(e);
+          if (!handleAuthException(backend, e, account)) {
+            notifyUser(getContext().getString(R.string.pref_auto_backup_title),
+                getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
+                    + " " + e.getMessage(), null, null);
+          }
         }
       }
     }
