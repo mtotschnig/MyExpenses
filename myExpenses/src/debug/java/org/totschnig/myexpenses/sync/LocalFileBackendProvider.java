@@ -180,6 +180,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   public void lock() {
   }
 
+  @NonNull
   @Override
   public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
     List<ChangeSet> changeSets = new ArrayList<>();

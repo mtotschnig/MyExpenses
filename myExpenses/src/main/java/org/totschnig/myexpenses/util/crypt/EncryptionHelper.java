@@ -23,15 +23,18 @@
 
 package org.totschnig.myexpenses.util.crypt;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.SequenceInputStream;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Collections;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -138,5 +141,17 @@ public class EncryptionHelper {
       total += result;
     }
     return total;
+  }
+
+  public static InputStream encrypt(InputStream inputStream, String password)
+      throws GeneralSecurityException {
+    InputStream magicNumber = new ByteArrayInputStream(MAGIC_NUMBER.getBytes());
+    SecretKey key = generateSymmetricKeyFromPassword(password);
+    final Cipher cipher = Cipher.getInstance(ALGORITHM_SYMMETRIC);
+    final byte[] iv = generateRandom(ENCRYPTION_IV_LENGTH);
+    cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
+    InputStream ivStream = new ByteArrayInputStream(iv);
+    return new SequenceInputStream(Collections.enumeration(Arrays.asList(
+        magicNumber, ivStream, new CipherInputStream(inputStream, cipher))));
   }
 }

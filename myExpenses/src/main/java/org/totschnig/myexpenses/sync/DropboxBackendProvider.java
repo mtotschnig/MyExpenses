@@ -172,7 +172,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void writeLockToken(String lockToken) throws IOException {
-    saveInputStream(getLockFilePath(), new ByteArrayInputStream(lockToken.getBytes()));
+    saveInputStream(getLockFilePath(), new ByteArrayInputStream(lockToken.getBytes()), false);
   }
 
   @Override
@@ -246,22 +246,22 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   public void storeBackup(Uri uri, String fileName) throws IOException {
     String backupPath = getBackupPath();
     requireFolder(backupPath);
-    saveUriToFolder(fileName, uri, backupPath);
+    saveUriToFolder(fileName, uri, backupPath, false);
   }
 
   @Override
   protected void saveUriToAccountDir(String fileName, Uri uri) throws IOException {
-    saveUriToFolder(fileName, uri, getAccountPath());
+    saveUriToFolder(fileName, uri, getAccountPath(), true);
   }
 
-  private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
+  private void saveUriToFolder(String fileName, Uri uri, String folder, boolean maybeEncrypt) throws IOException {
     InputStream in = MyApplication.getInstance().getContentResolver()
         .openInputStream(uri);
     if (in == null) {
       throw new IOException("Could not read " + uri.toString());
     }
     String finalFileName = getLastFileNamePart(fileName);
-    saveInputStream(folder + "/" + finalFileName, in);
+    saveInputStream(folder + "/" + finalFileName, in, maybeEncrypt);
   }
 
   @Override
@@ -307,19 +307,19 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       path = accountPath + "/" + folder;
       requireFolder(path);
     }
-    saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()));
+    saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()), maybeEncrypt);
   }
 
   @Override
   void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
-    //TODO
+    saveInputStream(basePath + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()), maybeEncrypt);
   }
 
-  private void saveInputStream(String path, InputStream contents) throws IOException {
+  private void saveInputStream(String path, InputStream contents, boolean maybeEncrypt) throws IOException {
     try {
       mDbxClient.files().uploadBuilder(path)
           .withMode(WriteMode.OVERWRITE)
-          .uploadAndFinish(contents);
+          .uploadAndFinish(maybeEncrypt ? maybeEncrypt(contents) : contents);
     } catch (DbxException e) {
       throw new IOException(e);
     }

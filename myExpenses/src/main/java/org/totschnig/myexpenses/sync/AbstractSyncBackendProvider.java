@@ -153,6 +153,14 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
   }
 
+  protected InputStream maybeEncrypt(InputStream inputStream) throws IOException {
+    try {
+      return isEncrypted() ? EncryptionHelper.encrypt(inputStream, encryptionPassword) : inputStream;
+    } catch (GeneralSecurityException e) {
+      throw new IOException(e);
+    }
+  }
+
   protected InputStream maybeDecrypt(InputStream inputStream) throws IOException {
     try {
       return isEncrypted() ? EncryptionHelper.decrypt(inputStream, encryptionPassword) : inputStream;
@@ -303,6 +311,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return nextSequence;
   }
 
+  /**
+   * should encrypt if backend is configured with encryption
+   */
   protected abstract void saveUriToAccountDir(String fileName, Uri uri) throws IOException;
 
   String buildMetadata(Account account) {
