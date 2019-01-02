@@ -19,6 +19,8 @@ import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
@@ -76,14 +78,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     webDavClient.mkCol(accountUuid);
-    try {
-      LockableDavResource metaData = webDavClient.getResource(getAccountMetadataFilename(), accountUuid);
-      if (!metaData.exists()) {
-        metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
-        createWarningFile();
-      }
-    } catch (HttpException e) {
-      throw new IOException(e);
+    final String accountMetadataFilename = getAccountMetadataFilename();
+    LockableDavResource metaData = webDavClient.getResource(accountMetadataFilename, accountUuid);
+    if (!metaData.exists()) {
+      saveFileContentsToAccountDir(null, accountMetadataFilename, buildMetadata(account), getMimetypeForData(), true);
+      createWarningFile();
     }
   }
 
@@ -98,13 +97,24 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
-
   @Override
   protected String getExistingLockToken() throws IOException {
-    LockableDavResource lockfile = getLockFile();
-    try {
-      return lockfile.get("text/plain").string();
-    } catch (HttpException | DavException e) {
+    return readResourceIfExists(getLockFile());
+  }
+
+  @Override
+  protected String readEncryptionToken() throws IOException {
+    return readResourceIfExists(webDavClient.getResource(ENCRYPTION_TOKEN_FILE_NAME, (String[]) null));
+  }
+
+  private String readResourceIfExists(LockableDavResource resource) throws IOException {
+    if (resource.exists()) {
+      try {
+        return resource.get("text/plain").string();
+      } catch (HttpException | DavException e) {
+        throw new IOException(e);
+      }
+    } else {
       return null;
     }
   }
@@ -183,11 +193,6 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return "webdav_backend";
   }
 
-  @Override
-  protected String readEncryptionToken() throws IOException {
-    return null;
-  }
-
   @NonNull
   @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
@@ -209,34 +214,35 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void saveUriToAccountDir(String fileName, Uri uri) throws IOException {
-    saveUriToFolder(fileName, uri, accountUuid);
+    saveUriToFolder(fileName, uri, accountUuid, true);
   }
 
-  private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
+  private void saveUriToFolder(String fileName, Uri uri, String folder, boolean maybeEncrypt) throws IOException {
     String finalFileName = getLastFileNamePart(fileName);
-    try {
-      RequestBody requestBody = new RequestBody() {
-        @Override
-        public MediaType contentType() {
-          return MediaType.parse(getMimeType(finalFileName));
-        }
+    RequestBody requestBody = new RequestBody() {
 
-        @Override
-        public void writeTo(BufferedSink sink) throws IOException {
-          Source source = null;
-          try {
-            InputStream in = MyApplication.getInstance().getContentResolver()
-                .openInputStream(uri);
-            if (in == null) {
-              throw new IOException("Could not read " + uri.toString());
-            }
-            source = Okio.source(in);
-            sink.writeAll(source);
-          } finally {
-            Util.closeQuietly(source);
+      @Override
+      public MediaType contentType() {
+        return MediaType.parse(getMimeType(finalFileName));
+      }
+
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+        Source source = null;
+        try {
+          InputStream in = MyApplication.getInstance().getContentResolver()
+              .openInputStream(uri);
+          if (in == null) {
+            throw new IOException("Could not read " + uri.toString());
           }
+          source = Okio.source(maybeEncrypt ? maybeEncrypt(in) : in);
+          sink.writeAll(source);
+        } finally {
+          Util.closeQuietly(source);
         }
-      };
+      }
+    };
+    try {
       webDavClient.upload(finalFileName, requestBody, folder);
     } catch (HttpException e) {
       throw new IOException(e);
@@ -246,7 +252,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public void storeBackup(Uri uri, String fileName) throws IOException {
     webDavClient.mkCol(BACKUP_FOLDER_NAME);
-    saveUriToFolder(fileName, uri, BACKUP_FOLDER_NAME);
+    saveUriToFolder(fileName, uri, BACKUP_FOLDER_NAME, false);
   }
 
   @NonNull
@@ -302,16 +308,46 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     } else {
       parent = base;
     }
+
+    saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, parent);
+  }
+
+  private IOException transform(HttpException e) {
+    return e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
+  }
+
+  private void saveFileContents(String fileName, String fileContents, String mimeType,
+                                boolean maybeEncrypt, LockableDavResource parent) throws IOException {
+    RequestBody requestBody = new RequestBody() {
+
+      @Override
+      public MediaType contentType() {
+        return MediaType.parse(mimeType + "; charset=utf-8");
+      }
+
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+        BufferedInputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(fileContents.getBytes()));
+        Source source = null;
+        try {
+          inputStream.mark(0);
+          source = Okio.source(maybeEncrypt ? maybeEncrypt(inputStream) : inputStream);
+          sink.writeAll(source);
+        } finally {
+          Util.closeQuietly(source);
+        }
+      }
+    };
     try {
-      webDavClient.upload(fileName, fileContents, MediaType.parse(mimeType + "; charset=utf-8"), parent);
+      webDavClient.upload(fileName, requestBody, parent);
     } catch (HttpException e) {
-      throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
+      throw transform(e);
     }
   }
 
   @Override
   void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
-    //TODO
+    saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, webDavClient.getBase());
   }
 
   @Override

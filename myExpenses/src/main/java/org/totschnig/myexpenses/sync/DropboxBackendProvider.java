@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses.sync;
 
-import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -39,8 +36,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import timber.log.Timber;
-
 public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   private static final String LOCK_FILE = ".lock";
   private DbxClientV2 mDbxClient;
@@ -71,18 +66,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected String readEncryptionToken() throws IOException {
-    return null;
-  }
-
-  private boolean requireSetup(android.accounts.Account account) {
-    AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
-    try {
-      String authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true);
-      return setupClient(authToken);
-    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Timber.w(e, "Error getting auth token.");
-      return false;
-    }
+    return new StreamReader(getInputStream( basePath + "/" + ENCRYPTION_TOKEN_FILE_NAME)).read();
   }
 
   @Override

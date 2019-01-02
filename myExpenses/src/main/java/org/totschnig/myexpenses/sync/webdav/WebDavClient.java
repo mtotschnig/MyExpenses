@@ -110,6 +110,12 @@ public class WebDavClient {
         .put(RequestBody.create(mediaType, fileContent), buildIfHeader(parent.location));
   }
 
+
+  public void upload(String fileName, RequestBody requestBody, DavResource parent) throws IOException, HttpException {
+    new LockableDavResource(httpClient, buildResourceUri(fileName, parent.location))
+        .put(requestBody, buildIfHeader(parent.location));
+  }
+
   public void upload(String fileName, RequestBody requestBody, String folder) throws IOException, HttpException {
     new LockableDavResource(httpClient, buildResourceUri(fileName, folder))
         .put(requestBody, buildIfHeader(buildCollectionUri(folder)));
@@ -148,6 +154,10 @@ public class WebDavClient {
       throw new IOException(e);
     }
     return folder.members;
+  }
+
+  public LockableDavResource getBase() {
+    return new LockableDavResource(httpClient, mBaseUri);
   }
 
   public LockableDavResource getCollection(String collectionName, String... parentPath) {
