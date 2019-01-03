@@ -48,20 +48,17 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
-    if (!setupClient(authToken)) {
+    if (authToken == null) {
       return Exceptional.of(new Exception("authToken is null"));
     }
+    setupClient(authToken);
     return super.setUp(authToken, encryptionPassword);
   }
 
-  private boolean setupClient(String authToken) {
-    if (authToken == null) {
-      return false;
-    }
+  private void setupClient(String authToken) {
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build();
     mDbxClient = new DbxClientV2(requestConfig, authToken);
-    return true;
   }
 
   @Override

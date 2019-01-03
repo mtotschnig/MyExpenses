@@ -699,8 +699,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     try {
       final android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
       final Context context = MyApplication.getInstance();
-      return SyncBackendProviderFactory.get(context, account, true)
-          .getOrThrow();
+      return SyncBackendProviderFactory.get(context, account, true).getOrThrow();
     } catch (Throwable throwable) {
       CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
           syncAccountName), throwable));

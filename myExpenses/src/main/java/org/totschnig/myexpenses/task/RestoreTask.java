@@ -132,7 +132,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         }
       }
       try {
-        ZipUtils.unzip(is, workingDir, password);
+        ZipUtils.unzip(is, workingDir, isEncrypted ? password : null);
       } catch (IOException e) {
         return e.getCause() instanceof GeneralSecurityException ?
             Result.ofFailure(R.string.backup_wrong_password) :

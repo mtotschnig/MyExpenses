@@ -54,7 +54,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   static final String KEY_LOCK_TOKEN = "lockToken";
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
   private static final String MIMETYPE_JSON = "application/json";
-  private static final String ACCOUNT_METADATA_FILENAME = "metadata.";
+  private static final String ACCOUNT_METADATA_FILENAME = "metadata";
   protected static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
@@ -94,7 +94,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   public String getAccountMetadataFilename() {
-    return ACCOUNT_METADATA_FILENAME + getExtensionForData();
+    return String.format("%s.%s", ACCOUNT_METADATA_FILENAME, getExtensionForData());
   }
 
   private String getExtensionForData() {
@@ -278,9 +278,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   private TransactionChange mapPictureDuringWrite(TransactionChange transactionChange) throws IOException {
     if (transactionChange.pictureUri() != null) {
-      String newUri = transactionChange.uuid() + "_" +
-          Uri.parse(transactionChange.pictureUri()).getLastPathSegment() +
-          (isEncrypted() ? ".enc" : "");
+      String newUri = String.format("%s_%s%s", transactionChange.uuid(),
+          Uri.parse(transactionChange.pictureUri()).getLastPathSegment(),
+          isEncrypted() ? ".enc" : "");
       saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
       return transactionChange.toBuilder().setPictureUri(newUri).build();
     } else {

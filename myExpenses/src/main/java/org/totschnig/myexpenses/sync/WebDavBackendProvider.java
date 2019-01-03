@@ -330,7 +330,6 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         BufferedInputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(fileContents.getBytes()));
         Source source = null;
         try {
-          inputStream.mark(0);
           source = Okio.source(maybeEncrypt ? maybeEncrypt(inputStream) : inputStream);
           sink.writeAll(source);
         } finally {

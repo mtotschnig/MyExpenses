@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -178,7 +179,7 @@ public class ZipUtils {
    * @param dirOut
    * @param password
    */
-  public static void unzip(InputStream fileIn, File dirOut, String password)
+  public static void unzip(InputStream fileIn, File dirOut, @Nullable String password)
       throws IOException, GeneralSecurityException {
     ZipInputStream zin = new ZipInputStream(password != null ?
         EncryptionHelper.decrypt(fileIn, password) : fileIn);

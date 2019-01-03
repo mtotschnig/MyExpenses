@@ -863,7 +863,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void doRestore(Bundle args) {
     if (!args.containsKey(RestoreTask.KEY_PASSWORD)) {
       String password = getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null);
-      if (password != null) {
+      if (!TextUtils.isEmpty(password)) {
         args.putString(RestoreTask.KEY_PASSWORD, password);
       }
     }
