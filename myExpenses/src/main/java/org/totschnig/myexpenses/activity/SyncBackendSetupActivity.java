@@ -170,9 +170,9 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     args.putParcelable(AccountManager.KEY_USERDATA, bundle);
     args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
     SimpleFormDialog.build().msg(R.string.passphrase_for_synchronization)
-        .fields(Input.password(KEY_PASSWORD_ENCRYPTION).required())
+        .fields(Input.password(KEY_PASSWORD_ENCRYPTION).required().hint(R.string.input_label_passphrase))
         .extra(args)
-        .neut()
+        .neut(R.string.button_label_no_encryption)
         .show(this, DIALOG_TAG_PASSWORD);
   }
 

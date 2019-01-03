@@ -822,4 +822,6 @@
     <string name="sync_backend_wrong_passphrase">Remote backend seems encrypted with a different passphrase.</string>
     <string name="warning_backup_protected">The archive will be protected by your passphrase.</string>
     <string name="dialog_title_backup_protected">Backup (encrypted)</string>
+    <string name="input_label_passphrase">Passphrase</string>
+    <string name="button_label_no_encryption">Without encryption</string>
 </resources>
