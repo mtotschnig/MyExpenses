@@ -860,7 +860,7 @@ public class Utils {
   public static boolean isFrameworkCurrency(String currencyCode) {
     try {
       final java.util.Currency instance = java.util.Currency.getInstance(currencyCode);
-      return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && instance.getNumericCode() != 0;
+      return Build.VERSION.SDK_INT < Build.VERSION_CODES.N || instance.getNumericCode() != 0;
     } catch (IllegalArgumentException e) {
       return false;
     }
