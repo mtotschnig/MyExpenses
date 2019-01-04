@@ -42,6 +42,8 @@ public class DatabaseConstants {
   private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
   private static String WEEK_START_JULIAN;
+  private static String WEEK_MAX;
+  private static String WEEK_MIN;
 
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
@@ -71,10 +73,12 @@ public class DatabaseConstants {
     MONTH = "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer) - 1";
     THIS_WEEK = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
     THIS_MONTH = "CAST(strftime('%m','now','localtime','-" + monthDelta + " day') AS integer) - 1";
-    COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1', 'weekday " + nextWeekStartsSqlite + "', '" +
+    COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1','weekday " + nextWeekStartsSqlite + "', '" +
         "-7 day" +
         "' ,'+%d day','utc')";
     WEEK_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')";
+    WEEK_MAX= "CAST(strftime('%%W','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    WEEK_MIN= "CAST(strftime('%%W','%d-01-01','weekday " + nextWeekStartsSqlite + "') AS integer)";
     isLocalized = true;
   }
 
@@ -141,6 +145,7 @@ public class DatabaseConstants {
   public static final String KEY_THIS_YEAR = "this_year";
   public static final String KEY_THIS_YEAR_OF_WEEK_START = "this_year_of_week_start";
   public static final String KEY_MAX_VALUE = "max_value";
+  public static final String KEY_MIN_VALUE = "min_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
   public static final String KEY_TOTAL = "total";
   public static final String KEY_CLEARED_TOTAL = "cleared_total";
@@ -451,9 +456,19 @@ public class DatabaseConstants {
    * one week behind the first day with week number 1
    * add (weekNumber-1)*7 days to get at the beginning of the week
    */
-  public static String getCountFromWeekStartZero() {
+  static String getCountFromWeekStartZero() {
     ensureLocalized();
     return COUNT_FROM_WEEK_START_ZERO;
+  }
+
+  static String getWeekMax() {
+    ensureLocalized();
+    return WEEK_MAX;
+  }
+
+  static String getWeekMin() {
+    ensureLocalized();
+    return WEEK_MIN;
   }
 
   public static String getAmountHomeEquivalent() {

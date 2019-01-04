@@ -28,6 +28,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MIN_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH;
@@ -51,6 +52,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   int mGroupingYear;
   int mGroupingSecond;
   int thisYear;
+  int thisYearOfWeekStart;
   int thisMonth;
   int thisWeek;
   int thisDay;
@@ -80,13 +82,14 @@ public abstract class DistributionBaseFragment extends CategoryList {
         THIS_DAY + " AS " + KEY_THIS_DAY));
     if (withMaxValue) {
       //if we are at the beginning of the year we are interested in the max of the previous year
-      int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
+      int maxYearToLookUp = mGroupingSecond <= 1 ? mGroupingYear - 1 : mGroupingYear;
       switch (mGrouping) {
         case DAY:
-          projectionList.add(String.format(Locale.US, "strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
+          projectionList.add(String.format(Locale.US, "strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE, maxYearToLookUp));
           break;
         case WEEK:
-          projectionList.add(String.format(Locale.US, "strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
+          projectionList.add(DbUtils.maximumWeekExpression(maxYearToLookUp));
+          projectionList.add(DbUtils.minimumWeekExpression(mGroupingSecond > 1 ? mGroupingYear + 1 : mGroupingYear));
           break;
         case MONTH:
           projectionList.add("11 as " + KEY_MAX_VALUE);
@@ -104,7 +107,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     }
     dateInfoDisposable = briteContentResolver.createQuery(
         TransactionProvider.DUAL_URI,
-        projectionList.toArray(new String[projectionList.size()]),
+        projectionList.toArray(new String[0]),
         null, null, null, false)
         .subscribe(query -> {
           final Cursor cursor = query.run();
@@ -114,12 +117,22 @@ public abstract class DistributionBaseFragment extends CategoryList {
                 try {
                   cursor.moveToFirst();
                   thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
+                  thisYearOfWeekStart = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
                   thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
                   thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
                   thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));
                   if (withMaxValue) {
                     maxValue = cursor.getInt(cursor.getColumnIndex(KEY_MAX_VALUE));
-                    minValue = mGrouping == Grouping.MONTH ? 0 : 1;
+                    switch (mGrouping) {
+                      case WEEK:
+                        minValue = cursor.getInt(cursor.getColumnIndex(KEY_MIN_VALUE));
+                        break;
+                      case MONTH:
+                        minValue = 0;
+                        break;
+                      default:
+                        minValue = 1;
+                    }
                   }
 
                   onDateInfoReceived(cursor);
@@ -144,8 +157,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (activity != null) {
       final ActionBar actionBar = activity.getSupportActionBar();
       if (actionBar != null) {
-        actionBar.setSubtitle(
-            getSubTitle(cursor));
+        actionBar.setSubtitle(getSubTitle(cursor));
       }
     }
   }

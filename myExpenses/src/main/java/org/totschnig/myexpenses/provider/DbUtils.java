@@ -43,11 +43,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MIN_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMax;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMin;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class DbUtils {
@@ -163,6 +167,14 @@ public class DbUtils {
 
   public static String weekEndFromGroupSqlExpression(int year, int week) {
     return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_END, year, week * 7 + 6);
+  }
+
+  public static String maximumWeekExpression(int year) {
+    return String.format(Locale.US, getWeekMax() + " AS " +  KEY_MAX_VALUE, year);
+  }
+
+  public static String minimumWeekExpression(int year) {
+    return String.format(Locale.US, getWeekMin() + " AS " +  KEY_MIN_VALUE, year);
   }
 
   public static Map<String, String> getSchemaDetails() {
