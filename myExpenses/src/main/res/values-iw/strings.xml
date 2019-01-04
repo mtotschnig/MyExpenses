@@ -36,7 +36,7 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">תבנית widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ייבוא CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">מספר בלתי מוגבל של תבניות מפוצלות</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>מייל לעזרה</b> עם הבטחה לתגובה תוך 2 ימי עסקים</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>שלח תמיכה</b> בדוא\"ל עם תגובה מובטחת בתוך 2 ימי עסקים</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">זכות הצבעה על <b>מפת דרכים לפיתוח</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">תרשים היסטוריה (תזרים מזומנים)</string>
   <string name="licence_status_free">חופשי</string>
@@ -645,6 +645,7 @@
   <string name="sync_io_error_cannot_connect">לא ניתן להתחבר לסנכרון beckend.</string>
   <string name="sync_error_will_try_again_later">ינסה שוב מאוחר יותר.</string>
   <string name="sync_io_exception_reset_account_data">שגיאה בעת איפוס חשבון מרוחק.</string>
+  <string name="sync_success_reset_account_data">נתונים מרוחקים עבור החשבון %sנמחקו</string>
   <string name="sync_io_exception_setup_remote_account">שגיאה בעת הגדרת חשבון מרוחק.</string>
   <string name="sync_io_exception_reading_change_set">שגיאה בעת קריאת שינויים מ- backend.</string>
   <string name="sync_io_exception_syncing">שגיאה בעת סינכרון השינויים עם השרת.</string>

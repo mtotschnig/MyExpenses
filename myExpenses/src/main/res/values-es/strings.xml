@@ -36,7 +36,7 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Plantilla de widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar desde CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Gráfico de historial (flujo de efectivo)</string>
   <string name="licence_status_free">Gratis</string>
@@ -629,6 +629,7 @@
   <string name="sync_io_error_cannot_connect">No se pudo conectar con el servicio de sincronización.</string>
   <string name="sync_error_will_try_again_later">Inténtelo de nuevo más tarde.</string>
   <string name="sync_io_exception_reset_account_data">Error al reconfigurar la cuenta remota.</string>
+  <string name="sync_success_reset_account_data">Se ha eliminado la sincronización de datos para la cuenta %s.</string>
   <string name="sync_io_exception_setup_remote_account">Error al configurar la cuenta remota.</string>
   <string name="sync_io_exception_reading_change_set">Error al leer los cambios desde el servicio.</string>
   <string name="sync_io_exception_syncing">Error al sincronizar los cambios con el servidor.</string>
@@ -790,7 +791,10 @@
   <string name="dialog_title_new_currency">Nueva divisa</string>
   <string name="currency_code_already_definded">El código de divisa ya está definido.</string>
   <string name="currency_still_used">La divisa se encuentra en uso, no puede eliminarse.</string>
+  <string name="unmapped">Sin asignar</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">El filtro \'sin asignar\" no puede incluirse en selección múltiple</string>
+  <string name="upgrade_information_cloud_sync_storage_format">Con la versión 2.9.8, la manera en que los datos son almacenados en los servicios de sincronización ha cambiado. Por favor, actualice a esta versión en todos sus dispositivos sincronizados antes de introducir ninguna nueva entrada en cualquiera de ellos.</string>
 </resources>

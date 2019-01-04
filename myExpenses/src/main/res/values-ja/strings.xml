@@ -36,7 +36,7 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無制限の分割テンプレート</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 営業日内の <b>メールサポート</b> 対応を保証</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 営業日以内の <b>メールサポート</b> 対応を保証</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>開発ロードマップ</b> の投票権</string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">履歴チャート (キャッシュフロー)</string>
   <string name="licence_status_free">無料</string>
@@ -621,6 +621,7 @@
   <string name="sync_io_error_cannot_connect">同期バックエンドに接続できません。</string>
   <string name="sync_error_will_try_again_later">後で再試行します。</string>
   <string name="sync_io_exception_reset_account_data">リモートアカウントをリセット中にエラーが発生しました。</string>
+  <string name="sync_success_reset_account_data">アカウント %s のリモートデータが削除されました。</string>
   <string name="sync_io_exception_setup_remote_account">リモートアカウントを設定中にエラーが発生しました。</string>
   <string name="sync_io_exception_reading_change_set">バックエンドから変更の読み取り中にエラーが発生しました。</string>
   <string name="sync_io_exception_syncing">変更をサーバーと同期中にエラーが発生しました。</string>

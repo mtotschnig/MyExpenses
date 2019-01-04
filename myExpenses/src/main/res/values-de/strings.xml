@@ -36,7 +36,7 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stimmrecht zum <b>Entwicklungsfahrplan</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Verlaufsdiagramm (Cashflow)</string>
   <string name="licence_status_free">Gratis</string>
@@ -629,6 +629,7 @@
   <string name="sync_io_error_cannot_connect">Kann keine Verbindung zum Synchronisations-Backend herstellen.</string>
   <string name="sync_error_will_try_again_later">Werde es später noch einmal versuchen.</string>
   <string name="sync_io_exception_reset_account_data">Fehler beim Zurücksetzen des entfernten Kontos</string>
+  <string name="sync_success_reset_account_data">Daten am Backend für Konto %s wurden gelöscht.</string>
   <string name="sync_io_exception_setup_remote_account">Fehler beim Einrichten des entfernten Kontos.</string>
   <string name="sync_io_exception_reading_change_set">Fehler beim Lesen der Änderungen vom Backend.</string>
   <string name="sync_io_exception_syncing">Fehler beim Synchronisieren von Änderungen mit dem Server.</string>

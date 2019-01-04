@@ -629,6 +629,7 @@
   <string name="sync_io_error_cannot_connect">Impossible de se connecter au serveur de synchronisation.</string>
   <string name="sync_error_will_try_again_later">Nous réessayerons plus tard.</string>
   <string name="sync_io_exception_reset_account_data">Erreur lors de la réinitialisation du compte distant.</string>
+  <string name="sync_success_reset_account_data">Les données distantes du compte %s ont été supprimées.</string>
   <string name="sync_io_exception_setup_remote_account">Erreur lors de la configuration du compte distant.</string>
   <string name="sync_io_exception_reading_change_set">Erreur lors de la lecture des modifications depuis le serveur.</string>
   <string name="sync_io_exception_syncing">Erreur lors de la synchronisation des modifications avec le serveur.</string>

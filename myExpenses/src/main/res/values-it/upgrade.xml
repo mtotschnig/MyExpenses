@@ -18,9 +18,34 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_298">
+    <item>Filtro per le transazioni senza categoria, beneficiario o metodo di pagamento</item>
+    <item>Ottimizzata la memorizzazione dei dati sincronizzati</item>
+  </string-array>
+  <string-array name="whats_new_297">
+    <item>Personalizza le valute</item>
+  </string-array>
+  <string-array name="whats_new_295">
+    <item>Colori personalizzati per le categorie principali</item>
+  </string-array>
+  <string-array name="whats_new_293">
+    <item>Obiettivi di risparmio e limiti di credito</item>
+    <item>Gruppi di conti (per tipo o valuta) possono essere collassati</item>
+  </string-array>
   <string-array name="whats_new_292">
     <item>Riprogettazione dell\'elenco degli conti</item>
     <item>La sincronizzazione può essere limitata al Wi-Fi</item>
+  </string-array>
+  <string-array name="whats_new_291">
+    <item>La data delle transazioni è ora opzionale</item>
+    <item>Facoltativamente, distinguere fra la data di prenotazione e la data di valuta</item>
+  </string-array>
+  <string-array name="whats_new_290">
+    <item>Diverse transazioni possono essere raggruppate in una operazione frazionata</item>
+    <item>Transazioni frazionate possono essere separate</item>
+  </string-array>
+  <string-array name="whats_new_289">
+    <item>Conversione tra valute straniere e valuta domestica</item>
   </string-array>
   <string-array name="whats_new_288">
     <item>Grafico storico (flusso di cassa)</item>
@@ -28,8 +53,14 @@
   <string-array name="whats_new_287">
     <item>Protezione tramite blocco schermo</item>
   </string-array>
+  <string-array name="whats_new_286">
+    <item>Il PDF esportato (Stampa) può essere condiviso</item>
+  </string-array>
   <string-array name="whats_new_285">
     <item>Sincronizzazione tramite Dropbox</item>
+  </string-array>
+  <string-array name="whats_new_284">
+    <item>La compilazione automatica può essere configurata</item>
   </string-array>
   <string-array name="whats_new_283">
     <item>Ordine ascendente (transazioni più vecchie prima)</item>
@@ -48,5 +79,6 @@
     <item>Selettore per il colore dell\'account personalizzato</item>
   </string-array>
     <string name="bug_fixes">Bug fixes</string>
+    <string name="performance_enhancement">Miglioramento delle prestazioni</string>
     <string name="stability_improvements">Miglioramenti della stabilità</string>
 </resources>

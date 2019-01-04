@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_298">
+    <item>Filtrar las transacciones sin asignar a categorías, acreedor o métodos</item>
+    <item>Almacenamiento de datos sincronizados optimizado</item>
+  </string-array>
   <string-array name="whats_new_297">
     <item>Divisas personalizadas</item>
   </string-array>

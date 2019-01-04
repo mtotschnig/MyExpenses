@@ -629,6 +629,7 @@
   <string name="sync_io_error_cannot_connect">Неуспешен опит за връзка с отдалечено място за съхранение.</string>
   <string name="sync_error_will_try_again_later">Ще опитаме отново по-късно.</string>
   <string name="sync_io_exception_reset_account_data">Грешка при нулиране на отдалечена сметка.</string>
+  <string name="sync_success_reset_account_data">Отдалечените данни за сметка %s са изтрити.</string>
   <string name="sync_io_exception_setup_remote_account">Грешка при установяване на отдалечена сметка.</string>
   <string name="sync_io_exception_reading_change_set">Грешка при четене на промени от отдалеченото място за съхранение.</string>
   <string name="sync_io_exception_syncing">Грешка при синхронизиране на промените със сървъра.</string>

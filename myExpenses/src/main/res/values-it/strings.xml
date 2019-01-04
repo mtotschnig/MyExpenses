@@ -22,7 +22,7 @@
   <string name="amount">Importo</string>
   <string name="app_name">Le mie spese</string>
   <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
-  <string name="backup_success">Il database e le impostazioni sono state salvate su \"%1$s\".</string>
+  <string name="backup_success">Il database e le impostazioni sono state salvate correttamente su \"%1$s\".</string>
   <string name="category">Categoria</string>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
@@ -36,7 +36,7 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importazione CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Numero illimitato di modelli di divisione</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Supporto email</b> con risposta garantita dopo 2 giorni lavorativi</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Grafico storico (flusso di cassa)</string>
   <string name="licence_status_free">Gratuito</string>
@@ -110,7 +110,7 @@
   <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Esportazione a \"%1$s\" fallita: %2$s</string>
   <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">I dati sono stati esportati nel file \"%1$s\"</string>
+  <string name="export_sdcard_success">I dati sono stati esportati correttamente nel file \"%1$s\"</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non disponibile</string>
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Sintassi errata URI %1$s</string>
@@ -610,7 +610,7 @@
   <string name="link_account_failure_3">Il conflitto può essere risolto manualmente dalle voci del menu contestuale.</string>
   <string name="progress_dialog_checking_sync_backend">Verificando il backend</string>
   <string name="template">Modello</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione cloud</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione con il cloud</string>
   <string name="all_contrib_key_features">Tutte le caratteristiche di Contrib chiave</string>
   <string name="all_extended_key_features">Tutte le funzionalità della Chiave Ampliata</string>
   <string name="upgrade_now">Aggiorna ora</string>
@@ -629,6 +629,7 @@
   <string name="sync_io_error_cannot_connect">Impossibile connettersi al back-end di sincronizzazione.</string>
   <string name="sync_error_will_try_again_later">Verrà effettuato un nuovo tentativo più tardi.</string>
   <string name="sync_io_exception_reset_account_data">Errore durante il ripristino dell\'account remoto.</string>
+  <string name="sync_success_reset_account_data">I dati del conto %s salvati in remoto sono stati rimossi.</string>
   <string name="sync_io_exception_setup_remote_account">Errore durante l\'impostazione dell\'account remoto.</string>
   <string name="sync_io_exception_reading_change_set">Errore durante la lettura delle modifiche dal backend.</string>
   <string name="sync_io_exception_syncing">Errore durante la sincronizzazione delle modifiche con il server.</string>
@@ -644,7 +645,7 @@
   <string name="onboarding_data_title">Lasciaci impostare il tuo primo conto</string>
   <string name="onboarding_get_started">Iniziare</string>
   <string name="onboarding_more_options">Più opzioni</string>
-  <string name="onboarding_restore_from_cloud">Ripristino dalla sincronizzazione del cloud</string>
+  <string name="onboarding_restore_from_cloud">Ripristino dal cloud</string>
   <string name="onboarding_restore_from_local">Ripristina il file di backup locale</string>
   <string name="dialog_button_add">Inserisci</string>
   <string name="template_create_error">Errore durante il salvataggio del modello</string>
@@ -740,6 +741,7 @@
   <string name="licence_has_expired_n_days">La tua chiave professionale è scaduta %d giorni fa</string>
   <string name="pref_category_title_privacy">Vita privata</string>
   <string name="pref_ad_consent_title">Annunci personalizzati</string>
+  <string name="ad_consent_non_personalized">Pubblicità non personalizzate</string>
   <string name="gdpr_consent_message">Collaboriamo con {ad_provider} per sostenere il supporto, la manutenzione e lo sviluppo di {app_name} mostrandoti gli annunci. Vorremmo chiedere il tuo consenso. Se preferisci non vedere alcuna pubblicità, ti preghiamo di pagare la versione senza pubblicità.</string>
   <string name="gdpr_consent_button_yes">Sì, continua a vedere gli annunci</string>
   <string name="gdpr_consent_button_no">Paga per la versione senza pubblicità</string>
@@ -759,9 +761,40 @@
   <string name="credit_limit">Limite di credito</string>
   <string name="clear_all_filters">Cancella tutti i filtri</string>
   <string name="pref_scroll_to_current_date_summary">All\'avvio dell\'app, scorrere l\'elenco delle transazioni sulla data corrente</string>
+  <string name="professional_key_fallback_info">Una sottoscrizione alla Chiave Professionale che è stata attiva per almeno un anno e non viene rinnovata, sarà trasformata automaticamente in una Chiave Ampliata illimitata.</string>
+  <string name="menu_budget">Bilancio</string>
+  <string name="dialog_title_new_budget">Nuovo budget</string>
+  <string name="dialog_title_edit_budget">Modifica il budget</string>
+  <string name="daily_budget">Budget giornaliero</string>
+  <string name="weekly_budget">Budget settimanale</string>
+  <string name="monthly_budget">Budget mensile</string>
+  <string name="yearly_budget">Budget annuale</string>
+  <string name="menu_switch_budget">Cambia</string>
+  <string name="budget_table_header_budgeted">Preventivato</string>
+  <string name="budget_table_header_allocated">Stanziato</string>
+  <string name="budget_table_header_spent">Speso</string>
+  <string name="budget_table_header_remainder">Rimanente</string>
+  <string name="budget_allocated_amount">Importo stanziato</string>
+  <string name="budget_exceeded_error_1_1">Tutto il tuo budget ad eccezione del %s è stato stanziato in altre categorie.</string>
+  <string name="budget_exceeded_error_1_2">Tutto il tuo budget è stato stanziato in altre categorie.</string>
+  <string name="budget_exceeded_error_2">Aumenta il budget, o diminuisci l\'importo stanziato in altre categorie.</string>
+  <string name="budget_under_allocated_error">%s è già stato stanziato nelle categorie. A meno che tu non voglia ridurre l\'importo stanziato, devi aumentare il budget almeno di quella cifra.</string>
+  <string name="sub_budget_exceeded_error_1_1">Ad eccezione del %s, tutto il budget stanziato nella categoria principale è stato assegnato alle altre sottocategorie.</string>
+  <string name="sub_budget_exceeded_error_1_2">Tutto il budget stanziato nella categoria principale è stato assegnato alle altre sottocategorie.</string>
+  <string name="sub_budget_exceeded_error_2">Aumenta l\'importo stanziato nella categoria principale, o diminuisci l\'ammontare assegnato alle altre sottocategorie.</string>
+  <string name="sub_budget_under_allocated_error">%s è già stato assegnato alle sottocategorie. A meno che tu non voglia ridurre l\'ammontare ad esse assegnato, devi stanziare almeno quella somma nella categoria principale.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Reimposta il metodo</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Reimposta la categoria</string>
+  <string name="currency_code">Codice</string>
+  <string name="dialog_title_new_currency">Nuova valuta</string>
+  <string name="currency_code_already_definded">Il codice della valuta è già definito.</string>
+  <string name="currency_still_used">La valuta è utilizzata, non può essere eliminata.</string>
+  <string name="unmapped">Nessuna categoria</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">Il filtro per \"Nessuna categoria\" non può essere incluso nella selezione multipla</string>
+  <string name="upgrade_information_cloud_sync_storage_format">A parire dalla versione 2.9.8, il modo in cui i dati sono salvati sul terminale di sincronizzazione è cambiato. Per favore, aggiorna a questa versione tutti i dispositivi sincronizzati prima di inserire qualsiasi nuova voce su uno di essi.</string>
 </resources>
