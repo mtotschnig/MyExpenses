@@ -133,6 +133,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
 
     configureNavigation(view, inflater, R.id.suw_navbar_next);
+    nextButton.setVisibility(View.VISIBLE);
 
     return view;
   }

@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.AmountInput;
@@ -83,6 +84,8 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
   @Inject
   CurrencyContext currencyContext;
+  @Inject
+  PrefHandler prefHandler;
 
   private CurrencyViewModel currencyViewModel;
 
@@ -113,7 +116,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
   @Override
   protected void onNextButtonClicked() {
-    PrefKey.HOME_CURRENCY.putString(validateSelectedCurrency().code());
+    prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code());
     ((SplashActivity) getActivity()).finishOnboarding();
   }
 
@@ -170,6 +173,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
       final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();
       adapter.addAll(currencies);
       currencySpinner.setSelection(adapter.getPosition(currency));
+      nextButton.setVisibility(View.VISIBLE);
     });
     currencyViewModel.loadCurrencies();
 
