@@ -485,9 +485,20 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         if (TextUtils.isEmpty(uuid)) {
           return Result.FAILURE;
         }
-        Account account = Account.getInstanceFromDb(Account.findByUuid(uuid));
+        final long id = Account.findByUuid(uuid);
+        if (id == -1) {
+          return Result.FAILURE;
+        }
+        Account account = Account.getInstanceFromDb(id);
+        if (account == null) {
+          return Result.FAILURE;
+        }
+        final String syncAccountName = account.getSyncAccountName();
+        if (syncAccountName == null) {
+          return Result.FAILURE;
+        }
         AccountManager accountManager = AccountManager.get(application);
-        android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
+        android.accounts.Account syncAccount = GenericAccountService.GetAccount(syncAccountName);
         accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
         accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
         account.setSyncAccountName(null);
