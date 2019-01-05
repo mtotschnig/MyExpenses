@@ -336,8 +336,8 @@
   <string name="pref_ui_language_default">Sistem varsayılanı</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Dil</string>
-  <string name="pref_ui_theme_dark">karanlık</string>
-  <string name="pref_ui_theme_light">aydınlık</string>
+  <string name="pref_ui_theme_dark">Karanlık</string>
+  <string name="pref_ui_theme_light">Aydınlık</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>

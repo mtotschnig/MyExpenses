@@ -324,8 +324,8 @@
   <string name="pref_ui_language_default">Προεπιλογή συστήματος</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Γλώσσα</string>
-  <string name="pref_ui_theme_dark">σκούρο</string>
-  <string name="pref_ui_theme_light">φωτεινό, φως</string>
+  <string name="pref_ui_theme_dark">Σκούρο</string>
+  <string name="pref_ui_theme_light">Φως</string>
   <string name="pref_ui_theme_title">Θέμα</string>
   <string name="pref_visit_website_summary">Αρχείο καταγραφής αλλαγών και συχνές Ερωτήσεις</string>
   <string name="pref_visit_website_title">Επισκεφθείτε την ιστοσελίδα</string>

@@ -334,8 +334,8 @@
   <string name="pref_ui_language_default">Lalai sistem</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Bahasa</string>
-  <string name="pref_ui_theme_dark">gelap</string>
-  <string name="pref_ui_theme_light">cerah</string>
+  <string name="pref_ui_theme_dark">Gelap</string>
+  <string name="pref_ui_theme_light">Cerah</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Log Perubahan dan FAQ</string>
   <string name="pref_visit_website_title">Lawati Laman Sesawang</string>

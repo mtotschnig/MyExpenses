@@ -247,8 +247,8 @@
   <string name="pref_ui_language_default">Rendszer alapbeállítás0</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Nyelv</string>
-  <string name="pref_ui_theme_dark">sötét</string>
-  <string name="pref_ui_theme_light">világos</string>
+  <string name="pref_ui_theme_dark">Sötét</string>
+  <string name="pref_ui_theme_light">Világos</string>
   <string name="pref_ui_theme_title">Téma</string>
   <string name="pref_visit_website_summary">Fejlesztések és GYIK</string>
   <string name="pref_visit_website_title">Weboldal megtekintése</string>

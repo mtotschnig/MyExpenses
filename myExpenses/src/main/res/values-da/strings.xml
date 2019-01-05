@@ -306,8 +306,8 @@
   <string name="pref_ui_language_default">Systemstandard</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Sprog</string>
-  <string name="pref_ui_theme_dark">mørk</string>
-  <string name="pref_ui_theme_light">lys</string>
+  <string name="pref_ui_theme_dark">Mørk</string>
+  <string name="pref_ui_theme_light">Lys</string>
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_visit_website_summary">Ændringer og FAQ</string>
   <string name="pref_visit_website_title">Besøg hjemmeside</string>

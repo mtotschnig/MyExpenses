@@ -336,8 +336,8 @@
   <string name="pref_ui_language_default">Default di sistema</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Lingua</string>
-  <string name="pref_ui_theme_dark">scuro</string>
-  <string name="pref_ui_theme_light">chiaro</string>
+  <string name="pref_ui_theme_dark">Scuro</string>
+  <string name="pref_ui_theme_light">Chiaro</string>
   <string name="pref_ui_theme_title">Motivo</string>
   <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
   <string name="pref_visit_website_title">Visita il sito Web</string>

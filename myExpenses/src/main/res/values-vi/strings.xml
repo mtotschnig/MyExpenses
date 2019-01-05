@@ -334,8 +334,8 @@
   <string name="pref_ui_language_default">Mặc định hệ thống</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Ngôn ngữ</string>
-  <string name="pref_ui_theme_dark">tối</string>
-  <string name="pref_ui_theme_light">sáng</string>
+  <string name="pref_ui_theme_dark">Tối</string>
+  <string name="pref_ui_theme_light">Sáng</string>
   <string name="pref_ui_theme_title">Giao diện</string>
   <string name="pref_visit_website_summary">Xem các thay đổi về tính năng và những câu hỏi thường gặp</string>
   <string name="pref_visit_website_title">Truy cập Website</string>

@@ -297,8 +297,8 @@
   <string name="pref_ui_language_default">Sistemske postavke</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Jezik</string>
-  <string name="pref_ui_theme_dark">tamno</string>
-  <string name="pref_ui_theme_light">svijetlo</string>
+  <string name="pref_ui_theme_dark">Tamno</string>
+  <string name="pref_ui_theme_light">Svijetlo</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Izmjene i Često postavljana pitanja</string>
   <string name="pref_visit_website_title">Posjeti web stranicu</string>

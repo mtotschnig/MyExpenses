@@ -339,8 +339,8 @@
   <string name="pref_ui_language_default">По умолчанию</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Язык</string>
-  <string name="pref_ui_theme_dark">тёмная</string>
-  <string name="pref_ui_theme_light">светлая</string>
+  <string name="pref_ui_theme_dark">Тёмная</string>
+  <string name="pref_ui_theme_light">Светлая</string>
   <string name="pref_ui_theme_title">Тема</string>
   <string name="pref_visit_website_summary">Список изменений и ЧаВО</string>
   <string name="pref_visit_website_title">Посетить веб-сайт</string>

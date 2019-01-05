@@ -340,8 +340,8 @@
   <string name="pref_ui_language_default">Domyślne systemowe</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Język</string>
-  <string name="pref_ui_theme_dark">ciemny</string>
-  <string name="pref_ui_theme_light">jasny</string>
+  <string name="pref_ui_theme_dark">Ciemny</string>
+  <string name="pref_ui_theme_light">Jasny</string>
   <string name="pref_ui_theme_title">Motyw</string>
   <string name="pref_visit_website_summary">Dziennik zmian i Często zadawane pytania</string>
   <string name="pref_visit_website_title">Odwiedź stronę internetową</string>

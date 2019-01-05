@@ -333,8 +333,8 @@
   <string name="pref_ui_language_default">Sistemako lehenetsia</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Hizkuntza</string>
-  <string name="pref_ui_theme_dark">iluna</string>
-  <string name="pref_ui_theme_light">argia</string>
+  <string name="pref_ui_theme_dark">Iluna</string>
+  <string name="pref_ui_theme_light">Argia</string>
   <string name="pref_ui_theme_title">Gaia</string>
   <string name="pref_visit_website_summary">Aldaketen erregistroa eta maiz egindako galderak</string>
   <string name="pref_visit_website_title">Bisitatu webgunea</string>

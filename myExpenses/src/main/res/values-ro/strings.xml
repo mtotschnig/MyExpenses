@@ -308,8 +308,8 @@
   <string name="pref_ui_language_default">Sistem implicit</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Limba</string>
-  <string name="pref_ui_theme_dark">închis</string>
-  <string name="pref_ui_theme_light">deschis</string>
+  <string name="pref_ui_theme_dark">Închis</string>
+  <string name="pref_ui_theme_light">Deschis</string>
   <string name="pref_ui_theme_title">Temă</string>
   <string name="pref_visit_website_summary">Jurnal modificări şi FAQ</string>
   <string name="pref_visit_website_title">Vizitează site web</string>

@@ -336,8 +336,8 @@
   <string name="pref_ui_language_default">От системата</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Език</string>
-  <string name="pref_ui_theme_dark">тъмно</string>
-  <string name="pref_ui_theme_light">светло</string>
+  <string name="pref_ui_theme_dark">Тъмен</string>
+  <string name="pref_ui_theme_light">Светлина</string>
   <string name="pref_ui_theme_title">Тема</string>
   <string name="pref_visit_website_summary">Често задавани въпроси (FAQ)</string>
   <string name="pref_visit_website_title">Посетете сайта ни</string>

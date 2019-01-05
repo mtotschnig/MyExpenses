@@ -242,8 +242,8 @@
   <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Jazyk</string>
-  <string name="pref_ui_theme_dark">tmavý</string>
-  <string name="pref_ui_theme_light">světlý</string>
+  <string name="pref_ui_theme_dark">Tmavý</string>
+  <string name="pref_ui_theme_light">Světlý</string>
   <string name="pref_ui_theme_title">Motiv</string>
   <string name="pref_visit_website_summary">Seznam změn a FAQ</string>
   <string name="pref_visit_website_title">Navštivte webové stránky</string>
