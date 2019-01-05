@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
+ *     Michael Totschnig - extended for My Expenses
  ******************************************************************************/
 package org.totschnig.myexpenses.service;
 
