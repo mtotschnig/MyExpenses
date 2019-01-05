@@ -29,7 +29,7 @@ public class SecurityQuestionDialogFragmentCompat extends EditTextPreferenceDial
     @Override
     protected void onBindDialogView(View view) {
       super.onBindDialogView(view);
-      answer = (EditText) view.findViewById(R.id.answer);
+      answer = view.findViewById(R.id.answer);
    }
     @Override
     public void onDialogClosed(boolean positiveResult) {

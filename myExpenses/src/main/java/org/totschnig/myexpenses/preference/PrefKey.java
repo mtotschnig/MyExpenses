@@ -48,6 +48,7 @@ public enum PrefKey {
   CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
   CATEGORY_MANAGE(R.string.pref_category_manage_key),
   CATEGORY_PRIVACY(R.string.pref_category_privacy_key),
+  CATEGORY_BACKUP(R.string.pref_category_backup_key),
   ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
   PLANNER_CALENDAR_PATH("planner_calendar_path"),
   CURRENT_VERSION("currentversion"),
@@ -117,7 +118,8 @@ public enum PrefKey {
   PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN("professionalExpirationReminderLastShown"),
   PROFESSIONAL_UPSELL_SNACKBAR_SHOWN("professionalUpsellSnackbarShown"),
   PERSONALIZED_AD_CONSENT(R.string.pref_ad_consent_key),
-  SCROLL_TO_CURRENT_DATE(R.string.pref_scroll_to_current_date_key);
+  SCROLL_TO_CURRENT_DATE(R.string.pref_scroll_to_current_date_key),
+  EXPORT_PASSWORD(R.string.pref_security_export_password_key);
 
   int resId = 0;
   String key = null;

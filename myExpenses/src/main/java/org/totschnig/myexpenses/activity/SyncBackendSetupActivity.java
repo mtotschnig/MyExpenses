@@ -28,10 +28,13 @@ import org.totschnig.myexpenses.util.Result;
 import java.io.File;
 import java.util.List;
 
+import eltos.simpledialogfragment.form.Input;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_PASSWORD_ENCRYPTION;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
@@ -44,6 +47,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TE
 public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     implements EditTextDialog.EditTextDialogListener, SimpleInputDialog.OnDialogResultListener {
   private static final String DIALOG_DROPBOX_FOLDER = "dropboxFolder";
+  private static final String DIALOG_TAG_PASSWORD = "password";
   protected List<SyncBackendProviderFactory> backendProviders;
 
   private boolean isResumed = false;
@@ -165,6 +169,14 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     args.putString(AccountManager.KEY_AUTHTOKEN, authToken);
     args.putParcelable(AccountManager.KEY_USERDATA, bundle);
     args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
+    SimpleFormDialog.build().msg(R.string.passphrase_for_synchronization)
+        .fields(Input.password(KEY_PASSWORD_ENCRYPTION).required().hint(R.string.input_label_passphrase))
+        .extra(args)
+        .neut(R.string.button_label_no_encryption)
+        .show(this, DIALOG_TAG_PASSWORD);
+  }
+
+    protected void createAccountDo(Bundle args) {
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ASYNC_TAG)
@@ -194,13 +206,13 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    if (taskId == TASK_CREATE_SYNC_ACCOUNT && ((Exceptional) o).isPresent()) {
-      recordUsage(ContribFeature.SYNCHRONIZATION);
-    }
     switch (taskId) {
       case TASK_CREATE_SYNC_ACCOUNT: {
-        if (((Exceptional) o).isPresent()) {
+        final Exceptional exceptional = (Exceptional) o;
+        if (exceptional.isPresent()) {
           recordUsage(ContribFeature.SYNCHRONIZATION);
+        } else {
+          showSnackbar(exceptional.getException().getMessage(), Snackbar.LENGTH_LONG);
         }
         break;
       }
@@ -215,7 +227,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
           String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX)
               .buildAccountName(String.format("%s - %s", result.getExtra().first, result.getExtra().second));
           Bundle bundle = new Bundle(1);
-          bundle.putString(KEY_SYNC_PROVIDER_URL, (String) result.getExtra().second);
+          bundle.putString(KEY_SYNC_PROVIDER_URL, result.getExtra().second);
           createAccount(accountName, null, Auth.getOAuth2Token(), bundle);
         } else {
           showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
@@ -258,7 +270,15 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (DIALOG_DROPBOX_FOLDER.equals(dialogTag) && which == BUTTON_POSITIVE) {
       extras.putString(KEY_SYNC_PROVIDER_URL, extras.getString(SimpleInputDialog.TEXT));
-      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, extras, R.string.progress_dialog_checking_sync_backend);
+      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, extras,
+          R.string.progress_dialog_checking_sync_backend);
+      return true;
+    }
+    if (DIALOG_TAG_PASSWORD.equals(dialogTag)) {
+      if (which != BUTTON_POSITIVE || "".equals(extras.getString(KEY_PASSWORD_ENCRYPTION))) {
+        extras.remove(KEY_PASSWORD_ENCRYPTION);
+      }
+      createAccountDo(extras);
     }
     return false;
   }

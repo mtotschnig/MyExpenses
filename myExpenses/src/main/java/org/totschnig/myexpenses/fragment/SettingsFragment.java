@@ -48,11 +48,13 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
-import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.SimplePasswordPreference;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -101,6 +103,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
@@ -275,7 +278,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
 
       pref = findPreference(RESTORE_LEGACY);
-      pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+      if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
+        ((PreferenceCategory) findPreference(CATEGORY_BACKUP)).removePreference(pref);
+      } else {
+        pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+      }
 
       pref = findPreference(CUSTOM_DECIMAL_FORMAT);
       pref.setOnPreferenceChangeListener(this);
@@ -400,6 +407,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       String summary = getString(R.string.pref_auto_backup_summary) + " " +
           ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
       pref.setSummary(summary);
+      findPreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     }
     //GROUP start screen
     else if (rootKey.equals(GROUPING_START_SCREEN.getKey())) {
@@ -622,7 +630,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     if (matches(pref, HOME_CURRENCY)) {
       if (!value.equals(HOME_CURRENCY.getString(null))) {
         MessageDialogFragment.newInstance(R.string.dialog_title_information,
-            R.string.home_currency_change_warning,
+            concatResStrings(getContext(), " ", R.string.home_currency_change_warning, R.string.continue_confirmation),
             new MessageDialogFragment.Button(android.R.string.ok, R.id.CHANGE_COMMAND, ((String) value)),
             null, MessageDialogFragment.Button.noButton()).show(getFragmentManager(), "CONFIRM");
       }
@@ -885,7 +893,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         showOnlyOneProtectionWarning(false);
         return;
       } else {
-        fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
+        fragment = LegacyPasswordPreferenceDialogFragmentCompat.newInstance(key);
       }
     } else if (matches(preference, SECURITY_QUESTION)) {
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
@@ -894,6 +902,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         activity().showSnackbar(R.string.auto_backup_cloud_create_backend, Snackbar.LENGTH_LONG);
         return;
       }
+    } else if (preference instanceof SimplePasswordPreference) {
+      fragment = SimplePasswordDialogFragmentCompat.newInstance(key);
     }
     if (fragment != null) {
       fragment.setTargetFragment(this, 0);

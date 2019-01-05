@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
+import android.support.v4.util.Pair;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +28,13 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     UNKNOWN
   }
 
-  private List<String> syncAccounts;
+  private List<Pair<String, Boolean>> syncAccounts;
   private SparseArray<List<AccountMetaData>> accountMetaDataMap = new SparseArray<>();
   private LayoutInflater layoutInflater;
   private Map<String, String> localAccountInfo;
   private CurrencyContext currencyContext;
 
-  public SyncBackendAdapter(Context context, CurrencyContext currencyContext, List<String> syncAccounts) {
+  public SyncBackendAdapter(Context context, CurrencyContext currencyContext, List<Pair<String, Boolean>> syncAccounts) {
     this.layoutInflater = LayoutInflater.from(context);
     this.syncAccounts = syncAccounts;
     this.currencyContext = currencyContext;
@@ -42,7 +43,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   @Override
   public Object getChild(int groupPosition, int childPosititon) {
     List<AccountMetaData> childList = getChildList(groupPosition);
-    return childList != null ? childList.get(childPosititon) : null ;
+    return childList != null ? childList.get(childPosititon) : null;
   }
 
   private List<AccountMetaData> getChildList(int groupPosition) {
@@ -66,7 +67,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     ((TextView) convertView.findViewById(R.id.label)).setText(accountMetaData.toString());
     convertView.findViewById(R.id.color1).setBackgroundColor(accountMetaData.color());
     ImageView syncStateView = convertView.findViewById(R.id.state);
-    SyncState syncState  = getSyncState(groupPosition, childPosition);
+    SyncState syncState = getSyncState(groupPosition, childPosition);
     switch (syncState) {
       case UNKNOWN:
         syncStateView.setVisibility(View.GONE);
@@ -95,6 +96,10 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     return syncAccounts.get(groupPosition);
   }
 
+  public String getBackendLabel(int groupPosition) {
+    return ((Pair<String, Boolean>) getGroup(groupPosition)).first;
+  }
+
   @Override
   public int getGroupCount() {
     return syncAccounts.size();
@@ -108,13 +113,14 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   @Override
   public View getGroupView(int groupPosition, boolean isExpanded,
                            View convertView, ViewGroup parent) {
-    String headerTitle = (String) getGroup(groupPosition);
+    final Pair<String, Boolean> group = (Pair<String, Boolean>) getGroup(groupPosition);
+    String headerTitle = group.first;
     if (convertView == null) {
       convertView = layoutInflater.inflate(R.layout.sync_backend_row, parent, false);
     }
 
     ((TextView) convertView.findViewById(R.id.label)).setText(headerTitle);
-
+    convertView.findViewById(R.id.state).setVisibility(group.second ? View.VISIBLE : View.GONE);
 
     return convertView;
   }
@@ -129,7 +135,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     return true;
   }
 
-  public void setAccountList(List<String> accountList) {
+  public void setAccountList(List<Pair<String, Boolean>> accountList) {
     syncAccounts = accountList;
     accountMetaDataMap.clear();
     notifyDataSetChanged();
@@ -154,7 +160,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   }
 
   private SyncState getSyncState(int groupPosition, int childPosition) {
-    String syncAccount = (String) getGroup(groupPosition);
+    String syncAccount = getBackendLabel(groupPosition);
     AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
 
     if (localAccountInfo != null && localAccountInfo.containsKey(accountMetaData.uuid())) {
@@ -171,12 +177,12 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
     Account account = ((AccountMetaData) getChild(groupPosition,
         ExpandableListView.getPackedPositionChild(packedPosition))).toAccount(currencyContext);
-    account.setSyncAccountName((String) getGroup(groupPosition));
+    account.setSyncAccountName(getBackendLabel(groupPosition));
     return account;
   }
 
   public String getSyncAccountName(long packedPosition) {
     int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
-    return (String) getGroup(groupPosition);
+    return getBackendLabel(groupPosition);
   }
 }

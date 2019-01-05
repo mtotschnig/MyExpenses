@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses.sync;
 
-import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -24,7 +21,6 @@ import com.dropbox.core.v2.files.WriteMode;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -40,8 +36,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import timber.log.Timber;
-
 public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   private static final String LOCK_FILE = ".lock";
   private DbxClientV2 mDbxClient;
@@ -53,25 +47,23 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Exceptional<Void> setUp(String authToken) {
+  public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
     if (authToken == null) {
       return Exceptional.of(new Exception("authToken is null"));
     }
+    setupClient(authToken);
+    return super.setUp(authToken, encryptionPassword);
+  }
+
+  private void setupClient(String authToken) {
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build();
     mDbxClient = new DbxClientV2(requestConfig, authToken);
-    return super.setUp(authToken);
   }
 
-  private boolean requireSetup(android.accounts.Account account) {
-    AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
-    try {
-      String authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true);
-      return setUp(authToken).isPresent();
-    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Timber.w(e, "Error getting auth token.");
-      return false;
-    }
+  @Override
+  protected String readEncryptionToken() throws IOException {
+    return new StreamReader(getInputStream( basePath + "/" + ENCRYPTION_TOKEN_FILE_NAME)).read();
   }
 
   @Override
@@ -79,9 +71,9 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     setAccountUuid(account);
     String accountPath = getAccountPath();
     requireFolder(accountPath);
-    String metadataPath = getResourcePath(ACCOUNT_METADATA_FILENAME);
+    String metadataPath = getResourcePath(getAccountMetadataFilename());
     if (!exists(metadataPath)) {
-      saveFileContents(null, ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
+      saveFileContentsToAccountDir(null, getAccountMetadataFilename(), buildMetadata(account), getMimetypeForData(), true);
       createWarningFile();
     }
   }
@@ -161,7 +153,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void writeLockToken(String lockToken) throws IOException {
-    saveInputStream(getLockFilePath(), new ByteArrayInputStream(lockToken.getBytes()));
+    saveInputStream(getLockFilePath(), new ByteArrayInputStream(lockToken.getBytes()), false);
   }
 
   @Override
@@ -228,33 +220,29 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException {
-    if (requireSetup(account)) {
-      return getInputStream(getBackupPath() + "/" + backupFile);
-    } else {
-      throw new IOException(getContext().getString(R.string.sync_io_error_cannot_connect));
-    }
+    return getInputStream(getBackupPath() + "/" + backupFile);
   }
 
   @Override
   public void storeBackup(Uri uri, String fileName) throws IOException {
     String backupPath = getBackupPath();
     requireFolder(backupPath);
-    saveUriToFolder(fileName, uri, backupPath);
+    saveUriToFolder(fileName, uri, backupPath, false);
   }
 
   @Override
   protected void saveUriToAccountDir(String fileName, Uri uri) throws IOException {
-    saveUriToFolder(fileName, uri, getAccountPath());
+    saveUriToFolder(fileName, uri, getAccountPath(), true);
   }
 
-  private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
+  private void saveUriToFolder(String fileName, Uri uri, String folder, boolean maybeEncrypt) throws IOException {
     InputStream in = MyApplication.getInstance().getContentResolver()
         .openInputStream(uri);
     if (in == null) {
       throw new IOException("Could not read " + uri.toString());
     }
     String finalFileName = getLastFileNamePart(fileName);
-    saveInputStream(folder + "/" + finalFileName, in);
+    saveInputStream(folder + "/" + finalFileName, in, maybeEncrypt);
   }
 
   @Override
@@ -291,7 +279,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String folder, String fileName, String fileContents, String mimeType) throws IOException {
+  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     String path;
     final String accountPath = getAccountPath();
     if (folder == null) {
@@ -300,14 +288,19 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       path = accountPath + "/" + folder;
       requireFolder(path);
     }
-    saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()));
+    saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()), maybeEncrypt);
   }
 
-  private void saveInputStream(String path, InputStream contents) throws IOException {
+  @Override
+  void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+    saveInputStream(basePath + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()), maybeEncrypt);
+  }
+
+  private void saveInputStream(String path, InputStream contents, boolean maybeEncrypt) throws IOException {
     try {
       mDbxClient.files().uploadBuilder(path)
           .withMode(WriteMode.OVERWRITE)
-          .uploadAndFinish(contents);
+          .uploadAndFinish(maybeEncrypt ? maybeEncrypt(contents) : contents);
     } catch (DbxException e) {
       throw new IOException(e);
     }
@@ -316,26 +309,24 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   @NonNull
   @Override
   public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
-    Stream<AccountMetaData> result = Stream.empty();
-    if (requireSetup(account)) {
-      try {
-        result = Stream.of(mDbxClient.files().listFolder(basePath).getEntries())
-            .filter(metadata -> metadata instanceof FolderMetadata)
-            .map(metadata -> basePath + "/" + metadata.getName() + "/" + ACCOUNT_METADATA_FILENAME)
-            .filter(accountMetadataPath -> {
-              try {
-                mDbxClient.files().getMetadata(accountMetadataPath);
-                return true;
-              } catch (DbxException e) {
-                return false;
-              }
-            })
-            .map(this::getAccountMetaDataFromPath)
-            .filter(Optional::isPresent)
-            .map(Optional::get);
-      } catch (DbxException e) {
-        throw new IOException(e);
-      }
+    Stream<AccountMetaData> result;
+    try {
+      result = Stream.of(mDbxClient.files().listFolder(basePath).getEntries())
+          .filter(metadata -> metadata instanceof FolderMetadata)
+          .map(metadata -> basePath + "/" + metadata.getName() + "/" + getAccountMetadataFilename())
+          .filter(accountMetadataPath -> {
+            try {
+              mDbxClient.files().getMetadata(accountMetadataPath);
+              return true;
+            } catch (DbxException e) {
+              return false;
+            }
+          })
+          .map(this::getAccountMetaDataFromPath)
+          .filter(Optional::isPresent)
+          .map(Optional::get);
+    } catch (DbxException e) {
+      throw new IOException(e);
     }
     return result;
   }
@@ -351,13 +342,11 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   @NonNull
   @Override
   public List<String> getStoredBackups(android.accounts.Account account) throws IOException {
-    if (requireSetup(account)) {
-      try {
-        return Stream.of(mDbxClient.files().listFolder(getBackupPath()).getEntries())
-            .map(Metadata::getName)
-            .toList();
-      } catch (DbxException ignored) {
-      }
+    try {
+      return Stream.of(mDbxClient.files().listFolder(getBackupPath()).getEntries())
+          .map(Metadata::getName)
+          .toList();
+    } catch (DbxException ignored) {
     }
     return new ArrayList<>();
   }

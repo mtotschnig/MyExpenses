@@ -11,13 +11,14 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class BackupUtils {
   public static final String BACKUP_DB_FILE_NAME = "BACKUP";
   public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
 
   @NonNull
-  public static Result<DocumentFile> doBackup() {
+  public static Result<DocumentFile> doBackup(String password) {
     MyApplication application = MyApplication.getInstance();
     if (!AppDirHelper.isExternalStorageAvailable()) {
       return Result.ofFailure(R.string.external_storage_unavailable);
@@ -30,7 +31,8 @@ public class BackupUtils {
       return Result.ofFailure(R.string.app_dir_not_accessible, null,
           FileUtils.getPath(application, appDir.getUri()));
     }
-    DocumentFile backupFile = requireBackupFile(appDir);
+
+    DocumentFile backupFile = requireBackupFile(appDir, password != null);
     if (backupFile == null) {
       return Result.ofFailure(R.string.io_error_backupdir_null);
     }
@@ -45,9 +47,9 @@ public class BackupUtils {
       try {
         ZipUtils.zipBackup(
             cacheDir,
-            backupFile);
+            backupFile, password);
         return Result.ofSuccess(R.string.backup_success, backupFile);
-      } catch (IOException e) {
+      } catch (IOException | GeneralSecurityException e) {
         CrashHandler.report(e);
         failureMessage = e.getMessage();
       } finally {
@@ -61,8 +63,9 @@ public class BackupUtils {
         FileUtils.getPath(application, backupFile.getUri())) + " " + failureMessage);
   }
 
-  private static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
-    return AppDirHelper.timeStampedFile(appDir, "backup", "application/zip", false);
+  private static DocumentFile requireBackupFile(@NonNull DocumentFile appDir, boolean encrypted) {
+    return AppDirHelper.timeStampedFile(appDir, "backup",
+        encrypted ? "application/octet-stream" : "application/zip", encrypted ? "enc" : null);
   }
 
   public static File getBackupDbFile(File backupDir) {

@@ -6,6 +6,7 @@ import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -286,7 +287,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_BACKUP:
-        return BackupUtils.doBackup();
+        return BackupUtils.doBackup(((String) mExtra));
       case TaskExecutionFragment.TASK_BALANCE:
         Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
         return null;
@@ -399,7 +400,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         DocumentFile outputFile = AppDirHelper.timeStampedFile(
             appDir,
             fileName,
-            "text/qif", false);
+            "text/qif", null);
         if (outputFile == null) {
           return Result.ofFailure(
               R.string.io_error_unable_to_create_file,
@@ -690,12 +691,26 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     return contentResolver.insert(TransactionProvider.SETTINGS_URI, values);
   }
 
+  public static String loadSetting(ContentResolver contentResolver, String key) {
+    String result = null;
+    Cursor cursor = contentResolver.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
+        KEY_KEY + " = ?", new String[]{key}, null);
+    if (cursor != null) {
+      if (cursor.moveToFirst()) {
+        result = cursor.getString(0);
+      }
+      cursor.close();
+    }
+    return result;
+  }
+
   @Nullable
   private SyncBackendProvider getSyncBackendProviderFromExtra() {
     String syncAccountName = ((String) mExtra);
     try {
-      return SyncBackendProviderFactory.get(MyApplication.getInstance(),
-          GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+      final android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
+      final Context context = MyApplication.getInstance();
+      return SyncBackendProviderFactory.get(context, account, true).getOrThrow();
     } catch (Throwable throwable) {
       CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
           syncAccountName), throwable));

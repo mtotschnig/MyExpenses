@@ -74,22 +74,22 @@ public class AppDirHelper {
    * postfix
    */
   public static DocumentFile timeStampedFile(DocumentFile parentDir, String prefix,
-                                             String mimeType, boolean addExtension) {
+                                             String mimeType, String addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
     return newFile(parentDir, prefix + "-" + now, mimeType, addExtension);
   }
 
   public static DocumentFile newFile(DocumentFile parentDir, String base,
-                                     String mimeType, boolean addExtension) {
+                                     String mimeType, String addExtension) {
     int postfix = 0;
     do {
       String name = base;
       if (postfix > 0) {
         name += "_" + postfix;
       }
-      if (addExtension) {
-        name += "." + mimeType.split("/")[1];
+      if (addExtension != null) {
+        name += "." + addExtension;
       }
       if (parentDir.findFile(name) == null) {
         DocumentFile result = null;

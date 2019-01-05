@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.webkit.MimeTypeMap;
 
 import com.annimon.stream.Exceptional;
@@ -28,6 +29,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.crypt.EncryptionHelper;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.BufferedReader;
@@ -36,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -50,12 +53,14 @@ import static org.totschnig.myexpenses.sync.SyncAdapter.LOCK_TIMEOUT_MINUTES;
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   static final String KEY_LOCK_TOKEN = "lockToken";
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
-  static final String MIMETYPE_JSON = "application/json";
-  static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
+  private static final String MIMETYPE_JSON = "application/json";
+  private static final String ACCOUNT_METADATA_FILENAME = "metadata";
   protected static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
   private static final long LOCK_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES);
+  protected static final String ENCRYPTION_TOKEN_FILE_NAME = "ENCRYPTION_TOKEN";
+  private static final String MIMETYPE_OCTET_STREAM = "application/octet-stream";
 
   /**
    * this holds the uuid of the db account which data is currently synced
@@ -66,6 +71,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private Context context;
   @Nullable
   private String appInstance;
+  @Nullable
+  private String encryptionPassword;
 
   AbstractSyncBackendProvider(Context context) {
     this.context = context;
@@ -78,6 +85,22 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     sharedPreferences = context.getSharedPreferences(getSharedPreferencesName(), 0);
   }
 
+  public String getMimetypeForData() {
+    return isEncrypted() ? MIMETYPE_JSON : MIMETYPE_OCTET_STREAM;
+  }
+
+  private boolean isEncrypted() {
+    return encryptionPassword != null;
+  }
+
+  public String getAccountMetadataFilename() {
+    return String.format("%s.%s", ACCOUNT_METADATA_FILENAME, getExtensionForData());
+  }
+
+  private String getExtensionForData() {
+    return isEncrypted() ? "enc" : "json";
+  }
+
   public void setAccountUuid(Account account) {
     this.accountUuid = account.uuid;
   }
@@ -86,8 +109,64 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Exceptional<Void> setUp(String authToken) {
-    return Exceptional.of(() -> null);
+  public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
+    this.encryptionPassword = encryptionPassword;
+    try {
+      String encryptionToken = readEncryptionToken();
+      if (encryptionToken == null) {
+        if (encryptionPassword != null) {
+          saveFileContentsToBase(ENCRYPTION_TOKEN_FILE_NAME,
+              encrypt(EncryptionHelper.generateRandom(10)), MIMETYPE_OCTET_STREAM, false);
+        }
+      } else {
+        if (encryptionPassword == null) {
+          return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_is_encrypted)));
+        } else {
+          try {
+            decrypt(encryptionToken);
+          } catch (GeneralSecurityException e) {
+            return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_wrong_passphrase)));
+          }
+        }
+      }
+      return Exceptional.of(() -> null);
+    } catch (IOException | GeneralSecurityException e) {
+      return Exceptional.of(e);
+    }
+  }
+
+  private String decrypt(String input) throws GeneralSecurityException {
+    return new String(EncryptionHelper.decrypt(Base64.decode(input, Base64.DEFAULT), encryptionPassword));
+  }
+
+  protected abstract String readEncryptionToken() throws IOException;
+
+  protected String encrypt(byte[] plain) throws GeneralSecurityException {
+    return Base64.encodeToString(EncryptionHelper.encrypt(plain, encryptionPassword), Base64.DEFAULT);
+  }
+
+  protected OutputStream maybeEncrypt(OutputStream outputStream) throws IOException {
+    try {
+      return isEncrypted() ? EncryptionHelper.encrypt(outputStream, encryptionPassword) : outputStream;
+    } catch (GeneralSecurityException e) {
+      throw new IOException(e);
+    }
+  }
+
+  protected InputStream maybeEncrypt(InputStream inputStream) throws IOException {
+    try {
+      return isEncrypted() ? EncryptionHelper.encrypt(inputStream, encryptionPassword) : inputStream;
+    } catch (GeneralSecurityException e) {
+      throw new IOException(e);
+    }
+  }
+
+  protected InputStream maybeDecrypt(InputStream inputStream) throws IOException {
+    try {
+      return isEncrypted() ? EncryptionHelper.decrypt(inputStream, encryptionPassword) : inputStream;
+    } catch (GeneralSecurityException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
@@ -102,7 +181,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @Nullable
   ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
       throws IOException {
-    final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+    final BufferedReader reader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)));
     List<TransactionChange> changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
     if (changes == null || changes.size() == 0) {
       return null;
@@ -139,7 +218,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       if (output == null) {
         throw new IOException("Unable to write picture");
       }
-      FileCopyUtils.copy(input, output);
+      FileCopyUtils.copy(maybeDecrypt(input), output);
       input.close();
       output.close();
       return transactionChange.toBuilder().setPictureUri(homeUri.toString()).build();
@@ -153,7 +232,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
     try {
       return Optional.of(gson.fromJson(
-          new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class));
+          new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream))), AccountMetaData.class));
     } catch (Exception e) {
       CrashHandler.report(e, SyncAdapter.TAG);
       return Optional.empty();
@@ -168,7 +247,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   boolean isNewerJsonFile(int sequenceNumber, String name) {
     String fileName = getNameWithoutExtension(name);
     String fileExtension = getFileExtension(name);
-    return fileExtension.equals("json") && FILE_PATTERN.matcher(fileName).matches() &&
+    return fileExtension.equals(getExtensionForData()) && FILE_PATTERN.matcher(fileName).matches() &&
         Integer.parseInt(fileName.substring(1)) > sequenceNumber;
   }
 
@@ -199,8 +278,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   private TransactionChange mapPictureDuringWrite(TransactionChange transactionChange) throws IOException {
     if (transactionChange.pictureUri() != null) {
-      String newUri = transactionChange.uuid() + "_" +
-          Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
+      String newUri = String.format("%s_%s%s", transactionChange.uuid(),
+          Uri.parse(transactionChange.pictureUri()).getLastPathSegment(),
+          isEncrypted() ? ".enc" : "");
       saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
       return transactionChange.toBuilder().setPictureUri(newUri).build();
     } else {
@@ -223,14 +303,17 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       }
       changeSet.set(i, mappedChange);
     }
-    String fileName = "_" + nextSequence.number + ".json";
+    String fileName = String.format(Locale.ROOT, "_%d.%s", nextSequence.number, getExtensionForData());
     String fileContents = gson.toJson(changeSet);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
-    saveFileContents(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, MIMETYPE_JSON);
+    saveFileContentsToAccountDir(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, getMimetypeForData(), true);
     return nextSequence;
   }
 
+  /**
+   * should encrypt if backend is configured with encryption
+   */
   protected abstract void saveUriToAccountDir(String fileName, Uri uri) throws IOException;
 
   String buildMetadata(Account account) {
@@ -240,7 +323,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @NonNull
   String getMimeType(String fileName) {
     String result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(fileName));
-    return result != null ? result : "application/octet-stream";
+    return result != null ? result : MIMETYPE_OCTET_STREAM;
   }
 
   protected String getLastFileNamePart(String fileName) {
@@ -250,13 +333,15 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   protected abstract SequenceNumber getLastSequence(SequenceNumber start) throws IOException;
 
-  abstract void saveFileContents(@Nullable String folder, String fileName, String fileContents, String mimeType) throws IOException;
+  abstract void saveFileContentsToAccountDir(@Nullable String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException;
+
+  abstract void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException;
 
   void createWarningFile() {
     try {
-      saveFileContents(null, "IMPORTANT_INFORMATION.txt",
+      saveFileContentsToAccountDir(null, "IMPORTANT_INFORMATION.txt",
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
-          "text/plain");
+          "text/plain", false);
     } catch (IOException e) {
       log().w(e);
     }
@@ -314,7 +399,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   @NonNull
-  private Timber.Tree log() {
+  protected Timber.Tree log() {
     return Timber.tag(SyncAdapter.TAG);
   }
 }

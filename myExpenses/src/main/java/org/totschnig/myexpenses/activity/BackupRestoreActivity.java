@@ -44,13 +44,19 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.util.ArrayList;
 
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.form.Input;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
 import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.task.RestoreTask.KEY_PASSWORD;
+
 public class BackupRestoreActivity extends ProtectedFragmentActivity
-    implements ConfirmationDialogListener {
+    implements ConfirmationDialogListener, SimpleDialog.OnDialogResultListener {
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
+  private static final String DIALOG_TAG_PASSWORD = "PASSWORD";
 
   private boolean calledFromOnboarding = false;
 
@@ -87,13 +93,20 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           abort(getString(R.string.io_error_appdir_null));
           return;
         }
+        boolean isProtected = getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null) != null;
+        StringBuilder message = new StringBuilder();
+        message.append(getString(R.string.warning_backup, FileUtils.getPath(this, appDir.getUri())))
+            .append(" ");
+        if (isProtected) {
+          message.append(getString(R.string.warning_backup_protected)).append(" ");
+        }
+        message.append(getString(R.string.continue_confirmation));
         MessageDialogFragment.newInstance(
-            R.string.menu_backup,
-            getString(R.string.warning_backup,
-                FileUtils.getPath(this, appDir.getUri())),
+            isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup,
+            message.toString(),
             new MessageDialogFragment.Button(android.R.string.yes,
                 R.id.BACKUP_COMMAND, null), null,
-            MessageDialogFragment.Button.noButton())
+            MessageDialogFragment.Button.noButton(), isProtected ? R.drawable.ic_lock : 0)
             .show(getSupportFragmentManager(), "BACKUP");
         break;
       }
@@ -119,13 +132,14 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     showMessage(message);
   }
 
-  private void showRestoreDialog(Uri fileUri, int restorePlanStrategie) {
-    Bundle bundle = buildRestoreArgs(fileUri, restorePlanStrategie);
+  private void showRestoreDialog(Uri fileUri, int restorePlanStrategy) {
+    Bundle bundle = buildRestoreArgs(fileUri, restorePlanStrategy);
     bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title);
+    final String message = getString(R.string.warning_restore, DialogUtils.getDisplayName(fileUri))
+        + " " + getString(R.string.continue_confirmation);
     bundle.putString(
         ConfirmationDialogFragment.KEY_MESSAGE,
-        getString(R.string.warning_restore,
-            DialogUtils.getDisplayName(fileUri)));
+        message);
     bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
         R.id.RESTORE_COMMAND);
     ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
@@ -169,7 +183,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   protected void doBackup() {
     Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.isSuccess()) {
-      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
+      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null),
           R.string.menu_backup, true);
     } else {
       abort(appDirStatus.print(this));
@@ -217,12 +231,33 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     }
   }
 
-  public void onSourceSelected(Uri mUri, int restorePlanStrategie) {
+  public void onSourceSelected(Uri mUri, int restorePlanStrategy) {
     if (calledFromOnboarding) {
-      doRestore(buildRestoreArgs(mUri, restorePlanStrategie));
+      final Bundle args = buildRestoreArgs(mUri, restorePlanStrategy);
+      if (FileUtils.getPath(this, mUri).endsWith("enc")) {
+        SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
+            .fields(Input.password(KEY_PASSWORD).required())
+            .extra(args)
+            .show(this, DIALOG_TAG_PASSWORD);
+      } else {
+        doRestore(args);
+      }
     } else {
-      showRestoreDialog(mUri, restorePlanStrategie);
+      showRestoreDialog(mUri, restorePlanStrategy);
     }
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (which == BUTTON_POSITIVE) {
+      switch (dialogTag) {
+        case DIALOG_TAG_PASSWORD: {
+          doRestore(extras);
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   @Override

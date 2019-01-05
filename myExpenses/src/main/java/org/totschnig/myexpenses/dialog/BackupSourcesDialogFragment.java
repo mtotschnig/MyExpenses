@@ -1,14 +1,12 @@
 package org.totschnig.myexpenses.dialog;
 
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RadioGroup;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.util.Utils;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     implements DialogUtils.CalendarRestoreStrategyChangedListener {
@@ -50,7 +48,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   @Override
   public boolean checkTypeParts(String[] typeParts) {
     return typeParts[0].equals("application") && 
-    typeParts[1].equals("zip");
+        (typeParts[1].equals("zip") || typeParts[1].equals("octet-stream"));
   }
 
   @Override

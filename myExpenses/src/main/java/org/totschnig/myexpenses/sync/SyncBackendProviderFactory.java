@@ -20,13 +20,30 @@ import java.io.Serializable;
 
 public abstract class SyncBackendProviderFactory {
 
-  public static Exceptional<SyncBackendProvider> get(Context context, Account account) {
-    return Stream.of(ServiceLoader.load(context))
-        .map(factory -> factory.from(context, account, AccountManager.get(context)))
+  public static Exceptional<SyncBackendProvider> get(Context context, Account account, boolean withSetup) {
+    final AccountManager accountManager = AccountManager.get(context);
+    final Optional<Exceptional<SyncBackendProvider>> optional = Stream.of(ServiceLoader.load(context))
+        .map(factory -> factory.from(context, account, accountManager))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .findFirst()
-        .orElse(Exceptional.of(new SyncParseException("No Provider found for account " + account.toString())));
+        .map(syncBackendProviderExceptional -> {
+          if (syncBackendProviderExceptional.isPresent() && withSetup) {
+            try {
+              Exceptional<Void> result = syncBackendProviderExceptional.get().setUp(
+                  accountManager.blockingGetAuthToken(account,
+                      GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true),
+                  GenericAccountService.loadPassword(context.getContentResolver(), account.name));
+              if (!result.isPresent()) {
+                return Exceptional.of(result.getException());
+              }
+            } catch (Exception e) {
+              return Exceptional.of(e);
+            }
+          }
+          return syncBackendProviderExceptional;
+        });
+    return optional.orElse(Exceptional.of(new SyncParseException("No Provider found for account " + account.toString())));
   }
 
   private Optional<Exceptional<SyncBackendProvider>> from(Context context, Account account, AccountManager accountManager) {

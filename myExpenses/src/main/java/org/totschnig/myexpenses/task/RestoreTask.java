@@ -37,11 +37,13 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -54,10 +56,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_BACKUP_FROM_SYNC = "backupFromSync";
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
+  public static final String KEY_PASSWORD = "passwordEncryption";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
   private Uri fileUri;
-  private String syncAccountName, backupFromSync;
+  private String syncAccountName, backupFromSync, password;
 
   RestoreTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -67,6 +70,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       this.backupFromSync = b.getString(KEY_BACKUP_FROM_SYNC);
     }
     this.restorePlanStrategy = b.getInt(KEY_RESTORE_PLAN_STRATEGY);
+    this.password = b.getString(KEY_PASSWORD);
   }
 
   @Override
@@ -97,10 +101,11 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     try {
       InputStream is;
       SyncBackendProvider syncBackendProvider;
+      boolean isEncrypted;
       if (syncAccountName != null) {
         android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
         try {
-          syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(), account)
+          syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(), account, true)
               .getOrThrow();
         } catch (Throwable throwable) {
           String errorMessage = String.format("Unable to get sync backend provider for %s",
@@ -110,27 +115,37 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         }
         try {
           is = syncBackendProvider.getInputStreamForBackup(account, backupFromSync);
+          isEncrypted = backupFromSync.endsWith("enc");
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
         }
       } else {
         is = cr.openInputStream(fileUri);
+        isEncrypted = FileUtils.getPath(application, fileUri).endsWith("enc");
       }
       if (is == null) {
         return Result.ofFailure("Unable to open backup file");
       }
-      boolean zipResult = ZipUtils.unzip(is, workingDir);
+      if (isEncrypted) {
+        if (password == null) {
+          return Result.ofFailure(R.string.backup_is_encrypted);
+        }
+      }
       try {
-        is.close();
+        ZipUtils.unzip(is, workingDir, isEncrypted ? password : null);
       } catch (IOException e) {
-        Timber.e(e);
+        return e.getCause() instanceof GeneralSecurityException ?
+            Result.ofFailure(R.string.backup_wrong_password) :
+            Result.ofFailure(R.string.restore_backup_archive_not_valid, fileUri);
+      } finally {
+        try {
+          is.close();
+        } catch (IOException e) {
+          Timber.e(e);
+        }
+
       }
-      if (!zipResult) {
-        return Result.ofFailure(
-            R.string.restore_backup_archive_not_valid,
-            fileUri);
-      }
-    } catch (FileNotFoundException | SecurityException e) {
+    } catch (FileNotFoundException | SecurityException | GeneralSecurityException e) {
       CrashHandler.report(e, "fileUri", fileUri.toString());
       return Result.ofFailure(
           R.string.parse_error_other_exception,

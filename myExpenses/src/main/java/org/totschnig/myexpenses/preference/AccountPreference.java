@@ -23,8 +23,8 @@ public class AccountPreference extends ListPreference {
     entries.add(0, getContext().getString(R.string.synchronization_none));
     entryValues.add(0, SYNCHRONIZATION_NONE);
 
-    setEntries(entries.toArray(new String[entries.size()]));
-    setEntryValues(entryValues.toArray(new String[entryValues.size()]));
+    setEntries(entries.toArray(new String[0]));
+    setEntryValues(entryValues.toArray(new String[0]));
   }
 
   public AccountPreference(Context context) {

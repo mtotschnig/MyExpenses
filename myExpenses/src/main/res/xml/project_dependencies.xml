@@ -176,4 +176,10 @@
         <url>https://github.com/square/sqlbrite/</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>andOTP</name>
+        <url>https://github.com/andOTP/andOTP</url>
+        <extra_info>EncryptionHelper</extra_info>
+        <licence>MIT licence</licence>
+    </project>
 </credits>

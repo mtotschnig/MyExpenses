@@ -16,61 +16,31 @@ import timber.log.Timber;
 public class FileCopyUtils {
 
   public static boolean copy(File src, File dst) {
-    FileInputStream srcStream = null;
-    FileOutputStream dstStream = null;
-    try {
-      srcStream = new FileInputStream(src);
-      dstStream = new FileOutputStream(dst);
+    try (FileInputStream srcStream = new FileInputStream(src);
+         FileOutputStream dstStream = new FileOutputStream(dst)) {
       dstStream.getChannel().transferFrom(srcStream.getChannel(), 0,
           srcStream.getChannel().size());
       return true;
     } catch (IOException e) {
       Timber.e(e);
       return false;
-    } finally {
-      try {
-        srcStream.close();
-      } catch (Exception e) {
-      }
-      try {
-        dstStream.close();
-      } catch (Exception e) {
-      }
     }
   }
 
   /**
    * copy src uri to dest uri
-   *
-   * @param src
-   * @param dest
-   * @return
    */
   public static void copy(Uri src, Uri dest) throws IOException {
-    InputStream input = null;
-    OutputStream output = null;
-
-    try {
-      input = MyApplication.getInstance().getContentResolver()
-          .openInputStream(src);
-      if (input==null) {
-        throw new IOException("Could not open InputStream "+src.toString());
+    try (InputStream input = MyApplication.getInstance().getContentResolver()
+        .openInputStream(src); OutputStream output = MyApplication.getInstance().getContentResolver()
+        .openOutputStream(dest)) {
+      if (input == null) {
+        throw new IOException("Could not open InputStream " + src.toString());
       }
-      output = MyApplication.getInstance().getContentResolver()
-              .openOutputStream(dest);
-      if (output==null) {
-        throw new IOException("Could not open OutputStream "+dest.toString());
+      if (output == null) {
+        throw new IOException("Could not open OutputStream " + dest.toString());
       }
       copy(input, output);
-    } finally {
-      try {
-        if (input!=null) input.close();
-      } catch (IOException e) {
-      }
-      try {
-        if (output!=null) output.close();
-      } catch (IOException e) {
-      }
     }
   }
 

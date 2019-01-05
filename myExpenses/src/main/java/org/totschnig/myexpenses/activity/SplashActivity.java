@@ -257,11 +257,11 @@ public class SplashActivity extends SyncBackendSetupActivity {
     }
   }
 
-  public void setupFromBackup(String backup, int restorePlanStrategie) {
+  public void setupFromBackup(String backup, int restorePlanStrategy) {
     Bundle arguments = new Bundle(3);
     arguments.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName);
     arguments.putString(RestoreTask.KEY_BACKUP_FROM_SYNC, backup);
-    arguments.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
+    arguments.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy);
     doRestore(arguments);
   }
 

@@ -18,6 +18,7 @@
     <string name="pref_root_screen_key">pref_root</string>
     <string name="pref_category_export_key">category_export</string>
     <string name="pref_category_contrib_key">category_contrib</string>
+    <string name="pref_category_backup_key">category_backup</string>
     <string name="pref_category_manage_key">category_manage</string>
     <string name="pref_sort_order_key">sort_order</string>
     <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
@@ -95,6 +96,7 @@
     <string name="pref_sync_wifi_only_key">sync_wifi_only</string>
     <string name="pref_translation_key">translation_key</string>
     <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
+    <string name="pref_security_export_password_key">security_export_password</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
