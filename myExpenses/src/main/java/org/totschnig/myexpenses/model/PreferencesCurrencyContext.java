@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.util.Collections;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,19 +18,21 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   private static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
   private static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
   final private PrefHandler prefHandler;
-  private static final Map<String, CurrencyUnit> INSTANCES = new HashMap<>();
+  private static final Map<String, CurrencyUnit> INSTANCES = Collections.synchronizedMap(new HashMap<>());
 
   public PreferencesCurrencyContext(PrefHandler prefHandler) {
     this.prefHandler = prefHandler;
   }
 
   @Override
+  @NonNull
   public CurrencyUnit get(String currencyCode) {
     synchronized (this) {
-      if (INSTANCES.containsKey(currencyCode)) {
-        return INSTANCES.get(currencyCode);
+      CurrencyUnit currencyUnit = INSTANCES.get(currencyCode);
+      if (currencyUnit != null) {
+        return currencyUnit;
       }
-      CurrencyUnit currencyUnit;
+
       Currency c = Utils.getInstance(currencyCode);
       if (c != null) {
         currencyUnit = CurrencyUnit.create(currencyCode, getSymbol(c), getFractionDigits(c));
@@ -80,7 +83,8 @@ public class PreferencesCurrencyContext implements CurrencyContext {
     Currency currency = null;
     try {
       currency = Currency.getInstance(currencyCode);
-    } catch (Exception ignored) {}
+    } catch (Exception ignored) {
+    }
     String key = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL;
     if (currency != null && currency.getSymbol().equals(symbol)) {
       prefHandler.remove(key);
