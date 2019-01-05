@@ -1225,11 +1225,11 @@ public class Transaction extends Model {
   public void cleanupCanceledEdit() {
     if (isSplit()) {
       String idStr = String.valueOf(getId());
-      String statusUncommited = String.valueOf(STATUS_UNCOMMITTED);
+      String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
       cr().delete(getContentUri(),getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
-          getPartOrPeerSelectArgs(statusUncommited));
+          getPartOrPeerSelectArgs(statusUncommitted));
       cr().delete(getContentUri(), KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
-          new String[]{statusUncommited, idStr});
+          new String[]{statusUncommitted, idStr});
     }
   }
 
