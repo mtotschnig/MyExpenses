@@ -39,7 +39,6 @@ import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter {
   protected final CurrencyUnit currency;
   private List<Category> mainCategories = new ArrayList<>();
-  private LongSparseArray<Integer> positionMap = new LongSparseArray<>();
   private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
   private final Context context;
   private final LayoutInflater inflater;
@@ -174,6 +173,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     if (cursor != null) {
       try {
         List<Category> newList = new ArrayList<>();
+        LongSparseArray<Integer> positionMap = new LongSparseArray<>();
         int position = 0;
         if (withNullCategory) {
           newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, null, 0, null));
