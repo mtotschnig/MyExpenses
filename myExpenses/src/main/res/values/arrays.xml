@@ -405,6 +405,7 @@
         <item>help_ManageSyncBackends_intro</item>
         <item>help_ManageSyncBackends_webdav</item>
         <item>help_ManageSyncBackends_drive</item>
+        <item>help_ManageSyncBackends_encryption</item>
     </string-array>
 
     <string-array name="ManageSyncBackends_cabitems" tools:ignore="UnusedResources">
