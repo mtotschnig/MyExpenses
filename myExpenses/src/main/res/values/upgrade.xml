@@ -18,8 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2981">
-      <item>@string/bug_fixes</item>
+  <string-array name="whats_new_299">
+      <item>Encryption for backups and synchronization data</item>
   </string-array>
   <string-array name="whats_new_298">
     <item>Filter for transactions without mapping to categories, payees or methods</item>
