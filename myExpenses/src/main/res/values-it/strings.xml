@@ -395,7 +395,8 @@
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importo non frazionato</string>
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
-  <string name="warning_backup">Il database e le preferenze verranno salvate su \"%1$s\". Vuoi continuare?</string>
+  <string name="warning_backup">Il database e le preferenze verranno salvate su \"%1$s\".</string>
+  <string name="continue_confirmation">Vuoi continuare?</string>
   <string name="warning_delete_account">Questo conto \"%1$s\" sarà cancelatto con tutte le sue operazioni.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La categoria selezionata ha sottocategorie, che verranno quindi cancellate.</item>
@@ -428,7 +429,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti i conti%1$s verranno eliminate dal database e non potranno essere ripristinate.</string>
   <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dal database e non potranno essere ripristinate.</string>
-  <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup (%1$s). I dati attuali verranno cancellati. Vuoi continuare?</string>
+  <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup (%1$s). I dati attuali verranno cancellati.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che ciò accada selezionando una cartella diversa dalla schermata impostazioni.</string>
   <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Si prega di impostare un numero compreso tra %1$d e %2$d</string>
@@ -596,7 +597,7 @@
   <string name="dialog_command_sync_link_local">Caricare da locale</string>
   <string name="dialog_synced_to_other">Un account con uuid %s esiste già nel database locale ed è collegato ad un backend remoto diverso.</string>
   <string name="menu_remove">Rimuovere</string>
-  <string name="dialog_confirm_sync_remove_backend">Il backend remoto %s verrà rimosso. Ciò non influirà sui dati memorizzati localmente o in remoto, ma lo stato di sincronizzazione verrà perso. Si desidera continuare?</string>
+  <string name="dialog_confirm_sync_remove_backend">Il backend remoto %s verrà rimosso. Ciò non influirà sui dati memorizzati localmente o in remoto, ma lo stato di sincronizzazione verrà perso.</string>
   <string name="dialog_confirm_sync_link_local">I dati remoti per questo account saranno cancellati. Accertati che non ci siano altri dispositivi collegati all\'account.</string>
   <string name="dialog_confirm_sync_link_remote">I dati locali per questo account saranno cancellati.</string>
   <string name="warning_limited_trial">La funzionalità %1$s può essere provata fino al %2$s.</string>
@@ -713,7 +714,7 @@
   <string name="grand_total">somma totale</string>
   <string name="menu_original_amount">Importo originario</string>
   <string name="menu_equivalent_amount">Importo equivalente</string>
-  <string name="home_currency_change_warning">Se cambi la valuta domestica, gli importi e i tassi di cambio equivalenti andranno persi e devono essere nuovamente definiti. Vuoi continuare?</string>
+  <string name="home_currency_change_warning">Se cambi la valuta domestica, gli importi e i tassi di cambio equivalenti andranno persi e devono essere nuovamente definiti.</string>
   <string name="warning_split_transactions">Le operazioni selezionate saranno raggruppate in una operazione frazionata. Le loro informazioni sulla data andranno perse, cioè sostituite dalla loro media.</string>
   <string name="warning_ungroup_split_transactions">Le operazioni frazionate selezionate verranno separate, ovvero le loro parti divise diventeranno normali operazioni.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

@@ -368,7 +368,8 @@
   <string name="type">종류</string>
   <string name="unsplit_amount">분할 잔여 금액</string>
   <string name="unsplit_amount_greater_than_zero">분할 이후의 금액이 아직 남아있습니다.</string>
-  <string name="warning_backup">데이터베이스와 설정값이 \"%1$s\" 파일로 저장됩니다. 계속할까요?</string>
+  <string name="warning_backup">데이터베이스와 설정값이 \"%1$s\" 파일로 저장됩니다.</string>
+  <string name="continue_confirmation">계속 진행할까요?</string>
   <string name="warning_delete_account">\"%1$s\" 계좌 및 계좌의 모든 거래 내역이 삭제됩니다.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d 선택된 카테고리는 하위 카테고리를 가지고 있으며, 함께 삭제됩니다.</item>
@@ -396,7 +397,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
   <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
-  <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다. 계속 진행할까요?</string>
+  <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
   <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>

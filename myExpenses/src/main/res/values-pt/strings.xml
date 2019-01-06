@@ -395,7 +395,8 @@
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Quantia não dividida</string>
   <string name="unsplit_amount_greater_than_zero">Existe ainda uma quantia sem divisão.</string>
-  <string name="warning_backup">O banco de dados e as preferências serão salvos em \"%1$s\". Deseja continuar?</string>
+  <string name="warning_backup">O banco de dados e as preferências serão salvos em \"%1$s\".</string>
+  <string name="continue_confirmation">Deseja continuar?</string>
   <string name="warning_delete_account">A conta \"%1$s\" será apagada com todas as suas transações.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">A categoria selecionada contém subcategorias, que também serão excluídas.</item>
@@ -428,8 +429,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Caso você prossiga, as transações de todas as contas%1$s serão excluídas do banco de dados e não poderão ser restauradas.</string>
   <string name="warning_reset_account_matched">Caso você prossiga, as transações correspondentes ao filtro atual serão excluídas do banco de dados e não poderão ser restauradas.</string>
-  <string name="warning_restore">O banco de dados e as preferências serão restauradas do arquivo \"%1$s\". Os dados atuais serão excluídos. Deseja 
-continuar?</string>
+  <string name="warning_restore">O banco de dados e as preferências serão restauradas do arquivo \"%1$s\". Os dados atuais serão excluídos.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta atualmente selecionada para backups e exportações será automaticamente excluída pelo Android se você desinstalar o {app_name}. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação com divisões só podem ser editadas no contexto da divisão.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, defina um número entre %1$d e %2$d</string>
@@ -597,7 +597,7 @@ continuar?</string>
   <string name="dialog_command_sync_link_local">Enviar do banco de dados local</string>
   <string name="dialog_synced_to_other">Uma conta com o uuid %s já existe na base de dados local e está associada a um servidor remoto diferente.</string>
   <string name="menu_remove">Remover</string>
-  <string name="dialog_confirm_sync_remove_backend">O servidor remoto %s será removido. Isto não afetará os dados armazenados local ou remotamente, mas o status da sincronização será perdido. Deseja continuar?</string>
+  <string name="dialog_confirm_sync_remove_backend">O servidor remoto %s será removido. Isto não afetará os dados armazenados local ou remotamente, mas o status da sincronização será perdido.</string>
   <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão excluídos. Certifique-se de que nenhum outro dispositivo se encontra associado à ela.</string>
   <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão excluídos.</string>
   <string name="warning_limited_trial">O recurso %1$s pode ser testada até %2$s.</string>
@@ -713,7 +713,7 @@ continuar?</string>
   <string name="grand_total">Total geral</string>
   <string name="menu_original_amount">Quantia original</string>
   <string name="menu_equivalent_amount">Quantia equivalente</string>
-  <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente. Deseja continuar?</string>
+  <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente.</string>
   <string name="warning_split_transactions">As transações atuais serão agrupadas em uma transação dividida. A informação das datas será perdida, sendo substituída pela sua média.</string>
   <string name="warning_ungroup_split_transactions">As transações divididas selecionadas serão desagrupadas e suas divisões serão convertidas em transações normais.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

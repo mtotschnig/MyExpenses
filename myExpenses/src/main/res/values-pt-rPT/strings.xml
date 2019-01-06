@@ -384,7 +384,8 @@
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Quantia por dividir</string>
   <string name="unsplit_amount_greater_than_zero">Ainda há alguma quantia por dividir.</string>
-  <string name="warning_backup">A base de dados e as preferências serão guardadas em \"%1$s\". Pretende continuar?</string>
+  <string name="warning_backup">A base de dados e as preferências serão guardadas em \"%1$s\".</string>
+  <string name="continue_confirmation">Pretende continuar?</string>
   <string name="warning_delete_account">A conta \"%1$s\" e todas as respetivas transações serão eliminadas.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Uma categoria selecionada contém subcategorias, que também serão apagadas.</item>
@@ -417,7 +418,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se proceder, as transações de todas as contas %1$s serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <string name="warning_reset_account_matched">Se proceder, as transações que correspondem ao filtro atual serão eliminadas da base de dados e não poderão ser recuperadas.</string>
-  <string name="warning_restore">A base de dados e as preferências serão restauradas a partir do ficheiro \"%1$s\". Os dados atuais serão eliminados. Pretende continuar?</string>
+  <string name="warning_restore">A base de dados e as preferências serão restauradas a partir do ficheiro \"%1$s\". Os dados atuais serão eliminados.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta para cópias de segurança e exportações atualmente selecionada será eliminada automaticamente pelo Android se desinstalar o {app_name}. Pode prevenir isso de acontecer ao selecionar uma pasta diferente no ecrã de Definições.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma divisão apenas podem ser editadas no contexto da divisão.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Defina um número entre %1$d e %2$d</string>
@@ -582,7 +583,7 @@
   <string name="dialog_command_sync_link_local">Enviar os dados locais</string>
   <string name="dialog_synced_to_other">Uma conta com o uuid %s já existe na base de dados local e está associada a um backend remoto diferente.</string>
   <string name="menu_remove">Remover</string>
-  <string name="dialog_confirm_sync_remove_backend">O backend remoto %s será removido. Isto não afetará os dados armazenados localmente ou remotamente, mas o estado da sincronização será perdido. Pretende continuar?</string>
+  <string name="dialog_confirm_sync_remove_backend">O backend remoto %s será removido. Isto não afetará os dados armazenados localmente ou remotamente, mas o estado da sincronização será perdido.</string>
   <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão eliminados. Certifique-se que mais nenhum dispositivo se encontra associado à conta.</string>
   <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão eliminados.</string>
   <string name="warning_limited_trial">A funcionalidade %1$s pode ser testada até %2$s.</string>

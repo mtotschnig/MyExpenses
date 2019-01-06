@@ -349,7 +349,8 @@
   <string name="type">类型</string>
   <string name="unsplit_amount">未分割数量</string>
   <string name="unsplit_amount_greater_than_zero">还有一些金额未分割.</string>
-  <string name="warning_backup">数据库和喜好设置将被储存到SD卡 (%1$s).你要继续吗?</string>
+  <string name="warning_backup">数据库和喜好设置将被储存到SD卡 %1$s.</string>
+  <string name="continue_confirmation">你要继续吗?</string>
   <string name="warning_delete_account">此帐户将与它的所有交易将被删除 (%1$s).你要继续吗?</string>
   <string name="warning_password_protected">应用被密码保护</string>
   <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
@@ -358,7 +359,7 @@
   <string name="warning_reset_account">如果你继续,这个帐户的所有交易都从数据库中被删除且无法恢复.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">如果你继续,所有帐户%1$s和当中的所有交易都从数据库中被删除且无法恢复.</string>
-  <string name="warning_restore">数据库和喜好设置将会从备份中被恢复过来 (%1$s).当前的数据会被删除.你要继续吗?</string>
+  <string name="warning_restore">数据库和喜好设置将会从备份中被恢复过来 (%1$s).当前的数据会被删除.</string>
   <string name="warning_splitpartcategory_context">转移是分割的一部分,它只能在有分割的情况下被编辑或删除.</string>
   <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的数量</string>
   <string name="import_categories_success">%1$s 类别  被导入成功</string>

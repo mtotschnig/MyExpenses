@@ -401,7 +401,8 @@
   <string name="type">סוג</string>
   <string name="unsplit_amount">סכום לא מפוצל</string>
   <string name="unsplit_amount_greater_than_zero">יש עדיין כסכום שנותר לא מפוצל.</string>
-  <string name="warning_backup">מסד הנתונים וההעדפות יישמרו ל- \"%1$s\". האם אתה רוצה להמשיך?</string>
+  <string name="warning_backup">מסד הנתונים וההעדפות יישמרו ל- \"%1$s\".</string>
+  <string name="continue_confirmation">האם אתה רוצה להמשיך?</string>
   <string name="warning_delete_account">חשבון \"%1$s\" יימחק עם כל העסקאות שלו.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">לקטגוריה אחת שנבחרה יש קטגוריות משנה, שיימחקו גם כן.</item>
@@ -444,7 +445,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
   <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
-  <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. האם אתה רוצה להמשיך? </string>
+  <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. </string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">התיקיה שנבחרה עבור גיבויים ויצוא תימחק אוטומטית על ידי Android אם תסיר את אפליקציית  {app_name}. תוכל למנוע זאת על ידי בחירה בתיקייה אחרת ממסך ההגדרות.</string>
   <string name="warning_splitpartcategory_context">העברות, שהן חלק מפיצול, ניתנות לעריכה רק בהקשר של הפיצול.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">אנא הגדר מספר בין %1$dו- %2$d</string>
@@ -612,7 +613,7 @@
   <string name="dialog_command_sync_link_local">העלה ממקומי</string>
   <string name="dialog_synced_to_other">חשבון עם uuid %sכבר קיים במסד הנתונים המקומי והוא מקושר ל- backend מרוחק אחר.</string>
   <string name="menu_remove">הסר</string>
-  <string name="dialog_confirm_sync_remove_backend">Backend מרחוק %s יוסר. פעולה זו לא תשפיע על נתונים המאוחסנים מקומית או מרחוק, אך מצב הסינכרון הולך לאיבוד. האם אתה רוצה להמשיך?</string>
+  <string name="dialog_confirm_sync_remove_backend">Backend מרחוק %s יוסר. פעולה זו לא תשפיע על נתונים המאוחסנים מקומית או מרחוק, אך מצב הסינכרון הולך לאיבוד.</string>
   <string name="dialog_confirm_sync_link_local">נתונים מרוחקים עבור החשבון הזה יימחקו. ודא שאין התקנים אחרים מקושרים אליו.</string>
   <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>
   <string name="warning_limited_trial">תכונה %1$s ניתנת לבדיקה עד %2$s.</string>
@@ -731,7 +732,7 @@
   <string name="grand_total">סכום סופי</string>
   <string name="menu_original_amount">סכום מקורי</string>
   <string name="menu_equivalent_amount">סכום שווה ערך</string>
-  <string name="home_currency_change_warning">אם תשנה את המטבע הביתי שלך, סכומים שווים ושערי חליפין יאבדו, ויש להגדיר אותם שוב. האם אתה רוצה להמשיך?</string>
+  <string name="home_currency_change_warning">אם תשנה את המטבע הביתי שלך, סכומים שווים ושערי חליפין יאבדו, ויש להגדיר אותם שוב.</string>
   <string name="warning_split_transactions">העסקאות שנבחרו יקובצו לעסקה מפוצלת אחת. תאריך התאריך שלהם יאבד, כלומר מוחלף על ידי הממוצע שלהם.</string>
   <string name="warning_ungroup_split_transactions">העסקאות המפוצלות שנבחרו לא יקובצו, כלומר החלקים המפוצלים שלהן יהפכו לעסקאות רגילות.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

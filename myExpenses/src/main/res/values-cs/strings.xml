@@ -283,14 +283,15 @@
   <string name="type">Typ</string>
   <string name="unsplit_amount">Nerozdělená částka</string>
   <string name="unsplit_amount_greater_than_zero">Zůstala nějaká nerozdělená částka.</string>
-  <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu (%1$s). Přejete si pokračovat?</string>
+  <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu %1$s.</string>
+  <string name="continue_confirmation">Přejete si pokračovat?</string>
   <string name="warning_delete_account">Tento účet (%1$s) bude smazán i s jeho transakcemi. Přejete si pokračovat?</string>
   <string name="warning_password_contrib">Nastavení bezpečnostní otázky umožňuje odemknout aplikaci i v případě, že zapomenete heslo.</string>
   <string name="warning_password_no_contrib">Pokud nastavíte heslo, dávejte pozor, abyste na to nezapoměli. Pokud nenastavíte bezpečnostní otázku nebude možné heslo obnovit.</string>
   <string name="warning_reset_account">Pokud budete pokračovat všechny transakce tohoto účtu budou odstraněny z databáze a nepůjde je obnovit.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
-  <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna. Přejete si pokračovat?</string>
+  <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
   <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>

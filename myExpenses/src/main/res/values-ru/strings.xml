@@ -399,7 +399,8 @@
   <string name="type">Тип</string>
   <string name="unsplit_amount">Неразделённая сумма</string>
   <string name="unsplit_amount_greater_than_zero">Ещё есть оставшиеся неразделённая сумма</string>
-  <string name="warning_backup">БД и настройки будут сохранены в \"%1$s\". Вы хотите продолжить?</string>
+  <string name="warning_backup">БД и настройки будут сохранены в \"%1$s\".</string>
+  <string name="continue_confirmation">Вы хотите продолжить?</string>
   <string name="warning_delete_account">Счет \"%1$s\" будет удален со всеми операциями.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">В одной из выбранной категории есть подкатегории, которые также будут удалены.</item>
@@ -434,7 +435,7 @@
   <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
-  <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены. Вы хотите продолжить?</string>
+  <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущая папка для резервного копирования и экспортирования будет автоматически удалена Android если Вы удалите {app_name}. Вы можете предотвратить это, выбрав другую папку из меню Настройки.</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
@@ -628,7 +629,7 @@
   <string name="pref_home_currency_title">Внутренняя валюта</string>
   <string name="grand_total">Общий итог</string>
   <string name="menu_original_amount">Начальный баланс</string>
-  <string name="home_currency_change_warning">При смене внутренней валюты, соответствующие ей суммы и обменные курсы будут утеряны, и должны быть установлены вновь. Вы хотите продолжить?</string>
+  <string name="home_currency_change_warning">При смене внутренней валюты, соответствующие ей суммы и обменные курсы будут утеряны, и должны быть установлены вновь.</string>
   <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
   <string name="warning_ungroup_split_transactions">Выбранные дробные операции будут разгруппированы, т.е. их составные части станут обычными операциями.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

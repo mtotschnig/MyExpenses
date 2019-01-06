@@ -395,7 +395,8 @@
   <string name="type">Tip</string>
   <string name="unsplit_amount">Atanmamış meblağ</string>
   <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
-  <string name="warning_backup">Veritabanı ve tercihler \"%1$s\" konumuna yazılacaktır. Devam etmek istiyor musunuz?</string>
+  <string name="warning_backup">Veritabanı ve tercihler \"%1$s\" konumuna yazılacaktır.</string>
+  <string name="continue_confirmation">Devam etmek istiyor musunuz?</string>
   <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Seçili kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
@@ -428,7 +429,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <string name="warning_restore">Veritabanı ve tercihler \"%1$s\" yedekleme dosyasından yüklenecektir. Güncel veriler silinecektir. Devam etmek istiyor musunuz?</string>
+  <string name="warning_restore">Veritabanı ve tercihler \"%1$s\" yedekleme dosyasından yüklenecektir. Güncel veriler silinecektir.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer {app_name}\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
@@ -596,7 +597,7 @@
   <string name="dialog_command_sync_link_local">Yerelden gönder</string>
   <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veritabanında mevcuttur ve uzaktaki  başka bir arka uca bağlıdır.</string>
   <string name="menu_remove">Kaldır</string>
-  <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır. Devam etmek istiyor musunuz?</string>
+  <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır.</string>
   <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
   <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>
   <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
@@ -710,7 +711,7 @@
   <string name="grand_total">Genel toplam</string>
   <string name="menu_original_amount">Orijinal meblağ</string>
   <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
-  <string name="home_currency_change_warning">Yerel para biriminizi değiştirirseniz eşdeğer meblağlar ile döviz kurları silinecektir ve yeniden tanımlanmaları gerekecektir. Devam etmek istiyor musunuz?</string>
+  <string name="home_currency_change_warning">Yerel para biriminizi değiştirirseniz eşdeğer meblağlar ile döviz kurları silinecektir ve yeniden tanımlanmaları gerekecektir.</string>
   <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
   <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

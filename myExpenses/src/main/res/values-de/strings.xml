@@ -395,7 +395,8 @@
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
-  <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert. Möchten Sie fortfahren?</string>
+  <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert.</string>
+  <string name="continue_confirmation">Möchten Sie fortfahren?</string>
   <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
@@ -428,7 +429,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
+  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie {app_name} deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
@@ -596,7 +597,7 @@
   <string name="dialog_command_sync_link_local">Hochladen von Lokal</string>
   <string name="dialog_synced_to_other">Ein Konto mit UUID %s existiert bereits in der lokalen Datenbank und ist mit einem anderen Backend verbunden.</string>
   <string name="menu_remove">Entfernen</string>
-  <string name="dialog_confirm_sync_remove_backend">Das entfernte Backend %s wird entfernt. Dadurch werden lokal und entfernt gespeicherte Daten nicht berührt, aber der Status der Synchronisation geht verloren. Möchten Sie fortfahren?</string>
+  <string name="dialog_confirm_sync_remove_backend">Das entfernte Backend %s wird entfernt. Dadurch werden lokal und entfernt gespeicherte Daten nicht berührt, aber der Status der Synchronisation geht verloren.</string>
   <string name="dialog_confirm_sync_link_local">Entfernte Daten für dieses Konto werden gelöscht. Achten Sie darauf, dass keine anderen Geräte mit diesem verbunden sind.</string>
   <string name="dialog_confirm_sync_link_remote">Lokale Daten für dieses Konto werden gelöscht.</string>
   <string name="warning_limited_trial">Die Funktion %1$s kann bis %2$s getestet werden.</string>
@@ -713,7 +714,7 @@
   <string name="grand_total">Gesamtsumme</string>
   <string name="menu_original_amount">Originalbetrag</string>
   <string name="menu_equivalent_amount">Gleichwertiger Betrag</string>
-  <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden. Möchten Sie fortfahren?</string>
+  <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden.</string>
   <string name="warning_split_transactions">Die ausgewählten Buchungen werden in einer mehrteiligen Buchung zusammengefasst. Ihre Datumsinformation wird verloren gehen, d. H. durch ihren Durchschnitt ersetzt werden.</string>
   <string name="warning_ungroup_split_transactions">Die Gruppierung der ausgewählten mehrteiligen Buchungen wird aufgelöst, d.h. ihre Teile werden zu normale Buchungen.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

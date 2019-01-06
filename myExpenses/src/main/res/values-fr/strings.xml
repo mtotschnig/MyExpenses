@@ -395,7 +395,8 @@
   <string name="type">Type</string>
   <string name="unsplit_amount">Montant non attribué</string>
   <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
-  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur \"%1$s\". Voulez-vous continuer?</string>
+  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur \"%1$s\".</string>
+  <string name="continue_confirmation">Voulez-vous continuer?</string>
   <string name="warning_delete_account">Le compte \"%1$s\" sera effacé ainsi que toutes ses opérations.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>
@@ -428,7 +429,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
   <string name="warning_reset_account_matched">Si vous continuez, toutes les opérations qui correspondent au filtre actuel  seront supprimées de la base de données et ne pourront plus être restaurées.</string>
-  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées. Voulez-vous continuer?</string>
+  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez {app_name}. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Définissez une décimale entre %1$d et %2$d</string>
@@ -596,7 +597,7 @@
   <string name="dialog_command_sync_link_local">Télécharger en local</string>
   <string name="dialog_synced_to_other">Un compte avec l’uuid %s déjà existe dans la base de données locale et est lié à un serveur distant différent.</string>
   <string name="menu_remove">Supprimer</string>
-  <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra. Voulez-vous continuer ?</string>
+  <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra.</string>
   <string name="dialog_confirm_sync_link_local">Les données à distance pour ce compte seront supprimées. Assurez-vous qu\'aucun autre appareil n\'y est lié.</string>
   <string name="dialog_confirm_sync_link_remote">Les données locales pour ce compte seront supprimées.</string>
   <string name="warning_limited_trial">La fonction %1$s peut être testée jusqu\'au %2$s.</string>
@@ -713,7 +714,7 @@
   <string name="grand_total">Somme finale</string>
   <string name="menu_original_amount">Montant original</string>
   <string name="menu_equivalent_amount">Montant équivalent</string>
-  <string name="home_currency_change_warning">Si vous changez la monnaie locale, les montants équivalents et les taux de change seront perdus et devront être définis à nouveau. Voulez-vous continuer?</string>
+  <string name="home_currency_change_warning">Si vous changez la monnaie locale, les montants équivalents et les taux de change seront perdus et devront être définis à nouveau.</string>
   <string name="warning_split_transactions">Les opérations sélectionnées seront regroupées en une seule opération ventilée. Les informations de date seront perdues, c\'est-à-dire remplacées par leur moyenne.</string>
   <string name="warning_ungroup_split_transactions">Les opérations ventilées sélectionnées seront dissociées, c\'est-à-dire que leurs parties après division deviendront des opérations normales.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

@@ -392,7 +392,8 @@
   <string name="type">Loại</string>
   <string name="unsplit_amount">Số lượng chưa tách</string>
   <string name="unsplit_amount_greater_than_zero">Có một số thao tác về số lượng chưa được phân tách</string>
-  <string name="warning_backup">Cơ sở dữ liệu và tùy biến sẽ được lưu vào thẻ nhớ (%1$s). Bạn có muốn tiếp tục?</string>
+  <string name="warning_backup">Cơ sở dữ liệu và tùy biến sẽ được lưu vào thẻ nhớ (%1$s).</string>
+  <string name="continue_confirmation">Bạn có muốn tiếp tục?</string>
   <string name="warning_delete_account">Tài khoản này sẽ bị xóa kèm theo tất cả các giao dịch bên trong (%1$s). Bạn có thực sự muốn tiếp tục?</string>
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d danh mục được chọn có các danh mục con, chúng cũng sẽ bị xóa đi.</item>
@@ -420,7 +421,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
-  <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
+  <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Thư mục đang được chọn để chứa các bản sao lưu và xuất ra sẽ bị xoá bởi Android nếu bạn gỡ cài đặt {app_name}. Bạn có thể ngăn chặn điều này bằng cách chọn một thư mục chứa khác từ màn hình cài đặt.</string>
   <string name="warning_splitpartcategory_context">Các giao dịch chuyển khoản mà là một phần của giao dịch phân tách có thể được chỉnh sửa và trong phần chỉnh sửa của phần tách.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Vui lòng chọn một số trong khoảng %1$d và %2$d</string>
@@ -588,7 +589,7 @@
   <string name="dialog_command_sync_link_local">Tải lên từ nội bộ</string>
   <string name="dialog_synced_to_other">Một tài khoản với UUID %s đã tồn tại trong CSDL nội bộ và nó cũng được liên kết với một backend từ xa khác.</string>
   <string name="menu_remove">Xoá</string>
-  <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng. Bạn có chắc là muốn tiếp tục không?</string>
+  <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng.</string>
   <string name="dialog_confirm_sync_link_local">Những dữ liệu từ xa của tài khoản này sẽ bị xoá. Đảm bảo rằng không có thiết bị nào khác được liên kết với tài khoản này.</string>
   <string name="dialog_confirm_sync_link_remote">Dữ liệu nội bộ của tài khoản này sẽ bị xoá.</string>
   <string name="warning_limited_trial">Tính năng %1$s có thể được dùng thử cho tới %2$s</string>
@@ -702,7 +703,7 @@
   <string name="grand_total">Tất cả</string>
   <string name="menu_original_amount">Khoản gốc</string>
   <string name="menu_equivalent_amount">Khoản tương đương</string>
-  <string name="home_currency_change_warning">Nếu bạn đổi tiền tệ của quốc gia bạn, khoản tương đương và tỷ giá hối đoái sẽ bị mất, chúng sẽ cần được thiết đặt lại. Bạn có muốn tiếp tục không?</string>
+  <string name="home_currency_change_warning">Nếu bạn đổi tiền tệ của quốc gia bạn, khoản tương đương và tỷ giá hối đoái sẽ bị mất, chúng sẽ cần được thiết đặt lại.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">Bỏ gộp nhóm các giao dịch con</string>
   <plurals name="ungroup_split_transaction_success">

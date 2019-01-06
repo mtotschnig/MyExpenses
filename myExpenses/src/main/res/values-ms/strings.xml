@@ -392,7 +392,8 @@
   <string name="type">Jenis</string>
   <string name="unsplit_amount">Jangan asingkan amaun</string>
   <string name="unsplit_amount_greater_than_zero">Masih terdapat beberapa amaun yang belum diasingkan.</string>
-  <string name="warning_backup">Pangkalan data dan keutamaan akan disimpan ke \"%1$s\". Anda mahu teruskan?</string>
+  <string name="warning_backup">Pangkalan data dan keutamaan akan disimpan ke \"%1$s\".</string>
+  <string name="continue_confirmation">Anda mahu teruskan?</string>
   <string name="warning_delete_account">Akaun \"%1$s\" akan dipadam dengan semua transaksi di dalamnya.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d kategori terpilih mempunyai subkategori, yang juga akan dipadamkan.</item>
@@ -420,7 +421,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
-  <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam, Anda mahu teruskan?</string>
+  <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang {app_name}. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian pengasingan hanya boleh disunting dalam konteks pengasingan.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
@@ -588,7 +589,7 @@
   <string name="dialog_command_sync_link_local">Muat naik dari setempat</string>
   <string name="dialog_synced_to_other">Satu akaun dengan uuid %s telah wujud dalam pangkalan data setempat dan dipaut dengan bahagian belakang jauh yang lain.</string>
   <string name="menu_remove">Buang</string>
-  <string name="dialog_confirm_sync_remove_backend">Bahagian belakang jauh %s akan dibuang. Ia tidak mempengaruhi data yang disimpan secara setempat atau jauh, tetapi status penyegerakan akan hilang. Anda mahu teruskan?</string>
+  <string name="dialog_confirm_sync_remove_backend">Bahagian belakang jauh %s akan dibuang. Ia tidak mempengaruhi data yang disimpan secara setempat atau jauh, tetapi status penyegerakan akan hilang.</string>
   <string name="dialog_confirm_sync_link_local">Data jauh untuk akaun ini akan dipadamkan. Pastikan tiada peranti dipaut padanya.</string>
   <string name="dialog_confirm_sync_link_remote">Data setempat untuk akaun ini akan dipadamkan.</string>
   <string name="warning_limited_trial">Fitur %1$s boleh diuji sehingga %2$s.</string>
@@ -703,7 +704,7 @@
   <string name="grand_total">Jumlah keseluruhan</string>
   <string name="menu_original_amount">Amaun asal</string>
   <string name="menu_equivalent_amount">Amaun setara</string>
-  <string name="home_currency_change_warning">Jika anda mengubah matawang negara anda, amaun setara dan kadar pertukaran akan hilang, dan perlu ditakrif sekali lagi. Anda mahu teruskan?</string>
+  <string name="home_currency_change_warning">Jika anda mengubah matawang negara anda, amaun setara dan kadar pertukaran akan hilang, dan perlu ditakrif sekali lagi.</string>
   <string name="warning_split_transactions">Transaksi terpilih akan dikumpulkan menjadi satu transaksi pengasingan. Maklumat tarikhnya akan hilang iaitu diganti secara purata.</string>
   <string name="warning_ungroup_split_transactions">Transaksi pengasingan terpilih akan dinyahkumpulkan, iaitu bahagian asing mereka akan menjadi transaksi biasa.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

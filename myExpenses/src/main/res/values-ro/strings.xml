@@ -368,7 +368,8 @@
   <string name="type">Tip</string>
   <string name="unsplit_amount">Valoare nerepartizată</string>
   <string name="unsplit_amount_greater_than_zero">Există încă unele valori nerepartizate</string>
-  <string name="warning_backup">Baza de date si preferinţele vor fi salvate în \"%1$s\". Doriţi să continuaţi?</string>
+  <string name="warning_backup">Baza de date si preferinţele vor fi salvate în \"%1$s\".</string>
+  <string name="continue_confirmation">Doriţi să continuaţi?</string>
   <string name="warning_delete_account">Contul \"%1$s\" va fi şters cu toate tranzacţiile sale.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">O categorie selectată are subcategorii, care vor fi şterse de asemenea.</item>
@@ -395,7 +396,7 @@
   <string name="warning_reset_account">Dacă veţi continua, toate tranzacţiile din acest cont vor fi şterse din baza de date şi nu se vor putea restaura.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
-  <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse. Doriţi să continuaţi?</string>
+  <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>

@@ -315,7 +315,8 @@
   <string name="type">වර්ගය </string>
   <string name="unsplit_amount">නොබෙදූ අගය </string>
   <string name="unsplit_amount_greater_than_zero">එහි තවමත් නොබෙදූ අගයෙන් කොටසක් ඇත </string>
-  <string name="warning_backup">දත්ත ගබඩාව සහ මනාප \"%1$s\" තුලට සුරැකි. ඔබට ඉදිරයට යාමට අවශ්‍යද?</string>
+  <string name="warning_backup">දත්ත ගබඩාව සහ මනාප \"%1$s\" තුලට සුරැකි.</string>
+  <string name="continue_confirmation"> ඔබට ඉදිරයට යාමට අවශ්‍යද?</string>
   <string name="warning_delete_account">\"%1$s\" ගිණුම එහි ගනුදෙනු සමග මකා දමයි </string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">තෝරාගත් ප්‍රබෙධයහි අනු ප්‍රබෙධද මකා දැමෙයි </item>
@@ -337,7 +338,7 @@
   <string name="warning_reset_account">ඔබ ඉදිරියට ගියහොත් මෙම ගිණුමෙහි ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
-  <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.ඔබට ඉදිරියට යාමට අවශ්‍යද?</string>
+  <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
   <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
   <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
   <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>

@@ -392,7 +392,8 @@
   <string name="type">Mota</string>
   <string name="unsplit_amount">Kopuruaren zatiak batu</string>
   <string name="unsplit_amount_greater_than_zero">Badago batu gabeko kopuruaren zati bat oraindik</string>
-  <string name="warning_backup">Datu-basea eta hobespenak \"%1$s\"-ra gordeko dira, Jarraitu nahi duzu?</string>
+  <string name="warning_backup">Datu-basea eta hobespenak \"%1$s\"-ra gordeko dira.</string>
+  <string name="continue_confirmation">Jarraitu nahi duzu?</string>
   <string name="warning_delete_account">\"%1$s\" kontua eta bere transakzio guztiak ezabatuko dira.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Aukeratutako kategoria batek azpi-kategoriak ditu, hauek ere ezabatuko dira.</item>
@@ -425,7 +426,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
   <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
-  <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira. Jarraitu nahi duzu?</string>
+  <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du {app_name} desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
   <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ezarri %1$d eta %2$d bitarteko zenbaki bat</string>
@@ -593,7 +594,7 @@
   <string name="dialog_command_sync_link_local">Igo tokiko biltegitik</string>
   <string name="dialog_synced_to_other">%s UUIDa duen kontu bat dagoeneko datu-base lokalean dago eta urruneko atzealdeko batera dago estekatuta.</string>
   <string name="menu_remove">Kendu</string>
-  <string name="dialog_confirm_sync_remove_backend">%s urruneko atzealdekoa kendu egingo da. Honek ez dio eragingo lokalean edo urrunean biltegiratutako datuei, baina sinkronizazioaren egoera galduko litzateke. Jarraitu nahi duzu?</string>
+  <string name="dialog_confirm_sync_remove_backend">%s urruneko atzealdekoa kendu egingo da. Honek ez dio eragingo lokalean edo urrunean biltegiratutako datuei, baina sinkronizazioaren egoera galduko litzateke.</string>
   <string name="dialog_confirm_sync_link_local">Kontu honetako urruneko datuak ezabatuak izango dira. Ziurtatu beste gailurik ez dagoela berari estekatuta.</string>
   <string name="dialog_confirm_sync_link_remote">Kontu honen tokiko informazioa ezabatuko da.</string>
   <string name="warning_limited_trial">%1$s eginbidea %2$s-(e)ra arte probatu daiteke.</string>

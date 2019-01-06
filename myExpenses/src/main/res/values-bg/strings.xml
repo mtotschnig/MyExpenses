@@ -395,7 +395,8 @@
   <string name="type">Тип</string>
   <string name="unsplit_amount">Неразпределена сума</string>
   <string name="unsplit_amount_greater_than_zero">Останала е неразпределена сума.</string>
-  <string name="warning_backup">База данни и предпочитания ще бъдат запаметени в \"%1$s\". Искате ли да продължите?</string>
+  <string name="warning_backup">База данни и предпочитания ще бъдат запаметени в \"%1$s\".</string>
+  <string name="continue_confirmation">Искате ли да продължите?</string>
   <string name="warning_delete_account">Сметка \"%1$s\" ще бъде изтрита с всички нейни плащания.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Избраната категория има подкатегории, които също ще бъдат изтрити.</item>
@@ -428,7 +429,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
   <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
-  <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити. Искате ли да продължите?</string>
+  <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за архив и експорт ще се изтрие автоматично от Андроид, ако деинсталирате {app_name}. Може да избегнете това, като изберете различна папка от Настройки.</string>
   <string name="warning_splitpartcategory_context">Преводите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
@@ -596,7 +597,7 @@
   <string name="dialog_command_sync_link_local">Изпрати локалните</string>
   <string name="dialog_synced_to_other">Сметката %s вече съществува в локалната база данни и е свързана с друго отдалечено място за съхранение.</string>
   <string name="menu_remove">Премахни</string>
-  <string name="dialog_confirm_sync_remove_backend">Отдалеченото място %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране. Да продължим ли?</string>
+  <string name="dialog_confirm_sync_remove_backend">Отдалеченото място %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране.</string>
   <string name="dialog_confirm_sync_link_local">Отдалечените данни за този акаунт ще бъдат изтрити. Уверете се, че няма други устройства свързани към тях.</string>
   <string name="dialog_confirm_sync_link_remote">Локалните данни за този акаунт ще бъдат изтрити.</string>
   <string name="warning_limited_trial">Възможността за %1$s може да бъде тествана до %s.</string>
@@ -713,7 +714,7 @@
   <string name="grand_total">Общо</string>
   <string name="menu_original_amount">Оригинална сума</string>
   <string name="menu_equivalent_amount">Еквивалентна сума</string>
-  <string name="home_currency_change_warning">Ако промените основната валута, еквивалентните суми и валутните курсове ще бъдат загубени и ще трябва да бъдат зададени отново. Ще продължите ли?</string>
+  <string name="home_currency_change_warning">Ако промените основната валута, еквивалентните суми и валутните курсове ще бъдат загубени и ще трябва да бъдат зададени отново.</string>
   <string name="warning_split_transactions">Избраните транзакции ще бъдат групирани в една разпределена транзакция. Информацията им за дата ще бъде изгубена, т.е. заменена от средната им стойност.</string>
   <string name="warning_ungroup_split_transactions">Избраните разпределени транзакции ще бъдат разгрупирани, т.е. разпределените им части ще станат отделни транзакции.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

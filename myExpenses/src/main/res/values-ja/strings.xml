@@ -392,7 +392,8 @@
   <string name="type">種類</string>
   <string name="unsplit_amount">未分割金額</string>
   <string name="unsplit_amount_greater_than_zero">まだ分割されていない金額が残っています。</string>
-  <string name="warning_backup">データベースとプリファレンスが \"%1$s\" に保存されます。続けますか?</string>
+  <string name="warning_backup">データベースとプリファレンスが \"%1$s\" に保存されます。</string>
+  <string name="continue_confirmation">続けますか?</string>
   <string name="warning_delete_account">勘定 \"%1$s\" はすべての取引と共に削除されます。</string>
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d の選択された分類は副分類があります。これらも同様に削除されます。</item>
@@ -420,7 +421,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
-  <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
+  <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d から %2$d の間で数を設定してください。</string>
@@ -588,7 +589,7 @@
   <string name="dialog_command_sync_link_local">ローカルからアップロード</string>
   <string name="dialog_synced_to_other">uuid %s のアカウントは、ローカルデータベースに既に存在し、別のリモートバックエンドにリンクされています。</string>
   <string name="menu_remove">削除</string>
-  <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。 続けますか?</string>
+  <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。</string>
   <string name="dialog_confirm_sync_link_local">このアカウントのリモートデータは削除されます。 他のデバイスがリンクされていないことを確認してください。</string>
   <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>
   <string name="warning_limited_trial">%1$s機能は %2$s までテストできます。</string>
@@ -704,7 +705,7 @@
   <string name="grand_total">総合計</string>
   <string name="menu_original_amount">当初金額</string>
   <string name="menu_equivalent_amount">相当金額</string>
-  <string name="home_currency_change_warning">自国通貨を変更すると、相当金額と為替レートが失われ、再度定義する必要があります。 続けますか?</string>
+  <string name="home_currency_change_warning">自国通貨を変更すると、相当金額と為替レートが失われ、再度定義する必要があります。</string>
   <string name="warning_split_transactions">選択した取引は、1つの分割取引にグループ化されます。 それらの日付情報は失われます。すなわち平均で置き換えられます。</string>
   <string name="warning_ungroup_split_transactions">選択された分割取引はグループ解除されます。分割された部分は通常の取引になります。</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
