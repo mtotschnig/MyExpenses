@@ -553,6 +553,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               .collect(Collectors.toList());
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
+        } finally {
+          syncBackendProvider.tearDown();
         }
         int requested = ids.length;
         c = cr.query(TransactionProvider.ACCOUNTS_URI,
@@ -607,6 +609,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.SUCCESS;
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
+        } finally {
+          syncBackendProvider.tearDown();
         }
       }
       case TaskExecutionFragment.TASK_INIT: {
@@ -661,6 +665,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (IOException e) {
           return Result.FAILURE;
+        } finally {
+          syncBackendProvider.tearDown();
         }
       }
       case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {

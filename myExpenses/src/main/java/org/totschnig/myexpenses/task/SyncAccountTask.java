@@ -13,6 +13,7 @@ import com.annimon.stream.Exceptional;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -108,11 +109,13 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
       if (shouldReturnRemoteDataList) {
         syncAccounts = syncBackendProvider.getRemoteAccountList(account).collect(Collectors.toList());
         backups = syncBackendProvider.getStoredBackups(account);
+        syncBackendProvider.tearDown();
       } else {
         syncAccounts = null;
         backups = null;
       }
     } catch (Throwable throwable) {
+      SyncAdapter.log().e(throwable);
       return Exceptional.of(throwable);
     }
     return Exceptional.of(() -> new Result(accountName, syncAccounts, backups, localUnsynced));

@@ -323,7 +323,11 @@ public class SyncBackendList extends Fragment implements
       try {
         android.accounts.Account account = GenericAccountService.GetAccount(accountName);
         return SyncBackendProviderFactory.get(getContext(), account, true)
-            .map(syncBackendProvider -> getRemoteAccountList(account, syncBackendProvider))
+            .map(syncBackendProvider -> {
+              final AccountMetaDataLoaderResult remoteAccountList = getRemoteAccountList(account, syncBackendProvider);
+              syncBackendProvider.tearDown();
+              return remoteAccountList;
+            })
             .getOrThrow();
       } catch (Throwable throwable) {
         return new AccountMetaDataLoaderResult(null, throwable);
