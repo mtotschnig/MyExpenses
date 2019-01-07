@@ -138,13 +138,10 @@ public class GenericAccountService extends Service {
   }
 
   public static void activateSync(Account account) {
-    if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) <= 0) {
-
-      ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true);
-      ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
-      ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-          PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
-    }
+    ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true);
+    ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
+    ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+        PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
   }
 
   public static void deactivateSync(Account account) {
