@@ -192,17 +192,14 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   private ChangeSet getChangeSetFromFile(Pair<Integer, File> file) throws IOException {
     FileInputStream inputStream = new FileInputStream(file.second);
-    ChangeSet changeSetFromInputStream = getChangeSetFromInputStream(
+    return getChangeSetFromInputStream(
         new SequenceNumber(file.first, getSequenceFromFileName(file.second.getName())), inputStream);
-    inputStream.close();
-    return changeSetFromInputStream;
   }
 
   private Optional<AccountMetaData> getAccountMetaDataFromFile(File file) {
     try {
       FileInputStream inputStream = new FileInputStream(file);
       Optional<AccountMetaData> result = getAccountMetaDataFromInputStream(inputStream);
-      inputStream.close();
       return result;
     } catch (IOException e) {
       log().e(e);

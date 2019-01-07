@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.StreamReader;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -63,7 +62,11 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected String readEncryptionToken() throws IOException {
-    return new StreamReader(getInputStream( basePath + "/" + ENCRYPTION_TOKEN_FILE_NAME)).read();
+    final String resourcePath = basePath + "/" + ENCRYPTION_TOKEN_FILE_NAME;
+    if (!exists(resourcePath)) {
+      return null;
+    }
+    return new StreamReader(getInputStream(resourcePath)).read();
   }
 
   @Override
@@ -153,7 +156,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void writeLockToken(String lockToken) throws IOException {
-    saveInputStream(getLockFilePath(), new ByteArrayInputStream(lockToken.getBytes()), false);
+    saveInputStream(getLockFilePath(), toInputStream(lockToken, false));
   }
 
   @Override
@@ -236,13 +239,12 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private void saveUriToFolder(String fileName, Uri uri, String folder, boolean maybeEncrypt) throws IOException {
-    InputStream in = MyApplication.getInstance().getContentResolver()
-        .openInputStream(uri);
+    InputStream in = MyApplication.getInstance().getContentResolver().openInputStream(uri);
     if (in == null) {
       throw new IOException("Could not read " + uri.toString());
     }
     String finalFileName = getLastFileNamePart(fileName);
-    saveInputStream(folder + "/" + finalFileName, in, maybeEncrypt);
+    saveInputStream(folder + "/" + finalFileName, maybeEncrypt ? maybeEncrypt(in) : in);
   }
 
   @Override
@@ -288,19 +290,19 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       path = accountPath + "/" + folder;
       requireFolder(path);
     }
-    saveInputStream(path + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()), maybeEncrypt);
+    saveInputStream(path + "/" + fileName, toInputStream(fileContents, maybeEncrypt));
   }
 
   @Override
   void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
-    saveInputStream(basePath + "/" + fileName, new ByteArrayInputStream(fileContents.getBytes()), maybeEncrypt);
+    saveInputStream(basePath + "/" + fileName, toInputStream(fileContents, maybeEncrypt));
   }
 
-  private void saveInputStream(String path, InputStream contents, boolean maybeEncrypt) throws IOException {
+  private void saveInputStream(String path, InputStream contents) throws IOException {
     try {
       mDbxClient.files().uploadBuilder(path)
           .withMode(WriteMode.OVERWRITE)
-          .uploadAndFinish(maybeEncrypt ? maybeEncrypt(contents) : contents);
+          .uploadAndFinish(contents);
     } catch (DbxException e) {
       throw new IOException(e);
     }

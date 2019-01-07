@@ -19,8 +19,6 @@ import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
@@ -327,10 +325,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
       @Override
       public void writeTo(BufferedSink sink) throws IOException {
-        BufferedInputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(fileContents.getBytes()));
         Source source = null;
         try {
-          source = Okio.source(maybeEncrypt ? maybeEncrypt(inputStream) : inputStream);
+          source = Okio.source(toInputStream(fileContents, maybeEncrypt));
           sink.writeAll(source);
         } finally {
           Util.closeQuietly(source);

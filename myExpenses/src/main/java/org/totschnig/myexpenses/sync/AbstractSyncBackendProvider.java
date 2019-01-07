@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.util.crypt.EncryptionHelper;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -169,6 +170,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
   }
 
+  protected InputStream toInputStream(String fileContents, boolean maybeEncrypt) throws IOException {
+    final InputStream inputStream = new ByteArrayInputStream(fileContents.getBytes());
+    return maybeEncrypt ? maybeEncrypt(inputStream) : inputStream;
+  }
+
   @Override
   public void tearDown() {
   }
@@ -181,8 +187,10 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @Nullable
   ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
       throws IOException {
-    final BufferedReader reader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)));
-    List<TransactionChange> changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
+    List<TransactionChange> changes;
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
+      changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
+    }
     if (changes == null || changes.size() == 0) {
       return null;
     }
@@ -230,9 +238,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract InputStream getInputStreamForPicture(String relativeUri) throws IOException;
 
   Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
-    try {
-      return Optional.of(gson.fromJson(
-          new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream))), AccountMetaData.class));
+    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
+      return Optional.of(gson.fromJson(bufferedReader, AccountMetaData.class));
     } catch (Exception e) {
       CrashHandler.report(e, SyncAdapter.TAG);
       return Optional.empty();
