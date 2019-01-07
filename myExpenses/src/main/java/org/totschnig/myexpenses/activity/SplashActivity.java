@@ -66,6 +66,12 @@ public class SplashActivity extends SyncBackendSetupActivity {
       startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
       return;
     }
+    if (MyApplication.isInstrumentationTest()) {
+      PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
+          R.xml.preferences, true);
+    } else {
+      PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+    }
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.onboarding);
@@ -73,12 +79,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
     //setupToolbar(false);
     pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
     pager.setAdapter(pagerAdapter);
-    if (MyApplication.isInstrumentationTest()) {
-      PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
-          R.xml.preferences, true);
-    } else {
-      PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-    }
   }
 
   @Override
