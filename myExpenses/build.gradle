@@ -45,11 +45,7 @@ android {
 
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
-        if (gradle.startParameter.taskNames.contains(":myExpenses:assembleDebug")) {
-            minSdkVersion 21
-        } else {
-            minSdkVersion project.minSdkVersion
-        }
+        minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode 359
         versionName '2.9.9'
