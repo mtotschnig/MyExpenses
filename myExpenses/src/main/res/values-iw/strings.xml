@@ -684,7 +684,6 @@
   <string name="licence_removal_success">מפתח הרישיון השתחרר בהצלחה ממכשיר זה.</string>
   <string name="professional_key">מפתח מקצועי</string>
   <string name="n_months">%d חודשים</string>
-  <string name="professionalPriceShortInfo">החל מ- %s לחודש</string>
   <string name="eu_vat_info">לתושבי האיחוד האירופי המחירים המוצגים אינם כוללים מע\"מ.</string>
   <string name="licence_migration_info">{app_name} מיישם מנגנון אימות רשיון חדש. אנא בקש מפתח חדש.</string>
   <string name="valid_until">עד %s</string>
@@ -820,4 +819,5 @@
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">מסנן \'לא ממופה\' אינו יכול להיכלל בבחירה מרובה</string>
   <string name="upgrade_information_cloud_sync_storage_format">עם גרסה 2.9.8,  האופן שבו הנתונים מאוחסנים על backends מסונכרן השתנה. שדרג לגרסה זו בכל המכשירים המסונכרנים, לפני הזנת רשומות חדשות בכל אחת מהן.</string>
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

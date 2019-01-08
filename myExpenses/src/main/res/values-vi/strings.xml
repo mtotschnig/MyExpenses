@@ -658,7 +658,6 @@
   <string name="licence_removal_success">Khoá bản quyền đã được xoá khỏi thiết bị này.</string>
   <string name="professional_key">Khoá Cao cấp</string>
   <string name="n_months">%d tháng</string>
-  <string name="professionalPriceShortInfo">khởi điểm từ %s/tháng</string>
   <string name="eu_vat_info">Đối với những người cư trú tại Liên minh châu Âu, số tiền hiển thị không bao gồm thuế giá trị gia tăng.</string>
   <string name="licence_migration_info">{app_name} bắt đầu sử dụng phương thức xác minh bản quyền mới. Vui lòng yêu cầu một khoá mới.</string>
   <string name="valid_until">Cho tới %s</string>
@@ -732,4 +731,5 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

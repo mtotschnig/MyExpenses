@@ -668,7 +668,6 @@
   <string name="licence_removal_success">Der Lizenzschlüssel wurde erfolgreich von diesem Gerät freigegeben.</string>
   <string name="professional_key">Professioneller Schlüssel</string>
   <string name="n_months">%d Monate</string>
-  <string name="professionalPriceShortInfo">ab %s / Monat</string>
   <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
   <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>
   <string name="valid_until">Bis %s</string>
@@ -798,4 +797,5 @@
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">Der Filter \"Nicht zugeordnet\" kann nicht in die Mehrfachauswahl aufgenommen werden</string>
   <string name="upgrade_information_cloud_sync_storage_format">Mit der Version 2.9.8 hat sich die Art und Weise geändert, wie Daten auf Synchronisations-Backends gespeichert werden. Aktualisieren Sie diese Version auf allen synchronisierten Geräten, bevor Sie neue Datensätze eingeben.</string>
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

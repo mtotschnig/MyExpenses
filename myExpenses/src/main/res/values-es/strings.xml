@@ -668,7 +668,6 @@
   <string name="licence_removal_success">La llave de licencia se quitó satisfactoriamente de su dispositivo.</string>
   <string name="professional_key">Llave Profesional</string>
   <string name="n_months">%dmeses</string>
-  <string name="professionalPriceShortInfo">Empezar desde %s / mes</string>
   <string name="eu_vat_info">Para residentes de la Unión Europea, los precios pueden aparecer sin IVA.</string>
   <string name="licence_migration_info">{app_name} implementa un nuevo sistema de validación de licencia. Por favor, solicite una llave nueva.</string>
   <string name="valid_until">Hasta %s</string>
@@ -809,4 +808,5 @@
   <string name="dialog_title_backup_protected">Copia de seguridad (encriptada)</string>
   <string name="input_label_passphrase">Frase de contraseña</string>
   <string name="button_label_no_encryption">Sin encriptación</string>
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

@@ -481,4 +481,5 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

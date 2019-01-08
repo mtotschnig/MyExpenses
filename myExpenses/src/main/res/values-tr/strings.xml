@@ -665,7 +665,6 @@
   <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
   <string name="professional_key">Profesyonel Anahtar</string>
   <string name="n_months">%d ay</string>
-  <string name="professionalPriceShortInfo">ayda %s değerinden başlayan fiyatla</string>
   <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
   <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>
   <string name="valid_until">%s tarihine kadar geçerli</string>
@@ -765,4 +764,5 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

@@ -660,7 +660,6 @@
   <string name="licence_removal_success">このデバイスからライセンスキーを解除しました。</string>
   <string name="professional_key">プロフェッショナルキー</string>
   <string name="n_months">%d ヶ月</string>
-  <string name="professionalPriceShortInfo">%s / 月 ～</string>
   <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
   <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
   <string name="valid_until">%s まで</string>
@@ -799,4 +798,5 @@
   <string name="dialog_title_backup_protected">バックアップ (暗号化)</string>
   <string name="input_label_passphrase">パスフレーズ</string>
   <string name="button_label_no_encryption">暗号化しない</string>
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

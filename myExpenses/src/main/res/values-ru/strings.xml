@@ -593,7 +593,6 @@
   <string name="licence_removal_success">Лицензионный ключ был успешно отключен от этого устройства.</string>
   <string name="professional_key">Professional-ключ</string>
   <string name="n_months">%d месяцев</string>
-  <string name="professionalPriceShortInfo">От %s / месяц</string>
   <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС</string>
   <string name="valid_until">До %s</string>
   <!--%1$s date, %2$s price-->
@@ -656,4 +655,5 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

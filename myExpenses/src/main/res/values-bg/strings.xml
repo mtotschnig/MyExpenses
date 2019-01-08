@@ -299,9 +299,9 @@
   <string name="pref_manage_methods_title">Начини на плащане</string>
   <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на страни (платци и получатели).</string>
   <string name="pref_manage_parties_title">Страни</string>
-  <string name="pref_manage_sync_backends_title">Отдалечени места за съхранение и синхронизация</string>
+  <string name="pref_manage_sync_backends_title">Отдалечени хранилища за архивиране и синхронизация</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Добавяне на места за отдалечено съхранение (%s).</string>
+  <string name="pref_manage_sync_backends_summary">Добавяне на хранилища за синхронизиране на сметки (%s).</string>
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
   <string name="pref_password_not_equal">Паролите не съвпадат</string>
   <string name="pref_perform_protection_title">Защита</string>
@@ -578,8 +578,8 @@
   <string name="hint_user_name">Име на потребител</string>
   <string name="hint_password">Парола</string>
   <string name="label_trust_certificate">Довери се на този сертификат</string>
-  <string name="no_sync_backends">Няма отдалечено място за съхранение, с което да се прави синхронизация</string>
-  <string name="menu_create_sync_backend">Ново отдалечено място за съхранение, с което да се прави синхронизация</string>
+  <string name="no_sync_backends">Няма отдалечено хранилище, с което да се прави синхронизация</string>
+  <string name="menu_create_sync_backend">Ново отдалечено хранилище, с което да се прави синхронизация</string>
   <string name="validate_error_not_empty">Трябва да не е празно</string>
   <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се доверим. Изглежда е невалиден.</string>
   <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV ресурс.</string>
@@ -595,30 +595,30 @@
   <string name="dialog_sync_link">Сметката %s съществува и в локалната и в отдалечената бази от данни. Когато ги свържете ще трябва да решите дали първоначално да се пренесат локалните данни в отдалечената база или да се заредят данните от отдалечената в локалната.</string>
   <string name="dialog_command_sync_link_remote">Зареди от отдалечената</string>
   <string name="dialog_command_sync_link_local">Изпрати локалните</string>
-  <string name="dialog_synced_to_other">Сметката %s вече съществува в локалната база данни и е свързана с друго отдалечено място за съхранение.</string>
+  <string name="dialog_synced_to_other">Сметката %s вече съществува в локалната база данни и е свързана с друго отдалечено хранилище.</string>
   <string name="menu_remove">Премахни</string>
-  <string name="dialog_confirm_sync_remove_backend">Отдалеченото място %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране.</string>
-  <string name="dialog_confirm_sync_link_local">Отдалечените данни за този акаунт ще бъдат изтрити. Уверете се, че няма други устройства свързани към тях.</string>
-  <string name="dialog_confirm_sync_link_remote">Локалните данни за този акаунт ще бъдат изтрити.</string>
+  <string name="dialog_confirm_sync_remove_backend">Отдалеченото хранилище %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране.</string>
+  <string name="dialog_confirm_sync_link_local">Отдалечените данни за тази сметка ще бъдат изтрити. Уверете се, че няма други устройства свързани към тях.</string>
+  <string name="dialog_confirm_sync_link_remote">Локалните данни за тази сметка ще бъдат изтрити.</string>
   <string name="warning_limited_trial">Възможността за %1$s може да бъде тествана до %s.</string>
-  <string name="warning_trial_limit_reached">Периодът за тестване на възможността за %s е изтекъл.</string>
+  <string name="warning_trial_limit_reached">Периодът за тестване на %s е изтекъл.</string>
   <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на {app_name} на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на акаунт от съществуващо отдалечено място за съхранение. Трябва да изберете родителската й папка, за да използвате отново това отдалечено място за съхранение.</string>
-  <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено място за съхранение.</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d сметки са избрани да бъдат синхронизирани с отдалеченото място за съхранение.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d сметки не могат да бъдат избрани за синхронизиране с отдалеченото място за съхранение.</string>
-  <string name="link_account_failure_2">Сметка със същото име вече съществува на отдалеченото място за съхранение.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на сметка от съществуващо отдалечено хранилище. Трябва да изберете родителската й папка, за да използвате отново това отдалечено хранилище.</string>
+  <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено хранилище.</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d сметки са избрани да бъдат синхронизирани с отдалеченото хранилище.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d сметки не могат да бъдат избрани за синхронизиране с отдалеченото хранилище.</string>
+  <string name="link_account_failure_2">Сметка със същото име вече съществува на отдалеченото хранилище.</string>
   <string name="link_account_failure_3">Конфликтът може да бъде разрешен ръчно от контекстното меню на елемента.</string>
-  <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото място за съхранение</string>
+  <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото хранилище</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Синхронизация чрез облак</string>
   <string name="all_contrib_key_features">Всички възможности според лиценза</string>
   <string name="all_extended_key_features">Всички възможности на разширения ключ</string>
   <string name="upgrade_now">Надстройте сега</string>
-  <string name="pref_backup_cloud_title">Запазване на отдалечено място</string>
-  <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и на отдалечено място.</string>
-  <string name="auto_backup_cloud_create_backend">Задаване на отдалечено място за съхранение от основния екран на менюто Настройки</string>
-  <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на архивен файл %1$s на отдалеченото място %2$s:</string>
+  <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
+  <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
+  <string name="auto_backup_cloud_create_backend">Задаване на отдалечено хранилище за синхронизация от основния екран на менюто Настройки</string>
+  <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на архивен файл %1$s в отдалеченото хранилище %2$s:</string>
   <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
   <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
   <string name="currency_symbol">Знак за валута</string>
@@ -627,15 +627,15 @@
   <string name="pref_tracking_summary">Разрешете ни да събираме анонимни данни относно начина на употреба, което ще ни помогне да планираме подобрения.</string>
   <string name="pref_tracking_title">Събиране на данни за употреба на приложението</string>
   <string name="sync_database_error">Възникна грешка в базата данни при синхронизиране.</string>
-  <string name="sync_io_error_cannot_connect">Неуспешен опит за връзка с отдалечено място за съхранение.</string>
+  <string name="sync_io_error_cannot_connect">Неуспешен опит за връзка с отдалечено хранилище.</string>
   <string name="sync_error_will_try_again_later">Ще опитаме отново по-късно.</string>
   <string name="sync_io_exception_reset_account_data">Грешка при нулиране на отдалечена сметка.</string>
   <string name="sync_success_reset_account_data">Отдалечените данни за сметка %s са изтрити.</string>
   <string name="sync_io_exception_setup_remote_account">Грешка при установяване на отдалечена сметка.</string>
-  <string name="sync_io_exception_reading_change_set">Грешка при четене на промени от отдалеченото място за съхранение.</string>
+  <string name="sync_io_exception_reading_change_set">Грешка при четене на промени от отдалеченото хранилище.</string>
   <string name="sync_io_exception_syncing">Грешка при синхронизиране на промените със сървъра.</string>
-  <string name="sync_io_exception_unlocking">Грешка при опит за отключване на отдалеченото място за съхранение.</string>
-  <string name="sync_io_exception_locking">Отдалеченото място за съхранение или е заключено, или не може да се отключи.</string>
+  <string name="sync_io_exception_unlocking">Грешка при опит за отключване на отдалеченото хранилище.</string>
+  <string name="sync_io_exception_locking">Отдалеченото хранилище е заключено и не може да се отключи.</string>
   <string name="synchronization_start">Започва синхронизиране на сметка %s.</string>
   <string name="synchronization_end_success">Записани са %1$d промени в локалната база данни. Записани са %2$d локални промени в отдалечената база данни.</string>
   <string name="synchronization_end_success_none">Няма промени, които да се синхронизират.</string>
@@ -668,7 +668,6 @@
   <string name="licence_removal_success">Лицензният ключ бе успешно премахнат от това устройство.</string>
   <string name="professional_key">Професионален ключ</string>
   <string name="n_months">%d месеца</string>
-  <string name="professionalPriceShortInfo">започва от %s / месец</string>
   <string name="eu_vat_info">За гражданите на Европейския съюз цените не включват ДДС.</string>
   <string name="licence_migration_info">{app_name} използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
   <string name="valid_until">Валиден до %s</string>
@@ -680,7 +679,7 @@
   <string name="switch_to_yearly">Преминаване на годишен абонамент</string>
   <string name="switch_to_monthly">Преминаване на месечен абонамент</string>
   <string name="extend_validity">Удължаване на валидността</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечно място за съхранение. Това може да отнеме известно време.</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечното хранилище. Това може да отнеме известно време.</string>
   <string name="donate_button_invoice">Фактура</string>
   <string name="menu_sort_direction">Посока на сортиране</string>
   <string name="sort_direction_ascending">възходяща</string>
@@ -691,7 +690,7 @@
   <string name="dropbox_folder_name_prompt">Въведете името на съществуваща папка в основното ниво на вашия Dropbox</string>
   <string name="dropbox_folder_not_found">Папката не е намерена</string>
   <string name="sync_auth_exception_login_again">Достъпът е отказан. Моля, влезте отново.</string>
-  <string name="sync_loading_accounts_from_backend">Зареждане на наличните сметки от отдалеченото място за съхранение.</string>
+  <string name="sync_loading_accounts_from_backend">Зареждане на наличните сметки от отдалеченото хранилище.</string>
   <plurals name="delete_success">
     <item quantity="one">Един обект бе успешно изтрит.</item>
     <item quantity="other">%d обекта бяха успешно изтрити.</item>
@@ -798,4 +797,16 @@
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">Филтъра \"без категория\" не може да се включва в множествена селекция</string>
   <string name="upgrade_information_cloud_sync_storage_format">От версия 2.9.8, е променен начинът, по който данните се съхраняват в отдалечените хранилища. Моля, преди да въведете нови записи надстройте до тази версия на всички синхронизирани устройства.</string>
+  <string name="pref_security_export_passphrase_title">Парола за архивиране</string>
+  <string name="pref_security_export_passphrase_summary">Архивните файлове ще бъдат шифровани с тази парола</string>
+  <string name="backup_is_encrypted">Архивният файл е шифрован. За да се дешифрира, трябва да зададете неговата парола.</string>
+  <string name="backup_wrong_password">Архивният файл е шифрован с различна парола.</string>
+  <string name="passphrase_for_synchronization">Въведете парола, ако искате данните за синхронизация в това отдалечено хранилище да бъдат шифровани.</string>
+  <string name="sync_backend_is_encrypted">Отдалеченото хранилище е шифровано. Трябва да зададете парола.</string>
+  <string name="sync_backend_wrong_passphrase">Отдалеченото хранилище е шифровано с различна парола.</string>
+  <string name="warning_backup_protected">Архивният файл ще бъде защитен с парола.</string>
+  <string name="dialog_title_backup_protected">Отдалечено хранилище (шифровано)</string>
+  <string name="input_label_passphrase">Парола</string>
+  <string name="button_label_no_encryption">Без шифроване</string>
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>

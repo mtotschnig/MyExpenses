@@ -659,7 +659,6 @@
   <string name="licence_removal_success">Kunci lesen berjaya dibebaskan daripada peranti ini.</string>
   <string name="professional_key">Kunci profesional</string>
   <string name="n_months">%d bulan</string>
-  <string name="professionalPriceShortInfo">bermula dari %s / bulan</string>
   <string name="eu_vat_info">Bagi penduduk Kesatuan Eropah harga dipaparkan tidak melibatkan VAT.</string>
   <string name="licence_migration_info">{app_name} melaksanakan satu mekanisma pengesahan lesen baharu. Sila dapatkan kunci baharu.</string>
   <string name="valid_until">Sehingga %s</string>
@@ -757,4 +756,5 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
 </resources>
