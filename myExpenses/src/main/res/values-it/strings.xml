@@ -299,9 +299,9 @@
   <string name="pref_manage_methods_title">Metodi di pagamento</string>
   <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
-  <string name="pref_manage_sync_backends_title">Backend di sincronizzazione</string>
+  <string name="pref_manage_sync_backends_title">Back-end di sincronizzazione</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Collegare il backend per la sincronizzazione degli conti (%s).</string>
+  <string name="pref_manage_sync_backends_summary">Collegare il back-end per la sincronizzazione degli conti (%s).</string>
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione</string>
@@ -578,8 +578,8 @@
   <string name="hint_user_name">Nome utente</string>
   <string name="hint_password">Password</string>
   <string name="label_trust_certificate">Questo certificato è attendibile</string>
-  <string name="no_sync_backends">Nessuna sincronizzazione backend</string>
-  <string name="menu_create_sync_backend">Nuova sincronizzazione backend</string>
+  <string name="no_sync_backends">Nessuna sincronizzazione back-end</string>
+  <string name="menu_create_sync_backend">Nuova sincronizzazione back-end</string>
   <string name="validate_error_not_empty">Non deve essere vuoto</string>
   <string name="validate_error_webdav_invalid_certificate">Il certificato potrebbe non essere attendibile. Sembra non valido.</string>
   <string name="validate_error_webdav_not_compliant">L\'URL non punta a una risorsa WebDAV.</string>
@@ -592,34 +592,34 @@
   <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
   <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore)</string>
   <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione verrà perso. Collegandoli nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito nuovamente.</string>
-  <string name="dialog_sync_link">Sia nel database locale che nel backend remoto esiste un account con uuid %s. Quando si collegano entrambi, è necessario decidere, se si desidera caricare i dati locali sul backend remoto o scaricare i dati remoti nel database locale.</string>
+  <string name="dialog_sync_link">Un conto con uuid %sè presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
   <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>
   <string name="dialog_command_sync_link_local">Caricare da locale</string>
-  <string name="dialog_synced_to_other">Un account con uuid %s esiste già nel database locale ed è collegato ad un backend remoto diverso.</string>
+  <string name="dialog_synced_to_other">Un conto con uuid %s è già presente nel database locale ed è collegato ad un diverso back-end remoto.</string>
   <string name="menu_remove">Rimuovere</string>
-  <string name="dialog_confirm_sync_remove_backend">Il backend remoto %s verrà rimosso. Ciò non influirà sui dati memorizzati localmente o in remoto, ma lo stato di sincronizzazione verrà perso.</string>
+  <string name="dialog_confirm_sync_remove_backend">Il back-end remoto %s verrà rimosso. Ciò non influirà sui dati salvati in locale o in remoto, ma lo stato di sincronizzazione verrà interrotto definitivamente.</string>
   <string name="dialog_confirm_sync_link_local">I dati remoti per questo account saranno cancellati. Accertati che non ci siano altri dispositivi collegati all\'account.</string>
   <string name="dialog_confirm_sync_link_remote">I dati locali per questo account saranno cancellati.</string>
   <string name="warning_limited_trial">La funzionalità %1$s può essere provata fino al %2$s.</string>
   <string name="warning_trial_limit_reached">Il periodo di prova per provare la funzionalità %s è terminato.</string>
   <string name="warning_synchronization_folder_usage">Questa cartella è usata per la sincronizzazione dei dati tra le installazioni di {app_name} sui diversi dispositivi. Per favore non modificarne il contenuto manualmente.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La cartella che hai selezionato corrisponde ad un account di un backend esistente. E\' necessario selezionare la propria cartella principale per poter riusare questo backend.</string>
-  <string name="select_unsynced_accounts">Seleziona gli account da sincronizzare con questo backend</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d account sono stati configurati per essere sincronizzati con il backend.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d account non possono essere configurati per essere sincronizzati con il backend.</string>
-  <string name="link_account_failure_2">Un account con lo stesso uuid esiste già sul backend remoto.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La cartella che hai selezionato corrisponde al conto di un back-end esistente. È necessario selezionare la propria cartella principale per poter riutilizzare questo back-end.</string>
+  <string name="select_unsynced_accounts">Seleziona i conti da sincronizzare con questo back-end</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d conti sono stati configurati per essere sincronizzati con il back-end.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d conti non sono stati configurati per essere sincronizzati con il back-end.</string>
+  <string name="link_account_failure_2">Un conto con lo stesso uuid esiste già sul back-end remoto.</string>
   <string name="link_account_failure_3">Il conflitto può essere risolto manualmente dalle voci del menu contestuale.</string>
-  <string name="progress_dialog_checking_sync_backend">Verificando il backend</string>
+  <string name="progress_dialog_checking_sync_backend">Sto verificando il back-end</string>
   <string name="template">Modello</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione con il cloud</string>
   <string name="all_contrib_key_features">Tutte le caratteristiche di Contrib chiave</string>
   <string name="all_extended_key_features">Tutte le funzionalità della Chiave Ampliata</string>
   <string name="upgrade_now">Aggiorna ora</string>
-  <string name="pref_backup_cloud_title">Conservare il backend di sincronizzazione</string>
-  <string name="pref_backup_cloud_summary">Oltre alla memoria locale del dispositivo, il file di backup può essere copiato su un backend remota.</string>
-  <string name="auto_backup_cloud_create_backend">Creare un backend di sincronizzazione dalla schermata impostazioni principali.</string>
-  <string name="auto_backup_cloud_failure">Si e\' verificato un errore durante il backup file %1$s sul backend %2$s:</string>
-  <string name="auto_backup_cloud_success">Il file di backup %1$s è stato memorizzato correttamente sul backend %2$s.</string>
+  <string name="pref_backup_cloud_title">Salva sul back-end di sincronizzazione</string>
+  <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
+  <string name="auto_backup_cloud_create_backend">Crea un back-end di sincronizzazione dalla schermata principale delle impostazioni.</string>
+  <string name="auto_backup_cloud_failure">Si è verificato un errore durante il backup del file %1$s sul back-end %2$s:</string>
+  <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
   <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata Home.</string>
   <string name="currency_symbol">Simbolo di valuta</string>
   <string name="number_of_fraction_digits">Numero di decimali</string>
@@ -632,7 +632,7 @@
   <string name="sync_io_exception_reset_account_data">Errore durante il ripristino dell\'account remoto.</string>
   <string name="sync_success_reset_account_data">I dati del conto %s salvati in remoto sono stati rimossi.</string>
   <string name="sync_io_exception_setup_remote_account">Errore durante l\'impostazione dell\'account remoto.</string>
-  <string name="sync_io_exception_reading_change_set">Errore durante la lettura delle modifiche dal backend.</string>
+  <string name="sync_io_exception_reading_change_set">Errore durante la lettura delle modifiche dal back-end.</string>
   <string name="sync_io_exception_syncing">Errore durante la sincronizzazione delle modifiche con il server.</string>
   <string name="sync_io_exception_unlocking">Errore durante la rimozione del blocco dal back-end remoto.</string>
   <string name="sync_io_exception_locking">Il back-end remoto è bloccato o non può essere bloccato.</string>
@@ -797,5 +797,16 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">Il filtro per \"Nessuna categoria\" non può essere incluso nella selezione multipla</string>
-  <string name="upgrade_information_cloud_sync_storage_format">A parire dalla versione 2.9.8, il modo in cui i dati sono salvati sul terminale di sincronizzazione è cambiato. Per favore, aggiorna a questa versione tutti i dispositivi sincronizzati prima di inserire qualsiasi nuova voce su uno di essi.</string>
+  <string name="upgrade_information_cloud_sync_storage_format">A parire dalla versione 2.9.8, il modo in cui i dati sono salvati sul back-end è cambiato. Per favore, aggiorna a questa versione tutti i dispositivi sincronizzati prima di inserire qualsiasi nuova voce su uno di essi.</string>
+  <string name="pref_security_export_passphrase_title">Password per i backup</string>
+  <string name="pref_security_export_passphrase_summary">I backup saranno crittografati con questa password</string>
+  <string name="backup_is_encrypted">Il file di backup è crittografato. Per decriptarlo, devi specificare la sua password.</string>
+  <string name="backup_wrong_password">Il file di backup sembra crittografato con una password diversa.</string>
+  <string name="passphrase_for_synchronization">Inserisci una password, se vuoi che i dati di sincronizzazione su questo back-end vengano crittografati.</string>
+  <string name="sync_backend_is_encrypted">Il back-end remoto è crittografato. Devi specificare una password.</string>
+  <string name="sync_backend_wrong_passphrase">Il back-end remoto sembra essere crittografato con una password diversa.</string>
+  <string name="warning_backup_protected">L\'archivio srà protetto dalla tua password.</string>
+  <string name="dialog_title_backup_protected">Backup (crittografato)</string>
+  <string name="input_label_passphrase">Password</string>
+  <string name="button_label_no_encryption">Senza crittografia</string>
 </resources>

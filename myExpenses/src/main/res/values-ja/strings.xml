@@ -788,4 +788,15 @@
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">\'未配置\' フィルターは複数選択に含めることはできません</string>
   <string name="upgrade_information_cloud_sync_storage_format">バージョン2.9.8で、同期バックエンドにデータが格納される方法が変更されました。 新しいレコードを入力する前に、すべての同期されるデバイスでこのバージョンにアップグレードしてください。</string>
+  <string name="pref_security_export_passphrase_title">バックアップのパスフレーズ</string>
+  <string name="pref_security_export_passphrase_summary">このパスフレーズでバックアップが暗号化されます</string>
+  <string name="backup_is_encrypted">バックアップファイルが暗号化されます。復号化するには、パスフレーズを指定する必要があります。</string>
+  <string name="backup_wrong_password">バックアップファイルは違うパスフレーズで暗号化されているようです。</string>
+  <string name="passphrase_for_synchronization">このバックエンドで暗号化して同期したい場合は、パスフレーズを入力してください。</string>
+  <string name="sync_backend_is_encrypted">リモートバックエンドが暗号化されます。パスフレーズを指定する必要があります。</string>
+  <string name="sync_backend_wrong_passphrase">リモートバックエンドは違うパスフレーズで暗号化されているようです。</string>
+  <string name="warning_backup_protected">アーカイブは指定したパスフレーズで保護されます。</string>
+  <string name="dialog_title_backup_protected">バックアップ (暗号化)</string>
+  <string name="input_label_passphrase">パスフレーズ</string>
+  <string name="button_label_no_encryption">暗号化しない</string>
 </resources>

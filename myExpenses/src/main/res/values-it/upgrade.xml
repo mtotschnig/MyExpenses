@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_299">
+      <item>Crittografia per i backup e per i dati di sincronizzazione</item>
+  </string-array>
   <string-array name="whats_new_298">
     <item>Filtro per le transazioni senza categoria, beneficiario o metodo di pagamento</item>
     <item>Ottimizzata la memorizzazione dei dati sincronizzati</item>
