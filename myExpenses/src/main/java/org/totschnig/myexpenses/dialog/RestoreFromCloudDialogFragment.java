@@ -8,7 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.Tab;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -37,13 +42,18 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   private static final String KEY_BACKUP_LIST = "backupList";
   private static final String KEY_SYNC_ACCOUNT_LIST = "syncAccountList";
   @BindView(R.id.tabs)
-  protected TabLayout tabLayout;
+  TabLayout tabLayout;
   @BindView(R.id.backup_list)
-  protected LinearLayout backupListContainer;
+  LinearLayout backupListContainer;
   @BindView(R.id.sync_account_list)
-  protected LinearLayout syncAccountListContainer;
+  LinearLayout syncAccountListContainer;
+  @BindView(R.id.passwordLayout)
+  TextInputLayout passwordLayout;
+  @BindView(R.id.passwordEdit)
+  TextInputEditText passwordEdit;
   private RadioGroup restorePlanStrategie;
   private RadioGroup.OnCheckedChangeListener calendarRestoreButtonCheckedChangeListener;
+  private ArrayAdapter<String> backupAdapter;
 
   public static RestoreFromCloudDialogFragment newInstance(List<String> backupList, List<AccountMetaData> syncAccountList) {
     Bundle arguments = new Bundle(2);
@@ -61,12 +71,30 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.restore_from_cloud, null);
     ButterKnife.bind(this, view);
+    passwordLayout.setHint(getString(R.string.input_label_passphrase));
+    passwordEdit.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        configureSubmit();
+      }
+    });
     ArrayList<String> backups = getBackups();
     ArrayList<AccountMetaData> syncAccounts = getSyncAccounts();
     if (backups != null && backups.size() > 0) {
       ListView backupList = findListView(backupListContainer);
-      backupList.setAdapter(new ArrayAdapter<>(getActivity(),
-          android.R.layout.simple_list_item_single_choice, backups));
+      backupAdapter = new ArrayAdapter<>(getActivity(),
+          android.R.layout.simple_list_item_single_choice, backups);
+      backupList.setAdapter(backupAdapter);
       backupList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
       backupList.setOnItemClickListener(this);
       restorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(backupListContainer);
@@ -138,9 +166,13 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   private boolean isReady() {
     LinearLayout activeContent = getActiveContent();
     ListView activeList = findListView(activeContent);
-    if (activeContent.getId() == R.id.backup_list &&
-        restorePlanStrategie.getCheckedRadioButtonId() == -1) {
-      return false;
+    if (activeContent.getId() == R.id.backup_list) {
+      if (restorePlanStrategie.getCheckedRadioButtonId() == -1) {
+        return false;
+      }
+      if (passwordLayout.getVisibility() == View.VISIBLE && TextUtils.isEmpty(passwordEdit.getText().toString())) {
+        return false;
+      }
     }
     return activeList.getCheckedItemCount() > 0;
   }
@@ -158,8 +190,9 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
       LinearLayout contentForTab = getActiveContent();
       switch (contentForTab.getId()) {
         case R.id.backup_list:
+          final String password = passwordLayout.getVisibility() == View.VISIBLE ? passwordEdit.getText().toString() : null;
           activity.setupFromBackup(backups.get(findListView(contentForTab).getCheckedItemPosition()),
-              restorePlanStrategie.getCheckedRadioButtonId());
+              restorePlanStrategie.getCheckedRadioButtonId(), password);
           break;
         case R.id.sync_account_list:
           activity.setupFromSyncAccounts(Stream.of(syncAccounts)
@@ -180,6 +213,9 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    if (((LinearLayout) parent.getParent()).getId() == R.id.backup_list) {
+      passwordLayout.setVisibility(backupAdapter.getItem(position).endsWith("enc") ? View.VISIBLE : View.GONE);
+    }
     configureSubmit();
   }
 

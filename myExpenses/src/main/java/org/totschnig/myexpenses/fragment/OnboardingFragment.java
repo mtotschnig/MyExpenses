@@ -11,12 +11,15 @@ import org.totschnig.myexpenses.R;
 
 abstract class OnboardingFragment extends Fragment {
   protected View nextButton;
+  protected Toolbar toolbar;
   protected void configureNavigation(View content, LayoutInflater inflater, @IdRes int buttonToShow) {
     final ViewGroup navParent = (ViewGroup) content.findViewById(R.id.suw_layout_navigation_bar)
         .getParent();
     View customNav = LayoutInflater.from(navParent.getContext()).inflate(R.layout.onboarding_navigation,
         navParent, false);
-    createMenu(customNav.findViewById(R.id.onboaring_menu));
+    toolbar = customNav.findViewById(R.id.onboarding_menu);
+    toolbar.inflateMenu(getMenuResId());
+    setupMenu();
     nextButton = customNav.findViewById(buttonToShow);
     nextButton.setOnClickListener(v -> onNextButtonClicked());
 
@@ -30,7 +33,9 @@ abstract class OnboardingFragment extends Fragment {
     }
   }
 
+  protected abstract int getMenuResId();
+
   protected abstract void onNextButtonClicked();
 
-  protected abstract void createMenu(Toolbar toolbar);
+  protected abstract void setupMenu();
 }

@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -62,7 +63,6 @@ import java.util.List;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
@@ -71,7 +71,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
@@ -679,7 +678,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
       }
       case TaskExecutionFragment.TASK_STORE_SETTING: {
-        storeSetting(cr, (String) ids[0], (String) mExtra);
+        DbUtils.storeSetting(cr, (String) ids[0], (String) mExtra);
         return null;
       }
       case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
@@ -690,33 +689,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     return null;
   }
 
-  public static Uri storeSetting(ContentResolver contentResolver, String key, String value) {
-    ContentValues values = new ContentValues(2);
-    values.put(KEY_KEY, key);
-    values.put(KEY_VALUE, value);
-    return contentResolver.insert(TransactionProvider.SETTINGS_URI, values);
-  }
-
-  public static String loadSetting(ContentResolver contentResolver, String key) {
-    String result = null;
-    Cursor cursor = contentResolver.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
-        KEY_KEY + " = ?", new String[]{key}, null);
-    if (cursor != null) {
-      if (cursor.moveToFirst()) {
-        result = cursor.getString(0);
-      }
-      cursor.close();
-    }
-    return result;
-  }
-
   @Nullable
   private SyncBackendProvider getSyncBackendProviderFromExtra() {
     String syncAccountName = ((String) mExtra);
     try {
       final android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
       final Context context = MyApplication.getInstance();
-      return SyncBackendProviderFactory.get(context, account, true).getOrThrow();
+      return SyncBackendProviderFactory.get(context, account).getOrThrow();
     } catch (Throwable throwable) {
       CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
           syncAccountName), throwable));

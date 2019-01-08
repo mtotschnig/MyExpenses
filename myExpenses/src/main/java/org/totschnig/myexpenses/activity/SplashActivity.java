@@ -1,15 +1,13 @@
 package org.totschnig.myexpenses.activity;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 
@@ -25,7 +23,6 @@ import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.SyncAccountTask;
@@ -41,7 +38,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
@@ -50,8 +46,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FRO
 
 
 public class SplashActivity extends SyncBackendSetupActivity {
-
-  private static final int REQUEST_CODE_RESOLUTION = 1;
   @BindView(R.id.viewpager)
   ViewPager pager;
   private MyPagerAdapter pagerAdapter;
@@ -145,10 +139,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
     finish();
   }
 
-  private void showSnackbar(String message) {
-    showSnackbar(message, Snackbar.LENGTH_LONG);
-  }
-
   @Override
   protected boolean createAccountTaskShouldReturnDataList() {
     return true;
@@ -174,7 +164,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
       case TASK_FETCH_SYNC_ACCOUNT_DATA: {
         Exceptional<SyncAccountTask.Result> resultExceptional = (Exceptional<SyncAccountTask.Result>) o;
         if (resultExceptional.isPresent()) {
-          supportInvalidateOptionsMenu();
+          getDataFragment().setupMenu();
           SyncAccountTask.Result result = resultExceptional.get();
           if (result.backups != null && result.syncAccounts != null) {
             accountName = result.accountName;
@@ -185,21 +175,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
             }
           }
           showSnackbar("Neither backups nor sync accounts found");
-        } else {
-          Throwable throwable = resultExceptional.getException();
-          if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
-            try {
-              final PendingIntent resolution = ((SyncBackendProvider.ResolvableSetupException) throwable).getResolution();
-              if (resolution != null) {
-                startIntentSenderForResult(resolution.getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
-              }
-            } catch (IntentSender.SendIntentException e) {
-              Timber.e(e, "Exception while starting resolution activity");
-            }
-          } else {
-            Timber.e(throwable);
-            showSnackbar("Unable to set up account: " + throwable.getMessage());
-          }
         }
         break;
       }
@@ -234,34 +209,23 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (requestCode) {
-      case REQUEST_CODE_RESOLUTION:
-        showSnackbar("Please try again");
-        break;
-      default:
-        super.onActivityResult(requestCode, resultCode, data);
-        break;
-    }
-  }
-
-  @Override
   protected void onPostRestoreTask(Result result) {
     super.onPostRestoreTask(result);
     String msg = result.print(this);
-    if (msg != null) {
-      showSnackbar(msg, Snackbar.LENGTH_LONG);
+    if (!TextUtils.isEmpty(msg)) {
+      showSnackbar(msg);
     }
     if (result.isSuccess()) {
       restartAfterRestore();
     }
   }
 
-  public void setupFromBackup(String backup, int restorePlanStrategy) {
-    Bundle arguments = new Bundle(3);
+  public void setupFromBackup(String backup, int restorePlanStrategy, String password) {
+    Bundle arguments = new Bundle(4);
     arguments.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName);
     arguments.putString(RestoreTask.KEY_BACKUP_FROM_SYNC, backup);
     arguments.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategy);
+    arguments.putString(RestoreTask.KEY_PASSWORD, password);
     doRestore(arguments);
   }
 

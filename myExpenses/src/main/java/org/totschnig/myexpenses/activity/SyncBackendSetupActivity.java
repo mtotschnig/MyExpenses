@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.activity;
 
 import android.accounts.AccountManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.sync.ServiceLoader;
+import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.task.SyncAccountTask;
@@ -33,6 +36,7 @@ import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_PASSWORD_ENCRYPTION;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
@@ -48,6 +52,8 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     implements EditTextDialog.EditTextDialogListener, SimpleInputDialog.OnDialogResultListener {
   private static final String DIALOG_DROPBOX_FOLDER = "dropboxFolder";
   private static final String DIALOG_TAG_PASSWORD = "password";
+  private static final int REQUEST_CODE_RESOLUTION = 1;
+
   protected List<SyncBackendProviderFactory> backendProviders;
 
   private boolean isResumed = false;
@@ -160,6 +166,13 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
       createAccount(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME), null,
           null, intent.getBundleExtra(AccountManager.KEY_USERDATA));
     }
+    if (requestCode == REQUEST_CODE_RESOLUTION) {
+      showSnackbar("Please try again");
+    }
+  }
+
+  protected void showSnackbar(String message) {
+    showSnackbar(message, Snackbar.LENGTH_LONG);
   }
 
   protected void createAccount(String accountName, String password, String authToken, Bundle bundle) {
@@ -212,7 +225,20 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         if (exceptional.isPresent()) {
           recordUsage(ContribFeature.SYNCHRONIZATION);
         } else {
-          showSnackbar(exceptional.getException().getMessage(), Snackbar.LENGTH_LONG);
+          Throwable throwable = exceptional.getException();
+          if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
+            try {
+              final PendingIntent resolution = ((SyncBackendProvider.ResolvableSetupException) throwable).getResolution();
+              if (resolution != null) {
+                startIntentSenderForResult(resolution.getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
+              }
+            } catch (IntentSender.SendIntentException e) {
+              Timber.e(e, "Exception while starting resolution activity");
+            }
+          } else {
+            Timber.e(throwable);
+            showSnackbar("Unable to set up account: " + throwable.getMessage());
+          }
         }
         break;
       }
@@ -230,7 +256,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
           bundle.putString(KEY_SYNC_PROVIDER_URL, result.getExtra().second);
           createAccount(accountName, null, Auth.getOAuth2Token(), bundle);
         } else {
-          showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+          showSnackbar(result.print(this));
         }
       }
     }

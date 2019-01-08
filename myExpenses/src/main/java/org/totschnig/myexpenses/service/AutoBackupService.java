@@ -30,10 +30,10 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.AccountPreference;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
@@ -100,8 +100,8 @@ public class AutoBackupService extends JobIntentService {
               backupFileName = "backup-" + new SimpleDateFormat("yyyMMdd", Locale.US)
                   .format(new Date());
             }
-            GenericTask.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, backupFileName);
-            GenericTask.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, backupFile.getUri().toString());
+            DbUtils.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, backupFileName);
+            DbUtils.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, backupFile.getUri().toString());
             ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
           }
         }

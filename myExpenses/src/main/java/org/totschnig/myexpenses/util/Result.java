@@ -120,7 +120,7 @@ public class Result<T> {
 
   @NonNull
   public String print(Context ctx) {
-    return message == 0 ? (messageString == null ? "null" : messageString) :
+    return message == 0 ? (messageString == null ? "" : messageString) :
         (ctx.getString(message, (Object[]) messageArguments));
   }
 

@@ -22,15 +22,19 @@
         <ListView
             android:id="@id/list"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <include
             layout="@layout/backup_restore_calendar"
-            android:layout_marginRight="@dimen/padding_dialog_side"
-            android:layout_marginLeft="@dimen/padding_dialog_side"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_dialog_side"
+            android:layout_marginRight="@dimen/padding_dialog_side"/>
+
+        <include
+            layout="@layout/simple_password_dialog"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout

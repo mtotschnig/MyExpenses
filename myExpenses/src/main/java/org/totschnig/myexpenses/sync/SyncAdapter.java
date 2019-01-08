@@ -166,7 +166,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     AccountManager accountManager = AccountManager.get(getContext());
 
     Exceptional<SyncBackendProvider> backendProviderExceptional =
-        SyncBackendProviderFactory.get(getContext(), account, true);
+        SyncBackendProviderFactory.get(getContext(), account);
     SyncBackendProvider backend;
     try {
       backend = backendProviderExceptional.getOrThrow();

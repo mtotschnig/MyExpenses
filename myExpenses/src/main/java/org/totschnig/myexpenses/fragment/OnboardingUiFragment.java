@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,8 +53,12 @@ public class OnboardingUiFragment extends OnboardingFragment {
   }
 
   @Override
-  protected void createMenu(Toolbar toolbar) {
-    toolbar.inflateMenu(R.menu.onboarding_ui);
+  protected int getMenuResId() {
+    return R.menu.onboarding_ui;
+  }
+
+  @Override
+  protected void setupMenu() {
     MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
     View actionView = MenuItemCompat.getActionView(menuItem);
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");

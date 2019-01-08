@@ -38,8 +38,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
@@ -80,11 +80,11 @@ public class GenericAccountService extends Service {
   }
 
   public static void storePassword(ContentResolver contentResolver, String accountName, String encryptionPassword) {
-    GenericTask.storeSetting(contentResolver, getPasswordKey(accountName), encryptionPassword);
+    DbUtils.storeSetting(contentResolver, getPasswordKey(accountName), encryptionPassword);
   }
 
   public static String loadPassword(ContentResolver contentResolver, String accountName) {
-    return GenericTask.loadSetting(contentResolver, getPasswordKey(accountName));
+    return DbUtils.loadSetting(contentResolver, getPasswordKey(accountName));
   }
 
   @NonNull

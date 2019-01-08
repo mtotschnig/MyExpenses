@@ -43,10 +43,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MIN_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
@@ -266,5 +268,25 @@ public class DbUtils {
   @VisibleForTesting
   public static String fqcn(String table, String column) {
     return String.format(Locale.ROOT, "%s.%s", table, column);
+  }
+
+  public static Uri storeSetting(ContentResolver contentResolver, String key, String value) {
+    ContentValues values = new ContentValues(2);
+    values.put(KEY_KEY, key);
+    values.put(KEY_VALUE, value);
+    return contentResolver.insert(TransactionProvider.SETTINGS_URI, values);
+  }
+
+  public static String loadSetting(ContentResolver contentResolver, String key) {
+    String result = null;
+    Cursor cursor = contentResolver.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
+        KEY_KEY + " = ?", new String[]{key}, null);
+    if (cursor != null) {
+      if (cursor.moveToFirst()) {
+        result = cursor.getString(0);
+      }
+      cursor.close();
+    }
+    return result;
   }
 }

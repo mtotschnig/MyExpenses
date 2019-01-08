@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -121,8 +120,12 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   @Override
-  protected void createMenu(Toolbar toolbar) {
-    toolbar.inflateMenu(R.menu.onboarding_data);
+  protected int getMenuResId() {
+    return R.menu.onboarding_data;
+  }
+
+  @Override
+  public void setupMenu() {
     Menu menu = toolbar.getMenu();
     SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
     subMenu.clear();

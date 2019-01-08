@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 public abstract class SyncBackendProviderFactory {
 
-  public static Exceptional<SyncBackendProvider> get(Context context, Account account, boolean withSetup) {
+  public static Exceptional<SyncBackendProvider> get(Context context, Account account) {
     final AccountManager accountManager = AccountManager.get(context);
     final Optional<Exceptional<SyncBackendProvider>> optional = Stream.of(ServiceLoader.load(context))
         .map(factory -> factory.from(context, account, accountManager))
@@ -28,7 +28,7 @@ public abstract class SyncBackendProviderFactory {
         .map(Optional::get)
         .findFirst()
         .map(syncBackendProviderExceptional -> {
-          if (syncBackendProviderExceptional.isPresent() && withSetup) {
+          if (syncBackendProviderExceptional.isPresent()) {
             try {
               Exceptional<Void> result = syncBackendProviderExceptional.get().setUp(
                   accountManager.blockingGetAuthToken(account,

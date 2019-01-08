@@ -105,7 +105,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (syncAccountName != null) {
         android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
         try {
-          syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(), account, true)
+          syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(), account)
               .getOrThrow();
         } catch (Throwable throwable) {
           String errorMessage = String.format("Unable to get sync backend provider for %s",
@@ -273,6 +273,10 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           continue;
         }
         Object val = entry.getValue();
+        if (val == null) {
+          Timber.i("Found: %s null", key);
+          continue;
+        }
         if (val.getClass() == Long.class) {
           edit.putLong(key, backupPref.getLong(key, 0));
         } else if (val.getClass() == Integer.class) {

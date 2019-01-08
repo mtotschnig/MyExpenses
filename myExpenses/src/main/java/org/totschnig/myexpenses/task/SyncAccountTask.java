@@ -69,10 +69,10 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
         if (encryptionPassword != null) {
           accountManager.setUserData(account, KEY_ENCRYPTED, Boolean.toString(true));
         }
+        GenericAccountService.storePassword(MyApplication.getInstance().getContentResolver(), accountName, encryptionPassword);
         final Exceptional<Result> result = buildResult();
         if (result.isPresent()) {
           GenericAccountService.activateSync(account);
-          GenericAccountService.storePassword(MyApplication.getInstance().getContentResolver(), accountName, encryptionPassword);
         } else {
           //we try to remove a failed account immediately, otherwise user would need to do it, before
           //being able to try again
@@ -101,11 +101,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
     SyncBackendProvider syncBackendProvider;
     try {
       syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
-          account, false).getOrThrow();
-      Exceptional<Void> result = syncBackendProvider.setUp(authToken, encryptionPassword);
-      if (!result.isPresent()) {
-        return Exceptional.of(result.getException());
-      }
+          account).getOrThrow();
       if (shouldReturnRemoteDataList) {
         syncAccounts = syncBackendProvider.getRemoteAccountList(account).collect(Collectors.toList());
         backups = syncBackendProvider.getStoredBackups(account);
