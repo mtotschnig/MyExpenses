@@ -556,12 +556,12 @@ public class TransactionList extends ContextualActionBarFragment implements
         mAdapter.swapCursor(c);
         if (c.getCount() > 0) {
           if (firstLoadCompleted) {
-            if (listState != null) {
-              mListView.post(() -> {
+            mListView.post(() -> {
+              if (listState != null) {
                 mListView.getWrappedList().onRestoreInstanceState(listState);
                 listState = null;
-              });
-            }
+              }
+            });
           } else {
             firstLoadCompleted = true;
             if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)) {
