@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.hamcrest.Matcher;
+import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
@@ -121,6 +123,7 @@ public class SettingsTest extends BaseUiTest {
 
   @Test
   public void restoreLegacy() {
+    Assume.assumeTrue(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT);
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_restore_title) + " (" +
