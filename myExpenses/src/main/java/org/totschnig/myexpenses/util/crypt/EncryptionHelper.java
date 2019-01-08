@@ -152,6 +152,15 @@ public class EncryptionHelper {
     cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
     InputStream ivStream = new ByteArrayInputStream(iv);
     return new SequenceInputStream(Collections.enumeration(Arrays.asList(
-        magicNumber, ivStream, new CipherInputStream(inputStream, cipher))));
+        magicNumber, ivStream, new CipherInputStream(inputStream, cipher) {
+          @Override
+          public void close() throws IOException {
+            try {
+              super.close();
+            } catch (IllegalStateException ignored) {
+              /* https://github.com/google/conscrypt/issues/548#issuecomment-426968330 */
+            }
+          }
+        })));
   }
 }
