@@ -210,7 +210,11 @@ public class LicenceHandler {
   }
 
   public String getProfessionalPriceShortInfo() {
-    return Stream.of(getProPackages())
+    return joinPriceInfos(getProPackages());
+  }
+
+  protected String joinPriceInfos(Package... packages) {
+    return Stream.of(packages)
         .map(this::getFormattedPrice)
         .collect(Collectors.joining(context.getString(R.string.joining_or)));
   }
