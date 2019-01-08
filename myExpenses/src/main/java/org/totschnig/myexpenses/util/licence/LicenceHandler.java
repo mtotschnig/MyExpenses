@@ -23,11 +23,9 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -212,22 +210,9 @@ public class LicenceHandler {
   }
 
   public String getProfessionalPriceShortInfo() {
-    String minimumProfessionalMonthlyPrice = getMinimumProfessionalMonthlyPrice(licenceStatus == LicenceStatus.EXTENDED);
-    if (minimumProfessionalMonthlyPrice != null) {
-      return context.getString(R.string.professionalPriceShortInfo, minimumProfessionalMonthlyPrice);
-    } else {
-      return getProfessionalPriceFallBack();
-    }
-  }
-
-  protected String getProfessionalPriceFallBack() {
-    return null;
-  }
-
-  protected String getMinimumProfessionalMonthlyPrice(boolean withExtra) {
-    final Package aPackage = Package.Professional_30;
-    return CurrencyFormatter.instance().formatCurrency(
-        new Money(currencyUnit, aPackage.getMonthlyPrice(withExtra)));
+    return Stream.of(getProPackages())
+        .map(this::getFormattedPrice)
+        .collect(Collectors.joining(context.getString(R.string.joining_or)));
   }
 
   @Nullable

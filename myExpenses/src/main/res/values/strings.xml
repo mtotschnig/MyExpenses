@@ -683,7 +683,6 @@
     <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
     <string name="professional_key">Professional Key</string>
     <string name="n_months">%d months</string>
-    <string name="professionalPriceShortInfo">starting from %s / month</string>
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="licence_migration_info">{app_name} implements a new licence validation mechanism. Please request a new key.</string>
     <string name="valid_until">Until %s</string>
@@ -824,4 +823,6 @@
     <string name="dialog_title_backup_protected">Backup (encrypted)</string>
     <string name="input_label_passphrase">Passphrase</string>
     <string name="button_label_no_encryption">Without encryption</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or"> or </string>
 </resources>
