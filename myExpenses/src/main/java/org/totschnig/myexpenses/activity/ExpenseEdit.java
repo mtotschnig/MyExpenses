@@ -1822,6 +1822,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void updateAccount(Account account) {
+    mAccountId = account.getId();
     didUserSetAccount = true;
     mTransaction.setAccountId(account.getId());
     configureAccountDependent(account);
