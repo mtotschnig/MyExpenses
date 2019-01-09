@@ -42,7 +42,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   private static final int REQUEST_REPAIR_INTENT= 1;
 
-  private static final String KEY_PACKED_POSITION = "packedPosition";
+  private static final String KEY_ACCOUNT = "account";
   public static final String ACTION_REFRESH_LOGIN = "refreshLogin";
   private Account newAccount;
 
@@ -133,13 +133,13 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         return;
       }
       case R.id.SYNC_LINK_COMMAND_LOCAL_DO: {
-        Account account = getListFragment().getAccountForSync(args.getLong(KEY_PACKED_POSITION));
+        Account account = (Account) args.getSerializable(KEY_ACCOUNT);
         startTaskExecution(TASK_SYNC_LINK_LOCAL,
             new String[]{account.uuid}, account.getSyncAccountName(), 0);
         return;
       }
       case R.id.SYNC_LINK_COMMAND_REMOTE_DO: {
-        Account account = getListFragment().getAccountForSync(args.getLong(KEY_PACKED_POSITION));
+        Account account = (Account) args.getSerializable(KEY_ACCOUNT);
         startTaskExecution(TASK_SYNC_LINK_REMOTE,
             null, account, 0);
         return;
@@ -161,7 +161,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_LINK_COMMAND_LOCAL_DO);
         b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_command_sync_link_local);
         b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-        b.putLong(KEY_PACKED_POSITION, (Long) tag);
+        b.putSerializable(KEY_ACCOUNT, (Account) tag);
         ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_LOCAL");
         return true;
       }
@@ -172,7 +172,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_LINK_COMMAND_REMOTE_DO);
         b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_command_sync_link_remote);
         b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-        b.putLong(KEY_PACKED_POSITION, (Long) tag);
+        b.putSerializable(KEY_ACCOUNT, (Account) tag);
         ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_REMOTE");
         return true;
       }

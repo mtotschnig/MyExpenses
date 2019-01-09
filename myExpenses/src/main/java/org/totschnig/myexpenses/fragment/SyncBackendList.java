@@ -164,9 +164,9 @@ public class SyncBackendList extends Fragment implements
         MessageDialogFragment.newInstance(
             R.string.menu_sync_link,
             getString(R.string.dialog_sync_link, account.uuid),
-            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, packedPosition),
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, account),
             MessageDialogFragment.Button.nullButton(android.R.string.cancel),
-            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, packedPosition))
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, account))
             .show(getFragmentManager(), "SYNC_LINK");
         return true;
       }
