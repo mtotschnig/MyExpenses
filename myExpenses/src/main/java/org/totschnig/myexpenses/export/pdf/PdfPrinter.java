@@ -392,7 +392,7 @@ public class PdfPrinter {
       }
 
       PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat),
-          isVoid ? FontType.STRIKETHRU : FontType.NORMAL);
+          FontType.NORMAL);
       table.addCell(cell);
       if (isVoid) {
         cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
