@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
@@ -10,7 +12,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -19,6 +20,7 @@ import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
@@ -38,6 +40,7 @@ import okhttp3.internal.Util;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
+import timber.log.Timber;
 
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
@@ -215,9 +218,33 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     saveUriToFolder(fileName, uri, accountUuid, true);
   }
 
+  private long calculateSize(Uri uri) {
+    final long size;
+    Timber.d("Uri %s", uri);
+    if ("file".equals(uri.getScheme())) {
+      size = new File(uri.getPath()).length();
+    } else {
+      try (Cursor c = getContext().getContentResolver().query(uri, null, null, null, null)) {
+        if (c != null) {
+          c.moveToFirst();
+          size = c.getLong(c.getColumnIndex(OpenableColumns.SIZE));
+        } else {
+          size = -1;
+        }
+      }
+    }
+    Timber.d("Size %d", size);
+    return size;
+  }
+
   private void saveUriToFolder(String fileName, Uri uri, String folder, boolean maybeEncrypt) throws IOException {
     String finalFileName = getLastFileNamePart(fileName);
+    long contentLength = calculateSize(uri);
     RequestBody requestBody = new RequestBody() {
+      @Override
+      public long contentLength() {
+        return contentLength;
+      }
 
       @Override
       public MediaType contentType() {
@@ -228,8 +255,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       public void writeTo(BufferedSink sink) throws IOException {
         Source source = null;
         try {
-          InputStream in = MyApplication.getInstance().getContentResolver()
-              .openInputStream(uri);
+          InputStream in = getContext().getContentResolver().openInputStream(uri);
           if (in == null) {
             throw new IOException("Could not read " + uri.toString());
           }
@@ -317,6 +343,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private void saveFileContents(String fileName, String fileContents, String mimeType,
                                 boolean maybeEncrypt, LockableDavResource parent) throws IOException {
     RequestBody requestBody = new RequestBody() {
+
+      @Override
+      public long contentLength() {
+        return fileContents.length();
+      }
 
       @Override
       public MediaType contentType() {
