@@ -809,4 +809,5 @@
   <string name="input_label_passphrase">Парола</string>
   <string name="button_label_no_encryption">Без шифроване</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <string name="joining_or">или</string>
 </resources>

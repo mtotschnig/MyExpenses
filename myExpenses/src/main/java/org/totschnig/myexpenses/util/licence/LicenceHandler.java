@@ -216,7 +216,7 @@ public class LicenceHandler {
   protected String joinPriceInfos(Package... packages) {
     return Stream.of(packages)
         .map(this::getFormattedPrice)
-        .collect(Collectors.joining(context.getString(R.string.joining_or)));
+        .collect(Collectors.joining(String.format(" %s ", context.getString(R.string.joining_or))));
   }
 
   @Nullable

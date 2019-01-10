@@ -797,5 +797,17 @@
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">Le filtre \"Sans liaison\" ne peut pas être inclus dans une sélection multiple</string>
   <string name="upgrade_information_cloud_sync_storage_format">Avec la version 2.9.8, la façon dont les données sont stockées dans les backends de synchronisation a été modifiée. Veuillez mettre à niveau cette version sur tous les appareils synchronisés avant de saisir de nouveaux enregistrements sur l\'un d\'entre eux.</string>
+  <string name="pref_security_export_passphrase_title">Phrase secrète pour les sauvegardes</string>
+  <string name="pref_security_export_passphrase_summary">Les sauvegardes seront cryptées avec cette phrase secrète</string>
+  <string name="backup_is_encrypted">Le fichier de sauvegarde est crypté. Pour le déchiffrer, vous devez spécifier sa phrase secrète.</string>
+  <string name="backup_wrong_password">Le fichier de sauvegarde semble crypté avec une phrase secrète différente.</string>
+  <string name="passphrase_for_synchronization">Entrez une phrase secrète si vous souhaitez que les données de synchronisation sur ce backend soient cryptées.</string>
+  <string name="sync_backend_is_encrypted">Le backend distant est crypté. Vous devez spécifier une phrase secrète.</string>
+  <string name="sync_backend_wrong_passphrase">Le backend distant semble crypté avec une phrase secrète différente.</string>
+  <string name="warning_backup_protected">L\'archive sera protégée par votre phrase secrète.</string>
+  <string name="dialog_title_backup_protected">Sauvegarde (cryptée)</string>
+  <string name="input_label_passphrase">Phrase secrète</string>
+  <string name="button_label_no_encryption">Sans cryptage</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <string name="joining_or">ou</string>
 </resources>

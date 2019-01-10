@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_299">
+      <item>Verschlüsselung für Backups und Synchronisationsdaten</item>
+  </string-array>
   <string-array name="whats_new_298">
     <item>Filter für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden</item>
     <item>Optimierte Speicherung synchronisierter Daten</item>
