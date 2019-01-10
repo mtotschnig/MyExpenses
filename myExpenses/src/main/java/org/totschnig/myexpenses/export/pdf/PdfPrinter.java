@@ -5,12 +5,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPTableEvent;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
@@ -30,26 +35,29 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.io.FileUtils;
-import org.totschnig.myexpenses.util.LazyFontSelector;
+import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
 import timber.log.Timber;
 
+import static com.itextpdf.text.Chunk.GENERICTAG;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
@@ -73,6 +81,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 
 public class PdfPrinter {
+  private static final String VOID_MARKER = "void";
   private Account account;
   private DocumentFile destDir;
   private WhereFilter filter;
@@ -125,7 +134,7 @@ public class PdfPrinter {
     //then we check if the filename we construct already exists
     if (outputFile == null) {
       transactionCursor.close();
-      return  Result.ofFailure(
+      return Result.ofFailure(
           R.string.io_error_unable_to_create_file,
           fileName,
           FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
@@ -176,13 +185,13 @@ public class PdfPrinter {
     accountCursor.close();
     PdfPTable preface = new PdfPTable(1);
 
-    preface.addCell(helper.printToCell(account.getLabel(), LazyFontSelector.FontType.TITLE));
+    preface.addCell(helper.printToCell(account.getLabel(), FontType.TITLE));
 
     preface.addCell(helper.printToCell(
-        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()), LazyFontSelector.FontType.BOLD));
+        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()), FontType.BOLD));
     preface.addCell(helper.printToCell(
         MyApplication.getInstance().getString(R.string.current_balance) + " : " +
-            currencyFormatter.formatCurrency(new Money(account.getCurrencyUnit(), currentBalance)), LazyFontSelector.FontType.BOLD));
+            currencyFormatter.formatCurrency(new Money(account.getCurrencyUnit(), currentBalance)), FontType.BOLD));
 
     document.add(preface);
     Paragraph empty = new Paragraph();
@@ -231,6 +240,7 @@ public class PdfPrinter {
     int columnIndexPayee = transactionCursor.getColumnIndex(KEY_PAYEE_NAME);
     int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
     int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
+    int columnIndexCrStatus = transactionCursor.getColumnIndex(KEY_CR_STATUS);
     DateFormat itemDateFormat;
     switch (account.getGrouping()) {
       case DAY:
@@ -295,7 +305,7 @@ public class PdfPrinter {
         }
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, transactionCursor), LazyFontSelector.FontType.HEADER);
+        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, transactionCursor), FontType.HEADER);
         table.addCell(cell);
         long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
         long sumIncome = groupCursor.getLong(columnIndexGroupSumIncome);
@@ -308,23 +318,23 @@ public class PdfPrinter {
             filter.isEmpty() ? String.format("%s %s = %s",
                 currencyFormatter.convAmount(previousBalance, account.getCurrencyUnit()), formattedDelta,
                 currencyFormatter.convAmount(interimBalance, account.getCurrencyUnit())) :
-                formattedDelta, LazyFontSelector.FontType.HEADER);
+                formattedDelta, FontType.HEADER);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
         cell = helper.printToCell("+ " + currencyFormatter.convAmount(sumIncome,
-            account.getCurrencyUnit()), LazyFontSelector.FontType.NORMAL);
+            account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         cell = helper.printToCell("- " + currencyFormatter.convAmount(-sumExpense,
-            account.getCurrencyUnit()), LazyFontSelector.FontType.NORMAL);
+            account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         cell = helper.printToCell(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
-            account.getCurrencyUnit()), LazyFontSelector.FontType.NORMAL);
+            account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         table.setSpacingAfter(2f);
@@ -332,6 +342,39 @@ public class PdfPrinter {
         LineSeparator sep = new LineSeparator();
         document.add(sep);
         table = helper.newTable(4);
+        table.setTableEvent(new PdfPTableEvent() {
+
+          private Object findFirstChunkGenericTag(PdfPRow row) {
+            for (PdfPCell cell: row.getCells()) {
+              Phrase phrase =  cell.getPhrase();
+              if (phrase != null) {
+                final HashMap<String, Object> attributes = phrase.getChunks().get(0).getAttributes();
+                return attributes != null ? attributes.get(GENERICTAG) : null;
+              }
+            }
+            return null;
+          }
+
+          @Override
+          public void tableLayout(PdfPTable table1, float[][] widths, float[] heights, int headerRows, int rowStart, PdfContentByte[] canvases) {
+            for (int row = rowStart; row < widths.length; row++) {
+              if (VOID_MARKER.equals(findFirstChunkGenericTag(table1.getRow(row)))) {
+                final PdfContentByte canvas = canvases[PdfPTable.BASECANVAS];
+                canvas.saveState();
+                canvas.setColorStroke(BaseColor.RED);
+                final float left = widths[row][0];
+                final float right = widths[row][widths[row].length - 1];
+                final float bottom = heights[row];
+                final float top = heights[row + 1];
+                final float center = (bottom + top) / 2;
+                canvas.moveTo(left, center);
+                canvas.lineTo(right, center);
+                canvas.stroke();
+                canvas.restoreState();
+              }
+            }
+          }
+        });
         table.setWidths(table.getRunDirection() == PdfWriter.RUN_DIRECTION_RTL ?
             new int[]{2, 3, 5, 1} : new int[]{1, 5, 3, 2});
         table.setSpacingBefore(2f);
@@ -342,9 +385,18 @@ public class PdfPrinter {
         previousBalance = interimBalance;
       }
       long amount = transactionCursor.getLong(columnIndexAmount);
+      boolean isVoid = false;
+      try {
+        isVoid = Transaction.CrStatus.valueOf(transactionCursor.getString(columnIndexCrStatus)) == Transaction.CrStatus.VOID;
+      } catch (IllegalArgumentException ignored) {
+      }
 
-      PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat), LazyFontSelector.FontType.NORMAL);
+      PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat),
+          isVoid ? FontType.STRIKETHRU : FontType.NORMAL);
       table.addCell(cell);
+      if (isVoid) {
+        cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
+      }
 
       String catText = transactionCursor.getString(columnIndexLabelMain);
       if (DbUtils.getLongOrNull(transactionCursor, columnIndexTransferPeer) != null) {
@@ -355,7 +407,7 @@ public class PdfPrinter {
           Cursor splits = Model.cr().query(Transaction.CONTENT_URI, null,
               KEY_PARENTID + " = " + transactionCursor.getLong(columnIndexRowId), null, null);
           splits.moveToFirst();
-          catText = "";
+          StringBuilder catTextBuilder = new StringBuilder();
           while (splits.getPosition() < splits.getCount()) {
             String splitText = DbUtils.getString(splits, KEY_LABEL_MAIN);
             if (splitText.length() > 0) {
@@ -375,12 +427,13 @@ public class PdfPrinter {
             if (splitComment != null && splitComment.length() > 0) {
               splitText += " (" + splitComment + ")";
             }
-            catText += splitText;
+            catTextBuilder.append(splitText);
             if (splits.getPosition() != splits.getCount() - 1) {
-              catText += "; ";
+              catTextBuilder.append("; ");
             }
             splits.moveToNext();
           }
+          catText = catTextBuilder.toString();
           splits.close();
         } else if (catId == null) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
@@ -399,28 +452,31 @@ public class PdfPrinter {
       String referenceNumber = transactionCursor.getString(columnIndexReferenceNumber);
       if (referenceNumber != null && referenceNumber.length() > 0)
         catText = "(" + referenceNumber + ") " + catText;
-      cell = helper.printToCell(catText, LazyFontSelector.FontType.NORMAL);
+      cell = helper.printToCell(catText, FontType.NORMAL);
       String payee = transactionCursor.getString(columnIndexPayee);
       if (payee == null || payee.length() == 0) {
         cell.setColspan(2);
       }
       table.addCell(cell);
       if (payee != null && payee.length() > 0) {
-        table.addCell(helper.printToCell(payee, LazyFontSelector.FontType.UNDERLINE));
+        table.addCell(helper.printToCell(payee, FontType.UNDERLINE));
       }
-      LazyFontSelector.FontType t;
+      FontType t;
       if (account.getId() < 0 &&
           transactionCursor.getInt(transactionCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)) == 1) {
-        t = LazyFontSelector.FontType.NORMAL;
+        t = FontType.NORMAL;
       } else {
-        t = amount < 0 ? LazyFontSelector.FontType.EXPENSE : LazyFontSelector.FontType.INCOME;
+        t = amount < 0 ? FontType.EXPENSE : FontType.INCOME;
       }
       cell = helper.printToCell(currencyFormatter.convAmount(amount, account.getCurrencyUnit()), t);
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);
       if (comment != null && comment.length() > 0) {
-        cell = helper.printToCell(comment, LazyFontSelector.FontType.ITALIC);
+        cell = helper.printToCell(comment, FontType.ITALIC);
+        if (isVoid) {
+          cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
+        }
         cell.setColspan(2);
         table.addCell(helper.emptyCell());
         table.addCell(cell);

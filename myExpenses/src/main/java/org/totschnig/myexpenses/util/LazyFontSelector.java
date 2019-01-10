@@ -21,10 +21,14 @@ import timber.log.Timber;
 
 public class LazyFontSelector {
   public enum FontType {
-    NORMAL(12, Font.NORMAL, null), TITLE(18, Font.BOLD, null), HEADER(12,
-        Font.BOLD, BaseColor.BLUE), BOLD(12, Font.BOLD, null), ITALIC(12,
-        Font.ITALIC, null), UNDERLINE(12, Font.UNDERLINE, null), INCOME(12,
-        Font.NORMAL, new BaseColor(0xff006800)), EXPENSE(12, Font.NORMAL, new BaseColor(0xff800000));
+    NORMAL(12, Font.NORMAL, null),
+    TITLE(18, Font.BOLD, null),
+    HEADER(12, Font.BOLD, BaseColor.BLUE),
+    BOLD(12, Font.BOLD, null),
+    ITALIC(12, Font.ITALIC, null),
+    UNDERLINE(12, Font.UNDERLINE, null),
+    INCOME(12, Font.NORMAL, new BaseColor(0xff006800)),
+    EXPENSE(12, Font.NORMAL, new BaseColor(0xff800000));
 
     SparseArray<Font> fonts = new SparseArray<>();
     float size;
@@ -60,13 +64,12 @@ public class LazyFontSelector {
   /**
    * Process the text so that it will render with a combination of fonts if
    * needed.
-   * 
-   * @param text
-   *          the text
+   *
+   * @param text the text
    * @param type
    * @return a <CODE>Phrase</CODE> with one or more chunks
-   * @throws IOException 
-   * @throws DocumentException 
+   * @throws IOException
+   * @throws DocumentException
    */
   public Phrase process(String text, FontType type) throws DocumentException, IOException {
     if (files.length == 0)
@@ -145,7 +148,7 @@ public class LazyFontSelector {
   }
 
   private BaseFont getBaseFont(int index) throws DocumentException, IOException {
-    if (baseFonts.size()<index+1) {
+    if (baseFonts.size() < index + 1) {
       String file = files[index].getAbsolutePath();
       Timber.i("now loading font file %s", file);
       BaseFont bf = BaseFont.createFont(file, BaseFont.IDENTITY_H,
