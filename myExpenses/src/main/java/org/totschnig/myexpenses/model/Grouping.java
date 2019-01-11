@@ -35,7 +35,6 @@ public enum Grouping {
    */
   public String getDisplayTitle(Context ctx, int groupYear, int groupSecond, Cursor c) {
     Calendar cal;
-    final Locale userPreferedLocale = MyApplication.getUserPreferedLocale();
     switch (this) {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
@@ -45,7 +44,7 @@ public enum Grouping {
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-        String title = DateFormat.getDateInstance(DateFormat.FULL, userPreferedLocale).format(cal.getTime());
+        String title = DateFormat.getDateInstance(DateFormat.FULL, MyApplication.getUserPreferedLocale()).format(cal.getTime());
         if (groupYear == this_year) {
           if (groupSecond == this_day)
             return ctx.getString(R.string.grouping_today) + " (" + title + ")";
@@ -72,44 +71,48 @@ public enum Grouping {
         return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
       }
       case MONTH: {
-        int monthStarts = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
-        cal = Calendar.getInstance();
-        if (monthStarts == 1) {
-          cal.set(groupYear, groupSecond, 1);
-          //noinspection SimpleDateFormat
-          return new SimpleDateFormat("MMMM y", userPreferedLocale).format(cal.getTime());
-        } else {
-          DateFormat dateformat = DateFormat.getDateInstance(java.text.DateFormat.LONG, userPreferedLocale);
-          int beginYear = groupYear, beginMonth = groupSecond;
-          cal = Calendar.getInstance();
-          cal.set(beginYear, beginMonth, 1);
-          if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts) {
-            cal.set(beginYear, beginMonth + 1, 1);
-          } else {
-            cal.set(Calendar.DATE, monthStarts);
-          }
-          String startDate = dateformat.format(cal.getTime());
-          int endYear = beginYear, endMonth = beginMonth + 1;
-          if (endMonth > Calendar.DECEMBER) {
-            endMonth = Calendar.JANUARY;
-            endYear++;
-          }
-          cal = Calendar.getInstance();
-          cal.set(endYear, endMonth, 1);
-          if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts - 1) {
-            cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-          } else {
-            cal.set(Calendar.DATE, monthStarts - 1);
-          }
-          String endDate = dateformat.format(cal.getTime());
-          String monthRange = " (" + startDate + " - " + endDate + " )";
-          return monthRange;
-        }
+        return getDisplayTitleForMonth(groupYear, groupSecond, DateFormat.LONG);
       }
       case YEAR:
         return String.valueOf(groupYear);
       default:
         return null;
+    }
+  }
+
+  public static String getDisplayTitleForMonth(int groupYear, int groupSecond, int style) {
+    final Locale userPreferedLocale = MyApplication.getUserPreferedLocale();
+    int monthStarts = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
+    Calendar cal = Calendar.getInstance();
+    if (monthStarts == 1) {
+      cal.set(groupYear, groupSecond, 1);
+      //noinspection SimpleDateFormat
+      return new SimpleDateFormat("MMMM y", userPreferedLocale).format(cal.getTime());
+    } else {
+      DateFormat dateformat = DateFormat.getDateInstance(style, userPreferedLocale);
+      cal = Calendar.getInstance();
+      cal.set(groupYear, groupSecond, 1);
+      if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts) {
+        cal.set(groupYear, groupSecond + 1, 1);
+      } else {
+        cal.set(Calendar.DATE, monthStarts);
+      }
+      String startDate = dateformat.format(cal.getTime());
+      int endYear = groupYear, endMonth = groupSecond + 1;
+      if (endMonth > Calendar.DECEMBER) {
+        endMonth = Calendar.JANUARY;
+        endYear++;
+      }
+      cal = Calendar.getInstance();
+      cal.set(endYear, endMonth, 1);
+      if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts - 1) {
+        cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+      } else {
+        cal.set(Calendar.DATE, monthStarts - 1);
+      }
+      String endDate = dateformat.format(cal.getTime());
+      String monthRange = " (" + startDate + " - " + endDate + " )";
+      return monthRange;
     }
   }
 

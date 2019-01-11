@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -198,7 +199,7 @@ public class HistoryChart extends Fragment
             .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
       }
       case MONTH:
-        return Grouping.MONTH.getDisplayTitle(getContext(), (int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), null);
+        return Grouping.getDisplayTitleForMonth((int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), DateFormat.SHORT);
       case YEAR:
         return String.format(Locale.ROOT, "%d", (int) value);
     }
