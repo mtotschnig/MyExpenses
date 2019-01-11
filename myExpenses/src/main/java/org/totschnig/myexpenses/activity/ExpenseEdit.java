@@ -1613,7 +1613,7 @@ public class ExpenseEdit extends AmountActivity implements
             if (PictureDirHelper.doesPictureExist(mTransaction.getPictureUri())) {
               setPicture();
             } else {
-              mPictureUri = null;
+              unsetPicture();
               showSnackbar(R.string.image_deleted, Snackbar.LENGTH_SHORT);
             }
           }
@@ -1663,6 +1663,12 @@ public class ExpenseEdit extends AmountActivity implements
         configurePlan();
         break;
     }
+  }
+
+  private void unsetPicture() {
+    mPictureUri = null;
+    mAttachPictureButton.setVisibility(View.VISIBLE);
+    mPictureViewContainer.setVisibility(View.GONE);
   }
 
   private boolean isFileAndNotExists(Uri uri) {
@@ -2355,9 +2361,7 @@ public class ExpenseEdit extends AmountActivity implements
   private void handlePicturePopupMenuClick(int command) {
     switch (command) {
       case R.id.DELETE_COMMAND:
-        mPictureUri = null;
-        mAttachPictureButton.setVisibility(View.VISIBLE);
-        mPictureViewContainer.setVisibility(View.GONE);
+        unsetPicture();
         break;
       case R.id.VIEW_COMMAND:
         startActivity(imageViewIntentProvider.getViewIntent(this, mPictureUri));
@@ -2428,7 +2432,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (granted) {
           setPicture();
         } else {
-          mPictureUri = null;
+          unsetPicture();
         }
       }
     }
