@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.model;
 
-import com.android.setupwizardlib.annotations.VisibleForTesting;
+import android.support.annotation.VisibleForTesting;
+
 import com.google.auto.value.AutoValue;
 
 import java.io.Serializable;

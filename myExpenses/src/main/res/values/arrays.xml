@@ -467,7 +467,7 @@
         <item>eltos</item>
     </string-array>
 
-    <!-- first member is Facebook post id, second Google+ post id -->
+    <!-- first member is Facebook post id -->
     <string-array name="version_more_info_280" tools:ignore="UnusedResources">
         <item>1948276905433778</item>
     </string-array>
@@ -521,6 +521,9 @@
     </string-array>
     <string-array name="version_more_info_298" tools:ignore="UnusedResources">
         <item>2211908312403968</item>
+    </string-array>
+    <string-array name="version_more_info_299" tools:ignore="UnusedResources">
+        <item>2230558760538923</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
