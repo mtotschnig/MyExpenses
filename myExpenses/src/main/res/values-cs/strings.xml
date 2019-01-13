@@ -55,8 +55,6 @@
   <string name="dialog_security_question">Otázka</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémiové funkce</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Nastavte název</string>
   <string name="dialog_title_warning_delete_account">Odstranit účet?</string>
   <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
@@ -71,6 +69,8 @@
   <string name="feedback">Zpětná vazba</string>
   <string name="ftp_uri_malformed">Chybné URI %1$s</string>
   <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">České výchozí kategorie</string>
   <string name="grisbi_import_parties_loading">Načítání stran z %1$s</string>
   <string name="grouping_day">Den</string>

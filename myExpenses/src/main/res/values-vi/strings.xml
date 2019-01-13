@@ -98,8 +98,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Số dư %1$s</string>
   <string name="dialog_title_contrib_feature">Tính năng trả phí</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
@@ -115,6 +113,8 @@
   <string name="feedback">Phản hồi</string>
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
   <string name="grisbi_import_categories_loading">Đang tải phân loại từ %1$s</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Việt</string>
   <string name="grisbi_import_parties_loading">Đang tải các bên từ %1$s</string>
   <string name="grouping_day">Ngày</string>

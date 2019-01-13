@@ -56,8 +56,6 @@
   <string name="dialog_title_attention">අවධානයයි </string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">මාතෘකාවක් යොදන්න </string>
   <string name="dialog_title_warning_delete_account">ගිණුම මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_main_category">ප්‍රධාන ප්‍රබෙධය මක දමන්න?</string>
@@ -73,6 +71,8 @@
   <string name="feedback">ප්‍රතිචාරය </string>
   <string name="ftp_uri_malformed">වැරදුනු යු ආර් අයි %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s න්  වර්ග පැටවීම </string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">මුල සිට පවතින ඉංග්‍රීසි වර්ග </string>
   <string name="grisbi_import_parties_loading">%1$s න් කොටස් පැටවීම් </string>
   <string name="grouping_day">දවස </string>

@@ -56,8 +56,6 @@
   <string name="dialog_security_question">問題</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">高級功能</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">設置名稱</string>
   <string name="dialog_title_warning_delete_account">刪除帳戶？</string>
   <string name="dialog_title_warning_delete_template">要刪除範本？</string>
@@ -72,6 +70,8 @@
   <string name="feedback">意見反饋</string>
   <string name="ftp_uri_malformed">異常URI %1$s</string>
   <string name="grisbi_import_categories_loading">從 %1$s 載入類別</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">建議類別 (中文)</string>
   <string name="grisbi_import_parties_loading">由 %1$s 載入部分</string>
   <string name="grouping_day">日</string>

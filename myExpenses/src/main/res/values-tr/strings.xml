@@ -98,8 +98,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Başlığı belirtin</string>
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
   <string name="dialog_title_warning_delete_main_category">Ana kategori silinsin mi?</string>
@@ -115,6 +113,8 @@
   <string name="feedback">Geri bildirim</string>
   <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
   <string name="grouping_day">Gün</string>

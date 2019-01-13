@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Інші доходи"/>
+<Sub_category Nbc="1" Nb="1" Na="Допомога по безробіттю"/>
+<Sub_category Nbc="1" Nb="2" Na="Допомога на сім'ю"/>
+<Sub_category Nbc="1" Nb="3" Na="Податковий кредит"/>
+<Sub_category Nbc="1" Nb="4" Na="Азартні ігри"/>
+<Sub_category Nbc="1" Nb="5" Na="Взаємне страхування"/>
+<Sub_category Nbc="1" Nb="6" Na="Соціальний захист"/>
+<Category Nb="2" Na="Вихід на пенсію"/>
+<Sub_category Nbc="2" Nb="1" Na="Пенсійний фонд"/>
+<Sub_category Nbc="2" Nb="2" Na="Пенсія"/>
+<Sub_category Nbc="2" Nb="3" Na="Додаткова пенсія"/>
+<Category Nb="3" Na="Інвестиційний дохід"/>
+<Sub_category Nbc="3" Nb="1" Na="Дивіденди"/>
+<Sub_category Nbc="3" Nb="2" Na="Відсотки"/>
+<Sub_category Nbc="3" Nb="3" Na="Приріст капіталу"/>
+<Category Nb="4" Na="Зарплата"/>
+<Sub_category Nbc="4" Nb="1" Na="Понаднормова робота"/>
+<Sub_category Nbc="4" Nb="2" Na="Відпускні"/>
+<Sub_category Nbc="4" Nb="3" Na="Інші премії"/>
+<Sub_category Nbc="4" Nb="4" Na="Винагорода за успіх"/>
+<Sub_category Nbc="4" Nb="5" Na="Чиста зарплата"/>
+<Category Nb="5" Na="Інший дохід"/>
+<Sub_category Nbc="5" Nb="1" Na="Подарунки"/>
+<Sub_category Nbc="5" Nb="2" Na="Повернення коштів"/>
+<Sub_category Nbc="5" Nb="3" Na="Продаж вживаних товарів"/>
+<Category Nb="6" Na="Їжа"/>
+<Sub_category Nbc="6" Nb="1" Na="Бар"/>
+<Sub_category Nbc="6" Nb="2" Na="Пекарня"/>
+<Sub_category Nbc="6" Nb="3" Na="Їдальня"/>
+<Sub_category Nbc="6" Nb="4" Na="Солодощі"/>
+<Sub_category Nbc="6" Nb="5" Na="Інше"/>
+<Sub_category Nbc="6" Nb="6" Na="Продукти"/>
+<Sub_category Nbc="6" Nb="7" Na="Ресторан"/>
+<Sub_category Nbc="6" Nb="8" Na="Самообслуговування"/>
+<Sub_category Nbc="6" Nb="9" Na="Супермаркет"/>
+<Category Nb="7" Na="Домашні тварини"/>
+<Sub_category Nbc="7" Nb="1" Na="Їжа"/>
+<Sub_category Nbc="7" Nb="2" Na="Різні аксесуари"/>
+<Sub_category Nbc="7" Nb="3" Na="Догляд та гігієна"/>
+<Sub_category Nbc="7" Nb="4" Na="Ветеринарний хірург"/>
+<Category Nb="8" Na="Страхування"/>
+<Sub_category Nbc="8" Nb="1" Na="Автомобіль"/>
+<Sub_category Nbc="8" Nb="2" Na="Здоров'я"/>
+<Sub_category Nbc="8" Nb="3" Na="Будинок"/>
+<Sub_category Nbc="8" Nb="4" Na="Цивільна відповідальність"/>
+<Sub_category Nbc="8" Nb="5" Na="Життя"/>
+<Category Nb="9" Na="Автомобіль"/>
+<Sub_category Nbc="9" Nb="1" Na="Паливо"/>
+<Sub_category Nbc="9" Nb="2" Na="Ремонт"/>
+<Sub_category Nbc="9" Nb="3" Na="Технічне обслуговування"/>
+<Sub_category Nbc="9" Nb="4" Na="Автостоянка"/>
+<Sub_category Nbc="9" Nb="5" Na="Штрафи"/>
+<Category Nb="11" Na="Подарунки"/>
+<Category Nb="12" Na="Діти"/>
+<Sub_category Nbc="12" Nb="1" Na="Медсестра"/>
+<Sub_category Nbc="12" Nb="2" Na="Інше"/>
+<Sub_category Nbc="12" Nb="3" Na="Навчання"/>
+<Category Nb="13" Na="Навчання"/>
+<Sub_category Nbc="13" Nb="1" Na="Уроки"/>
+<Sub_category Nbc="13" Nb="2" Na="Шкільні внески"/>
+<Sub_category Nbc="13" Nb="3" Na="Книги"/>
+<Category Nb="14" Na="Інше"/>
+<Sub_category Nbc="14" Nb="1" Na="Подарунки"/>
+<Category Nb="15" Na="Фінансові витрати"/>
+<Sub_category Nbc="15" Nb="1" Na="Інше"/>
+<Sub_category Nbc="15" Nb="2" Na="Банківські стягнення"/>
+<Sub_category Nbc="15" Nb="3" Na="Кредит / Іпотека"/>
+<Sub_category Nbc="15" Nb="4" Na="Стягнення"/>
+<Sub_category Nbc="15" Nb="5" Na="Відшкодування"/>
+<Category Nb="16" Na="Професійні витрати"/>
+<Sub_category Nbc="16" Nb="1" Na="Без можливості відшкодування"/>
+<Sub_category Nbc="16" Nb="2" Na="З можливістю відшкодування"/>
+<Category Nb="17" Na="Податки"/>
+<Sub_category Nbc="17" Nb="1" Na="Інше"/>
+<Sub_category Nbc="17" Nb="2" Na="Дохід"/>
+<Sub_category Nbc="17" Nb="3" Na="Земля"/>
+<Category Nb="18" Na="Житло"/>
+<Sub_category Nbc="18" Nb="1" Na="Готель"/>
+<Sub_category Nbc="18" Nb="2" Na="Оренда"/>
+<Sub_category Nbc="18" Nb="3" Na="Телевізор"/>
+<Sub_category Nbc="18" Nb="4" Na="Меблі"/>
+<Sub_category Nbc="18" Nb="5" Na="Комунальні платежі"/>
+<Sub_category Nbc="18" Nb="6" Na="Опалення"/>
+<Sub_category Nbc="18" Nb="7" Na="Декор"/>
+<Sub_category Nbc="18" Nb="8" Na="Вода"/>
+<Sub_category Nbc="18" Nb="9" Na="Електрика"/>
+<Sub_category Nbc="18" Nb="10" Na="Побутова техніка"/>
+<Sub_category Nbc="18" Nb="11" Na="Обладнання"/>
+<Sub_category Nbc="18" Nb="12" Na="Газ"/>
+<Sub_category Nbc="18" Nb="13" Na="Сад"/>
+<Sub_category Nbc="18" Nb="14" Na="Упорядник дому"/>
+<Sub_category Nbc="18" Nb="15" Na="Телефон"/>
+<Sub_category Nbc="18" Nb="16" Na="Мобільний телефон"/>
+<Category Nb="19" Na="Відпочинок"/>
+<Sub_category Nbc="19" Nb="1" Na="Більярд"/>
+<Sub_category Nbc="19" Nb="2" Na="Боулінг"/>
+<Sub_category Nbc="19" Nb="3" Na="Фільми"/>
+<Sub_category Nbc="19" Nb="4" Na="Нічний клуб"/>
+<Sub_category Nbc="19" Nb="5" Na="IT"/>
+<Sub_category Nbc="19" Nb="6" Na="Ігри"/>
+<Sub_category Nbc="19" Nb="7" Na="Книги"/>
+<Sub_category Nbc="19" Nb="8" Na="Парки"/>
+<Sub_category Nbc="19" Nb="9" Na="Концерти"/>
+<Sub_category Nbc="19" Nb="10" Na="Спорт"/>
+<Sub_category Nbc="19" Nb="11" Na="Відео"/>
+<Sub_category Nbc="19" Nb="12" Na="Подорожі"/>
+<Sub_category Nbc="19" Nb="13" Na="Обладнання"/>
+<Sub_category Nbc="19" Nb="14" Na="Музеї / Виставки"/>
+<Category Nb="20" Na="Кредит / Іпотека"/>
+<Sub_category Nbc="20" Nb="1" Na="Капітал"/>
+<Category Nb="21" Na="Здоров'я"/>
+<Sub_category Nbc="21" Nb="1" Na="Страхування"/>
+<Sub_category Nbc="21" Nb="2" Na="Стоматолог"/>
+<Sub_category Nbc="21" Nb="3" Na="Лікарня"/>
+<Sub_category Nbc="21" Nb="4" Na="Лікувальна фізкультура"/>
+<Sub_category Nbc="21" Nb="5" Na="Лікар"/>
+<Sub_category Nbc="21" Nb="6" Na="Офтальмолог"/>
+<Sub_category Nbc="21" Nb="7" Na="Остеопат"/>
+<Sub_category Nbc="21" Nb="8" Na="Фармацевт"/>
+<Sub_category Nbc="21" Nb="9" Na="Соціальний захист"/>
+<Category Nb="22" Na="Догляд"/>
+<Sub_category Nbc="22" Nb="1" Na="Перукарня"/>
+<Sub_category Nbc="22" Nb="2" Na="Одяг"/>
+<Category Nb="23" Na="Транспорт"/>
+<Sub_category Nbc="23" Nb="1" Na="Автобус"/>
+<Sub_category Nbc="23" Nb="2" Na="Метро"/>
+<Sub_category Nbc="23" Nb="3" Na="Платна дорога"/>
+<Sub_category Nbc="23" Nb="4" Na="Потяг"/>
+<Sub_category Nbc="23" Nb="5" Na="Трамвай"/>
+<Sub_category Nbc="23" Nb="6" Na="Подорожі"/>
+<Sub_category Nbc="23" Nb="7" Na="Літак"/>
+<Category Nb="24" Na="Свята"/>
+<Sub_category Nbc="24" Nb="1" Na="Житло"/>
+<Sub_category Nbc="24" Nb="2" Na="Візити"/>
+<Sub_category Nbc="24" Nb="3" Na="Подорожі"/></Grisbi_categ>

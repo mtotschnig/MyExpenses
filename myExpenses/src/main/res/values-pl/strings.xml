@@ -98,8 +98,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Określ nazwę</string>
   <string name="dialog_title_warning_delete_account">Usunąć konto?</string>
   <string name="dialog_title_warning_delete_main_category">Usunąć główną kategorię?</string>
@@ -115,6 +113,8 @@
   <string name="feedback">Opinie</string>
   <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
   <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">Domyślne polskie kategorie</string>
   <string name="grisbi_import_parties_loading">Wczytywanie partii z %1$s</string>
   <string name="grouping_day">Dzień</string>

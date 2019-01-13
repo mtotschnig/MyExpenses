@@ -3,7 +3,7 @@
   <string name="help_menu_commands">Polecenia menu</string>
   <string name="help_contextual_actions">Akcje kontekstowe</string>
   <string name="help_contextual_actions_help">Menu akcji kontekstowych wyświetlić można przez naciśnięcie i przytrzymanie wpisu na liście.</string>
-  <string name="help_form_fields">Form fields</string>
+  <string name="help_form_fields">Pola formularzy</string>
   <string name="cab_delete_help_text">Usuń zaznaczone elementy.</string>
   <string name="cab_edit_help_text">Edytuj zaznaczony element.</string>
   <!--My Expenses Transaction list-->

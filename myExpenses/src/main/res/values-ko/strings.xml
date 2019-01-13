@@ -83,8 +83,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">잔고 %1$s</string>
   <string name="dialog_title_contrib_feature">프리미엄 기능</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">제목 설정</string>
   <string name="dialog_title_warning_delete_account">계좌를 삭제할까요?</string>
   <string name="dialog_title_warning_delete_main_category">주 카테고리를 삭제할까요?</string>
@@ -100,6 +98,8 @@
   <string name="feedback">피드백</string>
   <string name="ftp_uri_malformed">올바르지 않은 URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s에서 카테고리 불러오는 중</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">영문 기본 카테고리</string>
   <string name="grisbi_import_parties_loading">%1$s에서 단체 가져오는 중</string>
   <string name="grouping_day">일</string>

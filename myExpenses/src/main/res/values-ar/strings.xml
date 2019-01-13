@@ -68,8 +68,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
-  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">اكتب العنوان</string>
   <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_warning_delete_main_category">حذف التصنيف الأساسي؟</string>
@@ -85,6 +83,8 @@
   <string name="feedback">التقييم</string>
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
+  <!--This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
   <string name="grisbi_import_default_source">التصنيفات الافتراضية العربية</string>
   <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
   <string name="grouping_day">اليوم</string>
