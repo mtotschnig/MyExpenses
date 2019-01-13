@@ -60,7 +60,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
   @Override
   protected void setupMenu() {
     MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
-    View actionView = MenuItemCompat.getActionView(menuItem);
+    View actionView = menuItem.getActionView();
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
     ((TextView) actionView).setText(MyApplication.getUserPreferedLocale().getLanguage());
     actionView.setOnClickListener(v -> {

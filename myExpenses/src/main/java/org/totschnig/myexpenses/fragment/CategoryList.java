@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -417,7 +416,7 @@ public class CategoryList extends SortableListFragment {
 
     MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenuItem != null && mFilter != null) {
-      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+      SearchView searchView = (SearchView) searchMenuItem.getActionView();
       searchView.setQuery(mFilter, false);
       searchView.setIconified(false);
       searchView.clearFocus();

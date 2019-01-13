@@ -4,7 +4,6 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
 import android.util.TypedValue;
@@ -288,8 +287,7 @@ public class DistributionFragment extends DistributionBaseFragment {
     inflater.inflate(R.menu.distribution, menu);
     inflater.inflate(R.menu.grouping, menu);
 
-    SwitchCompat typeButton = MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
-        .findViewById(R.id.TaType);
+    SwitchCompat typeButton = menu.findItem(R.id.switchId).getActionView().findViewById(R.id.TaType);
 
     typeButton.setOnCheckedChangeListener((buttonView, isChecked) -> setType(isChecked));
   }
@@ -309,7 +307,11 @@ public class DistributionFragment extends DistributionBaseFragment {
     m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
     if (m != null) {
       m.setChecked(aggregateTypes);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
+      final MenuItem item = menu.findItem(R.id.switchId);
+      Utils.menuItemSetEnabledAndVisible(item, !aggregateTypes);
+      if (!aggregateTypes) {
+        ((SwitchCompat) item.getActionView().findViewById(R.id.TaType)).setChecked(isIncome);
+      }
     }
   }
 
