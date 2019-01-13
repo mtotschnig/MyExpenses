@@ -113,8 +113,6 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
-    <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
-    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
     <string name="dialog_title_template_title">Set the title</string>
     <string name="dialog_title_warning_delete_account">Delete account?</string>
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
@@ -130,6 +128,8 @@
     <string name="feedback">Feedback</string>
     <string name="ftp_uri_malformed">Malformed URI %1$s</string>
     <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
+    <!-- This is used as the title for the progress dialogue while importing the default categories, so
+     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
     <string name="grisbi_import_default_source">English default categories</string>
     <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
     <string name="grouping_day">Day</string>
@@ -148,7 +148,7 @@
     <string name="important_upgrade_information_heading">Important information</string>
     <string name="import_select_transactions">Transactions</string>
     <string name="income">Income</string>
-    <string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
+    <string name="invalid_number_format">Decimal format not recognized by your locale. Please use %1$s</string>
     <string name="label">Label</string>
     <string name="licence_validation_failure">Unable to validate licence key.</string>
     <string name="licence_validation_success">Licence key successfully validated:</string>
