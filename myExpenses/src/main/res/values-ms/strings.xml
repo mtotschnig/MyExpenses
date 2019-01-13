@@ -416,7 +416,6 @@
   <string name="warning_widget_disabled">Anda perlu benarkan widjet ini di dalam tetapan apl.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Penyegeraan pantas templat dari widjet ini hanya berfungsi jika anda benarkan masukan data dari widjet tanpa kata laluan dalam tetapan apl.</string>
   <string name="warning_password_contrib">Menetapkan soalan keselamatan membolehkan anda buka apl, jika anda lupa kata laluan anda.</string>
-  <string name="warning_password_no_contrib">Jika anda tetapkan kata laluan, jangan lupakannya. Anda tidak boleh memulihkannya, melainkan anda tetapkan soalan keselamatan.</string>
   <string name="warning_reset_account">Jika anda teruskan, semua transaksi akaun ini dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>

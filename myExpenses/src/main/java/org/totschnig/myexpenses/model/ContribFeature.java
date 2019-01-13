@@ -52,7 +52,6 @@ public enum ContribFeature {
       return context.getString(R.string.dialog_contrib_usage_limit_plans, FREE_PLANS, currentLicence);
     }
   },
-  SECURITY_QUESTION,
   SPLIT_TRANSACTION,
   DISTRIBUTION,
   TEMPLATE_WIDGET,

@@ -13,10 +13,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
 public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat
@@ -51,11 +49,6 @@ public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDial
     protect = view.findViewById(R.id.performProtection);
     change = view.findViewById(R.id.changePassword);
     password2Wrapper = view.findViewById(R.id.password2Wrapper);
-    String warning = ContribFeature.SECURITY_QUESTION.hasAccess() ?
-        getContext().getString(R.string.warning_password_contrib) :
-        (getContext().getString(R.string.warning_password_no_contrib) + " " +
-            ContribFeature.SECURITY_QUESTION.buildRequiresString(getContext()));
-    ((TextView) view.findViewById(R.id.password_warning)).setText(warning);
     main = view.findViewById(R.id.layoutMain);
     edit = view.findViewById(R.id.layoutPasswordEdit);
     boolProtectOrig = preference.getValue();

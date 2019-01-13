@@ -392,7 +392,6 @@
   <string name="warning_widget_disabled">Trebuie să activaţi acest widget în setările app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Instanţierea rapidă a şabloanelor din acest widget funcţionează numai dacă permiteţi introducerea datelor din  widget-uri fără parolă în setările app.</string>
   <string name="warning_password_contrib">Setarea unei întrebări de securitate vă permite să deblocaţi app, în cazul în care uitaţi parola.</string>
-  <string name="warning_password_no_contrib">Dacă setaţi o parolă, aveţi grijă să nu o uitaţi. Nu o veţi putea  recupera, dacă nu aţi stabilit o întrebare de securitate.</string>
   <string name="warning_reset_account">Dacă veţi continua, toate tranzacţiile din acest cont vor fi şterse din baza de date şi nu se vor putea restaura.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>

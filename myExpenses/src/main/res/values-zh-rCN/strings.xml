@@ -355,7 +355,6 @@
   <string name="warning_password_protected">应用被密码保护</string>
   <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
   <string name="warning_password_contrib">若果您忘记了密码,设置一个安全问题可让你再次解锁此应用.</string>
-  <string name="warning_password_no_contrib">如果你设置了密码,但又小心不要忘记了它.你将无法恢复它,除非你成功回答所设置的安全问题.</string>
   <string name="warning_reset_account">如果你继续,这个帐户的所有交易都从数据库中被删除且无法恢复.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">如果你继续,所有帐户%1$s和当中的所有交易都从数据库中被删除且无法恢复.</string>

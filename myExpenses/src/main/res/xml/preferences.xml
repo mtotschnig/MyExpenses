@@ -283,7 +283,9 @@
             <EditTextPreference
                 android:dialogLayout="@layout/security_question"
                 android:key="@string/pref_security_question_key"
-                android:title="@string/pref_security_question_title"/>
+                android:title="@string/pref_security_question_title"
+                android:summary="@string/pref_security_question_summary"
+                />
             <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"

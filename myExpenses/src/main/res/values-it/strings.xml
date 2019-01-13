@@ -424,7 +424,6 @@
   <string name="warning_widget_disabled">È necessario abilitare questo widget nelle impostazioni app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">La creazione rapida di modelli da questo widget funziona solo se si consente l\'immissione di dati da widget senza password nelle impostazioni app.</string>
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
-  <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticarla. Non sarà in grado di recuperare la password, a meno che non sia stata impostata una domanda di sicurezza.</string>
   <string name="warning_reset_account">Se si continua, tutte le operazioni di questo conto verranno eliminate dal database e non potranno essere ripristinate.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti i conti%1$s verranno eliminate dal database e non potranno essere ripristinate.</string>

@@ -440,7 +440,6 @@
   <string name="warning_widget_disabled">עליך להפעיל את הווידג\'ט בהגדרות האפליקציה.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">הפעלה מהירה של תבניות מווידג\'ט זה פועלת רק אם אתה מאפשר הזנת נתונים מווידג\'טים ללא סיסמה בהגדרות האפליקציה.</string>
   <string name="warning_password_contrib">הגדרת שאלת אבטחה מאפשרת לך לבטל את נעילת האפליקציה, למקרה שתשכח את הסיסמה.</string>
-  <string name="warning_password_no_contrib">אם תגדיר סיסמה, הקפד לא לשכוח אותה. לא תוכל לשחזר אותה, אלא אם תגדיר שאלת אבטחה.</string>
   <string name="warning_reset_account">אם תמשיך, כל העסקאות בחשבון זה יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>

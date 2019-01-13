@@ -431,7 +431,6 @@
   <string name="warning_password_protected">Приложение защищено паролем.</string>
   <string name="warning_widget_disabled">Вам необходимо включить этот виджет в настройках приложения.</string>
   <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
-  <string name="warning_password_no_contrib">После установки пароля не забудьте его. У вас не будет возможности восстановить пароль, если не был задан секретный вопрос.</string>
   <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>

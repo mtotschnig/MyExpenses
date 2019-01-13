@@ -413,7 +413,6 @@
   <string name="warning_widget_disabled">Necessita de ativar este widget nas definições da aplicação.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">A aplicação rápida de modelos a partir deste widget apenas funciona se nas definições da aplicação permitir a introdução de dados a partir de widgets sem palavra-passe.</string>
   <string name="warning_password_contrib">Definir uma pergunta de segurança permite-lhe desbloquear a aplicação, no caso de se esquecer da palavra-passe.</string>
-  <string name="warning_password_no_contrib">Se definir uma palavra-passe, tenha cuidado para não a esquecer. Não irá ser possível recuperá-la, a não ser que defina uma pergunta de segurança.</string>
   <string name="warning_reset_account">Se proceder, todas as transações desta conta serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se proceder, as transações de todas as contas %1$s serão eliminadas da base de dados e não poderão ser recuperadas.</string>

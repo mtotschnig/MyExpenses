@@ -334,7 +334,6 @@
   <string name="warning_widget_disabled">ඇපයේ කට්ටල අංග තුලින් මෙම විජටය ක්‍රියාත්මක කල යුතුය </string>
   <string name="warning_instantiate_template_from_widget_password_protected">මෙම විජටයේ අච්චු ක්‍රියාත්මක වන්නේ ඔබ මුරපදයක් නොමැතිව දත්ත විජටයට යාමට සලසුවොත් පමණි </string>
   <string name="warning_password_contrib">ආරක්ෂක ප්‍රශ්නයක් පිහිටුවෙමෙන් ඔබට මුරපදය අම්තකවුවත් ඇපය යලි ක්‍රියාත්මක කල හැක.</string>
-  <string name="warning_password_no_contrib">ඔබ මුරපදයක් විහිටුවෙයේනම් එය නිසිලෙස රැකගන්න.ඔබ ආරක්ෂක ප්‍රශ්නයක් පිහිටුවේ නැත්නම් එය නවතා පිහිටුවිය නොහැක </string>
   <string name="warning_reset_account">ඔබ ඉදිරියට ගියහොත් මෙම ගිණුමෙහි ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>

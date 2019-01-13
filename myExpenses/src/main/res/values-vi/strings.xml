@@ -416,7 +416,6 @@
   <string name="warning_widget_disabled">Bạn cần kích hoạt tiện ích này trong cài đặt của ứng dụng.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Thuyết minh nhanh về các bản mẫu từ tiện ích này chỉ hoạt động nếu bạn cho phép hiện các mục dữ liệu từ tiện ích, với việc không đặt mật khẩu trong cài đặt ứng dụng.</string>
   <string name="warning_password_contrib">Đặt một câu hỏi an ninh để khóa lại ứng dụng, trong trường hợp bạn quên mật khẩu</string>
-  <string name="warning_password_no_contrib">Nếu bạn đặt một mật khẩu, hãy cẩn thẩn và đừng quên. Bạn sẽ không thể phục hồi lại được, trừ khi bạn đặt một câu hỏi an ninh.</string>
   <string name="warning_reset_account">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>

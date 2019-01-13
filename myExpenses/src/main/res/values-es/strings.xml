@@ -424,7 +424,6 @@
   <string name="warning_widget_disabled">Necesitas habilitar este widget desde el menú configuración de la aplicación.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">La creación rápida de plantillas desde este widget funciona sólo si permite la entrada de datos en widgets sin contraseña, desde el menú configuración de la aplicación.</string>
   <string name="warning_password_contrib">Establecer una pregunta de seguridad permitirá desbloquear la aplicación en caso de que olvide su contraseña.</string>
-  <string name="warning_password_no_contrib">Si establece una contraseña, tenga cuidado de no olvidarla. No será capaz de recuperarla, a menos que establezca una pregunta de seguridad.</string>
   <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminarán de la base de datos y no se  podrán restaurar.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continúa, en todas las cuentas%1$s las transacciones serán eliminadas de la base de datos y no podrán ser restauradas.</string>

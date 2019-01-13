@@ -379,7 +379,6 @@
   <string name="warning_widget_disabled">Molimo dozvolite rad widget-a u postavkama aplikacije.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Brzo instanciranje predložaka iz ovog widgeta radi jedino ako dopustite unos podataka iz widgeta bez lozinke. Ovo možete podesiti u postavkama.</string>
   <string name="warning_password_contrib">Postavljanje sigurnosnog pitanja omogućuje otključavanje aplikacije u slučaju da zaboravite lozinku.</string>
-  <string name="warning_password_no_contrib">Zapamtite svoju lozinku. Nećete ju moći obnoviti bez postavljanja sigurnosnog pitanja.</string>
   <string name="warning_reset_account">Nastavite li, sve transakciije na ovom računu biti će obrisane iz baze podataka i neće se moći vratiti.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Nastavite li, transakcije će biti obrisane za SVE račune%1$s i neće se moći obnoviti.</string>

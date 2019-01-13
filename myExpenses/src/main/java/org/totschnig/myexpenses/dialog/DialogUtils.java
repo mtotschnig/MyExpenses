@@ -51,7 +51,6 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -122,7 +121,7 @@ public class DialogUtils {
             ctx.moveTaskToBack(true);
           }
         });
-    if (ContribFeature.SECURITY_QUESTION.hasAccess() && !securityQuestion.equals("")) {
+    if (!securityQuestion.equals("")) {
       builder.setNeutralButton(R.string.password_lost, (dialog, id) -> {
       });
     }

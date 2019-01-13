@@ -392,7 +392,6 @@
   <string name="warning_widget_disabled">앱 설정 화면에서 이 위젯을 활성화해야 합니다.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">앱 설정 화면에서 \'암호 없이 위젯에서 데이터 입력\'을 허가해야만 이 위젯에서 템플릿을 예시로 보여주는 기능을 사용할 수 있습니다.</string>
   <string name="warning_password_contrib">보안 질문을 설정하면 암호를 잊어버리더라도 앱을 잠금 해제할 수 있습니다.</string>
-  <string name="warning_password_no_contrib">암호를 설정하고자 한다면 잊어버리지 않도록 주의하세요. 보안 질문을 설정하지 않는 한 복원할 수 있는 방법이 없습니다.</string>
   <string name="warning_reset_account">계속 진행하면, 이 계좌의 모든 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>

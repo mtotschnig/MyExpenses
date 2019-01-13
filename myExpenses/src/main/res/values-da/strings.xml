@@ -386,7 +386,6 @@
   <string name="warning_widget_disabled">Du skal aktivere denne widget i indstillingerne i appen.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Hurtig anvendelse af skabeloner fra denne widget virker kun hvis du i indstillingerne i appen tillader at der hentes af data fra widget uden adgangskode.</string>
   <string name="warning_password_contrib">Angive et sikkerhedsspørgsmål du kan app\'en låse op med, hvis du glemmer din adgangskode.</string>
-  <string name="warning_password_no_contrib">Bruge en adgangskode du kan huske. Hvis du glemmer den kan du kun nulstille den hvis du har angivet et et sikkerhedsspørgsmål.</string>
   <string name="warning_reset_account">Hvis du fortsætter, slettet alle posteringer på denne konto fra databasen og kan ikke gendannes.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle posteringer i alle konti %1$s fra databasen og kan ikke gendannes.</string>

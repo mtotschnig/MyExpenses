@@ -412,7 +412,6 @@
   <string name="warning_widget_disabled">Χρειάζεται να ενεργοποιήσετε αυτό το γραφικό στοιχείο στις ρυθμίσεις της εφαρμογής.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Η γρήγορη συγκεκριμενοποίηση των προτύπων από αυτό το γραφικό στοιχείο λειτουργεί μόνο αν έχετε επιτρέψει την είσοδο δεδομένων από γραφικά στοιχεία χωρίς κωδικό πρόσβασης στις ρυθμίσεις της εφαρμογής.</string>
   <string name="warning_password_contrib">Προσθέτοντας ρύθμιση με μια ερώτηση ασφαλείας, σας επιτρέπει να ξεκλειδώσετε το app, σε περίπτωση που ξεχάσετε τον κωδικό πρόσβασής σας.</string>
-  <string name="warning_password_no_contrib">Εάν ορίσετε έναν κωδικό πρόσβασης, προσέξτε να μην τον ξεχνάτε. Δεν θα είστε σε θέση να τον ανακτήσετε, αν δεν ορίσετε μια ερώτηση ασφαλείας.</string>
   <string name="warning_reset_account">Εάν συνεχίσετε, όλες οι συναλλαγές του λογαριασμού αυτού διαγράφονται από τη βάση δεδομένων και δεν μπορούν να αποκατασταθούν.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>
