@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.SparseBooleanArray;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +37,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -143,9 +143,7 @@ public class CsvImportDataFragment extends Fragment {
       header2FieldMap = new JSONObject();
     }
 
-    cbParams = new LinearLayout.LayoutParams(
-        (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, CHECKBOX_COLUMN_WIDTH, getResources().getDisplayMetrics()),
+    cbParams = new LinearLayout.LayoutParams(UiUtils.dp2Px(CHECKBOX_COLUMN_WIDTH, getResources()),
         LinearLayout.LayoutParams.WRAP_CONTENT);
     cbParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 
@@ -204,15 +202,12 @@ public class CsvImportDataFragment extends Fragment {
       tableWidth = CELL_MIN_WIDTH * nrOfColumns + CHECKBOX_COLUMN_WIDTH + CELL_MARGIN * (nrOfColumns + 2);
     }
 
-    cellParams = new LinearLayout.LayoutParams(
-        (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, cellWidth, getResources().getDisplayMetrics()),
+    cellParams = new LinearLayout.LayoutParams(UiUtils.dp2Px(cellWidth, getResources()),
         LinearLayout.LayoutParams.WRAP_CONTENT);
     cellParams.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 
     ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
-    params.width = (int) TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, tableWidth, getResources().getDisplayMetrics());
+    params.width = UiUtils.dp2Px(tableWidth, getResources());
     mRecyclerView.setLayoutParams(params);
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);

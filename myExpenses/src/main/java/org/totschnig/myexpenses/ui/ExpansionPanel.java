@@ -74,7 +74,9 @@ public class ExpansionPanel extends LinearLayout {
               isMeasured = true;
               if (contentVisibility == GONE) {
                 final int height = expansionContent.getHeight();
-                ((LayoutParams) expansionContent.getLayoutParams()).bottomMargin = -height;
+                final LayoutParams layoutParams = (LayoutParams) expansionContent.getLayoutParams();
+                layoutParams.bottomMargin = -height;
+                expansionContent.setLayoutParams(layoutParams);
               }
               expansionContent.setVisibility(contentVisibility);
               updateIndicator();
@@ -140,8 +142,9 @@ public class ExpansionPanel extends LinearLayout {
     this.contentVisibility = visibility;
     if (isMeasured) {
       expansionContent.setVisibility(visibility);
-      ((LayoutParams) expansionContent.getLayoutParams()).bottomMargin =
-          visibility == VISIBLE ? 0 : -expansionContent.getHeight();
+      final LayoutParams layoutParams = (LayoutParams) expansionContent.getLayoutParams();
+      layoutParams.bottomMargin = visibility == VISIBLE ? 0 : -expansionContent.getHeight();
+      expansionContent.setLayoutParams(layoutParams);
     }
   }
 }

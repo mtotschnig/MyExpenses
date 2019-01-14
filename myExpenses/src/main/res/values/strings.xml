@@ -824,4 +824,5 @@
     <string name="button_label_no_encryption">Without encryption</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">or</string>
+    <string name="pref_account_list_fast_scroll_summary">Enable fast scroll for account list. May lead to incorrect display on some devices</string>
 </resources>

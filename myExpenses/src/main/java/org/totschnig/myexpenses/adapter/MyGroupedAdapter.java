@@ -2,11 +2,13 @@ package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.ExpansionPanel;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -237,6 +240,16 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       prefHandler.putBoolean(expansionPrefKey, expanded);
       setBalanceVisibility(holder, expanded);
     });
+    if (prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false)) {
+      FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) holder.expansionPanel.getLayoutParams();
+      int adjustedMargin = context.getResources().getDimensionPixelSize(R.dimen.fast_scroll_additional_margin);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        layoutParams.setMarginEnd(adjustedMargin);
+      } else {
+        layoutParams.rightMargin = adjustedMargin;
+      }
+      holder.expansionPanel.setLayoutParams(layoutParams);
+    }
   }
 
   private void setBalanceVisibility(ViewHolder holder, boolean expanded) {

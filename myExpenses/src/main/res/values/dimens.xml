@@ -58,4 +58,6 @@
     <dimen name="budget_container_width_landscape">450dp</dimen>
     <dimen name="budget_container_cell_width_landscape">150dp</dimen>
     <dimen name="budget_table_padding">10dp</dimen>
+
+    <dimen name="fast_scroll_additional_margin">32dp</dimen>
 </resources>

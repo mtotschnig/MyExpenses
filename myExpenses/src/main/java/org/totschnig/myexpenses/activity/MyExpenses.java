@@ -303,6 +303,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     });
     registerForContextMenu(mDrawerList);
+    mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     requireFloatingActionButtonWithContentDescription(TextUtils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
@@ -343,8 +344,7 @@ public class MyExpenses extends LaunchActivity implements
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.setOnPageChangeListener(this);
-    myPager.setPageMargin((int) TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
+    myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
     myPager.setPageMarginDrawable(margin.resourceId);
     mManager = getSupportLoaderManager();
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);

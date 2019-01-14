@@ -6,17 +6,17 @@
     android:layout_width="?attr/drawerWidth"
     android:layout_height="match_parent"
     android:layout_gravity="start"
+    android:animateLayoutChanges="true"
     android:background="?android:attr/colorBackground"
     android:orientation="vertical"
-    android:animateLayoutChanges="true"
     tools:showIn="@layout/activity_main">
 
     <FrameLayout
         android:id="@+id/expansionTrigger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/drawer_padding"
-        android:paddingLeft="@dimen/drawer_padding">
+        android:paddingLeft="@dimen/drawer_padding"
+        android:paddingStart="@dimen/drawer_padding">
 
         <TextView
             style="@style/newHeadingStyle"
@@ -35,20 +35,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        app:elevation="0dp"
         android:visibility="gone"
+        app:elevation="0dp"
         app:menu="@menu/accounts"/>
 
     <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
         android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/drawerBackground"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="2dp"
-        android:background="?attr/drawerBackground"
+        android:fastScrollEnabled="false"
         android:listSelector="@android:color/transparent"
-        android:fastScrollEnabled="true"
-        android:scrollbarStyle="insideOverlay"
+        android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"/>
 </org.totschnig.myexpenses.ui.ExpansionPanel>

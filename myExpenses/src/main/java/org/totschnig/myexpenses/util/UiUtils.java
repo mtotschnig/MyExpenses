@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +13,8 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatDrawableManager;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.SimpleCursorAdapter;
@@ -115,5 +118,9 @@ public class UiUtils {
   public static void configureProgress(DonutProgress donutProgress, int progress) {
     donutProgress.setProgress(Math.min(progress, 100));
     donutProgress.setText(progress < 1000 ? String.valueOf(progress) : ">1k");
+  }
+
+  public static int dp2Px(float dp, Resources resources) {
+    return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
   }
 }
