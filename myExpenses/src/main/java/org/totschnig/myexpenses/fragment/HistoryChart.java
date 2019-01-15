@@ -34,7 +34,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -160,7 +160,12 @@ public class HistoryChart extends Fragment
     XAxis xAxis = chart.getXAxis();
     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     xAxis.setGranularity(1);
-    xAxis.setValueFormatter((float value, AxisBase axis) -> axis.getAxisMinimum() == value ? "" : formatXValue(value));
+    xAxis.setValueFormatter(new ValueFormatter() {
+      @Override
+      public String getAxisLabel(float value, AxisBase axis) {
+        return axis.getAxisMinimum() == value ? "" : formatXValue(value);
+      }
+    });
     xAxis.setTextColor(textColor);
     configureYAxis(chart.getAxisLeft());
     configureYAxis(chart.getAxisRight());
@@ -395,7 +400,13 @@ public class HistoryChart extends Fragment
 
       CombinedData data = new CombinedData();
 
-      IValueFormatter valueFormatter = (value, entry, dataSetIndex, viewPortHandler) -> convAmount(value);
+      ValueFormatter valueFormatter = new ValueFormatter() {
+        @Override
+        public String getFormattedValue(float value) {
+          return  convAmount(value);
+        }
+      };
+
       BarDataSet set1 = new BarDataSet(barEntries, "");
       set1.setStackLabels(new String[]{
           getString(R.string.history_chart_out_label),
@@ -434,7 +445,12 @@ public class HistoryChart extends Fragment
 
   private void configureYAxis(YAxis yAxis) {
     yAxis.setTextColor(textColor);
-    yAxis.setValueFormatter((value, axis) -> convAmount(value));
+    yAxis.setValueFormatter(new ValueFormatter() {
+      @Override
+      public String getAxisLabel(float value, AxisBase axis) {
+        return convAmount(value);
+      }
+    });
   }
 
   private String convAmount(float value) {
