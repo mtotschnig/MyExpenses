@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -171,6 +172,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   PrefHandler prefHandler;
   @Inject
   AdHandlerFactory adHandlerFactory;
+  @Inject
+  CurrencyContext currencyContext;
 
   CurrencyViewModel currencyViewModel;
 
@@ -631,7 +634,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
     if (matches(pref, HOME_CURRENCY)) {
-      if (!value.equals(HOME_CURRENCY.getString(null))) {
+      if (!value.equals(prefHandler.getString(HOME_CURRENCY,null))) {
         MessageDialogFragment.newInstance(R.string.dialog_title_information,
             concatResStrings(getContext(), " ", R.string.home_currency_change_warning, R.string.continue_confirmation),
             new MessageDialogFragment.Button(android.R.string.ok, R.id.CHANGE_COMMAND, ((String) value)),
@@ -999,6 +1002,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       } else {
         prefHandler.putString(HOME_CURRENCY, currencyCode);
       }
+      currencyContext.invalidateHomeCurruency();
       activity.startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
           null, null, R.string.progress_dialog_saving);
     }

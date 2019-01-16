@@ -98,4 +98,9 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   public void ensureFractionDigitsAreCached(CurrencyUnit currency) {
     storeCustomFractionDigits(currency.code(), currency.fractionDigits());
   }
+
+  @Override
+  public void invalidateHomeCurruency() {
+    INSTANCES.remove(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
+  }
 }

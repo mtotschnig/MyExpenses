@@ -8,4 +8,6 @@ public interface CurrencyContext {
   void storeCustomSymbol(String currencyCode, String symbol);
 
   void ensureFractionDigitsAreCached(CurrencyUnit currency);
+
+  void invalidateHomeCurruency();
 }

@@ -1493,7 +1493,7 @@ public class TransactionProvider extends ContentProvider {
       default:
         throw unknownUri(uri);
     }
-    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));

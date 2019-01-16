@@ -776,6 +776,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void restartAfterRestore() {
+    currencyContext.invalidateHomeCurruency();
     if (!isFinishing()) {
       Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
