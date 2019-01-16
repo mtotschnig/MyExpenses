@@ -155,29 +155,34 @@ public class Account extends Model {
     return currencyUnit;
   }
 
-  public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
       + " AND " + WHERE_IN_PAST + " )";
 
+
   static {
+    buildProjection();
+  }
+
+  public static void buildProjection() {
     PROJECTION_BASE = new String[]{
-        TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
-        KEY_LABEL,
-        KEY_DESCRIPTION,
-        KEY_OPENING_BALANCE,
-        TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
-        KEY_COLOR,
-        TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
-        KEY_TYPE,
-        KEY_SORT_KEY,
-        KEY_EXCLUDE_FROM_TOTALS,
-        HAS_EXPORTED,
-        KEY_SYNC_ACCOUNT_NAME,
-        KEY_UUID,
-        KEY_SORT_DIRECTION,
-        DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
-        KEY_CRITERION
-    };
+      TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
+      KEY_LABEL,
+      KEY_DESCRIPTION,
+      KEY_OPENING_BALANCE,
+      TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
+      KEY_COLOR,
+      TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
+      KEY_TYPE,
+      KEY_SORT_KEY,
+      KEY_EXCLUDE_FROM_TOTALS,
+      HAS_EXPORTED,
+      KEY_SYNC_ACCOUNT_NAME,
+      KEY_UUID,
+      KEY_SORT_DIRECTION,
+      DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
+      KEY_CRITERION
+  };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
@@ -208,6 +213,7 @@ public class Account extends Model {
     PROJECTION_FULL[baseLength + 10] = HAS_CLEARED;
     PROJECTION_FULL[baseLength + 11] = AccountType.sqlOrderExpression();
     PROJECTION_FULL[baseLength + 12] = KEY_LAST_USED;
+
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;

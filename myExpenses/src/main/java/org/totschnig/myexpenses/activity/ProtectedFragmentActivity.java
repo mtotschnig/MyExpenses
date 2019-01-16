@@ -69,16 +69,20 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
@@ -776,7 +780,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void restartAfterRestore() {
-    currencyContext.invalidateHomeCurruency();
+    invalidateHomeCurrency();
     if (!isFinishing()) {
       Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -991,6 +995,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   protected PrefHandler getPrefHandler() {
     return MyApplication.getInstance().getAppComponent().prefHandler();
+  }
+
+  public void invalidateHomeCurrency() {
+    currencyContext.invalidateHomeCurrency();
+    CurrencyFormatter.instance().invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
+    Transaction.buildProjection();
+    Account.buildProjection();
+    getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 
   public enum ThemeType {

@@ -251,7 +251,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       }
       if (prev_version < 316) {
         getPrefHandler().putString(HOME_CURRENCY, Utils.getHomeCurrency().code());
-        currencyContext.invalidateHomeCurruency();
+        invalidateHomeCurrency();
       }
       if (prev_version < 354) {
         showImportantUpgradeInfo = GenericAccountService.getAccountsAsArray(this).length > 0;

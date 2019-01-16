@@ -100,7 +100,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   }
 
   @Override
-  public void invalidateHomeCurruency() {
+  public void invalidateHomeCurrency() {
     INSTANCES.remove(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
   }
 }

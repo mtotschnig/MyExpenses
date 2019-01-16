@@ -9,5 +9,5 @@ public interface CurrencyContext {
 
   void ensureFractionDigitsAreCached(CurrencyUnit currency);
 
-  void invalidateHomeCurruency();
+  void invalidateHomeCurrency();
 }

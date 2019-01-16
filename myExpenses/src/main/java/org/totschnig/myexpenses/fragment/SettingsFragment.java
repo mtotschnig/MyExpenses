@@ -172,8 +172,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   PrefHandler prefHandler;
   @Inject
   AdHandlerFactory adHandlerFactory;
-  @Inject
-  CurrencyContext currencyContext;
 
   CurrencyViewModel currencyViewModel;
 
@@ -1002,7 +1000,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       } else {
         prefHandler.putString(HOME_CURRENCY, currencyCode);
       }
-      currencyContext.invalidateHomeCurruency();
+      activity.invalidateHomeCurrency();
       activity.startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
           null, null, R.string.progress_dialog_saving);
     }
