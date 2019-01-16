@@ -256,20 +256,20 @@ public class ExportTest extends ModelTest {
   //TODO: add split lines
   public void testExportCSV() {
     String[] linesCSV = new String[]{
-        csvHeader(),
-        "\"\";\"" + date + "\";\"\";0;0.10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+        csvHeader(';'),
+        "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
             + "\";\"*\";\"1\";\"\"",
-        "\"\";\"" + date + "\";\"N.N.\";0;0.20;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+        "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
             + "\";\"\";\"2\";\"\"",
-        "\"\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\"",
-        "\"\";\"" + date + "\";\"\";0.40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\"",
-        "\"\";\"" + date + "\";\"\";0.50;0;\"" + getContext().getString(R.string.transfer)
+        "\"\";\"" + date + "\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\"",
+        "\"\";\"" + date + "\";\"\";\"0.40\";\"0\";\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\"",
+        "\"\";\"" + date + "\";\"\";\"0.50\";\"0\";\"" + getContext().getString(R.string.transfer)
             + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\"",
-        "\"\";\"" + date + "\";\"\";0;0.60;\"" + getContext().getString(R.string.transfer)
+        "\"\";\"" + date + "\";\"\";\"0\";\"0.60\";\"" + getContext().getString(R.string.transfer)
             + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
-        "\"*\";\"" + date + "\";\"\";0.70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0.40;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\"",
+        "\"*\";\"" + date + "\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+        "\"-\";\"" + date + "\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+        "\"-\";\"" + date + "\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\"",
         ""
     };
     try {
@@ -286,25 +286,25 @@ public class ExportTest extends ModelTest {
   public void testExportCSVCustomFormat() {
     String date = new SimpleDateFormat("M/d/yyyy", Locale.US).format(base);
     String[] linesCSV = new String[]{
-        csvHeader(),
-        "\"\";\"" + date + "\";\"\";0;0,10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
-            + "\";\"*\";\"1\";\"\"",
-        "\"\";\"" + date + "\";\"N.N.\";0;0,20;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
-            + "\";\"\";\"2\";\"\"",
-        "\"\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\"",
-        "\"\";\"" + date + "\";\"\";0,40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\"",
-        "\"\";\"" + date + "\";\"\";0,50;0;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\"",
-        "\"\";\"" + date + "\";\"\";0;0,60;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
-        "\"*\";\"" + date + "\";\"\";0,70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0,40;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\"",
+        csvHeader(','),
+        "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"\",\"" + getContext().getString(R.string.pm_cheque)
+            + "\",\"*\",\"1\",\"\"",
+        "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"\",\"" + getContext().getString(R.string.pm_cheque)
+            + "\",\"\",\"2\",\"\"",
+        "\"\",\"" + date + "\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"picture.png\"",
+        "\"\",\"" + date + "\",\"\",\"0,40\",\"0\",\"Main\",\"Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\"",
+        "\"\",\"" + date + "\",\"\",\"0,50\",\"0\",\"" + getContext().getString(R.string.transfer)
+            + "\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\"",
+        "\"\",\"" + date + "\",\"\",\"0\",\"0,60\",\"" + getContext().getString(R.string.transfer)
+            + "\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\"",
+        "\"*\",\"" + date + "\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
+        "\"-\",\"" + date + "\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
+        "\"-\",\"" + date + "\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"\"",
         ""
     };
     try {
       insertData1();
-      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8")
+      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8", ',')
           .export();
       assertTrue(result.isSuccess());
       export = result.getExtra();
@@ -316,10 +316,10 @@ public class ExportTest extends ModelTest {
 
   public void testExportNotYetExported() {
     String[] linesCSV = new String[]{
-        csvHeader(),
-        "\"\";\"" + date + "\";\"\";0;1.00;\"\";\"\";\"Expense inserted after first export\";\""
+        csvHeader(';'),
+        "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"\";\"Expense inserted after first export\";\""
             + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\"",
-        "\"\";\"" + date + "\";\"N.N.\";1.00;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\"",
+        "\"\";\"" + date + "\";\"N.N.\";\"1.00\";\"0\";\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\"",
         ""
     };
     try {
@@ -358,7 +358,7 @@ public class ExportTest extends ModelTest {
     }
   }
 
-  private String csvHeader() {
+  private String csvHeader(char separator) {
     StringBuilder sb = new StringBuilder();
     int[] resArray = {
         R.string.split_transaction,
@@ -373,16 +373,14 @@ public class ExportTest extends ModelTest {
         R.string.reference_number,
         R.string.picture};
     for (int res : resArray) {
-      sb.append("\"");
-      sb.append(getContext().getString(res));
-      sb.append("\";");
+      sb.append('"').append(getContext().getString(res)).append('"').append(separator);
     }
     return sb.toString();
   }
 
   private Result<Uri> exportAll(Account account, ExportFormat format, boolean notYetExportedP)
       throws IOException {
-    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
+    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", ';')
         .export();
   }
 }

@@ -155,7 +155,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
                 .format(new Date()) :
             fileName;
         Result<Uri> result = new Exporter(account,filter, destDir, fileNameForAccount, format,
-            notYetExportedP, dateFormat, decimalSeparator, encoding).export();
+            notYetExportedP, dateFormat, decimalSeparator, encoding, ';').export();
         publishProgress("... " + result.print(application));
         if (result.isSuccess()) {
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
