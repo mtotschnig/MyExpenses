@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
+import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -112,4 +113,6 @@ public interface AppComponent {
   void inject(OnboardingDataFragment onboardingDataFragment);
 
   void inject(EditCurrencyViewModel editCurrencyViewModel);
+
+  void inject(ExportDialogFragment exportDialogFragment);
 }

@@ -53,7 +53,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 
 public class Exporter {
-  private final char fieldSeparator;
+  private final char delimiter;
   private final Account account;
   private final WhereFilter filter;
   private final DocumentFile destDir;
@@ -74,11 +74,11 @@ public class Exporter {
    * @param dateFormat       format parseable by SimpleDateFormat class
    * @param decimalSeparator , or .
    * @param encoding         the string describing the desired character encoding.
-   * @param fieldSeparator   , or ; or \t
+   * @param delimiter   , or ; or \t
    */
   public Exporter(Account account, WhereFilter filter, DocumentFile destDir, String fileName,
                   ExportFormat format, boolean notYetExportedP, String dateFormat,
-                  char decimalSeparator, String encoding, char fieldSeparator) {
+                  char decimalSeparator, String encoding, char delimiter) {
     this.account = account;
     this.destDir = destDir;
     this.filter = filter;
@@ -88,7 +88,7 @@ public class Exporter {
     this.dateFormat = dateFormat;
     this.decimalSeparator = decimalSeparator;
     this.encoding = encoding;
-    this.fieldSeparator = fieldSeparator;
+    this.delimiter = delimiter;
   }
 
   public Result<Uri> export() throws IOException {
@@ -133,7 +133,7 @@ public class Exporter {
         int[] columns = {R.string.split_transaction, R.string.date, R.string.payer_or_payee, R.string.income, R.string.expense,
             R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture};
         for (int column : columns) {
-          sb.appendQ(ctx.getString(column)).append(fieldSeparator);
+          sb.appendQ(ctx.getString(column)).append(delimiter);
         }
         break;
       //QIF
@@ -201,27 +201,27 @@ public class Exporter {
           Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
           PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
           sb.appendQ(splitIndicator)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(dateStr)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(payee)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(amount > 0 ? amountAbsCSV : "0")
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(amount < 0 ? amountAbsCSV : "0")
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(label_main)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(label_sub)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(comment)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(method == null ? "" : method.getLabel())
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(status.symbol)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(referenceNumber)
-              .append(fieldSeparator)
+              .append(delimiter)
               .appendQ(StringUtils.substringAfterLast(DbUtils.getString(c, KEY_PICTURE_URI), "/"));
           break;
         default:
@@ -282,27 +282,27 @@ public class Exporter {
               Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
               PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
               sb.appendQ(SplitTransaction.CSV_PART_INDICATOR)
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(dateStr)
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(payee)
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(amount > 0 ? amountAbsCSV : "0")
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(amount < 0 ? amountAbsCSV : "0")
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(label_main)
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(label_sub)
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(comment)
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(method == null ? "" : method.getLabel())
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ("")
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ("")
-                  .append(fieldSeparator)
+                  .append(delimiter)
                   .appendQ(StringUtils.substringAfterLast(DbUtils.getString(splits, KEY_PICTURE_URI), "/"));
               break;
             //QIF

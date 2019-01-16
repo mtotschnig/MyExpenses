@@ -88,6 +88,47 @@
                 </RadioGroup>
             </TableRow>
 
+            <TableRow android:gravity="center_vertical"
+                android:id="@+id/DelimiterRow"
+                >
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:gravity="center_vertical"
+                    android:text="@string/pref_csv_import_delimiter"/>
+
+                <RadioGroup
+                    style="@style/FormField.Dialog"
+                    android:id="@+id/Delimiter"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/delimiter_comma"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text=","
+                        tools:ignore="HardcodedText"/>
+
+                    <RadioButton
+                        android:id="@+id/delimiter_semicolon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=";"
+                        tools:ignore="HardcodedText"/>
+
+                    <RadioButton
+                        android:id="@+id/delimiter_tab"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/csv_import_delimiter_tab"
+                        tools:ignore="HardcodedText"/>
+                </RadioGroup>
+            </TableRow>
+
             <TableRow android:gravity="center_vertical">
 
                 <TextView
