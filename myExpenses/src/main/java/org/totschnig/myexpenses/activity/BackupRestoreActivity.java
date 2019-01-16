@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 
 import com.annimon.stream.Stream;
 
@@ -93,7 +94,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           abort(getString(R.string.io_error_appdir_null));
           return;
         }
-        boolean isProtected = getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null) != null;
+        boolean isProtected = !TextUtils.isEmpty(getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null));
         StringBuilder message = new StringBuilder();
         message.append(getString(R.string.warning_backup, FileUtils.getPath(this, appDir.getUri())))
             .append(" ");

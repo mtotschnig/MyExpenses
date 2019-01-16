@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -47,7 +48,7 @@ public class ZipUtils {
   static void zipBackup(File cacheDir, DocumentFile destZipFile, String password)
       throws IOException, GeneralSecurityException {
     final OutputStream out = MyApplication.getInstance().getContentResolver().openOutputStream(destZipFile.getUri());
-    ZipOutputStream zip = new ZipOutputStream(password != null ? EncryptionHelper.encrypt(out, password) : out);
+    ZipOutputStream zip = new ZipOutputStream(TextUtils.isEmpty(password) ? out : EncryptionHelper.encrypt(out, password));
     /*
      * add the folder to the zip
      */
@@ -181,8 +182,7 @@ public class ZipUtils {
    */
   public static void unzip(InputStream fileIn, File dirOut, @Nullable String password)
       throws IOException, GeneralSecurityException {
-    ZipInputStream zin = new ZipInputStream(password != null ?
-        EncryptionHelper.decrypt(fileIn, password) : fileIn);
+    ZipInputStream zin = new ZipInputStream(TextUtils.isEmpty(password) ? fileIn : EncryptionHelper.decrypt(fileIn, password));
     ZipEntry ze;
     while ((ze = zin.getNextEntry()) != null) {
       Timber.v("Unzipping %s", ze.getName());

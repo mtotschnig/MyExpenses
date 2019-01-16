@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util;
 
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -32,7 +33,7 @@ public class BackupUtils {
           FileUtils.getPath(application, appDir.getUri()));
     }
 
-    DocumentFile backupFile = requireBackupFile(appDir, password != null);
+    DocumentFile backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password));
     if (backupFile == null) {
       return Result.ofFailure(R.string.io_error_backupdir_null);
     }

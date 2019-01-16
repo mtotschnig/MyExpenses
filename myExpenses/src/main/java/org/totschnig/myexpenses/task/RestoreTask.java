@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.annimon.stream.Collectors;
@@ -127,7 +128,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         return Result.ofFailure("Unable to open backup file");
       }
       if (isEncrypted) {
-        if (password == null) {
+        if (TextUtils.isEmpty(password)) {
           return Result.ofFailure(R.string.backup_is_encrypted);
         }
       }
