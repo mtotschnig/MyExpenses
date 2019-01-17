@@ -133,7 +133,7 @@
   <string name="important_upgrade_information_heading">Informazioni importanti</string>
   <string name="import_select_transactions">Operazioni</string>
   <string name="income">Entrate</string>
-  <string name="invalid_number_format">Formato del numero non riconosciuto dal tua regione. Uso %1$s</string>
+  <string name="invalid_number_format">Formato decimale non riconosciuto dalla tua regione. Si prega di utilizzare %1$s</string>
   <string name="label">Etichetta</string>
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo</string>
@@ -301,7 +301,7 @@
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_manage_sync_backends_title">Back-end di sincronizzazione</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Collegare il back-end per la sincronizzazione degli conti (%s).</string>
+  <string name="pref_manage_sync_backends_summary">Collegare il back-end per la sincronizzazione dei conti (%s).</string>
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione</string>
@@ -428,7 +428,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti i conti%1$s verranno eliminate dal database e non potranno essere ripristinate.</string>
   <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dal database e non potranno essere ripristinate.</string>
-  <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup (%1$s). I dati attuali verranno cancellati.</string>
+  <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup \"%1$s\". I dati attuali verranno cancellati.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che ciò accada selezionando una cartella diversa dalla schermata impostazioni.</string>
   <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Si prega di impostare un numero compreso tra %1$d e %2$d</string>

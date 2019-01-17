@@ -133,7 +133,7 @@
   <string name="important_upgrade_information_heading">Informações importantes</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Renda</string>
-  <string name="invalid_number_format">Esse formato decimal não reconhecido pela sua região. Por favor, use %1$s</string>
+  <string name="invalid_number_format">Formato decimal não reconhecido pela sua localidade. Por favor, use %1$s</string>
   <string name="label">Rótulo</string>
   <string name="licence_validation_failure">Não foi possível validar a chave da licença.</string>
   <string name="licence_validation_success">A chave da licença foi validada com sucesso:</string>
