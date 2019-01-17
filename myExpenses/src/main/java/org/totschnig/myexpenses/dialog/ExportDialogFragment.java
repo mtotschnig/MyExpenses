@@ -21,14 +21,15 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Layout;
-import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -43,6 +44,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -50,6 +52,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -63,17 +66,43 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class ExportDialogFragment extends CommitSafeDialogFragment implements OnClickListener, OnCheckedChangeListener {
   private static final String KEY_IS_FILTERED = "is_filtered";
+  @BindView(R.id.handle_deleted)
   RadioGroup handleDeletedGroup;
-  CheckBox notYetExportedCB, deleteCB;
-  RadioButton formatRBCSV, separatorRBComma;
+  @BindView(R.id.format)
+  RadioGroup formatGroup;
+  @BindView(R.id.separator)
+  RadioGroup separatorGroup;
+  @BindView(R.id.Delimiter)
+  RadioGroup delimiterGroup;
+  @BindView(R.id.export_not_yet_exported)
+  CheckBox notYetExportedCB;
+  @BindView(R.id.export_delete)
+  CheckBox deleteCB;
+  @BindView(R.id.warning_reset)
   TextView warningTV;
-  EditText dateFormatET, fileNameET;
+  @BindView(R.id.date_format)
+  EditText dateFormatET;
+  @BindView(R.id.file_name)
+  EditText fileNameET;
+  @BindView(R.id.Encoding)
+  Spinner encodingSpinner;
+  @BindView(R.id.DelimiterRow)
+  TableRow delimiterRow;
+
+  @Inject
+  PrefHandler prefHandler;
+
   AlertDialog mDialog;
   String currency;
   static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
@@ -89,6 +118,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       dialogFragment.setArguments(bundle);
     }
     return dialogFragment;
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @NonNull
@@ -126,18 +161,16 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     dialogView = li.inflate(R.layout.export_dialog, null);
-
+    ButterKnife.bind(this, dialogView);
 
     if (args.getBoolean(KEY_IS_FILTERED)) {
       dialogView.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
       warningText = getString(R.string.warning_reset_account_matched);
     }
 
-    dateFormatET = dialogView.findViewById(R.id.date_format);
     String dateFormatDefault =
         ((SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
-    String dateFormat = MyApplication.getInstance().getSettings()
-        .getString(PREFKEY_EXPORT_DATE_FORMAT, "");
+    String dateFormat = prefHandler.getString(PREFKEY_EXPORT_DATE_FORMAT, "");
     if (dateFormat.equals(""))
       dateFormat = dateFormatDefault;
     else {
@@ -167,7 +200,6 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       }
     });
 
-    fileNameET = dialogView.findViewById(R.id.file_name);
     fileNameET.setText(fileName);
     fileNameET.addTextChangedListener(new TextWatcher() {
       public void afterTextChanged(Editable s) {
@@ -190,47 +222,49 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       }
     });
     fileNameET.setFilters(new InputFilter[]{
-        new InputFilter() {
-          @Override
-          public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            StringBuilder sb = new StringBuilder(end - start);
-            for (int i = start; i < end; i++) {
-              final char c = source.charAt(i);
-              int type = Character.getType(c);
-              if (type != Character.SURROGATE && type != Character.OTHER_SYMBOL) {
-                sb.append(c);
-              }
+        (source, start, end, dest, dstart, dend) -> {
+          StringBuilder sb = new StringBuilder(end - start);
+          for (int i = start; i < end; i++) {
+            final char c = source.charAt(i);
+            int type = Character.getType(c);
+            if (type != Character.SURROGATE && type != Character.OTHER_SYMBOL) {
+              sb.append(c);
             }
-            return sb;
           }
+          return sb;
         }
     });
 
-    notYetExportedCB = dialogView.findViewById(R.id.export_not_yet_exported);
-    deleteCB = dialogView.findViewById(R.id.export_delete);
-    warningTV = dialogView.findViewById(R.id.warning_reset);
+    String encoding = prefHandler.getString(PREFKEY_EXPORT_ENCODING, "UTF-8");
 
-    String encoding = MyApplication.getInstance().getSettings()
-        .getString(PREFKEY_EXPORT_ENCODING, "UTF-8");
-
-    ((Spinner) dialogView.findViewById(R.id.Encoding)).setSelection(
+    encodingSpinner.setSelection(
         Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
             .indexOf(encoding));
 
-    formatRBCSV = dialogView.findViewById(R.id.csv);
+    formatGroup.setOnCheckedChangeListener((group, checkedId) ->
+        delimiterRow.setVisibility(checkedId == R.id.csv ? View.VISIBLE : View.GONE));
     String format = PrefKey.EXPORT_FORMAT.getString("QIF");
-    if (format.equals("CSV")) {
-      formatRBCSV.setChecked(true);
-    }
+    formatGroup.check(format.equals("CSV") ? R.id.csv : R.id.qif);
 
-    separatorRBComma = dialogView.findViewById(R.id.comma);
-    char separator = (char) MyApplication.getInstance().getSettings()
-        .getInt(ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator());
-    if (separator == ',') {
-      separatorRBComma.setChecked(true);
+    char delimiter = (char) prefHandler.getInt(ExportTask.KEY_DELIMITER, ',');
+    @IdRes final int delimiterButtonResId;
+    switch (delimiter) {
+      case ';':
+        delimiterButtonResId = R.id.delimiter_semicolon;
+        break;
+      case '\t':
+        delimiterButtonResId = R.id.delimiter_tab;
+        break;
+      case ',':
+      default:
+        delimiterButtonResId = R.id.delimiter_comma;
     }
+    delimiterGroup.check(delimiterButtonResId);
 
-    handleDeletedGroup = dialogView.findViewById(R.id.handle_deleted);
+    char separator = (char) prefHandler.getInt(
+        ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator());
+    separatorGroup.check(separator == ',' ?  R.id.comma : R.id.dot);
+
     View.OnClickListener radioClickListener = v -> {
       int mappedAction = v.getId() == R.id.create_helper ?
           Account.EXPORT_HANDLE_DELETED_CREATE_HELPER : Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
@@ -248,8 +282,8 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
     createHelperRadioButton.setOnClickListener(radioClickListener);
 
     if (savedInstanceState == null) {
-      handleDeletedAction = MyApplication.getInstance().getSettings()
-          .getInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_DO_NOTHING);
+      handleDeletedAction = prefHandler.getInt(
+          ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_DO_NOTHING);
       if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
         updateBalanceRadioButton.setChecked(true);
       } else if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
@@ -337,12 +371,22 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
     }
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
-    AlertDialog dlg = (AlertDialog) dialog;
-    String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
-        "CSV" : "QIF";
+    String format = formatGroup.getCheckedRadioButtonId() == R.id.csv ? "CSV" : "QIF";
     String dateFormat = dateFormatET.getText().toString();
-    char decimalSeparator = ((RadioGroup) dlg.findViewById(R.id.separator)).getCheckedRadioButtonId() == R.id.dot ?
-        '.' : ',';
+    char decimalSeparator = separatorGroup.getCheckedRadioButtonId() == R.id.dot ? '.' : ',';
+    final char delimiter;
+    switch (delimiterGroup.getCheckedRadioButtonId()) {
+      case R.id.delimiter_tab:
+        delimiter = '\t';
+        break;
+      case R.id.delimiter_semicolon:
+        delimiter = ';';
+        break;
+      case R.id.delimiter_comma:
+      default:
+        delimiter = ',';
+        break;
+    }
 
     int handleDeleted;
     switch (handleDeletedGroup.getCheckedRadioButtonId()) {
@@ -356,14 +400,14 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
         handleDeleted = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
     }
 
-    String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
-    MyApplication.getInstance().getSettings().edit()
-        .putString(PrefKey.EXPORT_FORMAT.getKey(), format)
-        .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
-        .putString(PREFKEY_EXPORT_ENCODING, encoding)
-        .putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
-        .putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted)
-        .apply();
+    String encoding = (String) encodingSpinner.getSelectedItem();
+    prefHandler.putString(PrefKey.EXPORT_FORMAT, format);
+    prefHandler.putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat);
+    prefHandler.putString(PREFKEY_EXPORT_ENCODING, encoding);
+    prefHandler.putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator);
+    prefHandler.putInt(ExportTask.KEY_DELIMITER, delimiter);
+    prefHandler.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
+
     boolean deleteP = deleteCB.isChecked();
     boolean notYetExportedP = notYetExportedCB.isChecked();
     String fileName = fileNameET.getText().toString();
@@ -386,6 +430,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       b.putString(TaskExecutionFragment.KEY_ENCODING, encoding);
       b.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
       b.putString(ExportTask.KEY_FILE_NAME, fileName);
+      b.putChar(ExportTask.KEY_DELIMITER, delimiter);
       if (AppDirHelper.checkAppFolderWarning(getActivity())) {
         ((ConfirmationDialogListener) getActivity())
             .onPositive(b);

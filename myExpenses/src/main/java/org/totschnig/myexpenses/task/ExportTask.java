@@ -36,6 +36,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   public static final String KEY_DELETE_P = "deleteP";
   public static final String KEY_EXPORT_HANDLE_DELETED = "export_handle_deleted";
   public static final String KEY_FILE_NAME = "file_name";
+  public static final String KEY_DELIMITER = "export_delimiter";
   private final TaskExecutionFragment taskExecutionFragment;
   //we store the label of the account as progress
   private String progress ="";
@@ -51,6 +52,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   private int handleDelete;
   private WhereFilter filter;
   private String fileName;
+  private char delimiter;
 
   /**
    *
@@ -67,6 +69,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     currency = extras.getString(KEY_CURRENCY);
     fileName = extras.getString(KEY_FILE_NAME);
     handleDelete = extras.getInt(KEY_EXPORT_HANDLE_DELETED);
+    delimiter = extras.getChar(KEY_DELIMITER);
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");
@@ -155,7 +158,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
                 .format(new Date()) :
             fileName;
         Result<Uri> result = new Exporter(account,filter, destDir, fileNameForAccount, format,
-            notYetExportedP, dateFormat, decimalSeparator, encoding).export();
+            notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter).export();
         publishProgress("... " + result.print(application));
         if (result.isSuccess()) {
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {

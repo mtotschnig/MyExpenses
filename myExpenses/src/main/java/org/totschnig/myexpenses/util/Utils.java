@@ -471,8 +471,13 @@ public class Utils {
       return this;
     }
 
+    public StringBuilderWrapper append(char c) {
+      sb.append(c);
+      return this;
+    }
+
     public StringBuilderWrapper appendQ(String s) {
-      sb.append(s.replace("\"", "\"\""));
+      sb.append('"').append(s.replace("\"", "\"\"")).append('"');
       return this;
     }
 
