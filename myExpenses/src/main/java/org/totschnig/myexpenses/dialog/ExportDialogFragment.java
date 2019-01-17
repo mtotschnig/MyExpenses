@@ -244,11 +244,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
     formatGroup.setOnCheckedChangeListener((group, checkedId) ->
         delimiterRow.setVisibility(checkedId == R.id.csv ? View.VISIBLE : View.GONE));
     String format = PrefKey.EXPORT_FORMAT.getString("QIF");
-    if (format.equals("CSV")) {
-      formatGroup.check(R.id.csv);
-    }
+    formatGroup.check(format.equals("CSV") ? R.id.csv : R.id.qif);
 
-    char delimiter = (char) prefHandler.getInt(ExportTask.KEY_DELIMITER, ';');
+    char delimiter = (char) prefHandler.getInt(ExportTask.KEY_DELIMITER, ',');
     @IdRes final int delimiterButtonResId;
     switch (delimiter) {
       case ';':
@@ -265,9 +263,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
 
     char separator = (char) prefHandler.getInt(
         ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator());
-    if (separator == ',') {
-      separatorGroup.check(R.id.comma);
-    }
+    separatorGroup.check(separator == ',' ?  R.id.comma : R.id.dot);
 
     View.OnClickListener radioClickListener = v -> {
       int mappedAction = v.getId() == R.id.create_helper ?
