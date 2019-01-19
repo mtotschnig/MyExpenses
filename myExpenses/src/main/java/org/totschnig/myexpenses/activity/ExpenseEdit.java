@@ -267,9 +267,11 @@ public class ExpenseEdit extends AmountActivity implements
   ImageView clearMethodButton;
   @BindView(R.id.ClearCategory)
   ImageView clearCategoryButton;
+  @BindView(R.id.OriginalCurrency)
+  Spinner mCurrencySpinner;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
+      mOperationTypeSpinner, mRecurrenceSpinner;
   private SimpleCursorAdapter mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private ArrayAdapter<PaymentMethod> mMethodsAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
@@ -442,7 +444,6 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.OriginalCurrency));
     currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item) {
       @NonNull
       @Override
@@ -453,6 +454,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     };
     mCurrencySpinner.setAdapter(currencyAdapter);
+    mCurrencySpinner.setOnItemSelectedListener(this);
     currencyViewModel.loadCurrencies();
 
     TextPaint paint = mPlanToggleButton.getPaint();
@@ -904,7 +906,6 @@ public class ExpenseEdit extends AmountActivity implements
     mAccountSpinner.setOnItemSelectedListener(this);
     mMethodSpinner.setOnItemSelectedListener(this);
     mStatusSpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner.setOnItemSelectedListener(this);
   }
 
   @Override
@@ -931,7 +932,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
     final View originalAmountLabel = findViewById(R.id.OriginalAmountLabel);
     linkInputWithLabel(originalAmountText, originalAmountLabel);
-    linkInputWithLabel(mCurrencySpinner.getSpinner(), originalAmountLabel);
+    linkInputWithLabel(mCurrencySpinner, originalAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorOriginal), originalAmountLabel);
     final View equivalentAmountLabel = findViewById(R.id.EquivalentAmountLabel);
     linkInputWithLabel(equivalentAmountText, equivalentAmountLabel);
