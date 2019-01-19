@@ -91,9 +91,6 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
         return getItem(position).id;
       }
     };
-    if (withNullItem) {
-      adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
-    }
     itemDisposable = briteContentResolver.createQuery(getUri(),
         null, getSelection(), getSelectionArgs(), null, false)
         .mapToList((Cursor cursor) -> DataHolder.fromCursor(cursor, getColumn()))
@@ -101,7 +98,11 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
           if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
               adapter.clear();
+              if (withNullItem) {
+                adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
+              }
               adapter.addAll(collection);
+              adapter.notifyDataSetChanged();
             });
           }
         });
