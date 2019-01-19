@@ -195,7 +195,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
           String[] resultArray = new String[changesArray.length];
           for (int i = 0; i < changesArray.length; i++) {
             resultArray[i] = changesArray[i] +
-                (TextUtils.isEmpty(contributorArray[i]) ? "" :
+                (contributorArray.length > i || TextUtils.isEmpty(contributorArray[i]) ? "" :
                     (" (" + ctx.getString(R.string.contributed_by, contributorArray[i]) + ")"));
           }
           return resultArray;

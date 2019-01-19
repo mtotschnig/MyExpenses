@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>Ukrainische Übersetzung</item>
+    <item>CSV-Export: Trennzeichen konfigurierbar gemacht</item>
+  </string-array>
   <string-array name="whats_new_299">
       <item>Verschlüsselung für Backups und Synchronisationsdaten</item>
   </string-array>

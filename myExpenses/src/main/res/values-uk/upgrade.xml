@@ -18,6 +18,13 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>Переклад українською</item>
+    <item>Експорт CSV: можливість задати розділовий знак</item>
+  </string-array>
+  <string-array name="whats_new_299">
+      <item>Шифрування резервних копій та даних синхронізації</item>
+  </string-array>
   <string-array name="whats_new_288">
     <item>Історія (Рух коштів)</item>
   </string-array>

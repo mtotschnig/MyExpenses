@@ -166,7 +166,7 @@
                 <TextView
                     android:id="@+id/TransferAmountLabel"
                     style="@style/FormLabel"
-                    android:labelFor="@+id/TranferAmount"/>
+                    android:labelFor="@+id/TransferAmount"/>
 
                 <LinearLayout
                     style="@style/FormField"
@@ -175,7 +175,7 @@
                     android:orientation="horizontal">
 
                     <org.totschnig.myexpenses.ui.AmountEditText
-                        android:id="@+id/TranferAmount"
+                        android:id="@+id/TransferAmount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

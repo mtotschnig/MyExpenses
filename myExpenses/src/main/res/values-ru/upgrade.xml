@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>Перевод на украинский</item>
+    <item>Экспорт в CSV: настраиваемый разделитель</item>
+  </string-array>
   <string-array name="whats_new_290">
     <item>Несколько операций могут быть сгруппированы в одну дробную операцию.</item>
     <item>Дробные операции могут быть разгруппированы</item>

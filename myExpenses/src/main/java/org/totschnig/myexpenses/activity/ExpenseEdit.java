@@ -211,7 +211,7 @@ public class ExpenseEdit extends AmountActivity implements
   EditText mTitleText;
   @BindView(R.id.Number)
   EditText mReferenceNumberText;
-  @BindView(R.id.TranferAmount)
+  @BindView(R.id.TransferAmount)
   AmountEditText mTransferAmountText;
   @BindView(R.id.OriginalAmount)
   AmountEditText originalAmountText;

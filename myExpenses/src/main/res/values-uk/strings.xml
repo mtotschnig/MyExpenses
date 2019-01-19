@@ -34,7 +34,7 @@
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Необмежена кількість планів</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Експорт операцій в PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон віджет</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Імпортування у форматі CSV</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Імпортування CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Необмежена кількість шаблонів поділу</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Сервіс підтримки</b> через електронну пошту з гарантованою відповіддю протягом 2 робочих днів</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Можливість голосувати <b>в плані розвитку програми</b></string>
@@ -829,4 +829,5 @@
   <string name="button_label_no_encryption">Без шифрування</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">або</string>
+  <string name="pref_account_list_fast_scroll_summary">Увімкнути швидке прокручування списку рахунків. Може призвести до неправильного відображення на деяких пристроях</string>
 </resources>

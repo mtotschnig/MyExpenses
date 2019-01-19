@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>ウクライナ語翻訳</item>
+    <item>CSV エクスポート: 区切り文字が設定可能です</item>
+  </string-array>
   <string-array name="whats_new_299">
       <item>バックアップと同期データの暗号化</item>
   </string-array>

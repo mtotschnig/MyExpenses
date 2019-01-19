@@ -799,4 +799,5 @@
   <string name="button_label_no_encryption">暗号化しない</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">または</string>
+  <string name="pref_account_list_fast_scroll_summary">アカウントリストの高速スクロールを有効にします。 一部のデバイスでは正しく表示されない可能性があります</string>
 </resources>

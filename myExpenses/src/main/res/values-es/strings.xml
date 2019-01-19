@@ -809,4 +809,5 @@
   <string name="button_label_no_encryption">Sin encriptación</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">o</string>
+  <string name="pref_account_list_fast_scroll_summary">Habilitar desplazamiento rápido para la lista de cuentas. Puede producir error en la visualización en algunos dispositivos.</string>
 </resources>
