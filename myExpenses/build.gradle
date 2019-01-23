@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
-        classpath "com.jaredsburrows:gradle-spoon-plugin:1.4.0"
+        classpath "com.jaredsburrows:gradle-spoon-plugin:1.5.0"
         classpath 'com.novoda:gradle-android-command-plugin:2.0'
     }
 }
@@ -257,8 +257,8 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation 'org.assertj:assertj-core:2.8.0'
     androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
-    androidTestImplementation 'com.jraska:falcon:2.0.1'
-    androidTestImplementation 'com.jraska:falcon-spoon-compat:2.0.1'
+    androidTestImplementation 'com.jraska:falcon:2.1.0'
+    androidTestImplementation 'com.jraska:falcon-spoon-compat:2.1.0'
 
 }
 

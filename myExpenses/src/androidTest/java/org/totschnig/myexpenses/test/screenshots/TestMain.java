@@ -16,7 +16,6 @@ import com.jraska.falcon.FalconSpoonRule;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.BuildConfig;
@@ -42,7 +41,6 @@ import static org.totschnig.myexpenses.testutils.Matchers.first;
 /**
  * These tests are meant to be run with Spoon (./gradlew spoon). Remove @Ignore first
  */
-@Ignore
 public class TestMain extends BaseUiTest {
   private MyApplication app;
   private Context instCtx;
@@ -73,22 +71,13 @@ public class TestMain extends BaseUiTest {
         takeScreenshot("manage_accounts");
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.close());
         takeScreenshot("grouped_list");
-        onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
-        clickOnFirstListEntry();
-        takeScreenshot("plans");
-        Espresso.pressBack();
-        Espresso.pressBack();
         clickMenuItem(R.id.RESET_COMMAND, R.string.menu_reset);
+        Espresso.closeSoftKeyboard();
         takeScreenshot("export");
-        Espresso.pressBack();
-        onView(withId(R.id.CREATE_COMMAND)).perform(click());
-        onView(withId(R.id.Calculator)).perform(click());
-        takeScreenshot("calculator");
-        Espresso.pressBack();
         Espresso.pressBack();
         onView(withText(R.string.split_transaction)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
-        Espresso.pressBack();//close keyboard
+        Espresso.closeSoftKeyboard();
         takeScreenshot("split");
         Espresso.pressBack();
         clickMenuItem(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution);
@@ -99,9 +88,12 @@ public class TestMain extends BaseUiTest {
         onView(withText(R.string.grouping_month)).perform(click());
         clickMenuItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND, R.string.menu_history_transfers);
         takeScreenshot("history");
+        Espresso.pressBack();
+        clickMenuItem(R.id.BUDGET_COMMAND, R.string.menu_budget);
+        takeScreenshot("budget");
         break;
       }
-      case 2: {
+      case 2: {//tablet screenshots
         takeScreenshot("main");
         clickMenuItem(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution);
         takeScreenshot("distribution");

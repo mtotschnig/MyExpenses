@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.testutils;
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
@@ -25,10 +26,12 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.Budget;
 
 import java.io.File;
 import java.io.InputStream;
@@ -37,7 +40,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
+import timber.log.Timber;
+
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 
 @SuppressLint("InlinedApi")
 public class Fixture {
@@ -226,6 +232,22 @@ public class Fixture {
     Uri templateuri = template.save();
     if (templateuri == null)
       throw new RuntimeException("Could not save template");
+
+    Budget budget = new Budget(0, account1.getId(), defaultCurrency, Grouping.MONTH, new Money(defaultCurrency, 200000L), false);
+    long budgetId = ContentUris.parseId(appContext.getContentResolver().insert(TransactionProvider.BUDGETS_URI, budget.toContentValues()));
+    setCategoryBudget(budgetId, mainCat1, 50000);
+    setCategoryBudget(budgetId, mainCat2, 40000);
+    setCategoryBudget(budgetId, mainCat3, 30000);
+    setCategoryBudget(budgetId, mainCat6, 20000);
+  }
+
+  public void setCategoryBudget(long budgetId, long categoryId, long amount) {
+    ContentValues contentValues = new ContentValues(1);
+    contentValues.put(KEY_BUDGET, amount);
+    final Uri budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId);
+    int result = appContext.getContentResolver().update(ContentUris.withAppendedId(budgetUri, categoryId),
+        contentValues, null, null);
+    Timber.d("Insert category budget: %d", result);
   }
 
   private static void setUpCategories(Locale locale, Context appContext) {
