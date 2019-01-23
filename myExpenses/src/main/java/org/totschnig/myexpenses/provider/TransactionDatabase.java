@@ -143,7 +143,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 83;
+  public static final int DATABASE_VERSION = 84;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -433,6 +433,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CURRENCY + " text)";
 
+  private static final String BUDGETS_TYPE_ACCOUNT_INDEX_CREATE = "CREATE UNIQUE INDEX budgets_type_account ON "
+      + TABLE_BUDGETS + "(" + KEY_GROUPING + "," + KEY_ACCOUNTID + ")";
+  private static final String BUDGETS_TYPE_CURRENCY_INDEX_CREATE = "CREATE UNIQUE INDEX budgets_type_currency ON "
+      + TABLE_BUDGETS + "(" + KEY_GROUPING + "," + KEY_CURRENCY + ")";
+
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
           + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
@@ -720,6 +725,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
     db.execSQL(BUDGETS_CREATE);
+    db.execSQL(BUDGETS_TYPE_ACCOUNT_INDEX_CREATE);
+    db.execSQL(BUDGETS_TYPE_CURRENCY_INDEX_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
 
     //Run on ForTest build type
@@ -1832,6 +1839,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           values.put("value", auto_backup_cloud);
           db.insert("settings", null, values);
         }
+      }
+      if (oldVersion < 84) {
+        db.execSQL("CREATE UNIQUE INDEX budgets_type_account ON budgets(grouping,account_id)");
+        db.execSQL("CREATE UNIQUE INDEX budgets_type_currency ON budgets(grouping,currency);");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
