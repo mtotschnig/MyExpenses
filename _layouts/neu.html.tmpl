@@ -26,10 +26,27 @@
       <script src="/script/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
+      //http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
+      function availableWidth() {
+        var myWidth = 0;
+        if( typeof( window.innerWidth ) == 'number' ) {
+          //Non-IE
+          return window.innerWidth;
+        } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+          //IE 6+ in 'standards compliant mode'
+          return document.documentElement.clientWidth;
+        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+          return document.body.clientWidth;
+        }
+      }
       /* based on Android Asset Studio - Device Frame Generator */
-      var SCREENSHOT_WIDTH = 288;
-      var SCREENSHOT_HEIGTH = 480;
+      var SCREENSHOT_WIDTH = 335;
+      var SCREENSHOT_HEIGTH = 595;
       var MINIMAL_WIDTH_DEVICE_ART = 500;
+      var FRAME_WIDTH = 425;
+      var FRAME_HEIGHT = 786;
+      var availableWidth=availableWidth();
+      var scale = (availableWidth < FRAME_WIDTH) ? availableWidth/FRAME_WIDTH : 1;
       
       var loadImageResources = function(images, callback) {
         var imageResources = {};
@@ -59,18 +76,15 @@
         }
       };
       var g_currentDevice = {
-        id: 'nexus_s',
-        title: 'Nexus S',
-        url: 'http://www.google.com/phone/detail/nexus-s',
-        physicalSize: 4.0,
-        physicalHeight: 4.88,
-        density: 'HDPI',
-        landRes: ['shadow', 'back', 'fore'],
-        landOffset: [147,135],
+        density: '441DPI',
+        id: 'pixel_2',
+        physicalHeight: 5.7,
+        physicalSize: 5,
+        portOffset: [56, 118],
         portRes: ['shadow', 'back', 'fore'],
-        portOffset: [80,148],
-        portSize: [288,480],
-        archived: true
+        portSize: [1080, 1920],
+        title: 'Pixel 2',
+        url: 'https://store.google.com/product/pixel_2'
       }
      var resourceImages = {};
      var canvasTemplate = document.createElement('canvas');
@@ -79,37 +93,20 @@
         var res = g_currentDevice.portRes;
         var resList = {};
         for (var i = 0; i < res.length; i++) {
-          resList[res[i]] = '/visuals/nexus_s/port_' + res[i] + '.png'
+          resList[res[i]] = '/visuals/pixel_2/port_' + res[i] + '.png'
         }
         loadImageResources(resList, function(r) {
           resourceImages = r;
           loadScreenShots();
         });
       }
-      //http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
-      function availableWidth() {
-        var myWidth = 0;
-        if( typeof( window.innerWidth ) == 'number' ) {
-          //Non-IE
-          return window.innerWidth;
-        } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
-          //IE 6+ in 'standards compliant mode'
-          return document.documentElement.clientWidth;
-        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
-          return document.body.clientWidth;
-        }
-      }
-      var availableWidth=availableWidth();
-      //console.log("setting availableWidth "+ availableWidth);
+
       function loadScreenShots() {
         if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
-          var naturalWidth = 449;
-          var naturalHeight = 785;
-          var scale = (availableWidth < naturalWidth) ? availableWidth/naturalWidth : 1;
           //console.log("setting SCALE "+ scale);
           var ctx = canvasTemplate.getContext('2d');
-          canvasTemplate.width=naturalWidth*scale;
-          canvasTemplate.height=naturalHeight*scale
+          canvasTemplate.width=FRAME_WIDTH*scale;
+          canvasTemplate.height=FRAME_HEIGHT*scale
           ctx.drawImage(resourceImages['shadow'], 0, 0,canvasTemplate.width,canvasTemplate.height);
           ctx.drawImage(resourceImages['back'], 0, 0,canvasTemplate.width,canvasTemplate.height);
           ctx.drawImage(resourceImages['fore'], 0, 0,canvasTemplate.width,canvasTemplate.height);
@@ -125,9 +122,9 @@
               if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
                 //console.log("image "+id + " loaded");
                 var canvas = document.createElement('canvas');
-                canvas.width=naturalWidth*scale;
+                canvas.width=FRAME_WIDTH*scale;
                 //console.log("setting width "+ canvas.width);
-                canvas.height=naturalHeight*scale
+                canvas.height=FRAME_HEIGHT*scale
                 if (!navigator.userAgent.match(/msie/i) ){
                   canvas.style.maxWidth = '80%';
                 }
@@ -145,7 +142,7 @@
               $('#'+id).prepend($('<p class="error">Error retrieving screenshot ' + id + '</p>'));
             }
           })(img, id);
-          img.src = '{{screenshotdir}}' + id + '.png';
+          img.src = '{{screenshotdir}}' + id + '_31.png';
         }
       }
     </script>
@@ -176,7 +173,7 @@
           <li id="menu-moreinfo" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{t.menu_title.more_information}}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
+            <ul id="navigation" class="dropdown-menu">
             {% for section in site.sections %}
               <li id="{{section}}-link"><a class="intern" href="#{{section}}">{{t.sections[section]}}</a></li>
             {% endfor %}
@@ -282,14 +279,14 @@
           <div id="{{feature}}" class="item {% if forloop.index0 == 0 %}active{% endif %}">
             <div class="loading"></div>
             <div class="carousel-caption">
-            {{t.features[feature]}}
+            {{t.screenshots[feature]}}
             </div>
           </div>
           {% endfor %}
         </div>
         <ol class="carousel-indicators">
           {% for feature in site.features %}
-          <li title="{{t.features[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
+          <li title="{{t.screenshots[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="item active"{% endif %}></li>
           {% endfor %}
         </ol>
         <!-- Controls -->
@@ -392,7 +389,7 @@
         ga('send', 'pageview', location.pathname + block);
         var targetTitle = $(block + " h2").text();
         document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
-        $('li.active').removeClass('active');
+        $('#navigation').find('li.active').first().removeClass('active');
         $(block+"-link").addClass('active');
 
         if (doScroll) {

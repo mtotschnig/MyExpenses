@@ -12,18 +12,14 @@ sections:
   - sourcecode
   - links
 features:
-  - grouped_list
-  - manage_accounts
-  - distribution
-  - calculator
+  - group
+  - summarize
+  - budget
   - split
-  - plans
-  - password
-  - attach_picture
+  - distribution
+  - history
   - export
-  - backup
-  - light_theme
-  - help
+  - sync
 contrib:
   - accounts_unlimited
   - distribution

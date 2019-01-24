@@ -20,20 +20,21 @@ en:
     licence: Licence
     sourcecode: Source code
     links: Links
+  screenshots:
+    group: Group your transactions per day, week, month and year
+    summarize: Sum up all your accounts (Sophisticated handling of exchange rates per account and per transaction)
+    budget: Define how much you intend to spend in yearly, monthly or weekly budgets
+    split: Split one transaction to multiple categories
+    distribution: Visualize the distribution per category
+    history: Understand how your financial situation evolves over time
+    export: Print to PDF and exchange via QIF and CSV.
+    sync: Sync encrypted account data on multiple devices via private or public cloud services.
   features:
     manage_accounts: Up to five accounts with <b>transfers</b> (also between different currencies)
     plans: Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
-    grouped_list: Transactions can be <b>grouped</b> (per day, week, month and year) and <b>filtered</b>
-    distribution: Two levels of categories (import from Grisbi XML and QIF)
-    split: Split transactions (Contrib version)
-    calculator: Calculator
     export: <b>Export</b> to QIF and CSV. <b>Import</b> from QIF
-    import: Import QIF data
-    password: Data can be protected by <b>password</b>
-    help: Integrated Help
-    backup: Data backup and restore
+    password: Data can be protected by <b>password</b> or device <b>lock screen</b>
     light_theme: <b>Theme</b> (dark and light) and <b>font size</b> can be customized
-    attach_picture: Attach image to transaction
     reconciliation: "<b>Reconciliation</b>: Easily compare transaction status with your bank statements"
     homescreen: Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
   contrib:

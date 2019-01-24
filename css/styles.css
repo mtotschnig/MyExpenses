@@ -51,9 +51,14 @@ dl.versionlist dd {
   display: inline-block;
   width: 6em;
 }
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
 .jumbotron .btn {
   cursor: default;
   margin: 5px;
+  font-size: 14px;
 }
 .carousel .error {
   height: 500px;
@@ -63,12 +68,6 @@ dl.versionlist dd {
 .carousel img {
   padding: 30px 0; 
   max-width: 80%;
-}
-/* Smartphone portrait */
-@media screen and (max-width: 320px) {
-  .jumbotron .btn {
-    font-size: 75%;
-  }
 }
 @media screen and (max-width: 450px) {
   .nav-pills > li {
@@ -132,6 +131,7 @@ Back to top button
 	  margin-left: -75px;
   }
 }
+
 .application {
   font-style: italic;
 }
