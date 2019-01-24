@@ -20,20 +20,21 @@ de:
     licence: Lizenz
     sourcecode: Quellcode
     links: Links
+  screenshots:
+    group: Gruppieren Sie Ihre Transaktionen nach Tag, Woche, Monat und Jahr
+    summarize: Fassen Sie alle Ihre Konten zusammen (komplizierte Behandlung der Wechselkurse pro Konto und pro Buchung)
+    budget: Legen Sie in jährlichen, monatlichen oder wöchentlichen Budgets fest, wie viel Sie  ausgeben möchten
+    split: Splitten Sie eine Transaktion in mehrere Kategorien
+    distribution: Visualisieren Sie die Verteilung pro Kategorie
+    history: Verstehen Sie, wie sich Ihre finanzielle Situation im Laufe der Zeit entwickelt
+    export: Drucken Sie als PDF und tauschen Sie sie über QIF und CSV aus.
+    sync: Synchronisieren Sie verschlüsselte Kontodaten auf mehreren Geräten über private oder öffentliche Cloud-Dienste.
   features:
     manage_accounts: Bis zu fünf Konten mit <b>Umbuchungen</b> (auch zwischen verschiedenen Währungen)
     plans: Unbegrenzte Anzahl von <b>Vorlagen</b> und bis zu drei Pläne für <b>wiederkehrende</b> Buchungen
-    grouped_list: Buchungen können <b>gruppiert</b> (pro Tag, Woche, Monat und Jahr) und <b>gefiltert</b> werden
-    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML und QIF
-    split: Splitbuchungen (nur in Contrib Version)
-    calculator: Taschenrechner
     export: <b>Exportieren</b> nach QIF und CSV. <b>Importieren</b> von QIF
-    import: QIF Dateien importieren
-    password: Daten können mit <b>Passwort</b> geschützt werden
-    help: Integrierte Hilfe
-    backup: Daten Backup und Wiederherstellung
+    password: Daten können durch ein <b>Passwort</b> oder den <b>Sperrbildschirm des Gerätes</b> geschützt werden
     light_theme: <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
-    attach_picture: Bildanhang für Buchung
     reconciliation: "<b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen mit Ihren Kontoauszügen"
     homescreen: Widget und Verknüpfungen für den Startbildschirm zur schnellen Dateneingabe
   contrib:

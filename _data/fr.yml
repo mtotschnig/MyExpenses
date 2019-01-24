@@ -20,20 +20,21 @@ fr:
     licence: Licence
     sourcecode: Code source
     links: Liens
+  screenshots:
+    group: Groupez vos transactions par jour, semaine, mois et année
+    summarize: Faites la synthèse de tous vos comptes (traitement sophistiqué des taux de change par compte et par opération)
+    budget: Définissez combien vous comptez dépenser en budgets annuels, mensuels ou hebdomadaires
+    split: Diviser une opération en plusieurs catégories
+    distribution: Visualiser la distribution par catégorie
+    history: Comprendre comment votre situation financière évolue avec le temps
+    export: Imprimer en PDF et échanger via QIF et CSV.
+    sync: Synchronisez les données de compte chiffrées sur plusieurs appareils via des services de cloud privé ou public.
   features:
     manage_accounts: Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
     plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
-    grouped_list: Les opérations peuvent être <b>regroupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
-    distribution: Deux niveaux de catégories (importable à partir du fichier Grisbi)
-    split: Opérations ventilées
-    calculator: Calculatrice
     export: <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-    import: Importer des données QIF
-    password: Les données peuvent être protégées par un<b>mot de passe</b>
-    help: Aide integrée
-    backup: Sauvegarde et restauration de données
+    password: Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil.
     light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
-    attach_picture: Lier une image avec une transaction
     reconciliation: "<b>Rapprochement</b>: comparez facilement l'état des opérations avec vos relevés bancaires"
     homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
   contrib:
