@@ -17,32 +17,12 @@ cs:
     licence: Licence
     sourcecode: Zdrojový kód
     links: Odkazy
-  features:
-    manage_accounts: Až pět účtů s převody
-    plans: Předefinujte si šablony a plány pro budoucí a opakující se transakce
-    grouped_list: Souhrnné transakce za den, týden, měsíc a rok a zobrazení celkové částky za skupinu.
-    distribution: Dvě úrovně kategorií (import z Grisbi XML)
-    split: Rozdělení transakce (Contrib verze)
-    calculator: Kalkulačka
-    export: Export do QIF a CSV (MS Excel), může být automaticky sdílen (prostřednictvím e-mailu, FTP, Dropboxu, ...)
-    password: Ochrana heslem
-    help: Integrovaná nápověda
-    backup: Obnovení a zálohování dat
-    light_theme: "Dvě témata: světlé a tmavé"
   contrib:
     thank_you: |
-      Váš příspěvek podporuje další rozvoj Moje výdaje. Děkuji!
-    feature:
-      accounts_unlimited: Neomezený počet účtů
-      plans_unlimited: Neomezený počet plánů
-      split_transaction: Rozdělení transakcí
-      security_question: Bezpečnostní otázka
-      template_widget: Šablona widget
-      auto_backup: Povolit automatickou zálohu
-  permissions-heading: |+
-    Moje výdaje vyžadují následující oprávnění:
-
-  permissions-calendar: |
-    Čtení a úprava kalendáře: plány pro budoucnost a opakující transakce jsou uloženy ve speciálním místním kalendáři nebo v jakémkoliv jiném přiřazeném kalendáři.
-  permissions-external-storage: |
-    Zápis na USB disk: Možnost exportu a zálohování QIF a CSF souborů z USB disku.
+        Váš příspěvek podporuje další rozvoj Moje výdaje. Děkuji!
+  permissions:
+    internet:
+      explanation_crash_reporting: Hlášení o pádech
+    accounts:
+      label: Účty
+  contrib-key: Klíč Contrib

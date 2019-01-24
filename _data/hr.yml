@@ -17,34 +17,12 @@ hr:
     licence: Licenca
     sourcecode: Izvorni kod
     links: Poveznice
-  features:
-    manage_accounts: Do pet računa sa plaćanjima
-    plans: Odredite predloške i planove za buduće i ponovne transakcije
-    grouped_list: Grupne transakcije po danu, tjednu, mjesecu, godini, te prikaz sume po grupi
-    distribution: Dvije razine kategorija (unos iz Grisbi XML-a i QIF-a)
-    split: Dijeljene transakcije (Contrib verzija)
-    calculator: Kalkulator
-    export: Eksport u QIF i CSV (MS Excel), mogućnost automatskog dijeljenja (putem e-maila, FTP-a, Dropboxa, ...)
-    import: Unos QIF podataka
-    password: Zaštita lozinke
-    help: Integrirana pomoć
-    backup: Sigurnosne kopije i obnova podataka
-    light_theme: "Dvije teme: svijetla i tamna"
   contrib:
     thank_you: |
-      Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
-    feature:
-      accounts_unlimited: Neograničeni broj računa
-      plans_unlimited: Neograničeni broj planova
-      split_transaction: Dijeljena transakcija
-      security_question: Sigurnosno pitanje
-      template_widget: Widget za predložak
-      print: Eksportiraj listu transakcija u PDF
-  permissions-heading: |
-    My Expenses želi pristupiti
-  permissions-calendar: |
-    Očitavanja i unos u kalendar. Planovi za buduće i ponovne transakcije su pohranjene ili u posebnom lokalnom kalendaru ili u bilo kojem drugom kalendaru kojeg vi odredite.
-  permissions-external-storage: |
-    USB zapis: Pohrana QIF i CSV eskporta, te sigurnosnih kopija
-  permissions-internet: |
-    Mrežna komunikacija: Izvještaji o prestanku rada aplikacije se automatski šalju programerima osim ako to korisnik ne deaktivira u postavkama aplikacije.
+        Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
+  permissions:
+    internet:
+      explanation_crash_reporting: Izvještaji o prestanku rada aplikacije
+    accounts:
+      label: Računi
+  contrib-key: Contrib Ključ

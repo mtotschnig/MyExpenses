@@ -1,15 +1,16 @@
-pt_BR:
+pt:
   imprint: Marca
+  privacy_policy_heading: Política de privacidade
   hero_main: "Gerenciador de finanças pessoais para o Android"
   hero_sub:
     use: "Fácil de usar"
-    functionality: "Funcionalidade Rich"
-    source: "Open Source"
+    functionality: "Rico em funcionalidades"
+    source: "Código aberto"
   menu_title:
     more_information: Mais informações
   sections:
     features: Características
-    premium: Ir Premium
+    premium: Ir para Premium
     participate: Participar
     faq: FAQ
     versionlist: Registro de alterações
@@ -17,14 +18,6 @@ pt_BR:
     licence: Licença
     sourcecode: Código-fonte
     links: Links
-  features:
-    distribution: Dois níveis de categorias (importação de XML Grisbi e QIF)
-    split: Transação de divisão (versão Contrib)
-    calculator: Calculadora
-    import: Importe dados QIF
-    help: Ajuda integrada
-    backup: Restauração e backup de dados
-    attach_picture: Anexar imagem à transação
   contrib:
     thank_you: |
         Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
@@ -40,7 +33,7 @@ pt_BR:
       label: Contas
   contrib-key: Chave de contribuição
   extended-key: Chave estendida
-  professional-key: Chave Profissional
-  all_contrib_key_features: Todas as funcionalidades da Chave Contrib
+  professional-key: Chave profissional
+  all_contrib_key_features: Todas os recursos da chave de contribuição
   all_extended_key_features: Todos os recursos da chave estendida
   customer_support: Suporte ao cliente

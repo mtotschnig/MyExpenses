@@ -17,14 +17,6 @@ vi:
     licence: Giấy phép
     sourcecode: Mã nguồn
     links: Liên kết
-  features:
-    distribution: Hai cấp danh mục (nhập từ Grisbi XML và QIF)
-    split: Phân tích giao dịch (Bản đầy đủ)
-    calculator: Máy tính hỗ trợ
-    import: Nhập dữ liệu QIF
-    help: Trợ giúp tích hợp
-    backup: Sao lưu và phục hồi dữ liệu
-    attach_picture: Chèn ảnh vào giao dịch
   contrib:
     feature-list-title: "Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:"
     feature:

@@ -17,36 +17,10 @@ da:
     licence: Licens
     sourcecode: Kildekode
     links: Links
-  features:
-    manage_accounts: Op til fem konti med overførelser
-    plans: Skabeloner og planer for tilbagevendende posteringer
-    grouped_list: Posteringer per dag, uge, måned, år og vis saldo for hver gruppering
-    distribution: To niveauer af kategorier (import fra Grisbi XML eller QIF)
-    split: Splittede posteringer (Contrib version)
-    calculator: Lommeregner
-    export: Export til QIF og CSV (MS Excel), kan automatisk deles (via e-mail, FTP, Dropbox, ...)
-    import: Importer QIF data
-    password: Password-beskyttelse
-    help: Help integreret
-    backup: Backup og gendannelse af data
-    light_theme: "To temaer: lys og mørk"
-    attach_picture: Tillægge transaktionen afbildning
-  contrib:
-    feature:
-      accounts_unlimited: Ubegrænset antal konti
-      plans_unlimited: Ubegrænset antal planer
-      split_transaction: Split postering
-      security_question: Sikkerhedsspørgsmål
-      template_widget: Skabelon widget
-      print: Eksporter listen med posteringer til PDF
-      attach_picture: Vedhæft billed til posteringen
-      ad_free: Ingen annoncer
-      csv_import: CSV import
-  permissions-heading: |
-    Anvendelsen af Mine udgifter kræver følgende rettigheder
-  permissions-calendar: |
-    Læse- og skriverettigheder for kalenderen: Planer for tilbagevendende posteringer gemmes i en speciel lokal kalender eller i den anden kalender du har tilknyttet.
-  permissions-external-storage: |
-    Skriverettigheder for USB: Gemmer QIF og CSV eksports og sikkerhedkopier
-  permissions-internet: |
-    Netværkskommunikation: Rapporter om nedbrud sendes automatisk til udvikleren undtagen denne funktion er deaktiveret i indstillignerne.
+  permissions:
+    internet:
+      explanation_crash_reporting: Fejlrapporter
+    accounts:
+      label: Konti
+  contrib-key: Contrib Nøgle
+  extended-key: Nøgle til udvidet version

@@ -23,17 +23,8 @@ es:
   features:
     manage_accounts: Hasta cinco cuentas con <b>transferencias</b> (también entre diferentes monedas)
     plans: Número ilimitado de <b>plantillas</b> y hasta tres proyectos para transacciones <b>recurrentes</b>
-    grouped_list: Las transacciones pueden ser <b>agrupadas</b> (por día, semana, mes y año) y <b>filtradas</b>
-    distribution: Dos niveles de categorías (importación desde Grisbi XML y QIF)
-    split: Transacciones divididas (versión Contrib)
-    calculator: Calculadora
     export: <b>Exportar</b> a QIF y CSV. <b>Importar</b> desde QIF
-    import: Importar datos desde QIF
-    password: Los datos pueden protegerse con <b>contraseña</b>
-    help: Ayuda integrada
-    backup: Copia de seguridad y restauración
     light_theme: Se puede personalizar el <b>tema</b> (oscuro y claro) y el <b>tipo de letra</b>
-    attach_picture: Adjuntar imagen a la transacción
     reconciliation: "<b>Reconciliación</b>: compare fácilmente los estados de transacción con los recibos de banco"
     homescreen: <b>Widgets</b> y <b>accesos directos</b> en su pantalla de inicio para introducir información rápidamente
   contrib:
@@ -56,7 +47,8 @@ es:
       split_template: Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
       email_support: <b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables
       roadmap_voting: Derecho a participar en la <b>hoja de ruta de desarrollo</b>
-      history_chart: <b>Gráfico de historial</b> (flujo de efectivo)
+      history_chart: <b>Gráfico del historial</b> (Flujo de efectivo)
+      budgeting: "<b>Presupuestar</b>: Compare sus gastos con los límites que establezca por categoría de forma diaria, semanal o anual."
     one-time-payment: Pago único
     subscription: Suscripción
   store:

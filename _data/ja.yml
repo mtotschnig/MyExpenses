@@ -23,17 +23,8 @@ ja:
   features:
     manage_accounts: 最大5までの <b>振込</b> を伴う口座 (異なる通貨間も)
     plans: 無制限の数の <b>テンプレート</b> と最大3つまでの <b>繰り返し</b> 取引の計画
-    grouped_list: 取引を <b>グループ化</b> (日、週、月、年ごと) および <b>フィルター</b>
-    distribution: 2つのレベルの分類 (Grisbi XML からインポート)
-    split: 取引の分割 (貢献版)
-    calculator: 電卓
     export: QIF や CSV に <b>エクスポート</b>。 QIF から <b>インポート</b>
-    import: QIF データのインポート
-    password: データを <b>パスワード</b> で保護できます
-    help: 統合されたヘルプ
-    backup: データバックアップおよび復元
     light_theme: <b>テーマ</b> (ダーク、ライト) および <b>フォントサイズ</b> をカスタマイズできます
-    attach_picture: 取引に画像を添付
     reconciliation: "<b>照合</b>: 銀行の明細と簡単に取引状況を比較できます"
     homescreen: ホーム画面 <b>ウィジェット</b> および、簡単にデータを入力する <b>ショートカット</b>
   contrib:
@@ -57,6 +48,7 @@ ja:
       email_support: 2 営業日内の <b>メールサポート</b> 対応を保証
       roadmap_voting: <b>開発ロードマップ</b> の投票権
       history_chart: <b>履歴チャート</b> (キャッシュフロー)
+      budgeting: "<b>予算</b>: 毎日、毎週、毎月、または毎年の分類ごとに設定した限度と支出を比較します。"
     one-time-payment: １回限りの課金
     subscription: 定期購入
   store:

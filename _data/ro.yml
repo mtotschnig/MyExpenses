@@ -17,14 +17,6 @@ ro:
     licence: Licență
     sourcecode: Codul sursă
     links: Link-uri
-  features:
-    distribution: Două niveluri de categorii (import din Grisbi XML)
-    split: Split tranzacţii (Contrib versiune)
-    calculator: Calculator
-    import: 'Import date QIF '
-    help: Ajutor integrat
-    backup: Date de backup şi restaurare
-    attach_picture: Ataseaza imagine la tranzactie
   contrib:
     thank_you: |
         Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!

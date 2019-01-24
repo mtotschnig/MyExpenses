@@ -1,4 +1,4 @@
-ms_MY:
+ms:
   imprint: Imprint
   imprint_text: Bertanggungjawab atas kandungan laman sesawang dan juga pembangunan, penyelenggaraan dan pengedaran <i>{app_name}</i>
   privacy_policy_heading: Polisi kerahsiaan
@@ -23,17 +23,8 @@ ms_MY:
   features:
     manage_accounts: Sehingga lima akaun dengan <b>pemindahan</b> (juga merentasi matawang berbeza)
     plans: Bilangan <b>templat</b> tanpa had dan sehingga tiga plan untuk transaksi <b>berulang</b>
-    grouped_list: Transaksi boleh <b>dikelompokkan</b> (per hari, minggu, bulan dan tahun) dan juga boleh <b>ditapis</b>
-    distribution: Dua aras kategori (import dari XML Grisbi)
-    split: Asing transaksi (Versi Contrib)
-    calculator: Kalkulator
     export: <b>Eksport</b> ke QIF dan CSV. <b>Import</b> dari QIF
-    import: Import data QIF
-    password: Data boleh dilindungi dengan <b>kata laluan</b>
-    help: Bantuan Bersepadu
-    backup: Sandar dan pulih data
     light_theme: <b>Tema</b> (gelap dan cerah) serta <b>saiz fon</b> boleh disuaikan
-    attach_picture: Lampir imej ke dalam transaksi
     reconciliation: "<b>Penyesuaian</b>: Bandingkan status transaksi secara mudah dengan penyata bank anda"
     homescreen: <b>Widget</b> skrin rumah dan <b>pintasan</b> untuk masukan data secara pantas
   contrib:

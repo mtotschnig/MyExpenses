@@ -1,4 +1,4 @@
-he:
+iw:
   imprint: חותם
   imprint_text: אחראי לתוכן האתר ולפיתוח, תחזוקה והפצה של<i> {app_name} </i>
   privacy_policy_heading: מדיניות הפרטיות
@@ -23,17 +23,8 @@ he:
   features:
     manage_accounts: עד חמישה חשבונות עם <b>העברות  (גם בין מטבעות שונים)
     plans: מספר בלתי מוגבל של templates<b> ועד שלוש תוכניות עבור <b>recurring עסקאות
-    grouped_list: עסקעות אפשר <b>לקבץ לקבוצות</b> (ליום, שבוע, חודש ושנה) וכן <b>לסנן</b>
-    distribution: שתי רמות של קטגוריות (יבוא מ- Grisbi XML ו- QIF)
-    split: עסקאות פיצול (גרסת Contrib)
-    calculator: מחשבון
     export: <b>ייצא</b> ל- QIG ו- CSV <b>יבא</b> מ- QIF
-    import: ייבא נתוני QIF
-    password: נתונים יכולים להיות מוגנים ב-<b>סיסמה</b>
-    help: עזרה משולבת
-    backup: גיבוי ושחזור נתונים
     light_theme: <b>ערכת נושא</b> (כהה ובהירה) - <b>גודל פונט</b> נתנים לבחירנ
-    attach_picture: צרף תמונה לעסקה
     reconciliation: "<b> Reconciliation</b>: להשוות בקלות את סטטוס העסקה עם הצהרות הבנק שלך"
     homescreen: <b>ישומון</b> במסך הבית ו- <b>קיצור דרך</b> להכנסת נתונים מהירה
   contrib:
@@ -57,7 +48,7 @@ he:
       email_support: <b>מייל לעזרה</b> עם הבטחה לתגובה תוך 2 ימי עסקים
       roadmap_voting: זכות הצבעה על <b>מפת דרכים לפיתוח</b>
       history_chart: <b>תרשים היסטוריה</b> (תזרים מזומנים)
-      budgeting: <b>תקצוב</b>
+      budgeting: "<b> תקצוב</b>: השווה את ההוצאות שלך למגבלות שהגדרת לפי קטגוריה על בסיס יומי, שבועי, חודשי או שנתי."
     one-time-payment: תשלום חד פעמי
     subscription: מנוי
   store:

@@ -13,18 +13,8 @@ ar:
     credits: الشكر
     licence: شهادة
     links: روابط
-  features:
-    calculator: الحاسبة
-    password: حماية كلمة المرور
-    attach_picture: إرفاق صورة إلى عملية
-  contrib:
-    feature:
-      accounts_unlimited: عدد حسابات غير محدود
-      plans_unlimited: عدد غير محدود من الخطط
-      split_transaction: تقسيم العمليات
-      security_question: السؤال السري
-      print: تصدير قائمة العمليات إلى PDF
-      attach_picture: إرفاق صورة إلى عملية
-      ad_free: بدون إعلانات
-      csv_import: إستيراد ملف CSV
-      auto_backup: نسخ احتياطي آلي
+  permissions:
+    internet:
+      explanation_crash_reporting: تقارير لمشاكل التطبيق
+    accounts:
+      label: الحسابات

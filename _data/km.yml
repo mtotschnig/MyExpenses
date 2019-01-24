@@ -17,29 +17,8 @@ km:
     licence: អាជ្ញាប័ណ្ណ
     sourcecode: កូដដើម
     links: វេបសាយភ្ជាប់
-  features:
-    manage_accounts: ដាក់បាន​រហូតដល់ទៅ ៥​គណនី ដើម្បីការផ្ទេរ
-    plans: កំណត់​សម្បក និង​ផែនការអនាគត ហើយ​មាន​ប្រតិបត្តិការវិលជុំ
-    grouped_list: ក្រុម​ប្រតិបត្តិ​ការ​តាម រាល់ថ្ងៃ សប្តាហ៍ ខែ ឬឆ្នាំ និង​ដាក់​បង្ហាញ​សរុប​តាម​ក្រុម
-    split: បំបែក​ប្រតិបត្តិការ (Contrib version)
-    calculator: ម៉ាស៊ីនគិតលេខ
-    export: នាំចេញ​ទៅ​កាន់ QIF និង CSV (MS Excel) អាចចែក​រម្លែក​ដោយ​ស្វ័យ​ប្រវត្តិ (តាម​រយៈ email, FTP, Dropbox, ...)
-    password: ការការពារពាក្យសម្ងាត់
-    help: មានឯកសារជំនួយ
-    backup: រក្សាទិន្នន័យ​ ឬយក​មកដាក់វិញ
-    light_theme: "មាន​សម្បកពីរ៖ ភ្លឺ និង​ស្រអាប់"
-  contrib:
-    feature:
-      accounts_unlimited: ចំនួន​គណនី​គ្មាន​ដែន​កំណត់
-      plans_unlimited: ចំនួន​ផែនការគ្មានដែន​កំណត់​
-      split_transaction: ញែក​​ប្រតិបត្តិការ
-      security_question: សំណួរសន្តិសុខ
-      template_widget: ប្រអប់​ធាតុពុម្ព
-  permissions-heading: |
-    My Expenses ត្រូវការ​សិទ្ធិដូចខាង​ក្រោម
-  permissions-calendar: |
-    អាន និងសរសេរប្រតិទិន៖ គម្រោង​សម្រាប់​អនាគត និង​ប្រតិបត្តិការ​ឡើងវិញ ត្រូវ​បាន​ផ្ទុក​ផងដែរ​ក្នុង​ប្រតិទិន​ពិសេសក្នុងទូរស័ព្ទ ឬ​ក្នុងប្រតិទិន​ណា​ដែល​អ្នក​កំណត់។
-  permissions-external-storage: |
-    សរសេរស្តុកចូល USB៖ ស្តុក​របស់​ QIF និង CSV នាំចេញ និង​រក្សាឯកសារទុក
-  permissions-internet: |
-    Network communication: របាយការពី​ការ​ជាប់គាំង ត្រូវ​បាន​ផ្ញើទៅ​កាន់អ្នក​អភិវឌ្ឍកម្មវិធី​ដោយ​ស្វ័យ​ប្រវត្តិ រហូត​ទាល់​តែ​អ្នក​ប្រើប្រាស់​កំណត់​ដកចេញ ពី app preferences។
+  permissions:
+    internet:
+      explanation_crash_reporting: របាយការណ៍​សាច់​ប្រាក់
+    accounts:
+      label: គណនី

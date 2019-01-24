@@ -17,30 +17,9 @@ zh-tw:
     licence: 許可證
     sourcecode: 源代碼
     links: 連結
-  features:
-    manage_accounts: 多達5個轉賬賬戶
-    grouped_list: 交易分組 (可以日、星期、月、年來顯示總金額資料)
-    split: 分割交易
-    calculator: 計算機
-    password: 密碼保護
-    help: 綜合幫助
-    backup: 數據備份與恢復
-    light_theme: "兩種主題：黑、白"
-  contrib:
-    feature:
-      accounts_unlimited: 帳戶數量不限
-      plans_unlimited: 計劃數量不限
-      distribution: 每個類別的交易分佈
-      split_transaction: 分割交易
-      security_question: 安全問題
-      auto_backup: 自動備份
-    licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
-      intro: |
-        你有以下選擇來購買高級功能的授權：
-  permissions-heading: |
-    My Expenses 需要以下權限
-  permissions-calendar: |
-    讀取和寫入到日曆：未來計劃和經常性交易會被存儲在本地日曆或您指定的任何其他日曆。
-  permissions-external-storage: |
-    寫入USB存儲空間：用作存儲QIF和CSV的匯出文件和備份文件
+  permissions:
+    internet:
+      explanation_crash_reporting: 崩潰報告
+    accounts:
+      label: 賬戶
+  contrib-key: 貢獻密鑰

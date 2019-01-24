@@ -23,17 +23,8 @@ tr:
   features:
     manage_accounts: <b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler arasında da havale yapılabilir)
     plans: Sınırsız <b>şablon</b> sayısı ve <b>tekrarlanan</b> muameleler için üçe kadar planlama desteği
-    grouped_list: Muameleler (günlük, haftalık, aylık ve senelik olarak) <b>gruplanabilir</b> ve <b>filtrelenebilir</b>
-    distribution: İki kategori seviyesi (Grisbi XML ve QIF dosyalarından içeri aktarım)
-    split: Bölünmüş muameleler (Ücretli işlev)
-    calculator: Hesap makinesi
     export: QIF ile CSV biçimlerinde <b>dışa aktarma</b>. QIF biçiminden <b>içe aktarma</b>
-    import: QIF verilerinin içe aktarımı
-    password: Veriler <b>parola</b>ile korunabilir
-    help: Entegre yardım
-    backup: Veri yedekleme ve geri yükleme
     light_theme: <b>Tema</b> (açık veya koyu) ile <b>yazıtipi boyutu</b> kişiselleştirilebilir
-    attach_picture: Muameleye resim ekle
     reconciliation: "<b>Uzlaştıma</b>: muamele durumlarını kolayca banka dekontlarınız ile karşılaştırın"
     homescreen: Çabuk veri girişi için ana ekran <b>widget'leri</b> ve <b>kısayolları</b>
   contrib:

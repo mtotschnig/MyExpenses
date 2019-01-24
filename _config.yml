@@ -65,6 +65,7 @@ title:
   bg: Моите разходи
   el: Έξοδα μου
   iw: ההוצאות שלי
+  uk: Мої Витрати
 langs:
   de: Deutsch
   en: English
@@ -90,6 +91,7 @@ langs:
   bg: български
   el: Ελληνικά
   iw: עברית
+  uk: українська
 paypal-lc:
   de: DE
   en: US

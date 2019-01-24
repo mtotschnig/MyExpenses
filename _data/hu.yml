@@ -17,31 +17,10 @@ hu:
     licence: Licensz
     sourcecode: Forráskód
     links: Linkek
-  features:
-    manage_accounts: Akár öt számla kezelése, számlák közötti átvezetéssel
-    plans: Tervek készítése a jövőbeli események, vagy ismétlődő tranzakciók kezelése érdekében
-    grouped_list: Tranzakciók csoportosítása napi, heti, havi, éves összesítéssel - kategóriánként
-    distribution: Két szintű kategorizálás (Grisbi XML import és QIF)
-    split: Megosztott tranzakciók (a Contrib verzióban)
-    calculator: Számológép
-    export: Adatok exportálása QIF és CSV (MS Excel) formátumban, amely automatikusan megosztható emailben, FTP-n, Dropbox-on, stb...
-    password: Jelszavas védelem
-    help: Integrált súgó
-    backup: Adat mentés és visszaállítás
-    light_theme: "Két háttértéma: világos és sötét"
   contrib:
     thank_you: |
-      Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
-    feature:
-      accounts_unlimited: Korlátlan számú számla kezelése
-      plans_unlimited: Korlátlan számú terv
-      split_transaction: Tranzakciók megosztása a számlák között
-      security_question: Biztonsági kérdés - jelszó visszaállításhoz
-      template_widget: Sablon widget
-      ad_free: Hirdetések kikapcsolása
-  permissions-heading: |
-    A Kiadásaim (My Expenses) a következőkhöz kér hozzáférést:
-  permissions-calendar: |
-    Naptárak írása és olvasása: Tervek a jövőbeli vagy ismétlődő tranzakciók számára, melyek akár a speciális helyi naptárban, akár bármely más Ön által megadható naptárban történik.
-  permissions-external-storage: |
-    Writing USB storage: QIF és CSV export és mentés fájlok tárolása
+        Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
+  permissions:
+    accounts:
+      label: Számlák
+  contrib-key: Contrib Kulcs

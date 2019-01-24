@@ -23,17 +23,8 @@ pl:
   features:
     manage_accounts: Do pięciu kont z <b>transferem</b> (również między różnymi walutami)
     plans: Nieograniczona liczba <b>szablonów</b> i do trzech planów dla <b>recurring</b> transakcji
-    grouped_list: Transakcje mogą mieć <b>grupy</b> (dzień, tydzień, miesiąc i rok) i <b>filtry</b>
-    distribution: Dwa poziomy kategorii (import z Grisbi XML i QIF)
-    split: Podziela transakcje (wersja Contrib)
-    calculator: Kalkulator
     export: <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
-    import: Import danych QIF
-    password: Dane mogą być chronione <b>hasłem</b>
-    help: Zintegrowana Pomoc
-    backup: Kopia zapasowa oraz przywracanie danych
     light_theme: <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
-    attach_picture: Dopinanie obrazów do transakcji
     reconciliation: "<b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami bankowymi"
     homescreen: <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania danych
   contrib:

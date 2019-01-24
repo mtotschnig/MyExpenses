@@ -17,18 +17,13 @@ eu:
     licence: Lizentzia
     sourcecode: Iturburu kodea
     links: Estekak
-  features:
-    distribution: Bi kategoria maila (Grisbi XML eta QIF inportazioa)
-    split: Banatu transakzioak (Kontribuzio bertsioa)
-    calculator: Kalkulagailua
-    import: Inportatu QIF datuak
-    help: Laguntza integratua
-    backup: Datuen babeskopia egin eta berreskuratu
-    attach_picture: Erantsi irudia transakzioari
   contrib:
     thank_you: |
         Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
     feature-list-title: "Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:"
+    feature:
+      email_support: <b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin
+      roadmap_voting: <b>Garapen ibilbidean</b> bozkatzeko aukera
   permissions:
     internet:
       explanation_crash_reporting: Kraskatze txostenak
@@ -37,5 +32,6 @@ eu:
       label: Kontuak
   contrib-key: Kontribuzio Gakoa
   extended-key: Gako hedatua
+  professional-key: Gako profesionala
   all_contrib_key_features: Kontribuzio gakoaren eginbide guztiak
   customer_support: Bezeroarentzako arreta
