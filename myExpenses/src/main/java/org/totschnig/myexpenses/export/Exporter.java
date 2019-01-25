@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.StringBuilderWrapper;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.FileUtils;
@@ -124,7 +125,7 @@ public class Exporter {
           fileName, FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
     }
     c.moveToFirst();
-    Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
+    StringBuilderWrapper sb = new StringBuilderWrapper();
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
         Model.cr().openOutputStream(outputFile.getUri()),
@@ -240,7 +241,7 @@ public class Exporter {
             sb.append("\nP")
                 .append(payee);
           }
-          if (!status.equals(Transaction.CrStatus.UNRECONCILED))
+          if (!"".equals(status.symbol))
             sb.append("\nC")
                 .append(status.symbol);
           if (referenceNumber.length() > 0) {

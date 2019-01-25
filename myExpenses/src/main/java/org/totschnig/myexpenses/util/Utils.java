@@ -448,37 +448,6 @@ public class Utils {
     return "";
   }
 
-  public static class StringBuilderWrapper {
-    public StringBuilderWrapper() {
-      this.sb = new StringBuilder();
-    }
-
-    private StringBuilder sb;
-
-    public StringBuilderWrapper append(String s) {
-      sb.append(s);
-      return this;
-    }
-
-    public StringBuilderWrapper append(char c) {
-      sb.append(c);
-      return this;
-    }
-
-    public StringBuilderWrapper appendQ(String s) {
-      sb.append('"').append(s.replace("\"", "\"\"")).append('"');
-      return this;
-    }
-
-    public String toString() {
-      return sb.toString();
-    }
-
-    public void clear() {
-      sb = new StringBuilder();
-    }
-  }
-
   /**
    * Credit:
    * https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock
