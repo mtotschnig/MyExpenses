@@ -63,7 +63,7 @@ public abstract class AdHandler {
   protected abstract void requestNewInterstitialDo();
 
   boolean shouldHideAd() {
-    return factory.isAdDisabled() || !prefHandler.isSet(PERSONALIZED_AD_CONSENT);
+    return factory.isAdDisabled() || (factory.isRequestLocationInEeaOrUnknown() && !prefHandler.isSet(PERSONALIZED_AD_CONSENT));
   }
 
   protected void onInterstitialFailed() {
