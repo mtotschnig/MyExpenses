@@ -7,9 +7,11 @@ import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.test.runner.lifecycle.Stage;
+import android.support.v7.widget.RecyclerView;
 
 import com.jraska.falcon.FalconSpoonRule;
 
@@ -33,9 +35,11 @@ import java.util.Locale;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.totschnig.myexpenses.testutils.Matchers.first;
 
 /**
@@ -59,7 +63,7 @@ public class TestMain extends BaseUiTest {
   @Test
   public void mkScreenShots() {
     defaultCurrency = Currency.getInstance(BuildConfig.TEST_CURRENCY);
-    loadFixture(BuildConfig.TEST_LANG, BuildConfig.TEST_COUNTRY);
+    loadFixture();
     scenario(BuildConfig.TEST_SCENARIO);
   }
 
@@ -68,9 +72,9 @@ public class TestMain extends BaseUiTest {
     switch(scenario) {
       case 1: {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        takeScreenshot("manage_accounts");
+        takeScreenshot("summarize");
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.close());
-        takeScreenshot("grouped_list");
+        takeScreenshot("group");
         clickMenuItem(R.id.RESET_COMMAND, R.string.menu_reset);
         Espresso.closeSoftKeyboard();
         takeScreenshot("export");
@@ -91,6 +95,14 @@ public class TestMain extends BaseUiTest {
         Espresso.pressBack();
         clickMenuItem(R.id.BUDGET_COMMAND, R.string.menu_budget);
         takeScreenshot("budget");
+        Espresso.pressBack();
+        clickMenuItem(R.id.SETTINGS_COMMAND, R.string.menu_settings);
+        onView(instanceOf(RecyclerView.class))
+            .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
+                click()));
+        onView(withText(containsString("Dropbox"))).perform(click());
+        onView(withText(containsString("WebDAV"))).perform(click());
+        takeScreenshot("sync");
         break;
       }
       case 2: {//tablet screenshots
@@ -113,8 +125,8 @@ public class TestMain extends BaseUiTest {
 
   }
 
-  private void loadFixture(String lang, String country) {
-    this.locale = new Locale(lang, country);
+  private void loadFixture() {
+    this.locale = new Locale(BuildConfig.TEST_LANG, BuildConfig.TEST_COUNTRY);
     Locale.setDefault(locale);
     Configuration config = new Configuration();
     config.locale = locale;
@@ -125,7 +137,7 @@ public class TestMain extends BaseUiTest {
     android.content.SharedPreferences pref = app.getSettings();
     if (pref == null)
       Assert.fail("Could not find prefs");
-    pref.edit().putString(PrefKey.UI_LANGUAGE.getKey(), lang + "-" + country)
+    pref.edit().putString(PrefKey.UI_LANGUAGE.getKey(), BuildConfig.TEST_LANG + "-" + BuildConfig.TEST_COUNTRY)
         .putString(PrefKey.HOME_CURRENCY.getKey(), defaultCurrency.getCurrencyCode())
         .apply();
     app.getLicenceHandler().setLockState(false);
@@ -151,16 +163,20 @@ public class TestMain extends BaseUiTest {
   }
 
   private void takeScreenshot(String fileName) {
-    InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    try {
+      Thread.sleep(250);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     falconSpoonRule.screenshot(getCurrentActivity(), fileName);
   }
 
   private Activity getCurrentActivity() {
-    final Activity[] activites = new Activity[1];
+    final Activity[] activities = new Activity[1];
     InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
-      ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).toArray(activites);
+      ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).toArray(activities);
     });
-    return activites[0];
+    return activities[0];
   }
 
   @Override
