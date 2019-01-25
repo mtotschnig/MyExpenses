@@ -36,6 +36,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
@@ -506,28 +508,46 @@ public class Template extends Transaction {
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
-    if (!super.equals(obj))
+    if (!super.equals(obj)) {
+      Timber.d("Template differs %d" , 1);
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
+      Timber.d("Template differs %d" , 2);
       return false;
+    }
     Template other = (Template) obj;
-    if (isPlanExecutionAutomatic() != other.isPlanExecutionAutomatic())
+    if (isPlanExecutionAutomatic() != other.isPlanExecutionAutomatic()) {
+      Timber.d("Template differs %d" , 3);
       return false;
+    }
     if (planId == null) {
-      if (other.planId != null)
+      if (other.planId != null) {
+        Timber.d("Template differs %d" , 4);
         return false;
-    } else if (!planId.equals(other.planId))
+      }
+    } else if (!planId.equals(other.planId)) {
+      Timber.d("Template differs %d" , 5);
       return false;
+    }
     if (getTitle() == null) {
-      if (other.getTitle() != null)
+      if (other.getTitle() != null) {
+        Timber.d("Template differs %d" , 6);
         return false;
-    } else if (!getTitle().equals(other.getTitle()))
+      }
+    } else if (!getTitle().equals(other.getTitle())) {
+      Timber.d("Template differs %d" , 7);
       return false;
+    }
     if (uuid == null) {
-      if (other.uuid != null)
+      if (other.uuid != null) {
+        Timber.d("Template differs %d" , 8);
         return false;
-    } else if (!uuid.equals(other.uuid))
+      }
+    } else if (!uuid.equals(other.uuid)) {
+      Timber.d("Template differs %d" , 9);
       return false;
+    }
     return true;
   }
 
