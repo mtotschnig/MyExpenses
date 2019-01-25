@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>Превод на украйнски</item>
+    <item>Избор на символа-разделител при CSV експорт</item>
+  </string-array>
   <string-array name="whats_new_299">
       <item>Шифроване на данните за архивиране и синхронизиране</item>
   </string-array>

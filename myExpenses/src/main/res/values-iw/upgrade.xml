@@ -18,6 +18,13 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>תרגום אוקראיני</item>
+    <item>ייצוא CSV: Delimiter הפך להגדרה</item>
+  </string-array>
+  <string-array name="whats_new_299">
+      <item>הצפנה עבור גיבויים ונתוני סנכרון</item>
+  </string-array>
   <string-array name="whats_new_298">
     <item>סינון עבור עסקאות ללא מיפוי לקטגוריות, למשלמים או לשיטות</item>
     <item>אחסון אופטימלי של נתונים מסונכרנים</item>

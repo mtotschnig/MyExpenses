@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_300">
+    <item>Traduzione ucraina</item>
+    <item>Esportazione CSV: reso personalizzabile il delimitatore</item>
+  </string-array>
   <string-array name="whats_new_299">
       <item>Crittografia per i backup e per i dati di sincronizzazione</item>
   </string-array>
