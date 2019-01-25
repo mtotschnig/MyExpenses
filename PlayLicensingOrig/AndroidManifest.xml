@@ -17,7 +17,4 @@
     package="com.google.android.vending.licensing"
     android:versionCode="2"
     android:versionName="1.5">
-    <!-- Devices >= 3 have version of Android Market that supports licensing. -->
-    <uses-sdk android:targetSdkVersion="15" />
-    <!-- Required permission to check licensing. -->
 </manifest>
