@@ -90,7 +90,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return isEncrypted() ? MIMETYPE_JSON : MIMETYPE_OCTET_STREAM;
   }
 
-  private boolean isEncrypted() {
+  protected boolean isEncrypted() {
     return encryptionPassword != null;
   }
 

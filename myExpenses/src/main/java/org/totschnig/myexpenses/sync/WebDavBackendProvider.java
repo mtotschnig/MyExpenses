@@ -239,7 +239,8 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private void saveUriToFolder(String fileName, Uri uri, String folder, boolean maybeEncrypt) throws IOException {
     String finalFileName = getLastFileNamePart(fileName);
-    long contentLength = calculateSize(uri);
+    boolean encrypt = isEncrypted() && maybeEncrypt;
+    long contentLength = encrypt ? -1 : calculateSize(uri);
     RequestBody requestBody = new RequestBody() {
       @Override
       public long contentLength() {
@@ -252,7 +253,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       }
 
       @Override
-      public void writeTo(BufferedSink sink) throws IOException {
+      public void writeTo(@NonNull BufferedSink sink) throws IOException {
         Source source = null;
         try {
           InputStream in = getContext().getContentResolver().openInputStream(uri);
@@ -342,29 +343,25 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private void saveFileContents(String fileName, String fileContents, String mimeType,
                                 boolean maybeEncrypt, LockableDavResource parent) throws IOException {
-    RequestBody requestBody = new RequestBody() {
-
-      @Override
-      public long contentLength() {
-        return fileContents.length();
-      }
-
+    boolean encrypt = isEncrypted() && maybeEncrypt;
+    MediaType mediaType =  MediaType.parse(mimeType + "; charset=utf-8");
+    RequestBody requestBody = encrypt ? new RequestBody() {
       @Override
       public MediaType contentType() {
-        return MediaType.parse(mimeType + "; charset=utf-8");
+        return mediaType;
       }
 
       @Override
-      public void writeTo(BufferedSink sink) throws IOException {
+      public void writeTo(@NonNull BufferedSink sink) throws IOException {
         Source source = null;
         try {
-          source = Okio.source(toInputStream(fileContents, maybeEncrypt));
+          source = Okio.source(toInputStream(fileContents, true));
           sink.writeAll(source);
         } finally {
           Util.closeQuietly(source);
         }
       }
-    };
+    } : RequestBody.create(mediaType, fileContents);
     try {
       webDavClient.upload(fileName, requestBody, parent);
     } catch (HttpException e) {
