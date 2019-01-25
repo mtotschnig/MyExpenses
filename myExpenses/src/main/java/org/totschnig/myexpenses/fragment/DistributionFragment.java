@@ -277,10 +277,14 @@ public class DistributionFragment extends DistributionBaseFragment {
         KEY_COLOR,
         "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
     };
-    sortOrder = "abs(" + KEY_SUM + ") DESC";
     selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
     return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
-        projection, selection, selectionArgs, sortOrder, true);
+        projection, selection, selectionArgs, getSortExpression(), true);
+  }
+
+  @Override
+  protected Object getSecondarySort() {
+    return "abs(" + KEY_SUM + ") DESC";
   }
 
   @Override

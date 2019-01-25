@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.model.CurrencyUnit;
 
@@ -39,5 +40,19 @@ public class TextUtils {
 
   public static String appendCurrencySymbol(Context context, int resId, String symbol) {
     return String.format(Locale.ROOT, "%s (%s)", context.getString(resId), symbol);
+  }
+
+  public static String formatQifCategory(String mainLabel, String subLabel) {
+    mainLabel = sanitizeQifCategory(mainLabel);
+    subLabel = sanitizeQifCategory(subLabel);
+    return android.text.TextUtils.isEmpty(subLabel) ? mainLabel : String.format("%s:%s", mainLabel, subLabel);
+  }
+
+  private static String sanitizeQifCategory(@Nullable String label) {
+    if (label == null) {
+      return null;
+    }
+    final char substitute = '|';
+    return label.replace('/', substitute).replace(':', substitute);
   }
 }

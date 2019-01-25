@@ -74,6 +74,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
+import static org.totschnig.myexpenses.util.TextUtils.formatQifCategory;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -385,16 +386,19 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         if (appDir == null) {
           return Result.ofFailure(R.string.external_storage_unavailable);
         }
-        String fullLabel =
-            " CASE WHEN " +
+        String mainLabel =
+            "CASE WHEN " +
                 KEY_PARENTID +
                 " THEN " +
                 "(SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " parent WHERE parent." + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_PARENTID + ")" +
-                " || ':' || " + KEY_LABEL +
                 " ELSE " + KEY_LABEL +
                 " END";
+        String subLabel = "CASE WHEN " + KEY_PARENTID +
+            " THEN " + KEY_LABEL +
+            " END";
+
         //sort sub categories immediately after their main category
-        String sort = "CASE WHEN parent_id then parent_id else _id END,parent_id";
+        String sort = "CASE WHEN parent_id then parent_id else _id END";
         String fileName = "categories";
         DocumentFile outputFile = AppDirHelper.timeStampedFile(
             appDir,
@@ -412,7 +416,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               ((String) mExtra));
           c = cr.query(
               Category.CONTENT_URI,
-              new String[]{fullLabel},
+              new String[]{mainLabel, subLabel},
               null, null, sort);
           if (c.getCount() == 0) {
             c.close();
@@ -424,7 +428,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           while (c.getPosition() < c.getCount()) {
             StringBuilder sb = new StringBuilder();
             sb.append("\nN")
-                .append(c.getString(0))
+                .append(formatQifCategory(c.getString(0), c.getString(1)))
                 .append("\n^");
             out.write(sb.toString());
             c.moveToNext();

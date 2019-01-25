@@ -93,11 +93,15 @@ public class BudgetFragment extends DistributionBaseFragment {
         "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM,
         KEY_BUDGET
     };
-    sortOrder = KEY_BUDGET + " DESC";
     selectionArgs = accountSelector != null ? new String[]{accountSelector} : null;
     return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId())).build(),
-        projection, null, selectionArgs, sortOrder, true);
+        projection, null, selectionArgs, getSortExpression(), true);
+  }
+
+  @Override
+  protected Object getSecondarySort() {
+    return KEY_BUDGET + " DESC";
   }
 
   @Override

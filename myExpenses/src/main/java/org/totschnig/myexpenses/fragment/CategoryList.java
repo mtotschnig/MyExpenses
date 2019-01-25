@@ -95,6 +95,9 @@ public class CategoryList extends SortableListFragment {
       TABLE_CATEGORIES + "." + KEY_ROWID +
       " UNION SELECT " + KEY_ROWID + " FROM "
       + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
+  // The adapter needs to find main categories first
+  protected static final String PRIMARY_SORT = "case when " + KEY_PARENTID + " is null then 0 else 1 end";
+
 
   protected int getMenuResource() {
     return R.menu.categorylist_context;
@@ -194,7 +197,15 @@ public class CategoryList extends SortableListFragment {
       selectionArgs = null;
     }
     return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
-        projection, selection, selectionArgs, null, true);
+        projection, selection, selectionArgs, getSortExpression(), true);
+  }
+
+  protected final String getSortExpression() {
+    return String.format("%s,%s", PRIMARY_SORT, getSecondarySort());
+  }
+
+  protected Object getSecondarySort() {
+    return Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
   }
 
   private void disposeCategory() {
