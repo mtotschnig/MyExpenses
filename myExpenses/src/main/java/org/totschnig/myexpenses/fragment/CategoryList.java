@@ -157,7 +157,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected void onLoadFinished() {
-
+    lastExpandedPosition = -1;
   }
 
   protected void loadData() {

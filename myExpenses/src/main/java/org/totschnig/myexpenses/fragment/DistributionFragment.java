@@ -289,6 +289,7 @@ public class DistributionFragment extends DistributionBaseFragment {
 
   @Override
   protected void onLoadFinished() {
+    super.onLoadFinished();
     if (mAdapter.getGroupCount() > 0) {
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       setData();
