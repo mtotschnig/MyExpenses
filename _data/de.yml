@@ -22,7 +22,7 @@ de:
     links: Links
   screenshots:
     group: Gruppieren Sie Ihre Transaktionen nach Tag, Woche, Monat und Jahr
-    summarize: Fassen Sie alle Ihre Konten zusammen (komplizierte Behandlung der Wechselkurse pro Konto und pro Buchung)
+    summarize: Fassen Sie alle Ihre Konten zusammen (Wechselkurse können pro Konto und pro Buchung angegeben werden)
     budget: Legen Sie in jährlichen, monatlichen oder wöchentlichen Budgets fest, wie viel Sie  ausgeben möchten
     split: Splitten Sie eine Transaktion in mehrere Kategorien
     distribution: Visualisieren Sie die Verteilung pro Kategorie
