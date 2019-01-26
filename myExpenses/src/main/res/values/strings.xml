@@ -653,7 +653,7 @@
     <string name="synchronization_start">Starting synchronization for account %s.</string>
     <string name="synchronization_end_success">%1$d remote changes were written to local database. %2$d local changes were written to remote backend.</string>
     <string name="synchronization_end_success_none">No changes to synchronize.</string>
-    <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
+    <string name="pref_webdav_timeout_title">WebDAV Timeout (in seconds)</string>
     <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
     <string name="onboarding_ui_title">{app_name} adapts to your preference</string>

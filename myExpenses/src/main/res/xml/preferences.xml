@@ -245,15 +245,13 @@
             <intent android:targetPackage="@string/application_id"
                     android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"/>
         </Preference>
-        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+        <SeekBarPreference
             android:defaultValue="12"
             android:key="@string/pref_sync_frequency_key"
             android:summary="@string/pref_sync_frequency_summary"
             android:title="@string/pref_sync_frequency_title"
-            my:msbp_interval="1"
-            my:msbp_maxValue="99"
-            my:msbp_measurementUnit=" h"
-            my:msbp_minValue="1"/>
+            android:max="99"
+            my:min="1"/>
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_sync_notification_key"
@@ -291,15 +289,13 @@
                 android:title="@string/pref_security_question_title"
                 android:summary="@string/pref_security_question_summary"
                 />
-            <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            <SeekBarPreference
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"
                 android:summary="@string/pref_protection_delay_seconds_summary"
                 android:title="@string/pref_protection_delay_seconds_title"
-                my:msbp_interval="1"
-                my:msbp_maxValue="90"
-                my:msbp_measurementUnit=" &#8243;"
-                my:msbp_minValue="1"/>
+                android:max="90"
+                my:min="1"/>
             <PreferenceCategory android:title="Widgets">
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
@@ -432,14 +428,12 @@
         <ListPreference
             android:key="@string/pref_planner_calendar_id_key"
             android:title="@string/pref_planning_calendar_title"/>
-        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+        <SeekBarPreference
             android:defaultValue="10"
             android:key="@string/pref_webdav_timeout_key"
             android:title="@string/pref_webdav_timeout_title"
-            my:msbp_interval="1"
-            my:msbp_maxValue="60"
-            my:msbp_measurementUnit=" s"
-            my:msbp_minValue="5"/>
+            android:max="60"
+            my:min="5"/>
         <PreferenceScreen
             android:key="@string/pref_debug_key"
             android:title="Debug">
