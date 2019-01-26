@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -288,11 +289,18 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       String newUri = String.format("%s_%s%s", transactionChange.uuid(),
           Uri.parse(transactionChange.pictureUri()).getLastPathSegment(),
           isEncrypted() ? ".enc" : "");
-      saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
-      return transactionChange.toBuilder().setPictureUri(newUri).build();
-    } else {
-      return transactionChange;
+      try {
+        saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
+        return transactionChange.toBuilder().setPictureUri(newUri).build();
+      } catch (IOException e) {
+        if (e instanceof FileNotFoundException) {
+          log().e(e, "Picture was deleted, %s", transactionChange.pictureUri());
+        } else {
+          throw e;
+        }
+      }
     }
+    return transactionChange;
   }
 
   @Override
