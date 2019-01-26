@@ -183,6 +183,7 @@ dependencies {
     implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.1'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
     implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
+    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:87e7c0d19d'
     implementation project(':PlayLicensingOrig')
     implementation('com.gitlab.mtotschn:dav4android:fbaa5b51') {
         exclude group: "com.android.support", module: "support-annotations"
