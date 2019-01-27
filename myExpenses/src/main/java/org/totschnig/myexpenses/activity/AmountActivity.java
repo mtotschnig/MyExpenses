@@ -16,15 +16,14 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.math.BigDecimal;
@@ -33,7 +32,7 @@ import butterknife.BindView;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
-public abstract class AmountActivity extends EditActivity {
+public abstract class AmountActivity extends EditActivity implements AmountInput.Host {
   @BindView(R.id.AmountLabel)
   protected TextView mAmountLabel;
   @BindView(R.id.AmountRow)
@@ -50,20 +49,11 @@ public abstract class AmountActivity extends EditActivity {
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
-      try {
-        View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
-        AmountEditText input;
-        if (target instanceof AmountEditText) {
-          input = (AmountEditText) target;
-        } else if (target instanceof AmountInput) {
-          input = ((AmountInput) target).getAmountEditText();
-        } else {
-          throw new IllegalStateException("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
-        }
-        input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)).abs());
-        input.setError(null);
-      } catch (Exception e) {
-        CrashHandler.report(e);
+      View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
+      if (target instanceof AmountInput) {
+        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)).abs());
+      } else {
+        showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Snackbar.LENGTH_LONG);
       }
     }
   }
@@ -83,29 +73,15 @@ public abstract class AmountActivity extends EditActivity {
   protected void configureType() {}
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
-    return amountInput.getTypedValue(true, showToUser);
+    return validateAmountInput(amountInput, showToUser);
   }
 
-  protected BigDecimal validateAmountInput(AmountEditText input, boolean showToUser) {
-    return input.validate(showToUser);
+  protected BigDecimal validateAmountInput(AmountInput input, boolean showToUser) {
+    return input.getTypedValue(true, showToUser);
   }
 
-  public void showCalculator(View view) {
-    ViewGroup row = (ViewGroup) view.getParent();
-    if (row instanceof AmountInput) {
-      showCalculatorInternal(((AmountInput) row).validate(false), row.getId());
-    } else {
-      for (int itemPos = 0; itemPos < row.getChildCount(); itemPos++) {
-        View input = row.getChildAt(itemPos);
-        if (input instanceof AmountEditText) {
-          showCalculatorInternal(((AmountEditText) input).validate(false), input.getId());
-          break;
-        }
-      }
-    }
-  }
-
-  private void showCalculatorInternal(BigDecimal amount, int id) {
+  @Override
+  public void showCalculator(BigDecimal amount, int id) {
     Intent intent = new Intent(this, CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
     if (amount != null) {

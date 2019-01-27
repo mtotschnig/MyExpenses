@@ -19,6 +19,15 @@
 
     <include layout="@layout/type_switch"/>
 
+    <Spinner
+        android:id="@+id/Currency"
+        style="@style/FormField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:prompt="@string/currency"/>
+
     <org.totschnig.myexpenses.ui.AmountEditText
         android:id="@+id/AmountEditText"
         android:layout_width="0dp"
