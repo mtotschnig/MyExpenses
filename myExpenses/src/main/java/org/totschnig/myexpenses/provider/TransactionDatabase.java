@@ -1666,6 +1666,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             " BEGIN SELECT RAISE (FAIL, 'split category can not be deleted'); " +
             " END;");
       }
+
       if (oldVersion < 69) {
         //repair missed trigger recreation
         createOrRefreshAccountTriggers(db);
@@ -1690,6 +1691,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE accounts add column sort_direction text not null check (sort_direction in " +
             "('ASC','DESC')) default 'DESC'");
       }
+
       if (oldVersion < 71) {
         db.execSQL("CREATE TABLE account_exchangerates (account_id integer not null references accounts(_id) ON DELETE CASCADE," +
             "currency_self text not null, currency_other text not null, exchange_rate real not null, " +
@@ -1701,6 +1703,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE changes add column original_currency text");
         db.execSQL("ALTER TABLE changes add column equivalent_amount integer");
       }
+
       if (oldVersion < 72) {
         //add new change type
         db.execSQL("ALTER TABLE changes RENAME to changes_old");
@@ -1720,15 +1723,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
       }
+
       if (oldVersion < 73) {
         db.execSQL("ALTER TABLE transactions add column value_date");
         db.execSQL("ALTER TABLE changes add column value_date");
         createOrRefreshChangelogTriggers(db);
       }
+
       if (oldVersion < 74) {
         //repair transfers that have not been synced correctly
         db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
       }
+
       if (oldVersion < 75) {
         //repair broken settings table
         db.execSQL("ALTER TABLE settings RENAME to settings_old");
@@ -1740,10 +1746,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 76) {
         db.execSQL("ALTER TABLE accounts add column criterion integer");
       }
+
       if (oldVersion < 77) {
         db.execSQL("DROP INDEX transactions_account_uuid");
         db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(uuid,account_id,status)");
       }
+
       if (oldVersion < 78) {
         db.execSQL("ALTER TABLE categories add column color integer");
         Cursor c = db.query("categories", new String[]{"_id"}, "parent_id is null", null, null, null, KEY_USAGES);
@@ -1761,10 +1769,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
+
       if (oldVersion < 79) {
         db.execSQL("DROP INDEX if exists transactions_account_uuid_index");
         db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid_index ON transactions(account_id,uuid,status)");
       }
+
       if (oldVersion < 80) {
         db.execSQL("CREATE TABLE budgets (_id integer primary key autoincrement," +
             "grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')), budget integer not null, "
@@ -1809,6 +1819,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
+
       if (oldVersion < 81) {
         db.execSQL("ALTER TABLE currency add column label text");
         //add foreign key link to currency table
@@ -1828,9 +1839,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "FROM accounts_old");
         db.execSQL("DROP TABLE accounts_old");
       }
+
       if (oldVersion < 82) {
         createOrRefreshAccountTriggers(db);
       }
+
       if (oldVersion < 83) {
         final String auto_backup_cloud = MyApplication.getInstance().getSettings().getString("auto_backup_cloud", null);
         if (auto_backup_cloud != null) {
@@ -1840,6 +1853,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           db.insert("settings", null, values);
         }
       }
+      
       if (oldVersion < 84) {
         db.execSQL("CREATE UNIQUE INDEX budgets_type_account ON budgets(grouping,account_id)");
         db.execSQL("CREATE UNIQUE INDEX budgets_type_currency ON budgets(grouping,currency);");
