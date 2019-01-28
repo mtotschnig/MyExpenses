@@ -36,7 +36,6 @@ tr:
       plans_unlimited: <b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı
       distribution: "<b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin"
       split_transaction: "<b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)"
-      security_question: Unuttuğunuz parolanızın hatırlatılması için <b>güvenlik sorusu</b> belirlemek
       template_widget: Ana ekran <b>widget'inden</b> hızlı <b>şablon</b> seçimi
       print: Muamele listesini bir PDF dosyasına <b>yazdırma</b>
       attach_picture: "<b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme"

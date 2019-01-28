@@ -46,7 +46,6 @@ de:
       plans_unlimited: Unbegrenzte Anzahl von Plänen für <b>wiederkehrende</b> Buchungen
       distribution: "<b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)"
       split_transaction: "<b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
-      security_question: Definieren Sie eine <b>Sicherheitsfrage</b> für die Wiederherstellung eines verlorenen Passworts
       template_widget: Schnelle Auswahl von <b>Vorlagen</b> über <b>Widget</b> am Startbildschirm
       print: <b>Drucken</b> der Buchungsliste in eine PDF-Datei
       attach_picture: "<b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen"

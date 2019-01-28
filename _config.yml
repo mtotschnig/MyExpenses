@@ -27,7 +27,6 @@ contrib:
   - plans_unlimited
   - template_widget
   - split_transaction
-  - security_question
   - attach_picture
   - ad_free
 extended:

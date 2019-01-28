@@ -36,7 +36,6 @@ ms:
       plans_unlimited: Bilangan plan tanpa had untuk transaksi <b>berulang</b>
       distribution: "<b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)"
       split_transaction: "<b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)"
-      security_question: Takrifkan <b>soalan keselematan</b> untuk memulihkan kata laluan yang terlupa
       template_widget: Pemilihan <b>templat</b> secara pantas melalui <b>widgjt</b> skrin rumah
       print: <b>Cetak</b> senarai transaksi ke dalam fail PDF
       attach_picture: "<b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri"

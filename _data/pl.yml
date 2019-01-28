@@ -36,7 +36,6 @@ pl:
       plans_unlimited: Nieograniczona liczba planów dla <b>powtarzających się</b> transakcji
       distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)"
       split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)"
-      security_question: Zdefiniuj <b>pytanie dotyczące bezpieczeństwa</b>, aby odzyskać utracone hasło
       template_widget: Szybki wybór <b>szablonu</b> z ekranu głównego <b>widżetu</b>
       print: <b>Drukuj</b> listę transakcji do pliku PDF
       attach_picture: "<b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii"

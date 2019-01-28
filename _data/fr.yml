@@ -46,7 +46,6 @@ fr:
       plans_unlimited: Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
       distribution: "<b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)"
       split_transaction: "<b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)"
-      security_question: Définir une <b>question de sécurité</b> pour récupérer un mot de passe perdu
       template_widget: Sélection rapide du <b>modèle</b> à partir d'un <b>widget</b> de l'écran d'accueil
       print: <b>Imprimer</b> la liste des opérations dans un fichier PDF
       attach_picture: "<b>Image jointe</b>: Capture par caméra ou sélection dans la galerie"

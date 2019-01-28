@@ -46,7 +46,6 @@ it:
       plans_unlimited: Numero illimitato di piani per le transazioni <b> ricorrenti </b>
       distribution: "<b> Grafico a torta </b>: visualizza la distribuzione statistica delle transazioni per categoria su periodi diversi (anni, mesi, settimane, giorni)"
       split_transaction: "<b> Transazione frazionata </b>: una singola transazione può essere suddivisa in più parti (categorie e trasferimenti)"
-      security_question: Imposta una <b> domanda di sicurezza </b> per recuperare la password in caso di smarrimento
       template_widget: Selezione rapida del <b> modello</b> dal <b> widget </b> della schermata iniziale
       print: <b> Esporta </b>l'elenco delle transazioni in un file PDF
       attach_picture: "<b> Allega immagine </b>: acquisisci tramite fotocamera o seleziona dalla galleria"

@@ -36,7 +36,6 @@ es:
       plans_unlimited: Número de proyectos ilimitados para transacciones <b>recurrentes</b>
       distribution: "<b>Gráfico de sectores</b>: visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)"
       split_transaction: "<b>Transacción dividida</b>: una transacción puede separarse en diferentes partes (categorías y transferencias)"
-      security_question: Defina una <b>pregunta de seguridad</b> para recuperar una contraseña perdida
       template_widget: Selección de una <b>plantilla</b> rápidamente desde el <b>widget</b> en la pantalla de inicio
       print: <b>Imprima</b> la lista de transacciones en un archivo PDF
       attach_picture: "<b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada desde galería"

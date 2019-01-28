@@ -46,7 +46,6 @@ en:
       plans_unlimited:    Unlimited number of plans for <b>recurring</b> transactions
       distribution:       "<b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)"
       split_transaction:  "<b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)"
-      security_question:  Define a <b>security question</b> for recovering a lost password
       template_widget:    Quick <b>template</b> selection from homescreen <b>widget</b>
       print: <b>Print</b> the transaction list to a PDF file
       attach_picture: "<b>Image attachment</b>: Capture via camera or select from gallery"
