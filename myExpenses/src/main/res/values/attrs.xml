@@ -33,4 +33,9 @@
     <attr name="textSizeLarge" format="dimension" />
     <attr name="account_color_indicator_diameter" format="dimension" />
     <attr name="category_color_indicator_diameter" format="dimension" />
+
+    <declare-styleable name="AmountInput">
+        <attr name="withTypeSwitch" format="boolean"/>
+        <attr name="withCurrencySelection" format="boolean"/>
+    </declare-styleable>
 </resources>
