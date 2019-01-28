@@ -100,7 +100,6 @@ import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ButtonWithDialog;
 import org.totschnig.myexpenses.ui.DateButton;
@@ -1150,8 +1149,8 @@ public class ExpenseEdit extends AmountActivity implements
     if (amount.signum() != 0) {
       amountInput.setAmount(amount);
     }
-    amountInput.getAmountEditText().requestFocus();
-    amountInput.getAmountEditText().selectAll();
+    amountInput.requestFocus();
+    amountInput.selectAll();
   }
 
   protected void saveState() {
@@ -1236,7 +1235,7 @@ public class ExpenseEdit extends AmountActivity implements
               transferAmount = transferAmount.negate();
             }
             mTransaction.setAmount(new Money(transferAccount.getCurrencyUnit(), transferAmount));
-            amountInput.getAmountEditText().setError(null);
+            amountInput.setError(null);
             validP = true; //we only need either amount or transfer amount
           }
         }
@@ -2185,7 +2184,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
           int columnIndexAmount = data.getColumnIndex(KEY_AMOUNT);
           int columnIndexCurrency = data.getColumnIndex(KEY_CURRENCY);
-          if (TextUtils.isEmpty(amountInput.getAmountEditText().getText().toString()) && columnIndexAmount != -1 && columnIndexCurrency != -1) {
+          if (validateAmountInput(amountInput,false) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
             boolean beforeType = isIncome();
             fillAmount(new Money(currencyContext.get(data.getString(columnIndexCurrency)), data.getLong(columnIndexAmount)).getAmountMajor());
             configureType();
@@ -2483,7 +2482,6 @@ public class ExpenseEdit extends AmountActivity implements
 
     @Override
     public void afterExchangeRateChanged(BigDecimal rate, BigDecimal inverse) {
-      AmountEditText amountEditText = amountInput.getAmountEditText();
       if (isProcessingLinkedAmountInputs) return;
       isProcessingLinkedAmountInputs = true;
 

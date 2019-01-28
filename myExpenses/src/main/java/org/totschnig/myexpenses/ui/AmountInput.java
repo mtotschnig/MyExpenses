@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CalculatorInput;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -30,8 +28,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public class AmountInput extends LinearLayout {
   @BindView(R.id.TaType)
@@ -163,11 +159,6 @@ public class AmountInput extends LinearLayout {
     typeButton.setChecked(type);
   }
 
-  @Deprecated
-  public AmountEditText getAmountEditText() {
-    return amountEditText;
-  }
-
   public void setFractionDigits(int i) {
     amountEditText.setFractionDigits(i);
   }
@@ -229,6 +220,14 @@ public class AmountInput extends LinearLayout {
 
   public Currency getSelectedCurrency() {
     return (Currency) currencySpinner.getSelectedItem();
+  }
+
+  public void selectAll() {
+    amountEditText.selectAll();
+  }
+
+  public void setError(CharSequence error) {
+    amountEditText.setError(error);
   }
 
   public interface TypeChangedListener {
