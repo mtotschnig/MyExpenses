@@ -1853,10 +1853,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           db.insert("settings", null, values);
         }
       }
-      
+
       if (oldVersion < 84) {
-        db.execSQL("CREATE UNIQUE INDEX budgets_type_account ON budgets(grouping,account_id)");
-        db.execSQL("CREATE UNIQUE INDEX budgets_type_currency ON budgets(grouping,currency);");
+        try {
+          db.execSQL("CREATE UNIQUE INDEX budgets_type_account ON budgets(grouping,account_id)");
+          db.execSQL("CREATE UNIQUE INDEX budgets_type_currency ON budgets(grouping,currency);");
+        } catch (SQLException e) {
+          // We got one report where this failed, because there were already multiple budgets for
+          // account /grouping pairs. At the moment, we silently live without the index.
+          // TODO cleanup that deletes one of these, if unused.
+          Timber.e(e);
+        }
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
