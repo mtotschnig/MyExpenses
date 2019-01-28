@@ -63,7 +63,7 @@ public class BudgetFragment extends DistributionBaseFragment {
 
   @Override
   protected QueryObservable createQuery() {
-    String accountSelector = null, sortOrder;
+    String accountSelector = null;
     String[] selectionArgs, projection;
     String catFilter;
     String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
