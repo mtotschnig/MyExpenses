@@ -17,8 +17,8 @@ import com.jraska.falcon.FalconSpoonRule;
 
 import junit.framework.Assert;
 
+import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.BuildConfig;
@@ -46,7 +46,6 @@ import static org.totschnig.myexpenses.testutils.Matchers.first;
 /**
  * These tests are meant to be run with Spoon (./gradlew spoon). Remove @Ignore first
  */
-@Ignore
 public class TestMain extends BaseUiTest {
   private MyApplication app;
   private Context instCtx;
@@ -64,6 +63,7 @@ public class TestMain extends BaseUiTest {
 
   @Test
   public void mkScreenShots() {
+    Assume.assumeFalse("undefined".equals(BuildConfig.TEST_CURRENCY));
     defaultCurrency = Currency.getInstance(BuildConfig.TEST_CURRENCY);
     loadFixture();
     scenario(BuildConfig.TEST_SCENARIO);

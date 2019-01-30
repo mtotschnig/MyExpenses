@@ -91,9 +91,9 @@ android {
             applicationIdSuffix ".fortest"
             manifestPlaceholders = [appName: "My Expenses Test", debug: "true"]
             matchingFallbacks = ['debug']
-            buildConfigField "String", "TEST_LANG", quote(getPropertyIfDefined("testLang", "en"))
-            buildConfigField "String", "TEST_COUNTRY", quote(getPropertyIfDefined("testCountry", "US"))
-            buildConfigField "String", "TEST_CURRENCY", quote(getPropertyIfDefined("testCurrency", "USD"))
+            buildConfigField "String", "TEST_LANG", quote(getPropertyIfDefined("testLang", "undefined"))
+            buildConfigField "String", "TEST_COUNTRY", quote(getPropertyIfDefined("testCountry", "undefined"))
+            buildConfigField "String", "TEST_CURRENCY", quote(getPropertyIfDefined("testCurrency", "undefined"))
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
         }
     }
