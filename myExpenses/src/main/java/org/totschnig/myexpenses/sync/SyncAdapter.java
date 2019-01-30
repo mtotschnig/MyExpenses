@@ -185,7 +185,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       } else if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
         notifyWithResolution((SyncBackendProvider.ResolvableSetupException) throwable);
       } else {
-        log().w(throwable, "Error setting up account.");
+        log().e(throwable, "Error setting up account.");
         syncResult.stats.numIoExceptions++;
         syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
         appendToNotification(TextUtils.concatResStrings(getContext(), " ",
@@ -422,7 +422,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
               getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null, null);
         } catch (Exception e) {
-          log().w(e);
+          log().e(e);
           if (!handleAuthException(backend, e, account)) {
             notifyUser(getContext().getString(R.string.pref_auto_backup_title),
                 getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
