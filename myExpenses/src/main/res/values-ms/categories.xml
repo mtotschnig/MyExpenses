@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">Pendapatan lain</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>Faedah penggangguran</item>
+        <item>Elaun keluarga</item>
+        <item>Kredit cukai</item>
+        <item>Perjudian</item>
+        <item>Insurans bersama</item>
+        <item>Sekuriti sosial</item>
+    </string-array>
+    <string name="Main_2">Persaraan</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>Dana Persaraan</item>
+        <item>Pencen</item>
+        <item>Pencen tambahan</item>
+    </string-array>
+    <string name="Main_3">Pendapatan pelaburan</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>Dividen</item>
+        <item>Faedah</item>
+        <item>Laba modal</item>
+    </string-array>
+    <string name="Main_4">Gaji</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>Lebih masa</item>
+        <item>Elaun cuti</item>
+        <item>Premium pelbagai</item>
+        <item>Bayaran kejayaan</item>
+        <item>Gaji bersih</item>
+    </string-array>
+    <string name="Main_5">Pendapatan pelbagai</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>Hadiah</item>
+        <item>Bayaran balik</item>
+        <item>Jualan terpakai</item>
+    </string-array>
+    <string name="Main_6">Makanan</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>Bar</item>
+        <item>Pembuat roti</item>
+        <item>Kantin</item>
+        <item>Manisan</item>
+        <item>Barang runcit</item>
+        <item>Restoran</item>
+        <item>Layan diri</item>
+        <item>Supermarket</item>
+    </string-array>
+    <string name="Main_7">Haiwan kesayangan</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>Makanan</item>
+        <item>Pelbagai bekalan</item>
+        <item>Dandanan</item>
+        <item>Doktor haiwan</item>
+    </string-array>
+    <string name="Main_8">Insurans</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>Kereta</item>
+        <item>Kesihatan</item>
+        <item>Rumah</item>
+        <item>Liabiliti awam</item>
+        <item>Hayat</item>
+    </string-array>
+    <string name="Main_9">Kereta</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>Bahan Api</item>
+        <item>Baik pulih</item>
+        <item>Penyelenggaraan</item>
+        <item>Parkir</item>
+        <item>Denda</item>
+    </string-array>
+    <string name="Main_10">Hadiah</string>
+    <string name="Main_11">Anak</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>Jururawat</item>
+        <item>Pembelajaran</item>
+    </string-array>
+    <string name="Main_12">Pembelajaran</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>Pelajaran</item>
+        <item>Yuran sekolah</item>
+        <item>Buku</item>
+    </string-array>
+    <string name="Main_13">Perbelanjaan kewangan</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>Bayaran bank</item>
+        <item>Pinjaman/Gadaian</item>
+        <item>Bayaran</item>
+        <item>Bayaran balik</item>
+    </string-array>
+    <string name="Main_14">Pembelanjaan profesional</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>Tidak boleh bayar balik</item>
+        <item>Boleh bayar balik</item>
+    </string-array>
+    <string name="Main_15">Cukai</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>Pendapatan</item>
+        <item>Hartanah</item>
+    </string-array>
+    <string name="Main_16">Perumahan</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>Hotel</item>
+        <item>Sewa</item>
+        <item>TV</item>
+        <item>Perabot</item>
+        <item>Bayaran</item>
+        <item>Pemanasan</item>
+        <item>Hiasan</item>
+        <item>Air</item>
+        <item>Elektrik</item>
+        <item>Kelengkapan rumah</item>
+        <item>Peralatan</item>
+        <item>Gas</item>
+        <item>Kebun</item>
+        <item>Pengurus rumah tangga</item>
+        <item>Telefon</item>
+        <item>Telefon Bimbit</item>
+    </string-array>
+    <string name="Main_17">Hiburan</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>Snooker</item>
+        <item>Bowling</item>
+        <item>Cereka</item>
+        <item>Kelab malam</item>
+        <item>IT</item>
+        <item>Permainan</item>
+        <item>Buku</item>
+        <item>Taman</item>
+        <item>Konsert</item>
+        <item>Sukan</item>
+        <item>Video</item>
+        <item>Pelancongan</item>
+        <item>Peralatan</item>
+        <item>Muzium/Pameran</item>
+    </string-array>
+    <string name="Main_18">Pinjaman/Gadaian</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>Modal</item>
+    </string-array>
+    <string name="Main_19">Kesihatan</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>Insurans</item>
+        <item>Pergigian</item>
+        <item>Hospital</item>
+        <item>Kinesiterapi</item>
+        <item>Doktor</item>
+        <item>Ahli oftalmologi	</item>
+        <item>Osteopath</item>
+        <item>Ahli kimia</item>
+        <item>Sekuriti sosial</item>
+    </string-array>
+    <string name="Main_20">Penjagaan</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>Pendandan rambut</item>
+        <item>Pakaian</item>
+    </string-array>
+    <string name="Main_21">Pengangkutan</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>Bas</item>
+        <item>Metro</item>
+        <item>Tol</item>
+        <item>Keretapi</item>
+        <item>Trem</item>
+        <item>Pesawat terbang</item>
+    </string-array>
+    <string name="Main_22">Percutian</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>Perumahan</item>
+        <item>Ziarah</item>
+        <item>Pelancongan</item>
+    </string-array>
+</resources>

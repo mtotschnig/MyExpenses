@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">Inne przychody</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>Zasiłek dla bezrobotnych</item>
+        <item>Rodzinne kieszonkowe</item>
+        <item>Ulga podatkowa</item>
+        <item>Hazard</item>
+        <item>Wzajemne ubezpieczenia</item>
+        <item>Bezpieczeństwo społeczne</item>
+    </string-array>
+    <string name="Main_2">Przejście na emeryturę</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>Fundusz emerytalny</item>
+        <item>Renta</item>
+        <item>Dodatkowa renta</item>
+    </string-array>
+    <string name="Main_3">Dochody z inwestycji</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>Dywidenda</item>
+        <item>Odsetki</item>
+        <item>Zyski kapitałowe</item>
+    </string-array>
+    <string name="Main_4">Wynagrodzenie</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>Nadgodziny</item>
+        <item>Pozostawiony zasiłek</item>
+        <item>Różne składki</item>
+        <item>Opłata za sukces</item>
+        <item>Wynagrodzenie netto</item>
+    </string-array>
+    <string name="Main_5">Różne przychody</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>Prezenty</item>
+        <item>Spłaty</item>
+        <item>Sprzedaż z drugiej ręki</item>
+    </string-array>
+    <string name="Main_6">Pokarm</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>Bar</item>
+        <item>Piekarnia</item>
+        <item>Stołówka</item>
+        <item>Słodzycze</item>
+        <item>Sklep spożywczy</item>
+        <item>Restauracja</item>
+        <item>Samoobsługa</item>
+        <item>Supermarket</item>
+    </string-array>
+    <string name="Main_7">Zwierzęta</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>Pokarm</item>
+        <item>Różne materiały</item>
+        <item>Kosmetyczka</item>
+        <item>Weterynarz</item>
+    </string-array>
+    <string name="Main_8">Ubezpieczenie</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>Samochód</item>
+        <item>Zdrowie</item>
+        <item>Dom</item>
+        <item>Odpowiedzialność cywilna</item>
+        <item>Życie</item>
+    </string-array>
+    <string name="Main_9">Samochód</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>Paliwo</item>
+        <item>Naprawy</item>
+        <item>Utrzymanie</item>
+        <item>Parking</item>
+        <item>Grzywny</item>
+    </string-array>
+    <string name="Main_10">Prezenty</string>
+    <string name="Main_11">Dzieci</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>Pielęgniarka</item>
+        <item>Nauka</item>
+    </string-array>
+    <string name="Main_12">Nauka</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>Lekcje</item>
+        <item>Opłaty za szkołę</item>
+        <item>Książki</item>
+    </string-array>
+    <string name="Main_13">Wydatki finansowe</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>Opłaty bankowe</item>
+        <item>Pożyczka/Hipoteka</item>
+        <item>Opłaty</item>
+        <item>Zwroty</item>
+    </string-array>
+    <string name="Main_14">Profesjonalne wydatki</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>Bez możliwości zwrotu</item>
+        <item>Z możliwością zwrotu</item>
+    </string-array>
+    <string name="Main_15">Wydatki</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>Dochody</item>
+        <item>Ziemia</item>
+    </string-array>
+    <string name="Main_16">Zakwaterowanie</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>Hotel</item>
+        <item>Wynajem</item>
+        <item>Telewizja</item>
+        <item>Meble</item>
+        <item>Opłaty</item>
+        <item>Ogrzewanie</item>
+        <item>Dekoracje</item>
+        <item>Woda</item>
+        <item>Elektryczność</item>
+        <item>AGD</item>
+        <item>Ekwipunek</item>
+        <item>Gaz</item>
+        <item>Ogród</item>
+        <item>Opieka nad domem</item>
+        <item>Telefon</item>
+        <item>Telefon komórkowy</item>
+    </string-array>
+    <string name="Main_17">Wypoczynek</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>Snooker</item>
+        <item>Kręgle</item>
+        <item>Filmy</item>
+        <item>Klub nocny</item>
+        <item>IT</item>
+        <item>Gry</item>
+        <item>Książki</item>
+        <item>Parki</item>
+        <item>Koncerty</item>
+        <item>Sport</item>
+        <item>Wideo</item>
+        <item>Podróże</item>
+        <item>Ekwipunek</item>
+        <item>Muzea/Wystawy</item>
+    </string-array>
+    <string name="Main_18">Pożyczka/Hipoteka</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>Kapitał</item>
+    </string-array>
+    <string name="Main_19">Zdrowie</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>Ubezpieczenie</item>
+        <item>Dentysta</item>
+        <item>Szpital</item>
+        <item>Kinezyterapeuta</item>
+        <item>Doktor</item>
+        <item>Okulista</item>
+        <item>Osteopata</item>
+        <item>Aptekarz</item>
+        <item>Bezpieczeństwo społeczne</item>
+    </string-array>
+    <string name="Main_20">Pielęgnacja</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>Fryzjer</item>
+        <item>Ubrania</item>
+    </string-array>
+    <string name="Main_21">Transport</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>Autobus</item>
+        <item>Metro</item>
+        <item>Myto</item>
+        <item>Pociąg</item>
+        <item>Tramwaj</item>
+        <item>Samolot</item>
+    </string-array>
+    <string name="Main_22">Wakacje</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>Zakwaterowanie</item>
+        <item>Wizyty</item>
+        <item>Podróże</item>
+    </string-array>
+</resources>

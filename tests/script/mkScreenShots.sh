@@ -28,7 +28,7 @@ esac
 
 FOLDER=${1}Screenshots
 LANGS="${@:2}"
-#./gradlew copyFileForFixture
+./gradlew copyFileForFixture
 mkScreenshots en US USD en-US
 mkScreenshots de DE EUR de-DE
 mkScreenshots fr FR EUR fr-FR
@@ -55,6 +55,7 @@ mkScreenshots eu ES EUR eu-ES
 mkScreenshots da DK DKK da-DK
 mkScreenshots iw IL ILS iw-IL
 mkScreenshots uk UA UAH uk
+mkScreenshots ko KO KRW ko
 
 
 

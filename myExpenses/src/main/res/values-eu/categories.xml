@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">Bestelako diru-sarrerak</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>Langabezia-subsidioa</item>
+        <item>Familia-laguntza</item>
+        <item>Zerga murrizketa</item>
+        <item>Apustuak</item>
+        <item>Mutuako asegurua</item>
+        <item>Segurtasun soziala</item>
+    </string-array>
+    <string name="Main_2">Erretiro-pentsioa</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>Erretiro fondoa</item>
+        <item>Pentsioa</item>
+        <item>Pentsio gehigarria</item>
+    </string-array>
+    <string name="Main_3">Inbertsioetako etekina</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>Dibidendua</item>
+        <item>Interesa</item>
+        <item>Kapitalaren irabazia</item>
+    </string-array>
+    <string name="Main_4">Soldata</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>Ordu estrak</item>
+        <item>Eszedentziarako laguntza</item>
+        <item>Askotariko gainordainak</item>
+        <item>Mozkinak</item>
+        <item>Soldata garbia</item>
+    </string-array>
+    <string name="Main_5">Askotariko diru-sarrerak</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>Opariak</item>
+        <item>Diru-itzultzeak</item>
+        <item>Bigarren eskuko salmentak</item>
+    </string-array>
+    <string name="Main_6">Janaria</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>Taberna</item>
+        <item>Okindegia</item>
+        <item>Jantokia</item>
+        <item>Gozokiak</item>
+        <item>Janari-denda</item>
+        <item>Jatetxea</item>
+        <item>Self-service</item>
+        <item>Supermerkatua</item>
+    </string-array>
+    <string name="Main_7">Maskotak</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>Janaria</item>
+        <item>Askotariko hornidurak</item>
+        <item>Atontzea</item>
+        <item>Albaitaria</item>
+    </string-array>
+    <string name="Main_8">Asegurua</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>Kotxea</item>
+        <item>Osasuna</item>
+        <item>Etxea</item>
+        <item>Erantzukizun zibila</item>
+        <item>Bizia</item>
+    </string-array>
+    <string name="Main_9">Kotxea</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>Erregaia</item>
+        <item>Konponketak</item>
+        <item>Mantentzea</item>
+        <item>Aparkalekua</item>
+        <item>Isunak</item>
+    </string-array>
+    <string name="Main_10">Opariak</string>
+    <string name="Main_11">Umeak</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>Erizaina</item>
+        <item>Ikasketak</item>
+    </string-array>
+    <string name="Main_12">Ikasketak</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>Klaseak</item>
+        <item>Eskolako kuotak</item>
+        <item>Liburuak</item>
+    </string-array>
+    <string name="Main_13">Finantza gastuak</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>Bankuaren karguak</item>
+        <item>Kreditua/Hipoteka</item>
+        <item>Karguak</item>
+        <item>Diru-itzulerak</item>
+    </string-array>
+    <string name="Main_14">Gastu profesionalak</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>Ez itzulgarria</item>
+        <item>Itzulgarria</item>
+    </string-array>
+    <string name="Main_15">Zergak</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>Diru-sarrera</item>
+        <item>Lurra</item>
+    </string-array>
+    <string name="Main_16">Ostatatzea</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>Hotela</item>
+        <item>Alokairua</item>
+        <item>Telebista</item>
+        <item>Altzairuak</item>
+        <item>Karguak</item>
+        <item>Berogailua</item>
+        <item>Apaindurak</item>
+        <item>Ura</item>
+        <item>Elektrizitatea</item>
+        <item>Etxetresna elektrikoak</item>
+        <item>Hornikuntzak</item>
+        <item>Gasa</item>
+        <item>Baratza/lorategia</item>
+        <item>Etxe zaintzailea</item>
+        <item>Telefonoa</item>
+        <item>Sakelako telefonoa</item>
+    </string-array>
+    <string name="Main_17">Aisialdia</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>Futbola</item>
+        <item>Frontoia</item>
+        <item>Zinema</item>
+        <item>Taberna/diskoteka</item>
+        <item>Teknologia</item>
+        <item>Jokoak</item>
+        <item>Liburuak</item>
+        <item>Barrakak</item>
+        <item>Kontzertuak</item>
+        <item>Kirola</item>
+        <item>Bideoak</item>
+        <item>Bidaiak</item>
+        <item>Hornikuntzak</item>
+        <item>Museoak/Esposizioak</item>
+    </string-array>
+    <string name="Main_18">Kreditua/Hipoteka</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>Kapitala</item>
+    </string-array>
+    <string name="Main_19">Osasuna</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>Asegurua</item>
+        <item>Dentista</item>
+        <item>Ospitalea</item>
+        <item>Fisioterapeuta</item>
+        <item>Osagilea</item>
+        <item>Oftalmologoa</item>
+        <item>Osteopata</item>
+        <item>Farmazia</item>
+        <item>Segurtasun soziala</item>
+    </string-array>
+    <string name="Main_20">Antontze pertsonala</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>Ile-apaindegia</item>
+        <item>Jantziak</item>
+    </string-array>
+    <string name="Main_21">Garraioa</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>Autobusa</item>
+        <item>Metroa</item>
+        <item>Bidesaria</item>
+        <item>Trena</item>
+        <item>Tranbia</item>
+        <item>Hegazkin</item>
+    </string-array>
+    <string name="Main_22">Oporrak</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>Ostatatzea</item>
+        <item>Bisitak</item>
+        <item>Bidaiak</item>
+    </string-array>
+</resources>

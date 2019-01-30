@@ -51,7 +51,7 @@ public class GrisbiImport extends ProtectedFragmentActivity {
   public void onSourceSelected(Uri mUri, boolean withCategories, boolean withParties) {
     getSupportFragmentManager()
         .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceGrisbiImport(true, mUri, withCategories, withParties),
+        .add(TaskExecutionFragment.newInstanceGrisbiImport(mUri, withCategories, withParties),
             ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
             0, 0, ProgressDialog.STYLE_HORIZONTAL, false), PROGRESS_TAG)

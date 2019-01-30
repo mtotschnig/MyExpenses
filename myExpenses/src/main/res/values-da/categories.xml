@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">Andre indtægter</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>Dagpenge</item>
+        <item>Børne- og ungeydelse</item>
+        <item>Skattefradrag</item>
+        <item>Gambling</item>
+        <item>Forsikringsselskaber</item>
+        <item>Social sikring</item>
+    </string-array>
+    <string name="Main_2">Folkepension</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>Pensionsopsparing</item>
+        <item>Pension</item>
+        <item>Supplerende pension</item>
+    </string-array>
+    <string name="Main_3">Avancer og udbytter fra investeringer</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>Dividende</item>
+        <item>Renter</item>
+        <item>Kursgevinst</item>
+    </string-array>
+    <string name="Main_4">Løn</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>Overarbejde</item>
+        <item>Feriepenge</item>
+        <item>Andre bonuser</item>
+        <item>Bonus</item>
+        <item>Nettoløn</item>
+    </string-array>
+    <string name="Main_5">Diverse indtægter</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>Gaver</item>
+        <item>Refundering</item>
+        <item>Second hand salg</item>
+    </string-array>
+    <string name="Main_6">Mad</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>Bar</item>
+        <item>Bager</item>
+        <item>Kantine</item>
+        <item>Slik</item>
+        <item>Købmand</item>
+        <item>Restaurant</item>
+        <item>Selvbetjening</item>
+        <item>Supermarked</item>
+    </string-array>
+    <string name="Main_7">Kæledyr</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>Mad</item>
+        <item>Div. varer</item>
+        <item>Plejeprodukter</item>
+        <item>Dyrlæge</item>
+    </string-array>
+    <string name="Main_8">Forsikring</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>Bil</item>
+        <item>Sundhed</item>
+        <item>Bolig</item>
+        <item>Ansvarsforsikring</item>
+        <item>Liv</item>
+    </string-array>
+    <string name="Main_9">Bil</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>Brændstof</item>
+        <item>Reparationer</item>
+        <item>Vedligeholdelse</item>
+        <item>Parkering</item>
+        <item>Bøder</item>
+    </string-array>
+    <string name="Main_10">Gaver</string>
+    <string name="Main_11">Børn</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>Børnepassning</item>
+        <item>Uddannelse</item>
+    </string-array>
+    <string name="Main_12">Uddannelse</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>Kurser</item>
+        <item>Skolepenge</item>
+        <item>Bøger</item>
+    </string-array>
+    <string name="Main_13">Finansielle omkostninger</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>Bankgebyrer</item>
+        <item>Lån/pant</item>
+        <item>Afgifter</item>
+        <item>Refundering</item>
+    </string-array>
+    <string name="Main_14">Udgifter i forbindelse med mit arbejde</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>Refunderes ikke</item>
+        <item>Refunderes</item>
+    </string-array>
+    <string name="Main_15">Skat</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>Indkomst</item>
+        <item>Jord</item>
+    </string-array>
+    <string name="Main_16">Overnatning</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>Hotel</item>
+        <item>Leje</item>
+        <item>TV</item>
+        <item>Møbler</item>
+        <item>Afgifter</item>
+        <item>Opvarmning</item>
+        <item>Dekoration</item>
+        <item>Vand</item>
+        <item>EL</item>
+        <item>Hårde hvidevarer</item>
+        <item>Udstyr</item>
+        <item>Gas</item>
+        <item>Have</item>
+        <item>Rengøringshjælp</item>
+        <item>Telefon</item>
+        <item>Mobil</item>
+    </string-array>
+    <string name="Main_17">Fritidsaktiviteter</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>Snooker</item>
+        <item>Bowling</item>
+        <item>Film</item>
+        <item>Natklub</item>
+        <item>IT</item>
+        <item>Spil</item>
+        <item>Bøger</item>
+        <item>Parker</item>
+        <item>Koncerter</item>
+        <item>Sport</item>
+        <item>Video</item>
+        <item>Rejser</item>
+        <item>Udstyr</item>
+        <item>Museer/udstillinger</item>
+    </string-array>
+    <string name="Main_18">Lån/pant</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>Kapital</item>
+    </string-array>
+    <string name="Main_19">Sundhed</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>Forsikring</item>
+        <item>Tandlæge</item>
+        <item>Sygehus</item>
+        <item>Fysioterapi</item>
+        <item>Læge</item>
+        <item>Øjenlæge</item>
+        <item>Kiropraktor</item>
+        <item>Apotek</item>
+        <item>Social sikring</item>
+    </string-array>
+    <string name="Main_20">Pleje</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>Frisør</item>
+        <item>Tøj</item>
+    </string-array>
+    <string name="Main_21">Transport</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>Bus</item>
+        <item>Metro</item>
+        <item>Vejafgift</item>
+        <item>Tog</item>
+        <item>Sporvogn</item>
+        <item>Fly</item>
+    </string-array>
+    <string name="Main_22">Ferie</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>Overnatning</item>
+        <item>Besøg</item>
+        <item>Rejser</item>
+    </string-array>
+</resources>

@@ -19,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -37,26 +36,23 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     this.withPartiesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_PARTIES);
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
-    this.externalP = b.getBoolean(TaskExecutionFragment.KEY_EXTERNAL);
-    this.sourceStr = externalP ? fileUri.getPath() :
-      this.taskExecutionFragment.getString(R.string.grisbi_import_default_source);
+    this.sourceStr = fileUri.getPath();
   }
 
-  String title;
+  private String title;
   private int max;
-  Uri fileUri;
-  String sourceStr;
-  boolean externalP;
+  private Uri fileUri;
+  private String sourceStr;
   /**
    * should we handle parties/categories?
    */
-  boolean withPartiesP, withCategoriesP;
+  private boolean withPartiesP, withCategoriesP;
   /**
    * this is set when we finish one phase (parsing, importing categories,
    * importing parties) so that we can adapt progress dialog in
    * onProgressUpdate
    */
-  boolean phaseChangedP = false;
+  private boolean phaseChangedP = false;
   private CategoryTree catTree;
   private ArrayList<String> partiesList;
 
@@ -77,33 +73,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     Result<Pair<CategoryTree, ArrayList<String>>> result;
 
     try {
-      if (externalP) {
-        catXML = app.getContentResolver().openInputStream(fileUri);
-      } else {
-
-        int defaultSourceResId = 0;
-        Locale locale = Locale.getDefault();
-        String language = locale.getLanguage().toLowerCase(Locale.US);
-        String country = locale.getCountry().toLowerCase(Locale.US);
-        if (!TextUtils.isEmpty(language)) {
-          if (!TextUtils.isEmpty(country)) {
-            defaultSourceResId = app.getResources().getIdentifier(
-                "cat_"+ language + "_" + country,
-                "raw",
-                app.getPackageName());
-          }
-          if (defaultSourceResId == 0) {
-            defaultSourceResId = app.getResources().getIdentifier(
-                "cat_"+ language,
-                "raw",
-                app.getPackageName());
-          }
-        }
-        if (defaultSourceResId == 0) {
-          defaultSourceResId = R.raw.cat_en;
-        }
-        catXML = app.getResources().openRawResource(defaultSourceResId);
-      } 
+      catXML = app.getContentResolver().openInputStream(fileUri);
       result = Utils.analyzeGrisbiFileWithSAX(catXML);
       if (result.isSuccess()) {
         catTree = result.getExtra().first;

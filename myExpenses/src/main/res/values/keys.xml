@@ -195,4 +195,6 @@
     <string-array name="whats_new_296" tools:ignore="UnusedResources">
         <item>@string/menu_budget</item>
     </string-array>
+    <string-array name="Sub_10" tools:ignore="InconsistentArrays">
+    </string-array>
 </resources>

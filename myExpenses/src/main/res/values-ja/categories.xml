@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">その他の収入</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>失業手当給付金</item>
+        <item>家族手当</item>
+        <item>税額控除</item>
+        <item>ギャンブル</item>
+        <item>相互保険</item>
+        <item>社会保障</item>
+    </string-array>
+    <string name="Main_2">退職金</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>退職資金</item>
+        <item>年金</item>
+        <item>補足年金</item>
+    </string-array>
+    <string name="Main_3">投資収益</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>配当金</item>
+        <item>利子</item>
+        <item>キャピタルゲイン</item>
+    </string-array>
+    <string name="Main_4">給与</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>残業代</item>
+        <item>休業手当</item>
+        <item>その他保険料</item>
+        <item>成功報酬</item>
+        <item>正味給与</item>
+    </string-array>
+    <string name="Main_5">雑所得</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>贈答品</item>
+        <item>払い戻し</item>
+        <item>中古品販売</item>
+    </string-array>
+    <string name="Main_6">食品</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>バー</item>
+        <item>パン</item>
+        <item>食堂</item>
+        <item>菓子</item>
+        <item>食料品店</item>
+        <item>レストラン</item>
+        <item>セルフサービス</item>
+        <item>スーパー</item>
+    </string-array>
+    <string name="Main_7">ペット</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>食品</item>
+        <item>様々な消耗品</item>
+        <item>グルーミング</item>
+        <item>獣医</item>
+    </string-array>
+    <string name="Main_8">保険</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>自動車</item>
+        <item>健康</item>
+        <item>住居</item>
+        <item>損害</item>
+        <item>生活</item>
+    </string-array>
+    <string name="Main_9">自動車</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>燃料</item>
+        <item>修理</item>
+        <item>メンテナンス</item>
+        <item>駐車代</item>
+        <item>罰金</item>
+    </string-array>
+    <string name="Main_10">贈答品</string>
+    <string name="Main_11">子供</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>看護士</item>
+        <item>学習</item>
+    </string-array>
+    <string name="Main_12">学習</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>レッスン</item>
+        <item>授業料</item>
+        <item>本</item>
+    </string-array>
+    <string name="Main_13">金融費用</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>銀行手数料</item>
+        <item>ローン/住宅ローン</item>
+        <item>料金</item>
+        <item>払い戻し</item>
+    </string-array>
+    <string name="Main_14">専門家費用</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>返金不可</item>
+        <item>返金可</item>
+    </string-array>
+    <string name="Main_15">税金</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>収入</item>
+        <item>土地</item>
+    </string-array>
+    <string name="Main_16">住宅</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>ホテル</item>
+        <item>家賃</item>
+        <item>テレビ</item>
+        <item>家具</item>
+        <item>料金</item>
+        <item>冷暖房</item>
+        <item>装飾</item>
+        <item>水道</item>
+        <item>電気</item>
+        <item>白物家電</item>
+        <item>設備</item>
+        <item>ガス</item>
+        <item>庭</item>
+        <item>家政婦</item>
+        <item>電話</item>
+        <item>携帯電話</item>
+    </string-array>
+    <string name="Main_17">余暇</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>ビリヤード</item>
+        <item>ボーリング</item>
+        <item>映画</item>
+        <item>ナイトクラブ</item>
+        <item>IT</item>
+        <item>ゲーム</item>
+        <item>本</item>
+        <item>公園</item>
+        <item>コンサート</item>
+        <item>スポーツ</item>
+        <item>ビデオ</item>
+        <item>旅行</item>
+        <item>設備</item>
+        <item>博物館/展示会</item>
+    </string-array>
+    <string name="Main_18">ローン/住宅ローン</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>資金</item>
+    </string-array>
+    <string name="Main_19">健康</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>保険</item>
+        <item>歯科医</item>
+        <item>病院</item>
+        <item>運動療法士</item>
+        <item>医者</item>
+        <item>眼科医</item>
+        <item>整骨医</item>
+        <item>薬剤師</item>
+        <item>社会保障</item>
+    </string-array>
+    <string name="Main_20">介護</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>美容師</item>
+        <item>衣類</item>
+    </string-array>
+    <string name="Main_21">交通費</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>バス</item>
+        <item>メトロ</item>
+        <item>通行料金</item>
+        <item>鉄道</item>
+        <item>路面電車</item>
+        <item>飛行機</item>
+    </string-array>
+    <string name="Main_22">休暇</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>住宅</item>
+        <item>訪問</item>
+        <item>旅行</item>
+    </string-array>
+</resources>

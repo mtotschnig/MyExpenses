@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">Други приходи</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>Обезщетения за безработица</item>
+        <item>Семейни надбавки</item>
+        <item>Данъчен кредит</item>
+        <item>Хазарт</item>
+        <item>Взаимно застраховане</item>
+        <item>Социално осигуряване</item>
+    </string-array>
+    <string name="Main_2">Пенсиониране</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>Пенсионен фонд</item>
+        <item>Пенсия</item>
+        <item>Допълнителна пенсия</item>
+    </string-array>
+    <string name="Main_3">Приход от инвестиции</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>Дивидент</item>
+        <item>Интерес</item>
+        <item>Капиталова печалба</item>
+    </string-array>
+    <string name="Main_4">Заплата</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>Извънреден труд</item>
+        <item>Отпуск</item>
+        <item>Премия</item>
+        <item>Награда за успех</item>
+        <item>Нетна заплата</item>
+    </string-array>
+    <string name="Main_5">Разни приходи</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>Подаръци</item>
+        <item>Върнати</item>
+        <item>Продажби втора ръка</item>
+    </string-array>
+    <string name="Main_6">Храна</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>Бар</item>
+        <item>Пекарна</item>
+        <item>Столова</item>
+        <item>Бонбони</item>
+        <item>Хранителни стоки</item>
+        <item>Ресторант</item>
+        <item>Самообслужване</item>
+        <item>Супермаркет</item>
+    </string-array>
+    <string name="Main_7">Домашни любимци</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>Храна</item>
+        <item>Разни припаси</item>
+        <item>Козметика</item>
+        <item>Ветеринарен лекар</item>
+    </string-array>
+    <string name="Main_8">Застраховане</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>Кола</item>
+        <item>Здраве</item>
+        <item>Жилище</item>
+        <item>Гражданска отговорност</item>
+        <item>Живот</item>
+    </string-array>
+    <string name="Main_9">Кола</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>Гориво</item>
+        <item>Ремонти</item>
+        <item>Поддръжка</item>
+        <item>Паркинг</item>
+        <item>Глоби</item>
+    </string-array>
+    <string name="Main_10">Подаръци</string>
+    <string name="Main_11">Деца</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>Детегледачка</item>
+        <item>Образование</item>
+    </string-array>
+    <string name="Main_12">Образование</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>Уроци</item>
+        <item>Училищни такси</item>
+        <item>Книги</item>
+    </string-array>
+    <string name="Main_13">Финансови разходи</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>Банкови такси</item>
+        <item>Заем/ипотека</item>
+        <item>Такси</item>
+        <item>Възстановяване</item>
+    </string-array>
+    <string name="Main_14">Професионални разходи</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>Невъзстановими</item>
+        <item>Възстановими</item>
+    </string-array>
+    <string name="Main_15">Данъци</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>Приходи общо</item>
+        <item>Земя</item>
+    </string-array>
+    <string name="Main_16">Квартира</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>Хотел</item>
+        <item>Наем</item>
+        <item>Телевизия</item>
+        <item>Мебели</item>
+        <item>Такси</item>
+        <item>Централно отопление</item>
+        <item>Украсяване</item>
+        <item>Вода</item>
+        <item>Електричество</item>
+        <item>Бяла техника</item>
+        <item>Обзавеждане</item>
+        <item>Газ</item>
+        <item>Градина</item>
+        <item>Портиер</item>
+        <item>Телефон</item>
+        <item>Мобилен телефон</item>
+    </string-array>
+    <string name="Main_17">Свободното време</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>Снукър</item>
+        <item>Боулинг</item>
+        <item>Филми</item>
+        <item>Нощен клуб</item>
+        <item>Той / Тя</item>
+        <item>Игри</item>
+        <item>Книги</item>
+        <item>Паркове</item>
+        <item>Концерти</item>
+        <item>Спорт</item>
+        <item>Видео</item>
+        <item>Пътни</item>
+        <item>Обзавеждане</item>
+        <item>Музеи/изложби</item>
+    </string-array>
+    <string name="Main_18">Заем/ипотека</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>Капитал</item>
+    </string-array>
+    <string name="Main_19">Здраве</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>Застраховане</item>
+        <item>Зъболекар</item>
+        <item>Болница</item>
+        <item>Кинезитерапевт</item>
+        <item>Лекар</item>
+        <item>Офталмолог</item>
+        <item>Остеопат</item>
+        <item>Лекарства</item>
+        <item>Социално осигуряване</item>
+    </string-array>
+    <string name="Main_20">Лични</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>Фризьорски салон</item>
+        <item>Облекло</item>
+    </string-array>
+    <string name="Main_21">Транспорт</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>Автобус</item>
+        <item>Метро</item>
+        <item>Такса</item>
+        <item>Влак</item>
+        <item>Трамвай</item>
+        <item>самолет</item>
+    </string-array>
+    <string name="Main_22">Ваканция</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>Квартира</item>
+        <item>Посещения</item>
+        <item>Пътни</item>
+    </string-array>
+</resources>

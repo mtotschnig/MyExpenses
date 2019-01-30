@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +26,6 @@ import android.view.View;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
@@ -160,21 +158,18 @@ public class ManageCategories extends CategoryActivity implements
   }
 
   private void importCats() {
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceGrisbiImport(false, null, true, false),
-            ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(
-            0, 0, ProgressDialog.STYLE_HORIZONTAL, false), PROGRESS_TAG)
-        .commit();
-
+    startTaskExecution(
+        TaskExecutionFragment.TASK_SETUP_CATEGORIES,
+        null,
+        null,
+        R.string.menu_categories_setup_default);
   }
 
   private void exportCats(String encoding) {
     Result appDirStatus = AppDirHelper.checkAppDir(this);
     if (appDirStatus.isSuccess()) {
       startTaskExecution(
-          TaskExecutionFragment.TASK_EXPORT_CATEGRIES,
+          TaskExecutionFragment.TASK_EXPORT_CATEGORIES,
           null,
           encoding,
           R.string.menu_categories_export);
@@ -233,7 +228,7 @@ public class ManageCategories extends CategoryActivity implements
     Result r = (Result) result;
     if (r.isSuccess()) {
       switch (taskId) {
-        case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
+        case TaskExecutionFragment.TASK_EXPORT_CATEGORIES:
           Result<Uri> uriResult = (Result<Uri>) result;
           Uri uri = uriResult.getExtra();
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {

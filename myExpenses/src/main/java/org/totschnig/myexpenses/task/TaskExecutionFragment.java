@@ -56,7 +56,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_WITH_CATEGORIES = "withCategories";
   public static final String KEY_WITH_TRANSACTIONS = "withTransactions";
   public static final String KEY_FILE_PATH = "filePath";
-  public static final String KEY_EXTERNAL = "external";
   public static final String KEY_DATE_FORMAT = "dateFormat";
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
@@ -98,7 +97,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_DELETE_IMAGES = 32;
   public static final int TASK_SAVE_IMAGES = 33;
   public static final int TASK_UNDELETE_TRANSACTION = 34;
-  public static final int TASK_EXPORT_CATEGRIES = 35;
+  public static final int TASK_EXPORT_CATEGORIES = 35;
   public static final int TASK_CSV_PARSE = 36;
   public static final int TASK_CSV_IMPORT = 37;
   public static final int TASK_MOVE_CATEGORY = 38;
@@ -130,6 +129,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_RESET_EQUIVALENT_AMOUNTS = 59;
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_CATEGORY_COLOR = 61;
+  public static final int TASK_SETUP_CATEGORIES = 62;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -172,12 +172,10 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceGrisbiImport(boolean external,
-                                                              Uri mUri, boolean withCategories, boolean withParties) {
+  public static TaskExecutionFragment newInstanceGrisbiImport(Uri mUri, boolean withCategories, boolean withParties) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_GRISBI_IMPORT);
-    bundle.putBoolean(KEY_EXTERNAL, external);
     bundle.putParcelable(KEY_FILE_PATH, mUri);
     bundle.putBoolean(KEY_WITH_PARTIES, withParties);
     bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
@@ -335,6 +333,11 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_ACCOUNT_SORT:
         new AccountSortTask(this, taskId).execute(args);
+        break;
+      case TASK_SETUP_CATEGORIES:
+        new CategoriesSetupTask(this, taskId).execute(args);
+        break;
+
       default:
         try {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

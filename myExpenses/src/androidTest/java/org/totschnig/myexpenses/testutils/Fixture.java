@@ -5,9 +5,7 @@ import android.app.Instrumentation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
-import android.support.v4.util.Pair;
 
 import junit.framework.Assert;
 
@@ -27,15 +25,11 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
 import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
@@ -100,7 +94,7 @@ public class Fixture {
     account4.save();
 
     //set up categories
-    setUpCategories(locale, appContext);
+    setUpCategories(appContext);
     //set up transactions
     long offset = System.currentTimeMillis();
     //are used twice
@@ -250,17 +244,10 @@ public class Fixture {
     Timber.d("Insert category budget: %d", result);
   }
 
-  private static void setUpCategories(Locale locale, Context appContext) {
-    int sourceRes = appContext.getResources().getIdentifier("cat_" + locale.getLanguage(), "raw", appContext.getPackageName());
-    InputStream catXML;
-    try {
-      catXML = appContext.getResources().openRawResource(sourceRes);
-    } catch (NotFoundException e) {
-      catXML = appContext.getResources().openRawResource(org.totschnig.myexpenses.R.raw.cat_en);
-    }
-
-    Result<Pair<CategoryTree, ArrayList<String>>> result = Utils.analyzeGrisbiFileWithSAX(catXML);
-    Utils.importCats(result.getExtra().first, null);
+  private static void setUpCategories(Context appContext) {
+    Timber.d("Set up %d categories", appContext.getContentResolver()
+        .call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SETUP_CATEGORIES, null, null)
+        .getInt(TransactionProvider.KEY_RESULT));
   }
 
   private static long findCat(String label, Long parent) {

@@ -49,7 +49,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.BackupUtils;
-import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -71,6 +70,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 
 public class TransactionProvider extends ContentProvider {
 
@@ -173,8 +173,9 @@ public class TransactionProvider extends ContentProvider {
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
+  public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
 
-  static final String TAG = "TransactionProvider";
+  public static final String KEY_RESULT = "result";
 
   private static final UriMatcher URI_MATCHER;
   //Basic tables
@@ -976,21 +977,6 @@ public class TransactionProvider extends ContentProvider {
     return id > 0 ? Uri.parse(newUri) : null;
   }
 
-  private int suggestNewCategoryColor(SQLiteDatabase db) {
-    String[] projection = new String[]{
-        "color",
-        "(select count(*) from categories where parent_id is null and color=t.color) as count"
-    };
-    Cursor cursor = db.query(ColorUtils.MAIN_COLORS_AS_TABLE(), projection, null, null, null, null, "count ASC", "1");
-    int result = 0;
-    if (cursor != null) {
-      cursor.moveToFirst();
-      result = cursor.getInt(0);
-      cursor.close();
-    }
-    return result;
-  }
-
   @Override
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty();
@@ -1595,6 +1581,12 @@ public class TransactionProvider extends ContentProvider {
           }
         }
         break;
+      }
+      case METHOD_SETUP_CATEGORIES: {
+        Bundle result = new Bundle(1);
+        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase()));
+        notifyChange(CATEGORIES_URI, false);
+        return result;
       }
     }
     return null;

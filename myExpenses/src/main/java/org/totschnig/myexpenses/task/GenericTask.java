@@ -381,7 +381,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           c.close();
         }
         return null;
-      case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
+      case TaskExecutionFragment.TASK_EXPORT_CATEGORIES:
         DocumentFile appDir = AppDirHelper.getAppDir(application);
         if (appDir == null) {
           return Result.ofFailure(R.string.external_storage_unavailable);
