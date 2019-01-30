@@ -207,6 +207,17 @@ public class DatabaseConstants {
   public static final String KEY_BUDGET = "budget";
 
   /**
+   * boolean flag for accounts: An archived account is not displayed
+   */
+  public static final String KEY_ARCHIVED = "archived";
+
+  /**
+   * boolean flag for accounts: A sealed account can no longer be edited
+   */
+  public static final String KEY_SEALED = "sealed";
+
+
+  /**
    * No special status
    */
   public static final int STATUS_NONE = 0;
