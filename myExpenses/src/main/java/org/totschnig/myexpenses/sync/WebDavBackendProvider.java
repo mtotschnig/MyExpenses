@@ -148,16 +148,19 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @NonNull
   @Override
   public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
-    return merge(Stream.of(filterDavResources(sequenceNumber)).map(this::getChangeSetFromDavResource))
-        .orElse(ChangeSet.empty(sequenceNumber));
+    List<ChangeSet> changeSetList = new ArrayList<>();
+    for (Pair<Integer, DavResource> davResourcePair: filterDavResources(sequenceNumber)) {
+      changeSetList.add(getChangeSetFromDavResource(davResourcePair));
+    }
+    return merge(changeSetList).orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getChangeSetFromDavResource(Pair<Integer, DavResource> davResource) {
+  private ChangeSet getChangeSetFromDavResource(Pair<Integer, DavResource> davResource) throws IOException {
     try {
       return getChangeSetFromInputStream(new SequenceNumber(davResource.first, getSequenceFromFileName(davResource.second.fileName())),
           davResource.second.get(getMimetypeForData()).byteStream());
-    } catch (IOException | HttpException | DavException e) {
-      return null;
+    } catch (HttpException | DavException e) {
+      throw new IOException(e);
     }
   }
 

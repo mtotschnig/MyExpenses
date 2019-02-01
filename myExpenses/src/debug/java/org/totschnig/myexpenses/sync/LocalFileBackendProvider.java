@@ -187,9 +187,10 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     for (Pair<Integer, File> file: filterFiles(sequenceNumber)) {
       changeSets.add(getChangeSetFromFile(file));
     }
-    return merge(Stream.of(changeSets)).orElse(ChangeSet.empty(sequenceNumber));
+    return merge(changeSets).orElse(ChangeSet.empty(sequenceNumber));
   }
 
+  @NonNull
   private ChangeSet getChangeSetFromFile(Pair<Integer, File> file) throws IOException {
     FileInputStream inputStream = new FileInputStream(file.second);
     return getChangeSetFromInputStream(

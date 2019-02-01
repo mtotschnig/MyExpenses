@@ -259,8 +259,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         Integer.parseInt(fileName.substring(1)) > sequenceNumber;
   }
 
-  protected Optional<ChangeSet> merge(Stream<ChangeSet> changeSetStream) {
-    return changeSetStream.reduce(ChangeSet::merge);
+  protected Optional<ChangeSet> merge(List<ChangeSet> changeSetStream) {
+    return Stream.of(changeSetStream).reduce(ChangeSet::merge);
   }
 
   int getSequenceFromFileName(String fileName) {

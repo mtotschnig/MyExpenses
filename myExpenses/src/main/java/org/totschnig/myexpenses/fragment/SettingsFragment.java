@@ -45,7 +45,6 @@ import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -272,7 +271,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         homeScreenShortcutPrefClickHandler : this);
     unsetIconSpaceReservedRecursive(preferenceScreen);
 
-    if (rootKey == null) {//ROOT screen
+    if (rootKey == null) { //ROOT screen
       findPreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
 
       pref = findPreference(RESTORE);
