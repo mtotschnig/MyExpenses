@@ -298,13 +298,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
             values, null, null);
         return null;
-      case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
-        values = new ContentValues();
-        values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean) mExtra);
-        cr.update(
-            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
-            values, null, null);
-        return null;
+      case TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS:
+        return updateBooleanAccountFieldFromExtra(cr, (Long) ids[0], DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) == 1 ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED:
+        return updateBooleanAccountFieldFromExtra(cr, (Long) ids[0], DatabaseConstants.KEY_SEALED) == 1 ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
+        return updateBooleanAccountFieldFromExtra(cr, (Long) ids[0], DatabaseConstants.KEY_HIDDEN) == 1 ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_DELETE_IMAGES:
         for (long id : (Long[]) ids) {
           Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
@@ -691,6 +690,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
     }
     return null;
+  }
+
+  private int updateBooleanAccountFieldFromExtra(ContentResolver cr, long accountId, String key) {
+    ContentValues values;
+    values = new ContentValues();
+    values.put(key, (Boolean) mExtra);
+    return cr.update(
+        TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(),
+        values, null, null);
   }
 
   @Nullable

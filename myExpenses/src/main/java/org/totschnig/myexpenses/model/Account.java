@@ -47,8 +47,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
@@ -73,6 +71,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -187,7 +186,7 @@ public class Account extends Model {
     PROJECTION_EXTENDED = new String[baseLength + 1];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_BUDGET;
-    PROJECTION_FULL = new String[baseLength + 13];
+    PROJECTION_FULL = new String[baseLength + 14];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_FULL, 0, baseLength);
     PROJECTION_FULL[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
     PROJECTION_FULL[baseLength + 1] = "(" + SELECT_AMOUNT_SUM +
@@ -213,6 +212,7 @@ public class Account extends Model {
     PROJECTION_FULL[baseLength + 10] = HAS_CLEARED;
     PROJECTION_FULL[baseLength + 11] = AccountType.sqlOrderExpression();
     PROJECTION_FULL[baseLength + 12] = KEY_LAST_USED;
+    PROJECTION_FULL[baseLength + 13] = KEY_SEALED;
 
   }
 
@@ -297,7 +297,6 @@ public class Account extends Model {
         null;
     context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
         where, validAccounts);
-    List<String> validAccountNames = Arrays.asList(validAccounts);
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {

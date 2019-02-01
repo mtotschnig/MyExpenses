@@ -209,7 +209,7 @@ public class DatabaseConstants {
   /**
    * boolean flag for accounts: An archived account is not displayed
    */
-  public static final String KEY_ARCHIVED = "archived";
+  public static final String KEY_HIDDEN = "hidden";
 
   /**
    * boolean flag for accounts: A sealed account can no longer be edited
@@ -239,26 +239,26 @@ public class DatabaseConstants {
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
-  public static final String TABLE_SYNC_STATE = "_sync_state";
+  static final String TABLE_SYNC_STATE = "_sync_state";
   public static final String TABLE_CATEGORIES = "categories";
   public static final String TABLE_METHODS = "paymentmethods";
-  public static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";
+  static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_CURRENCIES = "currency";
   public static final String VIEW_COMMITTED = "transactions_committed";
   public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";
-  public static final String VIEW_ALL = "transactions_all";
-  public static final String VIEW_TEMPLATES_ALL = "templates_all";
+  static final String VIEW_ALL = "transactions_all";
+  static final String VIEW_TEMPLATES_ALL = "templates_all";
   public static final String VIEW_TEMPLATES_UNCOMMITTED = "templates_uncommitted";
   public static final String VIEW_EXTENDED = "transactions_extended";
-  public static final String VIEW_CHANGES_EXTENDED = "changes_extended";
-  public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
+  static final String VIEW_CHANGES_EXTENDED = "changes_extended";
+  static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
-  public static final String TABLE_STALE_URIS = "stale_uris";
-  public static final String TABLE_CHANGES = "changes";
-  public static final String TABLE_SETTINGS = "settings";
-  public static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
+  static final String TABLE_STALE_URIS = "stale_uris";
+  static final String TABLE_CHANGES = "changes";
+  static final String TABLE_SETTINGS = "settings";
+  static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   /**
    * used on backup and restore
    */

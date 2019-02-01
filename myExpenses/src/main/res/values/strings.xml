@@ -201,6 +201,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Invert</string>
     <string name="menu_manage_plans">Templates and plans</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
     <string name="menu_open">Open</string>
     <string name="menu_import">Import</string>
     <string name="menu_print">Print</string>
@@ -825,4 +826,10 @@
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">or</string>
     <string name="pref_account_list_fast_scroll_summary">Enable fast scroll for account list. May lead to incorrect display on some devices</string>
+    <string name="warning_no_active_account">At least one account must be visible and open in order to create new transactions.</string>
+    <string name="menu_hide">Hide</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data -->
+    <string name="menu_close">Close</string>
+    <!-- Action of re-opening an account that had previously been closed -->
+    <string name="menu_reopen">Reopen</string>
 </resources>

@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -70,7 +70,7 @@ import eltos.simpledialogfragment.color.SimpleColorDialog;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_CHECK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS;
 
 /**
  * Activity for editing an account
@@ -321,7 +321,7 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
-      showSnackbar("Unknown error while saving account", Snackbar.LENGTH_SHORT);
+      complain();
       super.onPostExecute(result);
     } else {
       Intent intent = new Intent();
@@ -353,7 +353,19 @@ public class AccountEdit extends AmountActivity implements
           showHelp(r.print(this));
         }
         break;
+      case TASK_SET_EXCLUDE_FROM_TOTALS:
+        if (r.isSuccess()) {
+          mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
+          supportInvalidateOptionsMenu();
+        } else {
+          complain();
+        }
+        break;
     }
+  }
+
+  private void complain() {
+    showSnackbar("Unknown error while saving account", Snackbar.LENGTH_SHORT);
   }
 
   @Override
@@ -389,13 +401,11 @@ public class AccountEdit extends AmountActivity implements
     }
     switch (command) {
       case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
-        mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
         if (mAccount.getId() != 0) {
           startTaskExecution(
-              TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
+              TASK_SET_EXCLUDE_FROM_TOTALS,
               new Long[]{mAccount.getId()},
-              mAccount.excludeFromTotals, 0);
-          supportInvalidateOptionsMenu();
+              !mAccount.excludeFromTotals, 0);
         }
         return true;
       case R.id.SYNC_UNLINK_COMMAND:

@@ -58,7 +58,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ARCHIVED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -270,7 +270,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_UUID + " text, "
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
           + KEY_CRITERION + " integer,"
-          + KEY_ARCHIVED + " boolean default 0,"
+          + KEY_HIDDEN + " boolean default 0,"
           + KEY_SEALED + " boolean default 0);";
 
   private static final String SYNC_STATE_CREATE =

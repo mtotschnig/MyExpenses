@@ -129,10 +129,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
@@ -140,6 +142,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
 
 /**
  * This is the main activity where all expenses are listed
@@ -412,10 +416,12 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
     if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
-      menu.add(0, R.id.EDIT_ACCOUNT_COMMAND, 0, R.string.menu_edit);
-      if (mAccountsCursor.getCount() > 1) {
-        menu.add(0, R.id.DELETE_ACCOUNT_COMMAND, 0, R.string.menu_delete);
-      }
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.accounts_context, menu);
+      mAccountsCursor.moveToPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
+      final boolean isSealed = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_SEALED)) == 1;
+      menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
+      menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
     }
   }
 
@@ -645,8 +651,8 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.DELETE_ACCOUNT_COMMAND:
         closeDrawer();
         accountId = (Long) tag;
-        //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
-        if (mAccountsCursor.getCount() > 1 && accountId > 0) {
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
           final Account account = Account.getInstanceFromDb(accountId);
           if (account != null) {
             MessageDialogFragment.newInstance(
@@ -683,6 +689,39 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.ROADMAP_COMMAND : {
         Intent intent = new Intent(this, RoadmapVoteActivity.class);
         startActivity(intent);
+        return true;
+      }
+      case R.id.CLOSE_ACCOUNT_COMMAND: {
+        accountId = (Long) tag;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
+          startTaskExecution(
+              TASK_SET_ACCOUNT_SEALED,
+              new Long[]{accountId},
+              true, 0);
+        }
+        return true;
+      }
+      case R.id.REOPEN_ACCOUNT_COMMAND: {
+        accountId = (Long) tag;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
+          startTaskExecution(
+              TASK_SET_ACCOUNT_SEALED,
+              new Long[]{accountId},
+              false, 0);
+        }
+        return true;
+      }
+      case R.id.HIDE_ACCOUNT_COMMAND: {
+        accountId = (Long) tag;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
+          startTaskExecution(
+              TASK_SET_ACCOUNT_HIDDEN,
+              new Long[]{accountId},
+              true, 0);
+        }
         return true;
       }
     }
@@ -807,7 +846,7 @@ public class MyExpenses extends LaunchActivity implements
       case ACCOUNTS_CURSOR:
         Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
-        return new CursorLoader(this, builder.build(), null, null, null, null);
+        return new CursorLoader(this, builder.build(), null, KEY_HIDDEN + " = 0", null, null);
     }
     throw new IllegalStateException("Unknown loader id " + id);
   }
