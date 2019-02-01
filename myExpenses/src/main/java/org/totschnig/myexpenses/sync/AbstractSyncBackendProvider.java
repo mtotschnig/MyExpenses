@@ -185,7 +185,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return false;
   }
 
-  @Nullable
+  @NonNull
   ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
       throws IOException {
     List<TransactionChange> changes;
@@ -193,7 +193,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
     }
     if (changes == null || changes.size() == 0) {
-      return null;
+      return ChangeSet.empty(sequenceNumber);
     }
     for (ListIterator<TransactionChange> iterator = changes.listIterator(); iterator.hasNext(); ) {
       TransactionChange transactionChange = iterator.next();

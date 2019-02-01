@@ -183,6 +183,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     return merge(changeSetList).orElse(ChangeSet.empty(sequenceNumber));
   }
 
+  @NonNull
   private ChangeSet getChangeSetFromMetadata(Pair<Integer, Metadata> metadata) throws IOException {
     return getChangeSetFromInputStream(new SequenceNumber(metadata.first, getSequenceFromFileName(metadata.second.getName())),
         getInputStream(metadata.second.getPathLower()));

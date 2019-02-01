@@ -155,6 +155,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return merge(changeSetList).orElse(ChangeSet.empty(sequenceNumber));
   }
 
+  @NonNull
   private ChangeSet getChangeSetFromDavResource(Pair<Integer, DavResource> davResource) throws IOException {
     try {
       return getChangeSetFromInputStream(new SequenceNumber(davResource.first, getSequenceFromFileName(davResource.second.fileName())),
