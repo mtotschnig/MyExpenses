@@ -147,12 +147,12 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
+  public Optional<ChangeSet> getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
     List<ChangeSet> changeSetList = new ArrayList<>();
     for (Pair<Integer, DavResource> davResourcePair: filterDavResources(sequenceNumber)) {
       changeSetList.add(getChangeSetFromDavResource(davResourcePair));
     }
-    return merge(changeSetList).orElse(ChangeSet.empty(sequenceNumber));
+    return merge(changeSetList);
   }
 
   @NonNull

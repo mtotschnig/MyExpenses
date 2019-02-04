@@ -31,6 +31,7 @@ import android.util.SparseArray;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.apache.commons.collections4.ListUtils;
@@ -319,11 +320,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           boolean completedWithoutError = false;
           int successRemote2Local = 0, successLocal2Remote = 0;
           try {
-            ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
+            Optional<ChangeSet> changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
             List<TransactionChange> remoteChanges;
-            lastSyncedRemote = changeSetSince.sequenceNumber;
-            remoteChanges = changeSetSince.changes;
+            if (changeSetSince.isPresent()) {
+              lastSyncedRemote = changeSetSince.get().sequenceNumber;
+              remoteChanges = changeSetSince.get().changes;
+            } else {
+              remoteChanges = new ArrayList<>();
+            }
 
             List<TransactionChange> localChanges = new ArrayList<>();
 

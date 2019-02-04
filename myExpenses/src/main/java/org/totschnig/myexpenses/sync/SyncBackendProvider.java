@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.annimon.stream.Exceptional;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.model.Account;
@@ -29,7 +30,7 @@ public interface SyncBackendProvider {
   void unlock() throws IOException;
 
   @NonNull
-  ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException;
+  Optional<ChangeSet> getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException;
 
   @NonNull SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
 
