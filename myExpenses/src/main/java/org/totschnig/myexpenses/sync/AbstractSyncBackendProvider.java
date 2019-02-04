@@ -211,7 +211,6 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         }
       }
     }
-
     return ChangeSet.create(sequenceNumber, changes);
   }
 
@@ -291,14 +290,15 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
           isEncrypted() ? ".enc" : "");
       try {
         saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
-        return transactionChange.toBuilder().setPictureUri(newUri).build();
       } catch (IOException e) {
         if (e instanceof FileNotFoundException) {
+          newUri = null;
           log().e(e, "Picture was deleted, %s", transactionChange.pictureUri());
         } else {
           throw e;
         }
       }
+      return transactionChange.toBuilder().setPictureUri(newUri).build();
     }
     return transactionChange;
   }
