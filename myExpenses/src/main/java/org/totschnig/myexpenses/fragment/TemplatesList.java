@@ -56,7 +56,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
-import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -414,11 +413,19 @@ public class TemplatesList extends SortableListFragment
     }
   }
 
+  public void showSnackbar(String msg, int length) {
+    if (planMonthFragment != null) {
+      planMonthFragment.showSnackbar(msg, length);
+    } else {
+      ((ProtectedFragmentActivity) getActivity()).showSnackbar(msg, length);
+    }
+  }
+
   private static class RepairHandler extends Handler {
     private final WeakReference<TemplatesList> mFragment;
 
     public RepairHandler(TemplatesList fragment) {
-      mFragment = new WeakReference<TemplatesList>(fragment);
+      mFragment = new WeakReference<>(fragment);
     }
 
     @Override
