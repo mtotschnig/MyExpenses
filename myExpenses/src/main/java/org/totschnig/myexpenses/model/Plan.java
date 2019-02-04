@@ -13,6 +13,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendarcommon2.EventRecurrence;
 
+import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
@@ -63,7 +64,7 @@ public class Plan extends Model implements Serializable {
       }
     }
     private String calendarDay2String(int calendarDay) {
-      return EventRecurrence.day2String(EventRecurrence.calendarDay2Day(calendarDay));
+      return EventRecurrence.day2String(EventRecurrence.dayOfWeek2Day(DayOfWeek.of(calendarDay)));
     }
 
     public String getLabel(Context context) {
