@@ -826,7 +826,6 @@
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">or</string>
     <string name="pref_account_list_fast_scroll_summary">Enable fast scroll for account list. May lead to incorrect display on some devices</string>
-    <string name="warning_no_active_account">At least one account must be visible and open in order to create new transactions.</string>
     <string name="menu_hide">Hide</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data -->
     <string name="menu_close">Close</string>

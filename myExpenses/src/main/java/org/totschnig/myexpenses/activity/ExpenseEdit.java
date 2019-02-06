@@ -2092,7 +2092,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case ACCOUNTS_CURSOR:
         if (data.getCount() == 0) {
-          abortWithMessage(getString(R.string.warning_no_active_account));
+          abortWithMessage("At least one account must be visible and open in order to create new transactions.");
           return;
         }
         if (data.getCount() == 1 && mOperationType == TYPE_TRANSFER) {

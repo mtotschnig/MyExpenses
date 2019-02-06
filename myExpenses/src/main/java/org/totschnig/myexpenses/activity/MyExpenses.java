@@ -881,6 +881,11 @@ public class MyExpenses extends LaunchActivity implements
     mAccountId = newAccountId;
     currentCurrency = mAccountsCursor.getString(columnIndexCurrency);
     setBalance();
+    if (mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_SEALED)) == 1) {
+      floatingActionButton.hide();
+    } else {
+      floatingActionButton.show();
+    }
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
   }
@@ -1075,8 +1080,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private void setBalance() {
-    long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
-        (KEY_CURRENT_BALANCE));
+    long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE));
     boolean isHome  = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
     mCurrentBalance = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.formatCurrency(new Money(currencyContext.get(currentCurrency), balance)));
