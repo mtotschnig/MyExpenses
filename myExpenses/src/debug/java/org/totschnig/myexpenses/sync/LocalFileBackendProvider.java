@@ -182,14 +182,15 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
+  public Optional<ChangeSet> getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
     List<ChangeSet> changeSets = new ArrayList<>();
     for (Pair<Integer, File> file: filterFiles(sequenceNumber)) {
       changeSets.add(getChangeSetFromFile(file));
     }
-    return merge(Stream.of(changeSets)).orElse(ChangeSet.empty(sequenceNumber));
+    return merge(changeSets);
   }
 
+  @NonNull
   private ChangeSet getChangeSetFromFile(Pair<Integer, File> file) throws IOException {
     FileInputStream inputStream = new FileInputStream(file.second);
     return getChangeSetFromInputStream(

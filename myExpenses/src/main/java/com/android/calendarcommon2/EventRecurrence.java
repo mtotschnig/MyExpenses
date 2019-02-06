@@ -21,6 +21,8 @@ import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
 
+import org.threeten.bp.DayOfWeek;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -166,23 +168,23 @@ public class EventRecurrence {
      * constants.  btw, I think we should switch to those here too, to
      * get rid of this function, if possible.
      */
-    public static int calendarDay2Day(int day)
+    public static int dayOfWeek2Day(DayOfWeek day)
     {
         switch (day)
         {
-            case Calendar.SUNDAY:
+            case SUNDAY:
                 return SU;
-            case Calendar.MONDAY:
+            case MONDAY:
                 return MO;
-            case Calendar.TUESDAY:
+            case TUESDAY:
                 return TU;
-            case Calendar.WEDNESDAY:
+            case WEDNESDAY:
                 return WE;
-            case Calendar.THURSDAY:
+            case THURSDAY:
                 return TH;
-            case Calendar.FRIDAY:
+            case FRIDAY:
                 return FR;
-            case Calendar.SATURDAY:
+            case SATURDAY:
                 return SA;
             default:
                 throw new RuntimeException("bad day of week: " + day);

@@ -186,8 +186,6 @@ public class Transfer extends Transaction {
             .withSelectionBackReference(0, offset)
             .build());
       }
-
-      addOriginPlanInstance(ops);
     } else {
       //we set the transfer peers uuid to null initially to prevent violation of unique index which
       //happens if the account after update is identical to transferAccountId before update
@@ -213,6 +211,7 @@ public class Transfer extends Transaction {
           .newUpdate(transferUri)
           .withValues(transferValues).build());
     }
+    addOriginPlanInstance(ops);
     return ops;
   }
 

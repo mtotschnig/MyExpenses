@@ -52,7 +52,7 @@ public abstract class CrashHandler {
     e.fillInStackTrace();
     List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
     stack.remove(0);
-    e.setStackTrace(stack.toArray(new StackTraceElement[stack.size()]));
+    e.setStackTrace(stack.toArray(new StackTraceElement[0]));
     report(e, tag);
   }
 

@@ -245,7 +245,7 @@
             <intent android:targetPackage="@string/application_id"
                     android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"/>
         </Preference>
-        <SeekBarPreference
+        <LiveSeekBarPreference
             android:defaultValue="12"
             android:key="@string/pref_sync_frequency_key"
             android:summary="@string/pref_sync_frequency_summary"
@@ -289,7 +289,7 @@
                 android:title="@string/pref_security_question_title"
                 android:summary="@string/pref_security_question_summary"
                 />
-            <SeekBarPreference
+            <LiveSeekBarPreference
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"
                 android:summary="@string/pref_protection_delay_seconds_summary"
@@ -428,7 +428,7 @@
         <ListPreference
             android:key="@string/pref_planner_calendar_id_key"
             android:title="@string/pref_planning_calendar_title"/>
-        <SeekBarPreference
+        <LiveSeekBarPreference
             android:defaultValue="10"
             android:key="@string/pref_webdav_timeout_key"
             android:title="@string/pref_webdav_timeout_title"

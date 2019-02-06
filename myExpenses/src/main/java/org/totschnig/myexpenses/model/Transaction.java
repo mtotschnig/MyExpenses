@@ -816,12 +816,12 @@ public class Transaction extends Model {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
       }
       ops.add(builder.build());
-      addOriginPlanInstance(ops);
     } else {
       ops.add(ContentProviderOperation
           .newUpdate(uri.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValues(initialValues).build());
     }
+    addOriginPlanInstance(ops);
     return ops;
   }
 
@@ -834,8 +834,14 @@ public class Transaction extends Model {
       ContentValues values = new ContentValues();
       values.put(KEY_TEMPLATEID, originTemplate.getId());
       values.put(KEY_INSTANCEID, originPlanInstanceId);
-      ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
-          .withValues(values).withValueBackReference(KEY_TRANSACTIONID, 0).build());
+      final ContentProviderOperation.Builder builder =
+          ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI);
+      if (getId() == 0) {
+        builder.withValueBackReference(KEY_TRANSACTIONID, 0);
+      } else {
+        values.put(KEY_TRANSACTIONID, getId());
+      }
+      ops.add(builder.withValues(values).build());
     }
   }
 

@@ -147,7 +147,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
         Integer successCount = (Integer) o;
         String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
             getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
-        showSnackbar(msg, Snackbar.LENGTH_LONG);
+        mListFragment.showSnackbar(msg, Snackbar.LENGTH_LONG);
     }
   }
 

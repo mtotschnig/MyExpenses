@@ -175,18 +175,18 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public ChangeSet getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
-    return merge(Stream.of(filterMetadata(sequenceNumber)).map(this::getChangeSetFromMetadata))
-        .orElse(ChangeSet.empty(sequenceNumber));
+  public Optional<ChangeSet> getChangeSetSince(SequenceNumber sequenceNumber, Context context) throws IOException {
+    List<ChangeSet> changeSetList = new ArrayList<>();
+    for (Pair<Integer, Metadata> integerMetadataPair: filterMetadata(sequenceNumber)) {
+      changeSetList.add(getChangeSetFromMetadata(integerMetadataPair));
+    }
+    return merge(changeSetList);
   }
 
-  private ChangeSet getChangeSetFromMetadata(Pair<Integer, Metadata> metadata) {
-    try {
-      return getChangeSetFromInputStream(new SequenceNumber(metadata.first, getSequenceFromFileName(metadata.second.getName())),
-          getInputStream(metadata.second.getPathLower()));
-    } catch (IOException e) {
-      return null;
-    }
+  @NonNull
+  private ChangeSet getChangeSetFromMetadata(Pair<Integer, Metadata> metadata) throws IOException {
+    return getChangeSetFromInputStream(new SequenceNumber(metadata.first, getSequenceFromFileName(metadata.second.getName())),
+        getInputStream(metadata.second.getPathLower()));
   }
 
   private List<Pair<Integer, Metadata>> filterMetadata(SequenceNumber sequenceNumber) throws IOException {
