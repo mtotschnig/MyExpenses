@@ -46,6 +46,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
@@ -159,6 +160,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     long currentBalance = cursor.getLong(cursor.getColumnIndex(KEY_CURRENT_BALANCE));
 
     boolean has_future = cursor.getInt(cursor.getColumnIndex(KEY_HAS_FUTURE)) > 0;
+    boolean isSealed = cursor.getInt(cursor.getColumnIndex(KEY_SEALED)) == 1;
     final int isAggregate = cursor.getInt(cursor.getColumnIndex(KEY_IS_AGGREGATE));
     final String label = cursor.getString(cursor.getColumnIndex(KEY_LABEL));
     boolean hide_cr;
@@ -250,6 +252,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       }
       holder.expansionPanel.setLayoutParams(layoutParams);
     }
+    holder.stateIcon.setVisibility(isSealed ? View.VISIBLE : View.GONE);
   }
 
   private void setBalanceVisibility(ViewHolder holder, boolean expanded) {
@@ -303,6 +306,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     @BindView(R.id.CriterionRow) View criterionRow;
     @BindView(R.id.CriterionLabel) TextView criterionLabel;
     @BindView(R.id.criterion) TextView criterion;
+    @BindView(R.id.state) View stateIcon;
 
 
     ViewHolder(View view) {

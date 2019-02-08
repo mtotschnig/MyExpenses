@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
+    android:foreground="?attr/cardHighlightForeground"
     android:paddingBottom="5dp"
-    android:paddingTop="5dp"
-    android:foreground="?attr/cardHighlightForeground">
+    android:paddingTop="5dp">
 
     <org.totschnig.myexpenses.ui.ExpansionPanel
         android:id="@+id/expansionPanel"
@@ -30,20 +30,19 @@
                 android:layout_width="?account_color_indicator_diameter"
                 android:layout_height="?account_color_indicator_diameter"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="-4dp"
                 android:layout_marginLeft="-4dp"
-                android:padding="4dp"
-                android:layout_marginRight="4dp">
+                android:layout_marginStart="-4dp"
+                android:padding="4dp">
+
                 <ImageView
-                    android:contentDescription="@string/color"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
                     android:id="@+id/colorAccount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="@string/color"
                     android:padding="5sp"/>
 
                 <com.github.lzyzsd.circleprogress.DonutProgress
@@ -51,18 +50,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:donut_finished_stroke_width="3sp"
-                    app:donut_unfinished_stroke_width="3sp"
                     app:donut_text_color="?android:textColorPrimary"
-                    app:donut_text_size="?textSizeLabel"/>
+                    app:donut_text_size="?textSizeLabel"
+                    app:donut_unfinished_stroke_width="3sp"/>
 
             </FrameLayout>
 
+            <ImageView
+                android:id="@+id/state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/content_description_closed"
+                app:srcCompat="@drawable/ic_lock"/>
 
             <!-- HEADER -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
@@ -73,8 +81,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     tools:text="@string/label"/>
 
                 <TextView
@@ -196,9 +204,11 @@
             </TableRow>
 
             <TableRow android:id="@+id/CriterionRow">
+
                 <TextView
                     android:id="@+id/CriterionLabel"
                     android:layout_width="0dp"/>
+
                 <TextView
                     android:id="@+id/criterion"
                     android:layout_width="wrap_content"
