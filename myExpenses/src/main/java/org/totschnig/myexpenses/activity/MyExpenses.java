@@ -426,6 +426,7 @@ public class MyExpenses extends LaunchActivity implements
       final boolean isSealed = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_SEALED)) == 1;
       menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
       menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
+      menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(!isSealed);
     }
   }
 

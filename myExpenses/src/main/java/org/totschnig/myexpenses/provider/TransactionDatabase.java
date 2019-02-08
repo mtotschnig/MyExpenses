@@ -410,9 +410,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "BEGIN SELECT RAISE (FAIL, 'attempt to update sealed account'); END";
 
   private static final String ACCOUNTS_SEALED_TRIGGER_CREATE =
-      "CREATE TRIGGER sealed_account_update " +
-          "BEFORE UPDATE ON " + TABLE_ACCOUNTS + " " +
-          "WHEN old." + KEY_SEALED + " = 1 AND new." + KEY_SEALED + " = 1 " +
+      String.format("CREATE TRIGGER sealed_account_update BEFORE UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s ON %8$s WHEN old.%9$s = 1 ",
+          KEY_LABEL, KEY_OPENING_BALANCE, KEY_DESCRIPTION, KEY_CURRENCY, KEY_TYPE, KEY_UUID, KEY_CRITERION, TABLE_ACCOUNTS, KEY_SEALED) +
           RAISE_UPDATE_SEALED_ACCOUNT;
 
   private static final String TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
