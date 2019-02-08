@@ -124,11 +124,14 @@
         <item>create_account</item>
         <item>sort</item>
         <item>grouping</item>
+        <item>hidden_accounts</item>
     </string-array>
 
     <string-array name="NavigationDrawer_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
+        <item>hide</item>
+        <item>close.reopen</item>
     </string-array>
 
     <string-array name="ManageMethods_cabitems" tools:ignore="UnusedResources">

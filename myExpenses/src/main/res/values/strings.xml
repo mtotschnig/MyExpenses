@@ -834,4 +834,6 @@
     <string name="menu_hidden_accounts">Hidden accounts</string>
     <!-- Action of showing an account again that had previously been hidden -->
     <string name="button_label_show">Show</string>
+    <string name="content_description_encrypted">Encrypted</string>
+    <string name="content_description_closed">Closed account</string>
 </resources>
