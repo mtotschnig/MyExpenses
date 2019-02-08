@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -46,6 +47,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -332,8 +334,7 @@ public class PdfPrinter {
             account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
-            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
+        cell = helper.printToCell(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(sumTransfer,
             account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
@@ -345,11 +346,16 @@ public class PdfPrinter {
         table.setTableEvent(new PdfPTableEvent() {
 
           private Object findFirstChunkGenericTag(PdfPRow row) {
-            for (PdfPCell cell: row.getCells()) {
-              Phrase phrase =  cell.getPhrase();
+            for (PdfPCell cell : row.getCells()) {
+              Phrase phrase = cell.getPhrase();
               if (phrase != null) {
-                final HashMap<String, Object> attributes = phrase.getChunks().get(0).getAttributes();
-                return attributes != null ? attributes.get(GENERICTAG) : null;
+                final List<Chunk> chunks = phrase.getChunks();
+                if (chunks.size() > 0) {
+                  final HashMap<String, Object> attributes = chunks.get(0).getAttributes();
+                  if (attributes != null) {
+                    return attributes.get(GENERICTAG);
+                  }
+                }
               }
             }
             return null;
