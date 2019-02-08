@@ -299,11 +299,11 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             values, null, null);
         return null;
       case TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS:
-        return updateBooleanAccountFieldFromExtra(cr, (Long) ids[0], DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) == 1 ? Result.SUCCESS : Result.FAILURE;
+        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED:
-        return updateBooleanAccountFieldFromExtra(cr, (Long) ids[0], DatabaseConstants.KEY_SEALED) == 1 ? Result.SUCCESS : Result.FAILURE;
+        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_SEALED) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
-        return updateBooleanAccountFieldFromExtra(cr, (Long) ids[0], DatabaseConstants.KEY_HIDDEN) == 1 ? Result.SUCCESS : Result.FAILURE;
+        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_DELETE_IMAGES:
         for (long id : (Long[]) ids) {
           Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
@@ -420,7 +420,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (c.getCount() == 0) {
             c.close();
             outputFile.delete();
-            return Result.ofFailure( R.string.no_categories);
+            return Result.ofFailure(R.string.no_categories);
           }
           out.write("!Type:Cat");
           c.moveToFirst();
@@ -692,13 +692,14 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     return null;
   }
 
-  private int updateBooleanAccountFieldFromExtra(ContentResolver cr, long accountId, String key) {
+  private boolean updateBooleanAccountFieldFromExtra(ContentResolver cr, Long[] accountIds, String key) {
     ContentValues values;
     values = new ContentValues();
     values.put(key, (Boolean) mExtra);
     return cr.update(
-        TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(),
-        values, null, null);
+        TransactionProvider.ACCOUNTS_URI, values,
+        String.format("%s %s", KEY_ROWID, WhereFilter.Operation.IN.getOp(accountIds.length)),
+        Stream.of(accountIds).map(String::valueOf).toArray(String[]::new)) == accountIds.length;
   }
 
   @Nullable

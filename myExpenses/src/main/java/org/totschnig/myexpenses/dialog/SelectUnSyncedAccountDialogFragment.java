@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
@@ -44,7 +44,7 @@ public class SelectUnSyncedAccountDialogFragment extends SelectFromTableDialogFr
   }
 
   @Override
-  boolean onResult(ArrayList<String> labelList, long[] itemIds) {
+  boolean onResult(List<String> labelList, long[] itemIds, int which) {
     if (itemIds.length > 0) {
       ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TASK_SYNC_LINK_SAVE,
           ArrayUtils.toObject(itemIds), getArguments().getString(KEY_SYNC_ACCOUNT_NAME), 0);

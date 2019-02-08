@@ -177,4 +177,5 @@
     <item name="HIDE_ACCOUNT_COMMAND" type="id"/>
     <item name="CLOSE_ACCOUNT_COMMAND" type="id"/>
     <item name="REOPEN_ACCOUNT_COMMAND" type="id"/>
+    <item name="HIDDEN_ACCOUNTS_COMMAND" type="id"/>
 </resources>

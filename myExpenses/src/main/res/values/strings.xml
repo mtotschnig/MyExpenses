@@ -831,4 +831,7 @@
     <string name="menu_close">Close</string>
     <!-- Action of re-opening an account that had previously been closed -->
     <string name="menu_reopen">Reopen</string>
+    <string name="menu_hidden_accounts">Hidden accounts</string>
+    <!-- Action of showing an account again that had previously been hidden -->
+    <string name="button_label_show">Show</string>
 </resources>

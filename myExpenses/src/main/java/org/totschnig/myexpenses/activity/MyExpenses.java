@@ -54,6 +54,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 
+import com.annimon.stream.Stream;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -65,6 +67,7 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
@@ -161,6 +164,7 @@ public class MyExpenses extends LaunchActivity implements
   public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
+  private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
 
   private LoaderManager mManager;
 
@@ -599,10 +603,17 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
-        mAccountId = 0;
+        final Long[] accountIds = (Long[]) tag;
+        if (Stream.of(accountIds).anyMatch(id -> id == mAccountId)) {
+          mAccountId = 0;
+        }
+        final Fragment manageHiddenFragment = getSupportFragmentManager().findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG);
+        if (manageHiddenFragment != null) {
+          getSupportFragmentManager().beginTransaction().remove(manageHiddenFragment).commit();
+        }
         startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_ACCOUNT,
-            new Long[]{(Long) tag},
+            accountIds,
             null,
             R.string.progress_dialog_deleting);
         return true;
@@ -659,7 +670,7 @@ public class MyExpenses extends LaunchActivity implements
                 R.string.dialog_title_warning_delete_account,
                 getString(R.string.warning_delete_account, account.getLabel()),
                 new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                    accountId),
+                    new Long[]{accountId}),
                 null,
                 MessageDialogFragment.Button.noButton())
                 .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
@@ -724,6 +735,10 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       }
+      case R.id.HIDDEN_ACCOUNTS_COMMAND: {
+        SelectHiddenAccountDialogFragment.newInstance().show(getSupportFragmentManager(),
+            MANAGE_HIDDEN_FRAGMENT_TAG);
+      }
     }
     return false;
   }
@@ -760,9 +775,7 @@ public class MyExpenses extends LaunchActivity implements
 
   public void finishActionMode() {
     if (mCurrentPosition != -1) {
-      ContextualActionBarFragment f =
-          (ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-              mViewPagerAdapter.getFragmentName(mCurrentPosition));
+      ContextualActionBarFragment f = getCurrentFragment();
       if (f != null)
         f.finishActionMode();
     }
