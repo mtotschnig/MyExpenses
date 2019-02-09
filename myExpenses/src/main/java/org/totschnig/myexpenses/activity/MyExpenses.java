@@ -102,6 +102,7 @@ import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.io.Serializable;
@@ -217,6 +218,7 @@ public class MyExpenses extends LaunchActivity implements
   CurrencyFormatter currencyFormatter;
 
   private RoadmapViewModel roadmapViewModel;
+  private MyExpensesViewModel viewModel;
 
   @Override
   protected void injectDependencies() {
@@ -340,6 +342,10 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
     }
     roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
+    viewModel = ViewModelProviders.of(this).get(MyExpensesViewModel.class);
+    viewModel.getHasHiddenAccounts().observe(this,
+        result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
+    viewModel.loadHiddenAccountCount();
     setup();
     if (savedInstanceState == null) {
       voteReminderCheck();
@@ -592,7 +598,7 @@ public class MyExpenses extends LaunchActivity implements
           showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
-        else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < 5) {
+        else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
           closeDrawer();
           i = new Intent(this, AccountEdit.class);
           if (tag != null)
