@@ -114,7 +114,10 @@
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_template_title">Set the title</string>
-    <string name="dialog_title_warning_delete_account">Delete account?</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Delete account?</item>
+        <item quantity="other">Delete %1$d accounts?</item>
+    </plurals>
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>

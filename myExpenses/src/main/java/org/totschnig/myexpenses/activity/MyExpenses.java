@@ -674,12 +674,12 @@ public class MyExpenses extends LaunchActivity implements
           final Account account = Account.getInstanceFromDb(accountId);
           if (account != null) {
             MessageDialogFragment.newInstance(
-                R.string.dialog_title_warning_delete_account,
-                getString(R.string.warning_delete_account, account.getLabel()),
+                getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1),
+                getString(R.string.warning_delete_account, account.getLabel())  + " " + getString(R.string.continue_confirmation),
                 new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
                     new Long[]{accountId}),
                 null,
-                MessageDialogFragment.Button.noButton())
+                MessageDialogFragment.Button.noButton(), 0)
                 .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
           }
         }

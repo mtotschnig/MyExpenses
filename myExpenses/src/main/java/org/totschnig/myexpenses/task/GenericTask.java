@@ -171,9 +171,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-        Long anId = (Long) ids[0];
-        return deleteAccount(anId) ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_DELETE_ACCOUNT: {
+        boolean success = true;
+        for (long id : (Long[]) ids) {
+          success = success && deleteAccount(id);
+        }
+        return success ? Result.SUCCESS : Result.FAILURE;
+      }
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
         try {
           for (long id : (Long[]) ids) {
@@ -304,7 +308,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_SEALED) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
-      case TaskExecutionFragment.TASK_DELETE_IMAGES:
+      case TaskExecutionFragment.TASK_DELETE_IMAGES: {
         for (long id : (Long[]) ids) {
           Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
           c = cr.query(
@@ -335,7 +339,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           c.close();
         }
         return null;
-      case TaskExecutionFragment.TASK_SAVE_IMAGES:
+      }
+      case TaskExecutionFragment.TASK_SAVE_IMAGES: {
         File staleFileDir = new File(application.getExternalFilesDir(null), "images.old");
         staleFileDir.mkdir();
         if (!staleFileDir.isDirectory()) {
@@ -380,6 +385,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           c.close();
         }
         return null;
+      }
       case TaskExecutionFragment.TASK_EXPORT_CATEGORIES:
         DocumentFile appDir = AppDirHelper.getAppDir(application);
         if (appDir == null) {

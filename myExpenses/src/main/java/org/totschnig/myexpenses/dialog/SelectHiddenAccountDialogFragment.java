@@ -54,14 +54,14 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
       case DialogInterface.BUTTON_NEUTRAL:
         if (itemIds.length > 0) {
           final String message = Stream.of(labelList).map(label -> getString(R.string.warning_delete_account, label))
-              .collect(Collectors.joining(" "));
+              .collect(Collectors.joining(" ")) + " " + getString(R.string.continue_confirmation);
           MessageDialogFragment.newInstance(
-              R.string.dialog_title_warning_delete_account,
+              getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, itemIds.length, itemIds.length),
               message,
               new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
                   ArrayUtils.toObject(itemIds)),
               null,
-              MessageDialogFragment.Button.noButton())
+              MessageDialogFragment.Button.noButton(), 0)
               .show(getChildFragmentManager(), "DELETE_ACCOUNTS");
           return false;
         }
