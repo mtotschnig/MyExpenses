@@ -15,12 +15,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -543,26 +544,26 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
         } catch (OperationCanceledException | AuthenticatorException | IOException e) {
           CrashHandler.report(e);
-          return Result.FAILURE;
+          return Result.ofFailure(e.getMessage());
         }
       }
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (syncBackendProvider == null) {
-          return Result.FAILURE;
+        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
+        if (!syncBackendProvider.isPresent()) {
+          return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName));
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName));
           remoteUuidList = remoteAccounStream
               .map(AccountMetaData::uuid)
               .collect(Collectors.toList());
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
         } finally {
-          syncBackendProvider.tearDown();
+          syncBackendProvider.get().tearDown();
         }
         int requested = ids.length;
         c = cr.query(TransactionProvider.ACCOUNTS_URI,
@@ -602,12 +603,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (syncBackendProvider == null) {
-          return Result.FAILURE;
+        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
+        if (!syncBackendProvider.isPresent()) {
+          return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         try {
-          if (syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
+          if (syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
             return Result.ofFailure(concatResStrings(application, " ",
                 R.string.link_account_failure_2, R.string.link_account_failure_3)
@@ -618,7 +619,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
         } finally {
-          syncBackendProvider.tearDown();
+          syncBackendProvider.get().tearDown();
         }
       }
       case TaskExecutionFragment.TASK_INIT: {
@@ -647,13 +648,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = (String) mExtra;
-        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (syncBackendProvider == null) {
-          return Result.FAILURE;
+        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
+        if (!syncBackendProvider.isPresent()) {
+          return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         try {
           List<String> accountUuids = Arrays.asList((String[]) ids);
-          int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
+          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
               .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {
@@ -674,7 +675,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         } catch (IOException e) {
           return Result.FAILURE;
         } finally {
-          syncBackendProvider.tearDown();
+          syncBackendProvider.get().tearDown();
         }
       }
       case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {
@@ -708,17 +709,17 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         Stream.of(accountIds).map(String::valueOf).toArray(String[]::new)) == accountIds.length;
   }
 
-  @Nullable
-  private SyncBackendProvider getSyncBackendProviderFromExtra() {
+  @NonNull
+  private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
     String syncAccountName = ((String) mExtra);
     try {
       final android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
       final Context context = MyApplication.getInstance();
-      return SyncBackendProviderFactory.get(context, account).getOrThrow();
+      return Exceptional.of(() -> SyncBackendProviderFactory.get(context, account).getOrThrow());
     } catch (Throwable throwable) {
       CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
           syncAccountName), throwable));
-      return null;
+      return Exceptional.of(throwable);
     }
   }
 

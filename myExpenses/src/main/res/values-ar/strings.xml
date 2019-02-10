@@ -69,7 +69,6 @@
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
   <string name="dialog_title_template_title">اكتب العنوان</string>
-  <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_warning_delete_main_category">حذف التصنيف الأساسي؟</string>
   <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
   <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
