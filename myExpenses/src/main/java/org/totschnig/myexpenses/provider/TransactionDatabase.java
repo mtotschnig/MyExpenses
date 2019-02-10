@@ -145,7 +145,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 84;
+  public static final int DATABASE_VERSION = 85;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1699,7 +1699,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 69) {
         //repair missed trigger recreation
-        createOrRefreshAccountTriggers(db);
+        //createOrRefreshAccountTriggers(db);
         //while trigger was not set new accounts were added without sort key leading to crash
         //https://github.com/mtotschnig/MyExpenses/issues/420
         //we now set sort_key again for all accounts trying to preserve existing order
@@ -1895,6 +1895,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           Timber.e(e);
         }
       }
+      if (oldVersion < 85) {
+        db.execSQL("ALTER TABLE accounts add column hidden boolean default 0");
+        db.execSQL("ALTER TABLE accounts add column sealed boolean default 0");
+        createOrRefreshAccountSealedTrigger(db);
+        createOrRefreshTransactionSealedTriggers(db);
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException("Database upgrade failed", e) :
@@ -1907,6 +1913,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("DROP TRIGGER IF EXISTS sort_key_default");
     db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
+    createOrRefreshAccountSealedTrigger(db);
+  }
+
+  private void createOrRefreshAccountSealedTrigger(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_update");
     db.execSQL(ACCOUNTS_SEALED_TRIGGER_CREATE);
   }
 
@@ -1922,6 +1933,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+
+    createOrRefreshTransactionSealedTriggers(db);
+  }
+
+  private void createOrRefreshTransactionSealedTriggers(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_insert");
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_delete");
     db.execSQL(TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE);
