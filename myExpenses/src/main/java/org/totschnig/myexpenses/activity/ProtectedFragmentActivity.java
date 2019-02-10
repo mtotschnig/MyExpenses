@@ -929,25 +929,31 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     showSnackbar(message, duration, snackbarAction, null);
   }
 
-  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction, Snackbar.Callback callback) {
+  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
+                           Snackbar.Callback callback) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       CrashHandler.report(String.format("Class %s is unable to display snackbar", getClass()));
       Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     } else {
-      snackbar = Snackbar.make(container, message, duration);
-      View snackbarView = snackbar.getView();
-      TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-      textView.setMaxLines(4);
-      UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
-      if (snackbarAction != null) {
-        snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
-      }
-      if (callback != null) {
-        snackbar.addCallback(callback);
-      }
-      snackbar.show();
+      showSnackbar(message, duration, snackbarAction, callback, container);
     }
+  }
+
+  protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
+                            Snackbar.Callback callback, @NonNull View container) {
+    snackbar = Snackbar.make(container, message, duration);
+    View snackbarView = snackbar.getView();
+    TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+    textView.setMaxLines(4);
+    UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
+    if (snackbarAction != null) {
+      snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
+    }
+    if (callback != null) {
+      snackbar.addCallback(callback);
+    }
+    snackbar.show();
   }
 
   public void dismissSnackbar() {

@@ -141,6 +141,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
@@ -438,7 +439,7 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-    dispatchCommand(item.getItemId(), ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).id);
+    dispatchCommand(item.getItemId(), item.getMenuInfo());
     return true;
   }
 
@@ -657,25 +658,26 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       }
-      case R.id.EDIT_ACCOUNT_COMMAND:
+      case R.id.EDIT_ACCOUNT_COMMAND: {
         closeDrawer();
-        long accountId = (Long) tag;
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
         if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
           i = new Intent(this, AccountEdit.class);
           i.putExtra(KEY_ROWID, accountId);
           startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
         }
         return true;
-      case R.id.DELETE_ACCOUNT_COMMAND:
+      }
+      case R.id.DELETE_ACCOUNT_COMMAND: {
         closeDrawer();
-        accountId = (Long) tag;
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
         //do nothing if accidentally we are positioned at an aggregate account
         if (accountId > 0) {
           final Account account = Account.getInstanceFromDb(accountId);
           if (account != null) {
             MessageDialogFragment.newInstance(
                 getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1),
-                getString(R.string.warning_delete_account, account.getLabel())  + " " + getString(R.string.continue_confirmation),
+                getString(R.string.warning_delete_account, account.getLabel()) + " " + getString(R.string.continue_confirmation),
                 new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
                     new Long[]{accountId}),
                 null,
@@ -684,6 +686,7 @@ public class MyExpenses extends LaunchActivity implements
           }
         }
         return true;
+      }
       case R.id.GROUPING_ACCOUNTS_COMMAND: {
         MenuDialog.build()
             .menu(this, R.menu.accounts_grouping)
@@ -710,18 +713,24 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       }
       case R.id.CLOSE_ACCOUNT_COMMAND: {
-        accountId = (Long) tag;
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
         //do nothing if accidentally we are positioned at an aggregate account
         if (accountId > 0) {
-          startTaskExecution(
-              TASK_SET_ACCOUNT_SEALED,
-              new Long[]{accountId},
-              true, 0);
+          mAccountsCursor.moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
+          if (mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null ) {
+            startTaskExecution(
+                TASK_SET_ACCOUNT_SEALED,
+                new Long[]{accountId},
+                true, 0);
+          } else {
+            showSnackbar(getString(R.string.warning_synced_account_cannot_be_closed),
+                Snackbar.LENGTH_LONG, null, null, mDrawerList);
+          }
         }
         return true;
       }
       case R.id.REOPEN_ACCOUNT_COMMAND: {
-        accountId = (Long) tag;
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
         //do nothing if accidentally we are positioned at an aggregate account
         if (accountId > 0) {
           startTaskExecution(
@@ -732,7 +741,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       }
       case R.id.HIDE_ACCOUNT_COMMAND: {
-        accountId = (Long) tag;
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
         //do nothing if accidentally we are positioned at an aggregate account
         if (accountId > 0) {
           startTaskExecution(

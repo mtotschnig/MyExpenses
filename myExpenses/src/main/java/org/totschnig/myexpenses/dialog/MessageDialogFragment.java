@@ -84,7 +84,8 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
 
   public static MessageDialogFragment newInstance(
       int title, CharSequence message, Button positive, Button neutral, Button negative, int icon) {
-    return newInstance(MyApplication.getInstance().getString(title), message, positive, neutral, negative, icon);
+    return newInstance(title == 0 ? null : MyApplication.getInstance().getString(title),
+        message, positive, neutral, negative, icon);
   }
 
   public static MessageDialogFragment newInstance(

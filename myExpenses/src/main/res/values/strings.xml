@@ -830,13 +830,17 @@
     <string name="joining_or">or</string>
     <string name="pref_account_list_fast_scroll_summary">Enable fast scroll for account list. May lead to incorrect display on some devices</string>
     <string name="menu_hide">Hide</string>
-    <!-- Action of closing an account. A closed account does not allow any modifications on its data -->
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Close</string>
-    <!-- Action of re-opening an account that had previously been closed -->
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Reopen</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
     <string name="menu_hidden_accounts">Hidden accounts</string>
-    <!-- Action of showing an account again that had previously been hidden -->
+    <!-- Action of showing an account again that had previously been hidden. -->
     <string name="button_label_show">Show</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Encrypted</string>
-    <string name="content_description_closed">Closed account</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">Closed</string>
+    <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
 </resources>
