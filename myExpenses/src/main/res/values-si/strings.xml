@@ -57,7 +57,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
   <string name="dialog_title_template_title">මාතෘකාවක් යොදන්න </string>
-  <string name="dialog_title_warning_delete_account">ගිණුම මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_main_category">ප්‍රධාන ප්‍රබෙධය මක දමන්න?</string>
   <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>

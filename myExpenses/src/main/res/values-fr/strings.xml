@@ -99,7 +99,6 @@
   <string name="dialog_title_balance_account">Rapprochement %1$s</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_template_title">Définir le titre</string>
-  <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>

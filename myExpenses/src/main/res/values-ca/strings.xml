@@ -70,7 +70,6 @@
   <string name="dialog_title_balance_account">Balanç %1$s</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
   <string name="dialog_title_template_title">Trieu el títol</string>
-  <string name="dialog_title_warning_delete_account">Voleu suprimir el compte?</string>
   <string name="dialog_title_warning_delete_main_category">Voleu suprimir la cateoria principal?</string>
   <string name="dialog_title_warning_delete_template">Voleu suprimir la plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">Voleu suprimir l\'operació?</string>

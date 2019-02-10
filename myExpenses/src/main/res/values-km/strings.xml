@@ -66,7 +66,6 @@
   <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
   <string name="dialog_title_template_title">កំណត់ចំណងជើង</string>
-  <string name="dialog_title_warning_delete_account">លុបចោលគណនី ?</string>
   <string name="dialog_title_warning_delete_main_category">តើលុប​ចំណាត់​ថ្នាក់​ចម្បងទេ?</string>
   <string name="dialog_title_warning_delete_template">លុប​ទិន្នន័យ​គំរូ?</string>
   <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>

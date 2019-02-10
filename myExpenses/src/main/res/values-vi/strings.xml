@@ -99,7 +99,6 @@
   <string name="dialog_title_balance_account">Số dư %1$s</string>
   <string name="dialog_title_contrib_feature">Tính năng trả phí</string>
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
-  <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
   <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
   <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
