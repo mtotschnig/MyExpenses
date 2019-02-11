@@ -164,9 +164,15 @@ public class AmountInput extends LinearLayout {
   }
 
   public void setAmount(BigDecimal amount) {
+    setAmount(amount, true);
+  }
+
+  public void setAmount(BigDecimal amount, boolean updateType) {
     amountEditText.setError(null);
     amountEditText.setAmount(amount.abs());
-    typeButton.setChecked(amount.signum() > -1);
+    if (updateType) {
+      typeButton.setChecked(amount.signum() > -1);
+    }
   }
 
   public void clear() {

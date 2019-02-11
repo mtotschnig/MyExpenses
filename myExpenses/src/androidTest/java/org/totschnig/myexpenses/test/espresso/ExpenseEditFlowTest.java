@@ -21,6 +21,8 @@ import java.util.Currency;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
@@ -64,5 +66,13 @@ public class ExpenseEditFlowTest {
     Espresso.pressBack();
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
+  }
+
+  @Test
+  public void calculatorMaintainsType() {
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("123"));
+    onView(withIdAndParent(R.id.Calculator, R.id.Amount)).perform(click());
+    onView(withId(R.id.bOK)).perform(click());
+    onView(withIdAndParent(R.id.TaType, R.id.Amount)).check(matches(isNotChecked()));
   }
 }

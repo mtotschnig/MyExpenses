@@ -51,7 +51,7 @@ public abstract class AmountActivity extends EditActivity implements AmountInput
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
       if (target instanceof AmountInput) {
-        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)).abs());
+        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false);
       } else {
         showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Snackbar.LENGTH_LONG);
       }
