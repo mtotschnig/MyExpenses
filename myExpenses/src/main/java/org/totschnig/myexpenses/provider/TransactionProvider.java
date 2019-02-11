@@ -497,6 +497,7 @@ public class TransactionProvider extends ContentProvider {
               "'DESC' AS " + KEY_SORT_DIRECTION,
               "1 AS " + KEY_EXCHANGE_RATE,
               "0 AS " + KEY_CRITERION,
+              "0 AS " + KEY_SEALED,
               "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
               "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
               "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
@@ -509,8 +510,7 @@ public class TransactionProvider extends ContentProvider {
               "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
               "0 AS " + KEY_HAS_CLEARED,
               "0 AS " + KEY_SORT_KEY_TYPE,
-              "0 AS " + KEY_LAST_USED,
-              "0 AS " + KEY_SEALED}; //ignored
+              "0 AS " + KEY_LAST_USED}; //ignored
           String currencySubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
           //home query
           String[] subQueries;
@@ -534,6 +534,7 @@ public class TransactionProvider extends ContentProvider {
                 "'DESC' AS " + KEY_SORT_DIRECTION,
                 "1 AS " + KEY_EXCHANGE_RATE,
                 "0 AS " + KEY_CRITERION,
+                "0 AS " + KEY_SEALED,
                 "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
                 "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_INCOME,
                 "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_EXPENSES,
@@ -546,8 +547,7 @@ public class TransactionProvider extends ContentProvider {
                 "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,
-                "0 AS " + KEY_LAST_USED,
-                "0 AS " + KEY_SEALED}; //ignored
+                "0 AS " + KEY_LAST_USED}; //ignored
             groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
             having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
             String homeSubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
