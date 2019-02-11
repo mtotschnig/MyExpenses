@@ -312,13 +312,17 @@ public class DatabaseConstants {
 
   private static final String FULL_CAT_CASE =
       " CASE WHEN " +
+          KEY_CATID +
+          " THEN " +
+          "  CASE WHEN " +
           " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
           " THEN " +
           " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
           " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
           " || '" + TransactionList.CATEGORY_SEPARATOR +
           "' ELSE '' END || " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")";
+          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+          "END";
 
   public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
 
