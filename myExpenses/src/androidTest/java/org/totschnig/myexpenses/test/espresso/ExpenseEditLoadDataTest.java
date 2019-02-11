@@ -39,6 +39,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
+import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
 public class ExpenseEditLoadDataTest {
   private static CurrencyUnit currency;
@@ -90,7 +91,7 @@ public class ExpenseEditLoadDataTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
-    onView(withId(R.id.AmountEditText)).check(matches(withText("5")));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("5")));
 
   }
 
@@ -101,7 +102,7 @@ public class ExpenseEditLoadDataTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
         R.id.TransferAccountRow, R.id.Recurrence);
-    onView(withId(R.id.AmountEditText)).check(matches(withText("6")));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("6")));
   }
 
   @Test
@@ -121,7 +122,7 @@ public class ExpenseEditLoadDataTest {
     checkEffectiveVisible(R.id.TitleRow,  R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Plan);
     checkEffectiveGone(R.id.Recurrence);
-    onView(withId(R.id.AmountEditText)).check(matches(withText("7")));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("7")));
     onView(withId(R.id.Title)).check(matches(withText("Daily plan")));
   }
 }

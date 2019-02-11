@@ -25,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.endsWith;
@@ -147,6 +148,10 @@ public class Espresso {
             .build();
       }
     };
+  }
+
+  public static Matcher<View> withIdAndParent(final int id, final int parentId) {
+    return allOf(withId(id), withParent(withId(parentId)));
   }
 
 }

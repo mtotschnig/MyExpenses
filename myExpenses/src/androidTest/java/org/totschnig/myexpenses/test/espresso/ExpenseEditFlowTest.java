@@ -24,6 +24,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
 public class ExpenseEditFlowTest {
 
@@ -57,8 +58,8 @@ public class ExpenseEditFlowTest {
    */
   @Test
   public void testScenarioForBug5b11072e6007d59fcd92c40b() {
-    onView(withId(R.id.AmountEditText)).perform(typeText(String.valueOf(10)));
-    onView(withId(R.id.TaType)).perform(click());
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(10)));
+    onView(withIdAndParent(R.id.TaType, R.id.Amount)).perform(click());
     onView(withId(R.id.Category)).perform(click());
     Espresso.pressBack();
     onView(withId(R.id.SAVE_COMMAND)).perform(click());

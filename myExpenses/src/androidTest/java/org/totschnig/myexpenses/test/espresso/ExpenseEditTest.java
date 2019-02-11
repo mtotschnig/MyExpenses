@@ -37,6 +37,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
+import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
 public class ExpenseEditTest {
 
@@ -142,7 +143,7 @@ public class ExpenseEditTest {
     int times = 5;
     int amount = 2;
     for (int j = 0; j < times; j++) {
-      onView(withId(R.id.AmountEditText)).perform(typeText(String.valueOf(amount)));
+      onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(amount)));
       onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
       onView(withText(success)).check(matches(isDisplayed()));
     }
@@ -160,7 +161,7 @@ public class ExpenseEditTest {
     i.putExtra(KEY_TEMPLATEID, template.getId());
     mActivityRule.launchActivity(i);
     int amount = 2;
-    onView(withId(R.id.AmountEditText)).perform(typeText(String.valueOf(amount)));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(amount)));
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     Template restored = Template.getInstanceFromDb(template.getId());
     assertEquals(-amount * 100, restored.getAmount().getAmountMinor().longValue());

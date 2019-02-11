@@ -123,7 +123,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
 
     //((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
-    onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
+    clickMenuItem(R.id.MANAGE_PLANS_COMMAND, R.string.menu_manage_plans);
     onView(withText(is(templateTitle))).check(matches(isDisplayed()));
   }
 
