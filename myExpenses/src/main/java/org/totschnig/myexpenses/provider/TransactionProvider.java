@@ -509,7 +509,8 @@ public class TransactionProvider extends ContentProvider {
               "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
               "0 AS " + KEY_HAS_CLEARED,
               "0 AS " + KEY_SORT_KEY_TYPE,
-              "0 AS " + KEY_LAST_USED}; //ignored
+              "0 AS " + KEY_LAST_USED,
+              "0 AS " + KEY_SEALED}; //ignored
           String currencySubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
           //home query
           String[] subQueries;
@@ -545,7 +546,8 @@ public class TransactionProvider extends ContentProvider {
                 "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,
-                "0 AS " + KEY_LAST_USED}; //ignored
+                "0 AS " + KEY_LAST_USED,
+                "0 AS " + KEY_SEALED}; //ignored
             groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
             having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
             String homeSubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
@@ -610,6 +612,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
+              "0 AS " + KEY_SEALED,
               KEY_BUDGET};
         } else {
           qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %4$s AND %1$s.%5$s = %2$s.%5$s)",
@@ -630,6 +633,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
+              "0 AS " + KEY_SEALED,
               KEY_BUDGET};
           qb.appendWhere(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(" + currencyId + ")");
         }

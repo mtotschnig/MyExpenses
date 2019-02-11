@@ -99,7 +99,6 @@
   <string name="dialog_title_balance_account">Баланс %1$s</string>
   <string name="dialog_title_contrib_feature">Преміум функція</string>
   <string name="dialog_title_template_title">Встановити заголовок</string>
-  <string name="dialog_title_warning_delete_account">Видалити рахунок?</string>
   <string name="dialog_title_warning_delete_main_category">Видалити основну категорію?</string>
   <string name="dialog_title_warning_delete_template">Видалити шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Видалити операцію?</string>

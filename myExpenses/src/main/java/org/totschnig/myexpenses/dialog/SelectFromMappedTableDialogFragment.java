@@ -24,8 +24,8 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -51,7 +51,7 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFromTabl
   }
 
   @Override
-  boolean onResult(ArrayList<String> labelList, long[] itemIds) {
+  boolean onResult(List<String> labelList, long[] itemIds, int which) {
     if (itemIds.length == 1 || Arrays.asList(ArrayUtils.toObject(itemIds)).indexOf(-1L) == -1) {
       ((MyExpenses) getActivity()).addFilterCriteria(
           getCommand(),

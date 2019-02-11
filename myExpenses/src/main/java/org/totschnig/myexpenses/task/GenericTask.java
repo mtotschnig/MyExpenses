@@ -15,12 +15,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -171,9 +172,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-        Long anId = (Long) ids[0];
-        return deleteAccount(anId) ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_DELETE_ACCOUNT: {
+        boolean success = true;
+        for (long id : (Long[]) ids) {
+          success = success && deleteAccount(id);
+        }
+        return success ? Result.SUCCESS : Result.FAILURE;
+      }
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
         try {
           for (long id : (Long[]) ids) {
@@ -298,14 +303,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
             values, null, null);
         return null;
-      case TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS:
-        values = new ContentValues();
-        values.put(DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS, (Boolean) mExtra);
-        cr.update(
-            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(ids[0])).build(),
-            values, null, null);
-        return null;
-      case TaskExecutionFragment.TASK_DELETE_IMAGES:
+      case TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS:
+        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED:
+        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_SEALED) ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
+        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
+      case TaskExecutionFragment.TASK_DELETE_IMAGES: {
         for (long id : (Long[]) ids) {
           Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
           c = cr.query(
@@ -336,7 +340,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           c.close();
         }
         return null;
-      case TaskExecutionFragment.TASK_SAVE_IMAGES:
+      }
+      case TaskExecutionFragment.TASK_SAVE_IMAGES: {
         File staleFileDir = new File(application.getExternalFilesDir(null), "images.old");
         staleFileDir.mkdir();
         if (!staleFileDir.isDirectory()) {
@@ -381,6 +386,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           c.close();
         }
         return null;
+      }
       case TaskExecutionFragment.TASK_EXPORT_CATEGORIES:
         DocumentFile appDir = AppDirHelper.getAppDir(application);
         if (appDir == null) {
@@ -421,7 +427,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (c.getCount() == 0) {
             c.close();
             outputFile.delete();
-            return Result.ofFailure( R.string.no_categories);
+            return Result.ofFailure(R.string.no_categories);
           }
           out.write("!Type:Cat");
           c.moveToFirst();
@@ -538,26 +544,26 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
         } catch (OperationCanceledException | AuthenticatorException | IOException e) {
           CrashHandler.report(e);
-          return Result.FAILURE;
+          return Result.ofFailure(e.getMessage());
         }
       }
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (syncBackendProvider == null) {
-          return Result.FAILURE;
+        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
+        if (!syncBackendProvider.isPresent()) {
+          return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName));
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName));
           remoteUuidList = remoteAccounStream
               .map(AccountMetaData::uuid)
               .collect(Collectors.toList());
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
         } finally {
-          syncBackendProvider.tearDown();
+          syncBackendProvider.get().tearDown();
         }
         int requested = ids.length;
         c = cr.query(TransactionProvider.ACCOUNTS_URI,
@@ -597,12 +603,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (syncBackendProvider == null) {
-          return Result.FAILURE;
+        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
+        if (!syncBackendProvider.isPresent()) {
+          return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         try {
-          if (syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
+          if (syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
             return Result.ofFailure(concatResStrings(application, " ",
                 R.string.link_account_failure_2, R.string.link_account_failure_3)
@@ -613,7 +619,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());
         } finally {
-          syncBackendProvider.tearDown();
+          syncBackendProvider.get().tearDown();
         }
       }
       case TaskExecutionFragment.TASK_INIT: {
@@ -642,13 +648,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = (String) mExtra;
-        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (syncBackendProvider == null) {
-          return Result.FAILURE;
+        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
+        if (!syncBackendProvider.isPresent()) {
+          return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         try {
           List<String> accountUuids = Arrays.asList((String[]) ids);
-          int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
+          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
               .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {
@@ -669,7 +675,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         } catch (IOException e) {
           return Result.FAILURE;
         } finally {
-          syncBackendProvider.tearDown();
+          syncBackendProvider.get().tearDown();
         }
       }
       case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {
@@ -693,17 +699,27 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     return null;
   }
 
-  @Nullable
-  private SyncBackendProvider getSyncBackendProviderFromExtra() {
+  private boolean updateBooleanAccountFieldFromExtra(ContentResolver cr, Long[] accountIds, String key) {
+    ContentValues values;
+    values = new ContentValues();
+    values.put(key, (Boolean) mExtra);
+    return cr.update(
+        TransactionProvider.ACCOUNTS_URI, values,
+        String.format("%s %s", KEY_ROWID, WhereFilter.Operation.IN.getOp(accountIds.length)),
+        Stream.of(accountIds).map(String::valueOf).toArray(String[]::new)) == accountIds.length;
+  }
+
+  @NonNull
+  private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
     String syncAccountName = ((String) mExtra);
     try {
       final android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
       final Context context = MyApplication.getInstance();
-      return SyncBackendProviderFactory.get(context, account).getOrThrow();
+      return Exceptional.of(() -> SyncBackendProviderFactory.get(context, account).getOrThrow());
     } catch (Throwable throwable) {
       CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
           syncAccountName), throwable));
-      return null;
+      return Exceptional.of(throwable);
     }
   }
 

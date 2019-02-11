@@ -64,7 +64,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
   <string name="dialog_title_template_title">Elnevezés megadása</string>
-  <string name="dialog_title_warning_delete_account">Számla törlése?</string>
   <string name="dialog_title_warning_delete_template">Sablon törlése?</string>
   <string name="dialog_title_warning_delete_transaction">Tranzakció törlése?</string>
   <string name="expense">Kiadás</string>

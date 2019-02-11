@@ -99,7 +99,6 @@
   <string name="dialog_title_balance_account">%1$s 決算</string>
   <string name="dialog_title_contrib_feature">プレミアム機能</string>
   <string name="dialog_title_template_title">タイトル/科目を設定</string>
-  <string name="dialog_title_warning_delete_account">勘定を削除しますか?</string>
   <string name="dialog_title_warning_delete_main_category">主分類を削除しますか?</string>
   <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>

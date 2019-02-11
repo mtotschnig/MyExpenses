@@ -58,11 +58,11 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
       this.keepDialogOpen = keepDialogOpen;
     }
 
-    public static final Button noButton() {
+    public static Button noButton() {
       return nullButton(android.R.string.cancel);
     }
 
-    public static final Button okButton() {
+    public static Button okButton() {
       return nullButton(android.R.string.ok);
     }
 
@@ -71,21 +71,28 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     }
   }
 
-  public static final MessageDialogFragment newInstance(
+  public static MessageDialogFragment newInstance(
       int title, int message, Button positive, Button neutral, Button negative) {
     return newInstance(title, MyApplication.getInstance().getString(message),
         positive, neutral, negative);
   }
 
-  public static final MessageDialogFragment newInstance(
+  public static MessageDialogFragment newInstance(
       int title, CharSequence message, Button positive, Button neutral, Button negative) {
    return newInstance(title, message, positive, neutral, negative, 0);
   }
-  public static final MessageDialogFragment newInstance(
+
+  public static MessageDialogFragment newInstance(
       int title, CharSequence message, Button positive, Button neutral, Button negative, int icon) {
+    return newInstance(title == 0 ? null : MyApplication.getInstance().getString(title),
+        message, positive, neutral, negative, icon);
+  }
+
+  public static MessageDialogFragment newInstance(
+      CharSequence title, CharSequence message, Button positive, Button neutral, Button negative, int icon) {
     MessageDialogFragment dialogFragment = new MessageDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putInt(KEY_TITLE, title);
+    bundle.putCharSequence(KEY_TITLE, title);
     bundle.putCharSequence(KEY_MESSAGE, message);
     bundle.putSerializable(KEY_POSITIVE, positive);
     bundle.putSerializable(KEY_NEUTRAL, neutral);
@@ -101,11 +108,9 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     final Bundle bundle = getArguments();
     Activity ctx = getActivity();
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-        .setMessage(bundle.getCharSequence(KEY_MESSAGE));
-    int title = bundle.getInt(KEY_TITLE);
-    if (title != 0) {
-      builder.setTitle(title);
-    }
+        .setMessage(bundle.getCharSequence(KEY_MESSAGE))
+        .setTitle(bundle.getCharSequence(KEY_TITLE));
+
     Button positive = (Button) bundle.getSerializable(KEY_POSITIVE);
     Button neutral = (Button) bundle.getSerializable(KEY_NEUTRAL);
     Button negative = (Button) bundle.getSerializable(KEY_NEGATIVE);

@@ -57,7 +57,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">高級功能</string>
   <string name="dialog_title_template_title">設置名稱</string>
-  <string name="dialog_title_warning_delete_account">刪除帳戶？</string>
   <string name="dialog_title_warning_delete_template">要刪除範本？</string>
   <string name="dialog_title_warning_delete_transaction">刪除交易嗎？</string>
   <string name="expense">支出</string>

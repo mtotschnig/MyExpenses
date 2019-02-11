@@ -275,6 +275,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     final FragmentActivity ctx = getActivity();
     progressView.setVisibility(View.GONE);
     mTransaction = o;
+    final Account account = Account.getInstanceFromDb(mTransaction.getAccountId());
     if (mTransaction == null) {
       errorView.setVisibility(View.VISIBLE);
       errorView.setText(R.string.transaction_deleted);
@@ -298,10 +299,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (dlg != null) {
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
       if (btn != null) {
-        if (mTransaction.getCrStatus() != Transaction.CrStatus.VOID) {
-          btn.setEnabled(true);
-        } else {
+        if (mTransaction.getCrStatus() == Transaction.CrStatus.VOID || account.isSealed()) {
           btn.setVisibility(View.GONE);
+        } else {
+          btn.setEnabled(true);
         }
       }
       btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL);
@@ -349,7 +350,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     String amountText;
-    final Account account = Account.getInstanceFromDb(mTransaction.getAccountId());
     String accountLabel = account.getLabel();
     if (mTransaction instanceof Transfer) {
       accountView.setText(isIncome ? mTransaction.getLabel() : accountLabel);

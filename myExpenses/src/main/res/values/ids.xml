@@ -174,4 +174,8 @@
     <item name="BUDGET_COMMAND" type="id"/>
     <item name="MANAGE_CATEGORIES_COMMAND" type="id"/>
     <item name="ROADMAP_COMMAND" type="id"/>
+    <item name="HIDE_ACCOUNT_COMMAND" type="id"/>
+    <item name="CLOSE_ACCOUNT_COMMAND" type="id"/>
+    <item name="REOPEN_ACCOUNT_COMMAND" type="id"/>
+    <item name="HIDDEN_ACCOUNTS_COMMAND" type="id"/>
 </resources>

@@ -15,12 +15,12 @@
         android:layout_alignParentStart="true"/>
     <ImageView
         android:id="@+id/state"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:contentDescription="Encrypted"
+        android:contentDescription="@string/content_description_encrypted"
         app:srcCompat="@drawable/ic_lock"/>
 </RelativeLayout>

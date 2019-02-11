@@ -18,6 +18,13 @@
         android:icon="@drawable/ic_menu_sort">
     </item>
     <item
+        android:id="@id/HIDDEN_ACCOUNTS_COMMAND"
+        android:title="@string/menu_hidden_accounts"
+        android:icon="@drawable/design_ic_visibility_off"
+        android:visible="false"
+        tools:ignore="PrivateResource">
+    </item>
+    <item
         android:id="@id/HELP_COMMAND_DRAWER"
         android:orderInCategory="40"
         android:icon="@drawable/ic_menu_help"

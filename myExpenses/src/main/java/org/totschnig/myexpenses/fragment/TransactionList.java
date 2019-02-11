@@ -248,6 +248,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
     viewModel.getAccount().observe(this, account -> {
       mAccount = account;
+      if (mAccount.isSealed()) {
+        mListView.getWrappedList().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+      } else {
+        registerForContextualActionBar(mListView.getWrappedList());
+      }
       setAdapter();
       setGrouping();
       Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
@@ -315,8 +320,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
       }
     });
-
-    registerForContextualActionBar(mListView.getWrappedList());
     return v;
   }
 

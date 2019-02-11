@@ -27,7 +27,7 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
   private RecyclerListAdapter adapter;
 
   public interface OnConfirmListener {
-    public void onSortOrderConfirmed(long[] sortedIds);
+    void onSortOrderConfirmed(long[] sortedIds);
   }
 
   public static SortUtilityDialogFragment newInstance(ArrayList<AbstractMap.SimpleEntry<Long, String>> items) {
@@ -45,7 +45,7 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
       callback = (OnConfirmListener) context;
     } catch (ClassCastException e) {
       throw new ClassCastException(context.toString()
-          + " must implement OnHeadlineSelectedListener");
+          + " must implement OnConfirmListener");
     }
   }
 

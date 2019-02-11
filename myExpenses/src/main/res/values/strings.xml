@@ -114,7 +114,10 @@
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_template_title">Set the title</string>
-    <string name="dialog_title_warning_delete_account">Delete account?</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Delete account?</item>
+        <item quantity="other">Delete %1$d accounts?</item>
+    </plurals>
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
@@ -201,6 +204,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Invert</string>
     <string name="menu_manage_plans">Templates and plans</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
     <string name="menu_open">Open</string>
     <string name="menu_import">Import</string>
     <string name="menu_print">Print</string>
@@ -825,4 +829,18 @@
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">or</string>
     <string name="pref_account_list_fast_scroll_summary">Enable fast scroll for account list. May lead to incorrect display on some devices</string>
+    <string name="menu_hide">Hide</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">Close</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">Reopen</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">Hidden accounts</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">Show</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">Encrypted</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">Closed</string>
+    <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
 </resources>

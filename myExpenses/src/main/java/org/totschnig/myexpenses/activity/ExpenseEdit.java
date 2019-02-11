@@ -61,6 +61,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.calendar.CalendarContractCompat;
@@ -159,6 +160,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.TRANSFER_LAST_TRANSFER
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -170,6 +172,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
@@ -618,7 +621,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void abortWithMessage(String message) {
-    showSnackbar(message, Snackbar.LENGTH_LONG);
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     finish();
   }
 
@@ -2000,7 +2003,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
-            null, null, null, null);
+            null, KEY_HIDDEN + " = 0 AND " + KEY_SEALED + " = 0", null, null);
       case LAST_EXCHANGE_CURSOR:
         String[] currencies = args.getStringArray(KEY_CURRENCY);
         return new CursorLoader(this,
@@ -2089,7 +2092,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case ACCOUNTS_CURSOR:
         if (data.getCount() == 0) {
-          abortWithMessage("No accounts found");
+          abortWithMessage("At least one account must be visible and open in order to create new transactions.");
           return;
         }
         if (data.getCount() == 1 && mOperationType == TYPE_TRANSFER) {

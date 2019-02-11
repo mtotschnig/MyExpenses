@@ -92,7 +92,6 @@
   <string name="dialog_title_balance_account">Saldo de %1$s</string>
   <string name="dialog_title_contrib_feature">Funcionalidade premium</string>
   <string name="dialog_title_template_title">Definir o título</string>
-  <string name="dialog_title_warning_delete_account">Eliminar conta?</string>
   <string name="dialog_title_warning_delete_main_category">Eliminar categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminar transação?</string>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/EDIT_ACCOUNT_COMMAND"
+        android:title="@string/menu_edit"/>
+    <item
+        android:id="@id/DELETE_ACCOUNT_COMMAND"
+        android:title="@string/menu_delete"/>
+    <item
+        android:id="@id/HIDE_ACCOUNT_COMMAND"
+        android:title="@string/menu_hide"/>
+    <item
+        android:id="@id/CLOSE_ACCOUNT_COMMAND"
+        android:title="@string/menu_close"/>
+    <item
+        android:id="@id/REOPEN_ACCOUNT_COMMAND"
+        android:title="@string/menu_reopen"/>
+</menu>

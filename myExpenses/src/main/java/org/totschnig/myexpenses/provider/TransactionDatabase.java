@@ -58,6 +58,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -96,6 +97,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -143,7 +145,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 84;
+  public static final int DATABASE_VERSION = 85;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -267,7 +269,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
           + KEY_UUID + " text, "
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
-          + KEY_CRITERION + " integer);";
+          + KEY_CRITERION + " integer,"
+          + KEY_HIDDEN + " boolean default 0,"
+          + KEY_SEALED + " boolean default 0);";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -401,6 +405,32 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY +
           " = (SELECT coalesce(max(" + KEY_SORT_KEY + "),0) FROM " + TABLE_ACCOUNTS + ") + 1 WHERE " +
           KEY_ROWID + " = NEW." + KEY_ROWID + "; END";
+
+  private static final String RAISE_UPDATE_SEALED_ACCOUNT =
+      "BEGIN SELECT RAISE (FAIL, 'attempt to update sealed account'); END";
+
+  private static final String ACCOUNTS_SEALED_TRIGGER_CREATE =
+      String.format("CREATE TRIGGER sealed_account_update BEFORE UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s ON %8$s WHEN old.%9$s = 1 ",
+          KEY_LABEL, KEY_OPENING_BALANCE, KEY_DESCRIPTION, KEY_CURRENCY, KEY_TYPE, KEY_UUID, KEY_CRITERION, TABLE_ACCOUNTS, KEY_SEALED) +
+          RAISE_UPDATE_SEALED_ACCOUNT;
+
+  private static final String TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
+      "CREATE TRIGGER sealed_account_transaction_insert " +
+          "BEFORE INSERT ON " + TABLE_TRANSACTIONS + " " +
+          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = new." + KEY_ACCOUNTID + ") = 1 " +
+          RAISE_UPDATE_SEALED_ACCOUNT;
+
+  private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER sealed_account_transaction_update " +
+          "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
+          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID +")) = 1 " +
+          RAISE_UPDATE_SEALED_ACCOUNT;
+
+  private static final String TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
+      "CREATE TRIGGER sealed_account_transaction_delete " +
+          "BEFORE DELETE ON " + TABLE_TRANSACTIONS + " " +
+          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ") = 1 " +
+          RAISE_UPDATE_SEALED_ACCOUNT;
 
   private static final String CHANGES_CREATE =
       "CREATE TABLE " + TABLE_CHANGES
@@ -708,7 +738,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     createOrRefreshViews(db);
 
     // Triggers
-    createOrRefreshChangelogTriggers(db);
+    createOrRefreshTransactionTriggers(db);
     db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
     db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
@@ -1669,7 +1699,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 69) {
         //repair missed trigger recreation
-        createOrRefreshAccountTriggers(db);
+        //createOrRefreshAccountTriggers(db);
         //while trigger was not set new accounts were added without sort key leading to crash
         //https://github.com/mtotschnig/MyExpenses/issues/420
         //we now set sort_key again for all accounts trying to preserve existing order
@@ -1727,7 +1757,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 73) {
         db.execSQL("ALTER TABLE transactions add column value_date");
         db.execSQL("ALTER TABLE changes add column value_date");
-        createOrRefreshChangelogTriggers(db);
+        createOrRefreshTransactionTriggers(db);
       }
 
       if (oldVersion < 74) {
@@ -1865,6 +1895,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           Timber.e(e);
         }
       }
+      if (oldVersion < 85) {
+        db.execSQL("ALTER TABLE accounts add column hidden boolean default 0");
+        db.execSQL("ALTER TABLE accounts add column sealed boolean default 0");
+        createOrRefreshAccountSealedTrigger(db);
+        createOrRefreshTransactionSealedTriggers(db);
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException("Database upgrade failed", e) :
@@ -1877,9 +1913,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("DROP TRIGGER IF EXISTS sort_key_default");
     db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
+    createOrRefreshAccountSealedTrigger(db);
   }
 
-  private void createOrRefreshChangelogTriggers(SQLiteDatabase db) {
+  private void createOrRefreshAccountSealedTrigger(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_update");
+    db.execSQL(ACCOUNTS_SEALED_TRIGGER_CREATE);
+  }
+
+  private void createOrRefreshTransactionTriggers(SQLiteDatabase db) {
     db.execSQL("DROP TRIGGER IF EXISTS insert_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
@@ -1891,6 +1933,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+
+    createOrRefreshTransactionSealedTriggers(db);
+  }
+
+  private void createOrRefreshTransactionSealedTriggers(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_insert");
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_delete");
+    db.execSQL(TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE);
   }
 
   private void createOrRefreshViews(SQLiteDatabase db) {

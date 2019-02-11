@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -45,7 +46,6 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
@@ -55,6 +55,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFro
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withSubstring;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -62,6 +63,7 @@ import static junit.framework.Assert.assertNull;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
@@ -123,7 +125,7 @@ public final class MyExpensesTest extends BaseUiTest {
   @Test
   public void helpDialogIsOpened() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-    onView(withText(R.string.menu_help)).perform(click());
+    onData(hasToString(InstrumentationRegistry.getTargetContext().getString(R.string.menu_help))).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.help_MyExpenses_title))))
         .check(matches(isDisplayed()));
     onView(allOf(
@@ -135,7 +137,7 @@ public final class MyExpensesTest extends BaseUiTest {
   @Test
   public void settingsScreenIsOpened() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-    onView(withText(R.string.menu_settings)).perform(click());
+    onData(hasToString(InstrumentationRegistry.getTargetContext().getString(R.string.menu_settings))).perform(click());
     intended(hasComponent(MyPreferenceActivity.class.getName()));
   }
 
@@ -186,18 +188,6 @@ public final class MyExpensesTest extends BaseUiTest {
   }
 
   @Test
-  public void lastAccountDoesNotHaveDeleteAction() {
-    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-    onData(anything()).inAdapterView(allOf(
-        isAssignableFrom(AdapterView.class),
-        isDescendantOfA(withId(R.id.left_drawer)),
-        isDisplayed()))
-        .atPosition(0)
-        .perform(longClick());
-    onView(withText(R.string.menu_delete)).check(doesNotExist());
-  }
-
-  @Test
   public void deleteConfirmationDialogDeleteButtonDeletes() {
     // only if there are two accounts, the delete functionality is availalbe
     Account account2 = new Account("Test account 2", 0, "");
@@ -209,12 +199,17 @@ public final class MyExpensesTest extends BaseUiTest {
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
+    onView(withText(getDialogTitleWarningDeleteAccount())).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(is(mActivityRule.getActivity().getString(R.string.menu_delete))))).perform(click());
     onView(withId(android.R.id.content));
     assertNull(Account.getInstanceFromDb(account2.getId()));
+  }
+
+  @NonNull
+  private String getDialogTitleWarningDeleteAccount() {
+    return InstrumentationRegistry.getTargetContext().getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
   }
 
   @Test
@@ -229,7 +224,7 @@ public final class MyExpensesTest extends BaseUiTest {
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
+    onView(withText(getDialogTitleWarningDeleteAccount())).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(is(mActivityRule.getActivity().getString(android.R.string.cancel))))).perform(click());
@@ -256,7 +251,7 @@ public final class MyExpensesTest extends BaseUiTest {
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(withText(context.getString(R.string.warning_delete_account, label1))).check(matches(isDisplayed()));
+    onView(withSubstring(context.getString(R.string.warning_delete_account, label1))).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(android.R.string.cancel))).perform(click());
@@ -269,7 +264,7 @@ public final class MyExpensesTest extends BaseUiTest {
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(withText(context.getString(R.string.warning_delete_account, label2))).check(matches(isDisplayed()));
+    onView(withSubstring(context.getString(R.string.warning_delete_account, label2))).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(android.R.string.cancel))).perform(click());
@@ -279,8 +274,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void templateScreenIsOpened() {
-    onView(withId(R.id.MANAGE_PLANS_COMMAND)).check(matches(isDisplayed()));
-    onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
+    clickMenuItem(R.id.MANAGE_PLANS_COMMAND, R.string.menu_manage_plans);
     intended(hasComponent(ManageTemplates.class.getName()));
   }
 

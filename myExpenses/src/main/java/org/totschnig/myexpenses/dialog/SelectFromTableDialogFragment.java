@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
@@ -34,6 +35,7 @@ import com.squareup.sqlbrite3.SqlBrite;
 import org.totschnig.myexpenses.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -57,7 +59,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
 
   abstract String getColumn();
 
-  abstract boolean onResult(ArrayList<String> labelList, long[] itemIds);
+  abstract boolean onResult(List<String> labelList, long[] itemIds, int which);
 
   abstract String[] getSelectionArgs();
 
@@ -107,17 +109,40 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
           }
         });
 
-    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+    final int neutralButton = getNeutralButton();
+    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
         .setTitle(getDialogTitle())
         .setAdapter(adapter, null)
-        .setPositiveButton(android.R.string.ok, this)
-        .setNegativeButton(android.R.string.cancel, null)
-        .create();
+        .setPositiveButton(getPositiveButton(), null)
+        .setNegativeButton(getNegativeButton(), null);
+    if (neutralButton != 0) {
+        builder.setNeutralButton(neutralButton, null);
+    }
+    final AlertDialog alertDialog = builder.create();
     alertDialog.getListView().setItemsCanFocus(false);
     alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     //prevent automatic dismiss on button click
-    alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE)));
+    alertDialog.setOnShowListener(dialog -> {
+      alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+          v -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE));
+      Button neutral = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+      if (neutral != null) {
+        neutral.setOnClickListener(v -> onClick(alertDialog, AlertDialog.BUTTON_NEUTRAL));
+      }
+    });
     return alertDialog;
+  }
+
+  protected int getNeutralButton() {
+    return 0;
+  }
+
+  protected int getNegativeButton() {
+    return android.R.string.cancel;
+  }
+
+  protected int getPositiveButton() {
+    return android.R.string.ok;
   }
 
   @Override
@@ -137,7 +162,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
           labelList.add(adapter.getItem(positions.keyAt(i)).label);
         }
       }
-      shouldDismiss = onResult(labelList, itemIds);
+      shouldDismiss = onResult(labelList, itemIds, which);
     }
     if (shouldDismiss) {
       dismiss();

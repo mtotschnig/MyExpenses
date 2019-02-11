@@ -99,7 +99,6 @@
   <string name="dialog_title_balance_account">Balance %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_template_title">Establecer título</string>
-  <string name="dialog_title_warning_delete_account">¿Borrar cuenta?</string>
   <string name="dialog_title_warning_delete_main_category">¿Borrar categoría principal?</string>
   <string name="dialog_title_warning_delete_template">¿Borrar plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">¿Borrar transacción?</string>

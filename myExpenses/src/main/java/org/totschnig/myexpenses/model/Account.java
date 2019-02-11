@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.model;
 
@@ -47,8 +47,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
@@ -73,6 +71,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -135,6 +134,8 @@ public class Account extends Model {
    */
   private double exchangeRate = 1D;
 
+  private boolean sealed;
+
   public String getSyncAccountName() {
     return syncAccountName;
   }
@@ -166,23 +167,24 @@ public class Account extends Model {
 
   public static void buildProjection() {
     PROJECTION_BASE = new String[]{
-      TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
-      KEY_LABEL,
-      KEY_DESCRIPTION,
-      KEY_OPENING_BALANCE,
-      TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
-      KEY_COLOR,
-      TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
-      KEY_TYPE,
-      KEY_SORT_KEY,
-      KEY_EXCLUDE_FROM_TOTALS,
-      HAS_EXPORTED,
-      KEY_SYNC_ACCOUNT_NAME,
-      KEY_UUID,
-      KEY_SORT_DIRECTION,
-      DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
-      KEY_CRITERION
-  };
+        TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
+        KEY_LABEL,
+        KEY_DESCRIPTION,
+        KEY_OPENING_BALANCE,
+        TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
+        KEY_COLOR,
+        TABLE_ACCOUNTS + "." + KEY_GROUPING + " AS " + KEY_GROUPING,
+        KEY_TYPE,
+        KEY_SORT_KEY,
+        KEY_EXCLUDE_FROM_TOTALS,
+        HAS_EXPORTED,
+        KEY_SYNC_ACCOUNT_NAME,
+        KEY_UUID,
+        KEY_SORT_DIRECTION,
+        DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE,
+        KEY_CRITERION,
+        KEY_SEALED
+    };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
@@ -297,7 +299,6 @@ public class Account extends Model {
         null;
     context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
         where, validAccounts);
-    List<String> validAccountNames = Arrays.asList(validAccounts);
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {
@@ -392,9 +393,11 @@ public class Account extends Model {
     }
     try {
       this.setGrouping(Grouping.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_GROUPING))));
-    } catch (IllegalArgumentException ignored) {}
+    } catch (IllegalArgumentException ignored) {
+    }
     this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
     this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
+    this.sealed = c.getInt(c.getColumnIndex(KEY_SEALED)) != 0;
 
     this.syncAccountName = c.getString(c.getColumnIndex(KEY_SYNC_ACCOUNT_NAME));
 
@@ -512,7 +515,7 @@ public class Account extends Model {
           .withValue(KEY_OPENING_BALANCE, currentBalance)
           .build();
     } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-      Transaction helper = new Transaction(getId(), new Money(currencyUnit,getTransactionSum(filter)));
+      Transaction helper = new Transaction(getId(), new Money(currencyUnit, getTransactionSum(filter)));
       helper.setComment(helperComment);
       helper.status = STATUS_HELPER;
       handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
@@ -880,7 +883,6 @@ public class Account extends Model {
   }
 
   /**
-   *
    * @param withType true means, that the query is for either positive (income) or negative (expense) transactions
    *                 in that case, the merge transfer restriction must be skipped, since it is based on only
    *                 selecting the negative part of a transfer
@@ -895,7 +897,7 @@ public class Account extends Model {
   }
 
   public boolean isAggregate() {
-    return  getId() < 0;
+    return getId() < 0;
   }
 
 
@@ -953,5 +955,9 @@ public class Account extends Model {
 
   public Money getBudget() {
     return budget;
+  }
+
+  public boolean isSealed() {
+    return sealed;
   }
 }

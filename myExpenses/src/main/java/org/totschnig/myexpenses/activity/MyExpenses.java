@@ -54,6 +54,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 
+import com.annimon.stream.Stream;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -65,6 +67,7 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
@@ -99,6 +102,7 @@ import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.io.Serializable;
@@ -129,17 +133,22 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
 
 /**
  * This is the main activity where all expenses are listed
@@ -157,6 +166,7 @@ public class MyExpenses extends LaunchActivity implements
   public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
+  private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
 
   private LoaderManager mManager;
 
@@ -209,6 +219,7 @@ public class MyExpenses extends LaunchActivity implements
   CurrencyFormatter currencyFormatter;
 
   private RoadmapViewModel roadmapViewModel;
+  private MyExpensesViewModel viewModel;
 
   @Override
   protected void injectDependencies() {
@@ -332,6 +343,10 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
     }
     roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
+    viewModel = ViewModelProviders.of(this).get(MyExpensesViewModel.class);
+    viewModel.getHasHiddenAccounts().observe(this,
+        result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
+    viewModel.loadHiddenAccountCount();
     setup();
     if (savedInstanceState == null) {
       voteReminderCheck();
@@ -412,16 +427,19 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
     if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
-      menu.add(0, R.id.EDIT_ACCOUNT_COMMAND, 0, R.string.menu_edit);
-      if (mAccountsCursor.getCount() > 1) {
-        menu.add(0, R.id.DELETE_ACCOUNT_COMMAND, 0, R.string.menu_delete);
-      }
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.accounts_context, menu);
+      mAccountsCursor.moveToPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
+      final boolean isSealed = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_SEALED)) == 1;
+      menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
+      menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
+      menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(!isSealed);
     }
   }
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-    dispatchCommand(item.getItemId(), ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).id);
+    dispatchCommand(item.getItemId(), item.getMenuInfo());
     return true;
   }
 
@@ -581,7 +599,7 @@ public class MyExpenses extends LaunchActivity implements
           showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
-        else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < 5) {
+        else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
           closeDrawer();
           i = new Intent(this, AccountEdit.class);
           if (tag != null)
@@ -593,10 +611,17 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
-        mAccountId = 0;
+        final Long[] accountIds = (Long[]) tag;
+        if (Stream.of(accountIds).anyMatch(id -> id == mAccountId)) {
+          mAccountId = 0;
+        }
+        final Fragment manageHiddenFragment = getSupportFragmentManager().findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG);
+        if (manageHiddenFragment != null) {
+          getSupportFragmentManager().beginTransaction().remove(manageHiddenFragment).commit();
+        }
         startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_ACCOUNT,
-            new Long[]{(Long) tag},
+            accountIds,
             null,
             R.string.progress_dialog_deleting);
         return true;
@@ -633,33 +658,35 @@ public class MyExpenses extends LaunchActivity implements
         }
         return true;
       }
-      case R.id.EDIT_ACCOUNT_COMMAND:
+      case R.id.EDIT_ACCOUNT_COMMAND: {
         closeDrawer();
-        long accountId = (Long) tag;
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
         if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
           i = new Intent(this, AccountEdit.class);
           i.putExtra(KEY_ROWID, accountId);
           startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
         }
         return true;
-      case R.id.DELETE_ACCOUNT_COMMAND:
+      }
+      case R.id.DELETE_ACCOUNT_COMMAND: {
         closeDrawer();
-        accountId = (Long) tag;
-        //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
-        if (mAccountsCursor.getCount() > 1 && accountId > 0) {
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
           final Account account = Account.getInstanceFromDb(accountId);
           if (account != null) {
             MessageDialogFragment.newInstance(
-                R.string.dialog_title_warning_delete_account,
-                getString(R.string.warning_delete_account, account.getLabel()),
+                getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1),
+                getString(R.string.warning_delete_account, account.getLabel()) + " " + getString(R.string.continue_confirmation),
                 new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                    accountId),
+                    new Long[]{accountId}),
                 null,
-                MessageDialogFragment.Button.noButton())
+                MessageDialogFragment.Button.noButton(), 0)
                 .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
           }
         }
         return true;
+      }
       case R.id.GROUPING_ACCOUNTS_COMMAND: {
         MenuDialog.build()
             .menu(this, R.menu.accounts_grouping)
@@ -684,6 +711,49 @@ public class MyExpenses extends LaunchActivity implements
         Intent intent = new Intent(this, RoadmapVoteActivity.class);
         startActivity(intent);
         return true;
+      }
+      case R.id.CLOSE_ACCOUNT_COMMAND: {
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
+          mAccountsCursor.moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
+          if (mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null ) {
+            startTaskExecution(
+                TASK_SET_ACCOUNT_SEALED,
+                new Long[]{accountId},
+                true, 0);
+          } else {
+            showSnackbar(getString(R.string.warning_synced_account_cannot_be_closed),
+                Snackbar.LENGTH_LONG, null, null, mDrawerList);
+          }
+        }
+        return true;
+      }
+      case R.id.REOPEN_ACCOUNT_COMMAND: {
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
+          startTaskExecution(
+              TASK_SET_ACCOUNT_SEALED,
+              new Long[]{accountId},
+              false, 0);
+        }
+        return true;
+      }
+      case R.id.HIDE_ACCOUNT_COMMAND: {
+        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+        //do nothing if accidentally we are positioned at an aggregate account
+        if (accountId > 0) {
+          startTaskExecution(
+              TASK_SET_ACCOUNT_HIDDEN,
+              new Long[]{accountId},
+              true, 0);
+        }
+        return true;
+      }
+      case R.id.HIDDEN_ACCOUNTS_COMMAND: {
+        SelectHiddenAccountDialogFragment.newInstance().show(getSupportFragmentManager(),
+            MANAGE_HIDDEN_FRAGMENT_TAG);
       }
     }
     return false;
@@ -721,9 +791,7 @@ public class MyExpenses extends LaunchActivity implements
 
   public void finishActionMode() {
     if (mCurrentPosition != -1) {
-      ContextualActionBarFragment f =
-          (ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-              mViewPagerAdapter.getFragmentName(mCurrentPosition));
+      ContextualActionBarFragment f = getCurrentFragment();
       if (f != null)
         f.finishActionMode();
     }
@@ -807,7 +875,7 @@ public class MyExpenses extends LaunchActivity implements
       case ACCOUNTS_CURSOR:
         Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
-        return new CursorLoader(this, builder.build(), null, null, null, null);
+        return new CursorLoader(this, builder.build(), null, KEY_HIDDEN + " = 0", null, null);
     }
     throw new IllegalStateException("Unknown loader id " + id);
   }
@@ -842,6 +910,11 @@ public class MyExpenses extends LaunchActivity implements
     mAccountId = newAccountId;
     currentCurrency = mAccountsCursor.getString(columnIndexCurrency);
     setBalance();
+    if (mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_SEALED)) == 1) {
+      floatingActionButton.hide();
+    } else {
+      floatingActionButton.show();
+    }
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
   }
@@ -1036,8 +1109,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private void setBalance() {
-    long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
-        (KEY_CURRENT_BALANCE));
+    long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE));
     boolean isHome  = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
     mCurrentBalance = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.formatCurrency(new Money(currencyContext.get(currentCurrency), balance)));

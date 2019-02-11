@@ -99,7 +99,6 @@
   <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
-  <string name="dialog_title_warning_delete_account">Konto löschen?</string>
   <string name="dialog_title_warning_delete_main_category">Hauptkategorie löschen?</string>
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>

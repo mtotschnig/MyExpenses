@@ -97,7 +97,6 @@
   <string name="dialog_title_balance_account">%1$s saldoa</string>
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
   <string name="dialog_title_template_title">Ezarri izenburua</string>
-  <string name="dialog_title_warning_delete_account">Ezabatu kontua?</string>
   <string name="dialog_title_warning_delete_main_category">Ezabatu kategoria nagusia?</string>
   <string name="dialog_title_warning_delete_template">Ezabatu txantiloia?</string>
   <string name="dialog_title_warning_delete_transaction">Ezabatu transakzioa?</string>
