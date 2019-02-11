@@ -62,7 +62,8 @@ public class PlanExecutor extends IntentService {
   public void onHandleIntent(Intent intent) {
     String plannerCalendarId;
     ZonedDateTime nowZDT = ZonedDateTime.now();
-    LocalDateTime endOfDay = nowZDT.toLocalDate().atTime(LocalTime.MAX);
+    long beginningOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MIN), ZoneId.systemDefault()).toEpochSecond() * 1000;
+    long endOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MAX), ZoneId.systemDefault()).toEpochSecond() * 1000;
     LocalDateTime nextRun = nowZDT.toLocalDate().atTime(6,0).plusDays(1);
     long now = nowZDT.toEpochSecond() * 1000;
     log("now %d compared to System.currentTimeMillis %d", now, System.currentTimeMillis());
@@ -88,13 +89,15 @@ public class PlanExecutor extends IntentService {
       log("Broken system time? Cannot execute plans.");
       return;
     }
-    long instancesTo = ZonedDateTime.of(endOfDay, ZoneId.systemDefault()).toEpochSecond() * 1000;
-    log("now %d compared to end of day %d", now, instancesTo);
-    log("executing plans from %d to %d", instancesFrom, instancesTo);
+    if (beginningOfDay < instancesFrom) {
+      instancesFrom = beginningOfDay;
+    }
+    log("now %d compared to end of day %d", now, endOfDay);
+    log("executing plans from %d to %d", instancesFrom, endOfDay);
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
     ContentUris.appendId(eventsUriBuilder, instancesFrom);
-    ContentUris.appendId(eventsUriBuilder, instancesTo);
+    ContentUris.appendId(eventsUriBuilder, endOfDay);
     Uri eventsUri = eventsUriBuilder.build();
     Cursor cursor;
     try {
