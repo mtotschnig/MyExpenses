@@ -143,6 +143,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverz</string>
   <string name="menu_manage_plans">Sablonok és tervek</string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_import">Import</string>
   <string name="menu_reset">Export és alap állapotra visszaállítás</string>
   <string name="menu_reset_all">Export és teljes reset</string>
@@ -289,7 +290,7 @@
   <string name="unsplit_amount_greater_than_zero">Még továbbra is maradt felosztatlan összeg.</string>
   <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára (%1$s).</string>
   <string name="continue_confirmation">Folytatja?</string>
-  <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt (%1$s). Folytatja?</string>
+  <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt (%1$s).</string>
   <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
   <string name="warning_reset_account">Ha folytatja minden ehhez a számlához tartozó tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
@@ -331,4 +332,11 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <string name="menu_close">Bezár</string>
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>

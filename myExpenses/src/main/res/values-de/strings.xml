@@ -185,6 +185,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Umkehren</string>
   <string name="menu_manage_plans">Vorlagen und Pläne</string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_open">Öffnen</string>
   <string name="menu_import">Import</string>
   <string name="menu_print">Drucken</string>
@@ -396,7 +397,7 @@
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
   <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert.</string>
   <string name="continue_confirmation">Möchten Sie fortfahren?</string>
-  <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
+  <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
@@ -637,7 +638,7 @@
   <string name="synchronization_start">Synchronisierung für das Konto %s wird gestartet.</string>
   <string name="synchronization_end_success">%1$d entfernte Änderungen wurden in die lokale Datenbank geschrieben. %2$d lokale Änderungen wurden in das entfernte Backend geschrieben.</string>
   <string name="synchronization_end_success_none">Keine Änderungen zum Synchronisieren.</string>
-  <string name="pref_webdav_timeout_title">WebDAV Zeitüberschreitung</string>
+  <string name="pref_webdav_timeout_title">WebDAV Zeitüberschreitung (in Sekunden)</string>
   <string name="sync_state_restored">Sync-Status wurde für %d Konten wiederhergestellt.</string>
   <string name="sync_state_could_not_be_restored">Sync-Status konnte für %d Konten nicht wiederhergestellt werden.</string>
   <string name="onboarding_ui_title">{app_name} passt sich Ihren Vorlieben an</string>
@@ -809,4 +810,11 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">oder</string>
   <string name="pref_account_list_fast_scroll_summary">Aktivieren Sie das schnelle Scrollen für die Kontoliste. Kann bei manchen Geräten zu einer falschen Anzeige führen</string>
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <string name="menu_close">Schließen</string>
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>

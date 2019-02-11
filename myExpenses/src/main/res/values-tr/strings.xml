@@ -185,6 +185,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Ters Çevir</string>
   <string name="menu_manage_plans">Şablonlar ve planlar</string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_open">Aç</string>
   <string name="menu_import">İçe aktar</string>
   <string name="menu_print">Yazdır</string>
@@ -634,7 +635,7 @@
   <string name="synchronization_start">%s hesabı için eşleştirme başlatılıyor.</string>
   <string name="synchronization_end_success">Uzaktaki %1$d değişiklik yerel veritabanına yazıldı. Yerel %2$d değişiklik uzaktaki arka uca yazıldı.</string>
   <string name="synchronization_end_success_none">Eşleştirilecek hiçbir değişiklik yok.</string>
-  <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı</string>
+  <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı (saniye olarak)</string>
   <string name="sync_state_restored">%d hesap için eşleştirme durumu geri getirildi.</string>
   <string name="sync_state_could_not_be_restored">%d hesap için eşleştirme durumu geri getirilemedi.</string>
   <string name="onboarding_ui_title">{app_name} tercihinize uyum sağlar</string>
@@ -763,4 +764,11 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <string name="menu_close">Yakın</string>
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>

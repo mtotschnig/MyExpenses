@@ -185,6 +185,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Đảo lại</string>
   <string name="menu_manage_plans">Bản mẫu và kế hoạch</string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_open">Mở</string>
   <string name="menu_import">Nhập dữ liệu</string>
   <string name="menu_print">In</string>
@@ -393,7 +394,7 @@
   <string name="unsplit_amount_greater_than_zero">Có một số thao tác về số lượng chưa được phân tách</string>
   <string name="warning_backup">Cơ sở dữ liệu và tùy biến sẽ được lưu vào thẻ nhớ (%1$s).</string>
   <string name="continue_confirmation">Bạn có muốn tiếp tục?</string>
-  <string name="warning_delete_account">Tài khoản này sẽ bị xóa kèm theo tất cả các giao dịch bên trong (%1$s). Bạn có thực sự muốn tiếp tục?</string>
+  <string name="warning_delete_account">Tài khoản này sẽ bị xóa kèm theo tất cả các giao dịch bên trong (%1$s). </string>
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d danh mục được chọn có các danh mục con, chúng cũng sẽ bị xóa đi.</item>
   </plurals>
@@ -627,7 +628,7 @@
   <string name="synchronization_start">Bắt đầu đồng bộ hóa cho tài khoản %s.</string>
   <string name="synchronization_end_success">%1$d thay đổi từ xa đã được ghi vào CSDL nội bộ. %2$d thay đổi nội bộ đã được ghi vào backend từ xa.</string>
   <string name="synchronization_end_success_none">Không có thay đổi nào để đồng bộ.</string>
-  <string name="pref_webdav_timeout_title">Thời gian chờ WebDAV</string>
+  <string name="pref_webdav_timeout_title">Thời gian chờ WebDAV (tính bằng giây)</string>
   <string name="sync_state_restored">Trạng thái đồng bộ hóa đã được khôi phục cho %d tài khoản.</string>
   <string name="sync_state_could_not_be_restored">Không thể khôi phục trạng thái đồng bộ hóa cho %d tài khoản.</string>
   <string name="onboarding_ui_title">{app_name} được thay đổi cho phù hợp với cài đặt của bạn</string>
@@ -730,4 +731,11 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <string name="menu_close">Đóng</string>
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>

@@ -171,6 +171,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">倒置</string>
   <string name="menu_manage_plans">模板与计划</string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_open">打开</string>
   <string name="menu_import">导入</string>
   <string name="menu_print">打印</string>
@@ -350,7 +351,7 @@
   <string name="unsplit_amount_greater_than_zero">还有一些金额未分割.</string>
   <string name="warning_backup">数据库和喜好设置将被储存到SD卡 %1$s.</string>
   <string name="continue_confirmation">你要继续吗?</string>
-  <string name="warning_delete_account">此帐户将与它的所有交易将被删除 (%1$s).你要继续吗?</string>
+  <string name="warning_delete_account">此帐户将与它的所有交易将被删除 (%1$s).</string>
   <string name="warning_password_protected">应用被密码保护</string>
   <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
   <string name="warning_password_contrib">若果您忘记了密码,设置一个安全问题可让你再次解锁此应用.</string>
@@ -480,4 +481,10 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>

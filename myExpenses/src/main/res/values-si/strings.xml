@@ -141,6 +141,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">යටිකුරු කරනවා</string>
   <string name="menu_manage_plans">අච්චු සහ සැලසුම් </string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_import">ආනයනය </string>
   <string name="menu_reset">අපනයන සහ යලිපිහිටුවීම </string>
   <string name="menu_reset_all">සියල්ල අපනයන කර නැවත පිහිටුවන්න </string>
@@ -384,4 +385,10 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>

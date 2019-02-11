@@ -185,6 +185,7 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Invertir</string>
   <string name="menu_manage_plans">Plantillas y proyectos</string>
+  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_open">Abrir</string>
   <string name="menu_import">Importar</string>
   <string name="menu_print">Imprimir</string>
@@ -637,7 +638,7 @@
   <string name="synchronization_start">Comenzando la sincronización de la cuenta %s.</string>
   <string name="synchronization_end_success">Los cambios remotos de %1$d se han escrito en la base de datos local. Los cambios locales de %2$d se han escrito en el servicio remoto. </string>
   <string name="synchronization_end_success_none">No hay cambios para sincronizar.</string>
-  <string name="pref_webdav_timeout_title">Límite de tiempo de WebDAV</string>
+  <string name="pref_webdav_timeout_title">Tiempo de espera de WebDAV (en segundos)</string>
   <string name="sync_state_restored">Se restauró el estado de sincronización para %d cuentas.</string>
   <string name="sync_state_could_not_be_restored">No se pudo restaurar el estado de sincronización para %d cuentas.</string>
   <string name="onboarding_ui_title">{app_name} se adapta a sus preferencias</string>
@@ -809,4 +810,11 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">o</string>
   <string name="pref_account_list_fast_scroll_summary">Habilitar desplazamiento rápido para la lista de cuentas. Puede producir error en la visualización en algunos dispositivos.</string>
+  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <string name="menu_close">Cerrar</string>
+  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <!--Menu entry for opening a list of all hidden accounts.-->
+  <!--Action of showing an account again that had previously been hidden.-->
+  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
 </resources>
