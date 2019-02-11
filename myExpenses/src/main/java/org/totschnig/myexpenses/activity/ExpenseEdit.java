@@ -1703,9 +1703,9 @@ public class ExpenseEdit extends AmountActivity implements
         int visibility = View.GONE;
         if (id > 0) {
           if (CALENDAR.hasPermission(this)) {
-            boolean newSplitTemplateEnabled = NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true);
+            boolean newSplitTemplateEnabled = getPrefHandler().getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
             boolean newPlanEnabled = getPrefHandler().getBoolean(NEW_PLAN_ENABLED, true);
-            if (newPlanEnabled && (newSplitTemplateEnabled || mOperationType != TYPE_SPLIT)) {
+            if (newPlanEnabled && (newSplitTemplateEnabled || mOperationType != TYPE_SPLIT || mTransaction instanceof Template)) {
               visibility = View.VISIBLE;
               showCustomRecurrenceInfo();
             } else {
