@@ -631,7 +631,7 @@ public class Template extends Transaction {
   }
 
   @Override
-  protected Transaction getSplitPart(long parentId) {
-    return Template.getInstanceFromDb(parentId);
+  protected Transaction getSplitPart(long partId) {
+    return Template.getInstanceFromDb(partId);
   }
 }

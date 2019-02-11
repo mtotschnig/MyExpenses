@@ -779,8 +779,8 @@ public class Transaction extends Model {
     }
   }
 
-  protected Transaction getSplitPart(long parentId) {
-    return Transaction.getInstanceFromDb(parentId);
+  protected Transaction getSplitPart(long partId) {
+    return Transaction.getInstanceFromDb(partId);
   }
 
   public Uri getContentUri() {
