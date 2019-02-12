@@ -57,7 +57,12 @@ public abstract class CrashHandler {
   }
 
   public static void report(String message) {
-    report(message, null);
+    final Exception e = new Exception(message);
+    e.fillInStackTrace();
+    List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
+    stack.remove(0);
+    e.setStackTrace(stack.toArray(new StackTraceElement[0]));
+    Timber.e(e);
   }
 
   public abstract void onAttachBaseContext(MyApplication application);
