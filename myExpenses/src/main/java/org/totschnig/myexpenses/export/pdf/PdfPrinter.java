@@ -347,13 +347,15 @@ public class PdfPrinter {
 
           private Object findFirstChunkGenericTag(PdfPRow row) {
             for (PdfPCell cell : row.getCells()) {
-              Phrase phrase = cell.getPhrase();
-              if (phrase != null) {
-                final List<Chunk> chunks = phrase.getChunks();
-                if (chunks.size() > 0) {
-                  final HashMap<String, Object> attributes = chunks.get(0).getAttributes();
-                  if (attributes != null) {
-                    return attributes.get(GENERICTAG);
+              if (cell != null) {
+                Phrase phrase = cell.getPhrase();
+                if (phrase != null) {
+                  final List<Chunk> chunks = phrase.getChunks();
+                  if (chunks.size() > 0) {
+                    final HashMap<String, Object> attributes = chunks.get(0).getAttributes();
+                    if (attributes != null) {
+                      return attributes.get(GENERICTAG);
+                    }
                   }
                 }
               }
