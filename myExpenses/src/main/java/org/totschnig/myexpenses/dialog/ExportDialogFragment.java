@@ -185,12 +185,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       public void afterTextChanged(Editable s) {
         try {
           new SimpleDateFormat(s.toString(), Locale.US);
-          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
           dateFormatET.setError(null);
         } catch (IllegalArgumentException e) {
           dateFormatET.setError(getString(R.string.date_format_illegal));
-          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         }
+        configureButton();
       }
 
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -211,8 +210,8 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
         } else {
           error = R.string.no_title_given;
         }
-        mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(error == 0);
         fileNameET.setError(error != 0 ? getString(error) : null);
+        configureButton();
       }
 
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -474,6 +473,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       warningTV.setVisibility(View.GONE);
       handleDeletedGroup.setVisibility(View.GONE);
     }
+  }
+
+  private void configureButton() {
+    mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(dateFormatET.getError() == null &&
+        fileNameET.getError() == null);
   }
 
   @Override
