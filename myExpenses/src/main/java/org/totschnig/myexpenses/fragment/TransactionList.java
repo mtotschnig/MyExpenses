@@ -345,6 +345,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
     MyExpenses ctx = (MyExpenses) getActivity();
+    if (ctx == null) return false;
     FragmentManager fm = getFragmentManager();
     switch (command) {
       case R.id.DELETE_COMMAND: {
