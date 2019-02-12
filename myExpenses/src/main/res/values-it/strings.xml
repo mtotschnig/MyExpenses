@@ -638,6 +638,7 @@
   <string name="synchronization_start">Avvio della sincronizzazione per l\'account %s.</string>
   <string name="synchronization_end_success">%1$d modifiche remote sono state scritte nel database locale. %2$d modifiche locali sono state scritte sul back-end remoto.</string>
   <string name="synchronization_end_success_none">Nessuna modifica da sincronizzare.</string>
+  <string name="pref_webdav_timeout_title">Timeout WebDAV (in secondi)</string>
   <string name="sync_state_restored">Lo stato di sincronizzazione è stato ripristinato per%d conti.</string>
   <string name="sync_state_could_not_be_restored">Lo stato di sincronizzazione non può essere ripristinato per %dconti.</string>
   <string name="onboarding_ui_title">{app_name} si adatta alle tue preferenze</string>
@@ -809,11 +810,18 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">o</string>
   <string name="pref_account_list_fast_scroll_summary">Abilita lo scorrimento rapido per la lista degli account. Può portare ad una visualizzazione errata su alcuni dispositivi</string>
+  <string name="menu_hide">Nascondi</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Chiudere</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Riapri</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Conti nascosti</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Mostra</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Cifrato</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Chiuso</string>
+  <string name="warning_synced_account_cannot_be_closed">Un conto collegato al backend di sincronizzazione non può essere chiuso</string>
 </resources>
