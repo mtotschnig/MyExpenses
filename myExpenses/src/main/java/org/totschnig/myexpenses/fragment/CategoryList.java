@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -67,6 +66,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -162,14 +162,12 @@ public class CategoryList extends SortableListFragment {
 
   protected void loadData() {
     disposeCategory();
-    categoryDisposable = createQuery().subscribe(query -> {
-          final Cursor cursor = query.run();
-          if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-              mAdapter.ingest(cursor);
-              onLoadFinished();
-            });
-          }
+    categoryDisposable = createQuery()
+        .map(SqlBrite.Query::run)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(cursor -> {
+          mAdapter.ingest(cursor);
+          onLoadFinished();
         });
   }
 

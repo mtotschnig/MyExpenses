@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -96,17 +97,14 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     itemDisposable = briteContentResolver.createQuery(getUri(),
         null, getSelection(), getSelectionArgs(), null, false)
         .mapToList((Cursor cursor) -> DataHolder.fromCursor(cursor, getColumn()))
+        .observeOn(AndroidSchedulers.mainThread())
         .subscribe(collection -> {
-          if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-              adapter.clear();
-              if (withNullItem) {
-                adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
-              }
-              adapter.addAll(collection);
-              adapter.notifyDataSetChanged();
-            });
+          adapter.clear();
+          if (withNullItem) {
+            adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
           }
+          adapter.addAll(collection);
+          adapter.notifyDataSetChanged();
         });
 
     final int neutralButton = getNeutralButton();
