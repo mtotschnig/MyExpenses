@@ -25,127 +25,6 @@
       <script src="/script/html5shiv.js"></script>
       <script src="/script/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript">
-      //http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
-      function availableWidth() {
-        var myWidth = 0;
-        if( typeof( window.innerWidth ) == 'number' ) {
-          //Non-IE
-          return window.innerWidth;
-        } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
-          //IE 6+ in 'standards compliant mode'
-          return document.documentElement.clientWidth;
-        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
-          return document.body.clientWidth;
-        }
-      }
-      /* based on Android Asset Studio - Device Frame Generator */
-      var SCREENSHOT_WIDTH = 335;
-      var SCREENSHOT_HEIGTH = 595;
-      var MINIMAL_WIDTH_DEVICE_ART = 500;
-      var FRAME_WIDTH = 425;
-      var FRAME_HEIGHT = 786;
-      var availableWidth=availableWidth();
-      var scale = (availableWidth < FRAME_WIDTH) ? availableWidth/FRAME_WIDTH : 1;
-      
-      var loadImageResources = function(images, callback) {
-        var imageResources = {};
-  
-        var checkForCompletion = function() {
-          for (var id in images) {
-            if (!(id in imageResources))
-              return;
-          }
-          (callback || function(){})(imageResources);
-          callback = null;
-        };
-  
-        for (var id in images) {
-          var img = document.createElement('img');
-          img.src = images[id];
-          (function(img, id) {
-            img.onload = function() {
-              imageResources[id] = img;
-              checkForCompletion();
-            };
-            img.onerror = function() {
-              imageResources[id] = null;
-              checkForCompletion();
-            }
-          })(img, id);
-        }
-      };
-      var g_currentDevice = {
-        density: '441DPI',
-        id: 'pixel_2',
-        physicalHeight: 5.7,
-        physicalSize: 5,
-        portOffset: [56, 118],
-        portRes: ['shadow', 'back', 'fore'],
-        portSize: [1080, 1920],
-        title: 'Pixel 2',
-        url: 'https://store.google.com/product/pixel_2'
-      }
-     var resourceImages = {};
-     var canvasTemplate = document.createElement('canvas');
-     function loadDeviceArt() {
-        // Load image resources
-        var res = g_currentDevice.portRes;
-        var resList = {};
-        for (var i = 0; i < res.length; i++) {
-          resList[res[i]] = '/visuals/pixel_2/port_' + res[i] + '.png'
-        }
-        loadImageResources(resList, function(r) {
-          resourceImages = r;
-          loadScreenShots();
-        });
-      }
-
-      function loadScreenShots() {
-        if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
-          //console.log("setting SCALE "+ scale);
-          var ctx = canvasTemplate.getContext('2d');
-          canvasTemplate.width=FRAME_WIDTH*scale;
-          canvasTemplate.height=FRAME_HEIGHT*scale
-          ctx.drawImage(resourceImages['shadow'], 0, 0,canvasTemplate.width,canvasTemplate.height);
-          ctx.drawImage(resourceImages['back'], 0, 0,canvasTemplate.width,canvasTemplate.height);
-          ctx.drawImage(resourceImages['fore'], 0, 0,canvasTemplate.width,canvasTemplate.height);
-        }
-        //console.log("setting scale "+ scale);
-        var ssList = [{% for feature in site.features %}'{{feature}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
-        for (var i = 0; i < ssList.length; i++) {
-          var img = document.createElement('img');
-          var id = ssList[i];
-          //console.log("creating image "+id);
-          (function(img, id) {
-            img.onload = function() {
-              if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
-                //console.log("image "+id + " loaded");
-                var canvas = document.createElement('canvas');
-                canvas.width=FRAME_WIDTH*scale;
-                //console.log("setting width "+ canvas.width);
-                canvas.height=FRAME_HEIGHT*scale
-                if (!navigator.userAgent.match(/msie/i) ){
-                  canvas.style.maxWidth = '80%';
-                }
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(canvasTemplate,0,0);
-                var offset = g_currentDevice.portOffset;
-                ctx.drawImage(img,offset[0]*scale, offset[1]*scale,SCREENSHOT_WIDTH*scale,SCREENSHOT_HEIGTH*scale);
-                $('#'+id).prepend(canvas);
-              } else {
-                $('#'+id).prepend(img);
-              }
-              $('#'+id + " .loading").toggle(false);
-            };
-            img.onerror = function() {
-              $('#'+id).prepend($('<p class="error">Error retrieving screenshot ' + id + '</p>'));
-            }
-          })(img, id);
-          img.src = '{{screenshotdir}}' + id + '_31.png';
-        }
-      }
-    </script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -271,31 +150,20 @@
           </div>
         </div> <!-- /row -->
       </div> <!-- /well -->
-      <div id="features" class="carousel slide block">
-        <!-- Indicators -->      
-        <!-- Wrapper for slides -->
-        <div id="canvas-parent" class="carousel-inner">
+      <div id="features" class="block">
+        <nav>
+        <ul>
           {% for feature in site.features %}
-          <div id="{{feature}}" class="item {% if forloop.index0 == 0 %}active{% endif %}">
-            <div class="loading"></div>
-            <div class="carousel-caption">
-            {{t.screenshots[feature]}}
-            </div>
-          </div>
+          <li><a class="featuretoc{% if forloop.index0 == 0 %} active{% endif %}" href="#{{feature}}">{{t.screenshots[feature]}}</a>
+                    <article id="{{feature}}" class="target{% if forloop.index0 == 0 %} active{% endif %}">
+            <figure>
+              <img src="{{screenshotdir}}{{feature}}.png">
+            </figure>
+          </article>
+          </li>
           {% endfor %}
-        </div>
-        <ol class="carousel-indicators">
-          {% for feature in site.features %}
-          <li title="{{t.screenshots[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="item active"{% endif %}></li>
-          {% endfor %}
-        </ol>
-        <!-- Controls -->
-        <a class="left carousel-control" href="#features" data-slide="prev">
-          <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#features" data-slide="next">
-          <span class="icon-next"></span>
-        </a>
+       </ul>
+       </nav>
       </div> <!-- /features -->
       {{content}}
       {% include misc_info.html %}
@@ -354,7 +222,6 @@
         });
         mkActive(location.hash);
 
-        loadDeviceArt();
       })
      $('a.lang_switch').click(function(event){
         this.hash = location.hash;
@@ -371,6 +238,18 @@
         $('html, body').animate({
           scrollTop: $(this.hash).offset().top
         }, 'slow');
+      });
+      $('.featuretoc').click(function(event){
+        event.preventDefault();
+        if ($(this).hasClass("active") && window.matchMedia("(max-width: 599px)").matches) {
+          $(this).removeClass("active");
+          $(this.hash).removeClass("active");
+        } else {
+          $('.featuretoc.active').removeClass("active");
+          $('article.active').removeClass("active");
+          $(this).addClass("active");
+          $(this.hash).addClass("active");
+        }
       });
       //target is hash + id of block  
       function mkActive(target) {
