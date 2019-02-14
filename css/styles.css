@@ -1,26 +1,3 @@
-.carousel {
-  margin-bottom: 30px;
-  padding-bottom: 30px;
-}
-.carousel-caption {
-  position: static;
-  color: #000000;
-  padding: 0;
-}
-.carousel-inner {
-  padding-bottom: 30px;
-  text-align: center;
-}
-.carousel-inner > .item > img {
-  display: inline;
-  height: 600px;
-}
-.carousel-indicators li {
-    border: 1px solid #000000;
-}
-.carousel-indicators .active {
-    background-color: #000000;
-}
 .well {
   text-align: center;
 }
@@ -110,10 +87,6 @@ Back to top button
 	background-color: #777;
 }
 @media screen and (min-width: 700px) {
-  .container {
-    padding-left: 75px;
-    padding-right: 75px;
-  }
   #back-top {
 	  margin-left: -75px;
   }
