@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_301">
+    <item>Сметките може да бъдат затворени и/или скрити.</item>
+  </string-array>
   <string-array name="whats_new_300">
     <item>Превод на украйнски</item>
     <item>Избор на символа-разделител при CSV експорт</item>

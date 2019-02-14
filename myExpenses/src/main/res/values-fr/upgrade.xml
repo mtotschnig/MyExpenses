@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_301">
+    <item>Les comptes peuvent être fermés et / ou cachés</item>
+  </string-array>
   <string-array name="whats_new_300">
     <item>Traduction ukrainienne</item>
     <item>Exportation CSV: séparateur de champ configurable</item>

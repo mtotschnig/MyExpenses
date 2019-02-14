@@ -99,6 +99,10 @@
   <string name="dialog_title_balance_account">Rapprochement %1$s</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_template_title">Définir le titre</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Supprimer le compte?</item>
+    <item quantity="other">Supprimer %1$dcomptes?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
@@ -810,11 +814,18 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">ou</string>
   <string name="pref_account_list_fast_scroll_summary">Activer le défilement rapide pour la liste des comptes. Peut entraîner un affichage incorrect sur certains appareils</string>
+  <string name="menu_hide">Cacher</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Fermer</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Rouvrir</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Comptes cachés</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Montrer</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Crypté</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Fermé</string>
+  <string name="warning_synced_account_cannot_be_closed">Un compte lié à un backend de synchronisation ne peut pas être fermé</string>
 </resources>

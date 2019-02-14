@@ -99,6 +99,10 @@
   <string name="dialog_title_balance_account">Баланс %1$s</string>
   <string name="dialog_title_contrib_feature">Функция от Премиум вариант</string>
   <string name="dialog_title_template_title">Задайте име</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Да се изтрие ли профилът?</item>
+    <item quantity="other">Да се изтрият ли тези %1$d сметки?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_main_category">Да изтрия ли основната категория?</string>
   <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
   <string name="dialog_title_warning_delete_transaction">Да изтрия ли транзакцията?</string>
@@ -810,11 +814,18 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">или</string>
   <string name="pref_account_list_fast_scroll_summary">Активиране на бързо превъртане за списъка на сметките. Може да доведе до неправилно показване на някои устройства</string>
+  <string name="menu_hide">Скрий</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Затвори</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Отваряне на затворена сметка</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Скрити сметки</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Покажи</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Шифровано</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Затворена</string>
+  <string name="warning_synced_account_cannot_be_closed">Сметка, която е свързана с хранилище за синхронизиране, не може да бъде затворена</string>
 </resources>

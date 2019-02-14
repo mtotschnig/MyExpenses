@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_301">
+    <item>Konten können geschlossen und / oder verborgen werden</item>
+  </string-array>
   <string-array name="whats_new_300">
     <item>Ukrainische Übersetzung</item>
     <item>CSV-Export: Trennzeichen konfigurierbar gemacht</item>

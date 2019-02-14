@@ -8,7 +8,6 @@ function mkScreenshots {
         do
             mv myExpenses/build/spoon-output/acraConscriptForTest/image/emulator-5554/org.totschnig.myexpenses.test.screenshots.TestMain/mkScreenShots/*_$i.png \
             metadata/$4/images/$FOLDER/$i.png
-            convert -resize 31% metadata/$4/images/$FOLDER/${i}.png metadata/$4/images/$FOLDER/${i}_31.png
         done
     fi
 }
