@@ -29,6 +29,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat;
 import com.roomorama.caldroid.CaldroidFragment;
@@ -86,10 +87,15 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   public void showSnackbar(String msg, int length) {
-    View view = getDialog().getWindow().getDecorView();
-    Snackbar snackbar = Snackbar.make(view, msg, length);
-    UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
-    snackbar.show();
+    final Window window = getDialog().getWindow();
+    if (window != null) {
+      View view = window.getDecorView();
+      Snackbar snackbar = Snackbar.make(view, msg, length);
+      UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
+      snackbar.show();
+    } else {
+      Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+    }
   }
 
   private enum PlanInstanceState {
