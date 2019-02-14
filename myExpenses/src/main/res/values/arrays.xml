@@ -444,7 +444,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>364;3.0.1</item>
+        <item>365;3.0.1</item>
         <item>362;3.0.0</item>
         <item>360;2.9.9</item>
         <item>357;2.9.8</item>
@@ -537,6 +537,9 @@
     </string-array>
     <string-array name="version_more_info_300" tools:ignore="UnusedResources">
         <item>2235563440038455</item>
+    </string-array>
+    <string-array name="version_more_info_301" tools:ignore="UnusedResources">
+        <item>2251226531805479</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
