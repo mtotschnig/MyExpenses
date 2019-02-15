@@ -1757,12 +1757,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 73) {
         db.execSQL("ALTER TABLE transactions add column value_date");
         db.execSQL("ALTER TABLE changes add column value_date");
-        createOrRefreshTransactionTriggers(db);
+        //createOrRefreshTransactionTriggers(db);
       }
 
       if (oldVersion < 74) {
         //repair transfers that have not been synced correctly
         db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
+        if (oldVersion < 73) {
+          createOrRefreshTransactionTriggers(db);
+        }
       }
 
       if (oldVersion < 75) {
