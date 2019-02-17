@@ -351,12 +351,12 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             File restoredImage = PictureDirHelper.getOutputMediaFile(
                 fileName.substring(0, fileName.lastIndexOf('.')), false, application.isProtected());
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
-              Timber.e("Could not restore file %s from backup", fromBackup.toString());
+              CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));
             } else {
               restored = AppDirHelper.getContentUriForFile(restoredImage);
             }
           } else {
-            Timber.e("Could not restore file %s from backup", fromBackup.toString());
+            CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));
           }
           if (restored != null) {
             uriValues.put(DatabaseConstants.KEY_PICTURE_URI, restored.toString());
