@@ -272,6 +272,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   }
 
   public void fillData(Transaction o) {
+    if (o == null) {
+      dismiss();
+      return;
+    }
     final FragmentActivity ctx = getActivity();
     progressView.setVisibility(View.GONE);
     mTransaction = o;
