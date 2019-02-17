@@ -5,8 +5,10 @@ import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.widget.Spinner;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
@@ -16,6 +18,8 @@ import org.totschnig.myexpenses.model.Account;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertTrue;
 
@@ -42,5 +46,13 @@ public class AccountEditTest {
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
     assertTrue(Account.findAny(LABEL) > -1);
+  }
+
+  @Test
+  public void currenciesAreLoaded() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AccountEdit.class);
+    mActivityRule.launchActivity(i);
+    onView(withId(R.id.Currency)).check(matches(isDisplayed()));
+    Assert.assertTrue(((Spinner) mActivityRule.getActivity().findViewById(R.id.Currency)).getAdapter().getCount() > 0);
   }
 }

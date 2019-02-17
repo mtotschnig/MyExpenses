@@ -20,7 +20,7 @@
     <include layout="@layout/type_switch"/>
 
     <Spinner
-        android:id="@+id/Currency"
+        android:id="@+id/AmountCurrency"
         style="@style/FormField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

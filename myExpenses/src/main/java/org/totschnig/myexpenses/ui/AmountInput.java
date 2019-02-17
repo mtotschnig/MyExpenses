@@ -36,7 +36,7 @@ public class AmountInput extends LinearLayout {
   AmountEditText amountEditText;
   @BindView(R.id.Calculator)
   View calculator;
-  @BindView(R.id.Currency)
+  @BindView(R.id.AmountCurrency)
   Spinner currencySpinner;
 
   private boolean withTypeSwitch;
