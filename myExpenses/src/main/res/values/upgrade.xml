@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_3011">
+      <item>@string/bug_fixes</item>
+  </string-array>
   <string-array name="whats_new_301">
     <item>Accounts can be closed and/or hidden</item>
   </string-array>
