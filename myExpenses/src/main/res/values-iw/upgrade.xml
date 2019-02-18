@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_301">
+    <item>חשבונות יכולים להיות סגורים או מוסתרים</item>
+  </string-array>
   <string-array name="whats_new_300">
     <item>תרגום אוקראיני</item>
     <item>ייצוא CSV: Delimiter הפך להגדרה</item>

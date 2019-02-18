@@ -99,6 +99,12 @@
   <string name="dialog_title_balance_account">מאזן %1$s</string>
   <string name="dialog_title_contrib_feature">תכונת פרימיום</string>
   <string name="dialog_title_template_title">הגדר את הכותרת</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">מחק חשבון?</item>
+    <item quantity="two">למחוק חשבונות %1$d?</item>
+    <item quantity="many">למחוק חשבונות %1$d?</item>
+    <item quantity="other">האם מחוק חשבונות %1$d?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_main_category">האם למחוק את קטגוריה הראשית?</string>
   <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
   <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
@@ -832,11 +838,18 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">או</string>
   <string name="pref_account_list_fast_scroll_summary">הפעלת גלילה מהירה עבור רשימת חשבונות. עלול להוביל להצגה שגויה במכשירים מסוימים.</string>
+  <string name="menu_hide">הסתר</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">סגור</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">פתח מחדש</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">חשבון מוסתר</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">הצג</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">הצפן</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">סגור</string>
+  <string name="warning_synced_account_cannot_be_closed">לא ניתן לסגור חשבון שמקושר לסנכרון אחורי</string>
 </resources>

@@ -818,7 +818,7 @@
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Затвори</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <string name="menu_reopen">Отваряне на затворена сметка</string>
+  <string name="menu_reopen">Направи отворена</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
   <string name="menu_hidden_accounts">Скрити сметки</string>
   <!--Action of showing an account again that had previously been hidden.-->
