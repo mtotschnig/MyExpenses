@@ -12,7 +12,6 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -126,8 +125,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     ViewHolder holder = new ViewHolder(v);
     UiUtils.configureAmountTextViewForHebrew(holder.amount);
     if (mAccount.getId() < 0) {
-      holder.colorAccount.setLayoutParams(
-          new LayoutParams(4, LayoutParams.MATCH_PARENT));
+      holder.colorAccount.setVisibility(View.VISIBLE);
     }
     v.setTag(holder);
     return v;
