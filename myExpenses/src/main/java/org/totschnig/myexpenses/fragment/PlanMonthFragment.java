@@ -87,15 +87,19 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   public void showSnackbar(String msg, int length) {
-    final Window window = getDialog().getWindow();
-    if (window != null) {
-      View view = window.getDecorView();
-      Snackbar snackbar = Snackbar.make(view, msg, length);
-      UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
-      snackbar.show();
-    } else {
+    final Dialog dialog = getDialog();
+    if (dialog != null) {
+      final Window window = dialog.getWindow();
+      if (window != null) {
+        View view = window.getDecorView();
+        Snackbar snackbar = Snackbar.make(view, msg, length);
+        UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
+        snackbar.show();
+        return;
+      }
       Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
     }
+
   }
 
   private enum PlanInstanceState {
@@ -103,12 +107,12 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   @State
-  protected HashMap<Long,Long> instance2TransactionMap = new HashMap<>();
+  protected HashMap<Long, Long> instance2TransactionMap = new HashMap<>();
 
   //caldroid fragment operates on Dates set to Midnight. We want to store the exact timestamp in order
   //create the transactions with the exact date provided by the caldendar
   @State
-  protected HashMap<DateTime,Long> dateTime2TimeStampMap = new HashMap<>();
+  protected HashMap<DateTime, Long> dateTime2TimeStampMap = new HashMap<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color,
                                               boolean readOnly, ProtectedFragmentActivity.ThemeType themeType) {
@@ -151,7 +155,7 @@ public class PlanMonthFragment extends CaldroidFragment
       @Override
       public void onGridCreated(GridView gridView) {
         if (!readOnly)
-        ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
+          ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
   }
@@ -174,8 +178,7 @@ public class PlanMonthFragment extends CaldroidFragment
       public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (featureId == Window.FEATURE_CONTEXT_MENU) {
           return getParentFragment().onContextItemSelected(item);
-        }
-        else {
+        } else {
           return super.onMenuItemSelected(featureId, item);
         }
       }
@@ -203,7 +206,8 @@ public class PlanMonthFragment extends CaldroidFragment
     return view;
   }
 
-  @Override public void onSaveInstanceState(Bundle outState) {
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     Icepick.saveInstanceState(this, outState);
   }
