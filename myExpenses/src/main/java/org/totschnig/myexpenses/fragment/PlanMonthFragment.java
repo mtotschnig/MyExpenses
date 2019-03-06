@@ -293,19 +293,21 @@ public class PlanMonthFragment extends CaldroidFragment
   public void dispatchCommandSingle(int command, int position) {
     Intent i;
     long instanceId = getPlanInstanceForPosition(position);
-    switch (command) {
-      case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-        i = new Intent(getActivity(), ExpenseEdit.class);
-        i.putExtra(KEY_TEMPLATEID, getArguments().getLong(KEY_ROWID));
-        i.putExtra(KEY_INSTANCEID, instanceId);
-        i.putExtra(KEY_DATE, getDateForPosition(position));
-        startActivityForResult(i, 0);
-        break;
-      case R.id.EDIT_PLAN_INSTANCE_COMMAND:
-        i = new Intent(getActivity(), ExpenseEdit.class);
-        i.putExtra(KEY_ROWID, instance2TransactionMap.get(instanceId));
-        startActivity(i);
-        break;
+    if (instanceId != -1) {
+      switch (command) {
+        case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
+          i = new Intent(getActivity(), ExpenseEdit.class);
+          i.putExtra(KEY_TEMPLATEID, getArguments().getLong(KEY_ROWID));
+          i.putExtra(KEY_INSTANCEID, instanceId);
+          i.putExtra(KEY_DATE, getDateForPosition(position));
+          startActivityForResult(i, 0);
+          break;
+        case R.id.EDIT_PLAN_INSTANCE_COMMAND:
+          i = new Intent(getActivity(), ExpenseEdit.class);
+          i.putExtra(KEY_ROWID, instance2TransactionMap.get(instanceId));
+          startActivity(i);
+          break;
+      }
     }
   }
 
@@ -319,7 +321,7 @@ public class PlanMonthFragment extends CaldroidFragment
             int position = positions.keyAt(i);
             long instanceId = getPlanInstanceForPosition(position);
             //ignore instances that are not open
-            if (instance2TransactionMap.get(instanceId) != null)
+            if (instanceId == -1 || instance2TransactionMap.get(instanceId) != null)
               continue;
             //pass event instance id and date as extra
             extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
@@ -337,6 +339,8 @@ public class PlanMonthFragment extends CaldroidFragment
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
             long instanceId = getPlanInstanceForPosition(position);
+            if (instanceId == -1)
+              continue;
             objectIdsAL.add(instanceId);
             extra2dAL.add(new Long[]{getArguments().getLong(KEY_ROWID),
                 instance2TransactionMap.get(instanceId)});
@@ -353,6 +357,8 @@ public class PlanMonthFragment extends CaldroidFragment
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
             long instanceId = getPlanInstanceForPosition(position);
+            if (instanceId == -1)
+              continue;
             objectIdsAL.add(instanceId);
             //pass transactionId in extra
             extra2dAL.add(new Long[]{getArguments().getLong(KEY_ROWID),
@@ -369,7 +375,8 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   private long getPlanInstanceForPosition(int position) {
-    return CalendarProviderProxy.calculateId(dateTime2TimeStampMap.get(dateInMonthsList.get(position)));
+    final Long date = dateTime2TimeStampMap.get(dateInMonthsList.get(position));
+    return date != null ? CalendarProviderProxy.calculateId(date) : -1;
   }
 
   private long getDateForPosition(int position) {
@@ -382,6 +389,8 @@ public class PlanMonthFragment extends CaldroidFragment
     for (int i = 0; i < checkedItemPositions.size(); i++) {
       if (checkedItemPositions.valueAt(i)) {
         long instanceId = getPlanInstanceForPosition(checkedItemPositions.keyAt(i));
+        if (instanceId == -1)
+          continue;
         switch (getState(instanceId)) {
           case APPLIED:
             withApplied = true;
@@ -401,18 +410,20 @@ public class PlanMonthFragment extends CaldroidFragment
   public void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
     boolean withOpen = false, withApplied = false, withCancelled = false;
     long instanceId = getPlanInstanceForPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-    switch (getState(instanceId)) {
-      case APPLIED:
-        withApplied = true;
-        break;
-      case CANCELLED:
-        withCancelled = true;
-        break;
-      case OPEN:
-        withOpen = true;
-        break;
+    if (instanceId != -1) {
+      switch (getState(instanceId)) {
+        case APPLIED:
+          withApplied = true;
+          break;
+        case CANCELLED:
+          withCancelled = true;
+          break;
+        case OPEN:
+          withOpen = true;
+          break;
+      }
+      configureMenuInternalPlanInstances(menu, 1, withOpen, withApplied, withCancelled);
     }
-    configureMenuInternalPlanInstances(menu, 1, withOpen, withApplied, withCancelled);
   }
 
   private PlanInstanceState getState(Long id) {
