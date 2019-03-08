@@ -171,9 +171,6 @@ public class DbWriteFragment extends Fragment {
         error = ERROR_PICTURE_SAVE_UNKNOWN;
       } catch (Plan.CalendarIntegrationNotAvailableException e) {
         error = ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE;
-      } catch (SQLiteConstraintException e) {
-        //reported in TransactionProvider
-        Timber.w(e);
       } catch (Exception e) {
         CrashHandler.report(e);
       }
