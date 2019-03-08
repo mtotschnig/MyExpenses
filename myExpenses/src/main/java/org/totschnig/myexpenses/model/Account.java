@@ -55,6 +55,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
@@ -624,6 +625,7 @@ public class Account extends Model {
    */
   public Uri save() {
     Uri uri;
+    ensureCurrency(currencyUnit);
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL, getLabel());
     initialValues.put(KEY_OPENING_BALANCE, openingBalance.getAmountMinor());
@@ -658,6 +660,26 @@ public class Account extends Model {
     updateNewAccountEnabled();
     updateTransferShortcut();
     return uri;
+  }
+
+  private void ensureCurrency(CurrencyUnit currencyUnit) {
+    Cursor cursor = cr().query(TransactionProvider.CURRENCIES_URI, new String[]{"count(*)"},
+        KEY_CODE + " = ?", new String[]{currencyUnit.code()}, null);
+    if (cursor != null) {
+      cursor.moveToFirst();
+      int result = cursor.getInt(0);
+      cursor.close();
+      if (result == 1) {
+        return;
+      }
+      ContentValues contentValues = new ContentValues(2);
+      contentValues.put(KEY_LABEL, currencyUnit.code());
+      contentValues.put(KEY_CODE, currencyUnit.code());
+      if (cr().insert(TransactionProvider.CURRENCIES_URI, contentValues) != null) {
+        return;
+      }
+    }
+    throw new IllegalStateException("Unable to ensure currency" + currencyUnit);
   }
 
   public static int count(String selection, String[] selectionArgs) {
