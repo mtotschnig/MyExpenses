@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -35,10 +36,12 @@ import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -46,6 +49,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
+  private static final String KEY_CHECKED_POSITIONS = "checked_positions";
   private final boolean withNullItem;
   private BriteContentResolver briteContentResolver;
   private Disposable itemDisposable;
@@ -81,6 +85,12 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     }
   }
 
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelable(KEY_CHECKED_POSITIONS, new SparseBooleanArrayParcelable(((AlertDialog) getDialog()).getListView().getCheckedItemPositions()));
+  }
+
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -89,22 +99,29 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
         new String[]{getColumn()}, new int[]{android.R.id.text1}, 0);
     itemDisposable = briteContentResolver.createQuery(getUri(),
         projection, getSelection(), getSelectionArgs(), null, false)
-        .map(SqlBrite.Query::run)
-        .observeOn(Schedulers.single()) //when multiple emissions use different threads, we run into exception
-                                        //when this is done on main thread, checked items are not restored
-        .subscribe(cursor -> {
-          Cursor c;
-          if (withNullItem) {
-            MatrixCursor extras = new MatrixCursor(projection);
-            extras.addRow(new String[]{
-                "-1",
-                SelectFromTableDialogFragment.this.getString(R.string.unmapped),
-            });
-            c = new MergeCursor(new Cursor[]{extras, cursor});
-          } else {
-            c = cursor;
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(query -> {
+          final Activity activity = getActivity();
+          if (activity != null) {
+            Cursor cursor = query.run();
+            if (withNullItem) {
+              MatrixCursor extras = new MatrixCursor(projection);
+              extras.addRow(new String[]{
+                  "-1",
+                  SelectFromTableDialogFragment.this.getString(R.string.unmapped),
+              });
+              cursor = new MergeCursor(new Cursor[]{extras, cursor});
+            }
+            adapter.swapCursor(cursor);
+            if (savedInstanceState != null) {
+              SparseBooleanArrayParcelable checkedItemPositions = savedInstanceState.getParcelable(KEY_CHECKED_POSITIONS);
+              for (int i = 0; i < checkedItemPositions.size(); i++) {
+                if (checkedItemPositions.valueAt(i)) {
+                  ((AlertDialog) getDialog()).getListView().setItemChecked(checkedItemPositions.keyAt(i), true);
+                }
+              }
+            }
           }
-          adapter.swapCursor(c);
         });
 
     final int neutralButton = getNeutralButton();
