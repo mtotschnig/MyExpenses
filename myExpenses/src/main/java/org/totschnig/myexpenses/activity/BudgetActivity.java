@@ -73,7 +73,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     currencyUnit = isHomeAggregate ? Utils.getHomeCurrency() : currencyContext.get(currency);
     budgetViewModel.getData().observe(this, result -> {
       if (result.isEmpty()) {
-        showNewBudgetDialog(null);
+        if (getSupportFragmentManager().findFragmentByTag(NEW_BUDGET_DIALOG) == null) {
+          showNewBudgetDialog(null);
+        }
         findViewById(R.id.fragment_container).setVisibility(View.INVISIBLE);
       } else {
         findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
