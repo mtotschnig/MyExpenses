@@ -15,7 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <android.support.constraint.ConstraintLayout
-    android:id="@+id/relativeLayout2"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -45,7 +44,6 @@
         android:ellipsize="end"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/colorAccount"
         app:layout_constraintStart_toEndOf="@+id/colorAccount"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="DATE"/>
@@ -57,7 +55,6 @@
         android:background="?attr/selectableItemBackground"
         android:onClick="toggleCrStatus"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/date"
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -71,14 +68,12 @@
 
     <TextView
         android:id="@+id/category"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingRight="5dip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/amount"
-        app:layout_constraintLeft_toRightOf="@+id/colorContainer"
-        app:layout_constraintRight_toLeftOf="@+id/amount"
         app:layout_constraintStart_toEndOf="@+id/colorContainer"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlHardcoded"
@@ -92,9 +87,9 @@
         android:maxLines="1"
         android:paddingBottom="3dp"
         android:paddingTop="3dp"
+        app:layout_constraintStart_toEndOf="@id/category"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="AMOUNT"/>
 
