@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.util.List;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
 
@@ -59,6 +60,6 @@ public class SelectUnSyncedAccountDialogFragment extends SelectFromTableDialogFr
 
   @Override
   String getSelection() {
-    return KEY_SYNC_ACCOUNT_NAME + " IS NULL";
+    return KEY_SYNC_ACCOUNT_NAME + " IS NULL AND " + KEY_SEALED + " = 0";
   }
 }
