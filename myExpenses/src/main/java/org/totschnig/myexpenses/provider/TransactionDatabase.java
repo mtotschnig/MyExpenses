@@ -115,6 +115,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
@@ -145,7 +146,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 85;
+  public static final int DATABASE_VERSION = 86;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -407,30 +408,33 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           KEY_ROWID + " = NEW." + KEY_ROWID + "; END";
 
   private static final String RAISE_UPDATE_SEALED_ACCOUNT =
-      "BEGIN SELECT RAISE (FAIL, 'attempt to update sealed account'); END";
+      "SELECT RAISE (FAIL, 'attempt to update sealed account');";
 
   private static final String ACCOUNTS_SEALED_TRIGGER_CREATE =
       String.format("CREATE TRIGGER sealed_account_update BEFORE UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s ON %8$s WHEN old.%9$s = 1 ",
           KEY_LABEL, KEY_OPENING_BALANCE, KEY_DESCRIPTION, KEY_CURRENCY, KEY_TYPE, KEY_UUID, KEY_CRITERION, TABLE_ACCOUNTS, KEY_SEALED) +
-          RAISE_UPDATE_SEALED_ACCOUNT;
+          String.format("BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_insert " +
           "BEFORE INSERT ON " + TABLE_TRANSACTIONS + " " +
           "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = new." + KEY_ACCOUNTID + ") = 1 " +
-          RAISE_UPDATE_SEALED_ACCOUNT;
+          String.format("BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_update " +
           "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
           "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID +")) = 1 " +
-          RAISE_UPDATE_SEALED_ACCOUNT;
+          "BEGIN " +
+          String.format(Locale.ROOT, " UPDATE %1$s SET %2$s = new.%2$s where new.%2$s = %3$d; ", TABLE_TRANSACTIONS, KEY_STATUS, STATUS_EXPORTED) +
+          RAISE_UPDATE_SEALED_ACCOUNT +
+          "END";
 
   private static final String TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_delete " +
           "BEFORE DELETE ON " + TABLE_TRANSACTIONS + " " +
           "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ") = 1 " +
-          RAISE_UPDATE_SEALED_ACCOUNT;
+          String.format("BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String CHANGES_CREATE =
       "CREATE TABLE " + TABLE_CHANGES
@@ -1903,6 +1907,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE accounts add column sealed boolean default 0");
         createOrRefreshAccountSealedTrigger(db);
         createOrRefreshTransactionSealedTriggers(db);
+      }
+
+      if (oldVersion < 86) {
+        db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+        db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

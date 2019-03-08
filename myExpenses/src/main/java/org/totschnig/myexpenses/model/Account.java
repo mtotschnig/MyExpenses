@@ -23,6 +23,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -552,9 +553,13 @@ public class Account extends Model {
     }
     ContentValues args = new ContentValues();
     args.put(KEY_STATUS, STATUS_EXPORTED);
-    cr().update(Transaction.CONTENT_URI, args,
-        selection,
-        selectionArgs);
+    try {
+      cr().update(Transaction.CONTENT_URI, args,
+          selection,
+          selectionArgs);
+    } catch (SQLiteConstraintException e) {
+      //The trigger raises an error but accepts the update of the status
+    }
   }
 
   /**
