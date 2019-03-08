@@ -19,15 +19,17 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
@@ -37,7 +39,6 @@ import org.totschnig.myexpenses.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -45,10 +46,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
-  protected final boolean withNullItem;
-  protected BriteContentResolver briteContentResolver;
+  private final boolean withNullItem;
+  private BriteContentResolver briteContentResolver;
   private Disposable itemDisposable;
-  private ArrayAdapter<DataHolder> adapter;
+  private SimpleCursorAdapter adapter;
 
   public SelectFromTableDialogFragment(boolean withNullItem) {
     this.withNullItem = withNullItem;
@@ -83,28 +84,27 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    adapter = new ArrayAdapter<DataHolder>(getContext(), android.R.layout.simple_list_item_multiple_choice) {
-      @Override
-      public boolean hasStableIds() {
-        return true;
-      }
-
-      @Override
-      public long getItemId(int position) {
-        return getItem(position).id;
-      }
-    };
+    final String[] projection = {KEY_ROWID, getColumn()};
+    adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null,
+        new String[]{getColumn()}, new int[]{android.R.id.text1}, 0);
     itemDisposable = briteContentResolver.createQuery(getUri(),
-        null, getSelection(), getSelectionArgs(), null, false)
-        .mapToList((Cursor cursor) -> DataHolder.fromCursor(cursor, getColumn()))
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(collection -> {
-          adapter.clear();
+        projection, getSelection(), getSelectionArgs(), null, false)
+        .map(SqlBrite.Query::run)
+        .observeOn(Schedulers.single()) //when multiple emissions use different threads, we run into exception
+                                        //when this is done on main thread, checked items are not restored
+        .subscribe(cursor -> {
+          Cursor c;
           if (withNullItem) {
-            adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
+            MatrixCursor extras = new MatrixCursor(projection);
+            extras.addRow(new String[]{
+                "-1",
+                SelectFromTableDialogFragment.this.getString(R.string.unmapped),
+            });
+            c = new MergeCursor(new Cursor[]{extras, cursor});
+          } else {
+            c = cursor;
           }
-          adapter.addAll(collection);
-          adapter.notifyDataSetChanged();
+          adapter.swapCursor(c);
         });
 
     final int neutralButton = getNeutralButton();
@@ -114,7 +114,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
         .setPositiveButton(getPositiveButton(), null)
         .setNegativeButton(getNegativeButton(), null);
     if (neutralButton != 0) {
-        builder.setNeutralButton(neutralButton, null);
+      builder.setNeutralButton(neutralButton, null);
     }
     final AlertDialog alertDialog = builder.create();
     alertDialog.getListView().setItemsCanFocus(false);
@@ -157,33 +157,13 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
       ArrayList<String> labelList = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {
         if (positions.valueAt(i)) {
-          labelList.add(adapter.getItem(positions.keyAt(i)).label);
+          labelList.add(((Cursor) adapter.getItem(positions.keyAt(i))).getString(0));
         }
       }
       shouldDismiss = onResult(labelList, itemIds, which);
     }
     if (shouldDismiss) {
       dismiss();
-    }
-  }
-
-  static class DataHolder {
-    long id;
-    String label;
-
-    DataHolder(long id, String label) {
-      this.id = id;
-      this.label = label;
-    }
-
-    @Override
-    public String toString() {
-      return label;
-    }
-
-    static DataHolder fromCursor(Cursor cursor, String labelColumn) {
-      return new DataHolder(cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-          cursor.getString(cursor.getColumnIndex(labelColumn)));
     }
   }
 }
