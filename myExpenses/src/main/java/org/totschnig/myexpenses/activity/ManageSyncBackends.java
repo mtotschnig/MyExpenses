@@ -184,6 +184,14 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
     return false;
   }
 
+  @Override //DbWriteFragment
+  public void onPostExecute(Object result) {
+    super.onPostExecute(result);
+    if (result == null) {
+      showSnackbar(String.format("There was an error saving account %s", newAccount.getLabel()));
+    }
+  }
+
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
