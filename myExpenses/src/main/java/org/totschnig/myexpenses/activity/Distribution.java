@@ -31,6 +31,7 @@ public class Distribution extends CategoryActivity<DistributionFragment> {
           @Override
           public boolean onFling(MotionEvent e1, MotionEvent e2,
                                  float velocityX, float velocityY) {
+            if (e1 == null || e2 == null) return false;
             if (Math.abs(e1.getY() - e2.getY()) > REL_SWIPE_MAX_OFF_PATH)
               return false;
             if (e1.getX() - e2.getX() > REL_SWIPE_MIN_DISTANCE
