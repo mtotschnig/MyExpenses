@@ -99,6 +99,10 @@
   <string name="dialog_title_balance_account">Balance %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_template_title">Establecer título</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">¿Borrar cuenta?</item>
+    <item quantity="other">¿Eliminar %1$d cuentas?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_main_category">¿Borrar categoría principal?</string>
   <string name="dialog_title_warning_delete_template">¿Borrar plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">¿Borrar transacción?</string>
@@ -810,11 +814,18 @@
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <string name="joining_or">o</string>
   <string name="pref_account_list_fast_scroll_summary">Habilitar desplazamiento rápido para la lista de cuentas. Puede producir error en la visualización en algunos dispositivos.</string>
+  <string name="menu_hide">Ocultar</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Cerrar</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Reabrir</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Ocultar cuentas</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Mostrar</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Encriptada</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Cerrada</string>
+  <string name="warning_synced_account_cannot_be_closed">No se pudo cerrar una cuenta ligada al servicio de sincronización</string>
 </resources>
