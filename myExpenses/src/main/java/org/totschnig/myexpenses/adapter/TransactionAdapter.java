@@ -123,7 +123,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
     View v = super.newView(context, cursor, parent);
     ViewHolder holder = new ViewHolder(v);
-    UiUtils.configureAmountTextViewForHebrew(holder.amount);
     if (mAccount.getId() < 0) {
       holder.colorAccount.setVisibility(View.VISIBLE);
     }
