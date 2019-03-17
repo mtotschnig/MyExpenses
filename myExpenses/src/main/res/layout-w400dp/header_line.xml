@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="@dimen/general_padding"
-    android:paddingLeft="@dimen/general_padding"
     android:layoutDirection="locale"
+    android:paddingLeft="@dimen/general_padding"
+    android:paddingRight="@dimen/general_padding"
+    android:paddingTop="@dimen/list_header_vertical_padding"
     tools:ignore="UnusedAttribute">
 
     <TextView
@@ -23,8 +24,8 @@
         style="@style/headingStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:layout_weight="1"
+        android:gravity="end"
         tools:text="INTERIM_BALANCE EVERYTHING YOU NEED TO KNOW"/>
 
 </LinearLayout>

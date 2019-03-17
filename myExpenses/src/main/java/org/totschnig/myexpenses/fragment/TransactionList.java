@@ -277,6 +277,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         mAdapter.setAccount(mAccount);
       }
       if (mListView.getAdapter() == null) {
+        mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false));
         mListView.setAdapter(mAdapter);
       }
     }
@@ -769,6 +770,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     @BindView(R.id.sum_expense) TextView sumExpense;
     @BindView(R.id.sum_transfer) TextView sumTransfer;
     @Nullable @BindView(R.id.budgetProgress) DonutProgress budgetProgress;
+    @BindView(R.id.divider_bottom) View dividerBottom;
 
     HeaderViewHolder(View convertView) {
       ButterKnife.bind(this, convertView);
@@ -778,10 +780,13 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
                             int itemPosition, long headerId, boolean currentlySticky) {
+    final HeaderViewHolder viewHolder = (HeaderViewHolder) header.getTag();
     if (mListView.isHeaderCollapsed(headerId)) {
       mListView.expand(headerId);
+      viewHolder.dividerBottom.setVisibility(View.VISIBLE);
     } else {
       mListView.collapse(headerId);
+      viewHolder.dividerBottom.setVisibility(View.GONE);
     }
   }
 

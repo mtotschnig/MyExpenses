@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/list_header_vertical_padding"
         tools:ignore="UnknownIdInLayout">
 
         <TextView
@@ -53,10 +54,13 @@
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_below="@+id/sum_line"
-        android:layout_margin="2dip"
-        android:background="@color/emphasis"/>
+        android:id="@+id/divider_bottom"
+        style="@style/Divider"
+        android:layout_alignParentBottom="true"/>
+
+    <include layout="@layout/group_divider"
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_alignParentTop="true"/>
 
 </RelativeLayout>
