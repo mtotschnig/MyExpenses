@@ -64,7 +64,7 @@
 
         <TextView
             style="@style/about_text"
-            android:text="© 2011 - 2018 Michael Totschnig"/>
+            android:text="© 2011 - 2019 Michael Totschnig"/>
     </LinearLayout>
 </ScrollView>
 

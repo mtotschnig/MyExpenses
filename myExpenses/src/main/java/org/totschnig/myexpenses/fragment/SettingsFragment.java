@@ -463,22 +463,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   private int getTranslatorsArrayResId() {
-    int result = 0;
     Locale locale = Locale.getDefault();
     String language = locale.getLanguage().toLowerCase(Locale.US);
     String country = locale.getCountry().toLowerCase(Locale.US);
-    final String prefix = "translators_";
-    if (!TextUtils.isEmpty(language)) {
-      if (!TextUtils.isEmpty(country)) {
-        result = getResources().getIdentifier(prefix + language + "_" + country,
-            "array", getContext().getPackageName());
-      }
-      if (result == 0) {
-        result = getResources().getIdentifier(prefix + language,
-            "array", getContext().getPackageName());
-      }
-    }
-    return result;
+    return activity().getTranslatorsArrayResId(language, country);
   }
 
   public static String[] getLocaleArray(Context context) {

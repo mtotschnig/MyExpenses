@@ -29,6 +29,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.text.TextUtils;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,7 +60,9 @@ import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
@@ -184,8 +188,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
                       project.get("url"), project.get("licence"));
                 }).collect(Collectors.toList()), R.drawable.ic_menu_forward));
         TextView additionalContainer = view.findViewById(R.id.additional_container);
+        final List<CharSequence> lines = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.additional_credits)));
+        lines.add(String.format("%s: %s", getString(R.string.translated_by), buildTranslationCredits()));
         additionalContainer.setText(Utils.makeBulletList(this,
-            Arrays.asList(getResources().getStringArray(R.array.additional_credits)),
+            lines,
             R.drawable.ic_menu_forward));
         return new AlertDialog.Builder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
@@ -194,6 +200,38 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             .create();
     }
     return null;
+  }
+
+  private CharSequence buildTranslationCredits() {
+    return Stream.of(Stream.of(getResources().getStringArray(R.array.pref_ui_language_values))
+        .map(lang -> {
+          final String[] parts = lang.split("-");
+          return Pair.create(lang, getTranslatorsArrayResId(parts[0], parts.length == 2 ? parts[1].toLowerCase() : null));
+        })
+        .filter(pair -> pair.second != 0)
+        .map(pair -> Pair.create(pair.first, getResources().getStringArray(pair.second)))
+        .flatMap(pair -> Stream.of(pair.second).map(name -> Pair.create(name, pair.first)))
+        .collect(Collectors.groupingBy(pair -> pair.first, Collectors.mapping(pair -> pair.second, Collectors.toSet())))
+        .entrySet())
+        .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
+        .map(entry -> String.format("%s (%s)", entry.getKey(), Stream.of(entry.getValue()).collect(Collectors.joining(", "))))
+        .collect(Collectors.joining(", "));
+  }
+
+  public int getTranslatorsArrayResId(String language, String country) {
+    int result = 0;
+    final String prefix = "translators_";
+    if (!TextUtils.isEmpty(language)) {
+      if (!TextUtils.isEmpty(country)) {
+        result = getResources().getIdentifier(prefix + language + "_" + country,
+            "array", getPackageName());
+      }
+      if (result == 0) {
+        result = getResources().getIdentifier(prefix + language,
+            "array", getPackageName());
+      }
+    }
+    return result;
   }
 
   @Override
