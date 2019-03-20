@@ -353,8 +353,7 @@
             android:title="@string/pref_more_info_dialog_title"/>
         <PreferenceScreen
             android:key="@string/pref_translation_key"
-            android:title="@string/pref_translation_title"
-            android:summary="@string/pref_more_info_dialog_summary">
+            android:title="@string/pref_translation_title">
             <Preference
                 style="?preferenceInformationStyle"
                 android:summary="Please help us keep the translation for your language up to date. You can either suggest improvements for missing or incorrect translations, or join the translation project as a regular contributor."/>

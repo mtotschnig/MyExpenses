@@ -94,7 +94,7 @@
     <string name="pref_date_screen_key">date_screen</string>
     <string name="pref_ad_consent_key">ad_consent</string>
     <string name="pref_sync_wifi_only_key">sync_wifi_only</string>
-    <string name="pref_translation_key">translation_key</string>
+    <string name="pref_translation_key">translation</string>
     <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
     <string name="pref_security_export_password_key">security_export_password</string>
     <string name="pref_account_list_fast_scroll_key">account_list_fast_scroll</string>

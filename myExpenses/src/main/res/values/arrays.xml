@@ -604,4 +604,156 @@
         <item>aggregate</item>
         <item>always</item>
     </string-array>
+
+    <string-array name="translators_ar">
+        <item>Ar.Alothaim</item>
+    </string-array>
+
+    <string-array name="translators_bg">
+        <item>Диана Карa</item>
+        <item>Иван Димитров</item>
+    </string-array>
+
+    <string-array name="translators_ca">
+        <item>Paco Rivière</item>
+        <item>jpgine</item>
+    </string-array>
+
+    <string-array name="translators_cs">
+        <item>Jan Šplíchal</item>
+    </string-array>
+
+    <string-array name="translators_da">
+        <item>vokabularium</item>
+    </string-array>
+
+    <string-array name="translators_de">
+        <item>Michael Totschnig</item>
+    </string-array>
+
+    <string-array name="translators_el">
+        <item>ΓιοΧρ</item>
+        <item>Michalis</item>
+        <item>Alexandros Kosiaris</item>
+    </string-array>
+
+    <string-array name="translators_es">
+        <item>Miguel Rodriguez</item>
+        <item>Elier Espinoza</item>
+        <item>Johanna Totschnig</item>
+        <item>Gudrun Totschnig</item>
+        <item>Christof Totschnig</item>
+        <item>Laurent Collombet</item>
+    </string-array>
+
+    <string-array name="translators_eu">
+        <item>Osoitz</item>
+        <item>Albiz Aranberri</item>
+    </string-array>
+
+    <string-array name="translators_fr">
+        <item>Laurent Collombet</item>
+        <item>Michael Totschnig</item>
+        <item>Alexandre Beelen</item>
+    </string-array>
+
+    <string-array name="translators_hr">
+        <item>Mihovil Nakić-Vojnović</item>
+    </string-array>
+
+    <string-array name="translators_hu">
+        <item>Csipai Roland</item>
+    </string-array>
+
+    <string-array name="translators_it">
+        <item>FrancescaLaV</item>
+        <item>Claudio Fusillo</item>
+        <item>Pietro La Gamba</item>
+        <item>edoardo brogiolo</item>
+        <item>fedett92</item>
+        <item>Giuseppe Pignataro</item>
+        <item>Laurent Collombet</item>
+        <item>Silvia Delpero</item>
+        <item>Gudrun Totschnig</item>
+    </string-array>
+
+    <string-array name="translators_iw">
+        <item>צבי  פנחסוביץ</item>
+    </string-array>
+
+    <string-array name="translators_ja">
+        <item>福江尚史</item>
+    </string-array>
+
+    <string-array name="translators_km">
+        <item>Pongsametrey</item>
+    </string-array>
+
+    <string-array name="translators_ko">
+        <item>halcyonest</item>
+    </string-array>
+
+    <string-array name="translators_ms">
+        <item>Abuyop</item>
+    </string-array>
+
+    <string-array name="translators_pl">
+        <item>Marcin Kralka</item>
+        <item>Przemysław Kuciel</item>
+        <item>stibb</item>
+        <item>tangodev</item>
+        <item>Damian S.</item>
+    </string-array>
+
+    <string-array name="translators_pt">
+        <item>Enrico Nicoletto</item>
+        <item>Fabiano Oliveira</item>
+        <item>Frederico Gonçalves Guimarães</item>
+        <item>Fernando Maia</item>
+        <item>Maria Gabriel</item>
+    </string-array>
+
+    <string-array name="translators_pt_pt">
+        <item>Sérgio Marques</item>
+    </string-array>
+
+    <string-array name="translators_ro">
+        <item>Doru Deaconu</item>
+    </string-array>
+
+    <string-array name="translators_ru">
+        <item>Дмитрий Стрельников</item>
+        <item>Дмитрий Куренков</item>
+        <item>Kirill Arkhipkin</item>
+    </string-array>
+
+    <string-array name="translators_si">
+        <item>isuru</item>
+        <item>janith9590</item>
+        <item>Dilruni Ganepola</item>
+    </string-array>
+
+    <string-array name="translators_tr">
+        <item>mauron</item>
+        <item>Caner Başaran</item>
+    </string-array>
+
+    <string-array name="translators_uk">
+        <item>Володимир Галандзій</item>
+        <item>Ігор Красилівський</item>
+        <item>Дмитро Савицький</item>
+    </string-array>
+
+    <string-array name="translators_vi">
+        <item>Phan Anh</item>
+        <item>Hiếu Văn</item>
+    </string-array>
+
+    <string-array name="translators_zh_tw">
+        <item>Casper Li</item>
+    </string-array>
+
+    <string-array name="translators_zh">
+        <item>hhggit</item>
+    </string-array>
 </resources>

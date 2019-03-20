@@ -843,4 +843,5 @@
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Closed</string>
     <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
+    <string name="translated_by">Translated by</string>
 </resources>
