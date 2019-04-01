@@ -140,7 +140,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       doImport(parser);
       contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null);
       return (null);
-    } catch (IOException e) {
+    } catch (IOException| IllegalArgumentException e) {
       publishProgress(MyApplication.getInstance()
           .getString(R.string.parse_error_other_exception, e.getMessage()));
       return null;

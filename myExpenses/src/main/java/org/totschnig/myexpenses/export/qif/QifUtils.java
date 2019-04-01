@@ -130,10 +130,6 @@ public class QifUtils {
     }
   }
 
-  public static BigDecimal parseMoney(@NonNull String money) {
-    return parseMoney(money, Integer.MAX_VALUE);
-  }
-
   /**
    * Parse the string with a maxSize, that takes the number of fraction digits of currency into account,
    * so that the number representing the amount in the database does not exceed approximately 1/10th of {@link Long#MAX_VALUE}

@@ -31,7 +31,7 @@ public class QifParser {
 
   public final List<QifAccount> accounts = new ArrayList<>();
   public final Set<QifCategory> categories = new HashSet<>();
-  public final Set<QifCategory> categoriesFromTransactions = new HashSet<>();
+  private final Set<QifCategory> categoriesFromTransactions = new HashSet<>();
   public final Set<String> payees = new HashSet<>();
   public final Set<String> classes = new HashSet<>();
   private final CurrencyUnit currency;
@@ -54,7 +54,6 @@ public class QifParser {
             return;
           }
           if (line.equals("!Account")) {
-            inner:
             while (true) {
               peek = r.peekLine();
               if (peek == null) {
@@ -85,16 +84,13 @@ public class QifParser {
   }
 
   private void parseCategories() throws IOException {
-    while (true) {
+    do {
       QifCategory category = new QifCategory();
       category.readFrom(r);
       if (category.getName() != null) {
         categories.add(category);
       }
-      if (shouldBreakCurrentBlock()) {
-        break;
-      }
-    }
+    } while (shouldReadOn());
   }
 
   private void parseTransactions(QifAccount account) throws IOException {
@@ -103,7 +99,7 @@ public class QifParser {
     if (peek != null && peek.startsWith("!Type:")) {
       applyAccountType(account, peek);
       r.readLine();
-      while (true) {
+      do {
         QifTransaction t = new QifTransaction();
         t.readFrom(r, dateFormat, currency);
         if (t.isOpeningBalance()) {
@@ -115,10 +111,7 @@ public class QifParser {
           addCategoryFromTransaction(t);
           account.transactions.add(t);
         }
-        if (shouldBreakCurrentBlock()) {
-          break;
-        }
-      }
+      } while (shouldReadOn());
     }
   }
 
@@ -156,9 +149,9 @@ public class QifParser {
     }
   }
 
-  private boolean shouldBreakCurrentBlock() throws IOException {
+  private boolean shouldReadOn() throws IOException {
     String peek = r.peekLine();
-    return peek == null || peek.startsWith("!");
+    return !(peek == null || peek.startsWith("!"));
   }
 
 }
