@@ -174,7 +174,8 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
       ArrayList<String> labelList = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {
         if (positions.valueAt(i)) {
-          labelList.add(((Cursor) adapter.getItem(positions.keyAt(i))).getString(0));
+          final Cursor cursor = (Cursor) adapter.getItem(positions.keyAt(i));
+          labelList.add(cursor.getString(cursor.getColumnIndex(getColumn())));
         }
       }
       shouldDismiss = onResult(labelList, itemIds, which);
