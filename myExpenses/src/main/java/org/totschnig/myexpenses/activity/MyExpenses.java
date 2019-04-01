@@ -348,9 +348,9 @@ public class MyExpenses extends LaunchActivity implements
         result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     viewModel.loadHiddenAccountCount();
     setup();
-    if (savedInstanceState == null) {
+    /*if (savedInstanceState == null) {
       voteReminderCheck();
-    }
+    }*/
   }
 
   private void setup() {
