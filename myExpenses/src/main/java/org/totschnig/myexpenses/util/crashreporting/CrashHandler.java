@@ -47,7 +47,7 @@ public abstract class CrashHandler {
     Timber.e(e);
   }
 
-  public static void report(String message, String tag) {
+  public static void reportWithTag(String message, String tag) {
     final Exception e = new Exception(message);
     e.fillInStackTrace();
     List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
@@ -56,13 +56,22 @@ public abstract class CrashHandler {
     report(e, tag);
   }
 
+  public static void reportWithFormat(String format, Object... args) {
+    final Exception e = new Exception(String.format(format, args));
+    e.fillInStackTrace();
+    List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
+    stack.remove(0);
+    e.setStackTrace(stack.toArray(new StackTraceElement[0]));
+    report(e);
+  }
+
   public static void report(String message) {
     final Exception e = new Exception(message);
     e.fillInStackTrace();
     List<StackTraceElement> stack = new ArrayList<>(Arrays.asList(e.getStackTrace()));
     stack.remove(0);
     e.setStackTrace(stack.toArray(new StackTraceElement[0]));
-    Timber.e(e);
+    report(e);
   }
 
   public abstract void onAttachBaseContext(MyApplication application);

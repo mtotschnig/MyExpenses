@@ -330,7 +330,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               if (success) {
                 Timber.d("Successfully deleted file %s", imageFileUri.toString());
               } else {
-                Timber.e("Unable to delete file %s ", imageFileUri.toString());
+                CrashHandler.reportWithFormat("Unable to delete file %s ", imageFileUri.toString());
               }
             } else {
               Timber.d("%s not deleted since it might still be in use", imageFileUri.toString());
@@ -380,7 +380,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             if (success) {
               cr.delete(staleImageUri, null, null);
             } else {
-              Timber.e("Unable to move file %s", imageFileUri.toString());
+              CrashHandler.reportWithFormat("Unable to move file %s", imageFileUri.toString());
             }
           }
           c.close();

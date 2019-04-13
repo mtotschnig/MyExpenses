@@ -419,7 +419,7 @@ public class FileUtils {
     Timber.d("Attempting to get thumbnail");
 
     if (!isMediaUri(uri)) {
-      Timber.e("You can only retrieve thumbnails for images and videos.");
+      CrashHandler.report("You can only retrieve thumbnails for images and videos.");
       return null;
     }
 

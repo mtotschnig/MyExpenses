@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -20,8 +21,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.export.qif.QifDateFormat.EU;
 import static org.totschnig.myexpenses.export.qif.QifDateFormat.US;
@@ -182,7 +181,7 @@ public class QifUtils {
           } catch (ParseException ignored) {
             result = new BigDecimal(0);
           }
-          Timber.e("Could not parse money %s", sMoney);
+          CrashHandler.reportWithFormat("Could not parse money %s", sMoney);
         }
       } else {
         result = new BigDecimal(0);

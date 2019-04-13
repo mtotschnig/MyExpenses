@@ -47,10 +47,9 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class VersionDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
@@ -185,7 +184,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         resId = res.getIdentifier("whats_new_" + code, "array", ctx.getPackageName());//legacy based on code
       }
       if (resId == 0) {
-        Timber.e("missing change log entry for version %d", code);
+        CrashHandler.reportWithFormat("missing change log entry for version %d", code);
         return null;
       } else {
         String[] changesArray = res.getStringArray(resId);
