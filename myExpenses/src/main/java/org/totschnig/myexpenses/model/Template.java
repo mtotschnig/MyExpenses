@@ -58,6 +58,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
@@ -115,11 +116,12 @@ public class Template extends Transaction {
         KEY_PARENTID
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 3];
+    PROJECTION_EXTENDED = new String[baseLength + 4];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     PROJECTION_EXTENDED[baseLength + 1] = KEY_CURRENCY;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_METHOD_LABEL;
+    PROJECTION_EXTENDED[baseLength + 3] = KEY_SEALED;
   }
 
   /**

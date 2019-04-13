@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -87,6 +88,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
@@ -113,7 +115,7 @@ public class TemplatesList extends SortableListFragment
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
       columnIndexPayee, columnIndexColor,
       columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId,
-      columnIndexTitle, columnIndexRowId, columnIndexPlanInfo;
+      columnIndexTitle, columnIndexRowId, columnIndexPlanInfo, columnIndexIsSealed;
   private boolean indexesCalculated = false;
   /**
    * if we are called from the calendar app, we only need to handle display of plan once
@@ -331,6 +333,7 @@ public class TemplatesList extends SortableListFragment
     startActivity(intent);
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     switch (id) {
@@ -364,6 +367,7 @@ public class TemplatesList extends SortableListFragment
           columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
           columnIndexTitle = c.getColumnIndex(KEY_TITLE);
           columnIndexPlanInfo = c.getColumnIndex(KEY_PLAN_INFO);
+          columnIndexIsSealed = c.getColumnIndex(KEY_SEALED);
           indexesCalculated = true;
         }
         mAdapter.swapCursor(mTemplatesCursor);
@@ -483,15 +487,16 @@ public class TemplatesList extends SortableListFragment
       convertView = super.getView(position, convertView, parent);
       Cursor c = getCursor();
       c.moveToPosition(position);
+      boolean isSealed = c.getInt(columnIndexIsSealed) != 0;
       boolean doesHavePlan = !c.isNull(columnIndexPlanId);
-      TextView tv1 = (TextView) convertView.findViewById(R.id.amount);
+      TextView tv1 = convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
       tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
       tv1.setText(currencyFormatter.convAmount(amount,
           currencyContext.get(c.getString(columnIndexCurrency))));
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
-      TextView tv2 = (TextView) convertView.findViewById(R.id.category);
+      TextView tv2 = convertView.findViewById(R.id.category);
       CharSequence catText = tv2.getText();
       if (!c.isNull(columnIndexTransferAccount)) {
         catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
@@ -535,12 +540,24 @@ public class TemplatesList extends SortableListFragment
             //noinspection SetTextI18n
             c.getString(columnIndexTitle) + " (" + planInfo + ")");
       }
-      ImageView planImage = (ImageView) convertView.findViewById(R.id.Plan);
+      ImageView planImage = convertView.findViewById(R.id.Plan);
       planImage.setImageResource(
-          doesHavePlan ? R.drawable.ic_event : R.drawable.ic_menu_template);
+          isSealed ? R.drawable.ic_lock : (doesHavePlan ? R.drawable.ic_event : R.drawable.ic_menu_template));
       planImage.setContentDescription(getString(doesHavePlan ?
           R.string.plan : R.string.template));
       return convertView;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+      return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      return c.getInt(c.getColumnIndex(KEY_SEALED)) == 0;
     }
   }
 

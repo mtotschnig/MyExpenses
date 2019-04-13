@@ -146,7 +146,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 86;
+  public static final int DATABASE_VERSION = 87;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -227,6 +227,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
+    }
+
+    if (tableName.equals(TABLE_TEMPLATES)) {
+      stringBuilder.append(", ").append(KEY_SEALED);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -1904,6 +1908,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           Timber.e(e);
         }
       }
+
       if (oldVersion < 85) {
         db.execSQL("ALTER TABLE accounts add column hidden boolean default 0");
         db.execSQL("ALTER TABLE accounts add column sealed boolean default 0");
@@ -1915,6 +1920,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
       }
+
+      if (oldVersion < 87) {
+       createOrRefreshTemplateViews(db);
+      }
+
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException("Database upgrade failed", e) :
@@ -1965,11 +1975,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_UNCOMMITTED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_ALL);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
-    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_ALL);
-    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_EXTENDED);
-    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_UNCOMMITTED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_CHANGES_EXTENDED);
-
 
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
@@ -1978,13 +1984,21 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
 
+    db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+
+    createOrRefreshTemplateViews(db);
+  }
+
+  private void createOrRefreshTemplateViews(SQLiteDatabase db) {
+    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_ALL);
+    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_EXTENDED);
+    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_UNCOMMITTED);
+
     String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
     String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-
-    db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
   }
 
   @Override
