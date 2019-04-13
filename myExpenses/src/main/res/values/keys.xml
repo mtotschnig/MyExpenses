@@ -147,7 +147,6 @@
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
     <string name="io_error_cachedir_null">Cache directory not found</string>
     <string name="account_list_not_yet_loaded">Account list not yet loaded. Please try again</string>
-    <string name="warning_no_account">Please create account first</string>
 
     <string name="calculator_operator_plus">+</string>
     <string name="calculator_operator_minus">−</string>

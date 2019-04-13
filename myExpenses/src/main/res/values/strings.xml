@@ -845,4 +845,5 @@
     <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
     <string name="translated_by">Translated by</string>
     <string name="warning_account_for_plan_is_closed">Plan %s can no longer be instantiated because account %s has been closed.</string>
+    <string name="warning_no_account">At least one account must be visible and open in order to create new transactions.</string>
 </resources>

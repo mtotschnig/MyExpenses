@@ -73,8 +73,9 @@ public class AccountWidget extends AbstractWidget<Account> {
     saveForWidget(context, widgetId, a.getId());
     int multipleAccountsVisible = Account.count(null, null) < 2 ? View.GONE
         : View.VISIBLE;
-    int transferEnabledVisible = Account.getTransferEnabledGlobal() ? View.VISIBLE
+    int transferEnabledVisible = !a.isSealed() && Account.getTransferEnabledGlobal() ? View.VISIBLE
         : View.GONE;
+    updateViews.setViewVisibility(R.id.command1, a.isSealed()? View.GONE : View.VISIBLE);
     updateViews.setViewVisibility(R.id.navigation, multipleAccountsVisible);
     updateViews.setViewVisibility(R.id.divider1, transferEnabledVisible);
     updateViews.setViewVisibility(R.id.command2, transferEnabledVisible);

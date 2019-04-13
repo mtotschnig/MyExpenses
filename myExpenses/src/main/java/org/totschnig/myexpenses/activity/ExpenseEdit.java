@@ -594,7 +594,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
         if (mTransaction == null) {
-          String errMsg = "Error instantiating transaction for account " + accountId;
+          String errMsg = getString(R.string.warning_no_account);
           IllegalStateException e = new IllegalStateException(errMsg);
           if (extras != null) {
             CrashHandler.report(e, "Extras", extras.toString());
@@ -2092,7 +2092,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case ACCOUNTS_CURSOR:
         if (data.getCount() == 0) {
-          abortWithMessage("At least one account must be visible and open in order to create new transactions.");
+          abortWithMessage(getString(R.string.warning_no_account));
           return;
         }
         if (data.getCount() == 1 && mOperationType == TYPE_TRANSFER) {

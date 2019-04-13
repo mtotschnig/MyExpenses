@@ -236,14 +236,23 @@ public class Account extends Model {
    */
   @Deprecated
   public static Account getInstanceFromDb(long id) {
+    return getInstanceFromDb(id, false);
+  }
+
+
+  private static Account getInstanceFromDb(long id, boolean openOnly) {
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
     Account account;
     String selection = TABLE_ACCOUNTS + "." + KEY_ROWID + " = ";
     if (id == 0) {
-      selection += "(SELECT min(" + KEY_ROWID + ") FROM accounts)";
+      selection += String.format("(SELECT min(%s) FROM %s%s)", KEY_ROWID, TABLE_ACCOUNTS,
+          openOnly ? String.format(" WHERE %s = 0", KEY_SEALED) : "");
     } else {
       selection += id;
+      if (openOnly){
+        selection += String.format(" AND %s = 0", KEY_SEALED);
+      }
     }
     Cursor c = cr().query(
         CONTENT_URI, null, selection, null, null);
@@ -282,10 +291,13 @@ public class Account extends Model {
     return !PrefKey.HOME_CURRENCY.getString(currencyUnit.code()).equals(currencyUnit.code());
   }
 
+  /**
+   * the account returned by this method is guaranteed not to be sealed
+   */
   static Account getInstanceFromDbWithFallback(long id) {
-    Account account = getInstanceFromDb(id);
-    if (account == null) {
-      account = getInstanceFromDb(0);
+    Account account = getInstanceFromDb(id, true);
+    if (account == null && id > 0) {
+      account = getInstanceFromDb(0, true);
     }
     return account;
   }
