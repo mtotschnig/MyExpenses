@@ -975,14 +975,12 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public void onPageScrollStateChanged(int arg0) {
-    // TODO Auto-generated method stub
-
+    // noop
   }
 
   @Override
   public void onPageScrolled(int arg0, float arg1, int arg2) {
-    // TODO Auto-generated method stub
-
+    // noop
   }
 
   @Override
@@ -990,7 +988,8 @@ public class MyExpenses extends LaunchActivity implements
     if (which != BUTTON_POSITIVE) return false;
     if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
       String label = extras.getString(SimpleInputDialog.TEXT);
-      Uri uri = new Template(Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID)), label).save();
+      final Transaction transaction = Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID));
+      Uri uri = transaction == null ? null : new Template(transaction, label).save();
       if (uri == null) {
         showSnackbar(R.string.template_create_error, Snackbar.LENGTH_LONG);
       } else {

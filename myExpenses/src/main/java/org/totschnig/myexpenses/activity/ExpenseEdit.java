@@ -595,12 +595,6 @@ public class ExpenseEdit extends AmountActivity implements
         }
         if (mTransaction == null) {
           String errMsg = getString(R.string.warning_no_account);
-          IllegalStateException e = new IllegalStateException(errMsg);
-          if (extras != null) {
-            CrashHandler.report(e, "Extras", extras.toString());
-          } else {
-            CrashHandler.report(e);
-          }
           abortWithMessage(errMsg);
           return;
         }
