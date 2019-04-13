@@ -53,7 +53,6 @@
         android:layout_width="?attr/colorContainerOuter"
         android:layout_height="?attr/colorContainerOuter"
         android:background="?attr/selectableItemBackground"
-        android:onClick="toggleCrStatus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toTopOf="parent">
