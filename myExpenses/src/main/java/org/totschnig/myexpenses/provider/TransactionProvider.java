@@ -1669,7 +1669,7 @@ public class TransactionProvider extends ContentProvider {
 
   public Result backup(File backupDir) {
     File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
-    mOpenHelper.close();
+    mOpenHelper.getReadableDatabase().beginTransaction();
     try {
       File backupPrefFile, sharedPrefFile;
       Result result = backupDb(new File(backupDir, BackupUtils.BACKUP_DB_FILE_NAME), currentDb);
@@ -1697,7 +1697,7 @@ public class TransactionProvider extends ContentProvider {
       }
       return result;
     } finally {
-      initOpenHelper();
+      mOpenHelper.getReadableDatabase().endTransaction();
     }
   }
 
