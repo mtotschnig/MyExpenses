@@ -174,9 +174,9 @@ dependencies {
     implementation 'frankiesardo:icepick:3.2.0'
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-    implementation 'com.google.code.gson:gson:2.8.4'
-    compileOnly 'com.google.auto.value:auto-value:1.5.2'
-    annotationProcessor 'com.google.auto.value:auto-value:1.5.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    compileOnly 'com.google.auto.value:auto-value:1.5.3'
+    annotationProcessor 'com.google.auto.value:auto-value:1.5.3'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     compileOnly 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     annotationProcessor 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
@@ -191,7 +191,7 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
     acraImplementation "ch.acra:acra-mail:" + project.acraVersion
     acraImplementation "ch.acra:acra-dialog:" + project.acraVersion
-    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation 'org.apache.commons:commons-csv:1.5'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
@@ -211,9 +211,9 @@ dependencies {
 
     implementation 'org.apache.commons:commons-collections4:4.1'
 
-    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    implementation 'org.slf4j:slf4j-api:1.7.21'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
         // workaround issue #73
@@ -232,14 +232,14 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
     conscriptImplementation 'org.conscrypt:conscrypt-android:1.4.2'
 
     implementation 'com.squareup.sqlbrite3:sqlbrite:3.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestImplementation 'junit:junit:4.12'
