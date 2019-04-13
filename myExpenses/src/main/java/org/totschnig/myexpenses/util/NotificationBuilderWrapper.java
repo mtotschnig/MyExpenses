@@ -44,10 +44,7 @@ public class NotificationBuilderWrapper {
 
   public static NotificationBuilderWrapper defaultBigTextStyleBuilder(
       Context context, String title, CharSequence content) {
-    return new NotificationBuilderWrapper(context, CHANNEL_ID_DEFAULT)
-        .setSmallIcon(R.drawable.ic_stat_notification_sigma)
-        .setContentTitle(title)
-        .setBigContentText(content);
+    return bigTextStyleBuilder(context, CHANNEL_ID_DEFAULT, title, content);
   }
 
   public static NotificationBuilderWrapper bigTextStyleBuilder(
