@@ -1002,7 +1002,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     MenuItem balanceItem = menu.findItem(R.id.BALANCE_COMMAND);
     if (balanceItem != null) {
-      Utils.menuItemSetEnabledAndVisible(balanceItem, mAccount.getType() != AccountType.CASH);
+      Utils.menuItemSetEnabledAndVisible(balanceItem, mAccount.getType() != AccountType.CASH && !mAccount.isSealed());
     }
   }
 

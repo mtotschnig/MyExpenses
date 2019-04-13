@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -38,6 +39,7 @@ import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
@@ -92,6 +94,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   private CurrencyContext currencyContext;
 
+  private Context context;
+
   protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
                                PrefHandler prefHandler, CurrencyContext currencyContext) {
@@ -99,6 +103,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     if (context instanceof ManageCategories) {
       insideFragment = true;
     }
+    this.context = context;
     colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
     colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     textColorSecondary = ((ProtectedFragmentActivity) context).getTextColorSecondary();
@@ -303,6 +308,19 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
+    }
+
+
+    @OnClick(R.id.colorContainer)
+    void toggleCrStatus(View v) {
+      Long id = (Long) v.getTag();
+      if (id != -1 && !mAccount.isSealed()) {
+        ((ProtectedFragmentActivity) context).startTaskExecution(
+            TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
+            new Long[]{id},
+            null,
+            0);
+      }
     }
   }
 

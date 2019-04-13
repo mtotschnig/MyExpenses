@@ -741,17 +741,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  public void toggleCrStatus(View v) {
-    Long id = (Long) v.getTag();
-    if (id != -1) {
-      startTaskExecution(
-          TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-          new Long[]{id},
-          null,
-          0);
-    }
-  }
-
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
