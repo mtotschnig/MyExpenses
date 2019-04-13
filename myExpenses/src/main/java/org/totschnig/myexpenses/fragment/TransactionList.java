@@ -570,7 +570,10 @@ public class TransactionList extends ContextualActionBarFragment implements
           } else {
             firstLoadCompleted = true;
             if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)) {
-              mListView.post(() -> mListView.setSelection(findCurrentPosition(c)));
+              final int currentPosition = findCurrentPosition(c);
+              mListView.post(() -> {
+                mListView.setSelection(currentPosition);
+              });
             }
           }
         }
