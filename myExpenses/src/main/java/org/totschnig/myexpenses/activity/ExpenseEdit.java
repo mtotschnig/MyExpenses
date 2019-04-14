@@ -160,11 +160,11 @@ import static org.totschnig.myexpenses.preference.PrefKey.TRANSFER_LAST_TRANSFER
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
@@ -187,7 +187,7 @@ import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
  */
 public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
-    ContribIFace, ConfirmationDialogListener, DateButton.Host {
+    ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host {
 
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
@@ -269,6 +269,8 @@ public class ExpenseEdit extends AmountActivity implements
   ImageView clearMethodButton;
   @BindView(R.id.ClearCategory)
   ImageView clearCategoryButton;
+  @BindView(R.id.DateLink)
+  ImageView datelink;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mRecurrenceSpinner;
@@ -874,6 +876,29 @@ public class ExpenseEdit extends AmountActivity implements
     showDialog(id);
   }
 
+  @Override
+  public void onValueSet(View view) {
+    setDirty();
+    if (areDatesLinked()) {
+      DateButton self = ((DateButton) view);
+      DateButton other = view.getId() == R.id.Date2Button ? dateEdit : date2Edit;
+      other.setDate(self.getDate());
+    }
+  }
+
+  public void toggleDateLink(View view) {
+    boolean isLinked = !areDatesLinked();
+    ((ImageView) view).setImageResource(isLinked ? R.drawable.ic_hchain :
+        R.drawable.ic_hchain_broken);
+    view.setTag(String.valueOf(isLinked));
+    view.setContentDescription(getString(isLinked ? R.string.content_description_dates_are_linked :
+        R.string.content_description_dates_are_not_linked));
+  }
+
+  private boolean areDatesLinked() {
+    return Boolean.parseBoolean((String) datelink.getTag());
+  }
+
   private void setPlannerRowVisibility(int visibility) {
     plannerRow.setVisibility(visibility);
   }
@@ -1024,7 +1049,7 @@ public class ExpenseEdit extends AmountActivity implements
         equivalentAmountRow.setVisibility(View.VISIBLE);
         exchangeRateRow.setVisibility(View.VISIBLE);
         final Account currentAccount = getCurrentAccount();
-        if (validateAmountInput(equivalentInput,false) == null && currentAccount != null) {
+        if (validateAmountInput(equivalentInput, false) == null && currentAccount != null) {
           final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
           mExchangeRateEdit.setRate(rate);
           isProcessingLinkedAmountInputs = true;
@@ -1697,7 +1722,7 @@ public class ExpenseEdit extends AmountActivity implements
         int visibility = View.GONE;
         if (id > 0) {
           if (CALENDAR.hasPermission(this)) {
-            boolean newSplitTemplateEnabled = getPrefHandler().getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true);
+            boolean newSplitTemplateEnabled = getPrefHandler().getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true);
             boolean newPlanEnabled = getPrefHandler().getBoolean(NEW_PLAN_ENABLED, true);
             if (newPlanEnabled && (newSplitTemplateEnabled || mOperationType != TYPE_SPLIT || mTransaction instanceof Template)) {
               visibility = View.VISIBLE;
@@ -1828,6 +1853,7 @@ public class ExpenseEdit extends AmountActivity implements
     DateMode dateMode = UiUtils.getDateMode(account, getPrefHandler());
     setVisibility(timeEdit, dateMode == DateMode.DATE_TIME);
     setVisibility(date2Edit, dateMode == DateMode.BOOKING_VALUE);
+    setVisibility(datelink, dateMode == DateMode.BOOKING_VALUE);
     String dateLabel;
     if (dateMode == DateMode.BOOKING_VALUE) {
       dateLabel = getString(R.string.booking_date) + "/" + getString(R.string.value_date);
@@ -2181,7 +2207,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
           int columnIndexAmount = data.getColumnIndex(KEY_AMOUNT);
           int columnIndexCurrency = data.getColumnIndex(KEY_CURRENCY);
-          if (validateAmountInput(amountInput,false) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
+          if (validateAmountInput(amountInput, false) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
             boolean beforeType = isIncome();
             fillAmount(new Money(currencyContext.get(data.getString(columnIndexCurrency)), data.getLong(columnIndexAmount)).getAmountMajor());
             configureType();

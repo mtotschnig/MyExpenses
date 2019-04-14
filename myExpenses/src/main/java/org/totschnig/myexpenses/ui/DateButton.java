@@ -52,7 +52,7 @@ public class DateButton extends ButtonWithDialog {
               monthOld != monthOfYear  ||
               dayOld != dayOfMonth) {
             setDate(LocalDate.of(year, monthOfYear + 1, dayOfMonth));
-            getHost().setDirty();
+            getHost().onValueSet(this);
           }
         };
     DatePickerDialog datePickerDialog = new DatePickerDialog(context, mDateSetListener,

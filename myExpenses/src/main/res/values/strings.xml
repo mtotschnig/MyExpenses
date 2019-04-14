@@ -846,4 +846,6 @@
     <string name="translated_by">Translated by</string>
     <string name="warning_account_for_plan_is_closed">Plan %s can no longer be instantiated because account %s has been closed.</string>
     <string name="warning_no_account">At least one account must be visible and open in order to create new transactions.</string>
+    <string name="content_description_dates_are_linked">Booking date and value date are linked</string>
+    <string name="content_description_dates_are_not_linked">Booking date and value date are not linked</string>
 </resources>

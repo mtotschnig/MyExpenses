@@ -1,0 +1,49 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="24"
+    android:viewportWidth="24">
+    <group
+        android:rotation="90"
+        android:scaleX="-1"
+        android:scaleY="-1.000875"
+        android:translateX="-1029.262"
+        android:translateY="23.99998">
+        <group
+            android:rotation="90"
+            android:scaleX="-1.498688"
+            android:scaleY="-1.5"
+            android:translateX="-928.9998"
+            android:translateY="1143.762">
+            <group
+                android:rotation="90"
+                android:scaleX="-1">
+                <path
+                    android:fillColor="?colorControlNormal"
+                    android:pathData="M-627 -67.0002H-627A1 0 0 0 1 -626 -67.0002V-61.0002A1 0 0 0 1 -627 -61.0002H-627A1 0 0 0 1 -628 -61.0002V-67.0002A1 0 0 0 1 -627 -67.0002Z">
+                </path>
+            </group>
+            <group
+                android:rotation="90"
+                android:scaleX="-1">
+                <path
+                    android:fillColor="?colorControlNormal"
+                    android:pathData="M-627.0625 -77.0002H-626.9375A0.9375 0 0 0 1 -626 -77.0002V-71.0002A0.9375 0 0 0 1 -626.9375 -71.0002H-627.0625A0.9375 0 0 0 1 -628 -71.0002V-77.0002A0.9375 0 0 0 1 -627.0625 -77.0002Z">
+
+                </path>
+            </group>
+            <group
+                android:rotation="90"
+                android:scaleX="0.6666668"
+                android:scaleY="0.6666668"
+                android:translateX="77.00022"
+                android:translateY="619.3333">
+                <path
+                    android:fillColor="?colorControlNormal"
+                    android:pathData="M7.0000055 3.0000253c-1.6619997 0 -3 1.3380001 -3 2.9999998V9.000025h3V7.0000251c0 -0.8309998 0.4683279 -1 1.2993277 -1H14.645982C15.476982 6.0000251 16 6.6690002 16 7.5l0.000005 1.500025h3L19 6c-0.000003 -1.6619997 -1.337995 -2.9999747 -2.999995 -2.9999747zm-3 11.9999997v3c0 1.662 1.3380003 3 3 3H16.000005C17.662005 21.000025 19 19.662 19 18l0.000005 -2.999975h-3L16 16.5c-0.000003 0.831 -0.669 1.500025 -1.5 1.500025h-6c-0.8309998 0 -1.4999945 -0.169 -1.4999945 -1v-2z">
+                </path>
+            </group>
+        </group>
+    </group>
+</vector>

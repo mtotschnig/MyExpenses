@@ -50,7 +50,7 @@ public class TimeButton extends ButtonWithDialog {
           if (time.get(HOUR_OF_DAY) != hourOfDay ||
               time.get(MINUTE_OF_HOUR) != minute) {
             setTime(LocalTime.of(hourOfDay, minute));
-            getHost().setDirty();
+            getHost().onValueSet(this);
           }
         };
     return new TimePickerDialog(getContext(),

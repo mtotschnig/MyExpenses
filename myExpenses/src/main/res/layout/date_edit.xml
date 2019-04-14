@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:tools="http://schemas.android.com/tools"
-       xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       xmlns:tools="http://schemas.android.com/tools"
        tools:showIn="@layout/one_expense">
 
     <org.totschnig.myexpenses.ui.DateButton
@@ -11,6 +12,19 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:contentDescription="@string/date"/>
+
+    <ImageView
+        android:id="@+id/DateLink"
+        style="?actionButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/content_description_dates_are_not_linked"
+        android:focusable="true"
+        android:onClick="toggleDateLink"
+        android:tag="false"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_hchain_broken"/>
 
     <org.totschnig.myexpenses.ui.DateButton
         android:id="@+id/Date2Button"

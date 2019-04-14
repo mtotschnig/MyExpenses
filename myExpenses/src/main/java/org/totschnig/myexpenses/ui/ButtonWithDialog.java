@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
+import android.view.View;
 
 import butterknife.ButterKnife;
 import icepick.Icepick;
@@ -45,7 +46,7 @@ public abstract class ButtonWithDialog extends AppCompatButton {
 
   public interface Host {
     void hideKeyBoardAndShowDialog(int id);
-    void setDirty();
+    void onValueSet(View v);
   }
 
   public abstract Dialog onCreateDialog();
