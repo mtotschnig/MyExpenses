@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,6 +99,7 @@ public class AmountInput extends LinearLayout {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
           View view = super.getView(position, convertView, parent);
+          view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), 0, view.getPaddingBottom());
           ((TextView) view).setText(getItem(position).code());
           return view;
         }
@@ -244,9 +248,9 @@ public class AmountInput extends LinearLayout {
     Context context = getContext();
     while (context instanceof android.content.ContextWrapper) {
       if (context instanceof Host) {
-        return (Host)context;
+        return (Host) context;
       }
-      context = ((ContextWrapper)context).getBaseContext();
+      context = ((ContextWrapper) context).getBaseContext();
     }
     throw new IllegalStateException("Host context does not implement interface");
   }
@@ -262,5 +266,82 @@ public class AmountInput extends LinearLayout {
     typeButton.setOnFocusChangeListener(l);
     currencySpinner.setOnFocusChangeListener(l);
     calculator.setOnFocusChangeListener(l);
+  }
+
+  @Override
+  protected Parcelable onSaveInstanceState() {
+    Parcelable superState = super.onSaveInstanceState();
+    return new SavedState(superState, typeButton.onSaveInstanceState(), amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState());
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Parcelable state) {
+    SavedState savedState = (SavedState) state;
+    super.onRestoreInstanceState(savedState.getSuperState());
+    typeButton.onRestoreInstanceState(savedState.getTypeButtonState());
+    amountEditText.onRestoreInstanceState(savedState.getAmountEditTextState());
+    currencySpinner.onRestoreInstanceState(savedState.getCurrencySpinnerState());
+  }
+
+  @Override
+  protected void dispatchSaveInstanceState(SparseArray<Parcelable> container) {
+    super.dispatchFreezeSelfOnly(container);
+  }
+
+  @Override
+  protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
+    super.dispatchThawSelfOnly(container);
+  }
+
+  static class SavedState extends BaseSavedState {
+    private Parcelable typeButtonState;
+    private Parcelable amountEditTextState;
+    private Parcelable currencySpinnerState;
+
+    private SavedState(Parcel in) {
+      super(in);
+      final ClassLoader classLoader = getClass().getClassLoader();
+      this.typeButtonState = in.readParcelable(classLoader);
+      this.amountEditTextState = in.readParcelable(classLoader);
+      this.currencySpinnerState = in.readParcelable(classLoader);
+    }
+
+    SavedState(Parcelable superState, Parcelable typeButtonState, Parcelable amountEditTextState, Parcelable currencySpinnerState) {
+      super(superState);
+      this.typeButtonState = typeButtonState;
+      this.amountEditTextState = amountEditTextState;
+      this.currencySpinnerState = currencySpinnerState;
+    }
+
+    @Override
+    public void writeToParcel(Parcel destination, int flags) {
+      super.writeToParcel(destination, flags);
+      destination.writeParcelable(typeButtonState, flags);
+      destination.writeParcelable(amountEditTextState, flags);
+      destination.writeParcelable(currencySpinnerState, flags);
+    }
+
+    public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+      public SavedState createFromParcel(Parcel in) {
+        return new SavedState(in);
+      }
+
+      public SavedState[] newArray(int size) {
+        return new SavedState[size];
+      }
+    };
+
+    Parcelable getTypeButtonState() {
+      return typeButtonState;
+    }
+
+    Parcelable getAmountEditTextState() {
+      return amountEditTextState;
+    }
+
+    Parcelable getCurrencySpinnerState() {
+      return currencySpinnerState;
+    }
   }
 }

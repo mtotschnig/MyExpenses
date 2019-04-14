@@ -21,11 +21,9 @@
 
     <Spinner
         android:id="@+id/AmountCurrency"
-        style="@style/FormField"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:prompt="@string/currency"/>
 
     <org.totschnig.myexpenses.ui.AmountEditText
@@ -33,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="2"/>
+        android:layout_weight="1"/>
 
-    <include layout="@layout/calc_icon" />
+    <include layout="@layout/calc_icon"/>
 </merge>
