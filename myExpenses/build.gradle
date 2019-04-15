@@ -284,3 +284,8 @@ task copyFileForFixture(type: com.novoda.gradle.command.Files) {
         push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
     }
 }
+
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
+}
