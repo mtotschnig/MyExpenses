@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -9,11 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.sqlbrite3.QueryObservable;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -26,9 +31,15 @@ import io.reactivex.disposables.Disposable;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MIN_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH;
@@ -36,8 +47,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth;
@@ -49,6 +64,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekS
 
 public abstract class DistributionBaseFragment extends CategoryList {
   protected Grouping mGrouping;
+  protected boolean isIncome = false;
   int mGroupingYear;
   int mGroupingSecond;
   int thisYear;
@@ -58,9 +74,16 @@ public abstract class DistributionBaseFragment extends CategoryList {
   int thisDay;
   int maxValue;
   int minValue;
+  boolean aggregateTypes;
   private Disposable dateInfoDisposable;
   private Disposable sumDisposable;
   protected Account mAccount;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    aggregateTypes = getPrefKey().getBoolean(true);
+  }
 
   protected void setupAccount() {
     mAccount = Account.getInstanceFromDb(getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0));
@@ -260,9 +283,17 @@ public abstract class DistributionBaseFragment extends CategoryList {
       case R.id.FORWARD_COMMAND:
         forward();
         return true;
+      case R.id.TOGGLE_AGGREGATE_TYPES:
+        aggregateTypes = !aggregateTypes;
+        getPrefKey().putBoolean(aggregateTypes);
+        getActivity().invalidateOptionsMenu();
+        reset();
+        return true;
     }
     return false;
   }
+
+  protected abstract PrefKey getPrefKey();
 
   public void back() {
     if (mGrouping.equals(Grouping.YEAR))
@@ -295,5 +326,66 @@ public abstract class DistributionBaseFragment extends CategoryList {
     super.reset();
     updateSum();
     updateDateInfo(true);
+  }
+
+  @Override
+  protected QueryObservable createQuery() {
+    String accountSelector = null;
+    String[] selectionArgs;
+    String catFilter;
+    String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
+    if (mAccount.isHomeAggregate()) {
+      accountSelection = null;
+      amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+      table = VIEW_EXTENDED;
+    } else if (mAccount.isAggregate()) {
+      accountSelection = " IN " +
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+          KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
+      accountSelector = mAccount.getCurrencyUnit().code();
+    } else {
+      accountSelection = " = " + mAccount.getId();
+    }
+    catFilter = "FROM " + table +
+        " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
+    if (!aggregateTypes) {
+      catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
+    }
+    if (!mGrouping.equals(Grouping.NONE)) {
+      catFilter += " AND " + buildGroupingClause();
+    }
+    //we need to include transactions mapped to children for main categories
+    catFilter += " AND " + CATTREE_WHERE_CLAUSE;
+    String extraColumn = getExtraColumn();
+    String[] projection = new String[extraColumn == null ? 5 : 6];
+    projection[0] = KEY_ROWID;
+    projection[1] = KEY_PARENTID;
+    projection[2] = KEY_LABEL;
+    projection[3] = KEY_COLOR;
+    projection[4] = "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM;
+    if (extraColumn != null) {
+      projection[5] = extraColumn;
+    }
+    selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
+    return briteContentResolver.createQuery(getCategoriesUri(),
+        projection, showAllCategories() ? null : " exists (SELECT 1 " + catFilter + ")", selectionArgs, getSortExpression(), true);
+  }
+
+  protected Uri getCategoriesUri() {
+    return TransactionProvider.CATEGORIES_URI;
+  }
+
+  protected String getExtraColumn() {
+    return null;
+  }
+
+  protected abstract boolean showAllCategories();
+
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    MenuItem m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
+    if (m != null) {
+      m.setChecked(aggregateTypes);
+    }
   }
 }

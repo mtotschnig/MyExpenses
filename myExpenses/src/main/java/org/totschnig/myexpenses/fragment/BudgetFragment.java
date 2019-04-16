@@ -1,54 +1,41 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.squareup.sqlbrite3.QueryObservable;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 
 public class BudgetFragment extends DistributionBaseFragment {
   private Budget budget;
-  @BindView(R.id.budgetTotalCard) ViewGroup budgetTotalCard;
   @BindView(R.id.budgetProgressTotal) DonutProgress budgetProgress;
   @BindView(R.id.totalBudget) TextView totalBudget;
   @BindView(R.id.totalAllocated) TextView totalAllocated;
@@ -62,41 +49,8 @@ public class BudgetFragment extends DistributionBaseFragment {
   private long allocated, spent;
 
   @Override
-  protected QueryObservable createQuery() {
-    String accountSelector = null;
-    String[] selectionArgs, projection;
-    String catFilter;
-    String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
-    if (budget.isHomeAggregate()) {
-      accountSelection = null;
-      amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
-      table = VIEW_EXTENDED;
-    } else if (budget.isAggregate()) {
-      accountSelection = " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-          KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = budget.getCurrency().code();
-    } else {
-      accountSelection = " = " + budget.getAccountId();
-    }
-    catFilter = "FROM " + table +
-        " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
-    catFilter += " AND " + KEY_AMOUNT + " < 0";
-    catFilter += " AND " + buildGroupingClause();
-    //we need to include transactions mapped to children for main categories
-    catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-    projection = new String[]{
-        KEY_ROWID,
-        KEY_PARENTID,
-        KEY_LABEL,
-        KEY_COLOR,
-        "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM,
-        KEY_BUDGET
-    };
-    selectionArgs = accountSelector != null ? new String[]{accountSelector} : null;
-    return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI.buildUpon()
-            .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId())).build(),
-        projection, null, selectionArgs, getSortExpression(), true);
+  protected boolean showAllCategories() {
+    return true;
   }
 
   @Override
@@ -117,11 +71,6 @@ public class BudgetFragment extends DistributionBaseFragment {
     totalBudget.setOnClickListener(view1 -> ((BudgetActivity) getActivity()).onBudgetClick(null, null));
     registerForContextMenu(mListView);
     return view;
-  }
-
-  @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    // no search
   }
 
   public void setBudget(Budget budget) {
@@ -204,5 +153,38 @@ public class BudgetFragment extends DistributionBaseFragment {
         context.getColorExpense());
     int progress = allocated == 0 ? 100 : Math.round(spent * 100F / allocated);
     UiUtils.configureProgress(budgetProgress, progress);
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    if (((BudgetActivity) getActivity()).hasBudgets()) {
+      inflater.inflate(R.menu.budget, menu);
+      super.onCreateOptionsMenu(menu, inflater);
+    }
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    final MenuItem item = menu.findItem(R.id.GROUPING_COMMAND);
+    if (item != null) {
+      Utils.configureGroupingMenu(item.getSubMenu(), mGrouping);
+    }
+    super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  protected String getExtraColumn() {
+    return KEY_BUDGET;
+  }
+
+  @Override
+  protected Uri getCategoriesUri() {
+    return super.getCategoriesUri().buildUpon()
+        .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId())).build();
+  }
+
+  @NonNull
+  protected PrefKey getPrefKey() {
+    return PrefKey.BUDGET_AGGREGATE_TYPES;
   }
 }

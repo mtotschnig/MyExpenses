@@ -116,7 +116,6 @@ public class CategoryList extends SortableListFragment {
   @BindView(R.id.importButton)
   View mImportButton;
 
-  protected boolean isIncome = false;
   protected int lastExpandedPosition = -1;
 
   String mFilter;
@@ -562,11 +561,6 @@ public class CategoryList extends SortableListFragment {
     if (condition) {
       item.setVisible(false);
     }
-  }
-
-  public void setType(boolean isChecked) {
-    isIncome = isChecked;
-    reset();
   }
 
   private boolean isWithMainColors() {

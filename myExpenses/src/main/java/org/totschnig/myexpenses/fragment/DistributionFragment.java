@@ -28,7 +28,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.squareup.sqlbrite3.QueryObservable;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -36,8 +35,6 @@ import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
@@ -48,22 +45,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 
 public class DistributionFragment extends DistributionBaseFragment {
   @BindView(R.id.chart1)
@@ -71,7 +56,6 @@ public class DistributionFragment extends DistributionBaseFragment {
   @BindView(R.id.BottomLine)
   View bottomLine;
   boolean showChart = false;
-  boolean aggregateTypes;
   private int textColorSecondary;
 
   public Grouping getGrouping() {
@@ -84,7 +68,6 @@ public class DistributionFragment extends DistributionBaseFragment {
     if (mAccount == null) {
       return errorView();
     }
-    aggregateTypes = PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
@@ -242,47 +225,6 @@ public class DistributionFragment extends DistributionBaseFragment {
   }
 
   @Override
-  protected QueryObservable createQuery() {
-    String selection, accountSelector = null, sortOrder;
-    String[] selectionArgs, projection;
-    String catFilter;
-    String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
-    if (mAccount.isHomeAggregate()) {
-      accountSelection = null;
-      amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
-      table = VIEW_EXTENDED;
-    } else if (mAccount.isAggregate()) {
-      accountSelection = " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-          KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = mAccount.getCurrencyUnit().code();
-    } else {
-      accountSelection = " = " + mAccount.getId();
-    }
-    catFilter = "FROM " + table +
-        " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
-    if (!aggregateTypes) {
-      catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
-    }
-    if (!mGrouping.equals(Grouping.NONE)) {
-      catFilter += " AND " + buildGroupingClause();
-    }
-    //we need to include transactions mapped to children for main categories
-    catFilter += " AND " + CATTREE_WHERE_CLAUSE;
-    selection = " exists (SELECT 1 " + catFilter + ")";
-    projection = new String[]{
-        KEY_ROWID,
-        KEY_PARENTID,
-        KEY_LABEL,
-        KEY_COLOR,
-        "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
-    };
-    selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
-    return briteContentResolver.createQuery(TransactionProvider.CATEGORIES_URI,
-        projection, selection, selectionArgs, getSortExpression(), true);
-  }
-
-  @Override
   protected Object getSecondarySort() {
     return "abs(" + KEY_SUM + ") DESC";
   }
@@ -312,6 +254,11 @@ public class DistributionFragment extends DistributionBaseFragment {
     typeButton.setOnCheckedChangeListener((buttonView, isChecked) -> setType(isChecked));
   }
 
+  public void setType(boolean isChecked) {
+    isIncome = isChecked;
+    reset();
+  }
+
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
@@ -324,15 +271,12 @@ public class DistributionFragment extends DistributionBaseFragment {
     if (m != null) {
       m.setChecked(showChart);
     }
-    m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
-    if (m != null) {
-      m.setChecked(aggregateTypes);
-      final MenuItem item = menu.findItem(R.id.switchId);
-      Utils.menuItemSetEnabledAndVisible(item, !aggregateTypes);
-      if (!aggregateTypes) {
-        ((SwitchCompat) item.getActionView().findViewById(R.id.TaType)).setChecked(isIncome);
-      }
+    final MenuItem item = menu.findItem(R.id.switchId);
+    Utils.menuItemSetEnabledAndVisible(item, !aggregateTypes);
+    if (!aggregateTypes) {
+      ((SwitchCompat) item.getActionView().findViewById(R.id.TaType)).setChecked(isIncome);
     }
+    super.onPrepareOptionsMenu(menu);
   }
 
   @Override
@@ -405,13 +349,12 @@ public class DistributionFragment extends DistributionBaseFragment {
         }
         mAdapter.toggleColors();
         return true;
-      case R.id.TOGGLE_AGGREGATE_TYPES:
-        aggregateTypes = !aggregateTypes;
-        PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
-        getActivity().invalidateOptionsMenu();
-        reset();
-        return true;
     }
+    return false;
+  }
+
+  @Override
+  protected boolean showAllCategories() {
     return false;
   }
 
@@ -496,5 +439,10 @@ public class DistributionFragment extends DistributionBaseFragment {
     outState.putSerializable(KEY_GROUPING, mGrouping);
     outState.putInt(KEY_YEAR, mGroupingYear);
     outState.putInt(KEY_SECOND_GROUP, mGroupingSecond);
+  }
+
+  @NonNull
+  protected PrefKey getPrefKey() {
+    return PrefKey.DISTRIBUTION_AGGREGATE_TYPES;
   }
 }

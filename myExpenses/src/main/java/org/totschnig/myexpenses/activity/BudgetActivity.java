@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -184,29 +183,8 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         .show(this, EDIT_BUDGET_DIALOG);
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    if (hasBudgets()) {
-      super.onCreateOptionsMenu(menu);
-      getMenuInflater().inflate(R.menu.budget, menu);
-      return true;
-    }
-    return false;
-  }
-
-  protected boolean hasBudgets() {
+  public boolean hasBudgets() {
     return budgetList != null;
-  }
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    final MenuItem item = menu.findItem(R.id.GROUPING_COMMAND);
-    if (item != null) {
-      Utils.configureGroupingMenu(item.getSubMenu(), getCurrentTypeFromPreference());
-      return true;
-    }
-    return false;
   }
 
   @Override
