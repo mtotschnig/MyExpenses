@@ -293,26 +293,11 @@ public class Utils {
   /**
    * utility method that calls formatters for date
    *
-   * @param text unixEpochAsString
+   * @param date unixEpoch
    * @return formated string
    */
-  public static String convDateTime(String text, DateFormat format) {
-    if (text == null) {
-      return "???";
-    }
-    Date date;
-    try {
-      date = new Date(Long.valueOf(text) * 1000L);
-    } catch (NumberFormatException e) {
-      // legacy, the migration from date string to unix timestamp
-      // might have gone wrong for some users
-      try {
-        date = TransactionDatabase.dateTimeFormat.parse(text);
-      } catch (ParseException e1) {
-        date = new Date();
-      }
-    }
-    return format.format(date);
+  public static String convDateTime(long date, DateFormat format) {
+    return format.format(new Date(date * 1000L));
   }
 
   @NonNull

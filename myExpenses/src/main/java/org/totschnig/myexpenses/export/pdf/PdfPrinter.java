@@ -399,7 +399,7 @@ public class PdfPrinter {
       } catch (IllegalArgumentException ignored) {
       }
 
-      PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat),
+      PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getLong(columnIndexDate), itemDateFormat),
           FontType.NORMAL);
       table.addCell(cell);
       if (isVoid) {

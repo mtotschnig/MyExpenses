@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -68,11 +70,11 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private boolean shouldShowTime;
   private Account mAccount;
   private Grouping mGroupingOverride;
-  DateFormat localizedTimeFormat, itemDateFormat;
+  private DateFormat localizedTimeFormat, itemDateFormat;
   private int colorExpense, colorIncome;
-  ColorStateList textColorSecondary;
-  boolean insideFragment;
-  protected int monthStart;
+  private ColorStateList textColorSecondary;
+  private boolean insideFragment;
+  private int monthStart;
   private CurrencyFormatter currencyFormatter;
   private boolean indexesCalculated = false;
   private int columnIndexDate;
@@ -139,8 +141,10 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   public void bindView(View view, Context context, Cursor cursor) {
     ViewHolder viewHolder = (ViewHolder) view.getTag();
     viewHolder.date.setEms(dateEms);
+    final long date = cursor.getLong(columnIndexDate);
+    ((FrameLayout) view).setForeground(date * 1000L > System.currentTimeMillis() ? new ColorDrawable(getColorForFutureTransactions()) : null);
     viewHolder.date.setText(itemDateFormat != null ?
-        Utils.convDateTime(cursor.getString(columnIndexDate), itemDateFormat) : null);
+        Utils.convDateTime(date, itemDateFormat) : null);
     final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
     //for the Grand Total account, we show equivalent amounts in the home currency for normal transactions
     //but show transfers in there real currency
@@ -225,6 +229,16 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       viewHolder.colorContainer.setVisibility(View.GONE);
     }
     viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
+  }
+
+  private int getColorForFutureTransactions() {
+    switch (((ProtectedFragmentActivity) context).getThemeType()) {
+      case dark:
+        return 0x11FFFFFF;
+      case light:
+      default:
+        return 0x11000000;
+    }
   }
 
   /**

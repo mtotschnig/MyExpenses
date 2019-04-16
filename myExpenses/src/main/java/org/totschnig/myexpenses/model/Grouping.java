@@ -57,8 +57,8 @@ public enum Grouping {
         int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
         int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
-        String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_START)), dateformat)
-            + " - " + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_END)), dateformat) + " )";
+        String weekRange = " (" + Utils.convDateTime(c.getLong(c.getColumnIndex(KEY_WEEK_START)), dateformat)
+            + " - " + Utils.convDateTime(c.getLong(c.getColumnIndex(KEY_WEEK_END)), dateformat) + " )";
         String yearPrefix;
         if (groupYear == this_year_of_week_start) {
           if (groupSecond == this_week)
