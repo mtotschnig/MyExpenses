@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -300,28 +301,29 @@ public class CsvImportDataFragment extends Fragment {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter() {
+    MyAdapter() {
       nrOfColumns = mDataset.get(0).size();
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                    int viewType) {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
       v.setBackgroundResource(R.drawable.csv_import_row_background);
-      View cell = new CheckBox(parent.getContext());
+      TextView cell = new CheckBox(parent.getContext());
 
       v.addView(cell, cbParams);
       for (int i = 0; i < nrOfColumns; i++) {
         cell = new TextView(parent.getContext());
-        ((TextView) cell).setSingleLine();
-        ((TextView) cell).setEllipsize(TextUtils.TruncateAt.END);
+        cell.setSingleLine();
+        cell.setEllipsize(TextUtils.TruncateAt.END);
         cell.setSelected(true);
         cell.setOnClickListener(v1 -> ((ProtectedFragmentActivity) getActivity()).showSnackbar(((TextView) v1).getText(), Snackbar.LENGTH_LONG));
         if (viewType == 0) {
-          ((TextView) cell).setTypeface(null, Typeface.BOLD);
+          cell.setTypeface(null, Typeface.BOLD);
         }
         v.addView(cell, cellParams);
       }
@@ -332,7 +334,7 @@ public class CsvImportDataFragment extends Fragment {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
       boolean isDiscarded = discardedRows.get(position, false);
