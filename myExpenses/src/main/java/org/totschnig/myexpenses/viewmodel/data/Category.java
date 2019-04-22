@@ -14,9 +14,10 @@ public class Category {
   public final Boolean hasMappedTransactions;
   private final List<Category> children = new ArrayList<>();
   public final int color;
+  public final String icon;
 
   public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
-                  Boolean hasMappedTransactions, int color, Long budget) {
+                  Boolean hasMappedTransactions, int color, Long budget, String icon) {
     this.id = id;
     this.parentId = parentId;
     this.label = label;
@@ -25,6 +26,7 @@ public class Category {
     this.hasMappedTransactions = hasMappedTransactions;
     this.color = color;
     this.budget = budget;
+    this.icon = icon;
   }
 
   public void addChild(Category child) {

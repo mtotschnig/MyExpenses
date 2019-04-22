@@ -848,4 +848,5 @@
     <string name="warning_no_account">At least one account must be visible and open in order to create new transactions.</string>
     <string name="content_description_dates_are_linked">Booking date and value date are updated together</string>
     <string name="content_description_dates_are_not_linked">Booking date and value date are not updated together</string>
+    <string name="icon">Icon</string>
 </resources>

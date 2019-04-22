@@ -197,7 +197,7 @@ dependencies {
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
-    implementation 'com.github.eltos:SimpleDialogFragments:3abe091998'
+    implementation 'com.github.eltos:simpledialogfragment:3.1'
     implementation 'com.annimon:stream:1.1.9'
 
     // WebDAV

@@ -76,6 +76,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
@@ -308,6 +309,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "
+          + KEY_ICON + " string, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =

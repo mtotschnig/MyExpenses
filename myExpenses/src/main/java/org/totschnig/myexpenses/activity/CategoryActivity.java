@@ -13,12 +13,19 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import eltos.simpledialogfragment.color.SimpleColorDialog;
-import eltos.simpledialogfragment.input.SimpleInputDialog;
+import eltos.simpledialogfragment.form.FormElement;
+import eltos.simpledialogfragment.form.Input;
+import eltos.simpledialogfragment.form.SelectColorField;
+import eltos.simpledialogfragment.form.SelectIconField;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class CategoryActivity<T extends CategoryList> extends ProtectedFragmentActivity implements
-    SimpleInputDialog.OnDialogResultListener {
+    SimpleFormDialog.OnDialogResultListener {
   protected static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
   protected static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
   protected T mListFragment;
@@ -46,11 +53,14 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
     if (parentId != null) {
       args.putLong(DatabaseConstants.KEY_PARENTID, parentId);
     }
-    SimpleInputDialog.build()
+    SimpleFormDialog.build()
         .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
         .cancelable(false)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        .hint(R.string.label)
+        .fields(
+            Input.plain(KEY_LABEL).required().hint(R.string.label)
+                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES),
+            SelectIconField.picker(KEY_ICON).icons(R.array.category_icons).label(R.string.icon)
+        )
         .pos(R.string.dialog_button_add)
         .neut()
         .extra(args)
@@ -59,20 +69,20 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
 
   /**
    * presents AlertDialog for editing an existing category
-   * if label is already used, shows an error
-   *
-   * @param label
-   * @param catId
    */
-  public void editCat(String label, Long catId) {
+  public void editCat(Category category) {
     Bundle args = new Bundle();
-    args.putLong(KEY_ROWID, catId);
-    SimpleInputDialog.build()
+    args.putLong(KEY_ROWID, category.id);
+    final Input labelInput = Input.plain(KEY_LABEL).required().hint(R.string.label).text(category.label)
+        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+    final SelectIconField iconField = SelectIconField.picker(KEY_ICON).icons(R.array.category_icons).preset(category.icon).label(R.string.icon);
+    final FormElement[] formElements = category.parentId == null ?
+        new FormElement[]{labelInput, SelectColorField.picker(KEY_COLOR).label(R.string.color).color(category.color), iconField} :
+        new FormElement[]{labelInput, iconField};
+    SimpleFormDialog.build()
         .title(R.string.menu_edit_cat)
         .cancelable(false)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        .hint(R.string.label)
-        .text(label)
+        .fields(formElements)
         .pos(R.string.menu_save)
         .neut()
         .extra(args)

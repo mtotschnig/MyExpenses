@@ -40,6 +40,9 @@ import java.util.ArrayList;
 
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 /**
@@ -188,8 +191,8 @@ public class ManageCategories extends CategoryActivity implements
       }
       mCategory = new Category(
           extras.getLong(KEY_ROWID),
-          extras.getString(SimpleInputDialog.TEXT),
-          parentId);
+          extras.getString(KEY_LABEL),
+          parentId, extras.getInt(KEY_COLOR), extras.getString(KEY_ICON));
       startDbWriteTask(false);
       finishActionMode();
       return true;

@@ -1195,19 +1195,15 @@ public class TransactionProvider extends ContentProvider {
         if (label != null) {
           String selection;
           String[] selectionArgs;
-          //this syntax crashes on 2.1, maybe 2.2
           selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
           selectionArgs = new String[]{label, segment};
           c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
           if (c.getCount() != 0) {
             c.moveToFirst();
-            if (c.getLong(0) == Long.valueOf(segment)) {
-              //silently do nothing if we try to update with the same value
+            if (c.getLong(0) != Long.valueOf(segment)) {
               c.close();
-              return 0;
+              throw new SQLiteConstraintException();
             }
-            c.close();
-            throw new SQLiteConstraintException();
           }
           c.close();
           count = db.update(TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),

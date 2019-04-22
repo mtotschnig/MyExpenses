@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS;
@@ -40,7 +41,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   protected final CurrencyUnit currency;
   private List<Category> mainCategories = new ArrayList<>();
   private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
-  private final Context context;
+  final Context context;
   private final LayoutInflater inflater;
   protected final CurrencyFormatter currencyFormatter;
   protected final int colorExpense;
@@ -112,7 +113,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   @Override
   public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
     final Category item = getGroup(groupPosition);
-    final View view = getView(item, null, convertView, parent, withMainColors ? item.color : 0);
+    final View view = getView(item, null, convertView, parent, withMainColors ? item.color : 0, item.icon);
     ImageView indicator = ((ViewHolder) view.getTag()).groupIndicator;
     if( getChildrenCount( groupPosition ) == 0 ) {
       indicator.setVisibility( View.INVISIBLE );
@@ -134,12 +135,12 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
       final List<Integer> subColors = getSubColors(parentCat.color);
       color = subColors.get(childPosition % subColors.size());
     }
-    final View view = getView(item, parentCat, convertView, parent, color);
+    final View view = getView(item, parentCat, convertView, parent, color, item.icon);
     ((ViewHolder) view.getTag()).groupIndicator.setVisibility(View.INVISIBLE);
     return view;
   }
 
-  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color) {
+  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color, String icon) {
     ViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(getLayoutResourceId(), parent, false);
@@ -176,7 +177,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         LongSparseArray<Integer> positionMap = new LongSparseArray<>();
         int position = 0;
         if (withNullCategory) {
-          newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, null, 0, null));
+          newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, null, 0, null, null));
           position = 1;
         }
         final int columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
@@ -186,6 +187,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         final int columnIndexMapTransactions = cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS);
         final int columnIndexMapTemplates = cursor.getColumnIndex(KEY_MAPPED_TEMPLATES);
         final int columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
+        final int columIndexIcon = cursor.getColumnIndex(KEY_ICON);
         while (cursor.moveToNext()) {
           final long id = cursor.getLong(columnIndexRowId);
           final Long parentId = DbUtils.getLongOrNull(cursor, columnIndexParentId);
@@ -195,7 +197,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
               columnIndexMapTemplates == -1 ? null : cursor.getInt(columnIndexMapTemplates) > 0,
               columnIndexMapTransactions == -1 ? null : cursor.getInt(columnIndexMapTransactions) > 0,
               cursor.getInt(columnIndexColor),
-              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget));
+              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget),  cursor.getString(columIndexIcon));
           if (parentId == null) {
             newList.add(category);
             positionMap.put(id, position);

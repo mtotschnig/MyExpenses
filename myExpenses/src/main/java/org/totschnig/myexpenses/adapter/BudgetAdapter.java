@@ -37,8 +37,8 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
   }
 
   @Override
-  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color) {
-    final View view = super.getView(item, parentItem, convertView, parent, color);
+  protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color, String icon) {
+    final View view = super.getView(item, parentItem, convertView, parent, color, icon);
     ViewHolder holder = (ViewHolder) view.getTag();
     holder.budget.setText(currencyFormatter.convAmount(item.budget, currency));
     holder.budget.setOnClickListener(view1 -> listener.onBudgetClick(item, parentItem));

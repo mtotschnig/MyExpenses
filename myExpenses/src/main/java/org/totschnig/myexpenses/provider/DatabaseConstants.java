@@ -216,6 +216,10 @@ public class DatabaseConstants {
    */
   public static final String KEY_SEALED = "sealed";
 
+  /**
+   * if of a drawable resource representing a category
+   */
+  public static final String KEY_ICON = "icon";
 
   /**
    * No special status
