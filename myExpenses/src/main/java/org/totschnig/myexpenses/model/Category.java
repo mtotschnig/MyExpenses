@@ -127,9 +127,7 @@ public class Category extends Model {
     if (color != 0) {
       initialValues.put(KEY_COLOR, color);
     }
-    if (icon != null) {
-      initialValues.put(KEY_ICON, icon);
-    }
+    initialValues.put(KEY_ICON, icon);
     Uri uri;
     if (getId() == 0) {
       if (isMainOrNull(parentId)) {

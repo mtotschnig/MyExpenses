@@ -70,14 +70,12 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
 
     label.setText(field.getText(context));
     selected = savedInstanceState != null ? savedInstanceState.getString(SAVED_ICON) : field.preset;
-    if (selected == null) {
-      icon.setVisibility(View.GONE);
-      select.setOnClickListener(v -> onClick(actions));
-    } else {
-      select.setVisibility(View.GONE);
+    select.setOnClickListener(v -> onClick(actions));
+    icon.setOnClickListener(v -> onClick(actions));
+    if (selected != null) {
       icon.setImageResource(context.getResources().getIdentifier(selected, "drawable", context.getPackageName()));
-      icon.setOnClickListener(v -> onClick(actions));
     }
+    updateViewVisibility();
   }
 
   @Override
@@ -111,16 +109,29 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
       if (which == BUTTON_POSITIVE) {
         selected = extras.getString(KEY_ICON);
         icon.setImageResource(extras.getInt(SimpleIconDialog.KEY_RESID));
+        updateViewVisibility();
+      } else if (which == BUTTON_NEGATIVE) {
+        selected = null;
+        updateViewVisibility();
       }
       return true;
     }
     return false;
   }
 
-  void onClick(final SimpleFormDialog.DialogActions actions) {
-    actions.showDialog(SimpleIconDialog.build()
-            .icons(field.iconArray)
-            .neut(),
+  private void updateViewVisibility() {
+    icon.setVisibility(selected == null ? View.GONE : View.VISIBLE);
+    select.setVisibility(selected == null ? View.VISIBLE : View.GONE);
+  }
+
+  private void onClick(final SimpleFormDialog.DialogActions actions) {
+    final SimpleIconDialog iconDialog = SimpleIconDialog.build()
+        .icons(field.iconArray)
+        .neut();
+    if(selected != null) {
+      iconDialog.neg(R.string.menu_remove);
+    }
+    actions.showDialog(iconDialog,
         ICON_PICKER_DIALOG_TAG + field.resultKey);
   }
 }

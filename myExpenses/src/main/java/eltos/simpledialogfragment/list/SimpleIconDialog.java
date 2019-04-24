@@ -15,12 +15,10 @@
 
 package eltos.simpledialogfragment.list;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import org.totschnig.myexpenses.R;
@@ -53,7 +51,7 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
   public SimpleIconDialog() {
     grid();
     gridColumnWidth(R.dimen.dialog_icon_item_size);
-    choiceMode(SINGLE_CHOICE);
+    choiceMode(SINGLE_CHOICE_DIRECT);
     choiceMin(1);
   }
 
@@ -63,15 +61,13 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
   }
 
   @Override
-  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    getDialog().dismiss();
-    Bundle result = new Bundle(2);
-    final String item = (String) getListView().getAdapter().getItem(position);
+  protected Bundle onResult(int which) {
+    Bundle result = super.onResult(which);
+    final String item = (String) getListView().getAdapter().getItem(result.getInt(SELECTED_SINGLE_POSITION));
     result.putString(KEY_ICON, item);
     result.putInt(KEY_RESID, resolveIcon(item));
-    callResultListener(DialogInterface.BUTTON_POSITIVE, result);
+    return result;
   }
-
 
   private class IconAdapter extends AdvancedAdapter<String> {
 

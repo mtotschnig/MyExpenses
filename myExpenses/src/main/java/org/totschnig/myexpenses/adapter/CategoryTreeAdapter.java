@@ -34,9 +34,7 @@ public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
     if (color != 0) {
       holder.color.setBackgroundDrawable(createBackgroundColorDrawable(color));
     }
-    if (icon != null) {
-      holder.icon.setImageResource(context.getResources().getIdentifier(icon, "drawable", context.getPackageName()));
-    }
+    holder.icon.setImageResource(icon != null ? context.getResources().getIdentifier(icon, "drawable", context.getPackageName()) : 0);
     return view;
   }
 

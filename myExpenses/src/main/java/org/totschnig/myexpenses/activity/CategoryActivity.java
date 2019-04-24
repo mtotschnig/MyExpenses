@@ -56,15 +56,20 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
     SimpleFormDialog.build()
         .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
         .cancelable(false)
-        .fields(
-            Input.plain(KEY_LABEL).required().hint(R.string.label)
-                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES),
-            SelectIconField.picker(KEY_ICON).icons(R.array.category_icons).label(R.string.icon)
-        )
+        .fields(buildLabelField(null), buildIconField(null))
         .pos(R.string.dialog_button_add)
         .neut()
         .extra(args)
         .show(this, DIALOG_NEW_CATEGORY);
+  }
+
+  private FormElement buildLabelField(String text) {
+    return Input.plain(KEY_LABEL).required().hint(R.string.label).text(text)
+        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+  }
+
+  private FormElement buildIconField(String preset) {
+    return SelectIconField.picker(KEY_ICON).icons(R.array.category_icons).preset(preset).label(R.string.icon);
   }
 
   /**
@@ -73,9 +78,8 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
   public void editCat(Category category) {
     Bundle args = new Bundle();
     args.putLong(KEY_ROWID, category.id);
-    final Input labelInput = Input.plain(KEY_LABEL).required().hint(R.string.label).text(category.label)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-    final SelectIconField iconField = SelectIconField.picker(KEY_ICON).icons(R.array.category_icons).preset(category.icon).label(R.string.icon);
+    final FormElement labelInput = buildLabelField(category.label);
+    final FormElement iconField = buildIconField(category.icon);
     final FormElement[] formElements = category.parentId == null ?
         new FormElement[]{labelInput, SelectColorField.picker(KEY_COLOR).label(R.string.color).color(category.color), iconField} :
         new FormElement[]{labelInput, iconField};
