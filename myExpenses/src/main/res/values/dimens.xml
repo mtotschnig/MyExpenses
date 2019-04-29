@@ -62,4 +62,6 @@
     <dimen name="fast_scroll_additional_margin">32dp</dimen>
     <dimen name="list_header_vertical_padding">4dp</dimen>
     <dimen name="dialog_icon_item_size">32dp</dimen>
+    <dimen name="category_icon_size">32dp</dimen>
+    <dimen name="category_icon_padding">4dp</dimen>
 </resources>

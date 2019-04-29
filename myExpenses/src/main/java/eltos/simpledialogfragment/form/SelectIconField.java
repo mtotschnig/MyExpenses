@@ -16,12 +16,11 @@
 package eltos.simpledialogfragment.form;
 
 import android.os.Parcel;
-import android.support.annotation.ArrayRes;
 
 public class SelectIconField extends FormElement<SelectIconField, IconViewHolder> {
 
   String preset;
-  @ArrayRes int iconArray;
+  String[] iconArray;
 
   private SelectIconField(String resultKey) {
     super(resultKey);
@@ -36,7 +35,7 @@ public class SelectIconField extends FormElement<SelectIconField, IconViewHolder
     return this;
   }
 
-  public SelectIconField icons(@ArrayRes int iconArray) {
+  public SelectIconField icons(String[] iconArray) {
     this.iconArray = iconArray;
     return this;
   }
@@ -49,14 +48,14 @@ public class SelectIconField extends FormElement<SelectIconField, IconViewHolder
   protected SelectIconField(Parcel in) {
     super(in);
     preset = in.readString();
-    iconArray = in.readInt();
+    iconArray = in.createStringArray();
   }
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
     dest.writeString(preset);
-    dest.writeInt(iconArray);
+    dest.writeStringArray(iconArray);
   }
 
   @Override

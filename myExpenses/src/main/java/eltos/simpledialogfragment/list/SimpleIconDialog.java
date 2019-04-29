@@ -16,9 +16,9 @@
 package eltos.simpledialogfragment.list;
 
 import android.os.Bundle;
-import android.support.annotation.ArrayRes;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import org.totschnig.myexpenses.R;
@@ -33,7 +33,7 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
 
   public static final String TAG = "SimpleIconDialog.";
 
-  public static final String ICONS = TAG + "colors";
+  public static final String ICONS = TAG + "icons";
   public static final String KEY_RESID = "resID";
 
   public static SimpleIconDialog build() {
@@ -42,9 +42,10 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
 
   /**
    * Sets the icons to choose from
+   * @param icons
    */
-  public SimpleIconDialog icons(@ArrayRes int icons) {
-    getArguments().putInt(ICONS, icons);
+  public SimpleIconDialog icons(String[] icons) {
+    getArguments().putStringArray(ICONS, icons);
     return this;
   }
 
@@ -57,7 +58,7 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
 
   @Override
   protected AdvancedAdapter onCreateAdapter() {
-    return new IconAdapter(getArguments().getInt(ICONS));
+    return new IconAdapter(getArguments().getStringArray(ICONS));
   }
 
   @Override
@@ -71,8 +72,8 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
 
   private class IconAdapter extends AdvancedAdapter<String> {
 
-    IconAdapter(int icons) {
-      setData(getContext().getResources().getStringArray(icons));
+    IconAdapter(String[] icons) {
+      setData(icons);
     }
 
     @Override
@@ -83,6 +84,11 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
         item = (ImageView) convertView;
       } else {
         item = new ImageView(getContext());
+        int size = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_size);
+        GridView.LayoutParams params = new GridView.LayoutParams(size, size);
+        item.setLayoutParams(params);
+        final int padding = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_padding);
+        item.setPadding(padding, padding, padding, padding);
       }
       item.setImageResource(resolveIcon(getItem(position)));
       return super.getView(position, item, parent);

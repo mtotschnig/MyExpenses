@@ -16,10 +16,13 @@
 
 
     <ImageView
-        style="?actionButtonStyle"
+        android:contentDescription="@string/select"
+        android:clickable="true"
+        android:focusable="true"
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:background="?selectableItemBackground"
+        android:layout_width="@dimen/category_icon_size"
+        android:layout_height="@dimen/category_icon_size"/>
 
     <Button
         android:id="@+id/select"

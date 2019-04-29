@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -69,7 +70,7 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
   }
 
   private FormElement buildIconField(String preset) {
-    return SelectIconField.picker(KEY_ICON).icons(R.array.category_icons).preset(preset).label(R.string.icon);
+    return SelectIconField.picker(KEY_ICON).icons(BuildConfig.CATEGORY_ICONS).preset(preset).label(R.string.icon);
   }
 
   /**

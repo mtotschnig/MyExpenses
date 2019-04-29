@@ -27,9 +27,9 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -54,6 +54,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
@@ -187,11 +188,11 @@ public class DbUtils {
   }
 
   public static String maximumWeekExpression(int year) {
-    return String.format(Locale.US, getWeekMax() + " AS " +  KEY_MAX_VALUE, year);
+    return String.format(Locale.US, getWeekMax() + " AS " + KEY_MAX_VALUE, year);
   }
 
   public static String minimumWeekExpression(int year) {
-    return String.format(Locale.US, getWeekMin() + " AS " +  KEY_MIN_VALUE, year);
+    return String.format(Locale.US, getWeekMin() + " AS " + KEY_MIN_VALUE, year);
   }
 
   public static Map<String, String> getSchemaDetails() {
@@ -313,19 +314,21 @@ public class DbUtils {
     long catIdMain;
     database.beginTransaction();
     String sql = "INSERT INTO " + TABLE_CATEGORIES + " " +
-        "(" + KEY_LABEL + ", " + KEY_LABEL_NORMALIZED + ", " + KEY_PARENTID + ", " + KEY_COLOR +
-        ") VALUES (?, ?, ?, ?)";
+        "(" + KEY_LABEL + ", " + KEY_LABEL_NORMALIZED + ", " + KEY_PARENTID + ", " + KEY_COLOR + ", " + KEY_ICON +
+        ") VALUES (?, ?, ?, ?, ?)";
 
     SQLiteStatement stmt = database.compileStatement(sql);
     for (int index = 1; true; index++) {
       int resIdMain = resources.getIdentifier("Main_" + index, "string", packageName);
+      int resIdMainIcons = resources.getIdentifier("Main_" + index + "_Icon", "string", packageName);
       if (resIdMain == 0) {
         break;
       }
       final String label = getStringSafe(resources, resIdMain);
-      if (label.equals("")) {
+      if (TextUtils.isEmpty(label)) {
         break;
       }
+      final String iconName = getStringSafe(resources, resIdMainIcons);
       catIdMain = findMainCategory(database, label);
       if (catIdMain != -1) {
         Timber.i("category with label %s already defined", label);
@@ -334,6 +337,11 @@ public class DbUtils {
         stmt.bindString(2, Utils.normalize(label));
         stmt.bindNull(3);
         stmt.bindLong(4, suggestNewCategoryColor(database));
+        if (iconName == null) {
+          stmt.bindNull(5);
+        } else {
+          stmt.bindString(5, iconName);
+        }
         catIdMain = stmt.executeInsert();
         if (catIdMain != -1) {
           total++;
@@ -344,6 +352,7 @@ public class DbUtils {
         }
       }
       int resIdSub = resources.getIdentifier("Sub_" + index, "array", packageName);
+      int resIdSubIcons = resources.getIdentifier("Sub_" + index + "_Icons", "array", packageName);
       if (resIdSub == 0) {
         continue;
       }
@@ -351,11 +360,18 @@ public class DbUtils {
       if (subLabels == null) {
         continue;
       }
-      for (String subLabel : subLabels) {
+      final String[] subIconNames = getArraySave(resources, resIdSubIcons);
+      for (int i = 0; i < subLabels.length; i++) {
+        String subLabel = subLabels[i];
         stmt.bindString(1, subLabel);
         stmt.bindString(2, Utils.normalize(subLabel));
         stmt.bindLong(3, catIdMain);
         stmt.bindNull(4);
+        if (subIconNames == null || subIconNames.length <= i) {
+          stmt.bindNull(5);
+        } else {
+          stmt.bindString(5, subIconNames[i]);
+        }
         try {
           if (stmt.executeInsert() != -1) {
             total++;
@@ -412,12 +428,12 @@ public class DbUtils {
     }
   }
 
-  @NonNull
+  @Nullable
   private static String getStringSafe(Resources resources, int resId) {
     try {
       return resources.getString(resId);
     } catch (Resources.NotFoundException e) {//if resource does exist in an alternate locale, but not in the default one
-      return "";
+      return null;
     }
   }
 }
