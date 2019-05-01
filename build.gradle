@@ -37,5 +37,5 @@ ext {
     okHttpVersion = "3.9.1"
     acraVersion = "5.1.2"
     butterknifeVersion = "8.8.1"
-    robolectricVersion = "4.0-beta-1"
+    robolectricVersion = "4.2.1"
 }
