@@ -84,7 +84,7 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
         item = (ImageView) convertView;
       } else {
         item = new ImageView(getContext());
-        int size = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_size);
+        int size = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_selector_item_size);
         GridView.LayoutParams params = new GridView.LayoutParams(size, size);
         item.setLayoutParams(params);
         final int padding = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_padding);

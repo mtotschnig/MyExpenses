@@ -250,6 +250,7 @@
         <item>mobile</item>
     </string-array>
     <string name="Main_17">Leisures</string>
+    <string name="Main_17_Icon">chess_board</string>
     <!-- Subcategories under "Leisures" -->
     <string-array name="Sub_17">
         <item>Snooker</item>
@@ -267,12 +268,33 @@
         <item>Equipment</item>
         <item>Museums/Exhibitions</item>
     </string-array>
+    <string-array name="Sub_17_Icons">
+        <item>dot_circle</item>
+        <item>bowling_ball</item>
+        <item>film</item>
+        <item>cocktail</item>
+        <item>gamepad</item>
+        <item>dice</item>
+        <item>book</item>
+        <item>cloud_sun</item>
+        <item>music</item>
+        <item>table_tennis</item>
+        <item>video</item>
+        <item>route</item>
+        <item>campground</item>
+        <item>monument</item>
+    </string-array>
     <string name="Main_18">Loan/Mortgage</string>
+    <string name="Main_18_Icon">mortgage</string>
     <!-- Subcategories under "Loan/Mortgage" -->
     <string-array name="Sub_18">
         <item>Capital</item>
     </string-array>
+    <string-array name="Sub_18_Icons">
+        <item>money_bill</item>
+    </string-array>
     <string name="Main_19">Health</string>
+    <string name="Main_19_Icon">medkit</string>
     <!-- Subcategories under "Health" -->
     <string-array name="Sub_19">
         <item>Insurance</item>
@@ -285,13 +307,30 @@
         <item>Chemist</item>
         <item>Social security</item>
     </string-array>
+    <string-array name="Sub_19_Icons">
+        <item>notes_medical</item>
+        <item>tooth</item>
+        <item>hospital</item>
+        <item>walking</item>
+        <item>user-md</item>
+        <item>glasses</item>
+        <item>hands</item>
+        <item>prescription_bottle_alt</item>
+        <item>user_shield</item>
+    </string-array>
     <string name="Main_20">Care</string>
+    <string name="Main_20_Icon">portrait</string>
     <!-- Subcategories under "Care" -->
     <string-array name="Sub_20">
         <item>Hairdresser</item>
         <item>Clothing</item>
     </string-array>
+    <string-array name="Sub_20_Icong">
+        <item>cut</item>
+        <item>tshirt</item>
+    </string-array>
     <string name="Main_21">Transport</string>
+    <string name="Main_21_Icon">route</string>
     <!-- Subcategories under "Transport" -->
     <string-array name="Sub_21">
         <item>Bus</item>
@@ -301,11 +340,25 @@
         <item>Tramway</item>
         <item>Airplane</item>
     </string-array>
+    <string-array name="Sub_21_Icons">
+        <item>bus</item>
+        <item>subway</item>
+        <item>toll</item>
+        <item>train</item>
+        <item>tram</item>
+        <item>plane</item>
+    </string-array>
     <string name="Main_22">Holidays</string>
+    <string name="Main_22_Icon">birthday_cake</string>
     <!-- Subcategories under "Holidays" -->
     <string-array name="Sub_22">
         <item>Housing</item>
         <item>Visits</item>
         <item>Travels</item>
+    </string-array>
+    <string-array name="Sub_22_Icons">
+        <item>home</item>
+        <item>monument</item>
+        <item>route</item>
     </string-array>
 </resources>
