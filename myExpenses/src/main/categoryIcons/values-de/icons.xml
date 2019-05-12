@@ -53,7 +53,7 @@
     <string name="Main_7_Icon">medkit</string>
     <string-array name="Sub_7_Icons">
         <item>prescription_bottle_alt</item>
-        <item>user-md</item>
+        <item>user_md</item>
         <item>hospital</item>
         <item>notes_medical</item>
         <item>wheelchair</item>

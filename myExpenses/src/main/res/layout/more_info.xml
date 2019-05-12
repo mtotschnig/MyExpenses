@@ -65,6 +65,16 @@
         <TextView
             style="@style/about_text"
             android:text="© 2011 - 2019 Michael Totschnig"/>
+
+        <TextView
+            style="@style/headingStyle.WithMargin.Caps"
+            android:text="Icons (Creative Commons CCBY)"/>
+
+        <TextView
+            android:id="@+id/additional_icons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 </ScrollView>
 

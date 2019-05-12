@@ -103,7 +103,55 @@
     <string-array name="additional_credits">
         <item>App icon by Pierluigi Rufo.</item>
         <item>Dark theme design originally suggested by meinnoteblog.</item>
-        <item>Code contributions: Configuring and applying custom colors to accounts by khris78; Applying Sonar code quality checks by Ayman Abdelghany; Implementing Input Dialogs and Color Pickers by eltos.</item>
+        <item>Configuring and applying custom colors to accounts by khris78</item>
+        <item>Applying Sonar code quality checks by Ayman Abdelghany</item>
+        <item>Implementing Input Dialogs and Color Pickers by eltos.</item>
+    </string-array>
+    <string-array name="additional_icon_credits_keys">
+        <item>@drawable/appliance</item>
+        <item>@drawable/bottle</item>
+        <item>@drawable/clothing</item>
+        <item>@drawable/comb</item>
+        <item>@drawable/decoration</item>
+        <item>@drawable/family</item>
+        <item>@drawable/fence</item>
+        <item>@drawable/funding</item>
+        <item>@drawable/garden</item>
+        <item>@drawable/lease</item>
+        <item>@drawable/mortgage</item>
+        <item>@drawable/pocket</item>
+        <item>@drawable/premium</item>
+        <item>@drawable/property</item>
+        <item>@drawable/retirement</item>
+        <item>@drawable/retirement_2</item>
+        <item>@drawable/shoe</item>
+        <item>@drawable/taxes</item>
+        <item>@drawable/toll</item>
+        <item>@drawable/tray</item>
+        <item>@drawable/unemployment</item>
+    </string-array>
+    <string-array name="additional_icon_credits">
+        <item>appliance by Hassan ali from the Noun Project</item>
+        <item>Bottle by Sarah from the Noun Project</item>
+        <item>clothing by bmijnlieff from the Noun Project</item>
+        <item>Comb by Ralf Schmitzer from the Noun Project</item>
+        <item>decoration by Deemak Daksina from the Noun Project</item>
+        <item>Family by Jens Tärning from the Noun Project</item>
+        <item>Fence by ProSymbols from the Noun Project</item>
+        <item>funding by Gregor Cresnar from the Noun Project</item>
+        <item>Garden by Alena Artemova from the Noun Project</item>
+        <item>Lease by Phạm Thanh Lộc from the Noun Project</item>
+        <item>Mortgage by Adrien Coquet from the Noun Project</item>
+        <item>pocket by Christopher T. Howlett from the Noun Project</item>
+        <item>premium by Gregor Cresnar from the Noun Project</item>
+        <item>property by Vectors Market from the Noun Project</item>
+        <item>retirement by IYIKON from the Noun Project</item>
+        <item>retirement by Phạm Thanh Lộc from the Noun Project</item>
+        <item>Shoe by Andrejs Kirma from the Noun Project</item>
+        <item>taxes by Adrien Coquet from the Noun Project</item>
+        <item>toll by b farias from the Noun Project</item>
+        <item>tray by Likous from the Noun Project</item>
+        <item>unemployment by Aneeque Ahmed from the Noun Project</item>
     </string-array>
 
     <string name="donate_button_paypal">Paypal</string>

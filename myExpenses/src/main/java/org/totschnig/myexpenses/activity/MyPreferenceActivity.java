@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -193,6 +194,16 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         additionalContainer.setText(Utils.makeBulletList(this,
             lines,
             R.drawable.ic_menu_forward));
+        TextView iconContainer = view.findViewById(R.id.additional_icons_container);
+        final List<CharSequence> iconLines = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.additional_icon_credits)));
+        TypedArray ar = getResources().obtainTypedArray(R.array.additional_icon_credits_keys);
+        int len = ar.length();
+        int[] resIds = new int[len];
+        for (int i = 0; i < len; i++) {
+          resIds[i] = ar.getResourceId(i, 0);
+        }
+        ar.recycle();
+        iconContainer.setText(Utils.makeBulletList(this, iconLines, resIds));
         return new AlertDialog.Builder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)

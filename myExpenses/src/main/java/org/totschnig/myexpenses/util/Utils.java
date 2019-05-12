@@ -774,19 +774,35 @@ public class Utils {
   }
 
   public static CharSequence makeBulletList(Context ctx, List<CharSequence> lines, int icon) {
+    Bitmap scaledBitmap = scaledBitmap(ctx, icon);
+    SpannableStringBuilder sb = new SpannableStringBuilder();
+    for (int i = 0; i < lines.size(); i++) {
+      sb.append(withIconMargin(scaledBitmap, lines.get(i), i < lines.size() - 1));
+    }
+    return sb;
+  }
+
+  public static CharSequence makeBulletList(Context ctx, List<CharSequence> lines, int[] icons) {
+    SpannableStringBuilder sb = new SpannableStringBuilder();
+    for (int i = 0; i < lines.size(); i++) {
+      Bitmap bitmap = UiUtils.drawableToBitmap(UiUtils.getTintedDrawableForContext(ctx, icons[i]));
+      sb.append(withIconMargin(bitmap, lines.get(i), i < lines.size() - 1));
+    }
+    return sb;
+  }
+
+  private static CharSequence withIconMargin(Bitmap bitmap, CharSequence text, boolean withNewLine) {
+    Spannable spannable = new SpannableString(text + (withNewLine ? "\n" : ""));
+    spannable.setSpan(new IconMarginSpan(bitmap, 25), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+    return spannable;
+  }
+
+  private static Bitmap scaledBitmap(Context ctx, int icon) {
     InsetDrawable drawable = new InsetDrawable(
         UiUtils.getTintedDrawableForContext(ctx, icon), 0, 20, 0, 0);
     Bitmap bitmap = UiUtils.drawableToBitmap(drawable);
-    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5),
+    return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5),
         (int) (bitmap.getHeight() * 0.5), true);
-    SpannableStringBuilder sb = new SpannableStringBuilder();
-    for (int i = 0; i < lines.size(); i++) {
-      CharSequence line = lines.get(i);
-      Spannable spannable = new SpannableString(line + (i < lines.size() - 1 ? "\n" : ""));
-      spannable.setSpan(new IconMarginSpan(scaledBitmap, 25), 0, line.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-      sb.append(spannable);
-    }
-    return sb;
   }
 
   public static String getSimpleClassNameFromComponentName(@NonNull ComponentName componentName) {
