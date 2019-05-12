@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
+    <string name="Main_1_Icon">piggy_bank</string>
+    <string-array name="Sub_1_Icons" >
+        <item>arrow_down</item>
+        <item>percent</item>
+        <item>file_invoice_dollar</item>
+    </string-array>
+    <string name="Main_2_Icon">clothing</string>
+    <string-array name="Sub_2_Icons">
+        <item>tshirt</item>
+        <item>shoe</item>
+    </string-array>
+    <string name="Main_3_Icon">property</string>
+    <string-array name="Sub_3_Icons">
+        <item>house_damage</item>
+        <item>couch</item>
+        <item>garden</item>
+        <item>town_hall</item>
+        <item>fence</item>
+        <item>fire</item>
+        <item>trash</item>
+        <item>tv</item>
+        <item>bolt</item>
+        <item>phone</item>
+        <item>water</item>
+    </string-array>
+    <string name="Main_4_Icon">sign_in_alt</string>
+    <string-array name="Sub_4_Icons">
+        <item>family</item>
+        <item>child</item>
+        <item>balance_scale</item>
+    </string-array>
+    <string name="Main_5_Icon">funding</string>
+    <string-array name="Sub_5_Icons">
+        <item>divide</item>
+        <item>chart_line</item>
+    </string-array>
+    <string name="Main_6_Icon">chess_board</string>
+    <string-array name="Sub_6_Icons">
+        <item>book</item>
+        <item>video</item>
+        <item>wifi</item>
+        <item>film</item>
+        <item>music</item>
+        <item>mobile</item>
+        <item>gamepad</item>
+        <item>monument</item>
+        <item>running</item>
+        <item>table_tennis</item>
+        <item>newspaper</item>
+    </string-array>
+    <string name="Main_7_Icon">medkit</string>
+    <string-array name="Sub_7_Icons">
+        <item>prescription_bottle_alt</item>
+        <item>user-md</item>
+        <item>hospital</item>
+        <item>notes_medical</item>
+        <item>wheelchair</item>
+        <item>stethoscope</item>
+    </string-array>
+    <string name="Main_8_Icon">home</string>
+    <string-array name="Sub_8_Icons">
+        <item>garden</item>
+        <item>appliance</item>
+        <item>tools</item>
+    </string-array>
+    <string name="Main_9_Icon">paw</string>
+    <string-array name="Sub_9_Icons">
+        <item>bone</item>
+        <item>syringe</item>
+    </string-array>
+    <string name="Main_10_Icon">car</string>
+    <string-array name="Sub_10_Icons">
+        <item>shopping_cart</item>
+        <item>car_crash</item>
+        <item>gas_pump</item>
+        <item>lease</item>
+        <item>toll</item>
+        <item>parking</item>
+        <item>car_battery</item>
+    </string-array>
+    <string name="Main_11_Icon">child</string>
+    <string-array name="Sub_11_Icons">
+        <item>bottle</item>
+        <item>bed</item>
+        <item>baby_carriage</item>
+        <item>school</item>
+        <item>toys</item>
+        <item>pocket</item>
+    </string-array>
+    <string name="Main_12_Icon">mortgage</string>
+    <string-array name="Sub_12_Icons">
+        <item>battery_three_quarters</item>
+        <item>divide</item>
+        <item>sign_out_alt</item>
+        <item>shield_alt</item>
+        <item>percent</item>
+    </string-array>
+    <string name="Main_13_Icon">pizza_slice</string>
+    <string-array name="Sub_13_Icons">
+        <item>apple_alt</item>
+        <item>utensils</item>
+        <item>shopping_cart</item>
+    </string-array>
+    <string name="Main_14_Icon">envelope</string>
+    <string-array name="Sub_14_Icons">
+        <item>envelope</item>
+        <item>premium</item>
+        <item>thumbs_up</item>
+    </string-array>
+    <string name="Main_15_Icon">retirement</string>
+    <string-array name="Sub_15_Icons">
+        <item>search_plus</item>
+        <item>search_dollar</item>
+        <item>blind</item>
+    </string-array>
+    <string name="Main_16_Icon">sign_out_alt</string>
+    <string-array name="Sub_16_Icons">
+        <item>church</item>
+        <item>piggy_bank</item>
+        <item>donate</item>
+        <item>funnel_dollar</item>
+    </string-array>
+    <string name="Main_17_Icon">sign_in_alt</string>
+    <string-array name="Sub_17_Icons">
+        <item>calendar_minus</item>
+        <item>funnel_dollar</item>
+        <item>unemployment</item>
+        <item>user_shield</item>
+    </string-array>
+    <string name="Main_18_Icon">birthday_cake</string>
+    <string-array name="Sub_18_Icons">
+        <item>train</item>
+        <item>plane</item>
+        <item>hotel</item>
+        <item>card_travel</item>
+        <item>monument</item>
+    </string-array>
+    <string name="Main_19_Icon">shield_alt</string>
+    <string-array name="Sub_19_Icons">
+        <item>heart_broken</item>
+        <item>user_shield</item>
+        <item>balance_scale</item>
+    </string-array>
+    <string name="Main_20_Icon">home</string>
+    <string-array name="Sub_20_Icons">
+        <item>battery_three_quarters</item>
+        <item>couch</item>
+        <item>house_damage</item>
+        <item>plug</item>
+        <item>key</item>
+        <item>tv</item>
+        <item>bolt</item>
+        <item>phone</item>
+        <item>water</item>
+    </string-array>
+    <string name="Main_21_Icon">gift</string>
+    <string-array name="Sub_21_Icons"/>
+    <string name="Main_22_Icon"/>
+</resources>
