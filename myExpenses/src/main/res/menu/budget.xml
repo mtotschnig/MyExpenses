@@ -25,7 +25,7 @@
     </item>
     <item
         android:id="@+id/MANAGE_CATEGORIES_COMMAND"
-        android:title="@string/pref_manage_categories_title"
+        android:title="@string/menu_manage_categories"
         app:showAsAction="never"/>
     <item
         android:id="@+id/BACK_COMMAND"
