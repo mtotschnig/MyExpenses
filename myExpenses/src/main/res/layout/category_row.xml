@@ -1,43 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     style="@style/ExpandableListRowWithCustomIndicator"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/activatedBackgroundIndicator">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include layout="@layout/expandable_list_handle"/>
+    <ImageView
+        android:id="@+id/explist_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description_expand"
+        android:src="@drawable/expander_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/color1"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <View
         android:id="@+id/color1"
         android:layout_width="?category_color_indicator_diameter"
         android:layout_height="?category_color_indicator_diameter"
-        android:layout_toEndOf="@+id/explist_indicator"
-        android:layout_toRightOf="@+id/explist_indicator"
-        android:layout_centerVertical="true"
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="2dp"
         android:contentDescription="@string/color"
-        android:padding="5sp"/>
+        android:padding="5sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/explist_indicator"
+        app:layout_constraintEnd_toStartOf="@+id/category_icon"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/category_icon"
+        android:layout_width="@dimen/category_icon_size"
+        android:layout_height="@dimen/category_icon_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/color1"
+        app:layout_constraintEnd_toStartOf="@id/label"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/label"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_toEndOf="@+id/color1"
-        android:layout_toLeftOf="@+id/amount"
-        android:layout_toRightOf="@+id/color1"
-        android:layout_toStartOf="@+id/amount"
-        android:gravity="center_vertical"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        tools:text="LABEL"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/category_icon"
+        app:layout_constraintEnd_toStartOf="@id/amount"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@id/label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -38,6 +38,9 @@ def getPropertyIfDefined(property, defaultValue) {
 }
 
 android {
+    sourceSets {
+        main.res.srcDirs += 'src/main/categoryIcons'
+    }
     compileSdkVersion project.compileSdkVersion
     useLibrary 'android.test.runner'
     useLibrary 'android.test.mock'
@@ -53,6 +56,7 @@ android {
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
+        buildConfigField "String[]", "CATEGORY_ICONS", "{" + categoryIcons() + "}"
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
         testProguardFile "proguard-test.txt"
 
@@ -197,7 +201,7 @@ dependencies {
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
-    implementation 'com.github.eltos:SimpleDialogFragments:3abe091998'
+    implementation 'com.github.eltos:simpledialogfragment:3.1'
     implementation 'com.annimon:stream:1.1.9'
 
     // WebDAV
@@ -221,7 +225,7 @@ dependencies {
     }
 
     implementation supportCompile
-    
+
     implementation project(path: ':setupwizard')
 
     //licence validation
@@ -287,5 +291,14 @@ task copyFileForFixture(type: com.novoda.gradle.command.Files) {
 
 configurations {
     cleanedAnnotations
-    compile.exclude group: 'org.jetbrains' , module:'annotations'
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
+}
+
+def categoryIcons() {
+    return new File("${projectDir}/src/main/categoryIcons/drawable")
+            .listFiles()
+            .collect { it.name }
+            .collect { it.take(it.lastIndexOf('.')) }
+            .collect { "\"" + it + "\"" }
+            .join(", ")
 }

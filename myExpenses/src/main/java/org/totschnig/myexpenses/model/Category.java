@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -38,6 +39,8 @@ public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   private String label;
   private Long parentId;
+  private int color;
+  private String icon;
 
   /**
    * we currently do not need a full representation of a category as an object
@@ -50,9 +53,15 @@ public class Category extends Model {
    * @param parentId
    */
   public Category(Long id, String label, Long parentId) {
+    this(id, label, parentId, 0, null);
+  }
+
+  public Category(Long id, String label, Long parentId, int color, String icon) {
     this.setId(id);
     this.setLabel(label);
     this.parentId = parentId;
+    this.color = color;
+    this.icon = icon;
   }
 
   public static final String[] PROJECTION = new String[]{KEY_ROWID, KEY_LABEL, KEY_PARENTID};
@@ -115,6 +124,10 @@ public class Category extends Model {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL, getLabel());
     initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(getLabel()));
+    if (color != 0) {
+      initialValues.put(KEY_COLOR, color);
+    }
+    initialValues.put(KEY_ICON, icon);
     Uri uri;
     if (getId() == 0) {
       if (isMainOrNull(parentId)) {

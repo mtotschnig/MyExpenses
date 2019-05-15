@@ -1,0 +1,20 @@
+<!-- https://thenounproject.com/term/family/8199/ Family by Jens Tärning from the Noun Project
+ Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="100"
+        android:viewportWidth="100">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M87 46a7.5 7.5 0 1 0 0 15 7.5 7.5 0 1 0 0-15z"/>
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M91 63H80.5l-5.47-5.47-6.32-28.88A10.03 10.03 0 0 0 59 21H47c-4.97 0-9.1 3.67-9.86 8.44l-2.41 11.5-1.97-8.1c-1-4.47-5-7.84-9.76-7.84H11C5.5 25 1 29.5 1 35v21c0 4.08 2.48 7.6 6 9.15V92c0 4.4 3.6 8 8 8h4c4.4 0 8-3.6 8-8V48.5l2.89 12.63A5.01 5.01 0 0 0 35 65.05c2.5 0 4.49-1.44 5-3.95l3-14.6V92c0 4.4 3.6 8 8 8h4c4.4 0 8-3.6 8-8V45.5l2.85 13.21c0.46 2.15 2.1 3.75 2.66 4.3L79 73.5V93c0 3.85 3.15 7 7 7h2c3.85 0 7-3.15 7-7v-8.09A8 8 0 0 0 99 78v-7c0-4.4-3.6-8-8-8z"/>
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M17 4a9 9 0 1 0 0 18 9 9 0 1 0 0-18z"/>
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M53 0a9 9 0 1 0 0 18 9 9 0 1 0 0-18z"/>
+</vector>

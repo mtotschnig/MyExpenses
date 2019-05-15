@@ -1,0 +1,10 @@
+<!-- https://thenounproject.com/term/toll/1131951/ toll by b farias from the Noun Project Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="100"
+        android:viewportWidth="100">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M71.3 51.7l28.7-47L92.2 0 62.6 48.5h-9.1v40.8H50V11H3.5v78.4H0V100h100V89.3H71.3V51.7zM29.7 19h14.5v37.4H29.7V19zM9.3 19h14.5v37.4H9.3V19z"/>
+</vector>

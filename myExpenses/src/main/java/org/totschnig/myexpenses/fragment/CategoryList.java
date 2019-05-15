@@ -78,6 +78,7 @@ import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_F
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -179,6 +180,7 @@ public class CategoryList extends SortableListFragment {
         KEY_PARENTID,
         KEY_LABEL,
         KEY_COLOR,
+        KEY_ICON,
         //here we do not filter out void transactions since they need to be considered as mapped
         "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
         "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
@@ -362,7 +364,7 @@ public class CategoryList extends SortableListFragment {
         ctx.editCategoryColor(c);
         return true;
       case R.id.EDIT_COMMAND:
-        ctx.editCat(label, elcmi.id);
+        ctx.editCat(c);
         return true;
       case R.id.SELECT_COMMAND:
         if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {

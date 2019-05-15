@@ -1,0 +1,10 @@
+<!-- https://thenounproject.com/term/fence/797609/ Fence by ProSymbols from the Noun Project Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="20"
+        android:viewportWidth="20">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M19.6 8C19.8 8 20 7.8 20 7.6V5.4C20 5.1 19.8 5 19.6 5H19V2.2l-0.1-0.3-1.6-1.8c-0.2-0.2-0.4-0.2-0.6 0l-1.6 1.8L15 2.2V5h-3V2.2l-0.1-0.3-1.6-1.8a0.6 0.6 0 0 0-0.6 0L8.1 1.9 8 2.2V5H5V2.2L4.9 1.9 3.3 0.1a0.6 0.6 0 0 0-0.6 0L1.1 1.9 1 2.2V5H0.4C0.2 5 0 5.1 0 5.4v2.2C0 7.8 0.2 8 0.4 8H1v7H0.4A0.4 0.4 0 0 0 0 15.4v2.2C0 17.8 0.2 18 0.4 18H1v1.6C1 19.8 1.2 20 1.4 20h3.2C4.8 20 5 19.8 5 19.6V18h3v1.6C8 19.8 8.2 20 8.4 20h3.2c0.2 0 0.4-0.2 0.4-0.4V18h3v1.6c0 0.2 0.2 0.4 0.4 0.4h3.2c0.2 0 0.4-0.2 0.4-0.4V18h0.6c0.2 0 0.4-0.2 0.4-0.4v-2.2c0-0.2-0.2-0.4-0.4-0.4H19V8h0.6zM5 15V8h3v7H5zm10 0h-3V8h3v7z"/>
+</vector>

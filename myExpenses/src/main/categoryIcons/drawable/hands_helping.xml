@@ -1,0 +1,10 @@
+<!-- https://fontawesome.com/icons/hands-helping?style=solid CC BY 4.0 License -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="512"
+        android:viewportWidth="640">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M488,192L336,192v56a72,72 0,0 1,-144 0L192,126l-65,39a64,64 0,0 0,-31 55v47l-80,47c-15,9 -21,28 -12,43l80,139c9,15 29,21 44,12l103,-60h137c35,0 64,-29 64,-64h16c18,0 32,-14 32,-32v-64h8c13,0 24,-11 24,-24v-48c0,-13 -11,-24 -24,-24zM636,155L556,16c-9,-15 -29,-20 -44,-12L409,64L306,64c-12,0 -23,3 -34,10l-33,21c-9,5 -15,16 -15,27v126a40,40 0,1 0,80 0v-88h184c31,0 56,25 56,56v29l80,-47c15,-9 21,-28 12,-43z"/>
+</vector>

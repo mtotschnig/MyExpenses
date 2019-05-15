@@ -1,0 +1,11 @@
+<!-- https://thenounproject.com/term/bottle/1828099/ Bottle by Sarah from the Noun Project
+ Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="512"
+        android:viewportWidth="512">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M432 122a31 31 0 0 0 9.2-22A31 31 0 0 0 410 68.7a31 31 0 0 0-22.1 9.2l-9.3 9.2a10 10 0 0 1-8.7 2.8c-20.1-3.5-50 2.6-71.6 20.6L404 216.2c17.9-22.9 19.6-57.8 16-76a10 10 0 0 1 2.8-9l9.3-9.1zm-176.5-17.7c-5.3 0-10.3 2-14.1 5.9L215.5 136a19.9 19.9 0 0 0 0 28.3L354 302.7a20 20 0 0 0 28.3 0l25.9-25.9a20 20 0 0 0 0-28.2L269.7 110.2a19.9 19.9 0 0 0-14.2-5.9zm-173 246.3l81 81a40 40 0 0 0 56.6 0l117.2-117.2-136-136-1.5-1.6L82.5 294a40 40 0 0 0 0 56.6z"/>
+</vector>

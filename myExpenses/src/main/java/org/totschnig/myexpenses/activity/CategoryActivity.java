@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -13,12 +14,19 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import eltos.simpledialogfragment.color.SimpleColorDialog;
-import eltos.simpledialogfragment.input.SimpleInputDialog;
+import eltos.simpledialogfragment.form.FormElement;
+import eltos.simpledialogfragment.form.Input;
+import eltos.simpledialogfragment.form.SelectColorField;
+import eltos.simpledialogfragment.form.SelectIconField;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class CategoryActivity<T extends CategoryList> extends ProtectedFragmentActivity implements
-    SimpleInputDialog.OnDialogResultListener {
+    SimpleFormDialog.OnDialogResultListener {
   protected static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
   protected static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
   protected T mListFragment;
@@ -46,33 +54,40 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
     if (parentId != null) {
       args.putLong(DatabaseConstants.KEY_PARENTID, parentId);
     }
-    SimpleInputDialog.build()
+    SimpleFormDialog.build()
         .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
         .cancelable(false)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        .hint(R.string.label)
+        .fields(buildLabelField(null), buildIconField(null))
         .pos(R.string.dialog_button_add)
         .neut()
         .extra(args)
         .show(this, DIALOG_NEW_CATEGORY);
   }
 
+  private FormElement buildLabelField(String text) {
+    return Input.plain(KEY_LABEL).required().hint(R.string.label).text(text)
+        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+  }
+
+  private FormElement buildIconField(String preset) {
+    return SelectIconField.picker(KEY_ICON).icons(BuildConfig.CATEGORY_ICONS).preset(preset).label(R.string.icon);
+  }
+
   /**
    * presents AlertDialog for editing an existing category
-   * if label is already used, shows an error
-   *
-   * @param label
-   * @param catId
    */
-  public void editCat(String label, Long catId) {
+  public void editCat(Category category) {
     Bundle args = new Bundle();
-    args.putLong(KEY_ROWID, catId);
-    SimpleInputDialog.build()
+    args.putLong(KEY_ROWID, category.id);
+    final FormElement labelInput = buildLabelField(category.label);
+    final FormElement iconField = buildIconField(category.icon);
+    final FormElement[] formElements = category.parentId == null ?
+        new FormElement[]{labelInput, SelectColorField.picker(KEY_COLOR).label(R.string.color).color(category.color), iconField} :
+        new FormElement[]{labelInput, iconField};
+    SimpleFormDialog.build()
         .title(R.string.menu_edit_cat)
         .cancelable(false)
-        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        .hint(R.string.label)
-        .text(label)
+        .fields(formElements)
         .pos(R.string.menu_save)
         .neut()
         .extra(args)

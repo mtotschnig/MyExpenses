@@ -1,0 +1,13 @@
+<!-- https://thenounproject.com/term/clothing/538770/ clothing by bmijnlieff from the Noun Project Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="20.4dp"
+    android:viewportWidth="100"
+    android:viewportHeight="85">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M79.5 50.6H62.1v14.2H41.9l-5.1 20 22.9 0.4L62.6 74l2.8 11.2 23-0.3z"/>
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M58.6 17.6h-11a8.5 8.5 0 0 1-16.8 0h-11L9.5 24.1l10.3 10.3v27h38.8v-27L69 24.1l-10.4-6.5z"/>
+</vector>

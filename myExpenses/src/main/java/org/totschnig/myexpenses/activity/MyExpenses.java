@@ -152,7 +152,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOU
 
 /**
  * This is the main activity where all expenses are listed
- * From the menu subactivities (Insert, Reset, SelectAccount, Help, Settings)
+ * From the menu sub activities (Insert, Reset, SelectAccount, Help, Settings)
  * are called
  */
 public class MyExpenses extends LaunchActivity implements
@@ -160,7 +160,7 @@ public class MyExpenses extends LaunchActivity implements
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
     ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener, SortUtilityDialogFragment.OnConfirmListener {
 
-  public static final long TRESHOLD_REMIND_RATE = 47L;
+  public static final long THRESHOLD_REMIND_RATE = 47L;
 
   public static final int ACCOUNTS_CURSOR = -1;
   public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
@@ -456,7 +456,7 @@ public class MyExpenses extends LaunchActivity implements
       sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
       if (!DistribHelper.isGithub()) {
         nextReminder =
-            PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
+            PrefKey.NEXT_REMINDER_RATE.getLong(THRESHOLD_REMIND_RATE);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
@@ -582,7 +582,7 @@ public class MyExpenses extends LaunchActivity implements
         PrefKey.NEXT_REMINDER_RATE.putLong(-1);
         return true;
       case R.id.REMIND_LATER_RATE_COMMAND:
-        PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + TRESHOLD_REMIND_RATE);
+        PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + THRESHOLD_REMIND_RATE);
         return true;
       case R.id.HELP_COMMAND_DRAWER:
         i = new Intent(this, Help.class);
@@ -1003,8 +1003,11 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     }
     if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
-      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
-          new CommentCriteria(extras.getString(SimpleInputDialog.TEXT)));
+      final String textResult = extras.getString(SimpleInputDialog.TEXT);
+      if (textResult != null) {
+        addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
+            new CommentCriteria(textResult.trim()));
+      }
       return true;
     }
     if (DIALOG_TAG_SORTING.equals(dialogTag)) {
@@ -1018,7 +1021,6 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public void onPostExecute(int taskId, Object o) {
-    String msg;
     super.onPostExecute(taskId, o);
     switch (taskId) {
       case TaskExecutionFragment.TASK_SPLIT: {

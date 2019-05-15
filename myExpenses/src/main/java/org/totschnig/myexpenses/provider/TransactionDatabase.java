@@ -58,7 +58,6 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -76,6 +75,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
@@ -146,7 +147,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 87;
+  public static final int DATABASE_VERSION = 88;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -308,6 +309,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "
+          + KEY_ICON + " string, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
@@ -428,7 +430,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_update " +
           "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID +")) = 1 " +
+          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ")) = 1 " +
           "BEGIN " +
           String.format(Locale.ROOT, " UPDATE %1$s SET %2$s = new.%2$s where new.%2$s = %3$d; ", TABLE_TRANSACTIONS, KEY_STATUS, STATUS_EXPORTED) +
           RAISE_UPDATE_SEALED_ACCOUNT +
@@ -1923,8 +1925,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 87) {
-       createOrRefreshTemplateViews(db);
+        createOrRefreshTemplateViews(db);
       }
+
+      if (oldVersion < 88) {
+        db.execSQL("ALTER TABLE categories add column icon string");
+      }
+
 
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

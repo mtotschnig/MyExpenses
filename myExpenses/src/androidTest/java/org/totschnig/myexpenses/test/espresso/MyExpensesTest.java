@@ -116,7 +116,7 @@ public final class MyExpensesTest extends BaseUiTest {
   public void ratingDialogIsShown() {
     Assume.assumeTrue(!DistribHelper.isGithub());
     PrefKey.NEXT_REMINDER_RATE.remove();
-    stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
+    stubExpenseEditIntentWithSequenceCount(MyExpenses.THRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     onView(withId(R.id.rating_how_many))
         .check(matches(isDisplayed()));

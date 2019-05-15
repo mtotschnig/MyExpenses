@@ -1,0 +1,18 @@
+<!-- https://thenounproject.com/term/retirement/879345/ retirement by IYIKON from the Noun Project Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="6000"
+        android:viewportWidth="4827">
+    <group android:translateX="-1000">
+        <path
+            android:fillColor="?colorControlNormal"
+            android:pathData="M2848 3257l-425 2474c-4 23-14 43-35 56-29 18-65 10-96 5-65-11-109-73-98-138l418-2437a120 120 0 0 1 236 40z"/>
+        <path
+            android:fillColor="?colorControlNormal"
+            android:pathData="M3388 1844a507 507 0 0 1 381 79l1 1c790 522 783 1342 776 2293-4 458-7 947 81 1445 16 65 5 132-27 186a252 252 0 0 1-460-56c-1-4-3-9-3-14l79-12-79 12-190-1252-200 912-2 7-92 342a250 250 0 0 1-308 178 250 250 0 0 1-178-308l91-338 2-7 76 24-76-24c82-264 188-782 217-1293 14-250 10-498-24-711 288-165 449-439 499-774a355 355 0 0 0-260-432 357 357 0 0 0-435 259l-5 21a543 543 0 0 1-168 280 511 511 0 0 1 306-818z"/>
+        <path
+            android:fillColor="?colorControlNormal"
+            android:pathData="M2687 2923c46-45 109-72 178-71h2c4 0 371 10 493-466 17-67 60-121 116-154a250 250 0 0 1 344 89c33 55 45 123 27 190-64 448-531 851-987 844h-2a251 251 0 0 1-171-432zm187-2070a538 538 0 0 1 380 917 535 535 0 0 1-760 0 535 535 0 0 1 0-760c97-97 231-157 380-157z"/>
+    </group>
+</vector>

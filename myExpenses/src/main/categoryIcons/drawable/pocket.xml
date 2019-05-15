@@ -1,0 +1,10 @@
+<!-- https://thenounproject.com/term/pocket/56926/ pocket by Christopher T. Howlett from the Noun Project Creative Commons CCBY -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="?colorControlNormal"
+        android:pathData="M94.2 7.1H5.8c-3.4 0-6 2.8-5.6 6.3l6.1 63c0.4 3.4 3.4 6.9 6.7 7.7l31.5 8.1c3.4 0.9 8.8 0.9 12.1 0l30.4-8a9.7 9.7 0 0 0 6.7-7.9l6.1-63a5.6 5.6 0 0 0-5.6-6.2zm-66.3 24H13.8V25h14v6zm29.1 0H42.4V25H57v6zm29.2 0H71.6V25h14.6v6z"/>
+</vector>

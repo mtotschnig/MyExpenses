@@ -103,7 +103,55 @@
     <string-array name="additional_credits">
         <item>App icon by Pierluigi Rufo.</item>
         <item>Dark theme design originally suggested by meinnoteblog.</item>
-        <item>Code contributions: Configuring and applying custom colors to accounts by khris78; Applying Sonar code quality checks by Ayman Abdelghany; Implementing Input Dialogs and Color Pickers by eltos.</item>
+        <item>Configuring and applying custom colors to accounts by khris78</item>
+        <item>Applying Sonar code quality checks by Ayman Abdelghany</item>
+        <item>Implementing Input Dialogs and Color Pickers by eltos.</item>
+    </string-array>
+    <string-array name="additional_icon_credits_keys">
+        <item>@drawable/appliance</item>
+        <item>@drawable/bottle</item>
+        <item>@drawable/clothing</item>
+        <item>@drawable/comb</item>
+        <item>@drawable/decoration</item>
+        <item>@drawable/family</item>
+        <item>@drawable/fence</item>
+        <item>@drawable/funding</item>
+        <item>@drawable/garden</item>
+        <item>@drawable/lease</item>
+        <item>@drawable/mortgage</item>
+        <item>@drawable/pocket</item>
+        <item>@drawable/premium</item>
+        <item>@drawable/property</item>
+        <item>@drawable/retirement</item>
+        <item>@drawable/retirement_2</item>
+        <item>@drawable/shoe</item>
+        <item>@drawable/taxes</item>
+        <item>@drawable/toll</item>
+        <item>@drawable/tray</item>
+        <item>@drawable/unemployment</item>
+    </string-array>
+    <string-array name="additional_icon_credits">
+        <item>appliance by Hassan ali</item>
+        <item>Bottle by Sarah</item>
+        <item>clothing by bmijnlieff</item>
+        <item>Comb by Ralf Schmitzer</item>
+        <item>decoration by Deemak Daksina</item>
+        <item>Family by Jens Tärning</item>
+        <item>Fence by ProSymbols</item>
+        <item>funding by Gregor Cresnar</item>
+        <item>Garden by Alena Artemova</item>
+        <item>Lease by Phạm Thanh Lộc</item>
+        <item>Mortgage by Adrien Coquet</item>
+        <item>pocket by Christopher T. Howlett</item>
+        <item>premium by Gregor Cresnar</item>
+        <item>property by Vectors Market</item>
+        <item>retirement by IYIKON</item>
+        <item>retirement by Phạm Thanh Lộc</item>
+        <item>Shoe by Andrejs Kirma</item>
+        <item>taxes by Adrien Coquet</item>
+        <item>toll by b farias</item>
+        <item>tray by Likous</item>
+        <item>unemployment by Aneeque Ahmed</item>
     </string-array>
 
     <string name="donate_button_paypal">Paypal</string>
@@ -116,32 +164,8 @@
     <string name="restore_cannot_downgrade">You cannot restore a backup from a newer database schema version (%1$d). The current one is %2$d.</string>
     <string name="website">https://www.myexpenses.mobi</string>
 
-    <string name="help_ManageMethods_title" tools:ignore="UnusedResources">@string/pref_manage_methods_title</string>
-    <string name="help_ManageParties_title" tools:ignore="UnusedResources">@string/pref_manage_parties_title</string>
-    <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans</string>
-    <string name="help_ManageCategories_manage_title" tools:ignore="UnusedResources">@string/pref_manage_categories_title</string>
-    <string name="help_Distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
-    <string name="help_BudgetActivity_title" tools:ignore="UnusedResources">@string/menu_budget</string>
-    <string name="help_ManageCategories_select_mapping_title" tools:ignore="UnusedResources">@string/select_category</string>
-    <string name="help_ManageCategories_select_filter_title" tools:ignore="UnusedResources">@string/search_category</string>
-    <string name="help_ManageCurrencies_title" tools:ignore="UnusedResources">@string/pref_custom_currency_title</string>
-    <string name="help_FolderBrowser_title" tools:ignore="UnusedResources">@string/pref_app_dir_title</string>
-    <string name="help_ManageStaleImages_title" tools:ignore="UnusedResources">@string/pref_manage_stale_images_title</string>
-    <string name="help_CsvImportActivity_title" tools:ignore="UnusedResources">@string/contrib_feature_csv_import_label</string>
-    <string name="help_NavigationDrawer_title" tools:ignore="UnusedResources">@string/navigation_drawer_accounts_title</string>
-    <string name="help_ManageSyncBackends_title" tools:ignore="UnusedResources">@string/pref_manage_sync_backends_title</string>
-    <string name="help_ExpenseEdit_plans_title" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_title</string>
-    <string name="help_ExpenseEdit_plans_info" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_info</string>
-    <string name="help_ExpenseEdit_templateTransfer_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
-    <string name="help_ExpenseEdit_templateSplit_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
-    <string name="help_HistoryActivity_title" tools:ignore="UnusedResources">@string/menu_history</string>
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
     <string name="pref_protection_password_title">@string/hint_password</string>
-    <string name="form_AccountEdit_exchange_rate_help_text" tools:ignore="UnusedResources">@string/menu_equivalent_amount_help_text</string>
-    <string name="cab_ungroup_split_transaction_help_text" tools:ignore="UnusedResources">@string/warning_ungroup_split_transactions</string>
-    <string name="help_Distribution_info">@string/help_ManageCategories_distribution_info</string>
-    <string name="menu_Distribution_grouping_help_text">@string/menu_ManageCategories_distribution_grouping_help_text</string>
-    <string name="cab_color_help_text">@string/cab_ManageCategories_color_help_text</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
@@ -156,8 +180,7 @@
     <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_budget_label" tools:ignore="UnusedResources">@string/menu_budget</string>
-    <string name="currency_not_supported">%s not supported by your OS. Please select a different currency.</string>
-    <string name="drive_backend_upgrade">Since 2.8.0, My Expenses supports synchronization with Drive folders from multiple Google accounts. Please select the Google account from which your existing Drive backends were created.</string>
+    <string name="drive_backend_upgrade" tools:ignore="UnusedResources">Since 2.8.0, My Expenses supports synchronization with Drive folders from multiple Google accounts. Please select the Google account from which your existing Drive backends were created.</string>
     <string name="button_label_try_again">Try again</string>
     <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Please upgrade My Expenses Contrib to version 1.5.</string>
 
@@ -169,18 +192,9 @@
     <string name="menu_result">Result</string>
     <string name="menu_color">@string/color</string>
     <string name="menu_manage_categories">@string/pref_manage_categories_title</string>
-    <string name="menu_manage_categories_help_text">@string/pref_manage_categories_summary</string>
-    <string name="help_RoadmapVoteActivity_title" tools:ignore="UnusedResources">@string/roadmap_vote</string>
-    <string name="help_RoadmapVoteActivity_info" tools:ignore="UnusedResources"><![CDATA[Please help us define the future development roadmap! This screen lists all the open tickets from <a href="https://github.com/mtotschnig/MyExpenses/issues">Github</a> . Distribute 10 points (50 if you own a professional licence key) among those tickets that are most important for you. Long press on an issue to learn more about it and to spend weight on it. Once you have finished, do not forget to submit your vote. Thank you for your participation!]]></string>
-    <string name="menu_RoadmapVoteActivity_search_help_text" tools:ignore="UnusedResources">Only tickets which match your query will be displayed.</string>
-    <string name="menu_RoadmapVoteActivity_vote_help_text" tools:ignore="UnusedResources">Once you have distributed all your points, this button will allow to submit your vote.</string>
-    <string name="menu_RoadmapVoteActivity_refresh_help_text" tools:ignore="UnusedResources">The list of isues is cached locally. Fetch list again from the Internet.</string>
-    <string name="menu_RoadmapVoteActivity_result_help_text" tools:ignore="UnusedResources">Display the current voting results.</string>
-    <string name="cab_RoadmapVoteActivity_learn_more_help_text" tools:ignore="UnusedResources">Learn more about the ticket by reading its page on Github.</string>
-    <string name="cab_RoadmapVoteActivity_set_weight_help_text" tools:ignore="UnusedResources">Select the amount of points that corresponds to how relevant the issue is for you.</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>
-    <string name="roadmap_particpate">Participate</string>
+    <!--<string name="roadmap_particpate">Participate</string>-->
     <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
     <string name="roadmap_update_confirmation">Your vote will be updated</string>
     <string name="roadmap_email_rationale">Please submit your email together with your vote. When we start working on an issue that you have voted for, we might contact you and ask you to kindly share your expectations on how it should be implemented, and verify that you are still interested in the issue.</string>

@@ -364,7 +364,8 @@ public class MyApplication extends MultiDexApplication implements
         String found = DbUtils.getString(c, 0);
         String expected = PrefKey.PLANNER_CALENDAR_PATH.getString("");
         if (!found.equals(expected)) {
-          Timber.w("found calendar, but path did not match; expected %s ; got %s", expected, found);
+          CrashHandler.report(String.format(
+              "found calendar, but path did not match; expected %s ; got %s", expected, found));
           result = false;
         } else {
           int syncEvents = c.getInt(1);

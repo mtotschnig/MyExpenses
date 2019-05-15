@@ -51,7 +51,6 @@
     <dimen name="CategoryColorDiameterS3">24sp</dimen>
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
-    <dimen name="plan_month_dialog_height">450dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>
     <dimen name="drawer_padding">16dp</dimen>
     <dimen tools:override="true" name="design_navigation_separator_vertical_padding">0dp</dimen>
@@ -61,4 +60,8 @@
 
     <dimen name="fast_scroll_additional_margin">32dp</dimen>
     <dimen name="list_header_vertical_padding">4dp</dimen>
+    <dimen name="dialog_icon_item_size">32dp</dimen>
+    <dimen name="category_icon_size">24dp</dimen>
+    <dimen name="category_icon_padding">4dp</dimen>
+    <dimen name="category_icon_selector_item_size">32dp</dimen>
 </resources>
