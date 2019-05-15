@@ -13,4 +13,5 @@
     android:textColor="?colorControlNormal"
     android:textSize="18dp"
     tools:ignore="SpUsage"
+    tools:targetApi="m"
     tools:text="en"/>

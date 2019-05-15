@@ -97,9 +97,6 @@
   <string name="feedback">피드백</string>
   <string name="ftp_uri_malformed">올바르지 않은 URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s에서 카테고리 불러오는 중</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">영문 기본 카테고리</string>
   <string name="grisbi_import_parties_loading">%1$s에서 단체 가져오는 중</string>
   <string name="grouping_day">일</string>
   <string name="grouping_last_week">저번주</string>
@@ -529,4 +526,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">번역</string>
 </resources>

@@ -52,6 +52,7 @@ public class EncryptionHelper {
 
   public static byte[] generateRandom(int length) {
     final byte[] raw = new byte[length];
+    //noinspection TrulyRandom
     new SecureRandom().nextBytes(raw);
     return raw;
   }

@@ -56,8 +56,6 @@
 
     <LinearLayout
         android:id="@+id/budgetContainer"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="@dimen/budget_container_width_landscape"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

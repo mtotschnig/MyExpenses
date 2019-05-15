@@ -14,11 +14,12 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/OneMethod"
+<LinearLayout android:id="@+id/OneMethod"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
     <include layout="@layout/toolbar_expense_edit"/>
@@ -41,31 +42,33 @@
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/Label"
                     android:id="@+id/LabelLabel"
                     style="@style/FormLabel"
+                    android:labelFor="@+id/Label"
                     android:text="@string/label"/>
 
                 <EditText
-                    style="@style/FormField"
                     android:id="@+id/Label"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:importantForAutofill="no"
                     android:inputType="textCapWords"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    tools:targetApi="o"/>
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/TaType"
                     android:id="@+id/TypeLabel"
                     style="@style/FormLabel"
+                    android:labelFor="@+id/TaType"
                     android:text="@string/type"/>
 
                 <Spinner
-                    style="@style/FormField"
                     android:id="@+id/TaType"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:entries="@array/method_types"
@@ -75,14 +78,14 @@
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/IsNumbered"
                     android:id="@+id/IsNumberedLabel"
                     style="@style/FormLabel"
+                    android:labelFor="@+id/IsNumbered"
                     android:text="@string/numbered"/>
 
                 <CheckBox
-                    style="@style/FormField"
                     android:id="@+id/IsNumbered"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"/>
             </TableRow>
@@ -93,12 +96,13 @@
                     android:id="@+id/AccountTypesLabel"
                     style="@style/FormLabel"
                     android:text="@string/account_types"/>
+
                 <android.support.v7.widget.GridLayout
-                    style="@style/FormField"
                     android:id="@+id/AccountTypeGrid"
-                    app:columnCount="@integer/account_type_grid_columns"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    app:columnCount="@integer/account_type_grid_columns"/>
             </TableRow>
         </TableLayout>
     </ScrollView>

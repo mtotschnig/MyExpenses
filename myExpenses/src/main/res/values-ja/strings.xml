@@ -115,9 +115,6 @@
   <string name="feedback">フィードバック</string>
   <string name="ftp_uri_malformed">不正な形式の URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s から分類をロード中</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">英語のデフォルト分類</string>
   <string name="grisbi_import_parties_loading">%1$s から取引先をロード中</string>
   <string name="grouping_day">日</string>
   <string name="grouping_last_week">先週</string>
@@ -626,7 +623,6 @@
   <string name="sync_io_exception_reset_account_data">リモートアカウントをリセット中にエラーが発生しました。</string>
   <string name="sync_success_reset_account_data">アカウント %s のリモートデータが削除されました。</string>
   <string name="sync_io_exception_setup_remote_account">リモートアカウントを設定中にエラーが発生しました。</string>
-  <string name="sync_io_exception_reading_change_set">バックエンドから変更の読み取り中にエラーが発生しました。</string>
   <string name="sync_io_exception_syncing">変更をサーバーと同期中にエラーが発生しました。</string>
   <string name="sync_io_exception_unlocking">リモートバックエンドからロックを削除中にエラーが発生しました。</string>
   <string name="sync_io_exception_locking">リモートバックエンドがロックされているか、ロックできません。</string>
@@ -817,4 +813,5 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">閉じています</string>
   <string name="warning_synced_account_cannot_be_closed">同期バックエンドにリンクされている勘定は閉じられません</string>
+  <string name="translated_by">翻訳者</string>
 </resources>

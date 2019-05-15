@@ -18,7 +18,7 @@
   <string name="account_type_liability">Passività</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Passività</string>
-  <string name="already_defined">%1$s è già definita</string>
+  <string name="already_defined">%1$s già definita</string>
   <string name="amount">Importo</string>
   <string name="app_name">Le mie spese</string>
   <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
@@ -116,9 +116,6 @@
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Sintassi errata URI %1$s</string>
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Categorie predefinite in Italiano</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="grouping_day">giorno</string>
   <string name="grouping_last_week">La scorsa settimana</string>
@@ -635,7 +632,6 @@
   <string name="sync_io_exception_reset_account_data">Errore durante il ripristino dell\'account remoto.</string>
   <string name="sync_success_reset_account_data">I dati del conto %s salvati in remoto sono stati rimossi.</string>
   <string name="sync_io_exception_setup_remote_account">Errore durante l\'impostazione dell\'account remoto.</string>
-  <string name="sync_io_exception_reading_change_set">Errore durante la lettura delle modifiche dal back-end.</string>
   <string name="sync_io_exception_syncing">Errore durante la sincronizzazione delle modifiche con il server.</string>
   <string name="sync_io_exception_unlocking">Errore durante la rimozione del blocco dal back-end remoto.</string>
   <string name="sync_io_exception_locking">Il back-end remoto è bloccato o non può essere bloccato.</string>
@@ -828,4 +824,5 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">Chiuso</string>
   <string name="warning_synced_account_cannot_be_closed">Un conto collegato al back-end di sincronizzazione non può essere chiuso</string>
+  <string name="translated_by">Tradotto da</string>
 </resources>

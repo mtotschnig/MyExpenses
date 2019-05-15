@@ -14,12 +14,15 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:id="@+id/OneAccount"
+              xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/OneAccount"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:importantForAutofill="noExcludeDescendants"
+              android:orientation="vertical"
+              tools:targetApi="o">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -47,8 +50,8 @@
                     android:text="@string/label"/>
 
                 <EditText
-                    style="@style/FormField"
                     android:id="@+id/Label"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"/>
@@ -63,8 +66,8 @@
                     android:text="@string/description"/>
 
                 <EditText
-                    style="@style/FormField"
                     android:id="@+id/Description"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"/>
@@ -93,8 +96,8 @@
                     android:text="@string/currency"/>
 
                 <Spinner
-                    style="@style/FormField"
                     android:id="@+id/Currency"
+                    style="@style/FormField"
                     android:layout_gravity="center_vertical"
                     android:prompt="@string/currency"/>
             </TableRow>
@@ -108,8 +111,8 @@
                     android:text="@string/type"/>
 
                 <Spinner
-                    style="@style/FormField"
                     android:id="@+id/AccountType"
+                    style="@style/FormField"
                     android:layout_gravity="center_vertical"
                     android:prompt="@string/type"/>
             </TableRow>
@@ -122,8 +125,9 @@
                     android:labelFor="@+id/ColorIndicator"
                     android:text="@string/color"/>
 
-                <include layout="@layout/color_input"
-                    style="@style/FormField"/>
+                <include
+                    style="@style/FormField"
+                    layout="@layout/color_input"/>
             </TableRow>
 
             <TableRow>
@@ -171,7 +175,9 @@
                         app:srcCompat="@drawable/ic_menu_help"/>
                 </LinearLayout>
             </TableRow>
+
             <include layout="@layout/exchange_rate_row"/>
+
             <TableRow>
 
                 <TextView
@@ -179,6 +185,7 @@
                     style="@style/FormLabel"
                     android:labelFor="@+id/Criterion"
                     android:text="@string/goal_or_limit"/>
+
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Criterion"
                     style="@style/FormField"/>

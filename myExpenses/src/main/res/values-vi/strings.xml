@@ -99,6 +99,9 @@
   <string name="dialog_title_balance_account">Số dư %1$s</string>
   <string name="dialog_title_contrib_feature">Tính năng trả phí</string>
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="other">Xóa tài khoản %1$d?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
   <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
   <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
@@ -112,9 +115,6 @@
   <string name="feedback">Phản hồi</string>
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
   <string name="grisbi_import_categories_loading">Đang tải phân loại từ %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Việt</string>
   <string name="grisbi_import_parties_loading">Đang tải các bên từ %1$s</string>
   <string name="grouping_day">Ngày</string>
   <string name="grouping_last_week">Tuần trước</string>
@@ -621,7 +621,6 @@
   <string name="sync_error_will_try_again_later">Sẽ thử lại sau.</string>
   <string name="sync_io_exception_reset_account_data">Lỗi khi đặt lại tài khoản bên ngoài.</string>
   <string name="sync_io_exception_setup_remote_account">Lỗi trong khi thiết lập tài khoản bên ngoài.</string>
-  <string name="sync_io_exception_reading_change_set">Lỗi trong khi đọc các thay đổi từ phụ trợ.</string>
   <string name="sync_io_exception_syncing">Lỗi trong khi đồng bộ hóa các thay đổi với máy chủ.</string>
   <string name="sync_io_exception_unlocking">Lỗi khi bỏ khoá phần phụ trợ từ xa.</string>
   <string name="sync_io_exception_locking">Phụ trợ bên ngoài bị khóa hoặc không thể bị khóa.</string>
@@ -711,7 +710,9 @@
   <string name="split_transaction_group_error">Không thể gộp các giao dịch vào một GD tách.</string>
   <string name="pref_transaction_time_summary">Cho phép ghi lại cụ thể thời gian giao dịch.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Ngày ghi sổ</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Ngày hiệu lực</string>
   <string name="licence_expires_n_days">Khoá cao cấp của bạn sẽ hết hạn sau %d ngày</string>
   <string name="licence_expires_tomorrow">Khoá cao cấp của bạn sẽ hết hạn ngày mai</string>
   <string name="licence_expires_today">Khoá cao cấp của bạn hết hạn hôm nay</string>
@@ -719,23 +720,64 @@
   <string name="licence_has_expired_n_days">Khoá cao cấp của bạn đã hết hạn %d ngày trước</string>
   <string name="pref_category_title_privacy">Riêng tư</string>
   <string name="pref_ad_consent_title">Quảng cáo được tuỳ biến</string>
+  <string name="ad_consent_non_personalized">Quảng cáo không được cá nhân hóa</string>
   <string name="gdpr_consent_button_yes">OK, sống chung với quảng cáo</string>
   <string name="gdpr_consent_button_no">Mua bản không quảng cáo</string>
+  <string name="sort_order">Thứ tự sắp xếp</string>
+  <string name="navigation_drawer_accounts_title">Quản lý tài khoản</string>
+  <string name="pref_sync_wifi_only_summary">Chỉ đồng bộ khi có Wi-Fi</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Dịch thuật</string>
   <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Thu gọn</string>
   <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Mở rộng</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Mục tiêu</string>
+  <string name="saving_goal">Mục tiêu tiết kiệm</string>
+  <string name="credit_limit">Giới hạn tín dụng</string>
+  <string name="clear_all_filters">Xóa tất cả bộ lọc</string>
+  <string name="menu_budget">Ngân quỹ</string>
+  <string name="dialog_title_new_budget">Quỹ mới</string>
+  <string name="dialog_title_edit_budget">Sửa quỹ</string>
+  <string name="daily_budget">Quỹ theo ngày</string>
+  <string name="weekly_budget">Quỹ theo tuần</string>
+  <string name="monthly_budget">Quỹ theo tháng</string>
+  <string name="yearly_budget">Quỹ theo năm</string>
+  <string name="menu_switch_budget">Chuyển</string>
+  <string name="budget_table_header_budgeted">Đã góp quỹ</string>
+  <string name="budget_table_header_allocated">Đã phân bố</string>
+  <string name="budget_table_header_spent">Đã chi</string>
+  <string name="budget_table_header_remainder">Nhắc nhở</string>
+  <string name="budget_allocated_amount">Số tiền đã phân bố</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Xóa phương thức</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Xóa danh mục</string>
+  <string name="currency_code">Mã</string>
+  <string name="dialog_title_new_currency">Tiền tệ mới</string>
+  <string name="currency_code_already_definded">Mã tiền tệ hiện tại đã có sẵn.</string>
+  <string name="currency_still_used">Tiền tệ đang được sử dụng, không thể xóa được.</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="dialog_title_backup_protected">Sao lưu (có mã hóa)</string>
+  <string name="input_label_passphrase">Mật mã</string>
+  <string name="button_label_no_encryption">Không mã hóa</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <string name="joining_or">hoặc</string>
+  <string name="menu_hide">Ẩn</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Đóng</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Mở lại</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Tài khoản bị ẩn</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Hiện</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Đã mã hóa</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Đã đóng</string>
+  <string name="translated_by">Dịch bởi </string>
 </resources>

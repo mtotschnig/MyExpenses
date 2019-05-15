@@ -112,9 +112,6 @@
   <string name="feedback">Maklumbalas</string>
   <string name="ftp_uri_malformed">URI %1$s cacat</string>
   <string name="grisbi_import_categories_loading">Memuatkan kategori dari %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Kategori lalai Inggeris</string>
   <string name="grisbi_import_parties_loading">Memuatkan pihak daripada %1$s</string>
   <string name="grouping_day">Hari</string>
   <string name="grouping_last_week">Minggu terakhir</string>
@@ -622,7 +619,6 @@
   <string name="sync_error_will_try_again_later">Cuba lagi kemudian.</string>
   <string name="sync_io_exception_reset_account_data">Ralat ketika menetap semula akaun jauh.</string>
   <string name="sync_io_exception_setup_remote_account">Ralat ketika menetapkan akaun jauh.</string>
-  <string name="sync_io_exception_reading_change_set">Ralat ketika membaca perubahan dari bahagian belakang.</string>
   <string name="sync_io_exception_syncing">Ralat ketika menyegerak perubahan dengan pelayan.</string>
   <string name="sync_io_exception_unlocking">Ralat ketika membuang kunci dari bahagian belakang jauh.</string>
   <string name="sync_io_exception_locking">Bahagian belakang jauh dikunci atau tidak dapat dikuncikan.</string>
@@ -763,4 +759,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">terjemahan</string>
 </resources>

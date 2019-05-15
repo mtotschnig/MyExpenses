@@ -97,7 +97,7 @@ public class PaymentMethod extends Model {
     StringBuilder sb = new StringBuilder();
     sb.append("CASE " + KEY_LABEL);
     for (PreDefined method : PreDefined.values()) {
-      sb.append(" WHEN '" + method.name() + "' THEN ");
+      sb.append(" WHEN '").append(method.name()).append("' THEN ");
       DatabaseUtils.appendEscapedSQLString(sb, ctx.getString(method.resId));
     }
     sb.append(" ELSE " + KEY_LABEL + " END");
@@ -105,12 +105,12 @@ public class PaymentMethod extends Model {
   }
 
   public static String preDefinedName() {
-    String result = "CASE " + KEY_LABEL;
+    StringBuilder result = new StringBuilder("CASE " + KEY_LABEL);
     for (PreDefined method : PreDefined.values()) {
-      result += " WHEN '" + method.name() + "' THEN '" + method.name() + "'";
+      result.append(" WHEN '").append(method.name()).append("' THEN '").append(method.name()).append("'");
     }
-    result += " ELSE null END";
-    return result;
+    result.append(" ELSE null END");
+    return result.toString();
 
   }
 

@@ -83,9 +83,6 @@
   <string name="feedback">Comentaris</string>
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Categories predeterminades en català</string>
   <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Darrera setmana</string>
@@ -362,4 +359,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">Traducció de </string>
 </resources>

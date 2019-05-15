@@ -116,9 +116,6 @@
   <string name="feedback">Обратна връзка</string>
   <string name="ftp_uri_malformed">Неправилен URI %1$s</string>
   <string name="grisbi_import_categories_loading">Зареждане на категории от %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Зареди готови категории</string>
   <string name="grisbi_import_parties_loading">Зареждане на страни от %1$s</string>
   <string name="grouping_day">Ден</string>
   <string name="grouping_last_week">Миналата седмица</string>
@@ -635,7 +632,6 @@
   <string name="sync_io_exception_reset_account_data">Грешка при нулиране на отдалечена сметка.</string>
   <string name="sync_success_reset_account_data">Отдалечените данни за сметка %s са изтрити.</string>
   <string name="sync_io_exception_setup_remote_account">Грешка при установяване на отдалечена сметка.</string>
-  <string name="sync_io_exception_reading_change_set">Грешка при четене на промени от отдалеченото хранилище.</string>
   <string name="sync_io_exception_syncing">Грешка при синхронизиране на промените със сървъра.</string>
   <string name="sync_io_exception_unlocking">Грешка при опит за отключване на отдалеченото хранилище.</string>
   <string name="sync_io_exception_locking">Отдалеченото хранилище е заключено и не може да се отключи.</string>
@@ -828,4 +824,5 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">Затворена</string>
   <string name="warning_synced_account_cannot_be_closed">Сметка, която е свързана с хранилище за синхронизиране, не може да бъде затворена</string>
+  <string name="translated_by">Превод на български</string>
 </resources>

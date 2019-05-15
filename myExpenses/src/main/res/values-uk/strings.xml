@@ -112,9 +112,6 @@
   <string name="feedback">Відгук</string>
   <string name="ftp_uri_malformed">Невірно сформовано URI %1$s</string>
   <string name="grisbi_import_categories_loading">Завантаження категорій з \"%1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Українські категорії за замовчуванням</string>
   <string name="grisbi_import_parties_loading">Завантаження учасників з %1$s</string>
   <string name="grouping_day">День</string>
   <string name="grouping_last_week">Минулого тижня</string>
@@ -647,7 +644,6 @@
   <string name="sync_io_exception_reset_account_data">Помилка під час скидання віддаленого рахунку.</string>
   <string name="sync_success_reset_account_data">Віддалені дані для рахунку %s було видалено.</string>
   <string name="sync_io_exception_setup_remote_account">Помилка під час налаштування віддаленого рахунку.</string>
-  <string name="sync_io_exception_reading_change_set">Помилка під час зчитування змін із сервера.</string>
   <string name="sync_io_exception_syncing">Помилка під час синхронізації змін із сервером.</string>
   <string name="sync_io_exception_unlocking">Помилка розблокування віддаленого сервера.</string>
   <string name="sync_io_exception_locking">Віддалений сервер заблокований або його не можна заблокувати.</string>

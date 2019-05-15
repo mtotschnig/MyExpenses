@@ -112,9 +112,6 @@
   <string name="feedback">Geri bildirim</string>
   <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
   <string name="grouping_day">Gün</string>
   <string name="grouping_last_week">Geçen hafta</string>
@@ -628,7 +625,6 @@
   <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
   <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
   <string name="sync_io_exception_setup_remote_account">Uzaktaki hesabın ayarlanması sırasında hata.</string>
-  <string name="sync_io_exception_reading_change_set">Değişiklikler arka uçtan okunurken hata oluştu.</string>
   <string name="sync_io_exception_syncing">Sunucu ile değişiklikler eşleştirilirken hata oluştu.</string>
   <string name="sync_io_exception_unlocking">Uzaktaki arka uçtan kilit kaldırılırken hata oluştu.</string>
   <string name="sync_io_exception_locking">Uzaktaki arka uç kilitli ya da kilitlenemez.</string>

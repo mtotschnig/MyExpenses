@@ -232,7 +232,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     return Stream.of(Stream.of(getResources().getStringArray(R.array.pref_ui_language_values))
         .map(lang -> {
           final String[] parts = lang.split("-");
-          return Pair.create(lang, getTranslatorsArrayResId(parts[0], parts.length == 2 ? parts[1].toLowerCase() : null));
+          return Pair.create(lang, getTranslatorsArrayResId(parts[0], parts.length == 2 ? parts[1].toLowerCase(Locale.ROOT) : null));
         })
         .filter(pair -> pair.second != 0)
         .map(pair -> Pair.create(pair.first, getResources().getStringArray(pair.second)))

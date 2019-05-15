@@ -111,11 +111,6 @@
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
-    <style name="SmallButton.FormField">
-        <item name="android:layout_width">0px</item>
-        <item name="android:layout_weight">@dimen/form_table_ratio</item>
-    </style>
-
     <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
         <!-- the switch color is set to contrast with the window background, hence we need inverse text color -->
         <item name="android:textColor">?android:textColorPrimaryInverse</item>

@@ -21,7 +21,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:importantForAutofill="noExcludeDescendants"
+    android:orientation="vertical"
+    tools:targetApi="o">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -86,10 +88,10 @@
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/OriginalAmount"
-                    app:withTypeSwitch="false"
-                    app:withCurrencySelection="true"
+                    style="@style/FormField"
                     android:contentDescription="@string/menu_original_amount"
-                    style="@style/FormField"/>
+                    app:withCurrencySelection="true"
+                    app:withTypeSwitch="false"/>
             </TableRow>
 
             <TableRow
@@ -97,12 +99,12 @@
 
                 <TextView
                     android:id="@+id/AmountLabel"
-                    style="@style/FormLabel" />
+                    style="@style/FormLabel"/>
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Amount"
-                    android:contentDescription="@string/amount"
-                    style="@style/FormField"/>
+                    style="@style/FormField"
+                    android:contentDescription="@string/amount"/>
             </TableRow>
 
             <include layout="@layout/exchange_rate_row"/>
@@ -119,9 +121,9 @@
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/EquivalentAmount"
+                    style="@style/FormField"
                     android:contentDescription="@string/menu_equivalent_amount"
-                    app:withTypeSwitch="false"
-                    style="@style/FormField"/>
+                    app:withTypeSwitch="false"/>
             </TableRow>
 
             <TableRow
@@ -135,8 +137,8 @@
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/TransferAmount"
-                    app:withTypeSwitch="false"
-                    style="@style/FormField"/>
+                    style="@style/FormField"
+                    app:withTypeSwitch="false"/>
             </TableRow>
 
             <TableRow
@@ -198,26 +200,27 @@
                     style="@style/FormField"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
-                <Button
-                    android:id="@+id/Category"
-                    style="@style/SmallButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/select"/>
 
-                <ImageView
-                    android:id="@+id/ClearCategory"
-                    style="?actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/content_description_clear_category"
-                    android:focusable="true"
-                    android:onClick="clearCategorySelection"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/ic_menu_delete"/>
+                    <Button
+                        android:id="@+id/Category"
+                        style="@style/SmallButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/select"/>
+
+                    <ImageView
+                        android:id="@+id/ClearCategory"
+                        style="?actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/content_description_clear_category"
+                        android:focusable="true"
+                        android:onClick="clearCategorySelection"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_menu_delete"/>
                 </LinearLayout>
             </TableRow>
 
@@ -250,8 +253,8 @@
                         android:prompt="@string/status"/>
 
                     <ImageView
-                        style="?actionButtonStyle"
                         android:id="@+id/AttachImage"
+                        style="?actionButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -281,8 +284,8 @@
                         android:id="@+id/Method"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="2.5"
                         android:prompt="@string/method"/>
 
                     <ImageView

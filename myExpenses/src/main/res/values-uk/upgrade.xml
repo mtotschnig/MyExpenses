@@ -30,6 +30,7 @@
   </string-array>
   <string-array name="whats_new_280">
     <item>Переклад на іврит</item>
+    <item>Вибір кольору власного облікового запису</item>
   </string-array>
     <string name="bug_fixes">Виправлення помилок</string>
     <string name="performance_enhancement">Покращення швидкодії</string>

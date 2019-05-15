@@ -85,9 +85,6 @@
   <string name="feedback">Podrška</string>
   <string name="ftp_uri_malformed">Netočan URI %1$s</string>
   <string name="grisbi_import_categories_loading">Učitavanje kategorija iz %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Zadane kategorije</string>
   <string name="grisbi_import_parties_loading">Učitavanje stranki iz %1$s</string>
   <string name="grouping_day">Dan</string>
   <string name="grouping_last_week">Prethodni tjedan</string>
@@ -464,4 +461,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">Preveo</string>
 </resources>

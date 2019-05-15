@@ -19,7 +19,7 @@
           tools:targetApi="LOLLIPOP">
 
     <item android:state_activated="true">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        <shape
                android:shape="line" >
             <stroke
                 android:width="2dp"

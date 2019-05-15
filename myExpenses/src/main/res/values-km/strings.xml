@@ -79,9 +79,6 @@
   <string name="feedback">ផ្តល់មតិ</string>
   <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
   <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">ចំណាត់ថ្នាក់​លំនាំដើមជាភាសាអង់គ្លេស</string>
   <string name="grisbi_import_parties_loading">ផ្ទុកទិន្នន័យ​ភាគី​ពី %1$s បាន</string>
   <string name="grouping_day">ថ្ងៃ</string>
   <string name="grouping_last_week">សប្តាហ៍ក្រោយ</string>

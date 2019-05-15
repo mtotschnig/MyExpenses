@@ -15,11 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:importantForAutofill="noExcludeDescendants"
               android:orientation="vertical"
               android:paddingLeft="10dp"
-              android:paddingRight="10dp">
+              android:paddingRight="10dp"
+              tools:targetApi="o">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

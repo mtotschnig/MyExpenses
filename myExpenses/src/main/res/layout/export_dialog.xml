@@ -20,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:layout_height="wrap_content">
+            android:importantForAutofill="noExcludeDescendants"
+            tools:layout_height="wrap_content"
+            tools:targetApi="o">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,8 +54,8 @@
                     android:text="@string/file_name"/>
 
                 <EditText
-                    style="@style/FormField.Dialog"
                     android:id="@+id/file_name"
+                    style="@style/FormField.Dialog"
                     android:inputType="text"/>
             </TableRow>
 
@@ -65,8 +67,8 @@
                     android:text="@string/pref_export_format_title"/>
 
                 <RadioGroup
-                    style="@style/FormField.Dialog"
                     android:id="@+id/format"
+                    style="@style/FormField.Dialog"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -88,9 +90,10 @@
                 </RadioGroup>
             </TableRow>
 
-            <TableRow android:gravity="center_vertical"
+            <TableRow
                 android:id="@+id/DelimiterRow"
-                      android:visibility="gone"
+                android:gravity="center_vertical"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -99,8 +102,8 @@
                     android:text="@string/pref_csv_import_delimiter"/>
 
                 <RadioGroup
-                    style="@style/FormField.Dialog"
                     android:id="@+id/Delimiter"
+                    style="@style/FormField.Dialog"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -169,8 +172,8 @@
                     android:text="@string/decimal_separator"/>
 
                 <RadioGroup
-                    style="@style/FormField.Dialog"
                     android:id="@+id/separator"
+                    style="@style/FormField.Dialog"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -200,8 +203,8 @@
                     android:text="@string/pref_qif_export_file_encoding_title"/>
 
                 <Spinner
-                    style="@style/FormField.Dialog"
                     android:id="@+id/Encoding"
+                    style="@style/FormField.Dialog"
                     android:entries="@array/pref_qif_export_file_encoding"
                     android:entryValues="@array/pref_qif_export_file_encoding"/>
             </TableRow>

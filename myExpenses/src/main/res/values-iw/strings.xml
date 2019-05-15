@@ -118,9 +118,6 @@
   <string name="feedback">משוב</string>
   <string name="ftp_uri_malformed">כתובת אתר לא נכונה %1$s</string>
   <string name="grisbi_import_categories_loading">טוען קטגוריות מ- %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">קטגוריות ברירת מחדל באנגלית</string>
   <string name="grisbi_import_parties_loading">טוען צדדים מ- %1$s</string>
   <string name="grouping_day">יום</string>
   <string name="grouping_last_week">שבוע שעבר</string>
@@ -653,7 +650,6 @@
   <string name="sync_io_exception_reset_account_data">שגיאה בעת איפוס חשבון מרוחק.</string>
   <string name="sync_success_reset_account_data">נתונים מרוחקים עבור החשבון %sנמחקו</string>
   <string name="sync_io_exception_setup_remote_account">שגיאה בעת הגדרת חשבון מרוחק.</string>
-  <string name="sync_io_exception_reading_change_set">שגיאה בעת קריאת שינויים מ- backend.</string>
   <string name="sync_io_exception_syncing">שגיאה בעת סינכרון השינויים עם השרת.</string>
   <string name="sync_io_exception_unlocking">שגיאה בעת הסרת נעילה מן backend מרוחק.</string>
   <string name="sync_io_exception_locking">Backend מרוחק נעול או לא ניתן לנעול.</string>
@@ -852,4 +848,5 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">סגור</string>
   <string name="warning_synced_account_cannot_be_closed">לא ניתן לסגור חשבון שמקושר לסנכרון אחורי</string>
+  <string name="translated_by">המתרגם</string>
 </resources>

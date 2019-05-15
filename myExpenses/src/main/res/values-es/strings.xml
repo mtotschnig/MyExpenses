@@ -116,9 +116,6 @@
   <string name="feedback">Comentarios</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="grisbi_import_categories_loading">Cargando categorías desde %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Categorías predeterminadas en español</string>
   <string name="grisbi_import_parties_loading">Cargando grupos desde %1$s</string>
   <string name="grouping_day">Día</string>
   <string name="grouping_last_week">La semana pasada</string>
@@ -635,7 +632,6 @@
   <string name="sync_io_exception_reset_account_data">Error al reconfigurar la cuenta remota.</string>
   <string name="sync_success_reset_account_data">Se ha eliminado la sincronización de datos para la cuenta %s.</string>
   <string name="sync_io_exception_setup_remote_account">Error al configurar la cuenta remota.</string>
-  <string name="sync_io_exception_reading_change_set">Error al leer los cambios desde el servicio.</string>
   <string name="sync_io_exception_syncing">Error al sincronizar los cambios con el servidor.</string>
   <string name="sync_io_exception_unlocking">Error al eliminar el bloqueo desde el servicio remoto.</string>
   <string name="sync_io_exception_locking">El servicio remoto está bloqueado y no se puede desbloquear.</string>
@@ -828,4 +824,5 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">Cerrada</string>
   <string name="warning_synced_account_cannot_be_closed">No se pudo cerrar una cuenta ligada al servicio de sincronización</string>
+  <string name="translated_by">Traducido por</string>
 </resources>

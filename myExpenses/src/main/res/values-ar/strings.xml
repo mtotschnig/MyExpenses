@@ -82,9 +82,6 @@
   <string name="feedback">التقييم</string>
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">التصنيفات الافتراضية العربية</string>
   <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
   <string name="grouping_day">اليوم</string>
   <string name="grouping_last_week">آخر أسبوع</string>
@@ -448,4 +445,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">مت الترجمة بواسطة</string>
 </resources>

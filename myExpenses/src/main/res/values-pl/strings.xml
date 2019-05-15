@@ -112,9 +112,6 @@
   <string name="feedback">Opinie</string>
   <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
   <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Domyślne polskie kategorie</string>
   <string name="grisbi_import_parties_loading">Wczytywanie partii z %1$s</string>
   <string name="grouping_day">Dzień</string>
   <string name="grouping_last_week">Ostatni tydzień</string>
@@ -632,7 +629,6 @@
   <string name="sync_error_will_try_again_later">Spróbuję jeszcze raz później.</string>
   <string name="sync_io_exception_reset_account_data">Błąd podczas resetowania zdalnego konta.</string>
   <string name="sync_io_exception_setup_remote_account">Błąd podczas konfigurowania zdalnego konta.</string>
-  <string name="sync_io_exception_reading_change_set">Błąd podczas odczytu zmian z serwera.</string>
   <string name="sync_io_exception_syncing">Błąd podczas synchronizowania zmian z serwerem.</string>
   <string name="sync_io_exception_unlocking">Błąd podczas usuwania blokady z zdalnego serwera.</string>
   <string name="sync_io_exception_locking">Zdalny serwer jest zablokowany lub nie można go zablokować.</string>
@@ -789,4 +785,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">Tłumaczenie</string>
 </resources>

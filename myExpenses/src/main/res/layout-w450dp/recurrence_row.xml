@@ -5,7 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:showIn="@layout/one_expense">
+    tools:showIn="@layout/one_expense"
+    android:baselineAligned="false">
 
     <include
         layout="@layout/recurrence_spinner"/>

@@ -116,9 +116,6 @@
   <string name="feedback">Réactions</string>
   <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
   <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Catégories standard françaises</string>
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
   <string name="grouping_day">Jour</string>
   <string name="grouping_last_week">La semaine dernière</string>
@@ -635,7 +632,6 @@
   <string name="sync_io_exception_reset_account_data">Erreur lors de la réinitialisation du compte distant.</string>
   <string name="sync_success_reset_account_data">Les données distantes du compte %s ont été supprimées.</string>
   <string name="sync_io_exception_setup_remote_account">Erreur lors de la configuration du compte distant.</string>
-  <string name="sync_io_exception_reading_change_set">Erreur lors de la lecture des modifications depuis le serveur.</string>
   <string name="sync_io_exception_syncing">Erreur lors de la synchronisation des modifications avec le serveur.</string>
   <string name="sync_io_exception_unlocking">Erreur lors de la suppression du verrouillage du serveur à distance.</string>
   <string name="sync_io_exception_locking">Le serveur à distance est verrouillé ou ne peut pas être verrouillé.</string>
@@ -828,4 +824,5 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">Fermé</string>
   <string name="warning_synced_account_cannot_be_closed">Un compte lié à un backend de synchronisation ne peut pas être fermé</string>
+  <string name="translated_by">Traduit par</string>
 </resources>

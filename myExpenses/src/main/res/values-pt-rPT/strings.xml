@@ -105,9 +105,6 @@
   <string name="feedback">Comentários</string>
   <string name="ftp_uri_malformed">URI inválido %1$s</string>
   <string name="grisbi_import_categories_loading">A carregar categorias de %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Categorias predefinidas em português</string>
   <string name="grisbi_import_parties_loading">A carregar participantes de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Última semana</string>
@@ -613,7 +610,6 @@
   <string name="sync_io_error_cannot_connect">Não é possível ligar ao backend de sincronização.</string>
   <string name="sync_io_exception_reset_account_data">Erro ao repor a conta remota.</string>
   <string name="sync_io_exception_setup_remote_account">Erro ao configurar a conta remota.</string>
-  <string name="sync_io_exception_reading_change_set">Erro ao ler as alterações a partir do backend.</string>
   <string name="sync_io_exception_syncing">Erro ao sincronizar as alterações com o servidor.</string>
   <string name="sync_io_exception_unlocking">Erro ao remover o bloqueio do backend remoto.</string>
   <string name="sync_io_exception_locking">O backend remoto está bloqueado ou não pode ser bloqueado.</string>

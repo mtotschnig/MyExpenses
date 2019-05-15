@@ -97,6 +97,10 @@
   <string name="dialog_title_balance_account">%1$s saldoa</string>
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
   <string name="dialog_title_template_title">Ezarri izenburua</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Ezabatu kontua?</item>
+    <item quantity="other">Ezabatu %1$d kontu?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_main_category">Ezabatu kategoria nagusia?</string>
   <string name="dialog_title_warning_delete_template">Ezabatu txantiloia?</string>
   <string name="dialog_title_warning_delete_transaction">Ezabatu transakzioa?</string>
@@ -110,9 +114,6 @@
   <string name="feedback">Iruzkina</string>
   <string name="ftp_uri_malformed">Gaizki osatutako URIa %1$s</string>
   <string name="grisbi_import_categories_loading">Kategoriak kargatzen hemendik: %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Ingelesezko lehenetsitako kategoriak</string>
   <string name="grisbi_import_parties_loading">Onuradun/ordaintzaileak %1$s(e)tik kargatzen</string>
   <string name="grouping_day">Eguna</string>
   <string name="grouping_last_week">Aurreko astea</string>
@@ -625,7 +626,6 @@
   <string name="sync_error_will_try_again_later">Saiatu berriro beranduago.</string>
   <string name="sync_io_exception_reset_account_data">Errorea urruneko kontua berrezartzean.</string>
   <string name="sync_io_exception_setup_remote_account">Errorea urruneko kontua konfiguratzean.</string>
-  <string name="sync_io_exception_reading_change_set">Errorea atzealdekotik aldaketak irakurtzean.</string>
   <string name="sync_io_exception_syncing">Errorea aldaketak zerbitzariarekin sinkronizatzean.</string>
   <string name="sync_io_exception_unlocking">Errorea urruneko atzealdekotik blokeoa kentzean.</string>
   <string name="sync_io_exception_locking">Urruneko atzealdekoa blokeatuta dago edo ezin da blokeatu.</string>
@@ -652,7 +652,12 @@
   <string name="button_validate">Balioztatu</string>
   <string name="licence_key">Lizentzia-gakoa</string>
   <string name="professional_key">Gako profesionala</string>
+  <string name="n_months">%d hilabete</string>
+  <string name="valid_until">%s arte</string>
   <!--%1$s date, %2$s price-->
+  <string name="donate_button_invoice">Faktura</string>
+  <string name="never">inoiz ez</string>
+  <string name="always">beti</string>
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->

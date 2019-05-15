@@ -112,9 +112,6 @@
   <string name="feedback">Retorno</string>
   <string name="ftp_uri_malformed">URI inválida %1$s</string>
   <string name="grisbi_import_categories_loading">Carregando categorias de %1$s</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Categorias portuguesas padrão</string>
   <string name="grisbi_import_parties_loading">Carregando parceiros de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Semana passada</string>
@@ -630,7 +627,6 @@
   <string name="sync_error_will_try_again_later">Tentarei novamente mais tarde.</string>
   <string name="sync_io_exception_reset_account_data">Ocorreu um erro ao reiniciar a conta remota.</string>
   <string name="sync_io_exception_setup_remote_account">Erro ao configurar a conta remota.</string>
-  <string name="sync_io_exception_reading_change_set">Ocorreu um erro ao ler as alterações do servidor.</string>
   <string name="sync_io_exception_syncing">Erro ao sincronizar as alterações com o servidor.</string>
   <string name="sync_io_exception_unlocking">Ocorreu um erro ao remover o bloqueio do servidor remoto.</string>
   <string name="sync_io_exception_locking">O servidor remoto está bloqueado ou não pode ser bloqueado.</string>
@@ -800,4 +796,5 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="translated_by">Traduzido por</string>
 </resources>

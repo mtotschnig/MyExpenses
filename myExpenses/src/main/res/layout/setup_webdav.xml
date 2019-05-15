@@ -18,7 +18,8 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:targetApi="o">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +37,8 @@
                 android:layout_height="48dp"
                 android:hint="@string/hint_url"
                 android:inputType="textUri"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:importantForAutofill="no"/>
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -57,7 +59,8 @@
                 android:layout_height="48dp"
                 android:hint="@string/hint_user_name"
                 android:inputType="text"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:autofillHints="username"/>
         </android.support.design.widget.TextInputLayout>
         <!-- Password -->
         <android.support.design.widget.TextInputLayout
@@ -70,7 +73,8 @@
                 android:layout_height="48dp"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:autofillHints="password"/>
         </android.support.design.widget.TextInputLayout>
         <!-- Certificate -->
         <LinearLayout

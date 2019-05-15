@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:tools="http://schemas.android.com/tools"
     package="org.totschnig.myexpenses"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-                 android:usesCleartextTraffic="true">
-        <receiver android:name=".sync.SyncTrigger"
-                  tools:ignore="ExportedReceiver">
+    <application
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:targetApi="m">
+        <receiver
+            android:name=".sync.SyncTrigger"
+            tools:ignore="ExportedReceiver">
             <!-- adb shell am broadcast -a TRIGGER_SYNC -e ACCOUNT accountName -->
             <intent-filter>
-                <action android:name="TRIGGER_SYNC" />
+                <action android:name="TRIGGER_SYNC"/>
             </intent-filter>
         </receiver>
     </application>

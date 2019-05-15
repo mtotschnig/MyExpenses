@@ -116,9 +116,6 @@
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
-  <!--This is used as the title for the progress dialogue while importing the default categories, so
-     this should refer to each specific language, like e.g. Deutsche Standard-Kategorien for German etc.-->
-  <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
   <string name="grouping_day">Tag</string>
   <string name="grouping_last_week">Letzte Woche</string>
@@ -635,7 +632,6 @@
   <string name="sync_io_exception_reset_account_data">Fehler beim Zurücksetzen des entfernten Kontos</string>
   <string name="sync_success_reset_account_data">Daten am Backend für Konto %s wurden gelöscht.</string>
   <string name="sync_io_exception_setup_remote_account">Fehler beim Einrichten des entfernten Kontos.</string>
-  <string name="sync_io_exception_reading_change_set">Fehler beim Lesen der Änderungen vom Backend.</string>
   <string name="sync_io_exception_syncing">Fehler beim Synchronisieren von Änderungen mit dem Server.</string>
   <string name="sync_io_exception_unlocking">Fehler beim Entfernen der Sperre vom entfernten Backend.</string>
   <string name="sync_io_exception_locking">Das entfernte Backend ist gesperrt oder kann nicht gesperrt werden.</string>

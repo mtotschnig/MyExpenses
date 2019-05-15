@@ -3,15 +3,19 @@
     android:id="@+id/setup_wizard_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants"
     android:layout="@layout/suw_template"
-    app:suwBackgroundTile="@drawable/bg_tile_teal">
+    app:suwBackgroundTile="@drawable/bg_tile_teal"
+    tools:targetApi="o">
 
-    <LinearLayout style="@style/SuwContentFrame"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
+    <LinearLayout
+        style="@style/SuwContentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
         <ScrollView
@@ -48,10 +52,10 @@
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Amount"
-                    android:layout_marginLeft="-4dp"
-                    android:layout_marginStart="-4dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-4dp"
+                    android:layout_marginStart="-4dp"/>
 
                 <TextView
                     style="@style/OnboardingInputLabel"
@@ -61,8 +65,8 @@
                     android:text="@string/currency"/>
 
                 <Spinner
-                    style="@style/OnboardingSpinner"
                     android:id="@+id/Currency"
+                    style="@style/OnboardingSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -107,8 +111,8 @@
                         android:text="@string/type"/>
 
                     <Spinner
-                        style="@style/OnboardingSpinner"
                         android:id="@+id/AccountType"
+                        style="@style/OnboardingSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
