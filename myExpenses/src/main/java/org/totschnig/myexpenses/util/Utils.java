@@ -782,15 +782,6 @@ public class Utils {
     return sb;
   }
 
-  public static CharSequence makeBulletList2(Context ctx, List<CharSequence> lines, int[] icons) {
-    SpannableStringBuilder sb = new SpannableStringBuilder();
-    for (int i = 0; i < lines.size(); i++) {
-      Bitmap bitmap = UiUtils.drawableToBitmap(UiUtils.getTintedDrawableForContext(ctx, icons[i]));
-      sb.append(withIconMargin(bitmap, lines.get(i), i < lines.size() - 1));
-    }
-    return sb;
-  }
-
   private static CharSequence withIconMargin(Bitmap bitmap, CharSequence text, boolean withNewLine) {
     Spannable spannable = new SpannableString(text + (withNewLine ? "\n" : ""));
     spannable.setSpan(new IconMarginSpan(bitmap, 25), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

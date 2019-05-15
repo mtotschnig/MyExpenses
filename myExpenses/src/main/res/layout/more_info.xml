@@ -63,17 +63,18 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            style="@style/about_text"
-            android:text="© 2011 - 2019 Michael Totschnig"/>
-
-        <TextView
             style="@style/headingStyle.WithMargin.Caps"
-            android:text="Icons (Creative Commons CCBY)"/>
+            android:text="Icons from the Noun Project (Creative Commons CCBY)"/>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/additional_icons_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+        <TextView
+            style="@style/about_text"
+            android:text="© 2011 - 2019 Michael Totschnig"/>
 
     </LinearLayout>
 </ScrollView>

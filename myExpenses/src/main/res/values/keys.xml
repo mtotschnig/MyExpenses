@@ -131,27 +131,27 @@
         <item>@drawable/unemployment</item>
     </string-array>
     <string-array name="additional_icon_credits">
-        <item>appliance by Hassan ali from the Noun Project</item>
-        <item>Bottle by Sarah from the Noun Project</item>
-        <item>clothing by bmijnlieff from the Noun Project</item>
-        <item>Comb by Ralf Schmitzer from the Noun Project</item>
-        <item>decoration by Deemak Daksina from the Noun Project</item>
-        <item>Family by Jens Tärning from the Noun Project</item>
-        <item>Fence by ProSymbols from the Noun Project</item>
-        <item>funding by Gregor Cresnar from the Noun Project</item>
-        <item>Garden by Alena Artemova from the Noun Project</item>
-        <item>Lease by Phạm Thanh Lộc from the Noun Project</item>
-        <item>Mortgage by Adrien Coquet from the Noun Project</item>
-        <item>pocket by Christopher T. Howlett from the Noun Project</item>
-        <item>premium by Gregor Cresnar from the Noun Project</item>
-        <item>property by Vectors Market from the Noun Project</item>
-        <item>retirement by IYIKON from the Noun Project</item>
-        <item>retirement by Phạm Thanh Lộc from the Noun Project</item>
-        <item>Shoe by Andrejs Kirma from the Noun Project</item>
-        <item>taxes by Adrien Coquet from the Noun Project</item>
-        <item>toll by b farias from the Noun Project</item>
-        <item>tray by Likous from the Noun Project</item>
-        <item>unemployment by Aneeque Ahmed from the Noun Project</item>
+        <item>appliance by Hassan ali</item>
+        <item>Bottle by Sarah</item>
+        <item>clothing by bmijnlieff</item>
+        <item>Comb by Ralf Schmitzer</item>
+        <item>decoration by Deemak Daksina</item>
+        <item>Family by Jens Tärning</item>
+        <item>Fence by ProSymbols</item>
+        <item>funding by Gregor Cresnar</item>
+        <item>Garden by Alena Artemova</item>
+        <item>Lease by Phạm Thanh Lộc</item>
+        <item>Mortgage by Adrien Coquet</item>
+        <item>pocket by Christopher T. Howlett</item>
+        <item>premium by Gregor Cresnar</item>
+        <item>property by Vectors Market</item>
+        <item>retirement by IYIKON</item>
+        <item>retirement by Phạm Thanh Lộc</item>
+        <item>Shoe by Andrejs Kirma</item>
+        <item>taxes by Adrien Coquet</item>
+        <item>toll by b farias</item>
+        <item>tray by Likous</item>
+        <item>unemployment by Aneeque Ahmed</item>
     </string-array>
 
     <string name="donate_button_paypal">Paypal</string>

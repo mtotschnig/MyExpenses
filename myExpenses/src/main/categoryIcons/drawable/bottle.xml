@@ -1,8 +1,8 @@
 <!-- https://thenounproject.com/term/bottle/1828099/ Bottle by Sarah from the Noun Project
  Creative Commons CCBY -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="512dp"
-        android:height="512dp"
+        android:width="24dp"
+        android:height="24dp"
         android:viewportHeight="512"
         android:viewportWidth="512">
     <path

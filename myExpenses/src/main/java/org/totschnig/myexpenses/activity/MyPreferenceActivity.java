@@ -32,10 +32,13 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
@@ -55,6 +58,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -194,16 +198,27 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         additionalContainer.setText(Utils.makeBulletList(this,
             lines,
             R.drawable.ic_menu_forward));
-        TextView iconContainer = view.findViewById(R.id.additional_icons_container);
+        LinearLayout iconContainer = view.findViewById(R.id.additional_icons_container);
         final List<CharSequence> iconLines = Arrays.asList(getResources().getStringArray(R.array.additional_icon_credits));
         TypedArray ar = getResources().obtainTypedArray(R.array.additional_icon_credits_keys);
         int len = ar.length();
-        int[] resIds = new int[len];
+        final int height = UiUtils.dp2Px(32, getResources());
+        final int drawablePadding = UiUtils.dp2Px(8, getResources());
         for (int i = 0; i < len; i++) {
-          resIds[i] = ar.getResourceId(i, 0);
+          TextView textView = new TextView(this);
+          textView.setGravity(Gravity.CENTER_VERTICAL);
+          LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+          textView.setLayoutParams(layoutParams);
+          textView.setCompoundDrawablePadding(drawablePadding);
+          textView.setText(iconLines.get(i));
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(ar.getResourceId(i, 0), 0, 0, 0);
+          } else {
+            textView.setCompoundDrawablesWithIntrinsicBounds(ar.getResourceId(i, 0), 0, 0, 0);
+          }
+          iconContainer.addView(textView);
         }
         ar.recycle();
-        iconContainer.setText(Utils.makeBulletList2(this, iconLines, resIds));
         return new AlertDialog.Builder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)
