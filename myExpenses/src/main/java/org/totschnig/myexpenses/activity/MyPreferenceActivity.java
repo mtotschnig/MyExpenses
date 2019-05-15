@@ -195,7 +195,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             lines,
             R.drawable.ic_menu_forward));
         TextView iconContainer = view.findViewById(R.id.additional_icons_container);
-        final List<CharSequence> iconLines = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.additional_icon_credits)));
+        final List<CharSequence> iconLines = Arrays.asList(getResources().getStringArray(R.array.additional_icon_credits));
         TypedArray ar = getResources().obtainTypedArray(R.array.additional_icon_credits_keys);
         int len = ar.length();
         int[] resIds = new int[len];
