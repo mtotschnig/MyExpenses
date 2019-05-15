@@ -782,7 +782,7 @@ public class Utils {
     return sb;
   }
 
-  public static CharSequence makeBulletList(Context ctx, List<CharSequence> lines, int[] icons) {
+  public static CharSequence makeBulletList2(Context ctx, List<CharSequence> lines, int[] icons) {
     SpannableStringBuilder sb = new SpannableStringBuilder();
     for (int i = 0; i < lines.size(); i++) {
       Bitmap bitmap = UiUtils.drawableToBitmap(UiUtils.getTintedDrawableForContext(ctx, icons[i]));

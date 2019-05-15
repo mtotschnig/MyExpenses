@@ -203,7 +203,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           resIds[i] = ar.getResourceId(i, 0);
         }
         ar.recycle();
-        iconContainer.setText(Utils.makeBulletList(this, iconLines, resIds));
+        iconContainer.setText(Utils.makeBulletList2(this, iconLines, resIds));
         return new AlertDialog.Builder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)
