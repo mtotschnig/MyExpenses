@@ -14,12 +14,9 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "My Expenses">
-]>
 <resources>
-  <string-array name="whats_new_281">
-    <item>خيارات لخطط مخصصة</item>
-    <item>إصلاح تخزين سحابة من النسخ الاحتياطية الكبيرة</item>
-  </string-array>
-  </resources>
+    <string-array name="whats_new_281">
+        <item>خيارات لخطط مخصصة</item>
+        <item>إصلاح تخزين سحابة من النسخ الاحتياطية الكبيرة</item>
+    </string-array>
+    </resources>

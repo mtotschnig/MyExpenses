@@ -14,13 +14,10 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "My Expenses">
-]>
 <resources>
-  <string-array name="whats_new_280">
-    <item>Hebreerara itzulpena</item>
-    <item>Hautatzailea kontu kolore pertsonalizatuarentzat</item>
-  </string-array>
+    <string-array name="whats_new_280">
+        <item>Hebreerara itzulpena</item>
+        <item>Hautatzailea kontu kolore pertsonalizatuarentzat</item>
+    </string-array>
     <string name="bug_fixes">Konpondutako akatsak</string>
     </resources>
