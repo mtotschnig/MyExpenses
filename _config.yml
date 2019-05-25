@@ -114,6 +114,70 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.0.1
+    - "2019-02-14"
+    -
+      en: |
+        Accounts can be closed and/or hidden.
+      fr: |
+        Les comptes peuvent être fermés et / ou cachés.
+      de: |
+        Konten können geschlossen und / oder verborgen werden.
+      it: |
+        I conti possono essere chiusi e/o nascosti.
+      es: |
+        Se pueden cerrar y/o ocultar las cuentas.
+      bg: |
+        Сметките могат да бъдат затворени и/или скрити..
+      ja: |
+        勘定を閉じて非表示にできます.
+      iw: |
+        חשבונות יכולים להיות סגורים או מוסתרים.
+  -
+    - 3.0.0
+    - "2019-01-19"
+    -
+      en: |
+        Ukrainian translation. CSV export: Delimiter made configurable.
+      fr: |
+        Traduction ukrainienne. Exportation CSV: séparateur de champ configurable.
+      de: |
+        Ukrainische Übersetzung. CSV-Export: Trennzeichen konfigurierbar gemacht.
+      it: |
+        Traduzione ucraina. Esportazione CSV: reso personalizzabile il delimitatore.
+      es: |
+        Traducción a Ucraniano. Exportación a CSV: delimitador configurable.
+      bg: |
+        Превод на украйнски. Избор на символа-разделител при CSV експорт.
+      ru: |
+        Перевод на украинский. Экспорт в CSV: настраиваемый разделитель.
+      ja: |
+        ウクライナ語翻訳. CSV エクスポート: 区切り文字が設定可能です.
+      pl: |
+        Tłumaczenie na ukraiński. Eksport CSV: Konfigurowalny separator pól.
+      iw: |
+        תרגום אוקראיני. ייצוא CSV: Delimiter הפך להגדרה.
+  -
+    - 2.9.9
+    - "2019-01-11"
+    -
+      en: |
+        Encryption for backups and synchronization data.
+      fr: |
+        Cryptage des sauvegardes et des données de synchronisation.
+      de: |
+        Verschlüsselung für Backups und Synchronisationsdaten.
+      it: |
+        Crittografia per i backup e per i dati di sincronizzazione.
+      es: |
+        Encriptación para copias de seguridad y sincronización de datos.
+      bg: |
+        Шифроване на данните за архивиране и синхронизиране.
+      ja: |
+        バックアップと同期データの暗号化.
+      iw: |
+        הצפנה עבור גיבויים ונתוני סנכרון.
+  -
     - 2.9.8
     - "2018-12-24"
     -
