@@ -1,7 +1,7 @@
 <!-- https://fontawesome.com/icons/gamepad?style=solid CC BY 4.0 License -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="640dp"
-        android:height="512dp"
+        android:width="24dp"
+        android:height="19.2dp"
         android:viewportHeight="512"
         android:viewportWidth="640">
     <path
