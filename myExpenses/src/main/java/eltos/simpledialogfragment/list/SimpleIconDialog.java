@@ -16,9 +16,10 @@
 package eltos.simpledialogfragment.list;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import org.totschnig.myexpenses.R;
@@ -29,7 +30,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 /**
  * A dialog that let's the user select an icon
  */
-public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
+public class SimpleIconDialog extends SimpleRVDialog<SimpleIconDialog> {
 
   public static final String TAG = "SimpleIconDialog.";
 
@@ -50,52 +51,61 @@ public class SimpleIconDialog extends CustomListDialog<SimpleIconDialog> {
   }
 
   public SimpleIconDialog() {
-    grid();
-    gridColumnWidth(R.dimen.dialog_icon_item_size);
-    choiceMode(SINGLE_CHOICE_DIRECT);
-    choiceMin(1);
+    gridColumnWidth(R.dimen.category_icon_selector_column_width);
   }
 
   @Override
-  protected AdvancedAdapter onCreateAdapter() {
+  protected ClickableAdapter onCreateAdapter() {
     return new IconAdapter(getArguments().getStringArray(ICONS));
   }
 
   @Override
-  protected Bundle onResult(int which) {
-    Bundle result = super.onResult(which);
-    final String item = (String) getListView().getAdapter().getItem(result.getInt(SELECTED_SINGLE_POSITION));
+  protected Bundle onResult(int selectedPosition) {
+    final String item = ((IconAdapter) getAdapter()).getItem(selectedPosition);
+    Bundle result = new Bundle(2);
     result.putString(KEY_ICON, item);
     result.putInt(KEY_RESID, resolveIcon(item));
     return result;
   }
 
-  private class IconAdapter extends AdvancedAdapter<String> {
+  private class IconAdapter extends ClickableAdapter<IconViewHolder> {
+
+    private final String[] data;
 
     IconAdapter(String[] icons) {
-      setData(icons);
+      this.data = icons;
+    }
+
+    @NonNull
+    @Override
+    public IconViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+      return new IconViewHolder(getLayoutInflater().inflate(R.layout.image_view_category_icon_grid, viewGroup, false));
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-      ImageView item;
+    public void onBindViewHolder(@NonNull IconViewHolder iconViewHolder, int position) {
+      super.onBindViewHolder(iconViewHolder, position);
+      ((ImageView) iconViewHolder.itemView).setImageResource(resolveIcon(getItem(position)));
+    }
 
-      if (convertView != null) {
-        item = (ImageView) convertView;
-      } else {
-        item = new ImageView(getContext());
-        int size = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_selector_item_size);
-        GridView.LayoutParams params = new GridView.LayoutParams(size, size);
-        item.setLayoutParams(params);
-        final int padding = getContext().getResources().getDimensionPixelSize(R.dimen.category_icon_padding);
-        item.setPadding(padding, padding, padding, padding);
-      }
-      item.setImageResource(resolveIcon(getItem(position)));
-      return super.getView(position, item, parent);
+    @Override
+    public int getItemCount() {
+      return data.length;
+    }
+
+    public String getItem(int position) {
+      return data[position];
     }
   }
 
   private int resolveIcon(String icon) {
     return getContext().getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
+  }
+
+  private class IconViewHolder extends RecyclerView.ViewHolder {
+
+    public IconViewHolder(@NonNull View itemView) {
+      super(itemView);
+    }
   }
 }

@@ -6,6 +6,4 @@
            android:background="?android:attr/activatedBackgroundIndicator"
            android:layout_width="@dimen/thumbnail_size_grid"
            android:layout_height="@dimen/thumbnail_size_grid"
-           tools:ignore="ContentDescription">
-
-</ImageView>
+           tools:ignore="ContentDescription"/>
