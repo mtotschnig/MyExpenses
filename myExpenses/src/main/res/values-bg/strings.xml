@@ -533,7 +533,6 @@
   <string name="pref_auto_backup_summary">Ежедневно архивиране на базата данни в определено време (само ако има промяна в данните).</string>
   <string name="pref_auto_backup_time_title">Време за автоматично архивиране</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни архивирания, автоматичното запазване ще се деактивира.</string>
-  <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни архивирания.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставен достъп</string>
   <string name="switch_on_text">Включено</string>
@@ -600,7 +599,7 @@
   <string name="dialog_confirm_sync_remove_backend">Отдалеченото хранилище %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране.</string>
   <string name="dialog_confirm_sync_link_local">Отдалечените данни за тази сметка ще бъдат изтрити. Уверете се, че няма други устройства свързани към тях.</string>
   <string name="dialog_confirm_sync_link_remote">Локалните данни за тази сметка ще бъдат изтрити.</string>
-  <string name="warning_limited_trial">Възможността за %1$s може да бъде тествана до %s.</string>
+  <string name="warning_limited_trial">Възможността за %1$s може да бъде тествана до %2$s.</string>
   <string name="warning_trial_limit_reached">Периодът за тестване на %s е изтекъл.</string>
   <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на {app_name} на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на сметка от съществуващо отдалечено хранилище. Трябва да изберете родителската й папка, за да използвате отново това отдалечено хранилище.</string>
@@ -673,10 +672,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продължете до %1$s за %2$s</string>
   <string name="extended_upgrade_goodie_github">Допълнителни %d месеца се предоставят еднократно на потребители, които вече притежават разширен лиценз</string>
-  <string name="extended_upgrade_goodie_subscription">Потребителите, които вече притежават разширен лиценз, заплащат 50%% от обичайната цена (%s) през първата година.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Потребителите, които вече притежават разширен лиценз, имат право на %1$d%% намаление от обичайната цена (%2$s) на годишния абонамент.</string>
-  <string name="switch_to_yearly">Преминаване на годишен абонамент</string>
-  <string name="switch_to_monthly">Преминаване на месечен абонамент</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Потребителите, които вече притежават разширен лиценз, заплащат 50%% от обичайната цена (%s) през първата година.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Потребителите, които вече притежават разширен лиценз, имат право на %1$d%% намаление от обичайната цена (%2$s) на годишния абонамент.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Преминаване на годишен абонамент</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Преминаване на месечен абонамент</string>
   <string name="extend_validity">Удължаване на валидността</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечното хранилище. Това може да отнеме известно време.</string>
   <string name="donate_button_invoice">Фактура</string>
@@ -742,7 +741,7 @@
   <string name="pref_ad_consent_title">Персонализирани реклами</string>
   <string name="ad_consent_non_personalized">Не-персонализирани реклами</string>
   <string name="gdpr_consent_message">Ние си сътрудничим с {ad_provider}, за да продължаваме поддръжката и развитието на {app_name}, като Ви показваме реклами. Бихме желали да получим Вашето съгласие. Ако предпочитате да не виждате реклами, моля, платете за версия без реклами.</string>
-  <string name="gdpr_consent_button_yes">Да, продължавам да гледам реклами</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Да, продължавам да гледам реклами</string>
   <string name="gdpr_consent_button_no">Плащам за версия без реклама</string>
   <string name="sort_order">Подреди по</string>
   <string name="navigation_drawer_accounts_title">Управление на сметки</string>
@@ -825,7 +824,7 @@
   <string name="content_description_closed">Затворена</string>
   <string name="warning_synced_account_cannot_be_closed">Сметка, която е свързана с хранилище за синхронизиране, не може да бъде затворена</string>
   <string name="translated_by">Превод на български</string>
-  <string name="warning_account_for_plan_is_closed">Планът %s вече не може да бъде инстанциран, защото сметката %s е затворена.</string>
+  <string name="warning_account_for_plan_is_closed">Планът %1$s вече не може да бъде инстанциран, защото сметката %2$s е затворена.</string>
   <string name="warning_no_account">За да се създават нови транзакции трябва поне една сметка трябва да е видима и отворена.</string>
   <string name="content_description_dates_are_linked">Датата на резервиране и вальорът да се актуализират заедно</string>
   <string name="content_description_dates_are_not_linked">Датата на резервация и вальорът да не се актуализират заедно</string>

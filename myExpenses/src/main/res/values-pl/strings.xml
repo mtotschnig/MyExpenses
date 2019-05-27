@@ -532,7 +532,6 @@
   <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
   <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Po %d udanych automatycznych kopii zapasowych, automatyczne tworzenie kopii zapasowych zostanie dezaktywowane.</string>
-  <string name="warning_auto_backup_limit_reached">Osiągnięto limit bezpłatnych automatycznych kopii zapasowych zakończonych sukcesem.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> potrzebuje uprawnień dostępu do Twojego kalendarza, aby tworzyć plany dla przyszłych i cyklicznych transakcji.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Udziel dostęp</string>
   <string name="switch_on_text">Wł.</string>
@@ -670,9 +669,9 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Wydłuż do %1$s dla %2$s</string>
   <string name="extended_upgrade_goodie_github">Dodatkowe %d miesięcy przyznawane jest jednokrotnie użytkownikom, którzy już posiadają licencję rozszerzoną</string>
-  <string name="extended_upgrade_goodie_subscription">Użytkownicy, którzy już posiadają licencję rozszerzoną, płacą 50 %% zwykłej ceny (%s) w pierwszym roku.</string>
-  <string name="switch_to_yearly">Przełącz na roczną subskrypcję</string>
-  <string name="switch_to_monthly">Przełącz na abonament miesięczny</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Użytkownicy, którzy już posiadają licencję rozszerzoną, płacą 50 %% zwykłej ceny (%s) w pierwszym roku.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Przełącz na roczną subskrypcję</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Przełącz na abonament miesięczny</string>
   <string name="extend_validity">Przedłuż ważność</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Pobieranie danych z odległego serwera. To może zająć trochę czasu.</string>
   <string name="donate_button_invoice">Faktura</string>
@@ -729,7 +728,7 @@
   <string name="pref_ad_consent_title">Spersonalizowane reklamy</string>
   <string name="ad_consent_non_personalized">Reklamy bez personalizacji</string>
   <string name="gdpr_consent_message">Nawiązaliśmy współpracę z dostawcą reklam {ad_provider}, by móc dalej wspierać, utrzymywać i rozwijać aplikację {app_name} poprzez wyświetlanie Ci reklam. Chcielibyśmy prosić Cię o zgodę na to. Jeżeli wolisz nie widzieć żadnych reklam, zakup proszę wersję bez reklam.</string>
-  <string name="gdpr_consent_button_yes">Tak, dalej wyświetlaj reklamy</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Tak, dalej wyświetlaj reklamy</string>
   <string name="gdpr_consent_button_no">Zapłać za wersję bez reklam</string>
   <string name="sort_order">Kolejność sortowania</string>
   <string name="navigation_drawer_accounts_title">Zarządzaj kontami</string>

@@ -551,7 +551,6 @@
   <string name="pref_auto_backup_summary">גיבוי יומי למסד נתונים בשעה שצוין (רק אם הנתונים השתנו)</string>
   <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">לאחר %d גיבויים אוטומטיים מוצלחים, גיבוי אוטומטי יופסק.</string>
-  <string name="warning_auto_backup_limit_reached">המגבלה של גיבויים אוטומטיים מוצלחים בחינם הושגה.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
   <string name="switch_on_text">מופעל</string>
@@ -691,10 +690,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">הארכה עד %1$s למשך %2$s</string>
   <string name="extended_upgrade_goodie_github">%d חודשים נוספים ניתנים חד פעמי למשתמשים שכבר נמצא ברשותם  רישיון מורחב</string>
-  <string name="extended_upgrade_goodie_subscription">משתמשים שכבר מחזיקים ברישיון המורחב משלמים 50 %% מהמחיר הרגיל (%s) בשנה הראשונה.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">משתמשים שכבר מחזיקים ברישיון המורחב זכאים להפחתה של %1$d%% מהמחיר הרגיל (%2$s) של המנוי השנתי.</string>
-  <string name="switch_to_yearly">עבור למנוי שנתי</string>
-  <string name="switch_to_monthly">עבור למנוי חודשי</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">משתמשים שכבר מחזיקים ברישיון המורחב משלמים 50 %% מהמחיר הרגיל (%s) בשנה הראשונה.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">משתמשים שכבר מחזיקים ברישיון המורחב זכאים להפחתה של %1$d%% מהמחיר הרגיל (%2$s) של המנוי השנתי.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">עבור למנוי שנתי</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">עבור למנוי חודשי</string>
   <string name="extend_validity">הארכת תוקף</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
   <string name="donate_button_invoice">חשבונית</string>
@@ -764,7 +763,7 @@
   <string name="pref_ad_consent_title">מודעות מותאמות אישית</string>
   <string name="ad_consent_non_personalized">מודעות שאינן מותאמות אישית</string>
   <string name="gdpr_consent_message">אנו משתפים פעולה עם {ad_provider} כדי לשמור על התמיכה, התחזוקה והפיתוח של {app_name} על ידי הצגת מודעות. ברצוננו לבקש את הסכמתך. אם אתה מעדיף שלא לראות מודעות, עליך לשלם עבור הגרסה ללא מודעות.</string>
-  <string name="gdpr_consent_button_yes">כן, המשך לראות מודעות</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">כן, המשך לראות מודעות</string>
   <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
   <string name="sort_order">סדר המיון</string>
   <string name="navigation_drawer_accounts_title">נהל חשבונות</string>
@@ -849,7 +848,7 @@
   <string name="content_description_closed">סגור</string>
   <string name="warning_synced_account_cannot_be_closed">לא ניתן לסגור חשבון שמקושר לסנכרון אחורי</string>
   <string name="translated_by">המתרגם</string>
-  <string name="warning_account_for_plan_is_closed">לא ניתן עוד ליצור את התוכנית %sכי החשבון %sנסגר.</string>
+  <string name="warning_account_for_plan_is_closed">לא ניתן עוד ליצור את התוכנית %1$sכי החשבון %2$s נסגר.</string>
   <string name="warning_no_account">לפחות חשבון אחד חייב להיות גלוי ופתוח כדי ליצור עסקאות חדשות.</string>
   <string name="content_description_dates_are_linked">תאריך ההזמנה ותאריך הערך מתעדכנים יחד</string>
   <string name="content_description_dates_are_not_linked">תאריך ההזמנה ותאריך הערך אינם מעודכנים יחד</string>

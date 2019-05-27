@@ -548,7 +548,6 @@
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">After %d successful automatic backups, auto-backup will be deactivated.</string>
-    <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Grant access</string>
     <string name="switch_on_text">On</string>
@@ -840,7 +839,7 @@
     <string name="content_description_closed">Closed</string>
     <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
     <string name="translated_by">Translated by</string>
-    <string name="warning_account_for_plan_is_closed">Plan %s can no longer be instantiated because account %s has been closed.</string>
+    <string name="warning_account_for_plan_is_closed">Plan %1$s can no longer be instantiated because account %2$s has been closed.</string>
     <string name="warning_no_account">At least one account must be visible and open in order to create new transactions.</string>
     <string name="content_description_dates_are_linked">Booking date and value date are updated together</string>
     <string name="content_description_dates_are_not_linked">Booking date and value date are not updated together</string>

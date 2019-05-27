@@ -533,7 +533,6 @@
   <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati)</string>
   <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Dopo %d successo automatico backup, backup automatico verrà disattivato.</string>
-  <string name="warning_auto_backup_limit_reached">Il limite dei backup automatici gratis è stato raggiunto il limite.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> richiede l\'autorizzazione per accedere al calendario, al fine di creare piani per operazione future e ricorrenti.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Concedere l\'accesso</string>
   <string name="switch_on_text">Attivo</string>
@@ -673,10 +672,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Estendere fino a %1$s per %2$s</string>
   <string name="extended_upgrade_goodie_github">Ulteriori mesi %d sono concessi una volta agli utenti che già possiedono la Licenza Ampliata</string>
-  <string name="extended_upgrade_goodie_subscription">Gli utenti che possiedono già la Licenza Ampliata pagano 50%% del prezzo normale (%s) nel primo anno.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Gli utenti che possiedono già la Licenza Ampliata hanno diritto a una riduzione %1$d%% dal prezzo normale (%2$s) dell\'abbonamento annuale.</string>
-  <string name="switch_to_yearly">Passa all\'abbonamento annuale</string>
-  <string name="switch_to_monthly">Passa all\'abbonamento mensile</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Gli utenti che possiedono già la Licenza Ampliata pagano 50%% del prezzo normale (%s) nel primo anno.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Gli utenti che possiedono già la Licenza Ampliata hanno diritto a una riduzione %1$d%% dal prezzo normale (%2$s) dell\'abbonamento annuale.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Passa all\'abbonamento annuale</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Passa all\'abbonamento mensile</string>
   <string name="extend_validity">Estendere la validità</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Recupero dei dati dal back-end remoto. Questo potrebbe richiedere del tempo.</string>
   <string name="donate_button_invoice">Fattura</string>
@@ -742,7 +741,7 @@
   <string name="pref_ad_consent_title">Annunci personalizzati</string>
   <string name="ad_consent_non_personalized">Pubblicità non personalizzate</string>
   <string name="gdpr_consent_message">Collaboriamo con {ad_provider} per sostenere il supporto, la manutenzione e lo sviluppo di {app_name} mostrandoti gli annunci. Vorremmo chiedere il tuo consenso. Se preferisci non vedere alcuna pubblicità, ti preghiamo di pagare la versione senza pubblicità.</string>
-  <string name="gdpr_consent_button_yes">Sì, continua a vedere gli annunci</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sì, continua a vedere gli annunci</string>
   <string name="gdpr_consent_button_no">Paga per la versione senza pubblicità</string>
   <string name="sort_order">Ordinamento</string>
   <string name="navigation_drawer_accounts_title">Gestione dei conti</string>
@@ -825,7 +824,7 @@
   <string name="content_description_closed">Chiuso</string>
   <string name="warning_synced_account_cannot_be_closed">Un conto collegato al back-end di sincronizzazione non può essere chiuso</string>
   <string name="translated_by">Tradotto da</string>
-  <string name="warning_account_for_plan_is_closed">Il piano %s non può più essere istanziato perché il conto %s è stato chiuso.</string>
+  <string name="warning_account_for_plan_is_closed">Il piano %1$s non può più essere istanziato perché il conto %2$s è stato chiuso.</string>
   <string name="warning_no_account">Almeno un conto deve essere visibile e aperto per poter creare nuove transazioni.</string>
   <string name="content_description_dates_are_linked">Data di prenotazione e data di valuta vengono aggiornate insieme</string>
   <string name="content_description_dates_are_not_linked">Data di prenotazione e data di valuta non vengono aggiornate insieme</string>

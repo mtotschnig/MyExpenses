@@ -64,12 +64,7 @@ public enum ContribFeature {
     public String buildUsagesLefString(Context ctx, PrefHandler prefHandler) {
       int usagesLeft = usagesLeft(prefHandler);
       return usagesLeft > 0 ? ctx.getString(R.string.warning_auto_backup_limited_trial, usagesLeft) :
-          ctx.getString(R.string.warning_auto_backup_limit_reached);
-    }
-
-    @Override
-    public int getLimitReachedWarningResId() {
-      return R.string.warning_auto_backup_limit_reached;
+          getLimitReachedWarning(ctx);
     }
   },
   SYNCHRONIZATION(TrialMode.DURATION, EXTENDED),
@@ -209,8 +204,8 @@ public enum ContribFeature {
     return ctx.getResources().getIdentifier(name, "string", ctx.getPackageName());
   }
 
-  public int getLimitReachedWarningResId() {
-    return R.string.warning_trial_limit_reached;
+  public String getLimitReachedWarning(Context ctx) {
+    return ctx.getString(R.string.warning_trial_limit_reached, ctx.getString(getLabelResIdOrThrow(ctx)));
   }
 
   public CharSequence buildFullInfoString(Context ctx) {
@@ -229,11 +224,10 @@ public enum ContribFeature {
     } else if (trialMode == TrialMode.DURATION) {
       long now = System.currentTimeMillis();
       long endOfTrial = getEndOfTrial(now, prefHandler);
-      final String label = ctx.getString(getLabelResIdOrThrow(ctx));
       if (endOfTrial < now) {
-        return ctx.getString(R.string.warning_trial_limit_reached, label);
+        return getLimitReachedWarning(ctx);
       } else {
-        return ctx.getString(R.string.warning_limited_trial, label,
+        return ctx.getString(R.string.warning_limited_trial, ctx.getString(getLabelResIdOrThrow(ctx)),
             Utils.getDateFormatSafe(ctx).format(new Date(endOfTrial)));
       }
     }

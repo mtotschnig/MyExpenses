@@ -533,7 +533,6 @@
   <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
-  <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Zugriff gewähren</string>
   <string name="switch_on_text">An</string>
@@ -673,10 +672,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Verlängern bis %1$s für %2$s</string>
   <string name="extended_upgrade_goodie_github">Weitere %d Monate werden einmal für Benutzer gewährt, die bereits die Erweiterte Lizenz besitzen</string>
-  <string name="extended_upgrade_goodie_subscription">Benutzer, die bereits die erweiterte Lizenz besitzen, zahlen im ersten Jahr 50%% des regulären Preises (%s).</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Benutzer, die bereits die erweiterte Lizenz besitzen, haben Anspruch auf eine %1$d%%  Ermäßigung vom regulären Preis (%2$s) des Jahresabonnements.</string>
-  <string name="switch_to_yearly">Zum Jahresabo wechseln</string>
-  <string name="switch_to_monthly">Zum Monatsabo wechseln</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Benutzer, die bereits die erweiterte Lizenz besitzen, zahlen im ersten Jahr 50%% des regulären Preises (%s).</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Benutzer, die bereits die erweiterte Lizenz besitzen, haben Anspruch auf eine %1$d%%  Ermäßigung vom regulären Preis (%2$s) des Jahresabonnements.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Zum Jahresabo wechseln</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Zum Monatsabo wechseln</string>
   <string name="extend_validity">Gültigkeit verlängern</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Daten werden vom entfernten Backend geladen. Dies könnte eine Weile dauern.</string>
   <string name="donate_button_invoice">Rechnung</string>
@@ -742,7 +741,7 @@
   <string name="pref_ad_consent_title">Personalisierte Werbung</string>
   <string name="ad_consent_non_personalized">Nicht personalisierte Werbung</string>
   <string name="gdpr_consent_message">Wir arbeiten mit {ad_provider} zusammen, um den Support, die Wartung und die Entwicklung von {app_name} durch das Anzeigen von Werbung zu unterstützen. Wir möchten um Ihre Zustimmung bitten. Wenn Sie keine Anzeigen sehen möchten, zahlen Sie bitte für die werbefreie Version.</string>
-  <string name="gdpr_consent_button_yes">Ja, weiterhin Werbung anzeigen</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ja, weiterhin Werbung anzeigen</string>
   <string name="gdpr_consent_button_no">Für die werbefreie Version bezahlen</string>
   <string name="sort_order">Sortierreihenfolge</string>
   <string name="navigation_drawer_accounts_title">Konten verwalten</string>
@@ -825,7 +824,7 @@
   <string name="content_description_closed">Geschlossen</string>
   <string name="warning_synced_account_cannot_be_closed">Ein Konto, das mit einem Synchronisations-Backend verknüpft ist, kann nicht geschlossen werden</string>
   <string name="translated_by">Übersetzt von</string>
-  <string name="warning_account_for_plan_is_closed">Der Plan %s kann nicht mehr instanziiert werden, da das Konto %s geschlossen wurde.</string>
+  <string name="warning_account_for_plan_is_closed">Der Plan %1$s kann nicht mehr instanziiert werden, da das Konto %2$s geschlossen wurde.</string>
   <string name="warning_no_account">Mindestens ein Konto muss sichtbar und offen sein, um neue Buchungen erstellen zu können.</string>
   <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
   <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>

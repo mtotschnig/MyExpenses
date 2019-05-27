@@ -507,7 +507,6 @@
   <string name="pref_auto_backup_title">Включить авто-бэкап</string>
   <string name="pref_auto_backup_summary">Резервная копия базы данных ежедневно в указанное время (только если данные были изменены)</string>
   <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
-  <string name="warning_auto_backup_limit_reached">Был достигнут предел бесплатных резервных копий.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
   <string name="switch_on_text">ВКЛ</string>
@@ -594,8 +593,8 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продлите до %1$s за %2$s</string>
   <string name="extended_upgrade_goodie_github">Было предоставлено %d месяцев пользователям с действующей Расширенной лицензией</string>
-  <string name="switch_to_yearly">Переход на ежегодную подписку</string>
-  <string name="switch_to_monthly">Переход на ежемесячную подписку</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Переход на ежегодную подписку</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Переход на ежемесячную подписку</string>
   <string name="extend_validity">Продлить действительность</string>
   <string name="donate_button_invoice">Счёт-фактура</string>
   <string name="menu_sort_direction">Направление сортировки</string>

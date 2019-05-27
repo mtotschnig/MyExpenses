@@ -516,7 +516,6 @@
   <string name="pref_auto_backup_summary">Criar diariamente uma cópia de segurança da base de dados na hora especificada (apenas se os dados forem alterados).</string>
   <string name="pref_auto_backup_time_title">Hora da cópia de segurança automática</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Após %d cópias de segurança automáticas bem sucedidas, a cópia de segurança automática será desativada.</string>
-  <string name="warning_auto_backup_limit_reached">O limite de cópias de segurança automáticas bem sucedidas foi atingido.</string>
   <string name="calendar_permission_required">O <i>{app_name}</i> precisa de permissão para aceder ao seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Permitir acesso</string>
   <string name="switch_on_text">Ativar</string>

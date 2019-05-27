@@ -529,7 +529,6 @@
   <string name="pref_auto_backup_summary">Veritabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
   <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
-  <string name="warning_auto_backup_limit_reached">Başarılı otomatik yedeklemeler için sınıra erişildi.</string>
   <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>{app_name}</i>\'ın takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
   <string name="switch_on_text">Açık</string>
@@ -666,10 +665,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>
   <string name="extended_upgrade_goodie_github">%d ek ay bir defalık olmak üzere zaten Genişletilmiş Lisansa sahip olan kullanıcılara verilmiştir</string>
-  <string name="extended_upgrade_goodie_subscription">Genişletilmiş Lisansa zaten sahip olan kullanıcılar ilk sene normal fiyatın (%s) %%50\'sini öderler.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Genişletilmiş lisansa zaten sahip olan kullanıcıların, senelik aboneliğin normal fiyatından (%2$s) %%%1$d oranında tenzilata hakları vardır.</string>
-  <string name="switch_to_yearly">Senelik aboneliğe geç</string>
-  <string name="switch_to_monthly">Aylık aboneliğe geç</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Genişletilmiş Lisansa zaten sahip olan kullanıcılar ilk sene normal fiyatın (%s) %%50\'sini öderler.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Genişletilmiş lisansa zaten sahip olan kullanıcıların, senelik aboneliğin normal fiyatından (%2$s) %%%1$d oranında tenzilata hakları vardır.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Senelik aboneliğe geç</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Aylık aboneliğe geç</string>
   <string name="extend_validity">Geçerliliği uzat</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
   <string name="donate_button_invoice">Fatura</string>
@@ -735,7 +734,7 @@
   <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
   <string name="ad_consent_non_personalized">Kişiselleştirilmemiş reklamlar</string>
   <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
-  <string name="gdpr_consent_button_yes">Evet, reklam görmeye devam et</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Evet, reklam görmeye devam et</string>
   <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
   <string name="sort_order">Sıralama düzeni</string>
   <string name="navigation_drawer_accounts_title">Hesapları yönet</string>

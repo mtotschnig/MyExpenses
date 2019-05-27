@@ -545,7 +545,6 @@
   <string name="pref_auto_backup_summary">Резервне копіювання бази даних щодня в зазначений час (тільки якщо дані змінилися).</string>
   <string name="pref_auto_backup_time_title">Час автоматичного резервного копіювання</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Після %d успішних автоматичних резервних копіювань, автоматичне резервне копіювання буде деактивовано.</string>
-  <string name="warning_auto_backup_limit_reached">Досягнуто ліміту безкоштовних автоматичих резервних копій.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> потрібен дозвіл на доступ до вашого календаря, щоб створювати плани для майбутніх та повторюваних операцій.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Надати дозвіл</string>
   <string name="switch_on_text">Ввімкнено</string>
@@ -685,10 +684,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продовжити до %1$s для %2$s</string>
   <string name="extended_upgrade_goodie_github">%d додаткових місяців надається користувачам, що вже мають Розширену ліцензію</string>
-  <string name="extended_upgrade_goodie_subscription">Користувачі, що вже мають Розширену ліцензію, платять 50%% звичайної ціни (%s) протягом першого року.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Користувачі, що вже мають Розширену ліцензію, мають право на знижку %1$d%% від звичайної вартості (%2$s) щорічної підписки.</string>
-  <string name="switch_to_yearly">Перейти до щорічної підписки</string>
-  <string name="switch_to_monthly">Перейти до щомісячної підписки</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Користувачі, що вже мають Розширену ліцензію, платять 50%% звичайної ціни (%s) протягом першого року.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Користувачі, що вже мають Розширену ліцензію, мають право на знижку %1$d%% від звичайної вартості (%2$s) щорічної підписки.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Перейти до щорічної підписки</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Перейти до щомісячної підписки</string>
   <string name="extend_validity">Подовжити термін дії</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Отримання даних з віддаленого сервера. Це може зайняти деякий час.</string>
   <string name="donate_button_invoice">Рахунок (інвойс)</string>
@@ -758,7 +757,7 @@
   <string name="pref_ad_consent_title">Персоналізована реклама</string>
   <string name="ad_consent_non_personalized">Неперсоналізована реклама</string>
   <string name="gdpr_consent_message">Ми співпрацюємо з {ad_provider}, щоб продовжувати підтримку, розробку та розвиток {app_name}, показуючи Вам рекламу. Ми хотіли б попросити про Вашу згоду. Якщо Ви не бажаєте бачити рекламу, будь ласка, сплатіть за версію без реклами.</string>
-  <string name="gdpr_consent_button_yes">Так, продовжити переглядати рекламу</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Так, продовжити переглядати рекламу</string>
   <string name="gdpr_consent_button_no">Сплатити за версію без реклами</string>
   <string name="sort_order">Порядок сортування</string>
   <string name="navigation_drawer_accounts_title">Керувати рахунками</string>

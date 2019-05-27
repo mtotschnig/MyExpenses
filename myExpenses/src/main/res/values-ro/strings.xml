@@ -464,7 +464,6 @@
   <string name="pref_auto_backup_title">Activează auto-backup</string>
   <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
-  <string name="warning_auto_backup_limit_reached">Limita pentru backup-uri automate free a fost atinsa</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Acordare acces</string>
   <string name="switch_on_text">Activat</string>
   <string name="switch_off_text">Dezactivat</string>

@@ -521,7 +521,6 @@
   <string name="pref_auto_backup_summary">Sandar pangkalan data harian pada masa yang ditetapkan (hanya jika data telah berubah).</string>
   <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
-  <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Beri capaian</string>
   <string name="switch_on_text">Dihidupkan</string>
@@ -660,10 +659,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Dilanjutkan sehingga %1$s untuk %2$s</string>
   <string name="extended_upgrade_goodie_github">%d bulan tambahan diberi sebaik sahaja pengguna sudah memiliki Lesen Lanjutannya sendiri</string>
-  <string name="extended_upgrade_goodie_subscription">Pengguna yang sudah memiliki Lesen Lanjutan boleh membaya 50%% dari harga asal (%s) pada tahun pertama.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Pengguna yang sudah memiliki Lesen Lanjutan layak mendapat%1$dpengurangan %% dari harga biasa (%2$s) langganan tahunan.</string>
-  <string name="switch_to_yearly">Bertukar ke langganan tahunan</string>
-  <string name="switch_to_monthly">Bertukar ke langganan bulanan</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Pengguna yang sudah memiliki Lesen Lanjutan boleh membaya 50%% dari harga asal (%s) pada tahun pertama.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Pengguna yang sudah memiliki Lesen Lanjutan layak mendapat%1$dpengurangan %% dari harga biasa (%2$s) langganan tahunan.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Bertukar ke langganan tahunan</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Bertukar ke langganan bulanan</string>
   <string name="extend_validity">Lanjutkan pengesahan</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Mendapatkan data dari bahagian belakang jauh. Ia mengambil sedikit masa.</string>
   <string name="donate_button_invoice">Invois</string>
@@ -727,7 +726,7 @@
   <string name="pref_ad_consent_title">Iklan peribadi</string>
   <string name="ad_consent_non_personalized">Iklan bukan-peribadi</string>
   <string name="gdpr_consent_message">Kami bekerjasama dengan {ad_provider} untuk memastikan kelangsungan sokongan, penyelenggaraan dan pembangunan {app_name} dengan memaparkan iklan kepada anda. Oleh itu kami mahukan keizinan anda. Jika anda tidak mahu iklan, sila beli versi bebas iklan.</string>
-  <string name="gdpr_consent_button_yes">Ya, teruskan melihat iklan</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ya, teruskan melihat iklan</string>
   <string name="gdpr_consent_button_no">Beli untuk versi tanpa-iklan</string>
   <string name="sort_order">Tertib isih</string>
   <string name="navigation_drawer_accounts_title">Urus akaun</string>

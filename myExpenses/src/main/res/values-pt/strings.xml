@@ -529,7 +529,6 @@
   <string name="pref_auto_backup_summary">Efetuar o backup do banco de dados diariamente, no horário especificado (apenas se os dados foram alterados).</string>
   <string name="pref_auto_backup_time_title">Horário do backup automático</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Após %d backups automáticos bem sucedidos, o backup automático será desativado.</string>
-  <string name="warning_auto_backup_limit_reached">O limite de backups automáticos gratuitos foi atingido.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> precisa de permissão para acessar sua agenda, à fim de criar planos para transações futuras e recorrentes.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Conceder acesso</string>
   <string name="switch_on_text">On</string>
@@ -668,10 +667,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Estenda até %1$s por %2$s</string>
   <string name="extended_upgrade_goodie_github">Serão concedidos %d meses adicionais aos usuários que já possuam a Licença Estendida</string>
-  <string name="extended_upgrade_goodie_subscription">Os usuários que já possuam a Licença Estendida pagam 50%% do preço normal (%s) no primeiro ano.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Usuários que já possuam a Licença Estendida são beneficiados com uma redução de %1$d%% do preço normal (%2$s) na assinatura anual.</string>
-  <string name="switch_to_yearly">Mudar para assinatura anual</string>
-  <string name="switch_to_monthly">Mudar para assinatura mensal</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Os usuários que já possuam a Licença Estendida pagam 50%% do preço normal (%s) no primeiro ano.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Usuários que já possuam a Licença Estendida são beneficiados com uma redução de %1$d%% do preço normal (%2$s) na assinatura anual.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Mudar para assinatura anual</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Mudar para assinatura mensal</string>
   <string name="extend_validity">Estender a validade</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do servidor remoto. Isso pode demorar algum tempo.</string>
   <string name="donate_button_invoice">Fatura</string>
@@ -737,7 +736,7 @@
   <string name="pref_ad_consent_title">Anúncios personalizados</string>
   <string name="ad_consent_non_personalized">Anúncios não personalizados</string>
   <string name="gdpr_consent_message">Nós temos parceria com {ad_provider} à fim de sustentar o suporte, a manutenção e o desenvolvimento de {app_name}, exibindo propagandas. Nós gostaríamos de pedir o seu consentimento para isso. Caso prefira não ver nenhum anúncio, por favor, pague pela versão sem propagandas.</string>
-  <string name="gdpr_consent_button_yes">Sim, continuar vendo anúncios</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sim, continuar vendo anúncios</string>
   <string name="gdpr_consent_button_no">Pagar pela versão sem anúncios</string>
   <string name="sort_order">Ordem de classificação</string>
   <string name="navigation_drawer_accounts_title">Gerenciar contas</string>

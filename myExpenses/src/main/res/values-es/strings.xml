@@ -533,7 +533,6 @@
   <string name="pref_auto_backup_summary">Copia de seguridad diaria a una hora determinada (sólo si hay cambios).</string>
   <string name="pref_auto_backup_time_title">Hora para la copia de seguridad automática</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Después de %d copias de seguridad automáticas realizadas con éxito, las copias de seguridad automática serán desactivadas.</string>
-  <string name="warning_auto_backup_limit_reached">Se ha alcanzado el límite para realizar copias de seguridad con éxito de forma gratuita.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> necesita permiso para acceder a su calendario, con el fin de crear proyectos para futuras transacciones y transacciones recurrentes.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Otorgar acceso</string>
   <string name="switch_on_text">Activado</string>
@@ -673,10 +672,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Extendida hasta %1$s por %2$s</string>
   <string name="extended_upgrade_goodie_github">Se han añadido %d meses adicionales a los usuarios que ya tuvieran una licencia Extendida.</string>
-  <string name="extended_upgrade_goodie_subscription">Para los usuarios que ya posean una licencia Extendida, se aplicará un 50%% del precio normal (%s) durante el primer año.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Los usuarios que actualmente posean una Licencia Extendida, también disponen de un %1$d%% de descuento para el precio (%2$s) de la suscripción anual.</string>
-  <string name="switch_to_yearly">Cambiar a suscripción anual</string>
-  <string name="switch_to_monthly">Cambiar a suscripción mensual</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Para los usuarios que ya posean una licencia Extendida, se aplicará un 50%% del precio normal (%s) durante el primer año.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Los usuarios que actualmente posean una Licencia Extendida, también disponen de un %1$d%% de descuento para el precio (%2$s) de la suscripción anual.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Cambiar a suscripción anual</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Cambiar a suscripción mensual</string>
   <string name="extend_validity">Extender validez</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Adjuntando información desde el servicio remoto. Esto puede llevar algún tiempo.</string>
   <string name="donate_button_invoice">Factura</string>
@@ -742,7 +741,7 @@
   <string name="pref_ad_consent_title">Publicidad personalizada</string>
   <string name="ad_consent_non_personalized">Anuncios no personalizados</string>
   <string name="gdpr_consent_message">Con la intención de continuar con el soporte, mantenimiento y desarrollo de {app_name}, nos hemos asociado con {ad_provider} para mostrar publicidad. Nos gustaría pedirle su consentimiento. Si prefiere no tener ningún tipo de publicidad, por favor, adquiera la versión de pago.</string>
-  <string name="gdpr_consent_button_yes">Sí, continuar viendo publicidad</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sí, continuar viendo publicidad</string>
   <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
   <string name="sort_order">Orden de clasificación</string>
   <string name="navigation_drawer_accounts_title">Administrar cuentas</string>
@@ -825,7 +824,7 @@
   <string name="content_description_closed">Cerrada</string>
   <string name="warning_synced_account_cannot_be_closed">No se pudo cerrar una cuenta ligada al servicio de sincronización</string>
   <string name="translated_by">Traducido por</string>
-  <string name="warning_account_for_plan_is_closed">El plan %s no puede seguir instanciándose porque la cuenta %s ha sido cerrada.</string>
+  <string name="warning_account_for_plan_is_closed">El plan %1$s no puede seguir instanciándose porque la cuenta %2$s ha sido cerrada.</string>
   <string name="warning_no_account">Al menos una cuenta tiene que estar visible y abierta para poder crear nuevas transacciones.</string>
   <string name="content_description_dates_are_linked">Las fechas de reserva y su valor se actualizan de forma conjunta</string>
   <string name="content_description_dates_are_not_linked">Las fechas de reserva y su valor no se actualizan de forma conjunta</string>

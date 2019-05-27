@@ -524,7 +524,6 @@
   <string name="pref_auto_backup_summary">Sao lưu cơ sở dữ liệu tại một thời điểm nhất định (nếu dữ liệu có sự thay đổi).</string>
   <string name="pref_auto_backup_time_title">Thời điểm tự động sao lưu</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Sau %d lần sao lưu tự động thành công, chức năng tự sao lưu sẽ bị vô hiệu hoá</string>
-  <string name="warning_auto_backup_limit_reached">Đã đạt giới hạn số lần sao lưu tự động miễn phí.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> cần sự cho phép của bạn để truy cập vào lịch, từ đó tạo các kế hoạch cho giao dịch trong tương lai và giao dịch lặp lại.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Cấp phép truy cập</string>
   <string name="switch_on_text">Bật</string>
@@ -662,10 +661,10 @@
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Mở rộng cho tới %1$s trong %2$s</string>
   <string name="extended_upgrade_goodie_github">Thêm %d tháng nữa. bạn sẽ được tiếp tục sử dụng bản quyền Mở rộng</string>
-  <string name="extended_upgrade_goodie_subscription">Người dùng đã sở hữu bản quyền Mở rộng trả 50%% giá gốc (%s) trong năm đầu tiên.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon">Người dùng đã sở hữu bản quyền Mở rộng được miễn %1$d%% so với giá gốc (%2$s) của suất đăng ký hàng năm.</string>
-  <string name="switch_to_yearly">Chuyển sang trả theo năm</string>
-  <string name="switch_to_monthly">Chuyển sang trả theo tháng</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Người dùng đã sở hữu bản quyền Mở rộng trả 50%% giá gốc (%s) trong năm đầu tiên.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Người dùng đã sở hữu bản quyền Mở rộng được miễn %1$d%% so với giá gốc (%2$s) của suất đăng ký hàng năm.</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Chuyển sang trả theo năm</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Chuyển sang trả theo tháng</string>
   <string name="extend_validity">Gia hạn tính hợp lệ</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Đang lấy dữ liệu từ backend từ xa. Điều này có thể mất một lúc.</string>
   <string name="donate_button_invoice">Hoá đơn</string>
@@ -721,7 +720,7 @@
   <string name="pref_category_title_privacy">Riêng tư</string>
   <string name="pref_ad_consent_title">Quảng cáo được tuỳ biến</string>
   <string name="ad_consent_non_personalized">Quảng cáo không được cá nhân hóa</string>
-  <string name="gdpr_consent_button_yes">OK, sống chung với quảng cáo</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">OK, sống chung với quảng cáo</string>
   <string name="gdpr_consent_button_no">Mua bản không quảng cáo</string>
   <string name="sort_order">Thứ tự sắp xếp</string>
   <string name="navigation_drawer_accounts_title">Quản lý tài khoản</string>
