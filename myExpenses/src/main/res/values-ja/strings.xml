@@ -814,4 +814,9 @@
   <string name="content_description_closed">閉じています</string>
   <string name="warning_synced_account_cannot_be_closed">同期バックエンドにリンクされている勘定は閉じられません</string>
   <string name="translated_by">翻訳者</string>
+  <string name="warning_account_for_plan_is_closed">計画 %s をインスタンス化できなくなりました。勘定 %s が閉鎖されたため。</string>
+  <string name="warning_no_account">新しい取引を作成するには、少なくとも1つ勘定が表示可能で、開始されいている必要があります。</string>
+  <string name="content_description_dates_are_linked">予約日と約定日は一緒に更新されます</string>
+  <string name="content_description_dates_are_not_linked">予約日と約定日は一緒に更新されません</string>
+  <string name="icon">アイコン</string>
 </resources>

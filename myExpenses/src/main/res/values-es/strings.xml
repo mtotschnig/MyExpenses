@@ -825,4 +825,9 @@
   <string name="content_description_closed">Cerrada</string>
   <string name="warning_synced_account_cannot_be_closed">No se pudo cerrar una cuenta ligada al servicio de sincronización</string>
   <string name="translated_by">Traducido por</string>
+  <string name="warning_account_for_plan_is_closed">El plan %s no puede seguir instanciándose porque la cuenta %s ha sido cerrada.</string>
+  <string name="warning_no_account">Al menos una cuenta tiene que estar visible y abierta para poder crear nuevas transacciones.</string>
+  <string name="content_description_dates_are_linked">Las fechas de reserva y su valor se actualizan de forma conjunta</string>
+  <string name="content_description_dates_are_not_linked">Las fechas de reserva y su valor no se actualizan de forma conjunta</string>
+  <string name="icon">Icono</string>
 </resources>

@@ -849,4 +849,9 @@
   <string name="content_description_closed">סגור</string>
   <string name="warning_synced_account_cannot_be_closed">לא ניתן לסגור חשבון שמקושר לסנכרון אחורי</string>
   <string name="translated_by">המתרגם</string>
+  <string name="warning_account_for_plan_is_closed">לא ניתן עוד ליצור את התוכנית %sכי החשבון %sנסגר.</string>
+  <string name="warning_no_account">לפחות חשבון אחד חייב להיות גלוי ופתוח כדי ליצור עסקאות חדשות.</string>
+  <string name="content_description_dates_are_linked">תאריך ההזמנה ותאריך הערך מתעדכנים יחד</string>
+  <string name="content_description_dates_are_not_linked">תאריך ההזמנה ותאריך הערך אינם מעודכנים יחד</string>
+  <string name="icon">סמל</string>
 </resources>

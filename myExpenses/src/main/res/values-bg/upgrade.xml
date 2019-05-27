@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_302">
+        <item>Икони за категориите</item>
+    </string-array>
     <string-array name="whats_new_301">
         <item>Сметките могат да бъдат затворени и/или скрити.</item>
     </string-array>

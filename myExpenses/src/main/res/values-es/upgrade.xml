@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_302">
+        <item>Iconos por categorías</item>
+    </string-array>
     <string-array name="whats_new_301">
         <item>Se pueden cerrar y/o ocultar las cuentas</item>
     </string-array>

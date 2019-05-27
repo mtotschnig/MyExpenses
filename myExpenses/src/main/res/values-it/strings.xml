@@ -728,11 +728,11 @@
   <string name="split_transaction_group_error">Impossibile raggruppare le operazioni in operazione frazionata.</string>
   <string name="split_transaction_not_possible">Solo le transazioni con lo stesso conto, beneficiario e stato possono essere raggruppate in una operazione frazionata.</string>
   <string name="pref_transaction_time_summary">Consentire di impostare il tempo di transazione esatto.</string>
-  <string name="pref_value_date_summary">Consentire di impostare la data del valore in aggiunta alla data di prenotazione. Il tempo di transazione sarà nascosto. Questa impostazione non è applicata ai conti di cassa.</string>
+  <string name="pref_value_date_summary">Consentire di impostare la data di valuta in aggiunta alla data di prenotazione. Il tempo di transazione sarà nascosto. Questa impostazione non è applicata ai conti di cassa.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <string name="booking_date">Data di prenotazione</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="value_date">Data del valore</string>
+  <string name="value_date">Data di valuta</string>
   <string name="licence_expires_n_days">La tua chiave professionale scadrà tra %d giorni</string>
   <string name="licence_expires_tomorrow">La tua chiave professionale scadrà domani</string>
   <string name="licence_expires_today">La tua chiave professionale scade oggi</string>
@@ -825,4 +825,9 @@
   <string name="content_description_closed">Chiuso</string>
   <string name="warning_synced_account_cannot_be_closed">Un conto collegato al back-end di sincronizzazione non può essere chiuso</string>
   <string name="translated_by">Tradotto da</string>
+  <string name="warning_account_for_plan_is_closed">Il piano %s non può più essere istanziato perché il conto %s è stato chiuso.</string>
+  <string name="warning_no_account">Almeno un conto deve essere visibile e aperto per poter creare nuove transazioni.</string>
+  <string name="content_description_dates_are_linked">Data di prenotazione e data di valuta vengono aggiornate insieme</string>
+  <string name="content_description_dates_are_not_linked">Data di prenotazione e data di valuta non vengono aggiornate insieme</string>
+  <string name="icon">Icona</string>
 </resources>
