@@ -268,7 +268,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     menu.findItem(R.id.MOVE_COMMAND).setVisible(false);
   }
 
-  protected void doSelection(long cat_id, String label, boolean isMain) {
+  protected void doSelection(long cat_id, String label, boolean icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
         mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());

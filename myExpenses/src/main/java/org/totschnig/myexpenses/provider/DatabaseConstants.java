@@ -363,6 +363,14 @@ public class DatabaseConstants {
           " ELSE null" +
           " END AS " + KEY_TRANSFER_AMOUNT;
 
+  public static final String CATEGORY_ICON =
+      "CASE WHEN " +
+          "  " + KEY_CATID + " " +
+          " THEN " +
+          "  (SELECT " + KEY_ICON + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+          " ELSE null" +
+          " END AS " + KEY_ICON;
+
   public static final Long SPLIT_CATID = 0L;
 
   public static final String WHERE_NOT_SPLIT =

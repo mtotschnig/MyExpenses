@@ -165,6 +165,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
@@ -293,6 +294,8 @@ public class ExpenseEdit extends AmountActivity implements
   Long mTransferAccountId;
   @State
   String mLabel;
+  @State
+  String categoryIcon;
   @State
   Uri mPictureUri;
   @State
@@ -1380,7 +1383,8 @@ public class ExpenseEdit extends AmountActivity implements
     if (requestCode == SELECT_CATEGORY_REQUEST && intent != null) {
       mCatId = intent.getLongExtra(KEY_CATID, 0);
       mLabel = intent.getStringExtra(KEY_LABEL);
-      mCategoryButton.setText(mLabel);
+      categoryIcon = intent.getStringExtra(KEY_ICON);
+      setCategoryButton();
       setDirty();
     }
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -1515,6 +1519,9 @@ public class ExpenseEdit extends AmountActivity implements
     if (mLabel != null && mLabel.length() != 0) {
       mCategoryButton.setText(mLabel);
       clearCategoryButton.setVisibility(View.VISIBLE);
+      if (categoryIcon != null) {
+        UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(mCategoryButton, UiUtils.resolveIcon(this, categoryIcon), 0, 0, 0);
+      }
     } else {
       mCategoryButton.setText(R.string.select);
       clearCategoryButton.setVisibility(View.GONE);
@@ -1525,7 +1532,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (!(methodId == AdapterView.INVALID_ROW_ID || methodId <= 0)) {
+    if (methodId > 0) {
       mMethodId = methodId;
     }
     if (didUserSetAccount) {
@@ -1626,6 +1633,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (mCatId == null) {
           mCatId = mTransaction.getCatId();
           mLabel = mTransaction.getLabel();
+          categoryIcon = mTransaction.getCategoryIcon();
         }
         if (mMethodId == null) {
           mMethodId = mTransaction.getMethodId();

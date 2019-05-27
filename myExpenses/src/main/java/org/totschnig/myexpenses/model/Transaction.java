@@ -59,6 +59,7 @@ import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
@@ -73,6 +74,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -152,6 +154,7 @@ public class Transaction extends Model {
   private String methodLabel = "";
   private Long parentId = null;
   private Long payeeId = null;
+  private String categoryIcon = null;
 
   transient private Pair<Plan.Recurrence, LocalDate> initialPlan;
 
@@ -361,6 +364,14 @@ public class Transaction extends Model {
     this.crStatus = crStatus;
   }
 
+  public String getCategoryIcon() {
+    return categoryIcon;
+  }
+
+  public void setCategoryIcon(String categoryIcon) {
+    this.categoryIcon = categoryIcon;
+  }
+
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, "V");
     public int color;
@@ -422,7 +433,7 @@ public class Transaction extends Model {
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
-        KEY_EQUIVALENT_AMOUNT};
+        KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON};
 
     Cursor c = cr().query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -452,12 +463,13 @@ public class Transaction extends Model {
         t = new SplitTransaction(account_id, money);
       } else {
         t = new Transaction(account_id, money, parent_id);
+        t.setCategoryIcon(c.getString(c.getColumnIndexOrThrow(KEY_ICON)));
       }
     }
     try {
-      t.crStatus = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
+      t.setCrStatus(CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS))));
     } catch (IllegalArgumentException ex) {
-      t.crStatus = CrStatus.UNRECONCILED;
+      t.setCrStatus(CrStatus.UNRECONCILED);
     }
     t.setMethodId(getLongOrNull(c, KEY_METHODID));
     t.setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));

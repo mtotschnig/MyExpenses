@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.UiUtils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 
@@ -64,7 +65,7 @@ public class SimpleIconDialog extends SimpleRVDialog<SimpleIconDialog> {
     final String item = ((IconAdapter) getAdapter()).getItem(selectedPosition);
     Bundle result = new Bundle(2);
     result.putString(KEY_ICON, item);
-    result.putInt(KEY_RESID, resolveIcon(item));
+    result.putInt(KEY_RESID, UiUtils.resolveIcon(getContext(), item));
     return result;
   }
 
@@ -85,7 +86,7 @@ public class SimpleIconDialog extends SimpleRVDialog<SimpleIconDialog> {
     @Override
     public void onBindViewHolder(@NonNull IconViewHolder iconViewHolder, int position) {
       super.onBindViewHolder(iconViewHolder, position);
-      ((ImageView) iconViewHolder.itemView).setImageResource(resolveIcon(getItem(position)));
+      ((ImageView) iconViewHolder.itemView).setImageResource(UiUtils.resolveIcon(getContext(), getItem(position)));
     }
 
     @Override
@@ -96,10 +97,6 @@ public class SimpleIconDialog extends SimpleRVDialog<SimpleIconDialog> {
     public String getItem(int position) {
       return data[position];
     }
-  }
-
-  private int resolveIcon(String icon) {
-    return getContext().getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
   }
 
   private class IconViewHolder extends RecyclerView.ViewHolder {

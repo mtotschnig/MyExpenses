@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -121,5 +122,17 @@ public class UiUtils {
 
   public static int dp2Px(float dp, Resources resources) {
     return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+  }
+
+  public static int resolveIcon(Context context, String resourceName) {
+    return context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
+  }
+
+  public static void setCompoundDrawablesCompatWithIntrinsicBounds(TextView textView, int start, int top, int end, int bottom) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      textView.setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end,bottom);
+    } else {
+      textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end,bottom);
+    }
   }
 }

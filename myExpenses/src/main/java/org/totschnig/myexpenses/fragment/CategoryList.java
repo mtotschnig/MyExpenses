@@ -370,7 +370,7 @@ public class CategoryList extends SortableListFragment {
         if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
           label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
         }
-        doSelection(elcmi.id, label, isMain);
+        doSelection(elcmi.id, label, mAdapter.getChild(group, child).icon, isMain);
         finishActionMode();
         return true;
       case R.id.CREATE_COMMAND:
@@ -463,7 +463,7 @@ public class CategoryList extends SortableListFragment {
     if (action.equals(ACTION_SELECT_MAPPING)) {
       label = mAdapter.getGroup(groupPosition).label + TransactionList.CATEGORY_SEPARATOR + label;
     }
-    doSelection(id, label, false);
+    doSelection(id, label, mAdapter.getChild(groupPosition, childPosition).icon, false);
     return true;
   }
 
@@ -480,15 +480,16 @@ public class CategoryList extends SortableListFragment {
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    doSelection(id, label, true);
+    doSelection(id, label, mAdapter.getGroup(groupPosition).icon, true);
     return true;
   }
 
-  protected void doSelection(long cat_id, String label, boolean isMain) {
+  protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     Activity ctx = getActivity();
     Intent intent = new Intent();
     intent.putExtra(KEY_CATID, cat_id);
     intent.putExtra(KEY_LABEL, label);
+    intent.putExtra(KEY_ICON, icon);
     ctx.setResult(RESULT_OK, intent);
     ctx.finish();
   }

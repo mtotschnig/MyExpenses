@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -211,11 +211,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           textView.setLayoutParams(layoutParams);
           textView.setCompoundDrawablePadding(drawablePadding);
           textView.setText(iconLines.get(i));
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(ar.getResourceId(i, 0), 0, 0, 0);
-          } else {
-            textView.setCompoundDrawablesWithIntrinsicBounds(ar.getResourceId(i, 0), 0, 0, 0);
-          }
+          UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(textView, ar.getResourceId(i, 0), 0, 0, 0);
           iconContainer.addView(textView);
         }
         ar.recycle();
@@ -292,7 +288,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
             SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
-    }  else if (key.equals(TRACKING.getKey())) {
+    } else if (key.equals(TRACKING.getKey())) {
       setTrackingEnabled(sharedPreferences.getBoolean(key, false));
     }
   }
