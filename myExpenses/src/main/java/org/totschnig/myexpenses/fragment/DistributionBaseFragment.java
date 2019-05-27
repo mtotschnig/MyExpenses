@@ -35,6 +35,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MIN_VALUE;
@@ -357,14 +358,15 @@ public abstract class DistributionBaseFragment extends CategoryList {
     //we need to include transactions mapped to children for main categories
     catFilter += " AND " + CATTREE_WHERE_CLAUSE;
     String extraColumn = getExtraColumn();
-    String[] projection = new String[extraColumn == null ? 5 : 6];
+    String[] projection = new String[extraColumn == null ? 6 : 7];
     projection[0] = KEY_ROWID;
     projection[1] = KEY_PARENTID;
     projection[2] = KEY_LABEL;
     projection[3] = KEY_COLOR;
     projection[4] = "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM;
+    projection[5] = KEY_ICON;
     if (extraColumn != null) {
-      projection[5] = extraColumn;
+      projection[6] = extraColumn;
     }
     selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
     return briteContentResolver.createQuery(getCategoriesUri(),
