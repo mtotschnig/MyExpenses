@@ -153,6 +153,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     if (item.sum != null && currency != null) {
       holder.amount.setText(currencyFormatter.convAmount(item.sum, currency));
     }
+    holder.icon.setImageResource(icon != null ? context.getResources().getIdentifier(icon, "drawable", context.getPackageName()) : 0);
     return convertView;
   }
 
@@ -237,6 +238,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     @BindView(R.id.label) TextView label;
     @BindView(R.id.amount) TextView amount;
     @BindView(R.id.explist_indicator) ImageView groupIndicator;
+    @BindView(R.id.category_icon) ImageView icon;
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
     }
