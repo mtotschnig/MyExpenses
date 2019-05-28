@@ -277,7 +277,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         mAdapter.setAccount(mAccount);
       }
       if (mListView.getAdapter() == null) {
-        mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false));
+        mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false), null, false);
         mListView.setAdapter(mAdapter);
       }
     }
