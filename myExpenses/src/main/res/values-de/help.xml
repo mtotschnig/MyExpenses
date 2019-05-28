@@ -75,6 +75,7 @@
   <string name="form_account_help_text">Wählen Sie das Konto, zu dem die Buchung gehört.</string>
   <string name="form_date_time_help_text">Geben Sie die Datum und Zeit an, wann die Buchung stattgefunden hat.</string>
   <string name="form_date_time_help_text_configuration">In den Einstellungen können Sie die Zeiteingabe deaktivieren und die Unterscheidung zwischen Buchungsdatum und Wertstellung aktivieren.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Wenn der <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\"> Umschalteknopf sich im verknüpften Zustand befindet, wird beim Setzen von Wertstellungsdatum oder Buchungsdatum auch das jeweilige andere Datum aktualisiert.]]></string>
   <string name="form_payer_or_payee_help_text">Dieses Feld merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor.</string>
   <string name="form_amount_switch_help_text">Verwenden Sie den Schalter, um zwischen Ausgabe und Einnahme umzuschalten</string>
   <string name="form_calculator_help_text"><![CDATA[Die <img src=\"?calcIcon\"> Schaltfläche öffnet den Taschenrechner.]]></string>

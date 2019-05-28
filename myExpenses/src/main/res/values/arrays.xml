@@ -357,6 +357,7 @@
     <string-array name="form_date_time_help_text" tools:ignore="UnusedResources">
         <item>form_date_time_help_text</item>
         <item>form_date_time_help_text_configuration</item>
+        <item>form_date_time_help_text_link</item>
     </string-array>
     <string-array name="menu_NavigationDrawer_sort_help_text" tools:ignore="UnusedResources">
         <item>menu_NavigationDrawer_sort_help_text</item>

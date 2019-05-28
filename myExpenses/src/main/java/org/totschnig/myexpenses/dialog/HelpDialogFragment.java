@@ -402,8 +402,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     int resId;
     Resources.Theme theme = getActivity().getTheme();
     try {
+      //Keeping the legacy attribute reference in order to not have to update all translations, where
+      //it appears
       if (name.startsWith("?")) {
         name = name.substring(1);
+        //noinspection SwitchStatementWithTooFewBranches
         switch (name) {
           case "calcIcon":
             resId = R.drawable.ic_action_equal;

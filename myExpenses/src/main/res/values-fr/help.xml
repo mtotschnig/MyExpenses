@@ -76,6 +76,7 @@
   <string name="form_account_help_text">Sélectionnez le compte auquel appartient l\'opération.</string>
   <string name="form_date_time_help_text">Entrez la date et l\'heure auxquelles l\'opération a eu lieu.</string>
   <string name="form_date_time_help_text_configuration">Dans les paramètres, vous pouvez désactiver la saisie de l\'heure et activer la différenciation entre la date d\'enregistrement et la date de valeur.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Si la bascule <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> est dans son état lié, définir la date de valeur ou la date de réservation mettra également à jour l’autre date.]]></string>
   <string name="form_payer_or_payee_help_text">Ce champ se souvient des valeurs que vous avez entré et vous les proposera à l\'avenir.</string>
   <string name="form_amount_switch_help_text">Utilisez le commutateur pour basculer entre dépenses et revenus.</string>
   <string name="form_calculator_help_text"><![CDATA[Le <img src=\"?calcIcon\"> bouton permettant d\'ouvrir la calculatrice.]]></string>
