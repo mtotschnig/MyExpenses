@@ -75,6 +75,7 @@
   <string name="form_account_help_text">Selezionare il conto a cui appartiene l\'operazione.</string>
   <string name="form_date_time_help_text">Inserisci la data e l\'ora in cui la transazione ha avuto luogo.</string>
   <string name="form_date_time_help_text_configuration">Nelle impostazioni puoi disabilitare l\'immissione dell\'ora, e abilitare la differenziazione fra data di prenotazione e data di valuta.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Se il pulsante <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\"> è in modalità di collegamento, impostare la data di valuta o la data di prenotazione aggiornerà anche l\'altra data.]]></string>
   <string name="form_payer_or_payee_help_text">Questo campo ricorda i valori che inserisci e te li suggerirà in futuro.</string>
   <string name="form_amount_switch_help_text">Utilizzare l\'interruttore per alternare tra spese e proventi.</string>
   <string name="form_calculator_help_text"><![CDATA[il <img src=\"?calcIcon\"> pulsante apre la calcolatrice.]]></string>

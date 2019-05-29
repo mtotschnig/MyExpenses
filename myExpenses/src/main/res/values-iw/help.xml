@@ -75,6 +75,7 @@
   <string name="form_account_help_text">בחר בחשבון שאליו משתייכת העסקה.</string>
   <string name="form_date_time_help_text">הזן את התאריך והשעה שבהם בוצעה העסקה.</string>
   <string name="form_date_time_help_text_configuration">בהגדרות ניתן להשבית את קלט הזמן ולאפשר את ההבחנה בין תאריך ההזמנה לבין תאריך הערך.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[אם <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\">toggle במצב  מקושר, הגדרת תאריך ערך או תאריך ההזמנה תעדכן את התאריך השני.]]></string>
   <string name="form_payer_or_payee_help_text">שדה זה זוכר את הערכים שהזנת ויציע אותם בעתיד.</string>
   <string name="form_amount_switch_help_text">השתמש במתג כדי לעבור בין הוצאה להכנסה.</string>
   <string name="form_calculator_help_text"><![CDATA[כפתור <img src=\"?calcIcon\"> פותח את המחשבון.]]></string>
