@@ -32,7 +32,7 @@ public abstract class AdHandler {
   protected AdHandler(AdHandlerFactory factory, ViewGroup adContainer) {
     this.factory = factory;
     this.adContainer = adContainer;
-    this.context = adContainer.getContext();
+    this.context = adContainer.getContext().getApplicationContext();
     ((MyApplication) context.getApplicationContext()).getAppComponent().inject(this);
   }
 
