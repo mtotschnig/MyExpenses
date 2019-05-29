@@ -33,7 +33,7 @@ public abstract class AdHandler {
     this.factory = factory;
     this.adContainer = adContainer;
     this.context = adContainer.getContext().getApplicationContext();
-    ((MyApplication) context.getApplicationContext()).getAppComponent().inject(this);
+    ((MyApplication) context).getAppComponent().inject(this);
   }
 
   public abstract void init();
