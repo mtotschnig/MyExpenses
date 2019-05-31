@@ -68,7 +68,7 @@
   <string name="dialog_contrib_no">Non ancora</string>
   <string name="dialog_contrib_no_usages_left">Hai terminato i tuoi usi gratuiti.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s è una funzionalità speciale (%2$s).</string>
+  <string name="dialog_contrib_premium_feature">%1$s è una funzionalità premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione e accedere ad altre funzionalità aggiornando <i>{app_name}</i>.</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> è offerta senza pubblicità e open source.</string>
   <string name="dialog_contrib_text_2">Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere l\'accesso illimitato alle seguenti caratteristiche:</string>
@@ -97,7 +97,7 @@
   <string name="dialog_title_information">Informazioni</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Bilanciare %1$s</string>
-  <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
+  <string name="dialog_title_contrib_feature">Funzionalità premium</string>
   <string name="dialog_title_template_title">Assegna un nome</string>
   <plurals name="dialog_title_warning_delete_account">
     <item quantity="one">Cancellare il conto ?</item>
@@ -137,7 +137,7 @@
   <string name="label">Etichetta</string>
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo</string>
-  <string name="licence_validation_premium">Le funzioni premium sono state sbloccate.</string>
+  <string name="licence_validation_premium">Le funzionalità premium sono state sbloccate.</string>
   <string name="menu_aggregates">Sommato</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Applicare</string>
@@ -282,7 +282,7 @@
   <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
   <string name="pref_custom_currency_title">Personalizzare le valute</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una chiave, otterrete l\'accesso a funzionalità speciali.</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una chiave, otterrete l\'accesso a funzionalità premium.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la chiave</string>
   <string name="pref_export_format_title">Formato dati</string>
   <string name="pref_follow_gplus_title">Segui {app_name} su Google+</string>
@@ -477,7 +477,7 @@
   <string name="comparison_operator_between">tra</string>
   <string name="comparison_operator_date_before">prima</string>
   <string name="comparison_operator_date_after">dopo</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Offerta speciale di oggi con AppGratis: caratteristiche Premium sbloccate gratuitamente.</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Offerta speciale di oggi con AppGratis: funzionalità premium sbloccate gratuitamente.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Acquisto non riuscito o annullato.</string>
   <string name="hint_auto_fill">I dati devono essere compilati automaticamente dall\'ultima transazione per lo stesso beneficiario / pagatore? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
   <string name="yes">Sì</string>
@@ -661,7 +661,7 @@
   <string name="error">Errore (%s)</string>
   <string name="button_validate">Convalidare</string>
   <string name="licence_key">Chiave di licenza</string>
-  <string name="licence_removal_information">Se non hai più bisogno di funzionalità premium su questo dispositivo, puoi rimuovere la chiave di licenza. Ciò libera la chiave per l\'attivazione su un altro dispositivo. La chiave può essere attivata fino a %d dispositivi.</string>
+  <string name="licence_removal_information">Se non hai più bisogno di funzionalità premium su questo dispositivo, puoi rimuovere la chiave di licenza. Fare ciò disimpegna la chiave, per l\'attivazione su di un altro dispositivo. La chiave può essere attivata su fino a %d dispositivi.</string>
   <string name="progress_removing_licence">Rimozione della licenza</string>
   <string name="licence_removal_success">Il codice di licenza è stato rilasciato correttamente da questo dispositivo.</string>
   <string name="professional_key">Chiave Professionale</string>
