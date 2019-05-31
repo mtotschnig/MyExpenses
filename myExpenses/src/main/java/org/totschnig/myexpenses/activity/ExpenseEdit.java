@@ -1519,9 +1519,8 @@ public class ExpenseEdit extends AmountActivity implements
     if (mLabel != null && mLabel.length() != 0) {
       mCategoryButton.setText(mLabel);
       clearCategoryButton.setVisibility(View.VISIBLE);
-      if (categoryIcon != null) {
-        UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(mCategoryButton, UiUtils.resolveIcon(this, categoryIcon), 0, 0, 0);
-      }
+      UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(mCategoryButton,
+          categoryIcon != null ? UiUtils.resolveIcon(this, categoryIcon) : 0, 0, 0, 0);
     } else {
       mCategoryButton.setText(R.string.select);
       clearCategoryButton.setVisibility(View.GONE);
