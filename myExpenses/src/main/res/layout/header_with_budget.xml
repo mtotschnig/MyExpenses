@@ -19,9 +19,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?listChoiceBackgroundIndicator"
-                android:paddingLeft="@dimen/general_padding"
-                android:paddingRight="@dimen/general_padding">
+                android:background="?listChoiceBackgroundIndicator">
 
     <LinearLayout
         android:id="@+id/header_line"
@@ -29,7 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/list_header_vertical_padding"
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingRight="@dimen/general_padding"
+        android:paddingTop="@dimen/list_header_vertical_padding">
 
         <TextView
             android:id="@+id/text"
@@ -78,11 +80,15 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider_bottom"
+        style="@style/Divider"
+        android:layout_alignParentBottom="true"/>
+
+    <include
+        layout="@layout/group_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_below="@+id/header_line"
-        android:layout_margin="2dip"
-        android:background="@color/emphasis"/>
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"/>
 
     <com.github.lzyzsd.circleprogress.DonutProgress
         android:id="@+id/budgetProgress"
