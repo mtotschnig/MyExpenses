@@ -347,30 +347,30 @@ public class CategoryList extends SortableListFragment {
     String action = getAction();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
-    Category c;
+    Category category;
     boolean isMain;
     int group = ExpandableListView.getPackedPositionGroup(elcmi.packedPosition),
         child = ExpandableListView.getPackedPositionChild(elcmi.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-      c = mAdapter.getChild(group, child);
+      category = mAdapter.getChild(group, child);
       isMain = false;
     } else {
-      c = mAdapter.getGroup(group);
+      category = mAdapter.getGroup(group);
       isMain = true;
     }
-    String label = c.label;
+    String label = category.label;
     switch (command) {
       case R.id.COLOR_COMMAND:
-        ctx.editCategoryColor(c);
+        ctx.editCategoryColor(category);
         return true;
       case R.id.EDIT_COMMAND:
-        ctx.editCat(c);
+        ctx.editCat(category);
         return true;
       case R.id.SELECT_COMMAND:
         if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
           label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
         }
-        doSelection(elcmi.id, label, mAdapter.getChild(group, child).icon, isMain);
+        doSelection(elcmi.id, label, category.icon, isMain);
         finishActionMode();
         return true;
       case R.id.CREATE_COMMAND:
