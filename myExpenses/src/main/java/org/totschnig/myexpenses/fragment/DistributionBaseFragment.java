@@ -260,6 +260,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   abstract void updateIncome(long amount);
   abstract void updateExpense(long amount);
 
+  @Override
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
     menu.findItem(R.id.EDIT_COMMAND).setVisible(false);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(false);
@@ -269,7 +270,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
     menu.findItem(R.id.MOVE_COMMAND).setVisible(false);
   }
 
-  protected void doSelection(long cat_id, String label, boolean icon, boolean isMain) {
+  @Override
+  protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
         mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
