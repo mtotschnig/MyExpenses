@@ -27,10 +27,10 @@ import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
 @Module
-public class NetworkModule {
+class NetworkModule {
 
   @Provides
-  OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor loggingInterceptor,
+  static OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor loggingInterceptor,
                                                   SocketFactory socketFactory) {
     final OkHttpClient.Builder builder = new OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor);
@@ -48,7 +48,7 @@ public class NetworkModule {
 
   @Provides
   @Singleton
-  SocketFactory provideSocketFactory() {
+  static SocketFactory provideSocketFactory() {
     return new DelegatingSocketFactory(SocketFactory.getDefault()) {
       @Override
       protected Socket configureSocket(Socket socket) throws IOException {
@@ -61,7 +61,7 @@ public class NetworkModule {
 
   @Provides
   @Singleton
-  HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+  static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
     loggingInterceptor.setLevel(BuildConfig.DEBUG ? BODY : BASIC);
     return loggingInterceptor;

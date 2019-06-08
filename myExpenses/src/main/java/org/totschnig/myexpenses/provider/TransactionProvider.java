@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.BackupUtils;
@@ -232,22 +233,17 @@ public class TransactionProvider extends ContentProvider {
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
-  private boolean injected = false;
 
   @Inject
   CurrencyContext currencyContext;
+  @Inject
+  PrefHandler prefHandler;
 
   @Override
   public boolean onCreate() {
     initOpenHelper();
+    MyApplication.getInstance().getAppComponent().inject(this);
     return true;
-  }
-
-  private void ensureInjected() {
-    if (!injected) {
-      MyApplication.getInstance().getAppComponent().inject(this);
-      injected = true;
-    }
   }
 
   private void initOpenHelper() {
@@ -444,7 +440,7 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(TABLE_ACCOUNTS);
         boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
         if (sortOrder == null) {
-          sortOrder = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
+          sortOrder = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS, prefHandler);
         }
         if (mergeCurrencyAggregates) {
           if (projection != null) {
@@ -454,7 +450,7 @@ public class TransactionProvider extends ContentProvider {
           String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null,
               null, null, null);
           //Currency query
-          String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+          String homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY,null);
           String currencyJoin = String.format(Locale.ROOT, " LEFT JOIN %1$s ON (%2$s = t.%3$s)",
               TABLE_CURRENCIES, KEY_CODE, KEY_CURRENCY);
           String inTables = "(SELECT " +
@@ -558,8 +554,8 @@ public class TransactionProvider extends ContentProvider {
           String grouping = "";
           AccountGrouping accountGrouping;
           try {
-            accountGrouping = AccountGrouping.valueOf(
-                PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+            accountGrouping = AccountGrouping.valueOf(prefHandler.getString(
+                PrefKey.ACCOUNT_GROUPING,"TYPE"));
           } catch (IllegalArgumentException e) {
             accountGrouping = AccountGrouping.TYPE;
           }
@@ -724,7 +720,7 @@ public class TransactionProvider extends ContentProvider {
       case TEMPLATES:
         qb.setTables(VIEW_TEMPLATES_EXTENDED);
         if (sortOrder == null) {
-          sortOrder = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES);
+          sortOrder = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler);
         }
         if (projection == null)
           projection = Template.PROJECTION_EXTENDED;
@@ -1139,7 +1135,6 @@ public class TransactionProvider extends ContentProvider {
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
     setDirty();
-    ensureInjected();
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
     int count;
@@ -1687,7 +1682,7 @@ public class TransactionProvider extends ContentProvider {
           }
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
-          PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
+          prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false);
           mDirty = false;
         }
       }

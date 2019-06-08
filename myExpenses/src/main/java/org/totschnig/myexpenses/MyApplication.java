@@ -42,10 +42,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
-import org.totschnig.myexpenses.di.UiModule;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -156,7 +154,6 @@ public class MyApplication extends MultiDexApplication implements
     checkAppReplacingState();
     initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    mSelf = this;
     setupLogging();
     if (!isSyncService()) {
       // sets up mSettings
@@ -202,6 +199,7 @@ public class MyApplication extends MultiDexApplication implements
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
+    mSelf = this;
     appComponent = buildAppComponent();
     appComponent.inject(this);
     crashHandler.onAttachBaseContext(this);
@@ -210,8 +208,7 @@ public class MyApplication extends MultiDexApplication implements
   @NonNull
   protected AppComponent buildAppComponent() {
     return DaggerAppComponent.builder()
-        .appModule(new AppModule(this))
-        .uiModule(new UiModule())
+        .applicationContext(this)
         .build();
   }
 

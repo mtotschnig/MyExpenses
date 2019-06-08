@@ -31,33 +31,22 @@ import timber.log.Timber;
 
 @Module
 public class AppModule {
-  protected MyApplication application;
-
-  public AppModule(MyApplication application) {
-    this.application = application;
-  }
 
   @Provides
   @Singleton
-  MyApplication provideApplication() {
-    return application;
-  }
-
-  @Provides
-  @Singleton
-  LicenceHandler providesLicenceHandler(PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler) {
+  static LicenceHandler providesLicenceHandler(PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler, MyApplication application) {
     return new HashLicenceHandler(application, preferenceObfuscator, crashHandler);
   }
 
   @Provides
   @Singleton
-  CrashHandler providesCrashHandler() {
+  static CrashHandler providesCrashHandler() {
     return (MyApplication.isInstrumentationTest()) ? CrashHandler.NO_OP : new CrashHandlerImpl();
   }
 
   @Provides
   @Singleton
-  Tracker provideTracker() {
+  static Tracker provideTracker() {
     try {
       return (Tracker) Class.forName(
           "org.totschnig.myexpenses.util.tracking.PlatformTracker").newInstance();
@@ -84,20 +73,20 @@ public class AppModule {
   @Provides
   @Singleton
   @Named("deviceId")
-  protected String provideDeviceId() {
+  static String provideDeviceId(MyApplication application) {
     return Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
   }
 
   @Provides
   @Singleton
   @Named("userCountry")
-  protected String provideUserCountry() {
+  static String provideUserCountry() {
     return BuildConfig.DEBUG ? "de" : Utils.getCountryFromTelephonyManager();
   }
 
   @Provides
   @Singleton
-  PreferenceObfuscator provideLicencePrefs(Obfuscator obfuscator) {
+  static PreferenceObfuscator provideLicencePrefs(Obfuscator obfuscator, MyApplication application) {
     String PREFS_FILE = "license_status_new";
     SharedPreferences sp = application.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
     return new PreferenceObfuscator(sp, obfuscator);
@@ -105,7 +94,7 @@ public class AppModule {
 
   @Provides
   @Singleton
-  protected Obfuscator provideObfuscator(@Named("deviceId") String deviceId) {
+  static Obfuscator provideObfuscator(@Named("deviceId") String deviceId, MyApplication application) {
     byte[] SALT = new byte[]{
         -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
     };
@@ -114,14 +103,14 @@ public class AppModule {
 
   @Provides
   @Singleton
-  protected PrefHandler providePrefHandler(MyApplication context) {
+  static PrefHandler providePrefHandler(MyApplication context) {
     return new PrefHandlerImpl(context);
   }
 
 
   @Provides
   @Singleton
-  protected CurrencyContext provideCurrencyContext(PrefHandler prefHandler) {
+  static CurrencyContext provideCurrencyContext(PrefHandler prefHandler) {
     return new PreferencesCurrencyContext(prefHandler);
   }
 }

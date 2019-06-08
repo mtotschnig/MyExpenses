@@ -9,11 +9,11 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class UtilsModule {
+class UtilsModule {
 
   @Provides
   @Singleton
-  CurrencyFormatter provideCurrencyFormatter() {
+  static CurrencyFormatter provideCurrencyFormatter() {
     return CurrencyFormatter.instance();
   }
 }

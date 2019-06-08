@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -199,10 +200,10 @@ public class Utils {
     return sep;
   }
 
-  public static String defaultOrderBy(String textColumn, PrefKey prefKey) {
+  public static String defaultOrderBy(String textColumn, PrefKey prefKey, PrefHandler prefHandler) {
     Sort sort;
     try {
-      sort = Sort.valueOf(prefKey.getString("USAGES"));
+      sort = Sort.valueOf(prefHandler.getString(prefKey,"USAGES"));
     } catch (IllegalArgumentException e) {
       sort = Sort.USAGES;
     }

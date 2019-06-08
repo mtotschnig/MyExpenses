@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -123,6 +124,8 @@ public class CategoryList extends SortableListFragment {
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  PrefHandler prefHandler;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -204,7 +207,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected Object getSecondarySort() {
-    return Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
+    return Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES, prefHandler);
   }
 
   private void disposeCategory() {
