@@ -61,7 +61,7 @@ public class AppDirHelper {
 
   public static File getCacheDir() {
     File external = MyApplication.getInstance().getExternalCacheDir();
-    return external != null ? external : MyApplication.getInstance()
+    return (external != null && external.canWrite()) ? external : MyApplication.getInstance()
         .getCacheDir();
   }
 
