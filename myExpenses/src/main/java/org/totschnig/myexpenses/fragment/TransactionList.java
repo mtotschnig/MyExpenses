@@ -1007,6 +1007,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (balanceItem != null) {
       Utils.menuItemSetEnabledAndVisible(balanceItem, mAccount.getType() != AccountType.CASH && !mAccount.isSealed());
     }
+
+    MenuItem syncItem = menu.findItem(R.id.SYNC_COMMAND);
+    if (syncItem != null) {
+      Utils.menuItemSetEnabledAndVisible(syncItem, mAccount.getSyncAccountName() != null);
+    }
   }
 
   @Override
@@ -1084,6 +1089,11 @@ public class TransactionList extends ContextualActionBarFragment implements
           ctx.showExportDisabledCommand();
         }
         return true;
+
+      case R.id.SYNC_COMMAND: {
+        mAccount.requestSync();
+        return true;
+      }
       default:
         return super.onOptionsItemSelected(item);
     }

@@ -98,6 +98,7 @@
     <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
     <string name="pref_security_export_password_key">security_export_password</string>
     <string name="pref_account_list_fast_scroll_key">account_list_fast_scroll</string>
+    <string name="pref_sync_changes_immediately_key">sync_changes_immediately</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

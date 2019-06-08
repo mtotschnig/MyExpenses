@@ -1499,7 +1499,8 @@ public class TransactionProvider extends ContentProvider {
   private void notifyChange(Uri uri, boolean syncToNetwork) {
     if (!bulkInProgress) {
       Timber.i("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
-      getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
+      getContext().getContentResolver().notifyChange(uri, null,
+          syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true));
     }
   }
 

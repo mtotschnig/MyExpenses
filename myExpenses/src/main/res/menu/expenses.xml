@@ -91,6 +91,13 @@
         app:showAsAction="ifRoom">
     </item>
     <item
+        android:id="@id/SYNC_COMMAND"
+        android:icon="@drawable/ic_sync"
+        android:orderInCategory="10"
+        android:title="@string/menu_sync_now"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
         android:id="@id/BALANCE_COMMAND"
         android:icon="@drawable/ic_action_balance"
         android:orderInCategory="10"

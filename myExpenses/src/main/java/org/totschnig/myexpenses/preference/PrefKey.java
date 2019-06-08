@@ -122,7 +122,8 @@ public enum PrefKey {
   SCROLL_TO_CURRENT_DATE(R.string.pref_scroll_to_current_date_key),
   EXPORT_PASSWORD(R.string.pref_security_export_password_key),
   ACCOUNT_LIST_FAST_SCROLL(R.string.pref_account_list_fast_scroll_key),
-  TRANSLATION(R.string.pref_translation_key);
+  TRANSLATION(R.string.pref_translation_key),
+  SYNC_CHANGES_IMMEDIATELY(R.string.pref_sync_changes_immediately_key);
 
   int resId = 0;
   String key = null;
