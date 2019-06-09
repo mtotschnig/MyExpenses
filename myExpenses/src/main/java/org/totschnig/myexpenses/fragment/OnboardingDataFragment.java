@@ -174,6 +174,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();
+      adapter.clear();
       adapter.addAll(currencies);
       currencySpinner.setSelection(adapter.getPosition(currency));
       nextButton.setVisibility(View.VISIBLE);
