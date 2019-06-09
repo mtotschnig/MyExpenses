@@ -80,7 +80,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.ContextWrapper;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -212,7 +212,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(ContextWrapper.wrap(newBase, MyApplication.getUserPreferedLocale()));
+    super.attachBaseContext(ContextHelper.wrap(newBase, MyApplication.getUserPreferedLocale()));
   }
 
   protected void injectDependencies() {
@@ -666,10 +666,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           Snackbar.LENGTH_LONG);
     }
     return result;
-  }
-
-  private void showTaskNotFinishedWarning() {
-
   }
 
   public void startTaskExecution(int taskId, @NonNull Bundle extras, int progressMessage) {

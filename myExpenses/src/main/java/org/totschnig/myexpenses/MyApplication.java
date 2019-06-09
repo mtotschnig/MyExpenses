@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -81,6 +82,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 public class MyApplication extends MultiDexApplication implements
     OnSharedPreferenceChangeListener {
 
+  private static final String DEFAULT_LANGUAGE = "default";
   private AppComponent appComponent;
   @Inject
   LicenceHandler licenceHandler;
@@ -198,8 +200,11 @@ public class MyApplication extends MultiDexApplication implements
 
   @Override
   protected void attachBaseContext(Context base) {
-    super.attachBaseContext(base);
     mSelf = this;
+    //we cannot use the standard way of reading preferences, since this works only after base context
+    //has been attached
+    super.attachBaseContext(ContextHelper.wrap(base, getUserPreferedLocale(
+        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE))));
     appComponent = buildAppComponent();
     appComponent.inject(this);
     crashHandler.onAttachBaseContext(this);
@@ -276,9 +281,12 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   public static Locale getUserPreferedLocale() {
-    String language = PrefKey.UI_LANGUAGE.getString("default");
+    return getUserPreferedLocale(PrefKey.UI_LANGUAGE.getString(DEFAULT_LANGUAGE));
+  }
+
+  private static Locale getUserPreferedLocale(String language) {
     Locale l;
-    if (language.equals("default")) {
+    if (language.equals(DEFAULT_LANGUAGE)) {
       l = systemLocale;
     } else if (language.contains("-")) {
       String[] parts = language.split("-");

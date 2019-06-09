@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;

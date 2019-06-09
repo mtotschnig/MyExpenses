@@ -12,13 +12,11 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.Locale;
 
 //https://stackoverflow.com/a/40849142/1199911
-public class ContextWrapper extends android.content.ContextWrapper {
+public class ContextHelper {
 
-  public ContextWrapper(Context base) {
-    super(base);
-  }
+  private ContextHelper() { }
 
-  public static ContextWrapper wrap(Context context, Locale newLocale) {
+  public static Context wrap(Context context, Locale newLocale) {
 
     Resources res = context.getResources();
     Configuration configuration = res.getConfiguration();
@@ -34,7 +32,7 @@ public class ContextWrapper extends android.content.ContextWrapper {
       res.updateConfiguration(configuration, res.getDisplayMetrics());
     }
 
-    return new ContextWrapper(context);
+    return context;
   }
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

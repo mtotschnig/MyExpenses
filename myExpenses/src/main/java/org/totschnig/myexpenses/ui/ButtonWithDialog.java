@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Parcelable;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
