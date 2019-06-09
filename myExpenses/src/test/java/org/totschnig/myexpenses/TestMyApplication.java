@@ -12,6 +12,7 @@ public class TestMyApplication extends MyApplication {
   protected AppComponent buildAppComponent() {
     return DaggerAppComponent.builder()
         .licenceModule(new MockLicenceModule())
+        .applicationContext(this)
         .build();
   }
 
