@@ -130,6 +130,10 @@
         <item>Dilruni Ganepola</item>
     </string-array>
 
+    <string-array name="translators_ta">
+        <item>Kaartic Sivaraam</item>
+    </string-array>
+
     <string-array name="translators_tr">
         <item>mauron</item>
         <item>Caner Başaran</item>

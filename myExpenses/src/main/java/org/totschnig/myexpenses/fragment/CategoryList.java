@@ -115,7 +115,7 @@ public class CategoryList extends SortableListFragment {
   @BindView(R.id.sum_expense)
   TextView expenseSumTv;
   @Nullable
-  @BindView(R.id.importButton)
+  @BindView(R.id.SETUP_CATEGORIES_DEFAULT_COMMAND)
   View mImportButton;
 
   protected int lastExpandedPosition = -1;
@@ -140,6 +140,7 @@ public class CategoryList extends SortableListFragment {
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v = inflater.inflate(R.layout.categories_list, container, false);
     ButterKnife.bind(this, v);
+    configureImportButton(true);
     if (savedInstanceState != null) {
       mFilter = savedInstanceState.getString(KEY_FILTER);
     }
@@ -151,6 +152,12 @@ public class CategoryList extends SortableListFragment {
     loadData();
     registerForContextualActionBar(mListView);
     return v;
+  }
+
+  private void configureImportButton(boolean visible) {
+    if (mImportButton != null) {
+      mImportButton.setVisibility(visible && getResources().getBoolean(R.bool.has_localized_categories) ? View.VISIBLE : View.GONE);
+    }
   }
 
   @Override
@@ -409,12 +416,12 @@ public class CategoryList extends SortableListFragment {
       public boolean onQueryTextChange(String newText) {
         if (TextUtils.isEmpty(newText)) {
           mFilter = "";
-          mImportButton.setVisibility(View.VISIBLE);
+          configureImportButton(true);
         } else {
           mFilter = Utils.esacapeSqlLikeExpression(Utils.normalize(newText));
           // if a filter results in an empty list,
           // we do not want to show the setup default categories button
-          mImportButton.setVisibility(View.GONE);
+         configureImportButton(false);
         }
         collapseAll();
         loadData();
