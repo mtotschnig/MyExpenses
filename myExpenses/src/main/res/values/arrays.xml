@@ -472,6 +472,10 @@
         <item>291;2.8.0</item>
     </string-array>
 
+    <string-array name="contributors_303" tools:ignore="UnusedResources">
+        <item>Kaartic Sivaraam</item>
+    </string-array>
+
     <string-array name="contributors_300" tools:ignore="UnusedResources">
         <item>volodymyr.gz et al.</item>
     </string-array>

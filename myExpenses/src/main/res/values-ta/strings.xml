@@ -103,7 +103,7 @@
     <item quantity="one">கணக்கை நீக்குக?</item>
     <item quantity="other">%1$d கணக்குகளை நீக்கவா?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">பிரதான வகையை நீக்கவா?</string>
+  <string name="dialog_title_warning_delete_main_category">முக்கிய வகையை நீக்கவா?</string>
   <string name="dialog_title_warning_delete_template">வார்ப்புருவை நீக்கவா?</string>
   <string name="dialog_title_warning_delete_transaction">பரிவர்த்தனையை நீக்கவா?</string>
   <string name="expense">செலவு</string>
@@ -746,6 +746,7 @@
   <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
   <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
   <string name="pref_sync_wifi_only_summary">வைஃபையில் (Wi-Fi) இல் மட்டுமே ஒத்திசை</string>
+  <string name="pref_sync_changes_immediately_summary">உள் மாற்றங்களை உடனடியாக பின்தளத்திற்கு எழுதவும்</string>
   <string name="wifi_not_connected">சாதனமானது வைஃபையுடன் (Wi-Fi) இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">மொழிபெயர்ப்பு</string>
