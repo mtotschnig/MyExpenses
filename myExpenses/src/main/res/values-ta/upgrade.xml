@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_297">
+        <item>தனி விருப்ப நாணயங்கள்</item>
+    </string-array>
+    <string-array name="whats_new_295">
+        <item>முக்கிய பிரிவுகளில் தனி விருப்ப வண்ணங்கள்</item>
+    </string-array>
+    <string-array name="whats_new_292">
+        <item>கணக்குப் பட்டியல் மறுவடிவமைப்பு</item>
+        <item>ஒத்திசைவை வைஃபையில் (Wi-Fi) மட்டும் நிகழச்செய்</item>
+    </string-array>
+    <string-array name="whats_new_291">
+        <item>பரிவர்த்தனையின் நேரம் இப்போது விருப்பத்தேர்வானது</item>
+        <item>விருப்பத்தேர்வாக பதிவு தேதி மற்றும் மதிப்பு தேதியை வேறுபடுத்தலாம்</item>
+    </string-array>
+    <string-array name="whats_new_290">
+        <item>பல பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கலாம்</item>
+        <item>பிளவு பரிவர்த்தனையை பிரிக்கலாம்</item>
+    </string-array>
+    <string-array name="whats_new_289">
+        <item>வெளிநாட்டு நாணயங்களுக்கும் வீட்டு நாணயத்திற்கும் இடையில் மாற்றம்</item>
+    </string-array>
+    <string-array name="whats_new_288">
+        <item>வரலாற்று விளக்கப்படம் (பணப்பாய்வு)</item>
+    </string-array>
+    <string-array name="whats_new_287">
+        <item>கருவியின் பூட்டு திரையின் மூலம் பாதுகாப்பு</item>
+    </string-array>
+    <string-array name="whats_new_286">
+        <item>PDF ஏற்றுமதியை (அச்சு) பகிர்ந்து கொள்ளலாம்</item>
+    </string-array>
+    <string-array name="whats_new_285">
+        <item>டிராப்பாக்ஸ் (Dropbox) வழியாக ஒத்திசைவு</item>
+    </string-array>
+    <string-array name="whats_new_284">
+        <item>தன்னிரப்பியை (Auto-fill) விருப்பமைக்கலாம்</item>
+    </string-array>
+    <string-array name="whats_new_283">
+        <item>ஏறுவரிசையின் திசை (பழமையான பரிமாற்றங்கள் மேலே)</item>
+    </string-array>
+    </resources>

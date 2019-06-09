@@ -1,13 +1,7 @@
 package org.totschnig.myexpenses.di;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
-
-import com.google.android.vending.licensing.AESObfuscator;
-import com.google.android.vending.licensing.Obfuscator;
-import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -18,8 +12,6 @@ import org.totschnig.myexpenses.preference.PrefHandlerImpl;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandlerImpl;
-import org.totschnig.myexpenses.util.licence.HashLicenceHandler;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Named;
@@ -31,12 +23,6 @@ import timber.log.Timber;
 
 @Module
 public class AppModule {
-
-  @Provides
-  @Singleton
-  static LicenceHandler providesLicenceHandler(PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler, MyApplication application) {
-    return new HashLicenceHandler(application, preferenceObfuscator, crashHandler);
-  }
 
   @Provides
   @Singleton
@@ -72,33 +58,9 @@ public class AppModule {
 
   @Provides
   @Singleton
-  @Named("deviceId")
-  static String provideDeviceId(MyApplication application) {
-    return Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
-  }
-
-  @Provides
-  @Singleton
   @Named("userCountry")
   static String provideUserCountry() {
     return BuildConfig.DEBUG ? "de" : Utils.getCountryFromTelephonyManager();
-  }
-
-  @Provides
-  @Singleton
-  static PreferenceObfuscator provideLicencePrefs(Obfuscator obfuscator, MyApplication application) {
-    String PREFS_FILE = "license_status_new";
-    SharedPreferences sp = application.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
-    return new PreferenceObfuscator(sp, obfuscator);
-  }
-
-  @Provides
-  @Singleton
-  static Obfuscator provideObfuscator(@Named("deviceId") String deviceId, MyApplication application) {
-    byte[] SALT = new byte[]{
-        -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
-    };
-    return new AESObfuscator(SALT, application.getPackageName(), deviceId);
   }
 
   @Provides

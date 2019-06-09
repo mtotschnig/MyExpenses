@@ -44,12 +44,13 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class})
+@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class})
 public interface AppComponent {
   @Component.Builder
   interface Builder {
     @BindsInstance
     Builder applicationContext(MyApplication applicationContext);
+    Builder licenceModule(LicenceModule licenceModule);
     AppComponent build();
   }
 
