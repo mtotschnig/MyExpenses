@@ -46,7 +46,7 @@ public class QifParser {
     String peek;
     while ((peek = r.peekLine()) != null) {
       if (peek.startsWith("!Option:AutoSwitch")) {
-        String line = r.readLine();
+        @SuppressWarnings("UnusedAssignment") String line = r.readLine();
         outer:
         while (true) {
           line = r.readLine();
