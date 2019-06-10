@@ -258,6 +258,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   abstract void updateIncome(long amount);
+
   abstract void updateExpense(long amount);
 
   @Override
@@ -370,9 +371,12 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (extraColumn != null) {
       projection[6] = extraColumn;
     }
-    selectionArgs = accountSelector != null ? new String[]{accountSelector, accountSelector} : null;
+    final boolean showAllCategories = showAllCategories();
+    selectionArgs = accountSelector != null ?
+        (showAllCategories ? new String[]{accountSelector} : new String[]{accountSelector, accountSelector})
+        : null;
     return briteContentResolver.createQuery(getCategoriesUri(),
-        projection, showAllCategories() ? null : " exists (SELECT 1 " + catFilter + ")", selectionArgs, getSortExpression(), true);
+        projection, showAllCategories ? null : " exists (SELECT 1 " + catFilter + ")", selectionArgs, getSortExpression(), true);
   }
 
   protected Uri getCategoriesUri() {
