@@ -17,14 +17,10 @@ public class WaterfallAdHandler extends AdHandler {
   }
 
   @Override
-  public void init() {
-    if (shouldHideAd()) {
-      super.hide();
-    } else {
-      cascadingIndex = 0;
-      cascadingIndexInterstitial = 0;
-      initCurrent();
-    }
+  public void _startBanner() {
+    cascadingIndex = 0;
+    cascadingIndexInterstitial = 0;
+    startBannerCurrent();
   }
 
   @Override
@@ -36,15 +32,6 @@ public class WaterfallAdHandler extends AdHandler {
   @Override
   protected void requestNewInterstitialDo() {
     requestNewInterstitialCurrent();
-  }
-
-  private boolean initCurrent() {
-    AdHandler current = getCurrent();
-    if (current != null) {
-      current.init();
-      return true;
-    }
-    return false;
   }
 
   @Nullable
@@ -60,8 +47,15 @@ public class WaterfallAdHandler extends AdHandler {
   @Override
   protected void hide() {
     cascadingIndex++;
-    if (!initCurrent()) {
+    startBannerCurrent();
+  }
+
+  private void startBannerCurrent() {
+    final AdHandler current = getCurrent();
+    if (current == null) {
       super.hide();
+    } else {
+      current.startBanner();
     }
   }
 

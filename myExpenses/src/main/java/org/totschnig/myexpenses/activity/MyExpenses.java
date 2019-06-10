@@ -241,7 +241,7 @@ public class MyExpenses extends LaunchActivity implements
           @Override
           public void onGlobalLayout() {
             adContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            adHandler.init();
+            adHandler.startBanner();
           }
         });
 

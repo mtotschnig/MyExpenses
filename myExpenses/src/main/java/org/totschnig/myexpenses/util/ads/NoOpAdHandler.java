@@ -7,9 +7,11 @@ public class NoOpAdHandler extends AdHandler {
     super(defaultAdHandlerFactory, adContainer);
   }
 
-  public void init() {
-    hide();
-  }
+  @Override
+  public void startBanner() {}
+
+  @Override
+  public void _startBanner() {}
 
   @Override
   public void maybeRequestNewInterstitial() {}

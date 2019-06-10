@@ -24,31 +24,26 @@ public class CustomAdHandler extends AdHandler {
   }
 
   @Override
-  public void init() {
-    if (shouldHideAd()) {
+  public void _startBanner() {
+    float density = context.getResources().getDisplayMetrics().density;
+    Pair<PartnerProgram, String> contentProvider = PartnerProgram.pickContent(
+        Arrays.asList(PartnerProgram.values()),
+        MyApplication.getInstance().getAppComponent().userCountry(),
+        context,
+        Math.round(adContainer.getWidth() / density));
+    if (contentProvider == null) {
       hide();
     } else {
-      float density = context.getResources().getDisplayMetrics().density;
-      Pair<PartnerProgram, String> contentProvider = PartnerProgram.pickContent(
-          Arrays.asList(PartnerProgram.values()),
-          MyApplication.getInstance().getAppComponent().userCountry(),
-          context,
-          Math.round(adContainer.getWidth() / density));
-      if (contentProvider == null) {
-        hide();
-      } else {
-        adView = new AdView(context);
-        adView.setAdListener(new AdListener() {
-          @Override
-          public void onBannerLoaded(View view) {
-            adContainer.addView(view);
-          }
-        });
-        adView.fetchAd(contentProvider);
-      }
+      adView = new AdView(context);
+      adView.setAdListener(new AdListener() {
+        @Override
+        public void onBannerLoaded(View view) {
+          adContainer.addView(view);
+        }
+      });
+      adView.fetchAd(contentProvider);
     }
   }
-
 
   @Override
   protected boolean maybeShowInterstitialDo() {

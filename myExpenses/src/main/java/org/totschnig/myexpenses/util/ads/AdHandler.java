@@ -28,6 +28,7 @@ public abstract class AdHandler {
   @Inject
   protected PrefHandler prefHandler;
   private AdHandler parent;
+  private boolean initialized;
 
   protected AdHandler(AdHandlerFactory factory, ViewGroup adContainer) {
     this.factory = factory;
@@ -36,7 +37,24 @@ public abstract class AdHandler {
     ((MyApplication) context).getAppComponent().inject(this);
   }
 
-  public abstract void init();
+  protected final void init() {
+    if (!initialized) {
+      _init();
+      initialized = true;
+    }
+  }
+  public void startBanner() {
+    init();
+    if (shouldHideAd()) {
+      hide();
+    } else {
+      _startBanner();
+    }
+  }
+
+  protected void _init() {}
+
+  protected abstract void _startBanner();
 
   public void maybeRequestNewInterstitial() {
     long now = System.currentTimeMillis();
@@ -74,6 +92,7 @@ public abstract class AdHandler {
 
   public void onEditTransactionResult() {
     if (!shouldHideAd()) {
+      init();
       maybeShowInterstitial();
     }
   }
