@@ -164,7 +164,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -2030,7 +2029,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
-            null, KEY_HIDDEN + " = 0 AND " + KEY_SEALED + " = 0", null, null);
+            null, KEY_SEALED + " = 0", null, null);
       case LAST_EXCHANGE_CURSOR:
         String[] currencies = args.getStringArray(KEY_CURRENCY);
         return new CursorLoader(this,
