@@ -466,9 +466,9 @@ public class Utils {
     }
   }
 
-  public static DateFormat localizedYearlessDateFormat() {
+  public static DateFormat localizedYearlessDateFormat(Context context) {
     Locale l = Locale.getDefault();
-    DateFormat dateFormat = getDateFormatSafe(MyApplication.getInstance());
+    DateFormat dateFormat = getDateFormatSafe(context);
     if (dateFormat instanceof SimpleDateFormat) {
       final String contextPattern = ((SimpleDateFormat) dateFormat).toPattern();
       String yearlessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");

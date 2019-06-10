@@ -34,6 +34,7 @@
             android:layout_height="0dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/date"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,10 +46,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/colorAccount"
+            app:layout_constraintEnd_toStartOf="@id/colorContainer"
+            app:layout_constraintStart_toEndOf="@id/colorAccount"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="DATE"/>
 
@@ -58,7 +60,8 @@
             android:layout_height="?attr/colorContainerOuter"
             android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/date"
+            app:layout_constraintEnd_toStartOf="@id/category"
+            app:layout_constraintStart_toEndOf="@id/date"
             app:layout_constraintTop_toTopOf="parent">
 
             <View

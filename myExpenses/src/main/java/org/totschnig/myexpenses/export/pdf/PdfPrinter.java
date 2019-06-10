@@ -257,7 +257,7 @@ public class PdfPrinter {
         itemDateFormat = new SimpleDateFormat("EEE");
         break;
       default:
-        itemDateFormat = Utils.localizedYearlessDateFormat();
+        itemDateFormat = Utils.localizedYearlessDateFormat(ctx);
     }
     PdfPTable table = null;
 

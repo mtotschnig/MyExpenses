@@ -269,16 +269,24 @@ public class TransactionAdapter extends ResourceCursorAdapter {
         break;
       case MONTH:
         //noinspection SimpleDateFormat
-        itemDateFormat = monthStart == 1 ?
-            new SimpleDateFormat("dd") : Utils.localizedYearlessDateFormat();
+        if (monthStart == 1) {
+          itemDateFormat = new SimpleDateFormat("dd");
+          dateEms = 2;
+        } else {
+          itemDateFormat = Utils.localizedYearlessDateFormat(context);
+        }
         break;
       case WEEK:
         //noinspection SimpleDateFormat
+        dateEms = 2;
         itemDateFormat = new SimpleDateFormat("EEE");
         break;
       case YEAR:
+        itemDateFormat = Utils.localizedYearlessDateFormat(context);
+        break;
       case NONE:
-        itemDateFormat = Utils.localizedYearlessDateFormat();
+        itemDateFormat = Utils.getDateFormatSafe(context);
+        dateEms = 4;
     }
   }
 
