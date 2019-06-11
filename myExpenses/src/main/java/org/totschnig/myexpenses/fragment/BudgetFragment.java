@@ -159,7 +159,6 @@ public class BudgetFragment extends DistributionBaseFragment {
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     if (((BudgetActivity) getActivity()).hasBudgets()) {
       inflater.inflate(R.menu.budget, menu);
-      super.onCreateOptionsMenu(menu, inflater);
     }
   }
 
