@@ -285,7 +285,6 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">நீங்கள் ஒரு திறவுகோலைப் பெற்றிருந்தால் மதிப்பு அம்சங்களை அணுகலாம்.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">திறவுகோலை உள்ளிடவும்</string>
   <string name="pref_export_format_title">தரவு வடிவம்</string>
-  <string name="pref_follow_gplus_title">கூகில்+ இல் {app_name} ஐப் பின்தொடர்க</string>
   <string name="pref_import_from_grisbi_summary">கிரிஸ்பி எக்ஸ்எம்எல் (XML) கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
   <string name="pref_import_from_grisbi_title">கிரிஸ்பியிலிருந்து இறக்குமதி செய்</string>
   <!--%s is replaced with QIF or CSV-->

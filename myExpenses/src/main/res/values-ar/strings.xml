@@ -229,7 +229,6 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة </string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
-  <string name="pref_follow_gplus_title">متابعة {app_name} على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
   <!--%s is replaced with QIF or CSV-->

@@ -207,7 +207,6 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Kulcs megadása</string>
   <string name="pref_export_format_title">Adat formátum</string>
-  <string name="pref_follow_gplus_title">A {app_name} követése a Google+ oldalain</string>
   <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>
   <!--%s is replaced with QIF or CSV-->

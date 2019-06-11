@@ -260,7 +260,6 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">기부 확인 키 입력</string>
   <string name="pref_export_format_title">데이터 형식</string>
-  <string name="pref_follow_gplus_title">Google+에서 {app_name} 팔로우</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>
   <string name="pref_import_from_grisbi_title">Grisbi에서 가져오기</string>
   <!--%s is replaced with QIF or CSV-->

@@ -282,7 +282,6 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Nhập khóa</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>
-  <string name="pref_follow_gplus_title">Theo dõi {app_name} trên Google+</string>
   <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Nhập dữ liệu về Grisbi</string>
   <!--%s is replaced with QIF or CSV-->

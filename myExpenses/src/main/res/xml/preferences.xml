@@ -338,13 +338,6 @@
                 />
         </Preference>
         <Preference
-            android:key="@string/pref_follow_gplus_key">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://google.com/+MyexpensesMobi"
-                />
-        </Preference>
-        <Preference
             android:key="like_facebook"
             android:title="@string/pref_like_facebook_title">
             <intent

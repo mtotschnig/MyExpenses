@@ -285,7 +285,6 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Якщо Ви отримали ключ, отримаєте доступ до преміум-функцій.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Введіть ключ</string>
   <string name="pref_export_format_title">Формат даних</string>
-  <string name="pref_follow_gplus_title">Стежити за {app_name} у Google+</string>
   <string name="pref_import_from_grisbi_summary">Імпортуйте категорії та учасників з XML-файлу Grisbi</string>
   <string name="pref_import_from_grisbi_title">Імпортувати з Grisbi</string>
   <!--%s is replaced with QIF or CSV-->

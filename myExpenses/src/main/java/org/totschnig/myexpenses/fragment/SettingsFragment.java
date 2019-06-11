@@ -358,9 +358,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
       findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
 
-      findPreference(getString(R.string.pref_follow_gplus_key)).setTitle(
-          Utils.getTextWithAppName(getContext(), R.string.pref_follow_gplus_title));
-
       currencyViewModel.getCurrencies().observe(this, currencies -> {
         ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
         homeCurrencyPref.setEntries(Stream.of(currencies).map(Currency::toString).toArray(CharSequence[]::new));

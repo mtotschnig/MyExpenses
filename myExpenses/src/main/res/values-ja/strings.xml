@@ -282,7 +282,6 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">キーを入力</string>
   <string name="pref_export_format_title">データ形式</string>
-  <string name="pref_follow_gplus_title">Google+ で {app_name} をフォローする</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
   <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
   <!--%s is replaced with QIF or CSV-->
