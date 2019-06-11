@@ -75,6 +75,7 @@
   <string name="form_account_help_text">Изберете сметката, в която да се запише транзакцията.</string>
   <string name="form_date_time_help_text">Въведете датата и часа на извършване на транзакцията.</string>
   <string name="form_date_time_help_text_configuration">В Настройки може да изключите въвеждане на времето на транзакцията и да разрешите дата на резервацията и дата на вальора.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Ако превключването на <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\"> е свързано, задаването или на вальор или на дата на резервация ще актуализира и другата дата.]]></string>
   <string name="form_payer_or_payee_help_text">Това поле запомня въвежданите стойности и ще ви ги предлага в последствие.</string>
   <string name="form_amount_switch_help_text">Използвайте плъзгащия ключ за да превключите между разход и приход.</string>
   <string name="form_calculator_help_text"><![CDATA[Бутонът <img src=\"?calcIcon\"> отваря калкулатор.]]></string>

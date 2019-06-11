@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_303">
+        <item>תרגום לטמילית</item>
+        <item>סנכרן עכשיו בתפריט הראשי</item>
+        <item>סנכרון מיידי לאחר ביטול השינויים המקומיים</item>
+    </string-array>
     <string-array name="whats_new_302">
         <item>סמלים לקטגוריות</item>
     </string-array>

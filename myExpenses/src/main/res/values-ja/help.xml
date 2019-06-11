@@ -75,6 +75,7 @@
   <string name="form_account_help_text">取引が属する勘定を選択します。</string>
   <string name="form_date_time_help_text">取引が行われた日時を入力します。</string>
   <string name="form_date_time_help_text_configuration">設定で、時間入力を無効にして、予約日と実行日を区別するようにすることができます。</string>
+  <string name="form_date_time_help_text_link"><![CDATA[リンクされた状態に <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> の切り替えがある場合、約定日または予約日の設定も別の日に更新されます。]]></string>
   <string name="form_payer_or_payee_help_text">このフィールドは入力した値を記憶し、将来それらを提案します。</string>
   <string name="form_amount_switch_help_text">支出と収入を切り替えるには、スイッチを使用します。</string>
   <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> ボタンは電卓を開きます。]]></string>

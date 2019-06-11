@@ -746,6 +746,7 @@
   <string name="sort_order">Sortierreihenfolge</string>
   <string name="navigation_drawer_accounts_title">Konten verwalten</string>
   <string name="pref_sync_wifi_only_summary">Synchronisierung nur bei WLAN</string>
+  <string name="pref_sync_changes_immediately_summary">Lokale Änderungen werden sofort in das Backend geschrieben</string>
   <string name="wifi_not_connected">Gerät ist nicht mit WLAN verbunden. Die Synchronisation wird verschoben.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">Übersetzung</string>

@@ -75,6 +75,7 @@
   <string name="form_account_help_text">Seleccione la cuenta a la que pertenece la transacción.</string>
   <string name="form_date_time_help_text">Introducir la fecha y hora de cuándo se realizó la transacción.</string>
   <string name="form_date_time_help_text_configuration">En configuración, puede deshabilitar la entrada de tiempo y añadir una diferenciación entre la fecha de reserva y la fecha de valor.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Si las alternativas <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> están ligadas, la configuración actualizará la información de fecha o fecha de reserva entre ellas.]]></string>
   <string name="form_payer_or_payee_help_text">Este campo recordará los valores que introduzca y los sugerirá en el futuro.</string>
   <string name="form_amount_switch_help_text">Utilice el interruptor para alternar entre ingresos y gastos.</string>
   <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> abre la calculadora.]]></string>

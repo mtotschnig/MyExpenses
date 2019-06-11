@@ -746,6 +746,7 @@
   <string name="sort_order">Ordre de tri</string>
   <string name="navigation_drawer_accounts_title">Gestion des comptes</string>
   <string name="pref_sync_wifi_only_summary">Synchroniser uniquement sur Wi-Fi</string>
+  <string name="pref_sync_changes_immediately_summary">Les modifications locales seront écrites immédiatement sur le serveur distant</string>
   <string name="wifi_not_connected">L\'appareil n\'est pas connecté au Wi-Fi. La synchronisation est reportée.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">Traduction</string>

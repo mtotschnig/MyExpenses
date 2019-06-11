@@ -735,6 +735,7 @@
   <string name="sort_order">ソート順</string>
   <string name="navigation_drawer_accounts_title">勘定の管理</string>
   <string name="pref_sync_wifi_only_summary">Wi-Fi 接続時のみ同期</string>
+  <string name="pref_sync_changes_immediately_summary">ローカルの変更をすぐにバックエンドに書き込みます</string>
   <string name="wifi_not_connected">デバイスが Wi-Fi に接続されていません。 同期は延期されます。</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">翻訳</string>
