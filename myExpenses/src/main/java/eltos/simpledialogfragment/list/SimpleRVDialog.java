@@ -104,7 +104,7 @@ public abstract class SimpleRVDialog<This extends SimpleRVDialog<This>>
             } else {
                 spanCount = getArguments().getInt(GRID_N);
             }
-            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), Math.max(spanCount, 5));
             recyclerView.setLayoutManager(layoutManager);
         });
         return dialog;
