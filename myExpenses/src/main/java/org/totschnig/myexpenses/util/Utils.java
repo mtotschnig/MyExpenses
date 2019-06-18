@@ -129,7 +129,7 @@ public class Utils {
   public static CurrencyUnit getHomeCurrency() {
     //TODO provide home currency in a cleaner way
     AppComponent appComponent = MyApplication.getInstance().getAppComponent();
-    String home = appComponent.prefHandler().getString(PrefKey.HOME_CURRENCY,null);
+    String home = appComponent.prefHandler().getString(PrefKey.HOME_CURRENCY, null);
     final CurrencyContext currencyContext = appComponent.currencyContext();
     return currencyContext.get(home != null ? home : getLocalCurrency().getCurrencyCode());
   }
@@ -148,15 +148,15 @@ public class Utils {
     return result;
   }
 
-  public static List<Map<String,String>> getProjectDependencies(Context context) {
+  public static List<Map<String, String>> getProjectDependencies(Context context) {
     List<Map<String, String>> result = new ArrayList<>();
-    XmlPullParser xpp= context.getResources().getXml(R.xml.project_dependencies);
+    XmlPullParser xpp = context.getResources().getXml(R.xml.project_dependencies);
     int eventType = 0;
     try {
       eventType = xpp.getEventType();
-      Map<String,String> project = null;
+      Map<String, String> project = null;
       while (eventType != XmlPullParser.END_DOCUMENT) {
-        if(eventType == XmlPullParser.START_TAG) {
+        if (eventType == XmlPullParser.START_TAG) {
           if (xpp.getName().equals("project")) {
             project = new HashMap<>();
           } else if (project != null) {
@@ -164,8 +164,8 @@ public class Utils {
             xpp.next();
             project.put(key, xpp.getText());
           }
-        } else if(eventType == XmlPullParser.END_TAG) {
-          if(xpp.getName().equals("project")){
+        } else if (eventType == XmlPullParser.END_TAG) {
+          if (xpp.getName().equals("project")) {
             result.add(project);
           }
         }
@@ -203,7 +203,7 @@ public class Utils {
   public static String defaultOrderBy(String textColumn, PrefKey prefKey, PrefHandler prefHandler) {
     Sort sort;
     try {
-      sort = Sort.valueOf(prefHandler.getString(prefKey,"USAGES"));
+      sort = Sort.valueOf(prefHandler.getString(prefKey, "USAGES"));
     } catch (IllegalArgumentException e) {
       sort = Sort.USAGES;
     }
@@ -342,12 +342,9 @@ public class Utils {
 
   public static boolean isComAndroidVendingInstalled(Context context) {
     PackageManager pm = context.getPackageManager();
-    try
-    {
+    try {
       pm.getPackageInfo("com.android.vending", PackageManager.GET_ACTIVITIES);
-    }
-    catch (PackageManager.NameNotFoundException e)
-    {
+    } catch (PackageManager.NameNotFoundException e) {
       return false;
     }
     return true;
@@ -402,7 +399,7 @@ public class Utils {
   public static List<CharSequence> getContribFeatureLabelsAsList(Context ctx, LicenceStatus type) {
     Stream<ContribFeature> features = Stream.of(EnumSet.allOf(ContribFeature.class));
     if (type != null) {
-      features =  features.filter(feature -> feature.getLicenceStatus() == type);
+      features = features.filter(feature -> feature.getLicenceStatus() == type);
     }
     return features
         .map(feature -> {
@@ -478,6 +475,23 @@ public class Utils {
     }
   }
 
+  /**
+   * @param context
+   * @return Locale en-CA has "y-MM-dd" (2019-06-18) as short date format, which does not fit into
+   * the space, we allocate for dates when transactions are not grouped, we replace the year part with "yy"
+   */
+  public static DateFormat ensureDateFormatWithShortYear(Context context) {
+    Locale l = Locale.getDefault();
+    DateFormat dateFormat = getDateFormatSafe(context);
+    if (dateFormat instanceof SimpleDateFormat) {
+      final String contextPattern = ((SimpleDateFormat) dateFormat).toPattern();
+      String shortPattern = contextPattern.replaceAll("y+", "yy");
+      return new SimpleDateFormat(shortPattern, l);
+    } else {
+      return dateFormat;
+    }
+  }
+
   public static Result<Pair<CategoryTree, ArrayList<String>>> analyzeGrisbiFileWithSAX(InputStream is) {
     GrisbiHandler handler = new GrisbiHandler();
     try {
@@ -485,9 +499,9 @@ public class Utils {
     } catch (IOException e) {
       return Result.ofFailure(R.string.parse_error_other_exception, e.getMessage());
     } catch (GrisbiHandler.FileVersionNotSupportedException e) {
-      return  Result.ofFailure(R.string.parse_error_grisbi_version_not_supported, e.getMessage());
+      return Result.ofFailure(R.string.parse_error_grisbi_version_not_supported, e.getMessage());
     } catch (SAXException e) {
-      return  Result.ofFailure(R.string.parse_error_parse_exception);
+      return Result.ofFailure(R.string.parse_error_parse_exception);
     }
     return handler.getResult();
   }
@@ -558,7 +572,7 @@ public class Utils {
   public static CharSequence getTellAFriendMessage(Context ctx) {
     return Phrase.from(ctx, R.string.tell_a_friend_message)
         .put(PLACEHOLDER_APP_NAME, ctx.getString(R.string.app_name))
-        .put("platform",  DistribHelper.getPlatform())
+        .put("platform", DistribHelper.getPlatform())
         .put("website", ctx.getString(R.string.website)).format();
   }
 
@@ -724,7 +738,7 @@ public class Utils {
    * backport of {@link java.util.Objects#compare(Object, Object, Comparator)} which is API 19
    */
   public static <T> int compare(T a, T b, Comparator<? super T> c) {
-    return (a == b) ? 0 :  c.compare(a, b);
+    return (a == b) ? 0 : c.compare(a, b);
   }
 
   // From Guava
@@ -807,7 +821,7 @@ public class Utils {
     Throwable cause;
     Throwable result = e;
 
-    while(null != (cause = result.getCause())  && (result != cause) ) {
+    while (null != (cause = result.getCause()) && (result != cause)) {
       result = cause;
     }
     return result;

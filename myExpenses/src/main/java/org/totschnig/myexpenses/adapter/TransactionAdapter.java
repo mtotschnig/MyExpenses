@@ -285,7 +285,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
         itemDateFormat = Utils.localizedYearlessDateFormat(context);
         break;
       case NONE:
-        itemDateFormat = Utils.getDateFormatSafe(context);
+        itemDateFormat = Utils.ensureDateFormatWithShortYear(context);
         dateEms = 4;
     }
   }
