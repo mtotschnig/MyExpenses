@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,7 +35,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
@@ -108,14 +106,14 @@ public class ManageCategories extends CategoryActivity implements
     }
   }
 
-  @Override
+/*  @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     final MenuItem item = menu.findItem(R.id.SETUP_CATEGORIES_DEFAULT_COMMAND);
     if (item != null) {
       Utils.menuItemSetEnabledAndVisible(item, getResources().getBoolean(R.bool.has_localized_categories));
     }
     return super.onPrepareOptionsMenu(menu);
-  }
+  }*/
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

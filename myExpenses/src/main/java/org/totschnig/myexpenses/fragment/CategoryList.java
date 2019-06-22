@@ -156,7 +156,8 @@ public class CategoryList extends SortableListFragment {
 
   private void configureImportButton(boolean visible) {
     if (mImportButton != null) {
-      mImportButton.setVisibility(visible && getResources().getBoolean(R.bool.has_localized_categories) ? View.VISIBLE : View.GONE);
+      mImportButton.setVisibility(visible/* && getResources().getBoolean(R.bool.has_localized_categories)*/
+          ? View.VISIBLE : View.GONE);
     }
   }
 
@@ -421,7 +422,7 @@ public class CategoryList extends SortableListFragment {
           mFilter = Utils.esacapeSqlLikeExpression(Utils.normalize(newText));
           // if a filter results in an empty list,
           // we do not want to show the setup default categories button
-         configureImportButton(false);
+          configureImportButton(false);
         }
         collapseAll();
         loadData();
