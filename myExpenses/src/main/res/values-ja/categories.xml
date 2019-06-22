@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
     <string name="Main_1">その他の収入</string>
     <!-- Subcategories under "Other income" -->
     <string-array name="Sub_1">
@@ -109,8 +109,9 @@
     <string name="Main_15">税金</string>
     <!-- Subcategories under "Taxes" -->
     <string-array name="Sub_15">
-        <item>収入</item>
-        <item>土地</item>
+        <item>所得税</item>
+        <item>土地税</item>
+        <item>消費税</item>
     </string-array>
     <string name="Main_16">住宅</string>
     <!-- Subcategories under "Housing" -->

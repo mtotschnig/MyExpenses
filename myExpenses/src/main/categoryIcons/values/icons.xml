@@ -98,6 +98,7 @@
     <string-array name="Sub_15_Icons">
         <item>taxes</item>
         <item>fence</item>
+        <item>plus</item>
     </string-array>
     <string name="Main_16_Icon">home</string>
     <string-array name="Sub_16_Icons">

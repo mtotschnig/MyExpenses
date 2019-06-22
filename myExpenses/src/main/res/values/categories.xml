@@ -109,8 +109,9 @@
     <string name="Main_15">Taxes</string>
     <!-- Subcategories under "Taxes" -->
     <string-array name="Sub_15">
-        <item>Income</item>
-        <item>Land</item>
+        <item>Income tax</item>
+        <item>Land tax</item>
+        <item>Sales tax</item>
     </string-array>
     <string name="Main_16">Housing</string>
     <!-- Subcategories under "Housing" -->

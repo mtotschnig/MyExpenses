@@ -853,4 +853,6 @@
   <string name="content_description_dates_are_linked">תאריך ההזמנה ותאריך הערך מתעדכנים יחד</string>
   <string name="content_description_dates_are_not_linked">תאריך ההזמנה ותאריך הערך אינם מעודכנים יחד</string>
   <string name="icon">סמל</string>
+  <string name="pref_debug_title">ניקוי באגים</string>
+  <string name="roadmap_vote">הצבעה על מפת דרכים</string>
 </resources>

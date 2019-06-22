@@ -432,7 +432,7 @@
             my:min="5"/>
         <PreferenceScreen
             android:key="@string/pref_debug_key"
-            android:title="Debug">
+            android:title="@string/pref_debug_title">
 
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_logging_key"

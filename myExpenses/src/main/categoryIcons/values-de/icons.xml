@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
     <string name="Main_1_Icon">piggy_bank</string>
-    <string-array name="Sub_1_Icons" >
+    <string-array name="Sub_1_Icons">
         <item>arrow_down</item>
         <item>percent</item>
         <item>file_invoice_dollar</item>
@@ -157,5 +157,10 @@
     </string-array>
     <string name="Main_21_Icon">gift</string>
     <string-array name="Sub_21_Icons"/>
-    <string name="Main_22_Icon"/>
+    <string name="Main_22_Icon">percent</string>
+    <string-array name="Sub_22_Icons">
+        <item>taxes</item>
+        <item>fence</item>
+        <item>plus</item>
+    </string-array>
 </resources>

@@ -829,4 +829,6 @@
   <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
   <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>
   <string name="icon">Symbol</string>
+  <string name="pref_debug_title">Debuggen</string>
+  <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
 </resources>

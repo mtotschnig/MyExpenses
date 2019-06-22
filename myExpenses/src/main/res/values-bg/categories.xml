@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
     <string name="Main_1">Други приходи</string>
     <!-- Subcategories under "Other income" -->
     <string-array name="Sub_1">
@@ -109,8 +109,9 @@
     <string name="Main_15">Данъци</string>
     <!-- Subcategories under "Taxes" -->
     <string-array name="Sub_15">
-        <item>Приходи общо</item>
-        <item>Земя</item>
+        <item>Данък общ доход</item>
+        <item>Данък върху земята</item>
+        <item>Данък върху продажбите</item>
     </string-array>
     <string name="Main_16">Квартира</string>
     <!-- Subcategories under "Housing" -->

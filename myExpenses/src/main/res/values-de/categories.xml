@@ -158,5 +158,11 @@
     <string name="Main_21">Geschenke</string>
     <string-array name="Sub_21">
     </string-array>
-    <string name="Main_22"/>
+        <string name="Main_22">Steuer</string>
+    <string-array name="Sub_22">
+        <item>Einkommenssteuer</item>
+        <item>Grundsteuer</item>
+        <item>Mehrwertsteuer</item>
+    </string-array>
+
 </resources>

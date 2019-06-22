@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">மற்ற வருமானம்</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>வேலையின்மை பயன்</item>
+        <item>குடும்பச் செலவுத்தொகை</item>
+        <item>வரி வரவு</item>
+        <item>சூதாட்டம்</item>
+        <item>பரஸ்பர காப்பீடு</item>
+        <item>சமூக பாதுகாப்பு</item>
+    </string-array>
+    <string name="Main_2">ஒய்வு</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>ஒய்வு நிதி</item>
+        <item>ஓய்வூதியம்</item>
+        <item>கூடுதல் ஓய்வூதியம்</item>
+    </string-array>
+    <string name="Main_3">முதலீட்டு வருமானம்</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>ஈவுத்தொகை</item>
+        <item>வட்டி</item>
+        <item>முதலின் ஈட்டம்</item>
+    </string-array>
+    <string name="Main_4">சம்பளம்</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>மேலதிக நேரம்</item>
+        <item>விடுப்பு ஈடு தொகை</item>
+        <item>மற்ற முனைமம்</item>
+        <item>வெற்றி கட்டணம்</item>
+        <item>நிகர சம்பளம்</item>
+    </string-array>
+    <string name="Main_5">மற்ற வருமானம்</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>பரிசுகள்</item>
+        <item>திரும்ப பெற்றவை</item>
+        <item>மறுபயன் விற்பனை</item>
+    </string-array>
+    <string name="Main_6">உணவு</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>அருந்தகம்</item>
+        <item>வெதுப்பகம்</item>
+        <item>உணவகம்</item>
+        <item>இனிப்புகள்</item>
+        <item>மளிகை</item>
+        <item>உணவு விடுதி</item>
+        <item>சுயசேவை</item>
+        <item>சிறப்பு அங்காடி</item>
+    </string-array>
+    <string name="Main_7">செல்லப்பிராணிகள்</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>உணவு</item>
+        <item>பல்வேறு பொருட்கள்</item>
+        <item>சீர்ப்படுத்தல்</item>
+        <item>கால்நடை அறுவை மருத்துவர்</item>
+    </string-array>
+    <string name="Main_8">காப்பீடு</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>மகிழுந்து</item>
+        <item>உடல்நலம்</item>
+        <item>வீடு</item>
+        <item>குடிமக்கள் கடமை</item>
+        <item>வாழ்க்கை</item>
+    </string-array>
+    <string name="Main_9">மகிழுந்து</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>எரிபொருள்</item>
+        <item>பழுது நீக்கல்</item>
+        <item>பராமரிப்பு</item>
+        <item>ஊர்தி நிறுத்தம்</item>
+        <item>அபராதம்</item>
+    </string-array>
+    <string name="Main_10">பரிசுகள்</string>
+    <string name="Main_11">குழந்தைகள்</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>செவிலியர்</item>
+        <item>படிப்பு</item>
+    </string-array>
+    <string name="Main_12">படிப்பு</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>படிப்பினைகள்</item>
+        <item>பள்ளி கட்டணம்</item>
+        <item>புத்தகங்கள்</item>
+    </string-array>
+    <string name="Main_13">நிதி செலவுகள்</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>வங்கி கட்டணங்கள்</item>
+        <item>கடன் / அடமானம்</item>
+        <item>கட்டணங்கள்</item>
+        <item>திரும்ப கொடுத்தவை</item>
+    </string-array>
+    <string name="Main_14">தொழில்முறை செலவுகள்</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>திரும்பப் பெற முடியாதது</item>
+        <item>திரும்பப் பெறத்தக்க</item>
+    </string-array>
+    <string name="Main_15">வரிகள்</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>வருமான வரி</item>
+        <item>நில வரி</item>
+        <item>விற்பனை வரி</item>
+    </string-array>
+    <string name="Main_16">வீட்டுவசதி</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>உணவு விடுதி</item>
+        <item>வாடகை</item>
+        <item>தொலைக்காட்சி</item>
+        <item>அறைகலன்</item>
+        <item>கட்டணங்கள்</item>
+        <item>வெப்பமூட்டுல்</item>
+        <item>அலங்காரம்</item>
+        <item>தண்ணீர்</item>
+        <item>மின்சாரம்</item>
+        <item>வெள்ளை சரக்குகள்</item>
+        <item>உபகரணங்கள்</item>
+        <item>எரிவாயு</item>
+        <item>தோட்டம்</item>
+        <item>வீட்டு கவனிப்பாளர்</item>
+        <item>தொலைபேசி</item>
+        <item>கைபேசி</item>
+    </string-array>
+    <string name="Main_17">ஓய்வு</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>சுனூக்கர்</item>
+        <item>பந்து வீச்சு</item>
+        <item>திரைப்படங்கள்</item>
+        <item>இரவுநேர கேளிக்கைவிடுதி</item>
+        <item>ஐ.டி</item>
+        <item>விளையாட்டுகள்</item>
+        <item>புத்தகங்கள்</item>
+        <item>பூங்காக்கள்</item>
+        <item>கச்சேரி</item>
+        <item>விளையாட்டு</item>
+        <item>காணொளி</item>
+        <item>பயணங்கள்</item>
+        <item>உபகரணங்கள்</item>
+        <item>அருங்காட்சியகங்கள் / கண்காட்சிகள்</item>
+    </string-array>
+    <string name="Main_18">கடன் / அடமானம்</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>முதல்</item>
+    </string-array>
+    <string name="Main_19">உடல்நலம்</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>காப்பீடு</item>
+        <item>பல்மருத்துவர்</item>
+        <item>மருத்துவமனை</item>
+        <item>அசைவு சிகிச்சை மருத்துவர்</item>
+        <item>மருத்துவர்</item>
+        <item>கண்மருத்துவர்</item>
+        <item>எலும்பு நோய் நிபுணர்</item>
+        <item>வேதியியல் வல்லுநர்</item>
+        <item>சமூக பாதுகாப்பு</item>
+    </string-array>
+    <string name="Main_20">பராமரிப்பு</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>சிகையலங்கார நிபுணர்</item>
+        <item>ஆடை</item>
+    </string-array>
+    <string name="Main_21">போக்குவரத்து</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>பேருந்து</item>
+        <item>மெட்ரோ</item>
+        <item>சாலைச் சுங்கம்</item>
+        <item>ரயில்</item>
+        <item>தண்டூர்திப் பாதை</item>
+        <item>விமானம்</item>
+    </string-array>
+    <string name="Main_22">விடுமுறைகள்</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>வீட்டுவசதி</item>
+        <item>பார்க்க செல்லுதல்</item>
+        <item>பயணங்கள்</item>
+    </string-array>
+</resources>

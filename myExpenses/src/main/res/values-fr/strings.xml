@@ -829,4 +829,6 @@
   <string name="content_description_dates_are_linked">La date d\'enregistrement et la date de valeur sont mises à jour ensemble</string>
   <string name="content_description_dates_are_not_linked">La date d\'enregistrement et la date de valeur ne sont pas mises à jour ensemble</string>
   <string name="icon">Icône</string>
+  <string name="pref_debug_title">Déboguer</string>
+  <string name="roadmap_vote">Vote sur la feuille de route</string>
 </resources>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
     <string name="Main_1">ចំណូលផ្សេងៗ</string>
     <!-- Subcategories under "Other income" -->
     <string-array name="Sub_1">
@@ -109,8 +109,9 @@
     <string name="Main_15">ពន្ធ</string>
     <!-- Subcategories under "Taxes" -->
     <string-array name="Sub_15">
-        <item>ចំណូល</item>
-        <item>ដី</item>
+        <item>ពន្ធ​លើ​ប្រាក់​ចំណូល</item>
+        <item>ពន្ធលើដី</item>
+        <item>ពន្ធលើការលក់</item>
     </string-array>
     <string name="Main_16">លំនៅដ្ឋាន</string>
     <!-- Subcategories under "Housing" -->

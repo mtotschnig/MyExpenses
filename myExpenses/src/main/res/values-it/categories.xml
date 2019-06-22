@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
     <string name="Main_1">Altre entrate</string>
     <!-- Subcategories under "Other income" -->
     <string-array name="Sub_1">
@@ -109,8 +109,9 @@
     <string name="Main_15">Tasse</string>
     <!-- Subcategories under "Taxes" -->
     <string-array name="Sub_15">
-        <item>Reddito</item>
-        <item>Terreno</item>
+        <item>Tassa sul reddito</item>
+        <item>Tassa territoriale</item>
+        <item>Imposta sul valore aggiunto</item>
     </string-array>
     <string name="Main_16">Abitazione</string>
     <!-- Subcategories under "Housing" -->
