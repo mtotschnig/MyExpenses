@@ -39,7 +39,6 @@
   <string name="decimal_separator">កាត់ខ្ទង់ទសភាគ</string>
   <string name="description">ការពិពណ៌នា</string>
   <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>

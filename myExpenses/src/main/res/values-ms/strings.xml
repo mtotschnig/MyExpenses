@@ -54,8 +54,6 @@
   <string name="default_account_name">Buku Bajet</string>
   <string name="description">Keterangan</string>
   <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Singkir</string>
   <string name="dialog_confirm_discard_changes">Singkir perubahan?</string>
   <string name="dialog_confirm_discard_new_transaction">Singkir transaksi baharu?</string>
   <string name="dialog_confirm_discard_new_template">Singkir templat baharu?</string>

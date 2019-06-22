@@ -33,7 +33,6 @@
   <string name="date_format">日期格式</string>
   <string name="date_format_illegal">日期格式錯誤</string>
   <string name="description">描述</string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
   <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
   <string name="dialog_contrib_no">現在不要</string>

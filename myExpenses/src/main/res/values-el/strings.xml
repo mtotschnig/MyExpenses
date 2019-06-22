@@ -49,8 +49,6 @@
   <string name="default_account_name">Βιβλίο προϋπολογισμού</string>
   <string name="description">περιγραφή</string>
   <string name="dialog_balance_delete">Διαγραφή διακανονισμένων συναλλαγών</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Απόρριψη</string>
   <string name="dialog_confirm_discard_changes">Απόρριψη αλλαγών;</string>
   <string name="dialog_confirm_discard_new_transaction">Απόρριψη νέας συναλλαγής;</string>
   <string name="dialog_confirm_discard_new_template">Απόρριψη νέου προτύπου;</string>

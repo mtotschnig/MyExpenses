@@ -32,7 +32,6 @@
   <string name="date_format">Formát data</string>
   <string name="date_format_illegal">Neplatný formát data</string>
   <string name="description">Popis</string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">Žádné transakce pro export.</string>
   <string name="dialog_command_disabled_distribution">Žádné transakce nebyly namapovány do kategorií v tomto účtu.</string>
   <string name="dialog_contrib_no">Zatím ne</string>

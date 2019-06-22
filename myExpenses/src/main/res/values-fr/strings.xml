@@ -54,8 +54,6 @@
   <string name="default_account_name">Livre de budget</string>
   <string name="description">Description</string>
   <string name="dialog_balance_delete">Supprimer les transactions rapprochées</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Rejeter</string>
   <string name="dialog_confirm_discard_changes">Annuler les changements ?</string>
   <string name="dialog_confirm_discard_new_transaction">Annuler la nouvelle opération ?</string>
   <string name="dialog_confirm_discard_new_template">Annuler le nouveau modèle ?</string>

@@ -42,7 +42,6 @@
   <string name="default_account_name">Proračunska knjiga</string>
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Izbriši usklađene transakcije</string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">Nema odobrenih transakcija za usklađivanje</string>
   <string name="dialog_command_disabled_reset_account">Ne postoje transakcije za eksport.</string>
   <string name="dialog_command_disabled_distribution">Nema transakcija označenih uz kategorije unutar ovog računa.</string>

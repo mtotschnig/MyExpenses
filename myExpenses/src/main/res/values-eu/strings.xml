@@ -53,8 +53,6 @@
   <string name="default_account_name">Aurrekontu liburua</string>
   <string name="description">Azalpena</string>
   <string name="dialog_balance_delete">Ezabatu berdinkatutako transakzioak</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Baztertu</string>
   <string name="dialog_confirm_discard_changes">Baztertu aldaketak?</string>
   <string name="dialog_confirm_discard_new_transaction">Baztertu transakzio berria?</string>
   <string name="dialog_confirm_discard_new_template">Baztertu txantiloi berria?</string>

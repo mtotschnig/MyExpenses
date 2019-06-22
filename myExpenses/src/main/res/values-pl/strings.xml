@@ -54,8 +54,6 @@
   <string name="default_account_name">Książka budżetu</string>
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Odrzuć</string>
   <string name="dialog_confirm_discard_changes">Odrzucić zmiany?</string>
   <string name="dialog_confirm_discard_new_transaction">Odrzucić nową transakcję?</string>
   <string name="dialog_confirm_discard_new_template">Odrzucić nowy szablon?</string>

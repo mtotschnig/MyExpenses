@@ -54,8 +54,6 @@
   <string name="default_account_name">Bütçe defteri</string>
   <string name="description">Açıklama</string>
   <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">At</string>
   <string name="dialog_confirm_discard_changes">Değişiklikler gözardı edilsin mi?</string>
   <string name="dialog_confirm_discard_new_transaction">Yeni muamele gözardı edilsin mi?</string>
   <string name="dialog_confirm_discard_new_template">Yeni şablon gözardı edilsin mi?</string>

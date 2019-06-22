@@ -829,4 +829,6 @@
   <string name="content_description_dates_are_linked">Data di prenotazione e data di valuta vengono aggiornate insieme</string>
   <string name="content_description_dates_are_not_linked">Data di prenotazione e data di valuta non vengono aggiornate insieme</string>
   <string name="icon">Icona</string>
+  <string name="pref_debug_title">Debug</string>
+  <string name="roadmap_vote">Voto sulla Roadmap</string>
 </resources>

@@ -54,8 +54,6 @@
   <string name="default_account_name">ספר התקציב</string>
   <string name="description">תאור</string>
   <string name="dialog_balance_delete">מחק עסקאות שאומתו reconciled</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">למחוק</string>
   <string name="dialog_confirm_discard_changes">למחוק שינויים?</string>
   <string name="dialog_confirm_discard_new_transaction">למחוק עסקאות חדשות?</string>
   <string name="dialog_confirm_discard_new_template">למחוק תבנית חדשה?</string>

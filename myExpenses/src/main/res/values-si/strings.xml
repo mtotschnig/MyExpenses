@@ -34,7 +34,6 @@
   <string name="date_format_illegal">නීතිමය නොවන දින ආකෘතිය </string>
   <string name="decimal_separator">දශම ස්ථාන වෙන්කිර්මේ උපකරණය </string>
   <string name="description">විස්තරය </string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
   <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
   <string name="dialog_contrib_no">තවම නැත </string>

@@ -48,8 +48,6 @@
   <string name="default_account_name">Livro de orçamento</string>
   <string name="description">Descrição</string>
   <string name="dialog_balance_delete">Eliminar transações reconciliadas</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Rejeitar</string>
   <string name="dialog_confirm_discard_changes">Rejeitar alterações?</string>
   <string name="dialog_confirm_discard_new_transaction">Rejeitar nova transação?</string>
   <string name="dialog_confirm_discard_new_template">Rejeitar novo modelo?</string>

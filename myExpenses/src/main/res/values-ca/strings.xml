@@ -41,7 +41,6 @@
   <string name="decimal_separator">Separador decimal</string>
   <string name="description">Descripció</string>
   <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>

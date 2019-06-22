@@ -48,8 +48,6 @@
   <string name="default_account_name">예산안</string>
   <string name="description">설명</string>
   <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">버리기</string>
   <string name="dialog_confirm_discard_changes">변경 사항을 취소할까요?</string>
   <string name="dialog_confirm_discard_new_transaction">새로운 거래 내역을 취소할까요?</string>
   <string name="dialog_confirm_discard_new_template">새로운 템플릿을 취소할까요?</string>

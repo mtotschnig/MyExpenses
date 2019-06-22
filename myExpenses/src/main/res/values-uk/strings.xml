@@ -54,8 +54,6 @@
   <string name="default_account_name">Бюджет</string>
   <string name="description">Опис</string>
   <string name="dialog_balance_delete">Видалити узгоджені операції</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Відхилити</string>
   <string name="dialog_confirm_discard_changes">Відхилити змніи?</string>
   <string name="dialog_confirm_discard_new_transaction">Відхилити створення нової операції?</string>
   <string name="dialog_confirm_discard_new_template">Відхилити створення нового шаблону?</string>

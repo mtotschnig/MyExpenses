@@ -41,8 +41,6 @@
   <string name="date_format_illegal">تنسيق التاريخ غير صحيح</string>
   <string name="decimal_separator">فاصلة عشرية</string>
   <string name="description">الوصف</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">تجاهل</string>
   <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
   <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
   <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>

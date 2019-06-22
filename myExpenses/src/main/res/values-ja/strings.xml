@@ -54,8 +54,6 @@
   <string name="default_account_name">予算簿</string>
   <string name="description">説明</string>
   <string name="dialog_balance_delete">照合した取引を削除</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">破棄</string>
   <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
   <string name="dialog_confirm_discard_new_transaction">新しい取引を破棄しますか?</string>
   <string name="dialog_confirm_discard_new_template">新しいテンプレートを破棄しますか?</string>

@@ -40,7 +40,6 @@
   <string name="date_format">Dátum formátum</string>
   <string name="date_format_illegal">Helytelen dátum formátum</string>
   <string name="description">Leírás</string>
-  <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
   <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <string name="dialog_contrib_no">Nem most</string>

@@ -48,8 +48,6 @@
   <string name="default_account_name">预算册</string>
   <string name="description">描述</string>
   <string name="dialog_balance_delete">删除已校对的交易</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">丢弃</string>
   <string name="dialog_confirm_discard_changes">丢弃改变?</string>
   <string name="dialog_confirm_discard_new_transaction">丢弃新交易?</string>
   <string name="dialog_confirm_discard_new_template">丢弃新模板?</string>

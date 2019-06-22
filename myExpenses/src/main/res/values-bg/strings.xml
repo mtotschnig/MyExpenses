@@ -54,8 +54,6 @@
   <string name="default_account_name">Бюджетна книга</string>
   <string name="description">Описание</string>
   <string name="dialog_balance_delete">Изтрий изравнените транзакции</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Отхвърли</string>
   <string name="dialog_confirm_discard_changes">Да отхвърля ли промените?</string>
   <string name="dialog_confirm_discard_new_transaction">Да отхвърля ли новата транзакция?</string>
   <string name="dialog_confirm_discard_new_template">Да отхвърля ли новия шаблон?</string>

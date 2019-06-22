@@ -54,8 +54,6 @@
   <string name="default_account_name">Финансовая смета</string>
   <string name="description">Описание</string>
   <string name="dialog_balance_delete">Удалить согласованные операции</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Сброс</string>
   <string name="dialog_confirm_discard_changes">Отменить изменения</string>
   <string name="dialog_confirm_discard_new_transaction">Отменить новую операцию?</string>
   <string name="dialog_confirm_discard_new_template">Отменить создание шаблона?</string>

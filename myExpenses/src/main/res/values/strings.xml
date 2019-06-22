@@ -69,8 +69,6 @@
     <string name="default_account_name">Budget Book</string>
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
-    <!-- User confirms that he wants to discard changes -->
-    <string name="dialog_confirm_button_discard">Discard</string>
     <string name="dialog_confirm_discard_changes">Discard changes?</string>
     <string name="dialog_confirm_discard_new_transaction">Discard new transaction?</string>
     <string name="dialog_confirm_discard_new_template">Discard new template?</string>

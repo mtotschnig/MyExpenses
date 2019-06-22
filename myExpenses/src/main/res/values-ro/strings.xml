@@ -48,8 +48,6 @@
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
   <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Inlatura</string>
   <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
   <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
   <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>

@@ -54,8 +54,6 @@
   <string name="default_account_name">Haushaltsbuch</string>
   <string name="description">Beschreibung</string>
   <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Verwerfen</string>
   <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
   <string name="dialog_confirm_discard_new_transaction">Neue Buchung verwerfen?</string>
   <string name="dialog_confirm_discard_new_template">Neue Vorlage verwerfen?</string>

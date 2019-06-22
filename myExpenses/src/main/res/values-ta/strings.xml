@@ -54,8 +54,6 @@
   <string name="default_account_name">வரவு செலவுத் திட்ட புத்தகம்</string>
   <string name="description">விளக்கம்</string>
   <string name="dialog_balance_delete">சரிசெய்யப்பட்ட பரிவர்த்தனைகளை நீக்குக</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">நிராகரி</string>
   <string name="dialog_confirm_discard_changes">மாற்றங்களை நிராகரிக்கவா?</string>
   <string name="dialog_confirm_discard_new_transaction">புதிய பரிவர்த்தனையை நிராகரிக்கவா?</string>
   <string name="dialog_confirm_discard_new_template">புதிய வார்ப்புருவை நிராகரிக்கவா?</string>

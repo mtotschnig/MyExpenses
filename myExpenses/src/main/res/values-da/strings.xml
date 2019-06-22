@@ -46,8 +46,6 @@
   <string name="default_account_name">Budgetbog</string>
   <string name="description">Beskrivelse</string>
   <string name="dialog_balance_delete">Slet afstemte posteringer</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Forkast</string>
   <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
   <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
   <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
