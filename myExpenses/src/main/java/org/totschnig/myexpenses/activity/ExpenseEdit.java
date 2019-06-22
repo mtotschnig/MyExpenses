@@ -845,14 +845,12 @@ public class ExpenseEdit extends AmountActivity implements
         setLocalDateTime(mTransaction);
       }
     }
+    if (mTransaction.getId() != 0) {
+      configureTransferDirection();
+    }
 
     //after setLocalDateTime, so that the plan info can override the date
     configurePlan();
-
-
-    if (isIncome() && mOperationType == TYPE_TRANSFER) {
-      switchAccountViews();
-    }
 
     setCategoryButton();
     if (mOperationType != TYPE_TRANSFER) {
@@ -1555,17 +1553,21 @@ public class ExpenseEdit extends AmountActivity implements
     table.removeView(amountRow);
     table.removeView(transferAmountRow);
     if (isIncome()) {
-      accountRow.removeView(accountSpinner);
-      transferAccountRow.removeView(transferAccountSpinner);
-      accountRow.addView(transferAccountSpinner);
-      transferAccountRow.addView(accountSpinner);
+      if (accountSpinner.getParent() == accountRow && transferAccountSpinner.getParent() == transferAccountRow) {
+        accountRow.removeView(accountSpinner);
+        transferAccountRow.removeView(transferAccountSpinner);
+        accountRow.addView(transferAccountSpinner);
+        transferAccountRow.addView(accountSpinner);
+      }
       table.addView(transferAmountRow, 2);
       table.addView(amountRow, 4);
     } else {
-      accountRow.removeView(transferAccountSpinner);
-      transferAccountRow.removeView(accountSpinner);
-      accountRow.addView(accountSpinner);
-      transferAccountRow.addView(transferAccountSpinner);
+      if (accountSpinner.getParent() == transferAccountRow && transferAccountSpinner.getParent() == accountRow) {
+        accountRow.removeView(transferAccountSpinner);
+        transferAccountRow.removeView(accountSpinner);
+        accountRow.addView(accountSpinner);
+        transferAccountRow.addView(transferAccountSpinner);
+      }
       table.addView(amountRow, 2);
       table.addView(transferAmountRow, 4);
     }
@@ -2554,6 +2556,15 @@ public class ExpenseEdit extends AmountActivity implements
     super.onRestoreInstanceState(savedInstanceState);
     mExchangeRateEdit.setBlockWatcher(false);
     isProcessingLinkedAmountInputs = false;
+    if (mRowId == 0L && mTemplateId == 0L) {
+      configureTransferDirection();
+    }
+  }
+
+  private void configureTransferDirection() {
+    if (isIncome() && mOperationType == TYPE_TRANSFER) {
+      switchAccountViews();
+    }
   }
 
   @Override
