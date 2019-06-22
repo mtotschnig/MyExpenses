@@ -111,6 +111,7 @@ public class Utils {
   private Utils() {
   }
 
+  @Nullable
   public static String getCountryFromTelephonyManager() {
     TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getInstance()
         .getSystemService(Context.TELEPHONY_SERVICE);

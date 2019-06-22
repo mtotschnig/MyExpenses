@@ -21,6 +21,8 @@ import dagger.Module;
 import dagger.Provides;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.di.AppComponent.USER_COUNTRY;
+
 @Module
 public class AppModule {
 
@@ -58,9 +60,15 @@ public class AppModule {
 
   @Provides
   @Singleton
-  @Named("userCountry")
+  @Named(USER_COUNTRY)
   static String provideUserCountry() {
-    return BuildConfig.DEBUG ? "de" : Utils.getCountryFromTelephonyManager();
+    final String defaultCountry = "us";
+    if (BuildConfig.DEBUG) {
+      return defaultCountry;
+    } else {
+      final String countryFromTelephonyManager = Utils.getCountryFromTelephonyManager();
+      return countryFromTelephonyManager != null ? countryFromTelephonyManager : defaultCountry;
+    }
   }
 
   @Provides

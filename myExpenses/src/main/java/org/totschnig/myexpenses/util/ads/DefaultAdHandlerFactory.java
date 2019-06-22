@@ -80,7 +80,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
   @Override
   public AdHandler create(ViewGroup adContainer) {
     return isAdDisabled() ? new NoOpAdHandler(this, adContainer) :
-        new CustomAdHandler(this, adContainer);
+        new CustomAdHandler(this, adContainer, userCountry);
   }
 
   @Override

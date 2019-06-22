@@ -46,6 +46,9 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class})
 public interface AppComponent {
+
+  public String USER_COUNTRY = "userCountry";
+
   @Component.Builder
   interface Builder {
     @BindsInstance
@@ -101,7 +104,7 @@ public interface AppComponent {
   @VisibleForTesting
   LicenceHandler licenceHandler();
 
-  @Named("userCountry") String userCountry();
+  @Named(USER_COUNTRY) String userCountry();
 
   CurrencyContext currencyContext();
 

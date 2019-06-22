@@ -13,6 +13,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+import static org.totschnig.myexpenses.di.AppComponent.USER_COUNTRY;
+
 @Module
 public class UiModule {
   @Provides
@@ -23,7 +25,7 @@ public class UiModule {
 
   @Provides
   @Singleton
-  static AdHandlerFactory provideAdHandlerFactory(MyApplication application, PrefHandler prefHandler, @Named("userCountry") String userCountry) {
+  static AdHandlerFactory provideAdHandlerFactory(MyApplication application, PrefHandler prefHandler, @Named(USER_COUNTRY) String userCountry) {
     return new DefaultAdHandlerFactory(application, prefHandler, userCountry) {
       @Override
       public boolean isAdDisabled() {

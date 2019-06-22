@@ -4,7 +4,6 @@ import android.support.v4.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.ads.customevent.AdListener;
 import org.totschnig.myexpenses.util.ads.customevent.AdView;
 import org.totschnig.myexpenses.util.ads.customevent.Interstitial;
@@ -17,10 +16,12 @@ public class CustomAdHandler extends AdHandler {
   private AdView adView;
   private Interstitial interstitial;
   private boolean mInterstitialShown = false;
+  private String userCountry;
 
 
-  protected CustomAdHandler(AdHandlerFactory factory, ViewGroup adContainer) {
+  protected CustomAdHandler(AdHandlerFactory factory, ViewGroup adContainer, String userCountry) {
     super(factory, adContainer);
+    this.userCountry = userCountry;
   }
 
   @Override
@@ -28,7 +29,7 @@ public class CustomAdHandler extends AdHandler {
     float density = context.getResources().getDisplayMetrics().density;
     Pair<PartnerProgram, String> contentProvider = PartnerProgram.pickContent(
         Arrays.asList(PartnerProgram.values()),
-        MyApplication.getInstance().getAppComponent().userCountry(),
+        userCountry,
         context,
         Math.round(adContainer.getWidth() / density));
     if (contentProvider == null) {
@@ -58,7 +59,7 @@ public class CustomAdHandler extends AdHandler {
   @Override
   protected void requestNewInterstitialDo() {
     Pair<PartnerProgram, String> contentProvider = PartnerProgram.pickContent(Arrays.asList(PartnerProgram.values()),
-        MyApplication.getInstance().getAppComponent().userCountry(), context, -1);
+        userCountry, context, -1);
     if (contentProvider != null) {
       mInterstitialShown = false;
       interstitial = new Interstitial(context);
