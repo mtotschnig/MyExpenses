@@ -375,7 +375,8 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   private long getDateForPosition(int position) {
-    return dateTime2TimeStampMap.get(dateInMonthsList.get(position));
+    final Long date = dateTime2TimeStampMap.get(dateInMonthsList.get(position));
+    return date != null ? date : System.currentTimeMillis();
   }
 
   public void configureMenu11(Menu menu, int count, AbsListView lv) {
