@@ -194,7 +194,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       } else if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
         notifyWithResolution((SyncBackendProvider.ResolvableSetupException) throwable);
       } else {
-        log().e(throwable, "Error setting up account.");
+        if (!(throwable instanceof IOException)) {
+          log().e(throwable, "Error setting up account.");
+        }
         syncResult.stats.numIoExceptions++;
         syncResult.delayUntil = getIoDefaultDelaySeconds();
         appendToNotification(TextUtils.concatResStrings(getContext(), " ",

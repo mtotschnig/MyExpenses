@@ -207,6 +207,7 @@ public class PlanMonthFragment extends CaldroidFragment
     return new CaldroidCustomAdapter(getActivity(), month, year, getCaldroidData(), extraData);
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     switch (id) {
@@ -245,7 +246,7 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
     if (data == null) {
       return;
     }
@@ -278,7 +279,7 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
+  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
   }
 
