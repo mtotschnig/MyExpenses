@@ -246,6 +246,9 @@ public class PlanMonthFragment extends CaldroidFragment
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    if (data == null) {
+      return;
+    }
     switch (loader.getId()) {
       case INSTANCES_CURSOR:
         Calendar calendar = Calendar.getInstance();
