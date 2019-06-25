@@ -547,18 +547,6 @@ public class TemplatesList extends SortableListFragment
           R.string.plan : R.string.template));
       return convertView;
     }
-
-    @Override
-    public boolean areAllItemsEnabled() {
-      return false;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-      Cursor c = getCursor();
-      c.moveToPosition(position);
-      return c.getInt(c.getColumnIndex(KEY_SEALED)) == 0;
-    }
   }
 
   @Override
@@ -567,7 +555,7 @@ public class TemplatesList extends SortableListFragment
     switch (listId) {
       case R.id.list:
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position));
+        configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position), isSealed(info.position));
         break;
       case R.id.calendar_gridview:
         requirePlanMonthFragment().configureMenuLegacy(menu, menuInfo);
@@ -580,7 +568,7 @@ public class TemplatesList extends SortableListFragment
     switch (lv.getId()) {
       case R.id.list:
         SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-        boolean hasForeignExchangeTransfer = false, hasPlan = false;
+        boolean hasForeignExchangeTransfer = false, hasPlan = false, hasSealed = false;
         for (int i = 0; i < checkedItemPositions.size(); i++) {
           if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
               (i))) {
@@ -595,16 +583,24 @@ public class TemplatesList extends SortableListFragment
             break;
           }
         }
-        configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan);
+        for (int i = 0; i < checkedItemPositions.size(); i++) {
+          if (checkedItemPositions.valueAt(i) && isSealed(checkedItemPositions.keyAt
+              (i))) {
+            hasSealed = true;
+            break;
+          }
+        }
+        configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan, hasSealed);
         break;
       case R.id.calendar_gridview:
         requirePlanMonthFragment().configureMenu11(menu, count, lv);
     }
   }
 
-  private void configureMenuInternal(Menu menu, int count, boolean foreignExchangeTransfer, boolean hasPlan) {
-    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer && !hasPlan);
-    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count == 1 && !hasPlan);
+  private void configureMenuInternal(Menu menu, int count, boolean foreignExchangeTransfer, boolean hasPlan, boolean hasSealed) {
+    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer && !hasPlan & !hasSealed);
+    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count == 1 && !hasPlan && !hasSealed);
+    menu.findItem(R.id.EDIT_COMMAND).setVisible(!hasSealed);
   }
 
   private boolean isForeignExchangeTransfer(int position) {
@@ -622,6 +618,13 @@ public class TemplatesList extends SortableListFragment
   private boolean isPlan(int position) {
     if (mTemplatesCursor != null && mTemplatesCursor.moveToPosition(position)) {
       return !mTemplatesCursor.isNull(columnIndexPlanId);
+    }
+    return false;
+  }
+
+  private boolean isSealed(int position) {
+    if (mTemplatesCursor != null && mTemplatesCursor.moveToPosition(position)) {
+      return mTemplatesCursor.getInt(columnIndexIsSealed) == 1;
     }
     return false;
   }
