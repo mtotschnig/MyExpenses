@@ -18,6 +18,8 @@ package org.totschnig.myexpenses.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -54,7 +56,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.annimon.stream.LongStream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -160,8 +164,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener {
@@ -350,118 +357,166 @@ public class TransactionList extends ContextualActionBarFragment implements
     FragmentManager fm = getFragmentManager();
     switch (command) {
       case R.id.DELETE_COMMAND: {
-        boolean hasReconciled = false, hasNotVoid = false;
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            mTransactionsCursor.moveToPosition(positions.keyAt(i));
-            CrStatus status;
-            try {
-              status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
-            } catch (IllegalArgumentException ex) {
-              status = CrStatus.UNRECONCILED;
+        checkSealed(ArrayUtils.toPrimitive(itemIds), result -> {
+          if (result) {
+            boolean hasReconciled = false, hasNotVoid = false;
+            for (int i = 0; i < positions.size(); i++) {
+              if (positions.valueAt(i)) {
+                mTransactionsCursor.moveToPosition(positions.keyAt(i));
+                CrStatus status;
+                try {
+                  status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
+                } catch (IllegalArgumentException ex) {
+                  status = CrStatus.UNRECONCILED;
+                }
+                if (status == CrStatus.RECONCILED) {
+                  hasReconciled = true;
+                }
+                if (status != CrStatus.VOID) {
+                  hasNotVoid = true;
+                }
+                if (hasNotVoid && hasReconciled) break;
+              }
             }
-            if (status == CrStatus.RECONCILED) {
-              hasReconciled = true;
+            String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
+            if (hasReconciled) {
+              message += " " + getString(R.string.warning_delete_reconciled);
             }
-            if (status != CrStatus.VOID) {
-              hasNotVoid = true;
+            Bundle b = new Bundle();
+            b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+                R.string.dialog_title_warning_delete_transaction);
+            b.putString(
+                ConfirmationDialogFragment.KEY_MESSAGE, message);
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                R.id.DELETE_COMMAND_DO);
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                R.id.CANCEL_CALLBACK_COMMAND);
+            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
+            if (hasNotVoid) {
+              b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                  R.string.mark_void_instead_of_delete);
             }
-            if (hasNotVoid && hasReconciled) break;
+            b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
+            ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
+          } else {
+            warnSealedAccount();
           }
-        }
-        String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
-        if (hasReconciled) {
-          message += " " + getString(R.string.warning_delete_reconciled);
-        }
-        Bundle b = new Bundle();
-        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-            R.string.dialog_title_warning_delete_transaction);
-        b.putString(
-            ConfirmationDialogFragment.KEY_MESSAGE, message);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-            R.id.DELETE_COMMAND_DO);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-            R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
-        if (hasNotVoid) {
-          b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-              R.string.mark_void_instead_of_delete);
-        }
-        b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
-        ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
+        });
         return true;
       }
       case R.id.SPLIT_TRANSACTION_COMMAND:
-        ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, ArrayUtils.toPrimitive(itemIds));
+        checkSealed(ArrayUtils.toPrimitive(itemIds), result -> {
+          if (result) {
+            ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, ArrayUtils.toPrimitive(itemIds));
+          } else {
+            warnSealedAccount();
+          }
+        });
         break;
       case R.id.UNGROUP_SPLIT_COMMAND: {
-        Bundle b = new Bundle();
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
-        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
-        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
+        checkSealed(ArrayUtils.toPrimitive(itemIds), result -> {
+          if (result) {
+            Bundle b = new Bundle();
+            b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
+            b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+            ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
+          } else {
+            warnSealedAccount();
+          }
+        });
         return true;
       }
       case R.id.UNDELETE_COMMAND:
-        ctx.startTaskExecution(
-            TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
-            itemIds,
-            null,
-            0);
+        checkSealed(ArrayUtils.toPrimitive(itemIds), result -> {
+          if (result) {
+            ctx.startTaskExecution(
+                TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
+                itemIds,
+                null,
+                0);
+          } else {
+            warnSealedAccount();
+          }
+        });
         break;
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
 
+  private void checkSealed(long[] itemIds, ResultListener listener) {
+    Bundle extras = new Bundle();
+    extras.putLongArray(KEY_LONG_IDS, itemIds);
+    new CheckSealedHandler(getActivity().getContentResolver()).check(itemIds, listener);
+  }
+
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) info;
     MyExpenses ctx = (MyExpenses) getActivity();
+    mTransactionsCursor.moveToPosition(acmi.position);
     switch (command) {
       case R.id.EDIT_COMMAND:
       case R.id.CLONE_TRANSACTION_COMMAND:
-        mTransactionsCursor.moveToPosition(acmi.position);
-        if (DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null) {
-          ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
-        } else {
-          Intent i = new Intent(ctx, ExpenseEdit.class);
-          i.putExtra(KEY_ROWID, acmi.id);
-          if (command == R.id.CLONE_TRANSACTION_COMMAND) {
-            i.putExtra(ExpenseEdit.KEY_CLONE, true);
+        checkSealed(new long[]{acmi.id}, result -> {
+          if (result) {
+            if (DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null) {
+              ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
+            } else {
+              Intent i = new Intent(ctx, ExpenseEdit.class);
+              i.putExtra(KEY_ROWID, acmi.id);
+              if (command == R.id.CLONE_TRANSACTION_COMMAND) {
+                i.putExtra(ExpenseEdit.KEY_CLONE, true);
+              }
+              ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+            }
+          } else {
+            warnSealedAccount();
           }
-          ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
-        }
+        });
         //super is handling deactivation of mActionMode
         break;
       case R.id.CREATE_TEMPLATE_COMMAND:
-        if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true)) {
-          ctx.showContribDialog(ContribFeature.SPLIT_TEMPLATE, null);
-          return true;
-        }
-        mTransactionsCursor.moveToPosition(acmi.position);
-        String label = mTransactionsCursor.getString(columnIndexPayee);
-        if (TextUtils.isEmpty(label))
-          label = mTransactionsCursor.getString(columnIndexLabelSub);
-        if (TextUtils.isEmpty(label))
-          label = mTransactionsCursor.getString(columnIndexLabelMain);
-        Bundle args = new Bundle();
-        args.putLong(KEY_ROWID, acmi.id);
-        SimpleInputDialog.build()
-            .title(R.string.dialog_title_template_title)
-            .cancelable(false)
-            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            .hint(R.string.label)
-            .text(label)
-            .extra(args)
-            .pos(R.string.dialog_button_add)
-            .neut()
-            .show(this, NEW_TEMPLATE_DIALOG);
+        checkSealed(new long[]{acmi.id}, result -> {
+          if (result) {
+            if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true)) {
+              ctx.showContribDialog(ContribFeature.SPLIT_TEMPLATE, null);
+            } else {
+              mTransactionsCursor.moveToPosition(acmi.position);
+              String label = mTransactionsCursor.getString(columnIndexPayee);
+              if (TextUtils.isEmpty(label))
+                label = mTransactionsCursor.getString(columnIndexLabelSub);
+              if (TextUtils.isEmpty(label))
+                label = mTransactionsCursor.getString(columnIndexLabelMain);
+              Bundle args = new Bundle();
+              args.putLong(KEY_ROWID, acmi.id);
+              SimpleInputDialog.build()
+                  .title(R.string.dialog_title_template_title)
+                  .cancelable(false)
+                  .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                  .hint(R.string.label)
+                  .text(label)
+                  .extra(args)
+                  .pos(R.string.dialog_button_add)
+                  .neut()
+                  .show(this, NEW_TEMPLATE_DIALOG);
+            }
+          } else {
+            warnSealedAccount();
+          }
+        });
         return true;
     }
     return super.dispatchCommandSingle(command, info);
+  }
+
+  private void warnSealedAccount() {
+    ((ProtectedFragmentActivity) getActivity()).showSnackbar(
+        concatResStrings(getContext(), " ", R.string.warning_account_for_transaction_is_closed, R.string.object_sealed),
+        Snackbar.LENGTH_LONG);
   }
 
   @NonNull
@@ -767,13 +822,21 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   class HeaderViewHolder {
-    @BindView(R.id.interim_balance) TextView interimBalance;
-    @BindView(R.id.text) TextView text;
-    @BindView(R.id.sum_income) TextView sumIncome;
-    @BindView(R.id.sum_expense) TextView sumExpense;
-    @BindView(R.id.sum_transfer) TextView sumTransfer;
-    @Nullable @BindView(R.id.budgetProgress) DonutProgress budgetProgress;
-    @BindView(R.id.divider_bottom) View dividerBottom;
+    @BindView(R.id.interim_balance)
+    TextView interimBalance;
+    @BindView(R.id.text)
+    TextView text;
+    @BindView(R.id.sum_income)
+    TextView sumIncome;
+    @BindView(R.id.sum_expense)
+    TextView sumExpense;
+    @BindView(R.id.sum_transfer)
+    TextView sumTransfer;
+    @Nullable
+    @BindView(R.id.budgetProgress)
+    DonutProgress budgetProgress;
+    @BindView(R.id.divider_bottom)
+    View dividerBottom;
 
     HeaderViewHolder(View convertView) {
       ButterKnife.bind(this, convertView);
@@ -1158,5 +1221,42 @@ public class TransactionList extends ContextualActionBarFragment implements
     addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, catIds.length == 1 && catIds[0] == -1 ?
         new NullCriteria(KEY_CATID) :
         new CategoryCriteria(label, catIds));
+  }
+
+  interface ResultListener {
+    /**
+     * @param result true if none of the passed in itemIds are sealed
+     */
+    void onResult(boolean result);
+  }
+
+  private static class CheckSealedHandler extends AsyncQueryHandler {
+    private int TOKEN = 1;
+
+    CheckSealedHandler(ContentResolver cr) {
+      super(cr);
+    }
+
+    void check(long[] itemIds, ResultListener listener) {
+      startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI,
+          new String[]{"MAX(" + DatabaseConstants.CHECK_SEALED(VIEW_COMMITTED, TABLE_TRANSACTIONS) + ")"},
+          KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(itemIds.length),
+          LongStream.of(itemIds).mapToObj(String::valueOf).toArray(String[]::new), null);
+    }
+
+    @Override
+    protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+      if (token != TOKEN) return;
+      if (cursor == null) {
+        final String errorMessage = "Error while cheching status of transaction";
+        CrashHandler.report(errorMessage);
+        Toast.makeText(MyApplication.getInstance(), errorMessage, Toast.LENGTH_LONG).show();
+      } else {
+        cursor.moveToFirst();
+        int result = cursor.getInt(0);
+        cursor.close();
+        ((ResultListener) cookie).onResult(result == 0);
+      }
+    }
   }
 }

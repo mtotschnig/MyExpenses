@@ -116,12 +116,11 @@ public class Template extends Transaction {
         KEY_PARENTID
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 4];
+    PROJECTION_EXTENDED = new String[baseLength + 3];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     PROJECTION_EXTENDED[baseLength + 1] = KEY_CURRENCY;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_METHOD_LABEL;
-    PROJECTION_EXTENDED[baseLength + 3] = KEY_SEALED;
   }
 
   /**
@@ -301,6 +300,7 @@ public class Template extends Transaction {
     } else {
       uuid = DbUtils.getString(c, KEY_UUID);
     }
+    setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
   }
 
   public Template(Account account, int operationType, Long parentId) {

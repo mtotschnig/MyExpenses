@@ -147,7 +147,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 88;
+  public static final int DATABASE_VERSION = 89;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -228,10 +228,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-    }
-
-    if (tableName.equals(TABLE_TEMPLATES)) {
-      stringBuilder.append(", ").append(KEY_SEALED);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -1930,6 +1926,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 88) {
         db.execSQL("ALTER TABLE categories add column icon string");
+      }
+
+      if (oldVersion < 89) {
+        createOrRefreshViews(db);
       }
 
 

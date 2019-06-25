@@ -64,7 +64,7 @@ public class PlanExecutor extends IntentService {
     ZonedDateTime nowZDT = ZonedDateTime.now();
     long beginningOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MIN), ZoneId.systemDefault()).toEpochSecond() * 1000;
     long endOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MAX), ZoneId.systemDefault()).toEpochSecond() * 1000;
-    LocalDateTime nextRun = nowZDT.toLocalDate().atTime(6,0).plusDays(1);
+    LocalDateTime nextRun = nowZDT.toLocalDate().atTime(6, 0).plusDays(1);
     long now = nowZDT.toEpochSecond() * 1000;
     log("now %d compared to System.currentTimeMillis %d", now, System.currentTimeMillis());
     if (!PermissionHelper.hasCalendarPermission(this)) {
@@ -125,13 +125,13 @@ public class PlanExecutor extends IntentService {
           //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
           Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId);
           if (template != null) {
-            log("belongs to template %d", template.getId());
-            Notification notification;
-            int notificationId = (int) ((instanceId * planId) % Integer.MAX_VALUE);
-            log("notification id %d", notificationId);
-            PendingIntent resultIntent;
             Account account = Account.getInstanceFromDb(template.getAccountId());
             if (account != null) {
+              log("belongs to template %d", template.getId());
+              Notification notification;
+              int notificationId = (int) ((instanceId * planId) % Integer.MAX_VALUE);
+              log("notification id %d", notificationId);
+              PendingIntent resultIntent;
               NotificationManager notificationManager =
                   (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
               String title = account.getLabel() + " : " + template.getTitle();
@@ -139,8 +139,8 @@ public class PlanExecutor extends IntentService {
                   new NotificationBuilderWrapper(this, NotificationBuilderWrapper.CHANNEL_ID_PLANNER)
                       .setSmallIcon(R.drawable.ic_stat_notification_sigma)
                       .setContentTitle(title);
-              if (account.isSealed()) {
-                builder.setContentText(getString(R.string.warning_account_for_plan_is_closed, template.getTitle(), account.getLabel()));
+              if (template.isSealed()) {
+                builder.setContentText(getString(R.string.warning_account_for_plan_is_closed, template.getTitle()) + " " + getString(R.string.object_sealed));
                 notification = builder.build();
               } else {
                 String content = template.getLabel();

@@ -722,8 +722,9 @@ public class TransactionProvider extends ContentProvider {
         if (sortOrder == null) {
           sortOrder = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler);
         }
-        if (projection == null)
-          projection = Template.PROJECTION_EXTENDED;
+        if (projection == null) {
+          projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
+        }
         break;
       case TEMPLATES_UNCOMMITED:
         qb.setTables(VIEW_TEMPLATES_UNCOMMITTED);
@@ -733,8 +734,9 @@ public class TransactionProvider extends ContentProvider {
       case TEMPLATE_ID:
         qb.setTables(VIEW_TEMPLATES_ALL);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-        if (projection == null)
-          projection = Template.PROJECTION_EXTENDED;
+        if (projection == null) {
+          projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_ALL);
+        }
         break;
       case SQLITE_SEQUENCE_TABLE:
         qb.setTables("SQLITE_SEQUENCE");
@@ -1746,5 +1748,13 @@ public class TransactionProvider extends ContentProvider {
     ContentValues values = new ContentValues(1);
     values.put(KEY_STATUS, "1");
     return db.insertOrThrow(TABLE_SYNC_STATE, null, values);
+  }
+
+  private String[] extendProjectionWithSealedCheck(String[] baseProjection, String baseTable) {
+    int baseLength = baseProjection.length;
+    String[] projection = new String[baseLength + 1];
+    System.arraycopy(baseProjection, 0, projection, 0, baseLength);
+    projection[baseLength] = CHECK_SEALED_WITH_ALIAS(baseTable, TABLE_TEMPLATES);
+    return projection;
   }
 }

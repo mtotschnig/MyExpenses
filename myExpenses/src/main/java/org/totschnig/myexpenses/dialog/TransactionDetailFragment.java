@@ -303,7 +303,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (dlg != null) {
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
       if (btn != null) {
-        if (mTransaction.getCrStatus() == Transaction.CrStatus.VOID || account.isSealed()) {
+        if (mTransaction.getCrStatus() == Transaction.CrStatus.VOID || mTransaction.isSealed()) {
           btn.setVisibility(View.GONE);
         } else {
           btn.setEnabled(true);

@@ -60,6 +60,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.CHECK_SEALED_WITH_ALIAS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
@@ -89,6 +90,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
@@ -112,10 +114,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
@@ -155,6 +159,7 @@ public class Transaction extends Model {
   private Long parentId = null;
   private Long payeeId = null;
   private String categoryIcon = null;
+  private boolean isSealed = false;
 
   transient private Pair<Plan.Recurrence, LocalDate> initialPlan;
 
@@ -372,6 +377,14 @@ public class Transaction extends Model {
     this.categoryIcon = categoryIcon;
   }
 
+  public boolean isSealed() {
+    return isSealed;
+  }
+
+  public void setSealed(boolean sealed) {
+    isSealed = sealed;
+  }
+
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, "V");
     public int color;
@@ -433,7 +446,7 @@ public class Transaction extends Model {
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
-        KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON};
+        KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, CHECK_SEALED_WITH_ALIAS(VIEW_ALL, TABLE_TRANSACTIONS)};
 
     Cursor c = cr().query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -509,6 +522,7 @@ public class Transaction extends Model {
     Long originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
     t.originTemplate = originTemplateId == null ? null : Template.getInstanceFromDb(originTemplateId);
     t.uuid = DbUtils.getString(c, KEY_UUID);
+    t.setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
     c.close();
     return t;
   }

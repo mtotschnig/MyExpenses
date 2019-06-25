@@ -1605,6 +1605,9 @@ public class ExpenseEdit extends AmountActivity implements
           return;
         }
         mTransaction = (Transaction) o;
+        if (mTransaction.isSealed()) {
+          abortWithMessage("This transaction refers to a closed account and can no longer be edited");
+        }
         if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
           if (mPlanInstanceId > 0L) {
             mTransaction.originPlanInstanceId = mPlanInstanceId;
@@ -2113,7 +2116,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-    if (data == null) {
+    if (data == null || isFinishing()) {
       return;
     }
     int id = loader.getId();

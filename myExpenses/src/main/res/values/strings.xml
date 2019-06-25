@@ -837,11 +837,13 @@
     <string name="content_description_closed">Closed</string>
     <string name="warning_synced_account_cannot_be_closed">An account that is linked to a synchronization backend cannot be closed</string>
     <string name="translated_by">Translated by</string>
-    <string name="warning_account_for_plan_is_closed">Plan %1$s can no longer be instantiated because account %2$s has been closed.</string>
+    <string name="warning_account_for_plan_is_closed">Plan %1$s can no longer be instantiated:</string>
     <string name="warning_no_account">At least one account must be visible and open in order to create new transactions.</string>
     <string name="content_description_dates_are_linked">Booking date and value date are updated together</string>
     <string name="content_description_dates_are_not_linked">Booking date and value date are not updated together</string>
     <string name="icon">Icon</string>
     <string name="pref_debug_title">Debug</string>
     <string name="roadmap_vote">Roadmap Vote</string>
+    <string name="warning_account_for_transaction_is_closed">At least one of the selected transactions can not be edited:</string>
+    <string name="object_sealed">Object refers to a closed account.</string>
 </resources>
