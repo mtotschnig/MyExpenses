@@ -54,8 +54,6 @@
   <string name="default_account_name">Libro di bilancio</string>
   <string name="description">Descrizione</string>
   <string name="dialog_balance_delete">Eliminare le transazioni riconciliate</string>
-  <!--User confirms that he wants to discard changes-->
-  <string name="dialog_confirm_button_discard">Scartare</string>
   <string name="dialog_confirm_discard_changes">Annullare le modifiche?</string>
   <string name="dialog_confirm_discard_new_transaction">Scartare la nuova transazione?</string>
   <string name="dialog_confirm_discard_new_template">Scartare il nuovo modello?</string>
@@ -824,7 +822,7 @@
   <string name="content_description_closed">Chiuso</string>
   <string name="warning_synced_account_cannot_be_closed">Un conto collegato al back-end di sincronizzazione non può essere chiuso</string>
   <string name="translated_by">Tradotto da</string>
-  <string name="warning_account_for_plan_is_closed">Il piano %1$s non può più essere istanziato perché il conto %2$s è stato chiuso.</string>
+  <string name="warning_account_for_plan_is_closed">Il piano %1$s non può più essere istanziato:</string>
   <string name="warning_no_account">Almeno un conto deve essere visibile e aperto per poter creare nuove transazioni.</string>
   <string name="content_description_dates_are_linked">Data di prenotazione e data di valuta vengono aggiornate insieme</string>
   <string name="content_description_dates_are_not_linked">Data di prenotazione e data di valuta non vengono aggiornate insieme</string>

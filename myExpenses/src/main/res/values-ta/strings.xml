@@ -15,13 +15,13 @@
   <string name="account_type_ccard">கடன் அட்டை</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">கடன் அட்டைகள்</string>
-  <string name="account_type_liability">கடன்பாடுகள் கணக்கு</string>
+  <string name="account_type_liability">பொறுப்புகள் கணக்கு</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">கடன்பாடுகள் கணக்குகள்</string>
+  <string name="account_type_liability_plural">பொறுப்புகள் கணக்குகள்</string>
   <string name="already_defined">%1$s ஏற்கனவே வரையறுக்கப்பட்டுள்ளது</string>
   <string name="amount">தொகை</string>
   <string name="app_name">எனது செலவுகள்</string>
-  <string name="backup_failure">\"%1$s\" க்கான காப்புப்பிரதி தோல்வியடைந்தது.</string>
+  <string name="backup_failure">\"%1$s\" க்கு காப்புப்பிரதி எடுத்தல் தோல்வியடைந்தது.</string>
   <string name="backup_success">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" க்கு வெற்றிகரமாக எழுதப்பட்டது.</string>
   <string name="category">வகை</string>
   <string name="color">நிறம்</string>
@@ -54,22 +54,22 @@
   <string name="default_account_name">வரவு செலவுத் திட்ட புத்தகம்</string>
   <string name="description">விளக்கம்</string>
   <string name="dialog_balance_delete">சரிசெய்யப்பட்ட பரிவர்த்தனைகளை நீக்குக</string>
-  <string name="dialog_confirm_discard_changes">மாற்றங்களை நிராகரிக்கவா?</string>
-  <string name="dialog_confirm_discard_new_transaction">புதிய பரிவர்த்தனையை நிராகரிக்கவா?</string>
-  <string name="dialog_confirm_discard_new_template">புதிய வார்ப்புருவை நிராகரிக்கவா?</string>
-  <string name="dialog_confirm_discard_new_account">புதிய கணக்கை நிராகரிக்கவா?</string>
-  <string name="dialog_confirm_discard_new_method">புதிய கட்டண முறையை நிராகரிக்கவா?</string>
+  <string name="dialog_confirm_discard_changes">மாற்றங்களை நீக்கவா?</string>
+  <string name="dialog_confirm_discard_new_transaction">புதிய பரிவர்த்தனையை நீக்கவா?</string>
+  <string name="dialog_confirm_discard_new_template">புதிய வார்ப்புருவை நீக்கவா?</string>
+  <string name="dialog_confirm_discard_new_account">புதிய கணக்கை நீக்கவா?</string>
+  <string name="dialog_confirm_discard_new_method">புதிய கட்டண முறையை நீக்கவா?</string>
   <string name="dialog_command_disabled_balance">ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் எதுவும் சரிசெய்யப்பட வேண்டியதில்லை.</string>
-  <string name="dialog_command_disabled_insert_transfer">பரிமாற்ற பரிவர்த்தனைக்கு  இரண்டாவது கணக்கு தேவை.</string>
+  <string name="dialog_command_disabled_insert_transfer">பரிமாற்ற பரிவர்த்தனைக்கு இரண்டாவது கணக்கு தேவை.</string>
   <string name="dialog_command_disabled_reset_account">ஏற்றுமதி செய்ய பரிவர்த்தனைகள் ஏதும் இல்லை.</string>
   <string name="dialog_command_disabled_distribution">இந்த கணக்கில் எந்தவொரு பரிவர்த்தனையும் வகைப்படுத்தப்படவில்லை.</string>
   <string name="dialog_contrib_no">இதுவரை இல்லை</string>
   <string name="dialog_contrib_no_usages_left">இலவச பயன்பாடுகள் மீதம் இல்லை.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ஒரு மதிப்பு அம்சம் (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">&lt;I&gt; {app_name} &lt;/ i&gt; ஐ மேம்படுத்துவதன் மூலம் இந்த வரம்பை நீக்கி கூடுதல் அம்சங்களை அணுகலாம்.</string>
-  <string name="dialog_contrib_text_1">&lt;i&gt; {app_name} &lt;/ i&gt; திறந்த மூல செயலியாக வழங்கப்படுகிறது.</string>
-  <string name="dialog_contrib_text_2">&lt;i&gt; {app_name} &lt;/ i&gt; ஐ மேம்படுத்துவதன் மூலம் தயவுசெய்து பங்களித்து பின்வரும் அம்சங்களுக்கு வரம்பற்ற அணுகலைப் பெறவும்:</string>
+  <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் இந்த வரம்பை நீக்கி கூடுதல் அம்சங்களை பெறலாம்.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> திறந்த மூல செயலியாக வழங்கப்படுகிறது.</string>
+  <string name="dialog_contrib_text_2"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் (தயவுசெய்து) பங்களித்து பின்வரும் அம்சங்களுக்கு வரம்பற்ற அணுகலைப் பெறவும்:</string>
   <string name="dialog_contrib_usage_count">மீதமுள்ள இலவச பயன்பாடுகள்</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">உங்களது தற்போதைய உரிம நிலை (%2$s) உடன் நீங்கள் %1$d முறை வரை அதைப் பயன்படுத்தலாம்.</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) உடன்  நீங்கள் %1$d நாட்களுக்கு அதைப் பயன்படுத்தலாம்.</string>
@@ -513,10 +513,10 @@
   <string name="csv_import_preview">முன்னோட்டம்</string>
   <string name="menu_parse">பாகுபடுத்து</string>
   <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">நிராகரி</string>
+  <string name="cvs_import_discard">நீக்கு</string>
   <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டதுப் பட்டுள்ளது.</string>
   <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d பதிவுகளை இறக்குமதி செய்ய முடியவில்லை.</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள் நிராகரிக்கப்பட்டது.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
   <string name="csv_import_subcategory_requires_category">நீங்கள் துணை வகையைத் தொடற்பு படுத்தினால், நீங்கள் வகையையும் தொடற்பு படுத்த வேண்டும்.</string>
   <string name="cvs_import_set_first_line_as_header">முதல் வரி ஒரு தலைப்பு வரியாக கருதப்பட வேண்டுமா?</string>
   <string name="csv_import_delimiter_comma">காற்புள்ளி: ,</string>
@@ -822,7 +822,6 @@
   <string name="content_description_closed">மூடப்பட்டது</string>
   <string name="warning_synced_account_cannot_be_closed">ஒத்திசைவு பின்தளத்துடன் இணைக்கப்பட்ட கணக்கை மூட முடியாது</string>
   <string name="translated_by">இவர்களால் மொழிபெயர்க்கப்பட்டது</string>
-  <string name="warning_account_for_plan_is_closed">கணக்கு %2$s மூடப்பட்டதால் இனி திட்டம் %1$s-ஐ செயலாக்க முடியாது.</string>
   <string name="warning_no_account">புதிய பரிவர்த்தனைகளை உருவாக்க குறைந்தபட்சம் ஒரு கணக்காவது மறைக்கபடாமலோ  அல்லது மூடப்படாமலோ இருக்க வேண்டும்.</string>
   <string name="content_description_dates_are_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படுகிறது</string>
   <string name="content_description_dates_are_not_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படவில்லை</string>
