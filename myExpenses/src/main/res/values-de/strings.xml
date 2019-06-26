@@ -822,7 +822,6 @@
   <string name="content_description_closed">Geschlossen</string>
   <string name="warning_synced_account_cannot_be_closed">Ein Konto, das mit einem Synchronisations-Backend verknüpft ist, kann nicht geschlossen werden</string>
   <string name="translated_by">Übersetzt von</string>
-  <string name="warning_account_for_plan_is_closed">Der Plan %1$s kann nicht mehr instanziiert werden:</string>
   <string name="warning_no_account">Mindestens ein Konto muss sichtbar und offen sein, um neue Buchungen erstellen zu können.</string>
   <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
   <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>

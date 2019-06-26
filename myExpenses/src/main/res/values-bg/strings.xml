@@ -822,7 +822,6 @@
   <string name="content_description_closed">Затворена</string>
   <string name="warning_synced_account_cannot_be_closed">Сметка, която е свързана с хранилище за синхронизиране, не може да бъде затворена</string>
   <string name="translated_by">Превод на български</string>
-  <string name="warning_account_for_plan_is_closed">Планът %1$s вече не може да бъде инстанциран:</string>
   <string name="warning_no_account">За да се създават нови транзакции трябва поне една сметка трябва да е видима и отворена.</string>
   <string name="content_description_dates_are_linked">Датата на резервиране и вальорът да се актуализират заедно</string>
   <string name="content_description_dates_are_not_linked">Датата на резервация и вальорът да не се актуализират заедно</string>

@@ -743,6 +743,7 @@
   <string name="sort_order">Orden de clasificación</string>
   <string name="navigation_drawer_accounts_title">Administrar cuentas</string>
   <string name="pref_sync_wifi_only_summary">Sincronizar sólo con Wi-Fi</string>
+  <string name="pref_sync_changes_immediately_summary">Escribir los cambios locales inmediatamente en el servicio de sincronización</string>
   <string name="wifi_not_connected">El dispositivo no está conectado a Wi-Fi. Se pospone la sincronización.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">Traducción</string>
@@ -821,9 +822,12 @@
   <string name="content_description_closed">Cerrada</string>
   <string name="warning_synced_account_cannot_be_closed">No se pudo cerrar una cuenta ligada al servicio de sincronización</string>
   <string name="translated_by">Traducido por</string>
-  <string name="warning_account_for_plan_is_closed">El plan %1$s no puede seguir instanciándose:</string>
   <string name="warning_no_account">Al menos una cuenta tiene que estar visible y abierta para poder crear nuevas transacciones.</string>
   <string name="content_description_dates_are_linked">Las fechas de reserva y su valor se actualizan de forma conjunta</string>
   <string name="content_description_dates_are_not_linked">Las fechas de reserva y su valor no se actualizan de forma conjunta</string>
   <string name="icon">Icono</string>
+  <string name="pref_debug_title">Depurar</string>
+  <string name="roadmap_vote">Votar hoja de ruta</string>
+  <string name="warning_account_for_transaction_is_closed">Al menos una de las transacciones seleccionadas no puede editarse:</string>
+  <string name="object_sealed">El objeto hace referencia a una cuenta cerrada.</string>
 </resources>

@@ -169,11 +169,15 @@ public class TemplatesList extends SortableListFragment
       if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
       if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
         if (isCalendarPermissionGranted()) {
+          final boolean isSealed = mTemplatesCursor.getInt(columnIndexIsSealed) != 0;
+          if (isSealed) {
+            ctx.showSnackbar(R.string.object_sealed, Snackbar.LENGTH_LONG);
+          }
           planMonthFragment = PlanMonthFragment.newInstance(
               mTemplatesCursor.getString(columnIndexTitle),
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
-              mTemplatesCursor.getInt(columnIndexColor), false, ctx.getThemeType());
+              mTemplatesCursor.getInt(columnIndexColor), isSealed, ctx.getThemeType());
           planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
         } else {
           ctx.requestCalendarPermission();
@@ -384,7 +388,7 @@ public class TemplatesList extends SortableListFragment
                   mTemplatesCursor.getString(columnIndexTitle),
                   templateId,
                   mTemplatesCursor.getLong(columnIndexPlanId),
-                  mTemplatesCursor.getInt(columnIndexColor), false, ctx.getThemeType());
+                  mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0, ctx.getThemeType());
               foundToExpand = true;
             }
             mTemplatesCursor.moveToNext();
