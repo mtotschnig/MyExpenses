@@ -828,4 +828,6 @@
   <string name="icon">Symbol</string>
   <string name="pref_debug_title">Debuggen</string>
   <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
+  <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Transaktionen kann nicht bearbeitet werden:</string>
+  <string name="object_sealed">Objekt bezieht sich auf ein geschlossenes Konto.</string>
 </resources>

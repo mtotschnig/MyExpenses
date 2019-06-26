@@ -828,4 +828,6 @@
   <string name="icon">Icône</string>
   <string name="pref_debug_title">Déboguer</string>
   <string name="roadmap_vote">Vote sur la feuille de route</string>
+  <string name="warning_account_for_transaction_is_closed">Au moins une des transactions sélectionnées ne peut pas être modifiée:</string>
+  <string name="object_sealed">L\'objet fait référence à un compte fermé.</string>
 </resources>
