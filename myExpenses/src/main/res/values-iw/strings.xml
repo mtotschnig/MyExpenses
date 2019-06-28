@@ -852,4 +852,6 @@
   <string name="icon">סמל</string>
   <string name="pref_debug_title">ניקוי באגים</string>
   <string name="roadmap_vote">הצבעה על מפת דרכים</string>
+  <string name="warning_account_for_transaction_is_closed">לא ניתן לערוך לפחות אחת מהעסקאות שנבחרו:</string>
+  <string name="object_sealed">אובייקט מתייחס לחשבון סגור.</string>
 </resources>

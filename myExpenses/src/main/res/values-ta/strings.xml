@@ -88,7 +88,7 @@
   <string name="dialog_remind_rate_1">{app_name} மதிப்பிடவும், மதிப்பாய்வு செய்யவும் ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
   <string name="dialog_remind_rate_2">உங்கள் கருத்துகள் தொடர்ந்து மேம்படுத்தல்களையும் விரிவாக்கங்களையும் சேர்க்க எங்களை அனுமதிக்கிறது.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">முன்னேற்றங்களுக்கான உங்கள் பரிந்துரைகளை அனுப்ப தயவு செய்து ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
-  <string name="dialog_remind_rate_yes">மதிப்பிடு</string>
+  <string name="dialog_remind_rate_yes">இப்போது மதிப்பிடு</string>
   <string name="dialog_security_answer">பதில்</string>
   <string name="dialog_security_question">கேள்வி</string>
   <string name="dialog_title_attention">கவனம்</string>
@@ -828,4 +828,6 @@
   <string name="icon">ஐகான்</string>
   <string name="pref_debug_title">பிழைதிருத்து</string>
   <string name="roadmap_vote">திட்ட வாக்களிப்பு</string>
+  <string name="warning_account_for_transaction_is_closed">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளில் குறைந்தபட்சம் ஒன்றையாவது தொகுக்க முடியவில்லை:</string>
+  <string name="object_sealed">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>
 </resources>

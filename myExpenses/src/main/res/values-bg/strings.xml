@@ -828,4 +828,6 @@
   <string name="icon">Икона</string>
   <string name="pref_debug_title">Отстраняване на програмни грешки</string>
   <string name="roadmap_vote">Гласуване в картата за развитие</string>
+  <string name="warning_account_for_transaction_is_closed">Поне една от избраните транзакции не може да се редактира:</string>
+  <string name="object_sealed">Обектът се отнася за затворена сметка.</string>
 </resources>

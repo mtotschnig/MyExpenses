@@ -817,4 +817,6 @@
   <string name="icon">アイコン</string>
   <string name="pref_debug_title">デバッグ</string>
   <string name="roadmap_vote">ロードマップの投票</string>
+  <string name="warning_account_for_transaction_is_closed">選択された取引に編集できないものがあります:</string>
+  <string name="object_sealed">オブジェクトが閉じた勘定を参照しています。</string>
 </resources>
