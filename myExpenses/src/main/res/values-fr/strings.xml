@@ -474,7 +474,6 @@
   <string name="comparison_operator_between">entre</string>
   <string name="comparison_operator_date_before">avant</string>
   <string name="comparison_operator_date_after">après</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Échec ou annulation de l\'achat.</string>
   <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
   <string name="yes">Oui</string>

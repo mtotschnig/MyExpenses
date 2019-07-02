@@ -486,7 +486,6 @@
   <string name="comparison_operator_between">між</string>
   <string name="comparison_operator_date_before">раніше</string>
   <string name="comparison_operator_date_after">після</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Спеціальна пропозиція сьогодні з AppGratis: преміум-функції задарма.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка не вдалася або була скасована.</string>
   <string name="hint_auto_fill">Чи повинні дані заповнюватися автоматично з останньої операції для того самого одержувача / платника? Ви завжди можете змінити цю поведінку в налаштуваннях.</string>
   <string name="yes">Так</string>

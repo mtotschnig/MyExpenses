@@ -431,7 +431,6 @@
   <string name="comparison_operator_between">사이에</string>
   <string name="comparison_operator_date_before">이전에</string>
   <string name="comparison_operator_date_after">이후에</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis의 특별 제안: 무료로 프리미엄 기능 사용</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
   <string name="yes">예</string>
   <string name="no">아니오</string>

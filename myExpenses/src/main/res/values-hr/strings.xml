@@ -412,7 +412,6 @@
   <string name="comparison_operator_greater_than">više od</string>
   <string name="comparison_operator_lesser_than">manje od</string>
   <string name="comparison_operator_between">između</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili otkazana.</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>

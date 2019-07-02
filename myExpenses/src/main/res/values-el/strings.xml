@@ -457,7 +457,6 @@
   <string name="comparison_operator_between">μεταξύ</string>
   <string name="comparison_operator_date_before">πριν από</string>
   <string name="comparison_operator_date_after">μετά από</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Η σημερινή ειδική προσφορά του AppGratis: Τα αναβαθμισμένα χαρακτηριστικά ξεκλειδωμένα δωρεάν.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
   <string name="yes">Ναι</string>
   <string name="no">Όχι</string>

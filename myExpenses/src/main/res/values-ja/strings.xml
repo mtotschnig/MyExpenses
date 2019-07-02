@@ -465,7 +465,6 @@
   <string name="comparison_operator_between">間</string>
   <string name="comparison_operator_date_before">以前</string>
   <string name="comparison_operator_date_after">以降</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
   <string name="hint_auto_fill">同じ受取人/支払人の場合、前回の取引から自動的にデータを入力する必要がありますか? この動作はいつでも設定から変更できます。</string>
   <string name="yes">はい</string>

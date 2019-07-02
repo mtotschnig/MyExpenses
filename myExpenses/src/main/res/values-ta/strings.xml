@@ -474,7 +474,6 @@
   <string name="comparison_operator_between">இடையே</string>
   <string name="comparison_operator_date_before">முன்</string>
   <string name="comparison_operator_date_after">பின்</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">ஆப்கிராடிஸுடன் இன்றைய சிறப்பு சலுகை: மதிப்பு அம்சங்களை இலவசமாக திறக்கப்பட்டது.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">வாங்குதல் தோல்வியுற்றது அல்லது ரத்துசெய்யப்பட்டது.</string>
   <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
   <string name="yes">ஆம்</string>

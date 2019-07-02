@@ -474,7 +474,6 @@
   <string name="comparison_operator_between">tra</string>
   <string name="comparison_operator_date_before">prima</string>
   <string name="comparison_operator_date_after">dopo</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Offerta speciale di oggi con AppGratis: funzionalità premium sbloccate gratuitamente.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Acquisto non riuscito o annullato.</string>
   <string name="hint_auto_fill">I dati devono essere compilati automaticamente dall\'ultima transazione per lo stesso beneficiario / pagatore? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
   <string name="yes">Sì</string>
@@ -828,4 +827,6 @@
   <string name="icon">Icona</string>
   <string name="pref_debug_title">Debug</string>
   <string name="roadmap_vote">Voto sulla Roadmap</string>
+  <string name="warning_account_for_transaction_is_closed">Almeno una delle transazioni selezionate non può essere modificata:</string>
+  <string name="object_sealed">L\'oggetto fa riferimento ad un account chiuso.</string>
 </resources>

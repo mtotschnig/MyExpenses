@@ -474,7 +474,6 @@
   <string name="comparison_operator_between">pomiędzy</string>
   <string name="comparison_operator_date_before">przed</string>
   <string name="comparison_operator_date_after">po</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>

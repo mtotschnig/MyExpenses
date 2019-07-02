@@ -474,7 +474,6 @@
   <string name="comparison_operator_between">entre</string>
   <string name="comparison_operator_date_before">antes</string>
   <string name="comparison_operator_date_after">después</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Oferta especial de hoy con AppGratis: características Premium desbloqueadas totalmente gratis.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancelada.</string>
   <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>
   <string name="yes">Sí</string>

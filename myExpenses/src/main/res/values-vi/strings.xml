@@ -465,7 +465,6 @@
   <string name="comparison_operator_between">trong khoảng</string>
   <string name="comparison_operator_date_before">trước</string>
   <string name="comparison_operator_date_after">sau</string>
-  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Khuyến mãi đặc biệt với AppGratis: Các tính năng trả phí được mở khoá miễn phí.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Giao dịch thất bại hoặc đã bị huỷ bỏ</string>
   <string name="hint_auto_fill">Dữ liệu từ giao dịch liền trước với cùng người nhận/trả có nên được tự động thêm vào? Bạn luôn có thể thay đổi tuỳ chọn này trong mục cài đặt.</string>
   <string name="yes">Được</string>
