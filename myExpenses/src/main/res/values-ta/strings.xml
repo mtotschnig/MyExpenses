@@ -86,7 +86,7 @@
   <string name="dialog_remind_no">இல்லை, நன்றி</string>
   <string name="dialog_remind_rate_how_many_stars">{app_name} செயலிக்கு நீங்கள் எத்தனை நட்சத்திரங்கள் கொடுப்பீற்கள்?</string>
   <string name="dialog_remind_rate_1">{app_name} மதிப்பிடவும், மதிப்பாய்வு செய்யவும் ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
-  <string name="dialog_remind_rate_2">உங்கள் கருத்துகள் தொடர்ந்து மேம்படுத்தல்களையும் விரிவாக்கங்களையும் சேர்க்க எங்களை அனுமதிக்கிறது.</string>
+  <string name="dialog_remind_rate_2">உங்கள் கருத்துகள், எங்களை, தொடர்ந்து மேம்படுத்தல்களையும் விரிவாக்கங்களையும் சேர்க்க அனுமதிக்கிறது.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">முன்னேற்றங்களுக்கான உங்கள் பரிந்துரைகளை அனுப்ப தயவு செய்து ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
   <string name="dialog_remind_rate_yes">இப்போது மதிப்பிடு</string>
   <string name="dialog_security_answer">பதில்</string>
@@ -98,7 +98,7 @@
   <string name="dialog_title_contrib_feature">மதிப்பு அம்சம்</string>
   <string name="dialog_title_template_title">தலைப்பை அமைக்கவும்</string>
   <plurals name="dialog_title_warning_delete_account">
-    <item quantity="one">கணக்கை நீக்குக?</item>
+    <item quantity="one">கணக்கை நீக்கவா?</item>
     <item quantity="other">%1$d கணக்குகளை நீக்கவா?</item>
   </plurals>
   <string name="dialog_title_warning_delete_main_category">முக்கிய வகையை நீக்கவா?</string>
@@ -107,7 +107,7 @@
   <string name="expense">செலவு</string>
   <string name="export_expenses">செலவுகள் ஏற்றுமதி</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">\"%1$s\" கோப்புக்கு ஏற்றுமதி செய்ய முடியவில்லை: %2$s</string>
+  <string name="export_sdcard_failure">\"%1$s\" கோப்புக்கு ஏற்றுமதி செய்யதல் தோல்வியுற்றது: %2$s</string>
   <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">தரவு \"%1$s\" கோப்பிற்கு வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது</string>
   <string name="external_storage_unavailable">புற சேமிப்பகம் (sdcard) கிடைக்கவில்லை</string>
@@ -118,7 +118,7 @@
   <string name="grouping_day">தினம்</string>
   <string name="grouping_last_week">கடந்த வாரம்</string>
   <string name="grouping_month">மாதம்</string>
-  <string name="grouping_none">தொகுக்கப்படாதவை</string>
+  <string name="grouping_none">குழுவமைக்கப்படாதவை</string>
   <string name="grouping_this_week">இந்த வாரம்</string>
   <string name="grouping_today">இன்று</string>
   <string name="grouping_week">வாரம்</string>
@@ -204,7 +204,7 @@
   <string name="no_amount_given">நீங்கள் எந்த தொகையும் பதிவு செய்யவில்லை.</string>
   <string name="no_app_handling_email_available">மின்னஞ்சல் கையாளும் செயலி ஏதும் இல்லை.</string>
   <string name="no_app_handling_ftp_available">எப்.டி.பி (FTP) கையாளும் செயலி ஏதும் இல்லை. <i>Send with FTP</i> நிறுவலாமா?</string>
-  <string name="no_app_handling_pdf_available">பி.டி.எஃப் (PDF) கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
+  <string name="no_app_handling_pdf_available">PDF கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
   <string name="no_categories">வகைகள் ஏதுமில்லை.</string>
   <string name="no_expenses">இன்னும் செலவுகள் ஏதுமில்லை!</string>
   <string name="no_exportable_expenses">இதுவரை ஏற்றுமதி செய்யப்படாத பரிமாற்றங்கள் எதுவும் இல்லை.</string>
@@ -283,7 +283,7 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">நீங்கள் ஒரு திறவுகோலைப் பெற்றிருந்தால் மதிப்பு அம்சங்களை அணுகலாம்.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">திறவுகோலை உள்ளிடவும்</string>
   <string name="pref_export_format_title">தரவு வடிவம்</string>
-  <string name="pref_import_from_grisbi_summary">கிரிஸ்பி எக்ஸ்எம்எல் (XML) கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
+  <string name="pref_import_from_grisbi_summary">கிரிஸ்பி XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
   <string name="pref_import_from_grisbi_title">கிரிஸ்பியிலிருந்து இறக்குமதி செய்</string>
   <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">%s கோப்பில் இருந்து பரிவர்த்தனைகள், வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
@@ -341,7 +341,7 @@
   <string name="pref_visit_website_title">வலைத்தளத்தைப் பார்க்கவும்</string>
   <string name="progress_dialog_deleting">பொருட்களை நீக்குதல்</string>
   <string name="progress_dialog_loading">தரவுத்தளத்திலிருந்து பொருளை ஏற்றுகிறது</string>
-  <string name="progress_dialog_printing">பி.டி.எஃப் (PDF) உருவாக்கப்படுகிறது</string>
+  <string name="progress_dialog_printing">PDF உருவாக்கப்படுகிறது</string>
   <string name="progress_dialog_saving">தரவுத்தளத்திற்கு பொருளை சேமிக்கிறது</string>
   <string name="qif_parse_result">பாகுபடுத்தப்பட்டவை: %1$s கணக்குகள்; %2$s வகைகள் மற்றும் %3$s தரப்புகள்</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF கோப்பில் பல கணக்குகள் கண்டுபிடிக்கப்பட்டன.</string>
@@ -742,9 +742,9 @@
   <string name="gdpr_consent_button_no">விளம்பரம் இல்லாத பதிப்பிற்கு பணம் செலுத்து</string>
   <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
   <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
-  <string name="pref_sync_wifi_only_summary">வைஃபையில் (Wi-Fi) இல் மட்டுமே ஒத்திசை</string>
+  <string name="pref_sync_wifi_only_summary">Wi-Fi இல் மட்டுமே ஒத்திசை</string>
   <string name="pref_sync_changes_immediately_summary">உள் மாற்றங்களை உடனடியாக பின்தளத்திற்கு எழுதவும்</string>
-  <string name="wifi_not_connected">சாதனமானது வைஃபையுடன் (Wi-Fi) இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
+  <string name="wifi_not_connected">சாதனமானது வைஃபையுடன் Wi-Fi இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">மொழிபெயர்ப்பு</string>
   <!--Content description for accessibility on image that allows to collapse content-->
