@@ -285,6 +285,23 @@ task copyFileForFixture(type: com.novoda.gradle.command.Files) {
     }
 }
 
+def isR8Enabled() {
+    if (project.hasProperty('android.enableR8')) {
+        if (project.property('android.enableR8').equals("false")) {
+            return false
+        }
+    }
+    return true
+}
+
+if (getGradle().getStartParameter().getTaskRequests().toString().contains("Amazon")) {
+    if (isR8Enabled())
+        throw new GradleException('Amazon build requires R8 to be disabled.')
+} else {
+    if (!isR8Enabled())
+        throw new GradleException('Any build (with the exception of Amazon should use R8.')
+}
+
 configurations {
     cleanedAnnotations
     compile.exclude group: 'org.jetbrains', module: 'annotations'
