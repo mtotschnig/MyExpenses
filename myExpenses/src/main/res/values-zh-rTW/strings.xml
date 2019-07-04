@@ -172,7 +172,7 @@
   <string name="planner_notification_channel_name">規劃</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計劃執行已取消</string>
-  <string name="plan_manual">說明書</string>
+  <string name="plan_manual">手動</string>
   <string name="planner_create_calendar_failure">無法建立本機日曆</string>
   <string name="planner_create_calendar_success">本機計劃日曆被成功新增</string>
   <!--payment methods-->
