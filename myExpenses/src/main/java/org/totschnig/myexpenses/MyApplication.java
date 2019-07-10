@@ -139,7 +139,7 @@ public class MyApplication extends MultiDexApplication implements
    * we cache value of planner calendar id, so that we can handle changes in
    * value
    */
-  private String mPlannerCalendarId = "-1";
+  private String mPlannerCalendarId = INVALID_CALENDAR_ID;
 
   /**
    * we store the systemLocale if the user wants to come back to it after having
@@ -354,18 +354,21 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   /**
+   * verifies if the passed in calendarid exists and is the one stored in {@link PrefKey#PLANNER_CALENDAR_PATH}
    * @param calendarId id of calendar in system calendar content provider
-   * @return verifies if the passed in calendarid exists and is the one stored
-   * in {@link PrefKey#PLANNER_CALENDAR_PATH}
+   * @return the same calendarId if it is safe to use, {@link #INVALID_CALENDAR_ID} if the calendar
+   * is no longer valid, null if verification was not possible
    */
-  private boolean checkPlannerInternal(String calendarId) {
+  @Nullable
+  private String checkPlannerInternal(String calendarId) {
     ContentResolver cr = getContentResolver();
     Cursor c = cr.query(Calendars.CONTENT_URI,
         new String[]{getCalendarFullPathProjection() + " AS path", Calendars.SYNC_EVENTS},
         Calendars._ID + " = ?", new String[]{calendarId}, null);
     boolean result = true;
     if (c == null) {
-      result = false;
+      CrashHandler.report("Received null cursor while checking calendar");
+      return null;
     } else {
       if (c.moveToFirst()) {
         String found = DbUtils.getString(c, 0);
@@ -393,12 +396,12 @@ public class MyApplication extends MultiDexApplication implements
           }
         }
       } else {
-        Timber.i("configured calendar %s has been deleted: ", calendarId);
+        CrashHandler.report(String.format("configured calendar %s has been deleted: ", calendarId));
         result = false;
       }
       c.close();
     }
-    return result;
+    return result ? calendarId : INVALID_CALENDAR_ID;
   }
 
   /**
@@ -408,11 +411,16 @@ public class MyApplication extends MultiDexApplication implements
    */
   public String checkPlanner() {
     mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
-    if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID) && !checkPlannerInternal(mPlannerCalendarId)) {
-      removePlanner();
-      return INVALID_CALENDAR_ID;
+    if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
+      final String checkedId = checkPlannerInternal(mPlannerCalendarId);
+      if (mPlannerCalendarId.equals(checkedId)) {
+        return mPlannerCalendarId;
+      }
+      if (INVALID_CALENDAR_ID.equals(checkedId)) {
+        removePlanner();
+      }
     }
-    return mPlannerCalendarId;
+    return INVALID_CALENDAR_ID;
   }
 
   public void removePlanner() {
@@ -580,15 +588,15 @@ public class MyApplication extends MultiDexApplication implements
 
       String oldValue = mPlannerCalendarId;
       boolean safeToMovePlans = true;
-      String newValue = sharedPreferences.getString(key, "-1");
+      String newValue = sharedPreferences.getString(key, INVALID_CALENDAR_ID);
       if (oldValue.equals(newValue)) {
         return;
       }
       mPlannerCalendarId = newValue;
-      if (!newValue.equals("-1")) {
+      if (!newValue.equals(INVALID_CALENDAR_ID)) {
         // if we cannot verify that the oldValue has the correct path
         // we will not risk mangling with an unrelated calendar
-        if (!oldValue.equals("-1") && !checkPlannerInternal(oldValue))
+        if (!oldValue.equals(INVALID_CALENDAR_ID) && !oldValue.equals(checkPlannerInternal(oldValue)))
           safeToMovePlans = false;
         ContentResolver cr = getContentResolver();
         // we also store the name and account of the calendar,
@@ -606,17 +614,17 @@ public class MyApplication extends MultiDexApplication implements
         } else {
           CrashHandler.report(new IllegalStateException(
               "could not retrieve configured calendar"));
-          mPlannerCalendarId = "-1";
+          mPlannerCalendarId = INVALID_CALENDAR_ID;
           PrefKey.PLANNER_CALENDAR_PATH.remove();
-          PrefKey.PLANNER_CALENDAR_ID.putString("-1");
+          PrefKey.PLANNER_CALENDAR_ID.putString(INVALID_CALENDAR_ID);
         }
         if (c != null) {
           c.close();
         }
-        if (mPlannerCalendarId.equals("-1")) {
+        if (mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
           return;
         }
-        if (oldValue.equals("-1")) {
+        if (oldValue.equals(INVALID_CALENDAR_ID)) {
           initPlanner();
         } else if (safeToMovePlans) {
           ContentValues eventValues = new ContentValues();
@@ -690,12 +698,12 @@ public class MyApplication extends MultiDexApplication implements
    */
   public Result restorePlanner() {
     ContentResolver cr = getContentResolver();
-    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
     String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
     Timber.d("restore plans to calendar with id %s and path %s", calendarId,
         calendarPath);
     int restoredPlansCount = 0;
-    if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
+    if (!(calendarId.equals(INVALID_CALENDAR_ID) || calendarPath.equals(""))) {
       Cursor c = cr.query(Calendars.CONTENT_URI,
           new String[]{Calendars._ID}, getCalendarFullPathProjection()
               + " = ?", new String[]{calendarPath}, null);
