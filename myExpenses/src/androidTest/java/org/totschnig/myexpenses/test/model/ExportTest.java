@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.test.model;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
-import androidx.core.provider.DocumentFile;
 import android.util.Log;
 
 import org.totschnig.myexpenses.R;
@@ -43,6 +42,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 

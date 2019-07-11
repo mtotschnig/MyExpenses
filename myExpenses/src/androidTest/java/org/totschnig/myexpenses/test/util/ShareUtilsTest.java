@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.annimon.stream.Stream;
 
@@ -19,6 +17,9 @@ import org.totschnig.myexpenses.util.ShareUtils;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 

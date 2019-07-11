@@ -1,10 +1,6 @@
 package org.totschnig.myexpenses.testutils;
 
 import android.os.Build;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.NoMatchingViewException;
-import android.support.test.rule.ActivityTestRule;
-import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -17,18 +13,22 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
+import androidx.fragment.app.Fragment;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -51,6 +51,7 @@ public abstract class BaseUiTest {
 
   /**
    * Click on a menu item, that might be visible or hidden in overflow menu
+   *
    * @param menuItemId
    * @param menuTextResId
    */
@@ -58,7 +59,7 @@ public abstract class BaseUiTest {
     try {
       onView(withId(menuItemId)).perform(click());
     } catch (NoMatchingViewException e) {
-      openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+      openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
       onView(withText(menuTextResId)).perform(click());
     }
   }
@@ -118,7 +119,8 @@ public abstract class BaseUiTest {
       Adapter adapter = getAdapter();
       try {
         Thread.sleep(500);
-      } catch (InterruptedException ignored) {}
+      } catch (InterruptedException ignored) {
+      }
       if (adapter != null) {
         return adapter;
       }

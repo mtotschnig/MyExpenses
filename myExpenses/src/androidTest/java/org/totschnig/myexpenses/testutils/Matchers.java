@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.testutils;
 
 import android.database.Cursor;
-import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.test.espresso.matcher.CursorMatchers;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -15,6 +13,9 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.viewmodel.data.Category;
+
+import androidx.test.espresso.matcher.BoundedMatcher;
+import androidx.test.espresso.matcher.CursorMatchers;
 
 import static org.hamcrest.Matchers.is;
 
