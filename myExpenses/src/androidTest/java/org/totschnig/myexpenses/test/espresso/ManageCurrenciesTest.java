@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,6 +20,9 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
+
+import androidx.test.filters.FlakyTest;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -43,12 +45,13 @@ public class ManageCurrenciesTest extends BaseUiTest {
   public ActivityTestRule<ManageCurrencies> mActivityRule =
       new ActivityTestRule<>(ManageCurrencies.class);
 
-
+  @FlakyTest
   @Test
   public void changeOfFractionDigitsWithUpdateShouldKeepTransactionSum() throws RemoteException, OperationApplicationException {
     testHelper(true);
   }
 
+  @FlakyTest
   @Test
   public void changeOfFractionDigitsWithoutUpdateShouldChangeTransactionSum() throws RemoteException, OperationApplicationException {
     testHelper(false);
