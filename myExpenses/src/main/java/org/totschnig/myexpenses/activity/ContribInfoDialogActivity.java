@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -221,7 +222,11 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse(licenceHandler.getPaypalUri(aPackage)));
-        startActivityForResult(intent, 0);
+        try {
+          startActivityForResult(intent, 0);
+        } catch (ActivityNotFoundException e) {
+          complain("No activity found for opening Paypal");
+        }
         break;
       }
       case R.string.donate_button_invoice: {

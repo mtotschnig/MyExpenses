@@ -153,7 +153,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     try {
       startActivity(i);
     } catch (ActivityNotFoundException e) {
-      showSnackbar("No acitivy found for opening release info", Snackbar.LENGTH_LONG, null);
+      showSnackbar("No activity found for opening release info", Snackbar.LENGTH_LONG, null);
     }
   }
 
