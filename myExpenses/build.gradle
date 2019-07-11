@@ -157,16 +157,6 @@ android {
     }
 }
 
-List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion,
-                       'com.android.support:support-v4:' + project.androidSupportLibraryVersion,
-                       'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion,
-                       'com.android.support:cardview-v7:' + project.androidSupportLibraryVersion,
-                       'com.android.support:design:' + project.androidSupportLibraryVersion,
-                       'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion,
-                       'com.android.support:preference-v14:' + project.androidSupportLibraryVersion,
-                       //make GradleCompatible lint check happy
-                       'com.android.support:exifinterface:' + project.androidSupportLibraryVersion]
-
 dependencies {
     implementation project(':transactionscontract')
     implementation 'com.jakewharton:butterknife:' + project.butterknifeVersion
@@ -201,8 +191,8 @@ dependencies {
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
-    implementation 'com.github.eltos:simpledialogfragment:3.1'
-    implementation 'com.annimon:stream:1.1.9'
+    implementation 'com.github.eltos:simpledialogfragments:v3.1-androidx'
+    implementation 'com.annimon:stream:1.2.1'
 
     // WebDAV
     implementation 'com.squareup.okhttp3:okhttp:' + project.okHttpVersion
@@ -211,7 +201,7 @@ dependencies {
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.10'
 
     //noinspection GradleCompatible
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'org.apache.commons:commons-collections4:4.1'
 
@@ -224,7 +214,14 @@ dependencies {
         exclude group: 'com.google.android', module: 'android'
     }
 
-    implementation supportCompile
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     implementation project(path: ':setupwizard')
 
@@ -233,10 +230,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:' + project.okHttpVersion
 
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 

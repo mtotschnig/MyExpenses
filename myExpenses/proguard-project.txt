@@ -18,7 +18,7 @@
 -dontwarn sun.misc.Unsafe
 
 -keepclassmembers class * {
-    @android.support.annotation.VisibleForTesting *;
+    @androidx.annotation.VisibleForTesting *;
 }
 
 -keep enum org.totschnig.myexpenses.activity.*$HelpVariant

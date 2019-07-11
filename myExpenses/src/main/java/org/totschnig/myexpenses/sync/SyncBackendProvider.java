@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.sync;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
@@ -18,6 +16,9 @@ import org.totschnig.myexpenses.sync.json.TransactionChange;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public interface SyncBackendProvider {
 

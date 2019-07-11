@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.di;
 
-import android.support.annotation.VisibleForTesting;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -40,6 +38,7 @@ import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import androidx.annotation.VisibleForTesting;
 import dagger.BindsInstance;
 import dagger.Component;
 

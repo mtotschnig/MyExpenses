@@ -18,11 +18,11 @@ package org.totschnig.myexpenses.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;

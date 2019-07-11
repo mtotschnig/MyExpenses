@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ResourceCursorTreeAdapter;
 import android.widget.TextView;
@@ -207,7 +208,7 @@ public abstract class SimpleCursorTreeAdapter extends ResourceCursorTreeAdapter 
      *
      * @return a ViewBinder or null if the binder does not exist
      *
-     * @see #setViewBinder(android.widget.SimpleCursorTreeAdapter.ViewBinder)
+     * @see #setViewBinder(ViewBinder)
      */
     public ViewBinder getViewBinder() {
         return mViewBinder;

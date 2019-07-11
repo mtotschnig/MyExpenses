@@ -16,8 +16,6 @@ package org.totschnig.myexpenses.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.PopupMenu;
 import android.text.ClipboardManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -36,6 +34,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Stack;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 

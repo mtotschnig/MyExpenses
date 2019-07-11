@@ -20,8 +20,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -30,6 +28,9 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.util.UiUtils;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;

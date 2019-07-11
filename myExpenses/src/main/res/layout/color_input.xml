@@ -10,7 +10,7 @@
     android:orientation="horizontal"
     tools:showIn="@layout/one_account">
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ColorIndicator"
         android:layout_width="0dp"
         android:layout_height="40dp"

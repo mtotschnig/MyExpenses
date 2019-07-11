@@ -4,11 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.annimon.stream.Stream;
 
@@ -19,6 +14,12 @@ import org.totschnig.myexpenses.adapter.helper.SimpleItemTouchHelperCallback;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SortUtilityDialogFragment extends CommitSafeDialogFragment implements OnStartDragListener, DialogInterface.OnClickListener {
   private static final String KEY_ITEMS = "items";

@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Plan;
@@ -28,6 +27,8 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.HashMap;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * This Fragment manages a single background task and retains

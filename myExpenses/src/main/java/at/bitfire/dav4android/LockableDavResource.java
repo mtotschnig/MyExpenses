@@ -1,11 +1,11 @@
 package at.bitfire.dav4android;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.GetETag;
 import at.bitfire.dav4android.property.ResourceType;

@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -13,6 +11,9 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+
+import androidx.annotation.NonNull;
+import androidx.documentfile.provider.DocumentFile;
 
 public class BackupUtils {
   public static final String BACKUP_DB_FILE_NAME = "BACKUP";

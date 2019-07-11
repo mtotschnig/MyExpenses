@@ -5,7 +5,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
     }
 }
 
@@ -36,6 +36,6 @@ ext {
     daggerVersion = "2.23.1"
     okHttpVersion = "3.9.1"
     acraVersion = "5.1.2"
-    butterknifeVersion = "8.8.1"
+    butterknifeVersion = "10.1.0"
     robolectricVersion = "4.2.1"
 }

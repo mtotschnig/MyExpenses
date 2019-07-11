@@ -1,13 +1,8 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -29,6 +26,11 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.ListFragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import static org.totschnig.myexpenses.dialog.EditCurrencyDialog.KEY_RESULT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;

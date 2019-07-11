@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -20,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import androidx.core.util.Pair;
+import androidx.fragment.app.FragmentActivity;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;

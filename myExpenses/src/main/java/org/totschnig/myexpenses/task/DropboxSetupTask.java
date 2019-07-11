@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.task;
 
 import android.accounts.AccountManager;
 import android.os.Bundle;
-import android.support.v4.util.Pair;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
@@ -14,6 +13,8 @@ import org.totschnig.myexpenses.sync.DropboxBackendProvider;
 import org.totschnig.myexpenses.util.Result;
 
 import java.util.Locale;
+
+import androidx.core.util.Pair;
 
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 

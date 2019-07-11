@@ -34,9 +34,10 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.OverScroller;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import timber.log.Timber;
 
-public class TouchImageView extends android.support.v7.widget.AppCompatImageView {
+public class TouchImageView extends AppCompatImageView {
 
   private static final String DEBUG = "DEBUG";
 

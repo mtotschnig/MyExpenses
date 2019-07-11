@@ -2,10 +2,11 @@ package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.TimePicker;
+
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 

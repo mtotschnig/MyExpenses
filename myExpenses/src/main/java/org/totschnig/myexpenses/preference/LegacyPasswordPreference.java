@@ -16,10 +16,11 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import org.totschnig.myexpenses.R;
+
+import androidx.preference.DialogPreference;
 
 public class LegacyPasswordPreference extends DialogPreference {
   private boolean mValueSet;

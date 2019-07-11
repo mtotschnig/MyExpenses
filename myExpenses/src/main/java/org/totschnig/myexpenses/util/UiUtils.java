@@ -8,12 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -22,12 +16,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatDrawableManager;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.ViewCompat;
 
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
@@ -41,7 +42,7 @@ public class UiUtils {
       //Workaround for https://issuetracker.google.com/issues/37120757
       View snackbarView = snackbar.getView();
       snackbarView.setBackgroundColor(Color.WHITE);
-      TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+      TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
       textView.setTextColor(Color.BLACK);
     }
   }

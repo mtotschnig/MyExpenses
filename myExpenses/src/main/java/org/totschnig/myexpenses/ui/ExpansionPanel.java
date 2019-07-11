@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -14,6 +12,8 @@ import android.widget.LinearLayout;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.animation.ExpandAnimation;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

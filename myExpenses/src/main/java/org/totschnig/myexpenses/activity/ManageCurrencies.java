@@ -1,10 +1,11 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
+
+import androidx.fragment.app.Fragment;
 
 public class ManageCurrencies extends ProtectedFragmentActivity  {
 

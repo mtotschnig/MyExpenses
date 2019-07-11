@@ -1,11 +1,13 @@
 package org.totschnig.myexpenses.preference;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.view.View;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.totschnig.myexpenses.R;
+
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 public class SimplePasswordDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 

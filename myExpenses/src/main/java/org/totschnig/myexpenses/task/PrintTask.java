@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.task;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -14,6 +13,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 
+import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;

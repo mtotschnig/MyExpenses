@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.export.pdf;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.provider.DocumentFile;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -51,6 +50,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
 import static com.itextpdf.text.Chunk.GENERICTAG;

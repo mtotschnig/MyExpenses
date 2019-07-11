@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util.ads;
 
-import android.support.v4.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,6 +9,8 @@ import org.totschnig.myexpenses.util.ads.customevent.Interstitial;
 import org.totschnig.myexpenses.util.ads.customevent.PartnerProgram;
 
 import java.util.Arrays;
+
+import androidx.core.util.Pair;
 
 public class CustomAdHandler extends AdHandler {
 

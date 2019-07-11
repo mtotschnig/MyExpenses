@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -26,21 +25,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -55,6 +39,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.annimon.stream.Stream;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -113,6 +99,19 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
@@ -156,7 +155,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOU
  * are called
  */
 public class MyExpenses extends LaunchActivity implements
-    OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
+    ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
     ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener, SortUtilityDialogFragment.OnConfirmListener {
 

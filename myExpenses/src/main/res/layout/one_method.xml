@@ -97,7 +97,7 @@
                     style="@style/FormLabel"
                     android:text="@string/account_types"/>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.appcompat.widget.GridLayout
                     android:id="@+id/AccountTypeGrid"
                     style="@style/FormField"
                     android:layout_height="wrap_content"

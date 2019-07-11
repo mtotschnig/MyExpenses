@@ -4,8 +4,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -38,6 +36,8 @@ import java.io.FileNotFoundException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import okhttp3.HttpUrl;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;

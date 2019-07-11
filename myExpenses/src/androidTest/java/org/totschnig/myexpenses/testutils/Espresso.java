@@ -106,7 +106,7 @@ public class Espresso {
   private static final Matcher<View> localizedOverFlowButtonMatcher(Context context) {
     return anyOf(
         allOf(isDisplayed(), withContentDescription(context.getString(
-            android.support.v7.appcompat.R.string.abc_action_menu_overflow_description))),
+            androidx.appcompat.appcompat.R.string.abc_action_menu_overflow_description))),
         allOf(isDisplayed(), withClassName(endsWith("OverflowMenuButton"))));
   }
 

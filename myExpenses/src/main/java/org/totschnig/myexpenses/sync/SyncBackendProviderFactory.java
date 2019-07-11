@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
@@ -17,6 +16,8 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
 
 public abstract class SyncBackendProviderFactory {
 

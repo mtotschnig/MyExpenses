@@ -9,7 +9,6 @@
 
 package org.totschnig.myexpenses.export.qif;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -21,6 +20,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.export.qif.QifDateFormat.EU;
 import static org.totschnig.myexpenses.export.qif.QifDateFormat.US;

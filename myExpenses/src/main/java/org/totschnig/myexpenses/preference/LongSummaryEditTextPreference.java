@@ -16,11 +16,11 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
+
+import androidx.preference.EditTextPreference;
+import androidx.preference.PreferenceViewHolder;
 
 public class LongSummaryEditTextPreference extends EditTextPreference
 {

@@ -26,10 +26,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.util.Pair;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -91,6 +87,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.loader.app.LoaderManager;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
@@ -627,7 +627,7 @@ public class Utils {
   }
 
   /**
-   * filters out the '/' character and characters of type {@link java.lang.Character#SURROGATE} or
+   * filters out the '/' character and characters of type {@link Character#SURROGATE} or
    * {@link java.lang.Character#OTHER_SYMBOL}, meant primarily to skip emojs
    *
    * @param in

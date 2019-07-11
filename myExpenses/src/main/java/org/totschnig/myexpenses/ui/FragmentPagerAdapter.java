@@ -19,17 +19,19 @@ package org.totschnig.myexpenses.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
+
 
 /**
- * NOTE: This is a direct copy of {@link android.support.v4.app.FragmentPagerAdapter}
+ * NOTE: This is a direct copy of {@link FragmentPagerAdapter}
  * with one modification
  * <p>
  * <ol>
@@ -37,7 +39,7 @@ import android.view.ViewGroup;
  * in our class. We need to be able to re-define the fragment's name according to data
  * only available to sub-classes.</li>
  * <li>The method {@link #destroyItem(ViewGroup, int, Object)} destroys the item
- * like {@link android.support.v4.app.FragmentStatePagerAdapter}, and a method 
+ * like {@link FragmentStatePagerAdapter}, and a method
  * {@link #detachItem(ViewGroup, int, Object)} is provided, and does what destroyItem
  * does in super. A subclass thus can remove an item from the adapter, when it is no longer valid.</li>
  * </ol>

@@ -16,9 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -34,6 +31,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 
 import java.util.NoSuchElementException;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.gridlayout.widget.GridLayout;
 
 /**
  * Activity for editing an account

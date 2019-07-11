@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.test.sync;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import org.junit.Assume;
 import org.junit.Before;

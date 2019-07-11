@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
-import android.support.v4.util.LongSparseArray;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +20,8 @@ import org.totschnig.myexpenses.viewmodel.data.Category;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.collection.LongSparseArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

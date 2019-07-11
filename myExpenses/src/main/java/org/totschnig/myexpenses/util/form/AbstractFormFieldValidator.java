@@ -17,10 +17,11 @@
 package org.totschnig.myexpenses.util.form;
 
 import android.content.Context;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 public abstract class AbstractFormFieldValidator {
   protected Context context;

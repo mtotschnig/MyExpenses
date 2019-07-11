@@ -4,7 +4,7 @@ import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;

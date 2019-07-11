@@ -4,13 +4,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 
 import com.annimon.stream.function.Function;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.onepf.oms.OpenIabHelper;
 import org.totschnig.myexpenses.MyApplication;
@@ -36,6 +33,9 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;

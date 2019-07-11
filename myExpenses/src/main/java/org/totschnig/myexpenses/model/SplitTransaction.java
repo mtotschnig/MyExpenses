@@ -22,7 +22,6 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
 
 import com.annimon.stream.Stream;
 
@@ -38,6 +37,7 @@ import org.totschnig.myexpenses.util.Result;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;

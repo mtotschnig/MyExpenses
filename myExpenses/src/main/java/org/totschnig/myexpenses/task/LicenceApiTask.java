@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.task;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import androidx.annotation.NonNull;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;

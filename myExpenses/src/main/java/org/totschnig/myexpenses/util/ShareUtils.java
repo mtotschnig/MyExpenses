@@ -3,9 +3,6 @@ package org.totschnig.myexpenses.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -16,6 +13,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 public class ShareUtils {
   public static Result share(Context ctx, List<Uri> uriList, String target, String mimeType) {

@@ -20,7 +20,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.support.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -31,6 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.VisibleForTesting;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;

@@ -16,8 +16,9 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.v7.preference.ListPreference;
 import android.util.AttributeSet;
+
+import androidx.preference.ListPreference;
 
 /**
  *  http://stackoverflow.com/a/8004498/1199911

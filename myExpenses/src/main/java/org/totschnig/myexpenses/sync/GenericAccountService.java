@@ -27,8 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -44,6 +42,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import timber.log.Timber;
 
 public class GenericAccountService extends Service {

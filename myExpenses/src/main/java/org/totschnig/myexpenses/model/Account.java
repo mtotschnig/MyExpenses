@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.annotation.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -48,6 +47,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import androidx.annotation.VisibleForTesting;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;

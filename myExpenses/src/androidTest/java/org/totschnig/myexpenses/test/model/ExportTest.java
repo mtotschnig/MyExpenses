@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.test.model;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
-import android.support.v4.provider.DocumentFile;
+import androidx.core.provider.DocumentFile;
 import android.util.Log;
 
 import org.totschnig.myexpenses.R;

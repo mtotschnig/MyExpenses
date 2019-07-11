@@ -19,8 +19,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
 
@@ -30,6 +28,9 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * uses {@link MessageDialogFragment.MessageDialogListener} to dispatch result back to activity

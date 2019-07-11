@@ -3,11 +3,12 @@ package org.totschnig.myexpenses.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.NougatFileProviderException;
+
+import androidx.annotation.NonNull;
 
 public class SystemImageViewIntentProvider implements ImageViewIntentProvider {
   public Intent getViewIntent(Context context, Uri pictureUri) {

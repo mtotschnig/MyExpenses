@@ -18,13 +18,9 @@ package org.totschnig.myexpenses.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 
 import com.android.calendar.CalendarContractCompat.Events;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -39,6 +35,11 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;

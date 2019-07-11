@@ -22,8 +22,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,6 +29,9 @@ import android.webkit.WebViewClient;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 public class Interstitial implements View.OnClickListener {
   @Nullable private AdListener listener;

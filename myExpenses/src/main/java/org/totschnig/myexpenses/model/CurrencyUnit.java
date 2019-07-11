@@ -1,11 +1,11 @@
 package org.totschnig.myexpenses.model;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.google.auto.value.AutoValue;
 
 import java.io.Serializable;
 import java.util.Currency;
+
+import androidx.annotation.VisibleForTesting;
 
 @AutoValue
 public abstract class CurrencyUnit implements Serializable {

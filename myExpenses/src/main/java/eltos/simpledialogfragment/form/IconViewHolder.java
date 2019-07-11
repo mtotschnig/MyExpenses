@@ -17,7 +17,6 @@ package eltos.simpledialogfragment.form;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;

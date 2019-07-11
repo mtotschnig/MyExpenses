@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.preference;
 
-import android.support.annotation.NonNull;
-
 import org.totschnig.myexpenses.MyApplication;
+
+import androidx.annotation.NonNull;
 
 public class PrefHandlerImpl implements PrefHandler {
   private MyApplication context;

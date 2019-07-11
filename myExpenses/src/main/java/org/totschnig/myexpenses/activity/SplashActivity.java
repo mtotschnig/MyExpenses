@@ -3,10 +3,6 @@ package org.totschnig.myexpenses.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
@@ -34,6 +30,10 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;

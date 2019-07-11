@@ -2,11 +2,12 @@ package eltos.simpledialogfragment.list;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.annotation.MenuRes;
-import android.support.v7.view.menu.MenuBuilder;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+
+import androidx.annotation.MenuRes;
+import androidx.appcompat.view.menu.MenuBuilder;
 
 public class MenuDialog extends SimpleListDialog {
   public static final String TAG = "MenuDialog.";

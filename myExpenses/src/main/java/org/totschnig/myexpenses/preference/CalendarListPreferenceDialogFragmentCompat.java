@@ -6,17 +6,18 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 
 import com.android.calendar.CalendarContractCompat;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.ListPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
   @Override

@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.dialog;
 
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -20,6 +18,8 @@ import org.totschnig.myexpenses.provider.filter.DateCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 
 import java.util.Calendar;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class DateFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
   private DatePicker mDate1;

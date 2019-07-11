@@ -2,12 +2,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +21,11 @@ import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.FragmentActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

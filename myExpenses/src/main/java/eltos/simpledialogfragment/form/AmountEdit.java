@@ -1,13 +1,15 @@
 package eltos.simpledialogfragment.form;
 
 import android.os.Parcel;
-import android.support.annotation.Nullable;
 
 import java.math.BigDecimal;
 
+import androidx.annotation.Nullable;
+
 public class AmountEdit  extends FormElement<AmountEdit, AmountEditViewHolder> {
   int fractionDigits;
-  @Nullable BigDecimal amount;
+  @Nullable
+  BigDecimal amount;
   @Nullable BigDecimal max;
   String maxExceededError;
   @Nullable BigDecimal min;

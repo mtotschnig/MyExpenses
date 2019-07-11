@@ -2,10 +2,6 @@ package org.totschnig.myexpenses.util.ads.customevent;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -17,6 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import androidx.annotation.ArrayRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.HOUR_IN_MILLIS;

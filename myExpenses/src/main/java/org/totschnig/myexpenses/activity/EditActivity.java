@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -29,6 +28,8 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+
+import androidx.appcompat.widget.Toolbar;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher {
 

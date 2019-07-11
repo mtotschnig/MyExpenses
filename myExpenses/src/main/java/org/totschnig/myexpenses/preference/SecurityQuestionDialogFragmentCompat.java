@@ -16,12 +16,13 @@
 package org.totschnig.myexpenses.preference;
 
 import android.os.Bundle;
-import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
 import android.view.View;
 import android.widget.EditText;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
+
+import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 
 public class SecurityQuestionDialogFragmentCompat extends EditTextPreferenceDialogFragmentCompat {
   private EditText answer;

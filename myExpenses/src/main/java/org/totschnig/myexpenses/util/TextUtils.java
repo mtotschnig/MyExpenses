@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.model.CurrencyUnit;
 
@@ -9,6 +8,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
 
 public class TextUtils {
   public static <E extends Enum<E>> String joinEnum(Class<E> enumClass) {

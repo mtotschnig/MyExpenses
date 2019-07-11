@@ -1,8 +1,9 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
+
+import androidx.preference.DialogPreference;
 
 /**
  * A preference for storing integer values

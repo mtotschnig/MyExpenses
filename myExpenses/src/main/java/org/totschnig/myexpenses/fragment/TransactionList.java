@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -29,18 +28,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.util.LongSparseArray;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -60,6 +47,7 @@ import android.widget.Toast;
 
 import com.annimon.stream.LongStream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.threeten.bp.LocalDateTime;
@@ -117,6 +105,18 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.LongSparseArray;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.input.SimpleInputDialog;

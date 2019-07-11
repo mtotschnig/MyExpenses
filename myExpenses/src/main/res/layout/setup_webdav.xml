@@ -27,7 +27,7 @@
         android:layout_margin="16dp"
         android:orientation="vertical">
         <!-- URL -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -39,7 +39,7 @@
                 android:inputType="textUri"
                 android:maxLines="1"
                 android:importantForAutofill="no"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/description_webdav_url"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
         <!-- UserName -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -61,9 +61,9 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:autofillHints="username"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
         <!-- Password -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -75,7 +75,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:autofillHints="password"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
         <!-- Certificate -->
         <LinearLayout
             android:id="@+id/certificate_container"

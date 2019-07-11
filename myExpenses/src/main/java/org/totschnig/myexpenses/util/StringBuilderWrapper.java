@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class StringBuilderWrapper {
   public StringBuilderWrapper() {

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.sync.json;
 
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
@@ -10,8 +9,9 @@ import com.google.gson.TypeAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyContext;
-import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.preference.PrefKey;
+
+import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class AccountMetaData implements Parcelable {

@@ -11,7 +11,7 @@
               tools:targetApi="o">
 
     <!-- label (only custom) -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/container_currency_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,10 +26,10 @@
             android:hint="@string/label"
             android:inputType="text"
             android:maxLines="1"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- code (only custom) -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/container_currency_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,11 +48,11 @@
             android:inputType="textCapCharacters"
             android:maxLength="3"
             android:maxLines="1"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- symbol -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -66,10 +66,10 @@
             android:hint="@string/currency_symbol"
             android:inputType="text"
             android:maxLines="1"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- fraction digits -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="0dp"
@@ -83,7 +83,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:maxLines="1"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/checkBox"

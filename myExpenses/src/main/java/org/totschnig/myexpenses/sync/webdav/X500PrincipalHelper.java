@@ -13,11 +13,11 @@
 
 package org.totschnig.myexpenses.sync.webdav;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 
 import javax.security.auth.x500.X500Principal;
+
+import androidx.annotation.NonNull;
 
 /**
  * X500PrincipalHelper

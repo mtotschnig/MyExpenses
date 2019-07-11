@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
-import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +29,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.util.Locale;
 
+import androidx.cursoradapter.widget.ResourceCursorAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;

@@ -1,9 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -13,6 +10,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 import eltos.simpledialogfragment.form.FormElement;
 import eltos.simpledialogfragment.form.Input;
@@ -31,7 +31,8 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
   protected static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
   protected T mListFragment;
 
-  @NonNull abstract public String getAction();
+  @NonNull
+  abstract public String getAction();
   protected abstract int getContentView();
 
   @Override

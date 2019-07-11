@@ -16,9 +16,9 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.text.InputType;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
+import androidx.annotation.NonNull;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 public class ManageParties extends ProtectedFragmentActivity implements

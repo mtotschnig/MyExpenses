@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import org.json.JSONException;
@@ -28,6 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import timber.log.Timber;
 
 

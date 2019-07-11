@@ -20,12 +20,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.util.Pair;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+
+import androidx.core.util.Pair;
 
 public class AdView extends WebView {
   private AdListener listener;

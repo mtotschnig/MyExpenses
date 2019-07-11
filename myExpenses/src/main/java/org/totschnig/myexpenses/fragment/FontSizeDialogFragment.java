@@ -2,13 +2,14 @@ package org.totschnig.myexpenses.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.PrefKey;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 public class FontSizeDialogFragment extends DialogFragment {
 

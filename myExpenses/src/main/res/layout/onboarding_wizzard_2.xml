@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/OnBoardingTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -40,7 +40,7 @@
                         android:layout_gravity="center_vertical"
                         android:hint="@string/label"
                         android:inputType="text"/>
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     style="@style/OnboardingInputLabel"
@@ -89,7 +89,7 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/OnBoardingTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -101,7 +101,7 @@
                             android:layout_gravity="center_vertical"
                             android:hint="@string/description"
                             android:inputType="text"/>
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         style="@style/OnboardingInputLabel"

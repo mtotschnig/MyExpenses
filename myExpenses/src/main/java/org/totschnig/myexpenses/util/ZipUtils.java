@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.util;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -24,6 +22,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
 

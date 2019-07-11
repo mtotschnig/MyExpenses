@@ -15,7 +15,7 @@
 
 package org.totschnig.myexpenses.test.misc;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import android.test.InstrumentationTestCase;
 import android.util.SparseArray;
 

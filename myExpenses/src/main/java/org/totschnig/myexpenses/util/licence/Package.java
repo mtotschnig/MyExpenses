@@ -1,13 +1,14 @@
 package org.totschnig.myexpenses.util.licence;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Preconditions;
+
+import androidx.annotation.NonNull;
 
 public enum Package {
   Contrib(350), Upgrade(300), Extended(500), Professional_1(100), Professional_6(500),

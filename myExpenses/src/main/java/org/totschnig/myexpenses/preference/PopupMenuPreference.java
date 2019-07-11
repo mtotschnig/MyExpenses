@@ -1,12 +1,13 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceViewHolder;
-import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.View;
+
+import androidx.appcompat.widget.PopupMenu;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 public class PopupMenuPreference extends Preference {
   private View anchorView;

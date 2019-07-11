@@ -16,14 +16,15 @@
 package eltos.simpledialogfragment.list;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.UiUtils;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 

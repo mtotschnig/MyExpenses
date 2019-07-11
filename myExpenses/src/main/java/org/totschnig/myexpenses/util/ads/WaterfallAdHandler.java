@@ -1,7 +1,8 @@
 package org.totschnig.myexpenses.util.ads;
 
-import android.support.annotation.Nullable;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 public class WaterfallAdHandler extends AdHandler {
   private final AdHandler[] cascade;

@@ -5,8 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.widget.CalendarView;
@@ -20,6 +18,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import icepick.State;
 
 /**

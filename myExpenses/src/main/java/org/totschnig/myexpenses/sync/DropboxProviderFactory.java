@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import com.dropbox.core.android.Auth;
 
@@ -15,6 +14,8 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
 
 public class DropboxProviderFactory extends SyncBackendProviderFactory {
   public static final String LABEL = "Dropbox";

@@ -18,8 +18,6 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -31,6 +29,9 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import org.totschnig.myexpenses.R;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 public class EditTextDialog extends CommitSafeDialogFragment implements OnEditorActionListener {
 

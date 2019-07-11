@@ -16,15 +16,10 @@
 package org.totschnig.myexpenses.activity;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +33,7 @@ import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
@@ -63,14 +59,18 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_CHECK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS;
 
 /**
  * Activity for editing an account

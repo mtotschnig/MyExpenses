@@ -2,13 +2,14 @@ package org.totschnig.myexpenses.viewmodel.data;
 
 import android.database.Cursor;
 import android.os.Build;
-import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
 
 import org.totschnig.myexpenses.model.CurrencyEnum;
 
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;

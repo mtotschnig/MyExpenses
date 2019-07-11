@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.adapter;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 
 import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;

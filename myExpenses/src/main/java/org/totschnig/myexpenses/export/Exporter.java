@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.export;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.provider.DocumentFile;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -33,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;

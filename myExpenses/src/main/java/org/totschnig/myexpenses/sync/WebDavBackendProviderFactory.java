@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
@@ -15,6 +14,8 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
 
 public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
 

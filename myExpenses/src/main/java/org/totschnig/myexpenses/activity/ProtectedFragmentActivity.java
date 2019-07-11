@@ -29,24 +29,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -58,6 +40,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Optional;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -100,6 +84,23 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NavUtils;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
@@ -929,7 +930,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
                             Snackbar.Callback callback, @NonNull View container) {
     snackbar = Snackbar.make(container, message, duration);
     View snackbarView = snackbar.getView();
-    TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+    TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
     textView.setMaxLines(4);
     UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
     if (snackbarAction != null) {

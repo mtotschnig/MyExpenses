@@ -18,12 +18,13 @@ package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.SparseIntArray;
 import android.view.ViewGroup;
 
 import java.util.HashMap;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
 

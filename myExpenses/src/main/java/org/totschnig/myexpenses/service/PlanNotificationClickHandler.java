@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -19,6 +18,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 
 import java.util.Date;
+
+import androidx.annotation.Nullable;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;

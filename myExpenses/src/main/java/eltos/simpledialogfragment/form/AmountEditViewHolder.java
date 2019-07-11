@@ -2,11 +2,12 @@ package eltos.simpledialogfragment.form;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.ui;
 
 import android.graphics.RectF;
-import android.support.annotation.NonNull;
 
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarEntry;
@@ -18,6 +17,8 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.MPPointD;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class ExactStackedBarHighlighter extends BarHighlighter {
 

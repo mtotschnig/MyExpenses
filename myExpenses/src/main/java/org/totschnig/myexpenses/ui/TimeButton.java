@@ -3,13 +3,13 @@ package org.totschnig.myexpenses.ui;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
+import androidx.annotation.NonNull;
 import icepick.State;
 
 import static org.threeten.bp.temporal.ChronoField.HOUR_OF_DAY;

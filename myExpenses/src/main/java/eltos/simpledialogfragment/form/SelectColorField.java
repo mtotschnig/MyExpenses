@@ -17,9 +17,9 @@ package eltos.simpledialogfragment.form;
 
 import android.content.Context;
 import android.os.Parcel;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.ColorInt;
 
+import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorInt;
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 

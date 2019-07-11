@@ -1,11 +1,8 @@
 package org.totschnig.myexpenses.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.ContentUris;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
@@ -13,6 +10,9 @@ import com.squareup.sqlbrite3.SqlBrite;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 

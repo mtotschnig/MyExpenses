@@ -12,7 +12,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.v4.graphics.ColorUtils.blendARGB;
+import static androidx.core.graphics.ColorUtils.blendARGB;
 
 public class ColorUtils {
   /*

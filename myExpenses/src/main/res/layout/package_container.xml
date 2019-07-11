@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/package_button"
             style="@style/SelectLicenceButton"
             android:layout_gravity="center"

@@ -1,13 +1,14 @@
 package org.totschnig.myexpenses.util.licence;
 
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+
+import androidx.annotation.Nullable;
 
 @Deprecated
 public class HashLicenceHandler extends LicenceHandler {

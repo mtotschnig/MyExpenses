@@ -6,7 +6,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -17,6 +16,7 @@ import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.TimeZone;
 
+import androidx.annotation.NonNull;
 import hirondelle.date4j.DateTime;
 
 /**

@@ -19,10 +19,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -32,6 +28,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -40,6 +38,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import java.util.ArrayList;
+
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 public class MethodList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;

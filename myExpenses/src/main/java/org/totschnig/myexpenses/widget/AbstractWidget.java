@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.DimenRes;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
@@ -20,6 +19,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.UiUtils;
+
+import androidx.annotation.DimenRes;
 
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 

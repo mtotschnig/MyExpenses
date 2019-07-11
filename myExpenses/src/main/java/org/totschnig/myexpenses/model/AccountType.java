@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.model;
 
-import android.support.annotation.StringRes;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.TextUtils;
+
+import androidx.annotation.StringRes;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;

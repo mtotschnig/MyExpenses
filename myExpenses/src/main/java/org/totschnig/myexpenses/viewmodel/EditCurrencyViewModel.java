@@ -1,13 +1,10 @@
 package org.totschnig.myexpenses.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.CurrencyContext;
@@ -15,6 +12,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;

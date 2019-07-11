@@ -4,14 +4,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.util.Pair;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +14,7 @@ import android.widget.ExpandableListView;
 
 import com.annimon.stream.Collectors;
 import com.dropbox.core.InvalidAccessTokenException;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -50,7 +43,15 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import static android.support.design.widget.BaseTransientBottomBar.LENGTH_INDEFINITE;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+
+import static com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 

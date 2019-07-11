@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.v7.preference.ListPreference;
 import android.util.AttributeSet;
 
 import com.annimon.stream.Collectors;
@@ -11,6 +10,8 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.preference.ListPreference;
 
 public class AccountPreference extends ListPreference {
 

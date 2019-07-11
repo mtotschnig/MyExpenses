@@ -1,13 +1,14 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.totschnig.myexpenses.R;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 abstract class OnboardingFragment extends Fragment {
   protected View nextButton;

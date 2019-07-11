@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.adapter;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -11,6 +10,8 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;

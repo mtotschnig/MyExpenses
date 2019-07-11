@@ -8,7 +8,6 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -18,6 +17,8 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.util.Collections;
+
+import androidx.annotation.RequiresApi;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;

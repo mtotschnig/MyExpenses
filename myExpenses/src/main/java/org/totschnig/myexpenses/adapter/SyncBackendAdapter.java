@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
-import android.support.v4.util.Pair;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,8 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.core.util.Pair;
 
 public class SyncBackendAdapter extends BaseExpandableListAdapter {
 

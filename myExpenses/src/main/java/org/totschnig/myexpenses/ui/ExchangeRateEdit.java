@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -16,6 +14,8 @@ import org.totschnig.myexpenses.R;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

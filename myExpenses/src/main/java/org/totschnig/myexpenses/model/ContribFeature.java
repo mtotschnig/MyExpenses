@@ -17,8 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.text.Html;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -31,6 +29,9 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.CONTRIB;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;

@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.sync.json;
 
 
 import android.database.Cursor;
-import android.support.annotation.Nullable;
 
 import com.annimon.stream.Stream;
 import com.gabrielittner.auto.value.cursor.ColumnAdapter;
@@ -15,6 +14,8 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;

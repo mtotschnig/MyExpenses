@@ -15,8 +15,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -61,6 +59,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;

@@ -18,9 +18,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
-import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -46,6 +43,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
+import androidx.documentfile.provider.DocumentFile;
 
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP;

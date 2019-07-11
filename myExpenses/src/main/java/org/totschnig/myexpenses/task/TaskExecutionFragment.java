@@ -20,8 +20,6 @@ package org.totschnig.myexpenses.task;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
@@ -36,6 +34,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import timber.log.Timber;
 
 

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
@@ -30,6 +28,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.LockableDavResource;
 import at.bitfire.dav4android.exception.DavException;

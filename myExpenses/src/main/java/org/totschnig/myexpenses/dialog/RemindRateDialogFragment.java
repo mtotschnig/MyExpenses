@@ -19,7 +19,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +32,8 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class RemindRateDialogFragment extends CommitSafeDialogFragment implements OnClickListener, OnRatingBarChangeListener {
 

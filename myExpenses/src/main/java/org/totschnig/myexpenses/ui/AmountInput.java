@@ -7,8 +7,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -30,6 +28,8 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 import java.math.BigDecimal;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

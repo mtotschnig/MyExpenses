@@ -22,7 +22,7 @@
               android:layout_marginRight="@dimen/margin_list_expandable"
               android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/budgetTotalCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -57,7 +57,7 @@
             <include layout="@layout/budget_total_table"/>
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <ExpandableListView
         android:id="@+id/list"

@@ -30,7 +30,7 @@
 
     </FrameLayout>
 
-    <android.support.design.widget.NavigationView
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/expansionContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -16,10 +16,11 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * represents a tuple of success flag, and message as an R id

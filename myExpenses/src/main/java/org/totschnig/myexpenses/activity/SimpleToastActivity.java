@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class SimpleToastActivity extends ProtectedFragmentActivity {
   public static final String KEY_MESSAGE_ID = "message_id";

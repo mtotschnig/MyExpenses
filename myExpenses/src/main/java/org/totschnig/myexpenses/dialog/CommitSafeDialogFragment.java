@@ -5,15 +5,17 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.UiUtils;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public abstract class CommitSafeDialogFragment extends DialogFragment {
 

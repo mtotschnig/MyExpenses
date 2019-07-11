@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -9,6 +8,8 @@ import android.view.MotionEvent;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.DistributionFragment;
 import org.totschnig.myexpenses.model.Grouping;
+
+import androidx.annotation.NonNull;
 
 public class Distribution extends CategoryActivity<DistributionFragment> {
   public static final String ACTION_DISTRIBUTION = "DISTRIBUTION";

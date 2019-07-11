@@ -11,8 +11,6 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -49,6 +47,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;

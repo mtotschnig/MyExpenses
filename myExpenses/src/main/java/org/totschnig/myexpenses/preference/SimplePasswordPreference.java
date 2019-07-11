@@ -1,11 +1,12 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import org.totschnig.myexpenses.R;
+
+import androidx.annotation.Nullable;
+import androidx.preference.DialogPreference;
 
 public class SimplePasswordPreference extends DialogPreference {
   public SimplePasswordPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

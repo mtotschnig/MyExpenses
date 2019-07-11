@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.support.v4.app.Fragment;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -19,6 +18,8 @@ import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+
+import androidx.fragment.app.Fragment;
 
 
 /**

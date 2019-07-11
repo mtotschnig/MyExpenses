@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.model;
 
-import android.support.annotation.NonNull;
-
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -9,6 +7,8 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 public class PreferencesCurrencyContext implements CurrencyContext {
   /**

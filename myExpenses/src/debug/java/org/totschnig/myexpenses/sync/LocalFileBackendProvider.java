@@ -2,8 +2,8 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;

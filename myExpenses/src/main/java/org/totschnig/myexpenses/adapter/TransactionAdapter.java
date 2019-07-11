@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -39,6 +38,7 @@ import org.totschnig.myexpenses.util.Utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import androidx.cursoradapter.widget.ResourceCursorAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

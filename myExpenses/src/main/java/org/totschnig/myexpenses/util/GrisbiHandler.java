@@ -1,13 +1,13 @@
 package org.totschnig.myexpenses.util;
 
-import android.support.v4.util.Pair;
-
 import org.totschnig.myexpenses.R;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
+
+import androidx.core.util.Pair;
 
 public class GrisbiHandler extends DefaultHandler {
   CategoryTree catTree;

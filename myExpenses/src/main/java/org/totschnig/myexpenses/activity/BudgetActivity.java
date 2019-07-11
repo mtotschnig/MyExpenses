@@ -1,15 +1,13 @@
 package org.totschnig.myexpenses.activity;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
@@ -28,6 +26,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProviders;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.FormElement;
 import eltos.simpledialogfragment.form.SimpleFormDialog;

@@ -28,11 +28,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Process;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.multidex.MultiDexApplication;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.preference.PreferenceManager;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -73,6 +68,11 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
+import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;

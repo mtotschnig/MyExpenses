@@ -17,12 +17,13 @@ package org.totschnig.myexpenses.model;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.support.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.MyApplication;
 
 import java.io.Serializable;
 import java.util.UUID;
+
+import androidx.annotation.VisibleForTesting;
 
 public abstract class Model implements Serializable {
   public String uuid;

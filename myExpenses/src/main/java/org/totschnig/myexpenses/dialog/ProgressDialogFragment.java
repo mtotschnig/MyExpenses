@@ -20,13 +20,14 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Button;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+
+import androidx.annotation.NonNull;
 
 import static android.app.ProgressDialog.STYLE_SPINNER;
 

@@ -17,10 +17,10 @@ public class FontSizeAdapter extends ArrayAdapter<String> {
   }
 
   private static int getItemLayoutResourceId(Context context) {
-    final TypedArray a = context.obtainStyledAttributes(null, android.support.v7.appcompat.R.styleable.AlertDialog,
-        android.support.v7.appcompat.R.attr.alertDialogStyle, 0);
+    final TypedArray a = context.obtainStyledAttributes(null, androidx.appcompat.R.styleable.AlertDialog,
+        androidx.appcompat.R.attr.alertDialogStyle, 0);
     //noinspection PrivateResource
-    int resId = a.getResourceId(android.support.v7.appcompat.R.styleable.AlertDialog_singleChoiceItemLayout, 0);
+    int resId = a.getResourceId(androidx.appcompat.R.styleable.AlertDialog_singleChoiceItemLayout, 0);
     a.recycle();
     return resId;
   }

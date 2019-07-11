@@ -16,8 +16,6 @@
 
 package org.totschnig.myexpenses.util.io;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +29,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.Arrays;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * From Acra

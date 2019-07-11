@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;

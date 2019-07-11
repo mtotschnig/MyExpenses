@@ -4,10 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Parcelable;
-import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatButton;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 

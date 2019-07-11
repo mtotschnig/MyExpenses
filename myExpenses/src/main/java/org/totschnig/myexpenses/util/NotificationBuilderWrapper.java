@@ -8,9 +8,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
 
 import org.totschnig.myexpenses.R;
+
+import androidx.core.app.NotificationCompat;
 
 public class NotificationBuilderWrapper {
   public static int NOTIFICATION_SYNC = -1;

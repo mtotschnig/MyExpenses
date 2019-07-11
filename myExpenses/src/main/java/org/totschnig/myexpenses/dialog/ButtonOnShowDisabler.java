@@ -1,8 +1,9 @@
 package org.totschnig.myexpenses.dialog;
 
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Button;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class ButtonOnShowDisabler implements DialogInterface.OnShowListener {
   @Override

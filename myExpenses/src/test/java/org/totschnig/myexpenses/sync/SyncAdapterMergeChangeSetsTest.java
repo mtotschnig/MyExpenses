@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.sync;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import org.junit.Test;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
