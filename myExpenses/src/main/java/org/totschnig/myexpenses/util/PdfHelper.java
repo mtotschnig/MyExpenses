@@ -15,9 +15,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
@@ -51,16 +51,12 @@ public class PdfHelper {
       //we want the Default Font to be used first
       try {
         File dir = new File("/system/fonts");
-        File[] files = dir.listFiles(new FilenameFilter() {
+        File[] files = dir.listFiles((dir1, filename) -> {
+          return filename.endsWith("ttf") //NotoSans*-Regular.otf files found not to work:
+              //BaseFont.charExists finds chars that are not visible in PDF
+              && !filename.contains("ColorEmoji");//NotoColorEmoji.ttf and SamsungColorEmoji.ttf
+          //are known not to work
 
-          @Override
-          public boolean accept(File dir, String filename) {
-            return filename.endsWith("ttf") //NotoSans*-Regular.otf files found not to work:
-                //BaseFont.charExists finds chars that are not visible in PDF
-                && !filename.contains("ColorEmoji");//NotoColorEmoji.ttf and SamsungColorEmoji.ttf
-            //are known not to work
-
-          }
         });
         Arrays.sort(files, (f1, f2) -> {
           String n1 = f1.getName();
@@ -84,6 +80,7 @@ public class PdfHelper {
         lfs = new LazyFontSelector(files);
         return;
       } catch (Exception e) {
+        CrashHandler.report(e);
       }
     }
     useSystemFonts = false;
