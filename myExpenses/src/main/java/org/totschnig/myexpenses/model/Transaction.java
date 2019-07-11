@@ -25,10 +25,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.annotation.VisibleForTesting;
-import androidx.core.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
 import org.threeten.bp.LocalDate;
@@ -53,6 +49,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 import timber.log.Timber;
 
 import static android.text.TextUtils.isEmpty;
@@ -774,8 +774,8 @@ public class Transaction extends Model {
    *
    * @param clone if true an uncommited clone of the instance is prepared
    */
-
   public void prepareForEdit(boolean clone) {
+    //TODO this needs to be moved into a transaction
     if (isSplit()) {
       Long oldId = getId();
       if (clone) {
@@ -1258,6 +1258,7 @@ public class Transaction extends Model {
     if (isSplit()) {
       String idStr = String.valueOf(getId());
       String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
+      //TODO wrap into transaction
       cr().delete(getContentUri(),getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
           getPartOrPeerSelectArgs(statusUncommitted));
       cr().delete(getContentUri(), KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",

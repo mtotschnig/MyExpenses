@@ -433,8 +433,10 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
   private void registerAsStale(boolean secure) {
     File dir = PictureDirHelper.getPictureDir(secure);
     if (dir == null) return;
+    final File[] files = dir.listFiles();
+    if (files == null) return;
     ContentValues values = new ContentValues();
-    for (File file : dir.listFiles()) {
+    for (File file : files) {
       Uri uri = secure ? FileProvider.getUriForFile(MyApplication.getInstance(),
           "org.totschnig.myexpenses.fileprovider", file) :
           Uri.fromFile(file);
