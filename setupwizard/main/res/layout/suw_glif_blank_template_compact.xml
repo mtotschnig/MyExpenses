@@ -21,9 +21,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/suw_layout_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include layout="@layout/suw_glif_blank_template_content" />
 
 </com.android.setupwizardlib.view.StatusBarBackgroundLayout>

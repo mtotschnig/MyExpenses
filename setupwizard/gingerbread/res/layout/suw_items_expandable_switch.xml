@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2017 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:colorBackground"
+    android:orientation="horizontal"
+    android:tag="noBackground">
+
+    <com.android.setupwizardlib.view.CheckableLinearLayout
+        android:id="@+id/suw_items_expandable_switch_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/SuwItemContainer"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/suw_switch_content_padding_end"
+        android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+        android:paddingRight="@dimen/suw_switch_content_padding_end"
+        android:paddingStart="?attr/listPreferredItemPaddingLeft">
+
+        <FrameLayout
+            android:id="@+id/suw_items_icon_container"
+            android:layout_width="@dimen/suw_items_icon_container_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="start">
+
+            <ImageView
+                android:id="@+id/suw_items_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/suw_items_padding_bottom_extra"
+            android:layout_weight="1"
+            android:duplicateParentState="true"
+            android:orientation="vertical">
+
+            <com.android.setupwizardlib.view.RichTextView
+                android:id="@+id/suw_items_title"
+                style="@style/SuwItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/suw_expand_arrow_drawable_padding"
+                android:drawableEnd="@drawable/suw_ic_expand"
+                android:drawableRight="@drawable/suw_ic_expand"
+                android:duplicateParentState="true"
+                android:gravity="start"
+                android:labelFor="@+id/suw_items_switch"
+                android:textAlignment="viewStart"
+                tools:ignore="UnusedAttribute" />
+
+            <com.android.setupwizardlib.view.RichTextView
+                android:id="@+id/suw_items_summary"
+                style="@style/SuwItemSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:visibility="gone"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+    </com.android.setupwizardlib.view.CheckableLinearLayout>
+
+    <View
+        android:id="@+id/suw_items_switch_divider"
+        android:layout_width="1dp"
+        android:layout_height="@dimen/suw_switch_divider_height"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/suw_switch_divider_padding_top"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/suw_items_switch"
+        style="@style/SuwSwitchStyle.Divided"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:gravity="top"
+        android:paddingTop="@dimen/suw_switch_padding_top" />
+
+</LinearLayout>

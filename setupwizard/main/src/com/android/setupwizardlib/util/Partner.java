@@ -24,9 +24,17 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.util.Log;
 
-import com.android.setupwizardlib.annotations.VisibleForTesting;
+import androidx.annotation.AnyRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
+
+import java.util.List;
 
 /**
  * Utilities to discover and interact with partner customizations. An overlay package is one that
@@ -37,11 +45,12 @@ import com.android.setupwizardlib.annotations.VisibleForTesting;
  * <p>Derived from {@code com.android.launcher3/Partner.java}
  */
 public class Partner {
+
     private static final String TAG = "(SUW) Partner";
 
     /** Marker action used to discover partner */
-    private static final String
-            ACTION_PARTNER_CUSTOMIZATION = "com.android.setupwizard.action.PARTNER_CUSTOMIZATION";
+    private static final String ACTION_PARTNER_CUSTOMIZATION =
+            "com.android.setupwizard.action.PARTNER_CUSTOMIZATION";
 
     private static boolean sSearched = false;
     private static Partner sPartner;
@@ -52,7 +61,7 @@ public class Partner {
      *
      * @see #getResourceEntry(android.content.Context, int)
      */
-    public static Drawable getDrawable(Context context, int id) {
+    public static Drawable getDrawable(Context context, @DrawableRes int id) {
         final ResourceEntry entry = getResourceEntry(context, id);
         return entry.resources.getDrawable(entry.id);
     }
@@ -63,9 +72,27 @@ public class Partner {
      *
      * @see #getResourceEntry(android.content.Context, int)
      */
-    public static String getString(Context context, int id) {
+    public static String getString(Context context, @StringRes int id) {
         final ResourceEntry entry = getResourceEntry(context, id);
         return entry.resources.getString(entry.id);
+    }
+
+    /**
+     * Convenience method to get color from partner overlay, or if not available, the color from
+     * the original context.
+     */
+    public static int getColor(Context context, @ColorRes int id) {
+        final ResourceEntry resourceEntry = getResourceEntry(context, id);
+        return resourceEntry.resources.getColor(resourceEntry.id);
+    }
+
+    /**
+     * Convenience method to get a CharSequence from partner overlay, or if not available, the text
+     * from the original context.
+     */
+    public static CharSequence getText(Context context, @StringRes int id) {
+        final ResourceEntry entry = getResourceEntry(context, id);
+        return entry.resources.getText(entry.id);
     }
 
     /**
@@ -78,7 +105,7 @@ public class Partner {
      * {@code entry.resources.getString(entry.id)}, or other methods available in
      * {@link android.content.res.Resources}.
      */
-    public static ResourceEntry getResourceEntry(Context context, int id) {
+    public static ResourceEntry getResourceEntry(Context context, @AnyRes int id) {
         final Partner partner = Partner.get(context);
         if (partner != null) {
             final Resources ourResources = context.getResources();
@@ -114,7 +141,20 @@ public class Partner {
         if (!sSearched) {
             PackageManager pm = context.getPackageManager();
             final Intent intent = new Intent(ACTION_PARTNER_CUSTOMIZATION);
-            for (ResolveInfo info : pm.queryBroadcastReceivers(intent, 0)) {
+            List<ResolveInfo> receivers;
+            if (VERSION.SDK_INT >= VERSION_CODES.N) {
+                receivers = pm.queryBroadcastReceivers(
+                        intent,
+                        PackageManager.MATCH_SYSTEM_ONLY
+                                | PackageManager.MATCH_DIRECT_BOOT_AWARE
+                                | PackageManager.MATCH_DIRECT_BOOT_UNAWARE);
+            } else {
+                // On versions before N, direct boot doesn't exist. And the MATCH_SYSTEM_ONLY flag
+                // doesn't exist so we filter for system apps in code below.
+                receivers = pm.queryBroadcastReceivers(intent, 0);
+            }
+
+            for (ResolveInfo info : receivers) {
                 if (info.activityInfo == null) {
                     continue;
                 }

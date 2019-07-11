@@ -15,18 +15,30 @@
     limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <item name="suw_template" type="layout">@layout/suw_template_header</item>
-    <item name="suw_template_short" type="layout">@layout/suw_template_header_collapsed</item>
+
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <item name="suw_template_short" type="layout" tools:ignore="UnusedResources">@layout/suw_template_header_collapsed</item>
+
     <item name="suw_list_template" type="layout">@layout/suw_list_template_header</item>
-    <item name="suw_list_template_short" type="layout">@layout/suw_list_template_header_collapsed</item>
-    <item name="suw_no_scroll_template" type="layout">@layout/suw_no_scroll_template_header</item>
-    <item name="suw_no_scroll_template_short" type="layout">@layout/suw_no_scroll_template_header_collapsed</item>
+
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <item name="suw_list_template_short" type="layout" tools:ignore="UnusedResources">@layout/suw_list_template_header_collapsed</item>
+
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <item name="suw_no_scroll_template" type="layout" tools:ignore="UnusedResources">@layout/suw_no_scroll_template_header</item>
+
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <item name="suw_no_scroll_template_short" type="layout" tools:ignore="UnusedResources">@layout/suw_no_scroll_template_header_collapsed</item>
 
     <item name="suw_glif_template" type="layout">@layout/suw_glif_template_compact</item>
+
     <item name="suw_glif_list_template" type="layout">@layout/suw_glif_list_template_compact</item>
-    <item name="suw_glif_blank_template" type="layout">@layout/suw_glif_blank_template_compact</item>
+
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <item name="suw_glif_blank_template" type="layout" tools:ignore="UnusedResources">@layout/suw_glif_blank_template_compact</item>
 
 </resources>
 

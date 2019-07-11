@@ -19,6 +19,7 @@ package com.android.setupwizardlib.items;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.android.setupwizardlib.R;
 
@@ -28,6 +29,12 @@ import java.util.ArrayList;
  * An abstract item hierarchy; provides default implementation for ID and observers.
  */
 public abstract class AbstractItemHierarchy implements ItemHierarchy {
+
+    /* static section */
+
+    private static final String TAG = "AbstractItemHierarchy";
+
+    /* non-static section */
 
     private ArrayList<Observer> mObservers = new ArrayList<>();
     private int mId = 0;
@@ -49,6 +56,10 @@ public abstract class AbstractItemHierarchy implements ItemHierarchy {
         return mId;
     }
 
+    public int getViewId() {
+        return getId();
+    }
+
     @Override
     public void registerObserver(Observer observer) {
         mObservers.add(observer);
@@ -59,9 +70,88 @@ public abstract class AbstractItemHierarchy implements ItemHierarchy {
         mObservers.remove(observer);
     }
 
+    /**
+     * @see Observer#onChanged(ItemHierarchy)
+     */
     public void notifyChanged() {
         for (Observer observer : mObservers) {
             observer.onChanged(this);
+        }
+    }
+
+    /**
+     * @see Observer#onItemRangeChanged(ItemHierarchy, int, int)
+     */
+    public void notifyItemRangeChanged(int position, int itemCount) {
+        if (position < 0) {
+            Log.w(TAG, "notifyItemRangeChanged: Invalid position=" + position);
+            return;
+        }
+        if (itemCount < 0) {
+            Log.w(TAG, "notifyItemRangeChanged: Invalid itemCount=" + itemCount);
+            return;
+        }
+
+        for (Observer observer : mObservers) {
+            observer.onItemRangeChanged(this, position, itemCount);
+        }
+    }
+
+    /**
+     * @see Observer#onItemRangeInserted(ItemHierarchy, int, int)
+     */
+    public void notifyItemRangeInserted(int position, int itemCount) {
+        if (position < 0) {
+            Log.w(TAG, "notifyItemRangeInserted: Invalid position=" + position);
+            return;
+        }
+        if (itemCount < 0) {
+            Log.w(TAG, "notifyItemRangeInserted: Invalid itemCount=" + itemCount);
+            return;
+        }
+
+        for (Observer observer : mObservers) {
+            observer.onItemRangeInserted(this, position, itemCount);
+        }
+    }
+
+    /**
+     * @see Observer#onItemRangeMoved(ItemHierarchy, int, int, int)
+     */
+    public void notifyItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+        if (fromPosition < 0) {
+            Log.w(TAG, "notifyItemRangeMoved: Invalid fromPosition=" + fromPosition);
+            return;
+        }
+        if (toPosition < 0) {
+            Log.w(TAG, "notifyItemRangeMoved: Invalid toPosition=" + toPosition);
+            return;
+        }
+        if (itemCount < 0) {
+            Log.w(TAG, "notifyItemRangeMoved: Invalid itemCount=" + itemCount);
+            return;
+        }
+
+        for (Observer observer : mObservers) {
+            observer.onItemRangeMoved(this, fromPosition, toPosition, itemCount);
+        }
+    }
+
+    /**
+     * @see Observer#onItemRangeRemoved(ItemHierarchy, int, int)
+     */
+    public void notifyItemRangeRemoved(int position, int itemCount) {
+        if (position < 0) {
+            Log.w(TAG, "notifyItemRangeInserted: Invalid position=" + position);
+            return;
+        }
+        if (itemCount < 0) {
+            Log.w(TAG, "notifyItemRangeInserted: Invalid itemCount=" + itemCount);
+            return;
+        }
+
+        for (Observer observer : mObservers) {
+            observer.onItemRangeRemoved(this, position, itemCount);
         }
     }
 }

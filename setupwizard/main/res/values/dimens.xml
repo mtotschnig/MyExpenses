@@ -15,12 +15,25 @@
     limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General -->
     <dimen name="suw_layout_margin_sides">40dp</dimen>
+
+    <dimen name="suw_glif_button_corner_radius">2dp</dimen>
+    <!-- Calculated by (suw_glif_margin_sides - 4dp internal padding of button) -->
+    <dimen name="suw_glif_button_margin_end">20dp</dimen>
+    <!-- Calculated by (suw_glif_margin_sides - suw_glif_button_padding) -->
+    <dimen name="suw_glif_button_margin_start">8dp</dimen>
+    <dimen name="suw_glif_button_padding">16dp</dimen>
+    <!-- Negative of suw_glif_button_padding -->
+    <dimen name="suw_glif_negative_button_padding">-16dp</dimen>
+    <dimen name="suw_glif_footer_padding_vertical">8dp</dimen>
+    <dimen name="suw_glif_footer_min_height">72dp</dimen>
     <dimen name="suw_glif_margin_sides">24dp</dimen>
     <dimen name="suw_glif_margin_top">48dp</dimen>
+
+    <dimen name="suw_glif_v3_button_corner_radius">4dp</dimen>
 
     <!-- Content styles -->
     <dimen name="suw_check_box_line_spacing_extra">4sp</dimen>
@@ -28,7 +41,6 @@
     <dimen name="suw_check_box_margin_start">1dp</dimen>
     <dimen name="suw_check_box_margin_top">24dp</dimen>
     <dimen name="suw_check_box_padding_start">15dp</dimen>
-    <dimen name="suw_check_box_text_size">16sp</dimen>
 
     <dimen name="suw_content_frame_padding_top">0dp</dimen>
     <dimen name="suw_content_frame_padding_bottom">16dp</dimen>
@@ -41,6 +53,12 @@
 
     <dimen name="suw_description_glif_margin_top">3dp</dimen>
     <dimen name="suw_description_glif_margin_bottom_lists">24dp</dimen>
+
+    <dimen name="suw_content_illustration_max_height">312dp</dimen>
+    <dimen name="suw_content_illustration_max_width">312dp</dimen>
+    <dimen name="suw_content_illustration_min_height">172dp</dimen>
+    <dimen name="suw_content_illustration_min_width">172dp</dimen>
+    <dimen name="suw_content_illustration_padding_vertical">24dp</dimen>
 
     <!-- Margin on the start to offset for margin in the drawable -->
     <dimen name="suw_radio_button_margin_start">-6dp</dimen>
@@ -59,8 +77,6 @@
     <dimen name="suw_card_title_padding_start">0dp</dimen>
     <dimen name="suw_card_title_padding_top">16dp</dimen>
     <dimen name="suw_card_title_padding_bottom">28dp</dimen>
-
-    <dimen name="suw_tablet_illustration_height">256dp</dimen>
 
     <!-- Decor view (illustration or the header without illustration) -->
     <dimen name="suw_decor_padding_top">0dp</dimen>
@@ -95,11 +111,15 @@
     <dimen name="suw_items_padding_vertical">15dp</dimen>
     <dimen name="suw_items_verbose_padding_vertical">20dp</dimen>
 
-    <dimen name="suw_items_icon_divider_inset">88dp</dimen>
-    <dimen name="suw_items_text_divider_inset">40dp</dimen>
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <dimen name="suw_items_icon_divider_inset" tools:ignore="UnusedResources">88dp</dimen>
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <dimen name="suw_items_text_divider_inset" tools:ignore="UnusedResources">40dp</dimen>
 
-    <dimen name="suw_items_glif_icon_divider_inset">72dp</dimen>
-    <dimen name="suw_items_glif_text_divider_inset">24dp</dimen>
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <dimen name="suw_items_glif_icon_divider_inset" tools:ignore="UnusedResources">72dp</dimen>
+    <!-- Ignore UnusedResources: can be used by clients -->
+    <dimen name="suw_items_glif_text_divider_inset" tools:ignore="UnusedResources">24dp</dimen>
 
     <!-- Extra padding in the bottom to compensate for difference between descent and (top) internal leading -->
     <dimen name="suw_items_padding_bottom_extra">1dp</dimen>
@@ -107,7 +127,8 @@
     <dimen name="suw_items_preferred_height">56dp</dimen>
 
     <!-- Navigation bar -->
-    <dimen name="suw_navbar_button_drawable_padding">6dp</dimen>
+    <!-- TODO: Move this dimen to gingerbread, or see if it should be in platform style as well -->
+    <dimen name="suw_navbar_button_drawable_padding" tools:ignore="UnusedResources">6dp</dimen>
     <dimen name="suw_navbar_button_padding_sides">10dp</dimen>
     <dimen name="suw_navbar_height">56dp</dimen>
     <dimen name="suw_navbar_ic_intrinsic_size">24dp</dimen>
@@ -118,5 +139,9 @@
     <!-- The margin to compensate for the padding built-in to the widget itself -->
     <dimen name="suw_progress_bar_margin_vertical">-7dp</dimen>
     <dimen name="suw_glif_progress_bar_margin_vertical">7dp</dimen>
+
+    <!-- Edit Text dimensions -->
+    <dimen name="suw_edit_text_min_height">56dp</dimen>
+    <dimen name="suw_edit_text_padding_horizontal">12dp</dimen>
 
 </resources>

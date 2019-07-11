@@ -19,6 +19,38 @@
 
     <!-- General styles -->
 
+    <style name="SuwThemeGlifV2" parent="SuwThemeGlif">
+        <item name="android:colorBackground">@color/suw_glif_background_color_dark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+        <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
+        <item name="suwBackgroundPatterned">false</item>
+        <item name="suwDividerInsetEnd">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStart">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
+        <item name="suwGlifHeaderGravity">center_horizontal</item>
+        <item name="suwScrollIndicators">top|bottom</item>
+        <item name="suwEditTextBackgroundColor">@color/suw_glif_edit_text_bg_light_color</item> <!-- TODO: Change color -->
+        <item name="android:editTextStyle">@style/SuwEditText</item>
+        <item name="android:alertDialogTheme" tools:targetApi="honeycomb">@style/SuwAlertDialogTheme</item>
+    </style>
+
+    <style name="SuwThemeGlifV2.Light" parent="SuwThemeGlif.Light">
+        <item name="android:colorBackground">@color/suw_glif_background_color_light</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <item name="suwBackgroundBaseColor">?android:attr/colorBackground</item>
+        <item name="suwBackgroundPatterned">false</item>
+        <item name="suwDividerInsetEnd">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStart">?attr/suwMarginSides</item>
+        <item name="suwDividerInsetStartNoIcon">?attr/suwMarginSides</item>
+        <item name="suwGlifHeaderGravity">center_horizontal</item>
+        <item name="suwScrollIndicators">top|bottom</item>
+        <item name="suwEditTextBackgroundColor">@color/suw_glif_edit_text_bg_light_color</item>
+        <item name="android:editTextStyle">@style/SuwEditText</item>
+        <item name="android:alertDialogTheme" tools:targetApi="honeycomb">@style/SuwAlertDialogTheme.Light</item>
+    </style>
+
     <style name="Animation.SuwWindowAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/suw_slide_next_in</item>
         <item name="android:activityOpenExitAnimation">@anim/suw_slide_next_out</item>
@@ -28,14 +60,17 @@
 
     <!-- Content styles -->
 
-    <style name="SuwContentFrame">
+    <!-- Ignore UnusedResources: Used by clients -->
+    <style name="SuwContentFrame" tools:ignore="UnusedResources">
+        <item name="android:clipToPadding">false</item>
         <item name="android:paddingTop">@dimen/suw_content_frame_padding_top</item>
         <item name="android:paddingLeft">?attr/suwMarginSides</item>
         <item name="android:paddingRight">?attr/suwMarginSides</item>
         <item name="android:paddingBottom">@dimen/suw_content_frame_padding_bottom</item>
     </style>
 
-    <style name="SuwDescription">
+    <!-- Ignore UnusedResources: Used by clients -->
+    <style name="SuwDescription" tools:ignore="UnusedResources">
         <!-- Before Honeycomb, layout_gravity is needed for FrameLayout to apply the margins -->
         <item name="android:layout_gravity">top</item>
         <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
@@ -44,19 +79,22 @@
         <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
     </style>
 
-    <style name="SuwDescription.Glif" parent="SuwDescription">
+    <!-- Ignore UnusedResources: Used by clients -->
+    <style name="SuwDescription.Glif" parent="SuwDescription" tools:ignore="UnusedResources">
         <item name="android:layout_marginTop">@dimen/suw_description_glif_margin_top</item>
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
     </style>
 
-    <style name="TextAppearance.SuwDescription.Light" parent="TextAppearance.SuwDescription">
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-    </style>
-
-    <style name="TextAppearance.SuwDescription.Secondary" parent="TextAppearance.SuwDescription">
+    <!-- Ignore UnusedResources: Used by clients -->
+    <style name="TextAppearance.SuwDescription.Secondary"
+        parent="TextAppearance.SuwDescription"
+        tools:ignore="UnusedResources">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
-    <style name="SuwRadioButton">
+    <!-- Ignore UnusedResources: Used by clients -->
+    <style name="SuwRadioButton" tools:ignore="UnusedResources">
         <item name="android:layout_marginBottom">@dimen/suw_radio_button_margin_bottom</item>
         <item name="android:layout_marginLeft">@dimen/suw_radio_button_margin_start</item>
         <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/suw_radio_button_margin_start</item>
@@ -67,7 +105,8 @@
         <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
     </style>
 
-    <style name="SuwCheckBox">
+    <!-- Ignore UnusedResources: used by clients -->
+    <style name="SuwCheckBox" tools:ignore="UnusedResources">
         <item name="android:layout_marginBottom">@dimen/suw_check_box_margin_bottom</item>
         <item name="android:layout_marginLeft">@dimen/suw_check_box_margin_start</item>
         <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/suw_check_box_margin_start</item>
@@ -78,8 +117,24 @@
         <item name="android:textAppearance">@style/TextAppearance.SuwDescription</item>
     </style>
 
-    <style name="SuwCheckBox.Multiline" parent="SuwCheckBox">
+    <!-- Ignore UnusedResources: used by clients -->
+    <style name="SuwCheckBox.Multiline" parent="SuwCheckBox" tools:ignore="UnusedResources">
         <item name="android:gravity">top</item>
+    </style>
+
+    <style name="SuwFillContentLayout">
+        <item name="android:minWidth">@dimen/suw_content_illustration_min_width</item>
+        <item name="android:minHeight">@dimen/suw_content_illustration_min_height</item>
+        <item name="android:maxWidth">@dimen/suw_content_illustration_max_width</item>
+        <item name="android:maxHeight">@dimen/suw_content_illustration_max_height</item>
+        <item name="android:paddingTop">@dimen/suw_content_illustration_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/suw_content_illustration_padding_vertical</item>
+    </style>
+
+    <!-- Ignore UnusedResources: used by clients -->
+    <style name="SuwContentIllustration" tools:ignore="UnusedResources">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:scaleType">fitCenter</item>
     </style>
 
     <!-- Card layout (for tablets) -->
@@ -102,7 +157,7 @@
 
     <style name="SuwGlifCardContainer">
         <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:elevation" tools:ignore="NewApi">5dp</item>
+        <item name="android:elevation" tools:ignore="NewApi">@dimen/suw_glif_card_elevation</item>
     </style>
 
     <!-- Header layout (for phones) -->
@@ -125,6 +180,56 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!-- Button styles -->
+
+    <style name="SuwButtonItem" />
+
+    <style name="SuwButtonItem.Colored" parent="SuwGlifButton.Primary" />
+
+    <!-- Use this style with a Button not a TextView, so that TalkBack will announce it as a
+         button. -->
+    <style name="SuwGlifButton.BaseTertiary" parent="SuwGlifButton.Secondary">
+        <!-- This style can be applied to a button either as a "style" in XML, or as a theme in
+             ContextThemeWrapper. These self-referencing attributes make sure this is applied as
+             both to the button. -->
+        <item name="android:buttonStyle">@style/SuwGlifButton.Tertiary</item>
+        <item name="android:theme">@style/SuwGlifButton.Tertiary</item>
+
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
+        <item name="android:layout_gravity">?attr/suwGlifHeaderGravity</item>
+        <item name="android:layout_marginLeft">@dimen/suw_glif_negative_button_padding</item>
+        <item name="android:layout_marginRight">@dimen/suw_glif_negative_button_padding</item>
+        <!-- Always lowercase instead of reading attr/suwButtonAllCaps, since this is a tertiary
+             button -->
+        <item name="android:textAllCaps" tools:targetApi="ice_cream_sandwich">false</item>
+    </style>
+
+    <!-- Ignore UnusedResources: used by clients -->
+    <style name="SuwGlifButton.Tertiary"
+        parent="SuwGlifButton.BaseTertiary"
+        tools:ignore="UnusedResources" />
+
+    <!-- The start and end paddings are asymmetric because start buttons are borderless buttons
+         which aligns the text label. -->
+    <style name="SuwGlifButtonBar">
+        <item name="android:baselineAligned">false</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/suw_glif_footer_min_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingTop">@dimen/suw_glif_footer_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/suw_glif_footer_padding_vertical</item>
+        <item name="android:paddingEnd" tools:ignore="NewApi">@dimen/suw_glif_button_margin_end</item>
+        <item name="android:paddingLeft">@dimen/suw_glif_button_margin_start</item>
+        <item name="android:paddingRight">@dimen/suw_glif_button_margin_end</item>
+        <item name="android:paddingStart" tools:ignore="NewApi">@dimen/suw_glif_button_margin_start</item>
+    </style>
+
+    <style name="SuwGlifButtonBar.Stackable" parent="SuwGlifButtonBar">
+        <item name="android:gravity">center</item>
+    </style>
+
     <!-- Items styles -->
 
     <style name="SuwItemContainer.Description" parent="SuwItemContainer">
@@ -143,6 +248,11 @@
         <item name="android:paddingTop">@dimen/suw_items_verbose_padding_vertical</item>
     </style>
 
+    <style name="SuwItemTitle.GlifDescription" parent="SuwItemTitle">
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
+    </style>
+
     <style name="SuwItemTitle.Verbose" parent="SuwItemTitle">
         <item name="android:textAppearance">@style/TextAppearance.SuwGlifBody</item>
     </style>
@@ -155,11 +265,17 @@
     <!-- GLIF layout -->
 
     <style name="SuwGlifHeaderTitle" parent="SuwBaseHeaderTitle">
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
         <item name="android:layout_marginBottom">@dimen/suw_glif_header_title_margin_bottom</item>
         <item name="android:layout_marginLeft">?attr/suwMarginSides</item>
         <item name="android:layout_marginRight">?attr/suwMarginSides</item>
         <item name="android:layout_marginTop">@dimen/suw_glif_header_title_margin_top</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@string/suwFontSecondary</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">gravity</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="SuwGlifHeaderContainer">
+        <item name="android:gravity">?attr/suwGlifHeaderGravity</item>
     </style>
 
     <style name="SuwGlifIcon">
@@ -195,6 +311,11 @@
         <item name="android:paddingLeft">@dimen/suw_navbar_padding_sides</item>
         <item name="android:paddingRight">@dimen/suw_navbar_padding_sides</item>
         <item name="suwNavBarTextColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    <style name="SuwEditText" parent="@android:style/Widget.EditText">
+        <item name="android:minHeight">@dimen/suw_edit_text_min_height</item>
     </style>
 
 </resources>

@@ -36,6 +36,22 @@
         <item name="android:background">?android:attr/colorPrimary</item>
     </style>
 
+    <!-- Button styles -->
+
+    <style name="SuwGlifButton.Tertiary" parent="SuwGlifButton.BaseTertiary">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="SuwBase.ProgressBarLarge" parent="@android:style/Widget.Material.ProgressBar.Large" />
+
+    <style name="SuwFourColorIndeterminateProgressBar" parent="SuwBase.ProgressBarLarge">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/suw_fourcolor_progress_bar</item>
+        <item name="android:indeterminateTint">@null</item>
+        <item name="android:indeterminateTintMode">@null</item>
+    </style>
+
     <!-- Items styles -->
 
     <style name="SuwItemContainer">
@@ -52,16 +68,6 @@
 
     <style name="SuwItemSummary">
         <item name="android:textAppearance">?android:attr/textAppearanceListItemSmall</item>
-    </style>
-
-    <!-- Button styles -->
-
-    <style name="SuwButtonItem" />
-
-    <style name="SuwButtonItem.Colored">
-        <item name="android:buttonStyle">@android:style/Widget.Material.Button</item>
-        <item name="android:colorButtonNormal">?android:attr/colorAccent</item>
-        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
     </style>
 
     <!-- Navigation bar styles -->
@@ -85,6 +91,13 @@
     <style name="SuwNavBarThemeLight" parent="SuwNavBarTheme">
         <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_light</item>
         <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg</item>
+    </style>
+
+    <style name="SuwEditText" parent="@android:style/Widget.Material.EditText">
+        <item name="android:background">@drawable/suw_edittext_bg</item>
+        <item name="android:minHeight">@dimen/suw_edit_text_min_height</item>
+        <item name="android:paddingLeft">@dimen/suw_edit_text_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/suw_edit_text_padding_horizontal</item>
     </style>
 
 </resources>

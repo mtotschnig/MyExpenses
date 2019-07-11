@@ -15,8 +15,11 @@
     limitations under the License.
 -->
 
+<!-- Ignore UnusedResources: This is only used in platform variant, move to platform directory -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:shape="rectangle"
+    tools:ignore="UnusedResources">
 
     <corners
         android:topLeftRadius="@dimen/suw_card_corner_radius"

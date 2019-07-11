@@ -9,7 +9,7 @@
  *
  * And then you can include the :setup-wizard-lib project as one of your dependencies
  *      dependencies {
- *          compile project(path: ':setup-wizard-lib', configuration: 'icsCompatRelease')
+ *          compile project(path: ':setup-wizard-lib', configuration: 'gingerbreadCompatRelease')
  *      }
  */
 
@@ -26,8 +26,9 @@ ext {
     //      }
     //
     deps = [
-        'support-appcompat-v7': 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion,
-        'support-recyclerview-v7': 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
+        'support-annotations': 'androidx.annotation:annotation:1.0.0',
+        'support-appcompat-v7': 'androidx.appcompat:appcompat:1.0.0',
+        'support-recyclerview-v7': 'androidx.recyclerview:recyclerview:1.0.0'
     ]
 }
 

@@ -18,6 +18,7 @@ package com.android.setupwizardlib.items;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseIntArray;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
         ItemHierarchy.Observer {
 
     /* static section */
+
+    private static final String TAG = "ItemGroup";
 
     /**
      * Binary search for the closest value that's smaller than or equal to {@code value}, and
@@ -54,6 +57,20 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
         return array.keyAt(lo - 1);
     }
 
+    /**
+     * Same as {@link List#indexOf(Object)}, but using identity comparison rather than
+     * {@link Object#equals(Object)}.
+     */
+    private static <T> int identityIndexOf(List<T> list, T object) {
+        final int count = list.size();
+        for (int i = 0; i < count; i++) {
+            if (list.get(i) == object) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     /* non-static section */
 
     private List<ItemHierarchy> mChildren = new ArrayList<>();
@@ -64,22 +81,22 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
      *
      *   ItemHierarchy                 Item               Item Position
      *       Index
-     * 
+     *
      *         0            [         Wi-Fi AP 1       ]        0
      *                      |         Wi-Fi AP 2       |        1
      *                      |         Wi-Fi AP 3       |        2
      *                      |         Wi-Fi AP 4       |        3
      *                      [         Wi-Fi AP 5       ]        4
-     * 
+     *
      *         1            [  <Empty Item Hierarchy>  ]
-     * 
+     *
      *         2            [     Use cellular data    ]        5
-     * 
+     *
      *         3            [       Don't connect      ]        6
-     * 
+     *
      * For this example of Wi-Fi screen, the following mapping will be produced:
      *     [ 0 -> 0 | 2 -> 5 | 3 -> 6 ]
-     * 
+     *
      * Also note how ItemHierarchy index 1 is not present in the map, because it is empty.
      *
      * ItemGroup uses this map to look for which ItemHierarchy an item at a given position belongs
@@ -104,9 +121,14 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
      */
     @Override
     public void addChild(ItemHierarchy child) {
+        mDirty = true;
         mChildren.add(child);
         child.registerObserver(this);
-        onHierarchyChanged();
+
+        final int count = child.getCount();
+        if (count > 0) {
+            notifyItemRangeInserted(getChildPosition(child), count);
+        }
     }
 
     /**
@@ -116,9 +138,16 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
      *         not be found in our list of child hierarchies.
      */
     public boolean removeChild(ItemHierarchy child) {
-        if (mChildren.remove(child)) {
+        final int childIndex = identityIndexOf(mChildren, child);
+        final int childPosition = getChildPosition(childIndex);
+        mDirty = true;
+        if (childIndex != -1) {
+            final int childCount = child.getCount();
+            mChildren.remove(childIndex);
             child.unregisterObserver(this);
-            onHierarchyChanged();
+            if (childCount > 0) {
+                notifyItemRangeRemoved(childPosition, childCount);
+            }
             return true;
         }
         return false;
@@ -132,11 +161,14 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
             return;
         }
 
+        final int numRemoved = getCount();
+
         for (ItemHierarchy item : mChildren) {
             item.unregisterObserver(this);
         }
+        mDirty = true;
         mChildren.clear();
-        onHierarchyChanged();
+        notifyItemRangeRemoved(0, numRemoved);
     }
 
     @Override
@@ -160,8 +192,81 @@ public class ItemGroup extends AbstractItemHierarchy implements ItemInflater.Ite
         notifyChanged();
     }
 
-    private void onHierarchyChanged() {
-        onChanged(null);
+    /**
+     * @return The "Item Position" of the given child, or -1 if the child is not found. If the given
+     *         child is empty, position of the next visible item is returned.
+     */
+    private int getChildPosition(ItemHierarchy child) {
+        // Check the identity of the child rather than using .equals(), because here we want
+        // to find the index of the instance itself rather than something that equals to it.
+        return getChildPosition(identityIndexOf(mChildren, child));
+    }
+
+    private int getChildPosition(int childIndex) {
+        updateDataIfNeeded();
+        if (childIndex != -1) {
+            int childPos = -1;
+            int childCount = mChildren.size();
+            for (int i = childIndex; childPos < 0 && i < childCount; i++) {
+                // Find the position of the first visible child after childIndex. This is required
+                // when removing the last item from a nested ItemGroup.
+                childPos = mHierarchyStart.get(i, -1);
+            }
+            if (childPos < 0) {
+                // If the last item in a group is being removed, there will be no visible item.
+                // In that case return the count instead, since that is where the item would have
+                // been if the child is not empty.
+                childPos = getCount();
+            }
+            return childPos;
+        }
+        return -1;
+    }
+
+    @Override
+    public void onItemRangeChanged(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        // No need to set dirty because onItemRangeChanged does not include any structural changes.
+        final int childPosition = getChildPosition(itemHierarchy);
+        if (childPosition >= 0) {
+            notifyItemRangeChanged(childPosition + positionStart, itemCount);
+        } else {
+            Log.e(TAG, "Unexpected child change " + itemHierarchy);
+        }
+    }
+
+    @Override
+    public void onItemRangeInserted(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        mDirty = true;
+        final int childPosition = getChildPosition(itemHierarchy);
+        if (childPosition >= 0) {
+            notifyItemRangeInserted(childPosition + positionStart, itemCount);
+        } else {
+            Log.e(TAG, "Unexpected child insert " + itemHierarchy);
+        }
+    }
+
+    @Override
+    public void onItemRangeMoved(ItemHierarchy itemHierarchy, int fromPosition, int toPosition,
+            int itemCount) {
+        mDirty = true;
+        final int childPosition = getChildPosition(itemHierarchy);
+        if (childPosition >= 0) {
+            notifyItemRangeMoved(childPosition + fromPosition, childPosition + toPosition,
+                    itemCount);
+        } else {
+            Log.e(TAG, "Unexpected child move " + itemHierarchy);
+        }
+    }
+
+    @Override
+    public void onItemRangeRemoved(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        mDirty = true;
+        final int childPosition = getChildPosition(itemHierarchy);
+        if (childPosition >= 0) {
+            notifyItemRangeRemoved(childPosition + positionStart, itemCount);
+        } else {
+            Log.e(TAG, "Unexpected child remove " + itemHierarchy);
+        }
     }
 
     @Override

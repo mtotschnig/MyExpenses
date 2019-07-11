@@ -11,27 +11,19 @@ apply plugin: 'com.android.library'
 
 android {
 
-    defaultConfig {
-        minSdkVersion project.minSdkVersion
-     }
-
-    dependencies {
-        implementation deps['support-appcompat-v7']
-        implementation deps['support-recyclerview-v7']
-    }
-
     sourceSets {
         main {
             manifest.srcFile 'main/AndroidManifest.xml'
-            java.srcDirs = ['main/src', 'eclair-mr1/src', 'full-support/src']
-            res.srcDirs = ['main/res', 'eclair-mr1/res', 'full-support/res']
+            java.srcDirs = ['main/src', 'gingerbread/src', 'recyclerview/src']
             resources.srcDirs = ['main/src']
-        }
-
-        androidTest {
-            manifest.srcFile 'test/AndroidManifest.xml'
-            java.srcDirs = ['test/src', 'full-support/test/src', 'eclair-mr1/test/src']
-            res.srcDirs = ['test/res', 'full-support/test/res']
+            res.srcDirs = ['main/res', 'gingerbread/res', 'recyclerview/res']
         }
     }
+}
+
+dependencies {
+    implementation deps['support-annotations']
+    implementation deps['support-appcompat-v7']
+    implementation deps['support-recyclerview-v7']
+
 }

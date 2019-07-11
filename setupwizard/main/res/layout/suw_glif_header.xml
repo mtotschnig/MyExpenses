@@ -16,16 +16,18 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SuwGlifHeaderContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/suw_layout_icon"
-        style="@style/SuwGlifIcon"
+        style="?attr/suwGlifIconStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/suw_layout_title"

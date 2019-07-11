@@ -56,7 +56,9 @@
             android:id="@+id/suw_layout_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:ignore="NestedWeights" />
+        <!-- Ignore NestedWeights: Needed to fill the screen's height with the layout content -->
 
     </LinearLayout>
 

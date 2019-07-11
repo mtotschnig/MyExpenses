@@ -39,6 +39,7 @@ public final class ConsecutiveTapsGestureDetector {
     private final View mView;
     private final OnConsecutiveTapsListener mListener;
     private final int mConsecutiveTapTouchSlopSquare;
+    private final int mConsecutiveTapTimeout;
 
     private int mConsecutiveTapsCounter = 0;
     private MotionEvent mPreviousTapEvent;
@@ -54,6 +55,7 @@ public final class ConsecutiveTapsGestureDetector {
         mView = view;
         int doubleTapSlop = ViewConfiguration.get(mView.getContext()).getScaledDoubleTapSlop();
         mConsecutiveTapTouchSlopSquare = doubleTapSlop * doubleTapSlop;
+        mConsecutiveTapTimeout = ViewConfiguration.getDoubleTapTimeout();
     }
 
     /**
@@ -109,6 +111,8 @@ public final class ConsecutiveTapsGestureDetector {
 
         double deltaX = mPreviousTapEvent.getX() - currentTapEvent.getX();
         double deltaY = mPreviousTapEvent.getY() - currentTapEvent.getY();
-        return (deltaX * deltaX + deltaY * deltaY <= mConsecutiveTapTouchSlopSquare);
+        long deltaTime = currentTapEvent.getEventTime() - mPreviousTapEvent.getEventTime();
+        return (deltaX * deltaX + deltaY * deltaY <= mConsecutiveTapTouchSlopSquare)
+                && deltaTime < mConsecutiveTapTimeout;
     }
 }

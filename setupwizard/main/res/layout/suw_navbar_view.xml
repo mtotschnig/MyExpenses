@@ -15,7 +15,8 @@
     limitations under the License.
 -->
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.android.setupwizardlib.view.NavigationBarButton
         android:id="@+id/suw_navbar_back"
@@ -24,7 +25,10 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/suw_back_button_label"
         android:drawableLeft="@drawable/suw_navbar_ic_back"
-        android:drawableStart="@drawable/suw_navbar_ic_back" />
+        android:drawableStart="@drawable/suw_navbar_ic_back"
+        tools:ignore="RtlHardcoded" />
+    <!-- Ignore RtlHardcoded: drawableLeft is needed for compatibility.
+         Will be overridden by drawableStart on versions that support it. -->
 
     <View
         android:layout_width="0dp"
@@ -41,7 +45,10 @@
         android:drawableEnd="@drawable/suw_navbar_ic_more"
         android:drawableRight="@drawable/suw_navbar_ic_more"
         android:gravity="end|center_vertical"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="RtlHardcoded" />
+    <!-- Ignore RtlHardcoded: drawableRight is needed for compatibility.
+         Will be overridden by drawableEnd on versions that support it. -->
 
     <com.android.setupwizardlib.view.NavigationBarButton
         android:id="@+id/suw_navbar_next"
@@ -51,6 +58,9 @@
         android:drawableEnd="@drawable/suw_navbar_ic_next"
         android:drawableRight="@drawable/suw_navbar_ic_next"
         android:gravity="end|center_vertical"
-        android:text="@string/suw_next_button_label" />
+        android:text="@string/suw_next_button_label"
+        tools:ignore="RtlHardcoded" />
+    <!-- Ignore RtlHardcoded: drawableRight is needed for compatibility.
+         Will be overridden by drawableEnd on versions that support it. -->
 
 </merge>

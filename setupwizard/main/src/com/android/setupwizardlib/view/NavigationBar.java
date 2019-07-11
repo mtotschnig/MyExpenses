@@ -27,6 +27,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.annotation.StyleableRes;
+
 import com.android.setupwizardlib.R;
 
 /**
@@ -34,7 +36,7 @@ import com.android.setupwizardlib.R;
  * next button. By default, the more button is hidden, and typically the next button will be hidden
  * if the more button is shown.
  *
- * @see com.android.setupwizardlib.util.RequireScrollHelper
+ * @see com.android.setupwizardlib.template.RequireScrollMixin
  */
 public class NavigationBar extends LinearLayout implements View.OnClickListener {
 
@@ -55,14 +57,17 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
                         R.attr.suwNavBarTheme,
                         android.R.attr.colorForeground,
                         android.R.attr.colorBackground });
-        int theme = attributes.getResourceId(0, 0);
+        @StyleableRes int suwNavBarTheme = 0;
+        @StyleableRes int colorForeground = 1;
+        @StyleableRes int colorBackground = 2;
+        int theme = attributes.getResourceId(suwNavBarTheme, 0);
         if (theme == 0) {
             // Compare the value of the foreground against the background color to see if current
             // theme is light-on-dark or dark-on-light.
             float[] foregroundHsv = new float[3];
             float[] backgroundHsv = new float[3];
-            Color.colorToHSV(attributes.getColor(1, 0), foregroundHsv);
-            Color.colorToHSV(attributes.getColor(2, 0), backgroundHsv);
+            Color.colorToHSV(attributes.getColor(colorForeground, 0), foregroundHsv);
+            Color.colorToHSV(attributes.getColor(colorBackground, 0), backgroundHsv);
             boolean isDarkBg = foregroundHsv[2] > backgroundHsv[2];
             theme = isDarkBg ? R.style.SuwNavBarThemeDark : R.style.SuwNavBarThemeLight;
         }

@@ -90,6 +90,27 @@ public class ItemAdapter extends BaseAdapter implements ItemHierarchy.Observer {
     }
 
     @Override
+    public void onItemRangeChanged(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        onChanged(itemHierarchy);
+    }
+
+    @Override
+    public void onItemRangeInserted(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        onChanged(itemHierarchy);
+    }
+
+    @Override
+    public void onItemRangeMoved(ItemHierarchy itemHierarchy, int fromPosition, int toPosition,
+            int itemCount) {
+        onChanged(itemHierarchy);
+    }
+
+    @Override
+    public void onItemRangeRemoved(ItemHierarchy itemHierarchy, int positionStart, int itemCount) {
+        onChanged(itemHierarchy);
+    }
+
+    @Override
     public boolean isEnabled(int position) {
         return getItem(position).isEnabled();
     }

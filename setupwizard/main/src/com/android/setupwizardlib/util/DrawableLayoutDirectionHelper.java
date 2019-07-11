@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -31,6 +32,7 @@ public class DrawableLayoutDirectionHelper {
      * Creates an {@link android.graphics.drawable.InsetDrawable} according to the layout direction
      * of {@code view}.
      */
+    @SuppressLint("InlinedApi")  // Use of View.LAYOUT_DIRECTION_RTL is guarded by version check
     public static InsetDrawable createRelativeInsetDrawable(Drawable drawable,
             int insetStart, int insetTop, int insetEnd, int insetBottom, View view) {
         boolean isRtl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
@@ -43,6 +45,7 @@ public class DrawableLayoutDirectionHelper {
      * Creates an {@link android.graphics.drawable.InsetDrawable} according to the layout direction
      * of {@code context}.
      */
+    @SuppressLint("InlinedApi")  // Use of View.LAYOUT_DIRECTION_RTL is guarded by version check
     public static InsetDrawable createRelativeInsetDrawable(Drawable drawable,
             int insetStart, int insetTop, int insetEnd, int insetBottom, Context context) {
         boolean isRtl = false;
@@ -59,9 +62,10 @@ public class DrawableLayoutDirectionHelper {
      * Creates an {@link android.graphics.drawable.InsetDrawable} according to
      * {@code layoutDirection}.
      */
+    @SuppressLint("InlinedApi")  // Given layoutDirection will not be View.LAYOUT_DIRECTION_RTL if
+                                 // SDK version doesn't support it.
     public static InsetDrawable createRelativeInsetDrawable(Drawable drawable,
             int insetStart, int insetTop, int insetEnd, int insetBottom, int layoutDirection) {
-        //noinspection AndroidLintInlinedApi
         return createRelativeInsetDrawable(drawable, insetStart, insetTop, insetEnd, insetBottom,
                 layoutDirection == View.LAYOUT_DIRECTION_RTL);
     }

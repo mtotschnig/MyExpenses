@@ -18,26 +18,38 @@ package com.android.setupwizardlib.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
+
+import androidx.annotation.StyleRes;
+import androidx.annotation.VisibleForTesting;
+
+import com.android.setupwizardlib.R;
+
+import java.util.Arrays;
 
 public class WizardManagerHelper {
 
     private static final String ACTION_NEXT = "com.android.wizard.NEXT";
 
-    /*
-     * EXTRA_SCRIPT_URI and EXTRA_ACTION_ID will be removed once all outstanding references have
-     * transitioned to using EXTRA_WIZARD_BUNDLE.
-     */
-    @Deprecated
-    private static final String EXTRA_SCRIPT_URI = "scriptUri";
-    @Deprecated
-    private static final String EXTRA_ACTION_ID = "actionId";
+    // EXTRA_SCRIPT_URI and EXTRA_ACTION_ID are used in setup wizard in versions before M and are
+    // kept for backwards compatibility.
+    @VisibleForTesting
+    static final String EXTRA_SCRIPT_URI = "scriptUri";
+    @VisibleForTesting
+    static final String EXTRA_ACTION_ID = "actionId";
 
-    private static final String EXTRA_WIZARD_BUNDLE = "wizardBundle";
+    @VisibleForTesting
+    static final String EXTRA_WIZARD_BUNDLE = "wizardBundle";
     private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
-    private static final String EXTRA_IS_FIRST_RUN = "firstRun";
+    @VisibleForTesting
+    static final String EXTRA_IS_FIRST_RUN = "firstRun";
+    @VisibleForTesting
+    static final String EXTRA_IS_DEFERRED_SETUP = "deferredSetup";
+    @VisibleForTesting
+    static final String EXTRA_IS_PRE_DEFERRED_SETUP = "preDeferredSetup";
 
     public static final String EXTRA_THEME = "theme";
     public static final String EXTRA_USE_IMMERSIVE_MODE = "useImmersiveMode";
@@ -51,30 +63,40 @@ public class WizardManagerHelper {
     public static final String THEME_MATERIAL_LIGHT = "material_light";
 
     /**
-     * @deprecated This constant is not used and will not be passed by any released version of setup
-     *             wizard.
-     */
-    @Deprecated
-    public static final String THEME_MATERIAL_BLUE = "material_blue";
-
-    /**
-     * @deprecated This constant is not used and will not be passed by any released version of setup
-     *             wizard.
-     */
-    @Deprecated
-    public static final String THEME_MATERIAL_BLUE_LIGHT = "material_blue_light";
-
-    /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
-     * theme used in setup wizard for NYC.
+     * theme used in setup wizard for Nougat MR1.
      */
     public static final String THEME_GLIF = "glif";
 
     /**
      * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
-     * setup wizard for NYC.
+     * setup wizard for Nougat MR1.
      */
     public static final String THEME_GLIF_LIGHT = "glif_light";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
+     * theme used in setup wizard for O DR.
+     */
+    public static final String THEME_GLIF_V2 = "glif_v2";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
+     * setup wizard for O DR.
+     */
+    public static final String THEME_GLIF_V2_LIGHT = "glif_v2_light";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the dark variant of the
+     * theme used in setup wizard for P.
+     */
+    public static final String THEME_GLIF_V3 = "glif_v3";
+
+    /**
+     * Passed in a setup wizard intent as {@link #EXTRA_THEME}. This is the default theme used in
+     * setup wizard for P.
+     */
+    public static final String THEME_GLIF_V3_LIGHT = "glif_v3_light";
 
     /**
      * Get an intent that will invoke the next step of setup wizard.
@@ -123,10 +145,14 @@ public class WizardManagerHelper {
      */
     public static void copyWizardManagerExtras(Intent srcIntent, Intent dstIntent) {
         dstIntent.putExtra(EXTRA_WIZARD_BUNDLE, srcIntent.getBundleExtra(EXTRA_WIZARD_BUNDLE));
-        dstIntent.putExtra(EXTRA_IS_FIRST_RUN,
-                srcIntent.getBooleanExtra(EXTRA_IS_FIRST_RUN, false));
-        dstIntent.putExtra(EXTRA_SCRIPT_URI, srcIntent.getStringExtra(EXTRA_SCRIPT_URI));
-        dstIntent.putExtra(EXTRA_ACTION_ID, srcIntent.getStringExtra(EXTRA_ACTION_ID));
+        for (String key : Arrays.asList(
+                EXTRA_IS_FIRST_RUN, EXTRA_IS_DEFERRED_SETUP, EXTRA_IS_PRE_DEFERRED_SETUP)) {
+            dstIntent.putExtra(key, srcIntent.getBooleanExtra(key, false));
+        }
+
+        for (String key : Arrays.asList(EXTRA_THEME, EXTRA_SCRIPT_URI, EXTRA_ACTION_ID)) {
+            dstIntent.putExtra(key, srcIntent.getStringExtra(key));
+        }
     }
 
     /**
@@ -150,7 +176,7 @@ public class WizardManagerHelper {
      * @see #isDeviceProvisioned(android.content.Context)
      */
     public static boolean isUserSetupComplete(Context context) {
-        if (VERSION.SDK_INT >= VERSION_CODES.ICE_CREAM_SANDWICH) {
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
             return Settings.Secure.getInt(context.getContentResolver(),
                     SETTINGS_SECURE_USER_SETUP_COMPLETE, 0) == 1;
         } else {
@@ -181,6 +207,30 @@ public class WizardManagerHelper {
     }
 
     /**
+     * Checks whether an intent is running in the deferred setup wizard flow.
+     *
+     * @param originalIntent The original intent that was used to start the step, usually via
+     *                       {@link android.app.Activity#getIntent()}.
+     * @return true if the intent passed in was running in deferred setup wizard.
+     */
+    public static boolean isDeferredSetupWizard(Intent originalIntent) {
+        return originalIntent != null
+                && originalIntent.getBooleanExtra(EXTRA_IS_DEFERRED_SETUP, false);
+    }
+
+    /**
+     * Checks whether an intent is running in "pre-deferred" setup wizard flow.
+     *
+     * @param originalIntent The original intent that was used to start the step, usually via
+     *                       {@link android.app.Activity#getIntent()}.
+     * @return true if the intent passed in was running in "pre-deferred" setup wizard.
+     */
+    public static boolean isPreDeferredSetupWizard(Intent originalIntent) {
+        return originalIntent != null
+                && originalIntent.getBooleanExtra(EXTRA_IS_PRE_DEFERRED_SETUP, false);
+    }
+
+    /**
      * Checks the intent whether the extra indicates that the light theme should be used or not. If
      * the theme is not specified in the intent, or the theme specified is unknown, the value def
      * will be returned.
@@ -204,13 +254,76 @@ public class WizardManagerHelper {
      */
     public static boolean isLightTheme(String theme, boolean def) {
         if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_MATERIAL_BLUE_LIGHT.equals(theme) || THEME_GLIF_LIGHT.equals(theme)) {
+                || THEME_GLIF_LIGHT.equals(theme) || THEME_GLIF_V2_LIGHT.equals(theme)
+                || THEME_GLIF_V3_LIGHT.equals(theme)) {
             return true;
         } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_MATERIAL_BLUE.equals(theme) || THEME_GLIF.equals(theme)) {
+                || THEME_GLIF.equals(theme) || THEME_GLIF_V2.equals(theme)
+                || THEME_GLIF_V3.equals(theme)) {
             return false;
         } else {
             return def;
         }
+    }
+
+    /**
+     * Gets the theme style resource defined by this library for the theme specified in the given
+     * intent. For example, for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
+     *
+     * @param intent The intent passed by setup wizard, or one with the theme propagated along using
+     *               {@link #copyWizardManagerExtras(Intent, Intent)}.
+     * @return The style corresponding to the theme in the given intent, or {@code defaultTheme} if
+     *         the given theme is not recognized.
+     *
+     * @see #getThemeRes(String, int)
+     */
+    public static @StyleRes int getThemeRes(Intent intent, @StyleRes int defaultTheme) {
+        final String theme = intent.getStringExtra(EXTRA_THEME);
+        return getThemeRes(theme, defaultTheme);
+    }
+
+    /**
+     * Gets the theme style resource defined by this library for the given theme name. For example,
+     * for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
+     *
+     * <p>If you require extra theme attributes but want to ensure forward compatibility with new
+     * themes added here, consider overriding {@link android.app.Activity#onApplyThemeResource} in
+     * your activity and call {@link Theme#applyStyle(int, boolean)} using your theme overlay.
+     *
+     * <pre>{@code
+     * protected void onApplyThemeResource(Theme theme, int resid, boolean first) {
+     *     super.onApplyThemeResource(theme, resid, first);
+     *     theme.applyStyle(R.style.MyThemeOverlay, true);
+     * }
+     * }</pre>
+     *
+     * @param theme The string representation of the theme.
+     * @return The style corresponding to the given {@code theme}, or {@code defaultTheme} if the
+     *         given theme is not recognized.
+     */
+    public static @StyleRes int getThemeRes(String theme, @StyleRes int defaultTheme) {
+        if (theme != null) {
+            switch (theme) {
+                case THEME_GLIF_V3_LIGHT:
+                    return R.style.SuwThemeGlifV3_Light;
+                case THEME_GLIF_V3:
+                    return R.style.SuwThemeGlifV3;
+                case THEME_GLIF_V2_LIGHT:
+                    return R.style.SuwThemeGlifV2_Light;
+                case THEME_GLIF_V2:
+                    return R.style.SuwThemeGlifV2;
+                case THEME_GLIF_LIGHT:
+                    return R.style.SuwThemeGlif_Light;
+                case THEME_GLIF:
+                    return R.style.SuwThemeGlif;
+                case THEME_MATERIAL_LIGHT:
+                    return R.style.SuwThemeMaterial_Light;
+                case THEME_MATERIAL:
+                    return R.style.SuwThemeMaterial;
+                default:
+                    // fall through
+            }
+        }
+        return defaultTheme;
     }
 }

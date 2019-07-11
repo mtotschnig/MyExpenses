@@ -34,8 +34,34 @@ public interface ItemHierarchy {
         /**
          * Called when an underlying data update that can cause this hierarchy to show different
          * content has occurred.
+         *
+         * <p>Note: This is a catch-all notification, but recycler view will have a harder time
+         * figuring out the animations for the change, and might even not animate the change at all.
          */
         void onChanged(ItemHierarchy itemHierarchy);
+
+        /**
+         * Called when an underlying data update that can cause changes that are local to the given
+         * items. This method indicates that there are no structural changes like inserting or
+         * removing items.
+         */
+        void onItemRangeChanged(ItemHierarchy itemHierarchy, int positionStart, int itemCount);
+
+        /**
+         * Called when items are inserted at the given position.
+         */
+        void onItemRangeInserted(ItemHierarchy itemHierarchy, int positionStart, int itemCount);
+
+        /**
+         * Called when the given items are moved to a different position.
+         */
+        void onItemRangeMoved(ItemHierarchy itemHierarchy, int fromPosition, int toPosition,
+                int itemCount);
+
+        /**
+         * Called when the given items are removed from the item hierarchy.
+         */
+        void onItemRangeRemoved(ItemHierarchy itemHierarchy, int positionStart, int itemCount);
     }
 
     /**

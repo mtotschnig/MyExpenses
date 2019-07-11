@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.android.setupwizardlib.R;
 
 /**
- * Definition of an item in SetupWizardItemsLayout. An item is usually defined in XML and inflated
+ * Definition of an item in an {@link ItemHierarchy}. An item is usually defined in XML and inflated
  * using {@link ItemInflater}.
  */
 public class Item extends AbstractItem {
@@ -63,6 +63,7 @@ public class Item extends AbstractItem {
 
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;
+        notifyItemChanged();
     }
 
     @Override
@@ -77,6 +78,7 @@ public class Item extends AbstractItem {
 
     public void setIcon(Drawable icon) {
         mIcon = icon;
+        notifyItemChanged();
     }
 
     public Drawable getIcon() {
@@ -85,6 +87,7 @@ public class Item extends AbstractItem {
 
     public void setLayoutResource(int layoutResource) {
         mLayoutRes = layoutResource;
+        notifyItemChanged();
     }
 
     @Override
@@ -94,6 +97,7 @@ public class Item extends AbstractItem {
 
     public void setSummary(CharSequence summary) {
         mSummary = summary;
+        notifyItemChanged();
     }
 
     public CharSequence getSummary() {
@@ -102,6 +106,7 @@ public class Item extends AbstractItem {
 
     public void setTitle(CharSequence title) {
         mTitle = title;
+        notifyItemChanged();
     }
 
     public CharSequence getTitle() {
@@ -109,13 +114,22 @@ public class Item extends AbstractItem {
     }
 
     public void setVisible(boolean visible) {
+        if (mVisible == visible) {
+            return;
+        }
         mVisible = visible;
+        if (!visible) {
+            notifyItemRangeRemoved(0, 1);
+        } else {
+            notifyItemRangeInserted(0, 1);
+        }
     }
 
     public boolean isVisible() {
         return mVisible;
     }
 
+    @Override
     public int getViewId() {
         return getId();
     }
@@ -141,8 +155,7 @@ public class Item extends AbstractItem {
             // Set the image drawable to null before setting the state and level to avoid affecting
             // any recycled drawable in the ImageView
             iconView.setImageDrawable(null);
-            iconView.setImageState(icon.getState(), false /* merge */);
-            iconView.setImageLevel(icon.getLevel());
+            onMergeIconStateAndLevels(iconView, icon);
             iconView.setImageDrawable(icon);
             iconContainer.setVisibility(View.VISIBLE);
         } else {
@@ -150,5 +163,15 @@ public class Item extends AbstractItem {
         }
 
         view.setId(getViewId());
+    }
+
+    /**
+     * Copies state and level information from {@link #getIcon()} to the currently bound view's
+     * ImageView. Subclasses can override this method to change whats being copied from the icon
+     * to the ImageView.
+     */
+    protected void onMergeIconStateAndLevels(ImageView iconView, Drawable icon) {
+        iconView.setImageState(icon.getState(), false /* merge */);
+        iconView.setImageLevel(icon.getLevel());
     }
 }

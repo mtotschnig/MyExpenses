@@ -137,7 +137,8 @@ public class Illustration extends FrameLayout {
         if (mAspectRatio != 0.0f) {
             int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
             int illustrationHeight = (int) (parentWidth / mAspectRatio);
-            illustrationHeight -= illustrationHeight % mBaselineGridSize;
+            illustrationHeight =
+                    (int) (illustrationHeight - (illustrationHeight % mBaselineGridSize));
             setPadding(0, illustrationHeight, 0, 0);
         }
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {

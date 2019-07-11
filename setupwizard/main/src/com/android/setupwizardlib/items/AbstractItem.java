@@ -50,4 +50,17 @@ public abstract class AbstractItem extends AbstractItemHierarchy implements IIte
         }
         return null;
     }
+
+    /**
+     * Convenience method to notify the adapter that the contents of this item has changed. This
+     * only includes non-structural changes. Changes that causes the item to be removed should use
+     * the other notification methods.
+     *
+     * @see #notifyItemRangeChanged(int, int)
+     * @see #notifyItemRangeInserted(int, int)
+     * @see #notifyItemRangeRemoved(int, int)
+     */
+    public void notifyItemChanged() {
+        notifyItemRangeChanged(0, 1);
+    }
 }

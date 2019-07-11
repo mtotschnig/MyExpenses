@@ -27,7 +27,15 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
-import com.android.setupwizardlib.annotations.Keep;
+import androidx.annotation.Keep;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StyleRes;
+
+import com.android.setupwizardlib.template.Mixin;
+import com.android.setupwizardlib.util.FallbackThemeWrapper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A generic template class that inflates a template, provided in the constructor or in
@@ -42,6 +50,8 @@ public class TemplateLayout extends FrameLayout {
      * will be added to when {@link #addView(View)} is called.
      */
     private ViewGroup mContainer;
+
+    private Map<Class<? extends Mixin>, Mixin> mMixins = new HashMap<>();
 
     public TemplateLayout(Context context, int template, int containerId) {
         super(context);
@@ -75,6 +85,48 @@ public class TemplateLayout extends FrameLayout {
         a.recycle();
     }
 
+    /**
+     * Registers a mixin with a given class. This method should be called in the constructor.
+     *
+     * @param cls The class to register the mixin. In most cases, {@code cls} is the same as
+     *            {@code mixin.getClass()}, but {@code cls} can also be a super class of that. In
+     *            the latter case the the mixin must be retrieved using {@code cls} in
+     *            {@link #getMixin(Class)}, not the subclass.
+     * @param mixin The mixin to be registered.
+     * @param <M> The class of the mixin to register. This is the same as {@code cls}
+     */
+    protected <M extends Mixin> void registerMixin(Class<M> cls, M mixin) {
+        mMixins.put(cls, mixin);
+    }
+
+    /**
+     * Same as {@link android.view.View#findViewById(int)}, but may include views that are managed
+     * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
+     * headers that are not currently shown.
+     */
+    // Returning generic type is the common pattern used for findViewBy* methods
+    @SuppressWarnings("TypeParameterUnusedInFormals")
+    public <T extends View> T findManagedViewById(int id) {
+        return findViewById(id);
+    }
+
+    /**
+     * Get a {@link Mixin} from this template registered earlier in
+     * {@link #registerMixin(Class, Mixin)}.
+     *
+     * @param cls The class marker of Mixin being requested. The actual Mixin returned may be a
+     *            subclass of this marker. Note that this must be the same class as registered in
+     *            {@link #registerMixin(Class, Mixin)}, which is not necessarily the
+     *            same as the concrete class of the instance returned by this method.
+     * @param <M> The type of the class marker.
+     * @return The mixin marked by {@code cls}, or null if the template does not have a matching
+     *         mixin.
+     */
+    @SuppressWarnings("unchecked")
+    public <M extends Mixin> M getMixin(Class<M> cls) {
+        return (M) mMixins.get(cls);
+    }
+
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         mContainer.addView(child, index, params);
@@ -106,9 +158,36 @@ public class TemplateLayout extends FrameLayout {
      *                 specified.
      * @return Root of the inflated layout.
      */
-    protected View onInflateTemplate(LayoutInflater inflater, int template) {
+    protected View onInflateTemplate(LayoutInflater inflater, @LayoutRes int template) {
+        return inflateTemplate(inflater, 0, template);
+    }
+
+    /**
+     * Inflate the template using the given inflater and theme. The fallback theme will be applied
+     * to the theme without overriding the values already defined in the theme, but simply providing
+     * default values for values which have not been defined. This allows templates to add
+     * additional required theme attributes without breaking existing clients.
+     *
+     * <p>In general, clients should still set the activity theme to the corresponding theme in
+     * setup wizard lib, so that the content area gets the correct styles as well.
+     *
+     * @param inflater A LayoutInflater to inflate the template.
+     * @param fallbackTheme A fallback theme to apply to the template. If the values defined in the
+     *                      fallback theme is already defined in the original theme, the value in
+     *                      the original theme takes precedence.
+     * @param template The layout template to be inflated.
+     * @return Root of the inflated layout.
+     *
+     * @see FallbackThemeWrapper
+     */
+    protected final View inflateTemplate(LayoutInflater inflater, @StyleRes int fallbackTheme,
+            @LayoutRes int template) {
         if (template == 0) {
             throw new IllegalArgumentException("android:layout not specified for TemplateLayout");
+        }
+        if (fallbackTheme != 0) {
+            inflater = LayoutInflater.from(
+                    new FallbackThemeWrapper(inflater.getContext(), fallbackTheme));
         }
         return inflater.inflate(template, this, false);
     }
@@ -151,7 +230,7 @@ public class TemplateLayout extends FrameLayout {
      * stripped out by proguard when using this with {@link android.animation.ObjectAnimator}. You
      * may need to add
      * <code>
-     *     -keep @com.android.setupwizardlib.annotations.Keep class *
+     *     -keep @androidx.annotation.Keep class *
      * </code>
      * to your proguard configuration if you are seeing mysterious {@link NoSuchMethodError} at
      * runtime.

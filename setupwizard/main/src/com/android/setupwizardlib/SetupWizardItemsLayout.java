@@ -17,40 +17,34 @@
 package com.android.setupwizardlib;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.widget.ListAdapter;
+
+import androidx.annotation.Nullable;
 
 import com.android.setupwizardlib.items.ItemAdapter;
-import com.android.setupwizardlib.items.ItemGroup;
-import com.android.setupwizardlib.items.ItemInflater;
 
+/**
+ * @deprecated Use {@link SetupWizardListLayout} instead.
+ */
+@Deprecated
 public class SetupWizardItemsLayout extends SetupWizardListLayout {
-
-    private ItemAdapter mAdapter;
 
     public SetupWizardItemsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs, 0);
     }
 
     public SetupWizardItemsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SuwSetupWizardItemsLayout,
-                defStyleAttr, 0);
-        int xml = a.getResourceId(R.styleable.SuwSetupWizardItemsLayout_android_entries, 0);
-        if (xml != 0) {
-            ItemGroup inflated = (ItemGroup) new ItemInflater(context).inflate(xml);
-            mAdapter = new ItemAdapter(inflated);
-            setAdapter(mAdapter);
-        }
-        a.recycle();
-    }
-
+    @Override
+    @Nullable
     public ItemAdapter getAdapter() {
-        return mAdapter;
+        final ListAdapter adapter = super.getAdapter();
+        if (adapter instanceof ItemAdapter) {
+            return (ItemAdapter) adapter;
+        }
+        return null;
     }
 }

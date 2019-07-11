@@ -17,12 +17,24 @@
 
 <resources>
 
+    <!-- General -->
+    <!-- Calculated by (suw_glif_margin_sides - 4dp internal padding of button) -->
+    <dimen name="suw_glif_button_margin_end">36dp</dimen>
+    <!-- Calculated by (suw_glif_margin_sides - suw_glif_button_padding) -->
+    <dimen name="suw_glif_button_margin_start">24dp</dimen>
+    <dimen name="suw_glif_margin_sides">40dp</dimen>
+
     <!-- Decor view (illustration or the header without illustration) -->
     <dimen name="suw_decor_padding_top">256dp</dimen>
 
     <!-- Illustration -->
     <item name="suw_illustration_aspect_ratio" format="float" type="dimen">0</item>
     <dimen name="suw_header_title_size">34sp</dimen>
-    <dimen name="suw_glif_margin_sides">40dp</dimen>
+
+    <!-- Items -->
+    <dimen name="suw_items_icon_divider_inset">88dp</dimen>
+    <dimen name="suw_items_text_divider_inset">40dp</dimen>
+    <dimen name="suw_items_glif_icon_divider_inset">88dp</dimen>
+    <dimen name="suw_items_glif_text_divider_inset">40dp</dimen>
 
 </resources>

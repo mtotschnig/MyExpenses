@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <!-- SUW lib prefixes styleable resources -->
+    <issue id="CustomViewStyleable" severity="ignore" />
     <issue id="ExtraTranslation" severity="ignore" />
     <issue id="GradleDependency" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore" />
+    <!-- Stop lint from complaining about SDK version checks in the "platform" variant -->
+    <issue id="ObsoleteSdkInt" severity="ignore" />
     <issue id="RtlEnabled" severity="ignore" />
-    <issue id="ResourceType" severity="ignore" />
- </lint>
+</lint>

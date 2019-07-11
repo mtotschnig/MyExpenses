@@ -21,7 +21,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ScrollView;
 
-import com.android.setupwizardlib.annotations.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * An extension of ScrollView that will invoke a listener callback when the ScrollView needs

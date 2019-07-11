@@ -1,33 +1,83 @@
 /**
  * This self.gradle build file is only run when built in ub-setupwizard-* branches.
  */
+apply from: 'standalone-rules.gradle'
+apply from: '../tools/gradle/dist-library-instrumentation-tests.gradle'
+apply from: '../tools/gradle/dist-unit-tests.gradle'
 
-apply plugin: 'dist'
+apply plugin: 'net.ltgt.errorprone'
 
-apply from: 'build.gradle'
-apply from: '../tools/gradle/docs.gradle'
+buildscript {
+    repositories {
+        maven { url "$rootDir/prebuilts/tools/common/m2/repository" }
+    }
 
-task docs(dependsOn: 'javadocFullSupportRelease')
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.13"
+    }
+}
 
+// Add targets for tests
+android.sourceSets {
+    androidTest {
+        manifest.srcFile 'test/instrumentation/AndroidManifest.xml'
+        java.srcDirs = ['test/instrumentation/src']
+        res.srcDirs = ['test/instrumentation/res']
+
+        dependencies {
+            androidTestImplementation 'com.android.support.test:rules:1.0.0'
+            androidTestImplementation 'com.android.support.test:runner:1.0.0'
+            androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
+            androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
+            androidTestImplementation 'com.google.truth:truth:0.31'
+            androidTestImplementation 'junit:junit:4.+'
+            androidTestImplementation 'org.mockito:mockito-core:1.9.5'
+        }
+    }
+
+    androidTestPlatformDeprecated {
+        java.srcDirs = ['platform/test/src']
+    }
+
+    androidTestGingerbreadCompat {
+        java.srcDirs = [
+            'gingerbread/test/instrumentation/src',
+            'recyclerview/test/instrumentation/src'
+        ]
+        res.srcDirs = ['recyclerview/test/instrumentation/res']
+    }
+
+    test {
+        java.srcDirs = ['test/robotest/src']
+
+        dependencies {
+            testImplementation 'org.robolectric:robolectric:3.6.1'
+            testImplementation 'org.robolectric:shadows-framework:3.6.1'
+            testImplementation 'junit:junit:4.+'
+            testImplementation 'com.google.truth:truth:0.31'
+            testImplementation 'org.mockito:mockito-core:1.9.5'
+            // Workaround for https://github.com/robolectric/robolectric/issues/2566
+            testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+        }
+    }
+
+    testGingerbreadCompat {
+        java.srcDirs = ['gingerbread/test/robotest/src', 'recyclerview/test/robotest/src']
+    }
+}
+
+android.testOptions.unitTests.includeAndroidResources = true
+
+android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 android.lintOptions {
     abortOnError true
     htmlReport true
     textOutput 'stderr'
     textReport true
+    warningsAsErrors true
     xmlReport false
 }
-
 // Run lint for all variants
 android.libraryVariants.all { variant ->
     variant.assemble.dependsOn(tasks.findByName('lint'))
-}
-
-// Output all test APKs to the distribution folder
-def distTask = tasks.findByName('dist')
-if (distTask) {
-    android.testVariants.all { variant ->
-        // Make the dist task depend on the test variant, so the test APK will be built
-        distTask.dependsOn variant.assemble
-        // TODO: remap the different test variants to different file names
-    }
 }

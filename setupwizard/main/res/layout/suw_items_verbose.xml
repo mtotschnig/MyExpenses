@@ -20,7 +20,10 @@
     style="@style/SuwItemContainer.Verbose"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    tools:ignore="UnusedResources">
+    <!-- Ignore UnusedResources: can be used by clients -->
 
     <FrameLayout
         android:id="@+id/suw_items_icon_container"
@@ -32,7 +35,8 @@
         <ImageView
             android:id="@+id/suw_items_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="@null" />
 
     </FrameLayout>
 

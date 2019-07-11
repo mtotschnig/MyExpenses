@@ -20,37 +20,16 @@ import android.content.Context;
 
 /**
  * Inflate {@link Item} hierarchies from XML files.
- *
- * Modified from android.support.v7.preference.PreferenceInflater
  */
-public class ItemInflater extends GenericInflater<ItemHierarchy> {
-
-    private static final String TAG = "ItemInflater";
+public class ItemInflater extends ReflectionInflater<ItemHierarchy> {
 
     public interface ItemParent {
         void addChild(ItemHierarchy child);
     }
 
-    private final Context mContext;
-
     public ItemInflater(Context context) {
         super(context);
-        mContext = context;
         setDefaultPackage(Item.class.getPackage().getName() + ".");
-    }
-
-    @Override
-    public ItemInflater cloneInContext(Context newContext) {
-        return new ItemInflater(newContext);
-    }
-
-    /**
-     * Return the context we are running in, for access to resources, class
-     * loader, etc.
-     */
-    @Override
-    public Context getContext() {
-        return mContext;
     }
 
     @Override

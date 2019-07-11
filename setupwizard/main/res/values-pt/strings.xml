@@ -17,7 +17,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="suw_next_button_label" msgid="7269625133873553978">"Próximo"</string>
+    <string name="suw_next_button_label" msgid="7269625133873553978">"Próxima"</string>
     <string name="suw_back_button_label" msgid="1460929053642711025">"Voltar"</string>
     <string name="suw_more_button_label" msgid="7769076059705546563">"Mais"</string>
 </resources>

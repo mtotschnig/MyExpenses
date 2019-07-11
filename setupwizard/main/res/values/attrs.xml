@@ -20,23 +20,71 @@
     <!-- Theme attributes -->
     <attr name="suwLayoutTheme" format="reference" />
     <attr name="suwMarginSides" format="dimension|reference" />
+    <attr name="suwEditTextBackgroundColor" format="color" />
 
+    <!-- Subset of values in "gravity" in frameworks/base/core/res/res/values/attrs.xml. Only
+         horizontal values are listed here as the header does not support vertical gravity. -->
+    <attr name="suwGlifHeaderGravity">
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="left" value="0x03" />
+        <!-- Push object to the right of its container, not changing its size. -->
+        <flag name="right" value="0x05" />
+        <!-- Place object in the horizontal center of its container, not changing its size. -->
+        <flag name="center_horizontal" value="0x01" />
+        <!-- Grow the horizontal size of the object if needed so it completely fills its container. -->
+        <flag name="fill_horizontal" value="0x07" />
+        <!-- Push object to the beginning of its container, not changing its size. -->
+        <flag name="start" value="0x00800003" />
+        <!-- Push object to the end of its container, not changing its size. -->
+        <flag name="end" value="0x00800005" />
+    </attr>
+    <attr name="suwGlifIconStyle" format="reference" />
+
+    <attr name="suwButtonAllCaps" format="boolean" />
+    <attr name="suwButtonCornerRadius" format="dimension" />
+    <attr name="suwButtonFontFamily" format="string|reference" />
     <attr name="suwCardBackground" format="color|reference" />
     <attr name="suwDividerCondition">
         <enum name="either" value="0" />
         <enum name="both" value="1" />
     </attr>
+    <attr name="suwFillContentLayoutStyle" format="reference" />
     <attr name="suwListItemIconColor" format="color" />
     <attr name="suwNavBarBackgroundColor" format="color" />
     <attr name="suwNavBarButtonBackground" format="color|reference" />
     <attr name="suwNavBarTextColor" format="color" />
     <attr name="suwNavBarTheme" format="reference" />
 
+    <!-- Values copied from frameworks/base/core/res/res/values/attrs.xml -->
+    <attr name="suwScrollIndicators">
+        <!-- No scroll indicators are displayed. -->
+        <flag name="none" value="0x00" />
+        <!-- Displays top scroll indicator when view can be scrolled up. -->
+        <flag name="top" value="0x01" />
+        <!-- Displays bottom scroll indicator when vew can be scrolled down. -->
+        <flag name="bottom" value="0x02" />
+        <!-- Displays left scroll indicator when vew can be scrolled left. -->
+        <flag name="left" value="0x04" />
+        <!-- Displays right scroll indicator when vew can be scrolled right. -->
+        <flag name="right" value="0x08" />
+        <!-- Displays right scroll indicator when vew can be scrolled in the
+             start direction. -->
+        <flag name="start" value="0x10" />
+        <!-- Displays right scroll indicator when vew can be scrolled in the
+             end direction. -->
+        <flag name="end" value="0x20" />
+    </attr>
+
     <!-- Custom view attributes -->
+    <attr name="suwColorPrimary" format="color" />
     <attr name="suwHeader" format="reference" />
-    <attr name="suwHeaderText" format="string" localization="suggested" />
+    <!-- Deprecated. Use suwDividerInsetStart and suwDividerInsetEnd instead -->
     <attr name="suwDividerInset" format="dimension|reference" />
+    <attr name="suwDividerInsetEnd" format="dimension|reference" />
+    <attr name="suwDividerInsetStart" format="dimension|reference" />
+    <attr name="suwDividerInsetStartNoIcon" format="dimension|reference" />
     <attr name="suwItemDescriptionStyle" format="reference" />
+    <attr name="suwItemDescriptionTitleStyle" format="reference" />
 
     <declare-styleable name="SuwIllustration">
         <attr name="suwAspectRatio" format="float" />
@@ -50,31 +98,36 @@
         <attr name="suwHeader" />
     </declare-styleable>
 
-    <declare-styleable name="SuwGlifLayout">
-        <attr name="android:icon" />
-        <attr name="android:colorPrimary" />
-        <attr name="suwHeaderColor" format="reference|color" />
-        <attr name="suwHeaderText" />
+    <declare-styleable name="SuwIllustrationVideoView">
+        <attr name="suwVideo" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="SuwGlifListLayout">
-        <attr name="android:entries" />
-        <attr name="suwDividerInset" />
+    <declare-styleable name="SuwGlifLayout">
+        <attr name="suwBackgroundPatterned" format="boolean" />
+        <attr name="suwBackgroundBaseColor" format="color" />
+        <attr name="suwColorPrimary" />
+        <attr name="suwFooter" format="reference" />
+        <attr name="suwLayoutFullscreen" format="boolean" />
+        <attr name="suwStickyHeader" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="SuwStatusBarBackgroundLayout">
         <attr name="suwStatusBarBackground" format="color|reference" />
     </declare-styleable>
 
-    <declare-styleable name="SuwMaxSizeFrameLayout">
+    <declare-styleable name="SuwIntrinsicSizeFrameLayout">
         <attr name="android:height" />
         <attr name="android:width" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwFillContentLayout">
+        <attr name="android:maxHeight" />
+        <attr name="android:maxWidth" />
     </declare-styleable>
 
     <declare-styleable name="SuwSetupWizardLayout">
         <attr name="suwBackground" format="color|reference" />
         <attr name="suwBackgroundTile" format="color|reference" />
-        <attr name="suwHeaderText" />
         <attr name="suwDecorPaddingTop" format="dimension|reference" />
         <attr name="suwIllustration" format="color|reference" />
         <attr name="suwIllustrationAspectRatio" format="float|reference" />
@@ -85,14 +138,6 @@
     <declare-styleable name="SuwTemplateLayout">
         <attr name="android:layout" />
         <attr name="suwContainer" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="SuwSetupWizardListLayout">
-        <attr name="suwDividerInset" />
-    </declare-styleable>
-
-    <declare-styleable name="SuwSetupWizardItemsLayout">
-        <attr name="android:entries" />
     </declare-styleable>
 
     <declare-styleable name="SuwAbstractItem">
@@ -119,6 +164,25 @@
         <attr name="android:enabled" />
         <attr name="android:text" />
         <attr name="android:theme" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwHeaderMixin">
+        <attr name="suwHeaderText" format="string" localization="suggested" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwColoredHeaderMixin">
+        <attr name="suwHeaderColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwIconMixin">
+        <attr name="android:icon" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwListMixin">
+        <attr name="android:entries" />
+        <attr name="suwDividerInset" />
+        <attr name="suwDividerInsetEnd" />
+        <attr name="suwDividerInsetStart" />
     </declare-styleable>
 
 </resources>

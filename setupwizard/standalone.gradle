@@ -1,0 +1,20 @@
+/**
+ * Include this gradle file if you are building against this as a standalone gradle library project,
+ * as opposed to building it as part of the git-tree. This is typically the file you want to include
+ * if you create a new project in Android Studio.
+ *
+ * For example, you can include the following in your settings.gradle file:
+ *      include ':setup-wizard-lib'
+ *      project(':setup-wizard-lib').projectDir = new File(PATH_TO_THIS_DIRECTORY)
+ *      project(':setup-wizard-lib').buildFileName = 'standalone.gradle'
+ *
+ * And then you can include the :setup-wizard-lib project as one of your dependencies
+ *      dependencies {
+ *          compile project(path: ':setup-wizard-lib', configuration: 'gingerbreadCompatRelease')
+ *      }
+ */
+
+apply from: 'standalone-rules.gradle'
+
+android.compileSdkVersion 26
+android.buildToolsVersion '26.0.0'

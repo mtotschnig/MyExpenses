@@ -31,7 +31,7 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 
-import com.android.setupwizardlib.R;
+import androidx.annotation.RequiresPermission;
 
 /**
  * A helper class to manage the system navigation bar and status bar. This will add various
@@ -185,12 +185,25 @@ public class SystemBarHelper {
         }
     }
 
+    /**
+     * Sets whether the back button on the software navigation bar is visible. This only works if
+     * you have the STATUS_BAR permission. Otherwise framework will filter out this flag and this
+     * method call will not have any effect.
+     *
+     * <p>IMPORTANT: Do not assume that users have no way to go back when the back button is hidden.
+     * Many devices have physical back buttons, and accessibility services like TalkBack may have
+     * gestures mapped to back. Please use onBackPressed, onKeyDown, or other similar ways to
+     * make sure back button events are still handled (or ignored) properly.
+     */
+    @RequiresPermission("android.permission.STATUS_BAR")
     public static void setBackButtonVisible(final Window window, final boolean visible) {
         if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
             if (visible) {
                 removeVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
+                removeImmersiveFlagsFromDecorView(window, STATUS_BAR_DISABLE_BACK);
             } else {
                 addVisibilityFlag(window, STATUS_BAR_DISABLE_BACK);
+                addImmersiveFlagsToDecorView(window, STATUS_BAR_DISABLE_BACK);
             }
         }
     }
@@ -219,7 +232,7 @@ public class SystemBarHelper {
      * {@link View#SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN} only takes effect when it is added to a view
      * instead of the window.
      */
-    @TargetApi(VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     private static void addImmersiveFlagsToDecorView(final Window window, final int vis) {
         getDecorView(window, new OnDecorViewInstalledListener() {
             @Override
@@ -229,7 +242,7 @@ public class SystemBarHelper {
         });
     }
 
-    @TargetApi(VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.HONEYCOMB)
     private static void removeImmersiveFlagsFromDecorView(final Window window, final int vis) {
         getDecorView(window, new OnDecorViewInstalledListener() {
             @Override

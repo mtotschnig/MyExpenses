@@ -31,11 +31,14 @@
         android:visibility="invisible" />
 
     <com.android.setupwizardlib.view.IntrinsicSizeFrameLayout
-        android:id="@+id/suw_layout_content"
         style="@style/SuwGlifCardContainer"
         android:layout_width="@dimen/suw_glif_card_width"
         android:layout_height="wrap_content"
-        android:height="@dimen/suw_glif_card_height" />
+        android:height="@dimen/suw_glif_card_height">
+
+        <include layout="@layout/suw_glif_blank_template_content" />
+
+    </com.android.setupwizardlib.view.IntrinsicSizeFrameLayout>
 
     <View
         android:layout_width="0dp"

@@ -19,8 +19,11 @@
      setXFraction(float) and getXFraction methods implemented. Also make sure these 2 methods are
      not stripped out by proguard. -->
 <objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:duration="@integer/suwTransitionDuration"
     android:interpolator="@android:interpolator/decelerate_quad"
     android:propertyName="xFraction"
     android:valueFrom="1.0"
-    android:valueTo="0" />
+    android:valueTo="0"
+    tools:ignore="UnusedResources" />
+    <!-- Ignore UnusedResources: can be used by clients -->

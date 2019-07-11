@@ -20,20 +20,30 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.android.setupwizardlib.template.ButtonFooterMixin;
+import com.android.setupwizardlib.template.ColoredHeaderMixin;
+import com.android.setupwizardlib.template.HeaderMixin;
+import com.android.setupwizardlib.template.IconMixin;
+import com.android.setupwizardlib.template.ProgressBarMixin;
+import com.android.setupwizardlib.template.RequireScrollMixin;
+import com.android.setupwizardlib.template.ScrollViewScrollHandlingDelegate;
 import com.android.setupwizardlib.view.StatusBarBackgroundLayout;
 
 /**
@@ -59,6 +69,16 @@ public class GlifLayout extends TemplateLayout {
     private static final String TAG = "GlifLayout";
 
     private ColorStateList mPrimaryColor;
+
+    private boolean mBackgroundPatterned = true;
+
+    /**
+     * The color of the background. If null, the color will inherit from mPrimaryColor.
+     */
+    @Nullable
+    private ColorStateList mBackgroundBaseColor;
+
+    private boolean mLayoutFullscreen = true;
 
     public GlifLayout(Context context) {
         this(context, 0, 0);
@@ -87,49 +107,61 @@ public class GlifLayout extends TemplateLayout {
     // All the constructors delegate to this init method. The 3-argument constructor is not
     // available in LinearLayout before v11, so call super with the exact same arguments.
     private void init(AttributeSet attrs, int defStyleAttr) {
-        final TypedArray a = getContext().obtainStyledAttributes(attrs,
+        registerMixin(HeaderMixin.class, new ColoredHeaderMixin(this, attrs, defStyleAttr));
+        registerMixin(IconMixin.class, new IconMixin(this, attrs, defStyleAttr));
+        registerMixin(ProgressBarMixin.class, new ProgressBarMixin(this));
+        registerMixin(ButtonFooterMixin.class, new ButtonFooterMixin(this));
+        final RequireScrollMixin requireScrollMixin = new RequireScrollMixin(this);
+        registerMixin(RequireScrollMixin.class, requireScrollMixin);
+
+        final ScrollView scrollView = getScrollView();
+        if (scrollView != null) {
+            requireScrollMixin.setScrollHandlingDelegate(
+                    new ScrollViewScrollHandlingDelegate(requireScrollMixin, scrollView));
+        }
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs,
                 R.styleable.SuwGlifLayout, defStyleAttr, 0);
 
-        final Drawable icon = a.getDrawable(R.styleable.SuwGlifLayout_android_icon);
-        if (icon != null) {
-            setIcon(icon);
+        ColorStateList primaryColor =
+                a.getColorStateList(R.styleable.SuwGlifLayout_suwColorPrimary);
+        if (primaryColor != null) {
+            setPrimaryColor(primaryColor);
         }
 
-        // Set the header color
-        final ColorStateList headerColor =
-                a.getColorStateList(R.styleable.SuwGlifLayout_suwHeaderColor);
-        if (headerColor != null) {
-            setHeaderColor(headerColor);
+        ColorStateList backgroundColor =
+                a.getColorStateList(R.styleable.SuwGlifLayout_suwBackgroundBaseColor);
+        setBackgroundBaseColor(backgroundColor);
+
+        boolean backgroundPatterned =
+                a.getBoolean(R.styleable.SuwGlifLayout_suwBackgroundPatterned, true);
+        setBackgroundPatterned(backgroundPatterned);
+
+        final int footer = a.getResourceId(R.styleable.SuwGlifLayout_suwFooter, 0);
+        if (footer != 0) {
+            inflateFooter(footer);
         }
 
-
-        // Set the header text
-        final CharSequence headerText =
-                a.getText(R.styleable.SuwGlifLayout_suwHeaderText);
-        if (headerText != null) {
-            setHeaderText(headerText);
+        final int stickyHeader = a.getResourceId(R.styleable.SuwGlifLayout_suwStickyHeader, 0);
+        if (stickyHeader != 0) {
+            inflateStickyHeader(stickyHeader);
         }
 
-        final ColorStateList primaryColor =
-                a.getColorStateList(R.styleable.SuwGlifLayout_android_colorPrimary);
-        setPrimaryColor(primaryColor);
+        mLayoutFullscreen = a.getBoolean(R.styleable.SuwGlifLayout_suwLayoutFullscreen, true);
 
         a.recycle();
+
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && mLayoutFullscreen) {
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
     }
 
     @Override
-    protected View onInflateTemplate(LayoutInflater inflater, int template) {
+    protected View onInflateTemplate(LayoutInflater inflater, @LayoutRes int template) {
         if (template == 0) {
             template = R.layout.suw_glif_template;
         }
-        try {
-            return super.onInflateTemplate(inflater, template);
-        } catch (RuntimeException e) {
-            // Versions before M throws RuntimeException for unsuccessful attribute resolution
-            // Versions M+ will throw an InflateException (which extends from RuntimeException)
-            throw new InflateException("Unable to inflate layout. Are you using "
-                    + "@style/SuwThemeGlif (or its descendant) as your theme?", e);
-        }
+        return inflateTemplate(inflater, R.style.SuwThemeGlif_Light, template);
     }
 
     @Override
@@ -141,12 +173,30 @@ public class GlifLayout extends TemplateLayout {
     }
 
     /**
-     * Same as {@link android.view.View#findViewById(int)}, but may include views that are managed
-     * by this view but not currently added to the view hierarchy. e.g. recycler view or list view
-     * headers that are not currently shown.
+     * Sets the footer of the layout, which is at the bottom of the content area outside the
+     * scrolling container. The footer can only be inflated once per instance of this layout.
+     *
+     * @param footer The layout to be inflated as footer.
+     * @return The root of the inflated footer view.
      */
-    protected View findManagedViewById(int id) {
-        return findViewById(id);
+    public View inflateFooter(@LayoutRes int footer) {
+        ViewStub footerStub = findManagedViewById(R.id.suw_layout_footer);
+        footerStub.setLayoutResource(footer);
+        return footerStub.inflate();
+    }
+
+    /**
+     * Sets the sticky header (i.e. header that doesn't scroll) of the layout, which is at the top
+     * of the content area outside of the scrolling container. The header can only be inflated once
+     * per instance of this layout.
+     *
+     * @param header The layout to be inflated as the header.
+     * @return The root of the inflated header view.
+     */
+    public View inflateStickyHeader(@LayoutRes int header) {
+        ViewStub stickyHeaderStub = findManagedViewById(R.id.suw_layout_sticky_header);
+        stickyHeaderStub.setLayoutResource(header);
+        return stickyHeaderStub.inflate();
     }
 
     public ScrollView getScrollView() {
@@ -155,137 +205,120 @@ public class GlifLayout extends TemplateLayout {
     }
 
     public TextView getHeaderTextView() {
-        return (TextView) findManagedViewById(R.id.suw_layout_title);
+        return getMixin(HeaderMixin.class).getTextView();
     }
 
     public void setHeaderText(int title) {
-        setHeaderText(getContext().getResources().getText(title));
+        getMixin(HeaderMixin.class).setText(title);
     }
 
     public void setHeaderText(CharSequence title) {
-        final TextView titleView = getHeaderTextView();
-        if (titleView != null) {
-            titleView.setText(title);
-        }
+        getMixin(HeaderMixin.class).setText(title);
     }
 
     public CharSequence getHeaderText() {
-        final TextView titleView = getHeaderTextView();
-        return titleView != null ? titleView.getText() : null;
+        return getMixin(HeaderMixin.class).getText();
     }
 
     public void setHeaderColor(ColorStateList color) {
-        final TextView titleView = getHeaderTextView();
-        if (titleView != null) {
-            titleView.setTextColor(color);
-        }
+        final ColoredHeaderMixin mixin = (ColoredHeaderMixin) getMixin(HeaderMixin.class);
+        mixin.setColor(color);
     }
 
     public ColorStateList getHeaderColor() {
-        final TextView titleView = getHeaderTextView();
-        return titleView != null ? titleView.getTextColors() : null;
+        final ColoredHeaderMixin mixin = (ColoredHeaderMixin) getMixin(HeaderMixin.class);
+        return mixin.getColor();
     }
 
     public void setIcon(Drawable icon) {
-        final ImageView iconView = getIconView();
-        if (iconView != null) {
-            iconView.setImageDrawable(icon);
-        }
+        getMixin(IconMixin.class).setIcon(icon);
     }
 
     public Drawable getIcon() {
-        final ImageView iconView = getIconView();
-        return iconView != null ? iconView.getDrawable() : null;
+        return getMixin(IconMixin.class).getIcon();
     }
 
-    protected ImageView getIconView() {
-        return (ImageView) findManagedViewById(R.id.suw_layout_icon);
-    }
-
-    public void setPrimaryColor(ColorStateList color) {
+    /**
+     * Sets the primary color of this layout, which will be used to determine the color of the
+     * progress bar and the background pattern.
+     */
+    public void setPrimaryColor(@NonNull ColorStateList color) {
         mPrimaryColor = color;
-        setGlifPatternColor(color);
-        setProgressBarColor(color);
+        updateBackground();
+        getMixin(ProgressBarMixin.class).setColor(color);
     }
 
     public ColorStateList getPrimaryColor() {
         return mPrimaryColor;
     }
 
-    private void setGlifPatternColor(ColorStateList color) {
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            final View patternBg = findManagedViewById(R.id.suw_pattern_bg);
-            if (patternBg != null) {
-                final GlifPatternDrawable background =
-                        new GlifPatternDrawable(color.getDefaultColor());
-                if (patternBg instanceof StatusBarBackgroundLayout) {
-                    ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
-                } else {
-                    patternBg.setBackground(background);
-                }
+    /**
+     * Sets the base color of the background view, which is the status bar for phones and the full-
+     * screen background for tablets. If {@link #isBackgroundPatterned()} is true, the pattern will
+     * be drawn with this color.
+     *
+     * @param color The color to use as the base color of the background. If {@code null},
+     *              {@link #getPrimaryColor()} will be used.
+     */
+    public void setBackgroundBaseColor(@Nullable ColorStateList color) {
+        mBackgroundBaseColor = color;
+        updateBackground();
+    }
+
+    /**
+     * @return The base color of the background. {@code null} indicates the background will be drawn
+     *         with {@link #getPrimaryColor()}.
+     */
+    @Nullable
+    public ColorStateList getBackgroundBaseColor() {
+        return mBackgroundBaseColor;
+    }
+
+    /**
+     * Sets whether the background should be {@link GlifPatternDrawable}. If {@code false}, the
+     * background will be a solid color.
+     */
+    public void setBackgroundPatterned(boolean patterned) {
+        mBackgroundPatterned = patterned;
+        updateBackground();
+    }
+
+    /**
+     * @return True if this view uses {@link GlifPatternDrawable} as background.
+     */
+    public boolean isBackgroundPatterned() {
+        return mBackgroundPatterned;
+    }
+
+    private void updateBackground() {
+        final View patternBg = findManagedViewById(R.id.suw_pattern_bg);
+        if (patternBg != null) {
+            int backgroundColor = 0;
+            if (mBackgroundBaseColor != null) {
+                backgroundColor = mBackgroundBaseColor.getDefaultColor();
+            } else if (mPrimaryColor != null) {
+                backgroundColor = mPrimaryColor.getDefaultColor();
+            }
+            Drawable background = mBackgroundPatterned
+                    ? new GlifPatternDrawable(backgroundColor)
+                    : new ColorDrawable(backgroundColor);
+            if (patternBg instanceof StatusBarBackgroundLayout) {
+                ((StatusBarBackgroundLayout) patternBg).setStatusBarBackground(background);
+            } else {
+                patternBg.setBackgroundDrawable(background);
             }
         }
     }
 
     public boolean isProgressBarShown() {
-        final View progressBar = findManagedViewById(R.id.suw_layout_progress);
-        return progressBar != null && progressBar.getVisibility() == View.VISIBLE;
+        return getMixin(ProgressBarMixin.class).isShown();
     }
 
     public void setProgressBarShown(boolean shown) {
-        if (shown) {
-            View progressBar = getProgressBar();
-            if (progressBar != null) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        } else {
-            View progressBar = peekProgressBar();
-            if (progressBar != null) {
-                progressBar.setVisibility(View.GONE);
-            }
-        }
+        getMixin(ProgressBarMixin.class).setShown(shown);
     }
 
-    /**
-     * Gets the progress bar in the layout. If the progress bar has not been used before, it will be
-     * installed (i.e. inflated from its view stub).
-     *
-     * @return The progress bar of this layout. May be null only if the template used doesn't have a
-     *         progress bar built-in.
-     */
-    private ProgressBar getProgressBar() {
-        final View progressBar = peekProgressBar();
-        if (progressBar == null) {
-            final ViewStub progressBarStub =
-                    (ViewStub) findManagedViewById(R.id.suw_layout_progress_stub);
-            if (progressBarStub != null) {
-                progressBarStub.inflate();
-            }
-            setProgressBarColor(mPrimaryColor);
-        }
-        return peekProgressBar();
-    }
-
-    /**
-     * Gets the progress bar in the layout only if it has been installed.
-     * {@link #setProgressBarShown(boolean)} should be called before this to ensure the progress bar
-     * is set up correctly.
-     *
-     * @return The progress bar of this layout, or null if the progress bar is not installed. The
-     *         null case can happen either if {@link #setProgressBarShown(boolean)} with true was
-     *         not called before this, or if the template does not contain a progress bar.
-     */
     public ProgressBar peekProgressBar() {
-        return (ProgressBar) findManagedViewById(R.id.suw_layout_progress);
-    }
-
-    private void setProgressBarColor(ColorStateList color) {
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            final ProgressBar bar = peekProgressBar();
-            if (bar != null) {
-                bar.setIndeterminateTintList(color);
-            }
-        }
+        return getMixin(ProgressBarMixin.class).peekProgressBar();
     }
 }
