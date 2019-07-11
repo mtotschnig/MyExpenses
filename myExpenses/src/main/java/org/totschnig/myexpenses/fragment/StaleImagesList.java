@@ -127,10 +127,9 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mImagesCursor.moveToPosition(position);
-        startActivity(
-            imageViewIntentProvider.getViewIntent(getActivity(),
+        imageViewIntentProvider.startViewIntent(getActivity(),
                 Uri.parse(mImagesCursor.getString(
-                    mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI)))));
+                    mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI))));
       }
     });
     getLoaderManager().initLoader(0, null, this);

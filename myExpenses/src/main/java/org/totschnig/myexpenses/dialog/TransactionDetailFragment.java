@@ -265,7 +265,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         break;
       case AlertDialog.BUTTON_NEUTRAL:
         if (mTransaction.getPictureUri() != null) {
-          startActivity(imageViewIntentProvider.getViewIntent(ctx, mTransaction.getPictureUri()));
+          imageViewIntentProvider.startViewIntent(ctx, mTransaction.getPictureUri());
         }
         break;
     }

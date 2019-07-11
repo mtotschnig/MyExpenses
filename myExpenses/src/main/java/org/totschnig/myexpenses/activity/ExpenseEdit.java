@@ -2378,7 +2378,7 @@ public class ExpenseEdit extends AmountActivity implements
         unsetPicture();
         break;
       case R.id.VIEW_COMMAND:
-        startActivity(imageViewIntentProvider.getViewIntent(this, mPictureUri));
+        imageViewIntentProvider.startViewIntent(this, mPictureUri);
         break;
       case R.id.CHANGE_COMMAND:
         startMediaChooserDo();
