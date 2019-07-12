@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
