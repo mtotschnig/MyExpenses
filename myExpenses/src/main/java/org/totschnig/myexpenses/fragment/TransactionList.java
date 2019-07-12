@@ -32,6 +32,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -42,9 +43,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.annimon.stream.IntStream;
 import com.annimon.stream.LongStream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
@@ -74,6 +77,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -101,6 +105,8 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -120,10 +126,10 @@ import androidx.loader.content.Loader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
@@ -185,6 +191,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
+  private static final int SECTION_CURSOR = 3;
 
   public static final String KEY_FILTER = "filter";
   public static final String CATEGORY_SEPARATOR = " : ",
@@ -200,7 +207,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private Parcelable listState;
 
   @BindView(R.id.list)
-  ExpandableStickyListHeadersListView mListView;
+  StickyListHeadersListView mListView;
   @BindView(R.id.filter)
   TextView filterView;
   @BindView(R.id.filterCard)
@@ -218,6 +225,12 @@ public class TransactionList extends ContextualActionBarFragment implements
    * [6] mappedCategories
    */
   private LongSparseArray<Long[]> headerData = new LongSparseArray<>();
+  private String[] sections;
+  private int[] sectionIds;
+  /**
+   * maps section to index to the position of first item in section
+   */
+  private SparseIntArray mSectionCache;
 
   /**
    * used to restore list selection when drawer is reopened
@@ -264,6 +277,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       setGrouping();
       Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
       Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
+      Utils.requireLoader(mManager, SECTION_CURSOR, null, TransactionList.this);
     });
     viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
     MyApplication.getInstance().getAppComponent().inject(this);
@@ -326,6 +340,31 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (f == null) {
         FragmentTransaction ft = fm.beginTransaction();
         TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
+      }
+    });
+    mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+      private int currentState = 0;
+
+      @Override
+      public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == SCROLL_STATE_IDLE && currentState != scrollState && view.isFastScrollEnabled()) {
+          view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+              if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
+            }
+          },1000);
+        }
+        currentState = scrollState;
+      }
+
+      @Override
+      public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (currentState == SCROLL_STATE_TOUCH_SCROLL) {
+
+          if (!view.isFastScrollEnabled())
+            view.setFastScrollEnabled(true);
+        }
       }
     });
     return v;
@@ -568,6 +607,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             selectionArgs, null);
         break;
       case GROUPING_CURSOR:
+      case SECTION_CURSOR:
         selection = null;
         selectionArgs = null;
         Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
@@ -578,7 +618,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           }
         }
         builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-            .appendPath(mAccount.getGrouping().name());
+            .appendPath(id == GROUPING_CURSOR ? mAccount.getGrouping().name() : Grouping.MONTH.name());
         if (!mAccount.isHomeAggregate()) {
           if (mAccount.isAggregate()) {
             builder.appendQueryParameter(KEY_CURRENCY, mAccount.getCurrencyUnit().code());
@@ -586,9 +626,15 @@ public class TransactionList extends ContextualActionBarFragment implements
             builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
           }
         }
+        String sortOrder = null;
+        if (id == SECTION_CURSOR) {
+          builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SECTIONS, "1");
+          sortOrder = String.format("%1$s %3$s,%2$s %3$s",
+              KEY_YEAR, KEY_SECOND_GROUP, mAccount.getSortDirection().name());
+        }
         cursorLoader = new CursorLoader(getActivity(),
             builder.build(),
-            null, selection, selectionArgs, null);
+            null, selection, selectionArgs, sortOrder);
         break;
     }
     return cursorLoader;
@@ -596,10 +642,11 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public void onLoadFinished(@NonNull Loader<Cursor> arg0, Cursor c) {
+    final int count = c.getCount();
     switch (arg0.getId()) {
       case TRANSACTION_CURSOR:
         mTransactionsCursor = c;
-        hasItems = c.getCount() > 0;
+        hasItems = count > 0;
         if (!indexesCalculated) {
           columnIndexYear = c.getColumnIndex(KEY_YEAR);
           columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
@@ -614,7 +661,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           indexesCalculated = true;
         }
         mAdapter.swapCursor(c);
-        if (c.getCount() > 0) {
+        if (count > 0) {
           if (firstLoadCompleted) {
             mListView.post(() -> {
               if (listState != null) {
@@ -659,8 +706,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             long delta = sumIncome + sumExpense + sumTransfer;
             long interimBalance = previousBalance + delta;
             long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
-            headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear),
-                c.getInt(columnIndexGroupSecond)),
+            headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear), c.getInt(columnIndexGroupSecond)),
                 new Long[]{sumIncome, sumExpense, sumTransfer, previousBalance, delta, interimBalance, mappedCategories});
             previousBalance = interimBalance;
           } while (c.moveToNext());
@@ -669,6 +715,23 @@ public class TransactionList extends ContextualActionBarFragment implements
         //in order to have accurate grouping values
         if (mTransactionsCursor != null)
           mAdapter.notifyDataSetChanged();
+        break;
+      case SECTION_CURSOR:
+        sections = new String[count];
+        sectionIds = new int[count];
+        mSectionCache = new SparseIntArray(count);
+        if (c.moveToFirst()) {
+          final Calendar cal = Calendar.getInstance();
+          final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", MyApplication.getUserPreferedLocale());
+          do {
+            final int year = c.getInt(c.getColumnIndex(KEY_YEAR));
+            final int month = c.getInt(c.getColumnIndex(KEY_SECOND_GROUP));
+            cal.set(year, month, 1);
+            final int position = c.getPosition();
+            sections[position] = dateFormat.format(cal.getTime());
+            sectionIds[position] = calculateHeaderId(year, month, Grouping.MONTH);
+          } while (c.moveToNext());
+        }
     }
   }
 
@@ -698,11 +761,17 @@ public class TransactionList extends ContextualActionBarFragment implements
     return 0;
   }
 
-  private long calculateHeaderId(int year, int second) {
-    if (mAccount.getGrouping().equals(Grouping.NONE)) {
+
+
+  private int calculateHeaderId(int year, int second, Grouping grouping) {
+    if (grouping.equals(Grouping.NONE)) {
       return 1;
     }
     return year * 1000 + second;
+  }
+
+  private int calculateHeaderId(int year, int second) {
+    return calculateHeaderId(year, second, mAccount.getGrouping());
   }
 
   @Override
@@ -733,7 +802,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     return mappedCategories;
   }
 
-  private class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
+  private class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter, SectionIndexer {
     private LayoutInflater inflater;
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
@@ -791,9 +860,20 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @Override
     public long getHeaderId(int position) {
+      return getHeaderIdInt(position);
+    }
+
+    private int getHeaderIdInt(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
       return calculateHeaderId(c.getInt(getColumnIndexForYear()), getSecond(c));
+    }
+
+
+    private int getSectioningId(int position) {
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      return calculateHeaderId(c.getInt(columnIndexYear), c.getInt(columnIndexMonth), Grouping.MONTH);
     }
 
     private int getSecond(Cursor c) {
@@ -818,6 +898,106 @@ public class TransactionList extends ContextualActionBarFragment implements
         default:
           return columnIndexYear;
       }
+    }
+
+    @Override
+    public Object[] getSections() {
+      return sections;
+    }
+
+    /**
+     * inspired by {@link android.widget.AlphabetIndexer}<p>
+     * {@inheritDoc}
+     */
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+      // Check bounds
+      if (sectionIndex <= 0) {
+        return 0;
+      }
+      if (sectionIndex >= sections.length) {
+        sectionIndex = sections.length - 1;
+      }
+
+      int count = mTransactionsCursor.getCount();
+      int start = 0;
+      int end = count;
+      int pos;
+      int targetHeaderId = sectionIds[sectionIndex];
+
+      // Check map
+      if (Integer.MIN_VALUE != (pos = mSectionCache.get(targetHeaderId, Integer.MIN_VALUE))) {
+        // Is it approximate? Using negative value to indicate that it's
+        // an approximation and positive value when it is the accurate
+        // position.
+        if (pos < 0) {
+          pos = -pos;
+          end = pos;
+        } else {
+          // Not approximate, this is the confirmed start of section, return it
+          Timber.d("getPositionForSection from cache %d: %d", sectionIndex, pos);
+          return pos;
+        }
+      }
+
+      // Do we have the position of the previous section?
+      if (sectionIndex > 0) {
+        int prevLetterPos = mSectionCache.get(sectionIds[sectionIndex - 1], Integer.MIN_VALUE);
+        if (prevLetterPos != Integer.MIN_VALUE) {
+          start = Math.abs(prevLetterPos);
+        }
+      }
+
+      // Now that we have a possibly optimized start and end, let's binary search
+
+      pos = (end + start) / 2;
+
+      while (pos < end) {
+        // Get letter at pos
+        int curHeaderId = getSectioningId(pos);
+
+        int diff = Utils.compare(curHeaderId, targetHeaderId);
+        if (diff != 0) {
+          if (mAccount.getSortDirection().equals(SortDirection.DESC)) diff = -diff;
+          // Enter approximation in hash if a better solution doesn't exist
+          int curPos = mSectionCache.get(curHeaderId, Integer.MIN_VALUE);
+          if (curPos == Integer.MIN_VALUE || Math.abs(curPos) > pos) {
+          //     Negative pos indicates that it is an approximation
+               mSectionCache.put(curHeaderId, -pos);
+          }
+          if (diff < 0) {
+            start = pos + 1;
+            if (start >= count) {
+              pos = count;
+              break;
+            }
+          } else {
+            end = pos;
+          }
+        } else {
+          // They're the same, but that doesn't mean it's the start
+          if (start == pos) {
+            // This is it
+            break;
+          } else {
+            // Need to go further lower to find the starting row
+            end = pos;
+          }
+        }
+        pos = (start + end) / 2;
+      }
+      mSectionCache.put(targetHeaderId, pos);
+      Timber.d("getPositionForSection %d: %d", sectionIndex, pos);
+      return pos;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+      final int indexOfKey = IntStream.range(0, sectionIds.length)
+          .filter(i -> sectionIds[i] == getSectioningId(position))
+          .findFirst().orElse(0);
+      Timber.d("getSectionForPosition %d: %d", position, indexOfKey);
+      return indexOfKey;
     }
   }
 
@@ -846,14 +1026,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
                             int itemPosition, long headerId, boolean currentlySticky) {
-    final HeaderViewHolder viewHolder = (HeaderViewHolder) header.getTag();
-    if (mListView.isHeaderCollapsed(headerId)) {
-      mListView.expand(headerId);
-      viewHolder.dividerBottom.setVisibility(View.VISIBLE);
-    } else {
-      mListView.collapse(headerId);
-      viewHolder.dividerBottom.setVisibility(View.GONE);
-    }
+    //noop
   }
 
   @Override
