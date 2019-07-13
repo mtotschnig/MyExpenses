@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,6 +151,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
       holder = (ViewHolder) convertView.getTag();
     }
     holder.label.setText(item.label);
+    holder.label.setTypeface(holder.label.getTypeface(), parentItem == null ? Typeface.BOLD : Typeface.NORMAL);
     if (item.sum != null && currency != null) {
       holder.amount.setText(currencyFormatter.convAmount(item.sum, currency));
     }
