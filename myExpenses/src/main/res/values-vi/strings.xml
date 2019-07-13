@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
   <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
-  <string name="dialog_contrib_no">Vẫn chưa</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s là tính năng trả phí (%2$s).</string>
@@ -238,6 +238,7 @@
   <string name="payer_or_payee">Người nhận trả/Người trả</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Kế hoạch</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">tự động</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Bộ lập kế hoạch của {app_name}</string>
@@ -245,6 +246,7 @@
   <string name="plan_event_deleted">Kế hoạch gắn với bản mẫu này đã bị xoá khỏi lịch.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Đã hủy bỏ việc thực thi kế hoạch</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">thủ công</string>
   <string name="planner_create_calendar_failure">Không thể tạo một lịch kế hoạch trên máy</string>
   <string name="planner_create_calendar_success">Lịch kế hoạch trên máy đã được tạo thành công</string>
@@ -600,7 +602,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Đồng bộ hoá đám mây</string>
   <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
   <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
-  <string name="upgrade_now">Nâng cấp ngay bây giờ</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Lưu trữ trên backend đồng bộ</string>
   <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
   <string name="auto_backup_cloud_create_backend">Tạo một backend đồng bộ từ màn hình cài đặt chính.</string>

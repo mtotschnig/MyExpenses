@@ -185,9 +185,12 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
     builder.setTitle(feature == null ? R.string.menu_contrib : R.string.dialog_title_contrib_feature)
         .setView(dialogView)
-        .setNegativeButton(R.string.dialog_contrib_no, this)
+        .setNeutralButton(R.string.button_label_close, this)
         .setIcon(R.mipmap.ic_launcher_alt)
         .setPositiveButton(R.string.upgrade_now, this);
+    if (feature.isAvailable(prefHandler)) {
+        builder.setNegativeButton(R.string.dialog_contrib_no, this);
+    }
     AlertDialog dialog = builder.create();
 
     if (contribVisible) {
@@ -229,17 +232,25 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     if (ctx == null) {
       return;
     }
-    if (which == AlertDialog.BUTTON_POSITIVE) {
-      if (selectedPackage != null) {
-        ctx.contribBuyDo(selectedPackage);
-      } else {
-        //should not happen
-        ctx.finish(true);
+    switch (which) {
+      case  AlertDialog.BUTTON_POSITIVE: {
+        if (selectedPackage != null) {
+          ctx.contribBuyDo(selectedPackage);
+        } else {
+          //should not happen
+          ctx.finish(true);
+        }
+        break;
       }
-    } else {
-      //BUTTON_NEGATIV
-      ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_NEGATIVE, null);
-      ctx.finish(false);
+      case AlertDialog.BUTTON_NEUTRAL: {
+        ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_CANCEL, null);
+        ctx.finish(true);
+        break;
+      }
+      case AlertDialog.BUTTON_NEGATIVE: {
+        ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_NEGATIVE, null);
+        ctx.finish(false);
+      }
     }
   }
 

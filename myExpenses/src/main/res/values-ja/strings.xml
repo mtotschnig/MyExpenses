@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
   <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
   <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
-  <string name="dialog_contrib_no">いいえ、まだ</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
@@ -238,6 +238,7 @@
   <string name="payer_or_payee">受取人/支払人</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">計画</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} プランナー</string>
@@ -245,6 +246,7 @@
   <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">手動</string>
   <string name="planner_create_calendar_failure">ローカル プランナー カレンダーを作成できません</string>
   <string name="planner_create_calendar_success">ローカル プランナー カレンダーが正常に作成されました</string>
@@ -600,7 +602,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
   <string name="all_contrib_key_features">貢献キーのすべての機能</string>
   <string name="all_extended_key_features">拡張キーのすべての機能</string>
-  <string name="upgrade_now">今すぐアップグレード</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
   <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
   <string name="auto_backup_cloud_create_backend">メイン設定画面から同期バックエンドを作成します。</string>

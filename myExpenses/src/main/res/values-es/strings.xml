@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Las transacciones de transferencia requieren una segunda cuenta.</string>
   <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
   <string name="dialog_command_disabled_distribution">Ninguna transacción han sido asignada con categorías en esta cuenta.</string>
-  <string name="dialog_contrib_no">Todavía no</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Límite de uso alcanzado.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s es una característica premium (%2$s).</string>
@@ -241,6 +241,7 @@
   <string name="payer_or_payee">Acreedor/Ordenante</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Proyección</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">Automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planificador {app_name}</string>
@@ -248,6 +249,7 @@
   <string name="plan_event_deleted">El proyecto asociada a esta plantilla ha sido eliminado desde el calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Ejecución del proyecto cancelada</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">Manual</string>
   <string name="planner_create_calendar_failure">No se pudo crear un calendario de planificación local</string>
   <string name="planner_create_calendar_success">Calendario de planificación local creado con éxito</string>
@@ -609,7 +611,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronización en la nube</string>
   <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
   <string name="all_extended_key_features">Todas las características de la llave Extendida</string>
-  <string name="upgrade_now">Actualice ahora</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Guardar con el servicio de sincronización</string>
   <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
   <string name="auto_backup_cloud_create_backend">Crear un servicio de sincronización desde la pantalla de configuración principal.</string>

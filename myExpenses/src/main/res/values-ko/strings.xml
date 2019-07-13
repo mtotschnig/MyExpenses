@@ -56,7 +56,7 @@
   <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
   <string name="dialog_command_disabled_reset_account">내보낼 거래 내역이 없습니다.</string>
   <string name="dialog_command_disabled_distribution">이 계좌의 카테고리에 배치할 거래 내역이 없습니다.</string>
-  <string name="dialog_contrib_no">아직 아님</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">무료 사용량이 소진되었습니다.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
@@ -218,6 +218,7 @@
   <string name="payer_or_payee">수취인/납부인</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">재무 계획</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">자동</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} 플래너</string>
@@ -225,6 +226,7 @@
   <string name="plan_event_deleted">이 템플릿과 연관된 재무 계획이 캘린더에서 삭제되었습니다.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">재무 계획 실행 취소됨</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">수동</string>
   <string name="planner_create_calendar_failure">로컬 플래너 캘린더를 만들 수 없습니다</string>
   <string name="planner_create_calendar_success">로컬 플래너 캘린더를 만들었습니다</string>
@@ -498,6 +500,7 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <!--button leading user to purchase flow for licence keys-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->

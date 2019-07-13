@@ -62,7 +62,7 @@
   <string name="dialog_command_disabled_insert_transfer">Transferentzia transakzioek bigarren kontu bat behar dute</string>
   <string name="dialog_command_disabled_reset_account">Ez dago transakziorik esportatzeko</string>
   <string name="dialog_command_disabled_distribution">Ez da transakziorik lotu kategorietara kontu honetan.</string>
-  <string name="dialog_contrib_no">Oraindik ez</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Ez dira doako erabilera gehiago geratzen.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da (%2$s).</string>
@@ -239,6 +239,7 @@
   <string name="payer_or_payee">Onuraduna/Ordaintzailea</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plana</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automatikoa</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planifikatzailea</string>
@@ -246,6 +247,7 @@
   <string name="plan_event_deleted">Txantiloi honi lotutako plana egutegitik ezabatu da.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planaren exekuzioa bertan behera utzi da</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">eskuz</string>
   <string name="planner_create_calendar_failure">Ezin izan da planifikatzailearen tokiko egutegia sortu</string>
   <string name="planner_create_calendar_success">Planifikatzailearen tokiko egutegia ondo sortu da</string>
@@ -605,7 +607,7 @@
   <string name="template">Txantiloia</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinkronizazioa hodeian</string>
   <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
-  <string name="upgrade_now">Bertsio-berritu orain</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
   <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
   <string name="auto_backup_cloud_create_backend">Sortu sinkronizazio atzealdeko bat ezaugarri nagusien pantailatik.</string>

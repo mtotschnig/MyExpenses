@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
-  <string name="dialog_contrib_no">Henüz değil</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
@@ -237,6 +237,7 @@
   <string name="payer_or_payee">Alacaklı/Mükellef</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Planla</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">otomatik</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planlayıcısı</string>
@@ -244,6 +245,7 @@
   <string name="plan_event_deleted">Bu şablonla ilişkili planlama takvimden silindi.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">el ile</string>
   <string name="planner_create_calendar_failure">Yerel planlama takvimi oluşturulamadı</string>
   <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
@@ -603,7 +605,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşleşmesi</string>
   <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
   <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
-  <string name="upgrade_now">Şimdi yükselt</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
   <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
   <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>

@@ -45,7 +45,7 @@
   <string name="dialog_command_disabled_balance">Nema odobrenih transakcija za usklađivanje</string>
   <string name="dialog_command_disabled_reset_account">Ne postoje transakcije za eksport.</string>
   <string name="dialog_command_disabled_distribution">Nema transakcija označenih uz kategorije unutar ovog računa.</string>
-  <string name="dialog_contrib_no">Još ne</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Ne postoji više besplatnih uporaba.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s mogu koristiti samo premium korisnici (%2$s).</string>
@@ -208,6 +208,7 @@
   <string name="payer_or_payee">Primaoc/Platitelj</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automatski</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planer</string>
@@ -215,6 +216,7 @@
   <string name="plan_event_deleted">Plan povezan s ovim predloškom je izbrisan iz kalendara.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Izvedba plana je otkazana</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">ručno</string>
   <string name="planner_create_calendar_failure">Greška u izradi lokalnog kalendara za planove</string>
   <string name="planner_create_calendar_success">Lokalni kalendar za planove uspješno kreiran</string>
@@ -436,6 +438,7 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Predložak</string>
+  <!--button leading user to purchase flow for licence keys-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->

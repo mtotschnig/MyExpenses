@@ -35,7 +35,7 @@
   <string name="description">描述</string>
   <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
   <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
-  <string name="dialog_contrib_no">現在不要</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">沒有剩下的免費使用額</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能 (%2$s)。</string>
@@ -166,12 +166,14 @@
   <string name="payer">付款人</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">計劃</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} 規劃</string>
   <string name="planner_notification_channel_name">規劃</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計劃執行已取消</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">手動</string>
   <string name="planner_create_calendar_failure">無法建立本機日曆</string>
   <string name="planner_create_calendar_success">本機計劃日曆被成功新增</string>
@@ -300,6 +302,7 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">範本</string>
+  <!--button leading user to purchase flow for licence keys-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->

@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">பரிமாற்ற பரிவர்த்தனைக்கு இரண்டாவது கணக்கு தேவை.</string>
   <string name="dialog_command_disabled_reset_account">ஏற்றுமதி செய்ய பரிவர்த்தனைகள் ஏதும் இல்லை.</string>
   <string name="dialog_command_disabled_distribution">இந்த கணக்கில் எந்தவொரு பரிவர்த்தனையும் வகைப்படுத்தப்படவில்லை.</string>
-  <string name="dialog_contrib_no">இதுவரை இல்லை</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">இலவச பயன்பாடுகள் மீதம் இல்லை.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ஒரு மதிப்பு அம்சம் (%2$s).</string>
@@ -145,11 +145,11 @@
   <string name="menu_balance">கணக்கை நேர்செய்</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">ரத்து</string>
-  <string name="menu_clone_transaction">நகலி</string>
+  <string name="menu_clone_transaction">நகல் எடு</string>
   <string name="menu_contrib">பங்களி</string>
   <string name="menu_create_account">புதிய கணக்கு</string>
   <string name="menu_create_instance_edit">பயன்படுத்து மற்றும் தொகு</string>
-  <string name="menu_create_instance_save">பயன்படுத்து மற்றும் சேமிக்கவும்</string>
+  <string name="menu_create_instance_save">பயன்படுத்து மற்றும் சேமி</string>
   <string name="menu_create_main_cat">புதிய முக்கிய வகை</string>
   <string name="menu_create_method">புதிய கட்டண முறை</string>
   <string name="menu_create_party">புதிய தரப்பு</string>
@@ -241,6 +241,7 @@
   <string name="payer_or_payee">பணம் பெறுபவர்/செலுத்துபவர்</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">திட்டம்</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">தானியங்கி</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} இழைப்புளி</string>
@@ -248,6 +249,7 @@
   <string name="plan_event_deleted">இந்த வார்ப்புருவுடன் தொடர்புடைய திட்டம் நாட்காட்டியிலிருந்து நீக்கப்பட்டது.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">திட்டம் ரத்து செய்யப்ப்பட்டது</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">கைமுறையாக</string>
   <string name="planner_create_calendar_failure">உள்  திட்டக் நாட்காட்டியை உருவாக்க முடியவில்லை</string>
   <string name="planner_create_calendar_success">உள் திட்ட நாட்காட்டி வெற்றிகரமாக உருவாக்கப்பட்டது</string>
@@ -609,7 +611,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">முகில் ஒத்திசைவு</string>
   <string name="all_contrib_key_features">பங்களிப்பு திறவுகோலின் அனைத்து அம்சங்கள்</string>
   <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோல் அனைத்து அம்சங்கள்</string>
-  <string name="upgrade_now">இப்போதே மேம்படுத்தவும்</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
   <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
   <string name="auto_backup_cloud_create_backend">பிரதான அமைப்புகள் திரையில் இருந்து ஒத்திசைவு பின்தளத்தை உருவாக்கவும்.</string>

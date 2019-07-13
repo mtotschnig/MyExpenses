@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">עסקאות העברה דורשות חשבון שני.</string>
   <string name="dialog_command_disabled_reset_account">אין עסקאות לייצוא.</string>
   <string name="dialog_command_disabled_distribution">לא בוצעו עסקאות ממופות לקטגוריות בחשבון זה.</string>
-  <string name="dialog_contrib_no">עדיין לא</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">לא נשארו עוד שימושים בחינם.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s היא תכונת פרימיום (%2$s).</string>
@@ -247,6 +247,7 @@
   <string name="payer_or_payee">מקבל התשלום/המשלם</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">מחזוריות</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">אוטומטי</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">מתכנן {app_name}</string>
@@ -254,6 +255,7 @@
   <string name="plan_event_deleted">התוכנית המשויכת לתבנית זו נמחקה מהיומן.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">ביצוע התוכנית בוטל</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">ידנית</string>
   <string name="planner_create_calendar_failure">לא ניתן ליצור יומן תכנון מקומי</string>
   <string name="planner_create_calendar_success">יומן תכנון מקומי יוצר בהצלחה</string>
@@ -627,7 +629,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
   <string name="all_contrib_key_features">כל התכונות של מפתח Contrib</string>
   <string name="all_extended_key_features">כל התכונות של מפתח מורחב</string>
-  <string name="upgrade_now">שדרג עכשיו</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
   <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
   <string name="auto_backup_cloud_create_backend">יצירת backend סינכרון ממסך ההגדרות הראשי.</string>

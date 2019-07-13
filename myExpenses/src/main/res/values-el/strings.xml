@@ -58,7 +58,7 @@
   <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό</string>
   <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
   <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
-  <string name="dialog_contrib_no">Όχι ακόμα</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Δεν έχετε πια δωρεάν χρήσεις.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
@@ -229,6 +229,7 @@
   <string name="payer_or_payee">Δικαιούχος/Πληρωτής</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Σχέδιο</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">Αυτόματη</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Aτζέντα {app_name}</string>
@@ -236,6 +237,7 @@
   <string name="plan_event_deleted">Το σχέδιο που συνδέεται με αυτό το πρότυπο έχει διαγραφεί από το ημερολόγιο.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Εκτέλεση σχεδίου ακυρώθηκε</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">εγχειρίδιο</string>
   <string name="planner_create_calendar_failure">Δεν είναι δυνατή η δημιουργία τοπικού ημερολογίου προγραμματισμού</string>
   <string name="planner_create_calendar_success">τοπικό Ημερολόγιο προγραμματισμού  δημιουργήθηκε με επιτυχία</string>
@@ -579,7 +581,7 @@
   <string name="template">Πρότυπο</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Συγχρονισμός σύννεφου</string>
   <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
-  <string name="upgrade_now">Αναβαθμίστε τώρα</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="professional_key">Επαγγελματικό κλειδί</string>
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->

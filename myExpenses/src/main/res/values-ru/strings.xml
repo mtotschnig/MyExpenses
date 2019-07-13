@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Для переводов требуется второй счет.</string>
   <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
   <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
-  <string name="dialog_contrib_no">Не сейчас</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
@@ -241,6 +241,7 @@
   <string name="payer_or_payee">Получатель/Платильщик</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">План</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">автоматически</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Планировщик {app_name}</string>
@@ -248,6 +249,7 @@
   <string name="plan_event_deleted">Этот план, связанный с этим шаблоном, был удален из календаря.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Выполнение плана отменено</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">вручную</string>
   <string name="planner_create_calendar_failure">Не удается создать локальный календарь планов</string>
   <string name="planner_create_calendar_success">Локальный календарь планов успешно создан</string>
@@ -563,7 +565,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
   <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
   <string name="all_extended_key_features">Все возможности Extended-ключа</string>
-  <string name="upgrade_now">Повысить сейчас</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="currency_symbol">Символ валюты</string>
   <string name="number_of_fraction_digits">Число дробных знаков</string>
   <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>

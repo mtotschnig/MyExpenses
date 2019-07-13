@@ -36,7 +36,7 @@
   <string name="description">විස්තරය </string>
   <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
   <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
-  <string name="dialog_contrib_no">තවම නැත </string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">නිදහස් පාවිච්චි කිරීම් ඉතිරව නැත </string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
@@ -185,11 +185,13 @@
   <string name="payer">ගෙවන්නා </string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">සැලැස්ම</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">ස්වයංක්‍රිය</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_event_deleted">මෙම අච්චුව සමග සම්බන්ද වී තිබු සැලසුම දිනදර්ශනයෙන් ඉවත් කර ඇත </string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">සැලසුම ක්‍රියාවෙහි යෙදවීම අසාර්තකයි </string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">කාර්ය සංග්‍රහය</string>
   <string name="planner_create_calendar_failure">පරිස්ථානීය සැලසුම් කිරීමේ දිනදර්ශනයක් නිර්මාණය කිරිමට නොහැකි විය </string>
   <string name="planner_create_calendar_success">පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කිරීම සාර්ථකයි </string>
@@ -365,6 +367,7 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">අච්චුව </string>
+  <!--button leading user to purchase flow for licence keys-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->

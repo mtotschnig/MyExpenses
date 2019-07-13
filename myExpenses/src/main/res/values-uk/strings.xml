@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Операції переказу вимагають наявності другого рахунку.</string>
   <string name="dialog_command_disabled_reset_account">Немає операцій для експорту.</string>
   <string name="dialog_command_disabled_distribution">Жодній операцій в цьому рахунку не було присвоєно категорію.</string>
-  <string name="dialog_contrib_no">Не зараз</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Більше немає можливості вільного використання.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s є преміум-функцією (%2$s).</string>
@@ -241,6 +241,7 @@
   <string name="payer_or_payee">Одержувач / Платник</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">План</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">автоматично</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Планувальник {app_name}</string>
@@ -248,6 +249,7 @@
   <string name="plan_event_deleted">План, пов\'язаний із цим шаблоном, видалено з календаря.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Виконання плану скасовано</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">вручну</string>
   <string name="planner_create_calendar_failure">Неможливо створити локальний календар планів</string>
   <string name="planner_create_calendar_success">Локальний календар планів успішно створено</string>
@@ -621,7 +623,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Хмарна синхронізація</string>
   <string name="all_contrib_key_features">Всі можливості платної версії</string>
   <string name="all_extended_key_features">Всі можливості розширеної версії</string>
-  <string name="upgrade_now">Оновити зараз</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Зберігати на сервері синхронізації</string>
   <string name="pref_backup_cloud_summary">На додаток до локального збереження на пристрої, файл резервної копії може бути скопійований на віддалений сервер.</string>
   <string name="auto_backup_cloud_create_backend">Створіть сервер синхронізації з головного екрану налаштувань.</string>

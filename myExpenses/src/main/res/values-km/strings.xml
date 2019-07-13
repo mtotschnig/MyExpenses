@@ -42,7 +42,7 @@
   <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
-  <string name="dialog_contrib_no">នៅទេ</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">គ្មាន​ការ​ប្រើប្រាស់​ដោយអត់​បង់ថ្លៃ​នៅសល់​ទេ។</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។ (%2$s)</string>
@@ -195,6 +195,7 @@
   <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">ផែនការ</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">ដោយ​ស្វ័យ​ប្រវត្តិ</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">កម្មវិធី​ផែនការរបស់ {app_name}</string>
@@ -202,6 +203,7 @@
   <string name="plan_event_deleted">គម្រោងនេះ​ភ្ជាប់នឹង​ពុម្ពនេះ​ ត្រូវបាន​លុបចេញ​ពី​ប្រតិទិន</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">គម្រោង​ដំណើរការ​បាន​​បោះបង់ហើយ</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">សៀវភៅតូច</string>
   <string name="planner_create_calendar_failure">មិន​អាច​​បង្កើត​​ប្រតិទិន​​ផែនការ​មូលដ្ឋាន​ទេ</string>
   <string name="planner_create_calendar_success">ប្រតិទិន​ផែនការ​មូលដ្ឋាន​បាន​បង្កើត​ដោយជោគជ័យ</string>
@@ -370,6 +372,7 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">ទិន្ន​ន័យ​គំរូ</string>
+  <!--button leading user to purchase flow for licence keys-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->

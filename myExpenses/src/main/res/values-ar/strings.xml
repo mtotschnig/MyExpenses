@@ -44,7 +44,7 @@
   <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
   <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
   <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
-  <string name="dialog_contrib_no">ليس بعد</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
@@ -188,6 +188,7 @@
   <string name="payer">المشتري</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">خطة</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">تلقائي</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">مخطط {app_name}</string>
@@ -195,6 +196,7 @@
   <string name="plan_event_deleted">تم حذف الخطة المتعلقة بهذا النموذج من التقويم.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">تم إلغاء تنفيذ الخطة</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">يدوية</string>
   <string name="planner_create_calendar_failure">غير قادر على انشاء مخطِط تقويم محلي</string>
   <string name="planner_create_calendar_success">تم انشاء مخطِط تقويم محلي بنجاح</string>
@@ -415,6 +417,7 @@
   <string name="menu_sync_link">إبدأ المزامنة</string>
   <string name="menu_sync_download">تحميل و منزامنة</string>
   <string name="template">نموذج</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
   <string name="currency_symbol">رمز العملة</string>
   <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا</string>

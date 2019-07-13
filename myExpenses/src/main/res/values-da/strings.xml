@@ -49,7 +49,7 @@
   <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
   <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
   <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
-  <string name="dialog_contrib_no">Ikke endnu</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Denne funktion kan ikke længere bruges gratis.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
@@ -212,6 +212,7 @@
   <string name="payer_or_payee">Modtager/betaler</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automatisk</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planner</string>
@@ -219,6 +220,7 @@
   <string name="plan_event_deleted">Planen der var knyttet til denne skabelon er blevet slettet fra kalenderen.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Udførelsen af planen annulleret</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">manuel</string>
   <string name="planner_create_calendar_failure">Lokal kalender kunne ikke oprettes</string>
   <string name="planner_create_calendar_success">Lokal kalender oprettet</string>
@@ -480,6 +482,7 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <!--button leading user to purchase flow for licence keys-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->

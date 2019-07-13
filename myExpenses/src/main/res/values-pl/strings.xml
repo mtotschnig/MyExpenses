@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Transakcje transferowe wymagają drugiego konta.</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
-  <string name="dialog_contrib_no">Nie teraz</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
@@ -241,6 +241,7 @@
   <string name="payer_or_payee">Odbiorca płatności/Płatnik</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automatycznie</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planowanie {app_name}</string>
@@ -248,6 +249,7 @@
   <string name="plan_event_deleted">Plan skojarzony z tym szablonem został usunięty z kalendarza.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Wykonanie planu anulowane</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">ręcznie</string>
   <string name="planner_create_calendar_failure">Nie można utworzyć lokalnego kalendarza planowania</string>
   <string name="planner_create_calendar_success">Lokalny kalendarz planowania został utworzony pomyślnie</string>
@@ -608,7 +610,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronizacja w chmurze</string>
   <string name="all_contrib_key_features">Wszystkie funkcje Contrib Key</string>
   <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
-  <string name="upgrade_now">Ulepsz teraz</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
   <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
   <string name="auto_backup_cloud_create_backend">Utwórz serwer synchronizacji z głównego ekranu ustawień.</string>

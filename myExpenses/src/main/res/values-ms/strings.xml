@@ -63,7 +63,7 @@
   <string name="dialog_command_disabled_insert_transfer">Transaksi pemindahan memerlukan akaun kedua.</string>
   <string name="dialog_command_disabled_reset_account">Tiada transaksi dieksport.</string>
   <string name="dialog_command_disabled_distribution">Tiada transaksi telah dipetakan pada kategori dalam akaun ini.</string>
-  <string name="dialog_contrib_no">Belum lagi</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Tiada penggunaan percuma berbaki.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium (%2$s).</string>
@@ -235,6 +235,7 @@
   <string name="payer_or_payee">Penerima/Pembayar</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automatik</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Perancang {app_name}</string>
@@ -242,6 +243,7 @@
   <string name="plan_event_deleted">Plan berkaitan dengan templat ini telah dipadam dari kalendar.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Pelakuan plan dibatalkan</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">manual</string>
   <string name="planner_create_calendar_failure">Tidak boleh cipta kalendar perancang setempat</string>
   <string name="planner_create_calendar_success">Kalendar perancang setempat berjaya dicipta</string>
@@ -597,7 +599,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Penyegerakan awan</string>
   <string name="all_contrib_key_features">Semua fitur Kunci Contrib</string>
   <string name="all_extended_key_features">Semua fitur Kunci Lanjutan</string>
-  <string name="upgrade_now">Tatar sekarang</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Simpan dalam bahagian belakang penyegerakan</string>
   <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
   <string name="auto_backup_cloud_create_backend">Cipta bahagian belakang penyegerakan melalui skrin tetapan utama.</string>

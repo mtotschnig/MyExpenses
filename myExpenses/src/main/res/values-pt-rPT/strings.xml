@@ -57,7 +57,7 @@
   <string name="dialog_command_disabled_insert_transfer">Transações de transferências requerem uma segunda conta.</string>
   <string name="dialog_command_disabled_reset_account">Sem transações para exportar.</string>
   <string name="dialog_command_disabled_distribution">Não existem transações atribuídas a categorias nesta conta.</string>
-  <string name="dialog_contrib_no">Ainda não</string>
+  <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no_usages_left">Sem utilizações gratuitas restantes.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium (%2$s).</string>
@@ -228,6 +228,7 @@
   <string name="payer_or_payee">Beneficiário/pagador</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plano</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planeador {app_name}</string>
@@ -235,6 +236,7 @@
   <string name="plan_event_deleted">O plano associado a este modelo foi eliminado do calendário.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">A execução do plano foi cancelada</string>
+  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">manual</string>
   <string name="planner_create_calendar_failure">Não foi possível criar o calendário local de planeamento</string>
   <string name="planner_create_calendar_success">O calendário local de planeamento foi criado com sucesso</string>
@@ -590,7 +592,7 @@
   <string name="template">Modelo</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
   <string name="all_contrib_key_features">Todas as funcionalidades da Chave Contrib</string>
-  <string name="upgrade_now">Atualizar agora</string>
+  <!--button leading user to purchase flow for licence keys-->
   <string name="pref_backup_cloud_title">Armazenar no backend de sincronização</string>
   <string name="pref_backup_cloud_summary">Para além do armazenamento local no dispositivo, o ficheiro de cópia de segurança pode ser copiado para um backend remoto.</string>
   <string name="auto_backup_cloud_create_backend">Crie um backend de sincronização a partir do ecrã de definições principal.</string>
