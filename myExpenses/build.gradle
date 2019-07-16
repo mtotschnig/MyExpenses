@@ -14,10 +14,13 @@ buildscript {
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    mavenCentral()
     // For Spoon snapshot, until 2.0.0 is released
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: "com.jaredsburrows.spoon"
 apply plugin: 'com.novoda.android-command'
@@ -264,6 +267,9 @@ dependencies {
     androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
     androidTestImplementation 'com.jraska:falcon:2.1.0'
     androidTestImplementation 'com.jraska:falcon-spoon-compat:2.1.0'
+    compile "androidx.core:core-ktx:+"
+    compile "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 
