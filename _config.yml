@@ -114,6 +114,46 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.0.3
+    - "2019-06-12"
+    -
+      en: |
+        Tamil translation. Sync now button in main menu. Immediate synchronization after local changes can be disabled.
+      fr: |
+        Traduction en tamoul. Bouton Synchroniser maintenant dans le menu principal. La synchronisation immédiate suite aux modifications locales peut être désactivée.
+      de: |
+        Tamilische Übersetzung. Schaltfläche Jetzt synchronisieren im Hauptmenü. Die sofortige Synchronisation nach lokalen Änderungen kann deaktiviert werden.
+      it: |
+        Traduzione Tamil. Pulsante "Sincronizza ora" nel menù principale. La sincronizzazione immediata dopo aver effettuato modifiche in locale può essere disabilitata.
+      es: |
+        Traducción a Tamil. Botón de sincronizar en el menú principal. Puede deshabilitar la sincronización inmediata después de cambios locales.
+      bg: |
+        Превод на тамилски. Бутон в главното меню Синхронизирай сега. Незабавния запис в отдалеченото хранилище може да бъде деактивиран.
+      ja: |
+        タミル語翻訳. メインメニューに今すぐ同期ボタン. ローカルの変更をすぐに同期が無効にできます.
+      iw: |
+        תרגום לטמילית. סנכרן עכשיו בתפריט הראשי. סנכרון מיידי לאחר ביטול השינויים המקומיים.
+  -
+    - 3.0.2
+    - "2019-05-31"
+    -
+      en: |
+        Icons for categories.
+      fr: |
+        Icônes pour les catégories.
+      de: |
+        Symbole für Kategorien.
+      it: |
+        Icone per le categorie.
+      es: |
+        Iconos por categorías.
+      bg: |
+        Икони за категориите.
+      ja: |
+        分類のアイコン.
+      iw: |
+        סמלים לקטגוריות.
+  -
     - 3.0.1
     - "2019-02-14"
     -
