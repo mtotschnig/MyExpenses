@@ -40,8 +40,8 @@
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Grafico storico (flusso di cassa)</string>
   <string name="licence_status_free">Gratuito</string>
-  <string name="contrib_key">Chiave Contrib</string>
-  <string name="extended_key">Chiave Ampliata</string>
+  <string name="contrib_key">Licenza Contributore</string>
+  <string name="extended_key">Licenza Funzionalità Estese</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Richiede %s.</string>
   <string name="currency">Valuta</string>
@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Prova</string>
   <string name="dialog_contrib_no_usages_left">Hai terminato i tuoi usi gratuiti.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s è una funzionalità premium (%2$s).</string>
@@ -133,8 +134,8 @@
   <string name="income">Entrate</string>
   <string name="invalid_number_format">Formato decimale non riconosciuto dalla tua regione. Si prega di utilizzare %1$s</string>
   <string name="label">Etichetta</string>
-  <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
-  <string name="licence_validation_success">Chiave di licenza convalidata con successo</string>
+  <string name="licence_validation_failure">Impossible convalidare la licenza.</string>
+  <string name="licence_validation_success">Licenza convalidata con successo</string>
   <string name="licence_validation_premium">Le funzionalità premium sono state sbloccate.</string>
   <string name="menu_aggregates">Sommato</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
@@ -277,13 +278,13 @@
   <string name="pref_checkbox_disabled">Non abilitato</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_summary">Acquistare l\'accesso a funzionalità premium.</string>
-  <string name="pref_contrib_purchase_title">Acquisto la chiave</string>
-  <string name="pref_contrib_purchase_title_upgrade">Aggiornare la chiave</string>
+  <string name="pref_contrib_purchase_title">Acquista una licenza</string>
+  <string name="pref_contrib_purchase_title_upgrade">Aggiorna la licenza</string>
   <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
   <string name="pref_custom_currency_title">Personalizzare le valute</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una chiave, otterrete l\'accesso a funzionalità premium.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la chiave</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una licenza, otterrete l\'accesso a funzionalità premium.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la licenza</string>
   <string name="pref_export_format_title">Formato dati</string>
   <string name="pref_import_from_grisbi_summary">Importazione di categorie e beneficiari Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
@@ -316,7 +317,7 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ammessi senza password.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password richiesta.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
-  <string name="pref_request_licence_title">Richiedi una chiave</string>
+  <string name="pref_request_licence_title">Richiedi una licenza</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
   <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo.</string>
@@ -609,9 +610,10 @@
   <string name="progress_dialog_checking_sync_backend">Sto verificando il back-end</string>
   <string name="template">Modello</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione con il cloud</string>
-  <string name="all_contrib_key_features">Tutte le caratteristiche di Contrib chiave</string>
-  <string name="all_extended_key_features">Tutte le funzionalità della Chiave Ampliata</string>
+  <string name="all_contrib_key_features">Tutte le caratteristiche di Licenza Contributore</string>
+  <string name="all_extended_key_features">Tutte le funzionalità della Licenza Funzionalità Estese</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Acquista una licenza</string>
   <string name="pref_backup_cloud_title">Salva sul back-end di sincronizzazione</string>
   <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
   <string name="auto_backup_cloud_create_backend">Crea un back-end di sincronizzazione dalla schermata principale delle impostazioni.</string>
@@ -658,14 +660,14 @@
   <string name="licence_validation_error_device_limit_exceeded">Il numero di dispositivi supera il limite. Si prega di rimuovere la licenza da un altro dispositivo.</string>
   <string name="error">Errore (%s)</string>
   <string name="button_validate">Convalidare</string>
-  <string name="licence_key">Chiave di licenza</string>
-  <string name="licence_removal_information">Se non hai più bisogno di funzionalità premium su questo dispositivo, puoi rimuovere la chiave di licenza. Fare ciò disimpegna la chiave, per l\'attivazione su di un altro dispositivo. La chiave può essere attivata su fino a %d dispositivi.</string>
+  <string name="licence_key">Licenza</string>
+  <string name="licence_removal_information">Se non hai più bisogno di funzionalità premium su questo dispositivo, puoi rimuovere la licenza. Fare ciò disimpegna la licenza, per l\'attivazione su di un altro dispositivo. La licenza può essere attivata su fino a %d dispositivi.</string>
   <string name="progress_removing_licence">Rimozione della licenza</string>
-  <string name="licence_removal_success">Il codice di licenza è stato rilasciato correttamente da questo dispositivo.</string>
-  <string name="professional_key">Chiave Professionale</string>
+  <string name="licence_removal_success">La licenza è stata disaccoppiata correttamente da questo dispositivo.</string>
+  <string name="professional_key">Licenza Professionale</string>
   <string name="n_months">%d mesi</string>
   <string name="eu_vat_info">Per i residenti nell\'Unione europea i prezzi indicati non includono l\'IVA.</string>
-  <string name="licence_migration_info">{app_name} implementa un nuovo meccanismo di convalida della licenza. Si prega di richiedere una nuova chiave.</string>
+  <string name="licence_migration_info">{app_name} implementa un nuovo meccanismo di convalida della licenza. Si prega di richiedere un nuovo codice.</string>
   <string name="valid_until">Fino a %s</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Estendere fino a %1$s per %2$s</string>
@@ -730,11 +732,11 @@
   <string name="booking_date">Data di prenotazione</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Data di valuta</string>
-  <string name="licence_expires_n_days">La tua chiave professionale scadrà tra %d giorni</string>
-  <string name="licence_expires_tomorrow">La tua chiave professionale scadrà domani</string>
-  <string name="licence_expires_today">La tua chiave professionale scade oggi</string>
-  <string name="licence_expired_yesterday">La tua chiave professionale è scaduta ieri</string>
-  <string name="licence_has_expired_n_days">La tua chiave professionale è scaduta %d giorni fa</string>
+  <string name="licence_expires_n_days">La tua Licenza Professionale scadrà tra %d giorni</string>
+  <string name="licence_expires_tomorrow">La tua Licenza Professionale scadrà domani</string>
+  <string name="licence_expires_today">La tua Licenza Professionale scade oggi</string>
+  <string name="licence_expired_yesterday">La tua Licenza Professionale è scaduta ieri</string>
+  <string name="licence_has_expired_n_days">La tua Licenza Professionale è scaduta %d giorni fa</string>
   <string name="pref_category_title_privacy">Vita privata</string>
   <string name="pref_ad_consent_title">Annunci personalizzati</string>
   <string name="ad_consent_non_personalized">Pubblicità non personalizzate</string>
@@ -758,7 +760,7 @@
   <string name="credit_limit">Limite di credito</string>
   <string name="clear_all_filters">Cancella tutti i filtri</string>
   <string name="pref_scroll_to_current_date_summary">All\'avvio dell\'app, scorrere l\'elenco delle transazioni sulla data corrente</string>
-  <string name="professional_key_fallback_info">Una sottoscrizione alla Chiave Professionale che è stata attiva per almeno un anno e non viene rinnovata, sarà trasformata automaticamente in una Chiave Ampliata illimitata.</string>
+  <string name="professional_key_fallback_info">Una sottoscrizione alla Licenza Professionale che è stata attiva per almeno un anno e non viene rinnovata, sarà trasformata automaticamente in una Licenza Funzionalità Estese illimitata.</string>
   <string name="menu_budget">Bilancio</string>
   <string name="dialog_title_new_budget">Nuovo budget</string>
   <string name="dialog_title_edit_budget">Modifica il budget</string>

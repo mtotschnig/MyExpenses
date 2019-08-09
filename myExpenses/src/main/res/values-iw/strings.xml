@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">אין עסקאות לייצוא.</string>
   <string name="dialog_command_disabled_distribution">לא בוצעו עסקאות ממופות לקטגוריות בחשבון זה.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">נסה</string>
   <string name="dialog_contrib_no_usages_left">לא נשארו עוד שימושים בחינם.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s היא תכונת פרימיום (%2$s).</string>
@@ -630,6 +631,7 @@
   <string name="all_contrib_key_features">כל התכונות של מפתח Contrib</string>
   <string name="all_extended_key_features">כל התכונות של מפתח מורחב</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">שדרג</string>
   <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
   <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
   <string name="auto_backup_cloud_create_backend">יצירת backend סינכרון ממסך ההגדרות הראשי.</string>

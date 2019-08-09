@@ -82,7 +82,7 @@
     </string-array>
     <string-array name="whats_new_282">
         <item>Modelli e piani per le operazioni frazionate</item>
-        <item>Introduzione della Chiave di licenza Professionale</item>
+        <item>Introduzione della Licenza Professionale</item>
         <item>I widget della schermata iniziale si adattano alle dimensioni del carattere preferite dall\'utente</item>
     </string-array>
     <string-array name="whats_new_281">
@@ -93,7 +93,7 @@
         <item>Traduzione ebraica</item>
         <item>Selettore per il colore dell\'account personalizzato</item>
     </string-array>
-    <string name="bug_fixes">Bug fixes</string>
+    <string name="bug_fixes">Correzione di bug</string>
     <string name="performance_enhancement">Miglioramento delle prestazioni</string>
     <string name="stability_improvements">Miglioramenti della stabilità</string>
 </resources>

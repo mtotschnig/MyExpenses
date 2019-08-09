@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
   <string name="dialog_command_disabled_distribution">Ninguna transacción han sido asignada con categorías en esta cuenta.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Intentar</string>
   <string name="dialog_contrib_no_usages_left">Límite de uso alcanzado.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s es una característica premium (%2$s).</string>
@@ -612,6 +613,7 @@
   <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
   <string name="all_extended_key_features">Todas las características de la llave Extendida</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Actualizar</string>
   <string name="pref_backup_cloud_title">Guardar con el servicio de sincronización</string>
   <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
   <string name="auto_backup_cloud_create_backend">Crear un servicio de sincronización desde la pantalla de configuración principal.</string>
