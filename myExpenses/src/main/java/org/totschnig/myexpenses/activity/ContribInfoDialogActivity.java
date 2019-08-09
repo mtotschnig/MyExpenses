@@ -305,6 +305,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
     Timber.d("onActivityResult() requestCode: %d resultCode: %d data: %s", requestCode, resultCode, data);
 
     // Pass on the activity result to the helper for handling
