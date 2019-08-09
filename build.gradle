@@ -29,9 +29,9 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 28
+    compileSdkVersion = 29
     minSdkVersion = 15
-    targetSdkVersion = 28
+    targetSdkVersion = 29
     espressoVersion = "3.2.0"
     androidSupportTestVersion = "1.2.0"
     daggerVersion = "2.23.1"
@@ -39,4 +39,8 @@ ext {
     acraVersion = "5.1.2"
     butterknifeVersion = "10.1.0"
     robolectricVersion = "4.2.1"
+    roomVersion = "2.1.0"
+    archLifecycleVersion = '2.0.0'
+    androidxArchVersion = '2.0.1'
+    coroutines = '1.2.2'
 }
