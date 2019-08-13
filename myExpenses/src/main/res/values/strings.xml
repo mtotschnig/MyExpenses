@@ -848,4 +848,5 @@
     <string name="roadmap_vote">Roadmap Vote</string>
     <string name="warning_account_for_transaction_is_closed">At least one of the selected transactions can not be edited:</string>
     <string name="object_sealed">Object refers to a closed account.</string>
+    <string name="content_description_download_exchange_rate">Download exchange rate</string>
 </resources>

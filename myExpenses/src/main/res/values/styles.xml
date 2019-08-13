@@ -282,10 +282,7 @@
     <style name="OnboardingSpinner">
         <item name="android:layout_marginLeft">-8dp</item>
     </style>
-
-    <integer name="exchange_rate_orientation">1</integer><!-- vertical -->
-
-
+    
     <style name="MyTextAppearanceSubhead" parent="@style/TextAppearance.AppCompat.Subhead">
         <item name="android:textSize">?textSizeNormal</item>
     </style>

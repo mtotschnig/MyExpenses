@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.io.Serializable;
@@ -129,6 +130,7 @@ public class AccountEdit extends AmountActivity implements
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
 
     ButterKnife.bind(this);
+    mExchangeRateEdit.setViewModel(ViewModelProviders.of(this).get(ExchangeRateViewModel.class));
 
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
@@ -161,7 +163,9 @@ public class AccountEdit extends AmountActivity implements
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.addAll(currencies);
-      mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
+      if (savedInstanceState == null) {
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
+      }
     });
     currencyViewModel.loadCurrencies();
   }
@@ -241,7 +245,7 @@ public class AccountEdit extends AmountActivity implements
     final boolean isHomeAccount = currencyUnit.code().equals(homeCurrencyPref);
     exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
-      mExchangeRateEdit.setSymbols(currencyUnit.symbol(), currencyContext.get(homeCurrencyPref).symbol());
+      mExchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
       mExchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
           mAccount.getExchangeRate() : 1));
     }

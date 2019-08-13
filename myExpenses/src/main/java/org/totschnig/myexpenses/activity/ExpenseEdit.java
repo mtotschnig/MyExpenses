@@ -107,6 +107,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.ExpenseEditViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod;
@@ -377,6 +378,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     });
     ButterKnife.bind(this);
+    mExchangeRateEdit.setViewModel(ViewModelProviders.of(this).get(ExchangeRateViewModel.class));
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       originalInput.setCurrencies(currencies, currencyContext);
@@ -1820,14 +1822,14 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configureAccountDependent(Account account) {
-    final String symbol = account.getCurrencyUnit().symbol();
-    addCurrencyToInput(mAmountLabel, amountInput, symbol, R.string.amount);
+    final CurrencyUnit currencyUnit = account.getCurrencyUnit();
+    addCurrencyToInput(mAmountLabel, amountInput, currencyUnit.symbol(), R.string.amount);
     if (hasHomeCurrency(account)) {
       equivalentAmountRow.setVisibility(View.GONE);
       exchangeRateRow.setVisibility(View.GONE);
       equivalentAmountVisible = false;
     } else {
-      mExchangeRateEdit.setSymbols(symbol, Utils.getHomeCurrency().symbol());
+      mExchangeRateEdit.setCurrencies(currencyUnit, Utils.getHomeCurrency());
     }
     configureDateInput(account);
   }
@@ -1888,12 +1890,10 @@ public class ExpenseEdit extends AmountActivity implements
     final boolean isSame = currency.equals(transferAccountCurrencyUnit);
     setVisibility(transferAmountRow, !isSame);
     setVisibility(exchangeRateRow, !isSame && !(mTransaction instanceof Template));
-    final String symbol2 = transferAccountCurrencyUnit.symbol();
     //noinspection SetTextI18n
-    addCurrencyToInput(transferAmountLabel, transferInput, symbol2, R.string.amount);
+    addCurrencyToInput(transferAmountLabel, transferInput, transferAccountCurrencyUnit.symbol(), R.string.amount);
     transferInput.setFractionDigits(transferAccountCurrencyUnit.fractionDigits());
-    final String symbol1 = currency.symbol();
-    mExchangeRateEdit.setSymbols(symbol1, symbol2);
+    mExchangeRateEdit.setCurrencies(currency, transferAccountCurrencyUnit);
 
     Bundle bundle = new Bundle(2);
     bundle.putStringArray(KEY_CURRENCY, new String[]{currency.code(), transferAccountCurrencyUnit.code()});

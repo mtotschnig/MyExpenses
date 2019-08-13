@@ -4,6 +4,7 @@ package org.totschnig.myexpenses.di;
 import android.net.TrafficStats;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.retrofit.ExchangeRatesApi;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ import okhttp3.EventListener;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
@@ -65,5 +68,16 @@ class NetworkModule {
     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
     loggingInterceptor.setLevel(BuildConfig.DEBUG ? BODY : BASIC);
     return loggingInterceptor;
+  }
+
+  @Provides
+  @Singleton
+  static ExchangeRatesApi provideExchangeRatesApi(OkHttpClient.Builder builder) {
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl("https://api.exchangeratesapi.io/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(builder.build())
+        .build();
+    return retrofit.create(ExchangeRatesApi.class);
   }
 }

@@ -6,20 +6,25 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LifecycleOwner;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ExchangeRateEdit extends LinearLayout {
+public class ExchangeRateEdit extends ConstraintLayout {
 
   public interface ExchangeRateWatcher {
     void afterExchangeRateChanged(BigDecimal rate, BigDecimal inverse);
@@ -35,17 +40,36 @@ public class ExchangeRateEdit extends LinearLayout {
   ViewGroup rate2Container;
   AmountEditText rate2Edit;
 
-  boolean blockWatcher = false;
+
+  private ExchangeRateWatcher exchangeRateWatcher;
+  private boolean blockWatcher = false;
+  private ExchangeRateViewModel viewModel;
+  private CurrencyUnit firstCurrency, secondCurrency;
 
   public void setExchangeRateWatcher(ExchangeRateWatcher exchangeRateWatcher) {
     this.exchangeRateWatcher = exchangeRateWatcher;
   }
 
+  public void setViewModel(ExchangeRateViewModel viewModel) {
+    this.viewModel = viewModel;
+    viewModel.getData().observe((LifecycleOwner) getContext(), result -> {
+      rate2Edit.setAmount(BigDecimal.valueOf(result));
+    });
+    viewModel.getError().observe((LifecycleOwner) getContext(), result -> {
+      Toast.makeText(getContext(), result, Toast.LENGTH_LONG).show();
+    });
+  }
+
+  @OnClick(R.id.iv_download)
+  void loadRate() {
+    if (firstCurrency != null && secondCurrency != null && viewModel != null) {
+      viewModel.loadExchangeRate(firstCurrency.code(), secondCurrency.code());
+    }
+  }
+
   public void setBlockWatcher(boolean blockWatcher) {
     this.blockWatcher = blockWatcher;
   }
-
-  private ExchangeRateWatcher exchangeRateWatcher;
 
   public ExchangeRateEdit(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -58,7 +82,7 @@ public class ExchangeRateEdit extends LinearLayout {
     rate2Edit.setId(R.id.ExchangeRateEdit2);
     rate1Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate2Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
-    rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(true  ));
+    rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
     rate2Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(false));
   }
 
@@ -69,10 +93,17 @@ public class ExchangeRateEdit extends LinearLayout {
    */
   public void calculateAndSetRate(@Nullable BigDecimal amount1, @Nullable BigDecimal amount2) {
     blockWatcher = true;
-    BigDecimal exchangeRate = (amount1 != null && amount2 != null && amount1.compareTo(nullValue) != 0) ?
-        amount2.divide(amount1, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-    BigDecimal inverseExchangeRate = (amount1 != null && amount2 != null && amount2.compareTo(nullValue) != 0) ?
-            amount1.divide(amount2, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
+    BigDecimal exchangeRate;
+    BigDecimal inverseExchangeRate;
+    if (amount1 != null && amount2 != null && amount1.compareTo(nullValue) != 0 && amount2.compareTo(nullValue) != 0) {
+      final BigDecimal a2Abs = amount2.abs();
+      final BigDecimal a1Abs = amount1.abs();
+      exchangeRate = a2Abs.divide(a1Abs, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN);
+      inverseExchangeRate = a1Abs.divide(a2Abs, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN);
+    } else {
+      exchangeRate = nullValue;
+      inverseExchangeRate = nullValue;
+    }
     rate1Edit.setAmount(exchangeRate);
     rate2Edit.setAmount(inverseExchangeRate);
     blockWatcher = false;
@@ -89,9 +120,11 @@ public class ExchangeRateEdit extends LinearLayout {
     blockWatcher = false;
   }
 
-  public void setSymbols(String symbol1, String symbol2) {
-    setSymbols(rate1Container, symbol1, symbol2);
-    setSymbols(rate2Container, symbol2, symbol1);
+  public void setCurrencies(CurrencyUnit first, CurrencyUnit second) {
+    this.firstCurrency = first;
+    this.secondCurrency = second;
+    setSymbols(rate1Container, first.symbol(), second.symbol());
+    setSymbols(rate2Container, second.symbol(), first.symbol());
   }
 
   private void setSymbols(ViewGroup group, String symbol1, String symbol2) {

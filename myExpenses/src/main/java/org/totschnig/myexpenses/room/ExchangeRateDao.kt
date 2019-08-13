@@ -7,8 +7,8 @@ import org.threeten.bp.LocalDate
 
 @Dao
 interface ExchangeRateDao {
-    @Query("SELECT * from exchange_rates WHERE from_currency = :from AND to_currency = :to AND date = :date ")
-    suspend fun getRate(from: String, to: String, date: LocalDate): ExchangeRate?
+    @Query("SELECT rate from exchange_rates WHERE from_currency = :from AND to_currency = :to AND date = :date ")
+    suspend fun getRate(from: String, to: String, date: LocalDate): Float?
 
 
     @Insert

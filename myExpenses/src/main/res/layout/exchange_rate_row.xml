@@ -15,6 +15,5 @@
 
     <org.totschnig.myexpenses.ui.ExchangeRateEdit
         android:id="@+id/ExchangeRate"
-        android:orientation="@integer/exchange_rate_orientation"
         style="@style/FormField"/>
 </TableRow>
