@@ -98,8 +98,8 @@ public class ExchangeRateEdit extends ConstraintLayout {
     if (amount1 != null && amount2 != null && amount1.compareTo(nullValue) != 0 && amount2.compareTo(nullValue) != 0) {
       final BigDecimal a2Abs = amount2.abs();
       final BigDecimal a1Abs = amount1.abs();
-      exchangeRate = a2Abs.divide(a1Abs, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN);
-      inverseExchangeRate = a1Abs.divide(a2Abs, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN);
+      exchangeRate = a2Abs.divide(a1Abs, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.HALF_EVEN);
+      inverseExchangeRate = a1Abs.divide(a2Abs, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.HALF_EVEN);
     } else {
       exchangeRate = nullValue;
       inverseExchangeRate = nullValue;
@@ -177,7 +177,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
 
   private BigDecimal calculateInverse(BigDecimal input) {
     return input.compareTo(nullValue) != 0 ?
-        new BigDecimal(1).divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
+        new BigDecimal(1).divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.HALF_EVEN) :
         nullValue;
   }
 
