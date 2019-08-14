@@ -337,6 +337,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private ExpenseEditViewModel viewModel;
   private CurrencyViewModel currencyViewModel;
+  private ExchangeRateViewModel exchangeRateViewModel;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
@@ -378,7 +379,8 @@ public class ExpenseEdit extends AmountActivity implements
       }
     });
     ButterKnife.bind(this);
-    mExchangeRateEdit.setViewModel(ViewModelProviders.of(this).get(ExchangeRateViewModel.class));
+    exchangeRateViewModel = ViewModelProviders.of(this).get(ExchangeRateViewModel.class);
+    mExchangeRateEdit.setViewModel(exchangeRateViewModel);
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       originalInput.setCurrencies(currencies, currencyContext);
@@ -881,10 +883,15 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onValueSet(View view) {
     setDirty();
-    if (areDatesLinked()) {
-      DateButton self = ((DateButton) view);
-      DateButton other = view.getId() == R.id.Date2Button ? dateEdit : date2Edit;
-      other.setDate(self.getDate());
+    if (view instanceof DateButton) {
+      LocalDate date = ((DateButton) view).getDate();
+      if (view.getId() == R.id.DateButton) {
+        exchangeRateViewModel.setDate(date);
+      }
+      if (areDatesLinked()) {
+        DateButton other = view.getId() == R.id.Date2Button ? dateEdit : date2Edit;
+        other.setDate(date);
+      }
     }
   }
 

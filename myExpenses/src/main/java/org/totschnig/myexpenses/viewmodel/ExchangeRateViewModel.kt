@@ -17,7 +17,7 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
     private val repository: ExchangeRateRepository
     private val viewModelJob = SupervisorJob()
     private val bgScope = CoroutineScope(Dispatchers.Default + viewModelJob)
-    private var date = LocalDate.now()
+    var date: LocalDate = LocalDate.now()
 
     init {
         repository = ExchangeRateRepository(
