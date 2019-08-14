@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
+import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.room.ExchangeRateDatabase
@@ -16,6 +17,7 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
     private val repository: ExchangeRateRepository
     private val viewModelJob = SupervisorJob()
     private val bgScope = CoroutineScope(Dispatchers.Default + viewModelJob)
+    private var date = LocalDate.now()
 
     init {
         repository = ExchangeRateRepository(
@@ -29,7 +31,7 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
     fun loadExchangeRate(other: String, base: String) {
         bgScope.launch {
             try {
-                val rate = repository.loadExchangeRate(other, base)
+                val rate = repository.loadExchangeRate(other, base, date)
                 withContext(Dispatchers.Main) {
                     exchangeRate.postValue(rate)
                 }
@@ -38,7 +40,6 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
                     error.postValue(e.message)
                 }
             }
-
         }
     }
 

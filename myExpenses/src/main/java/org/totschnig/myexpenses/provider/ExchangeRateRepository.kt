@@ -2,26 +2,36 @@ package org.totschnig.myexpenses.provider
 
 import org.json.JSONObject
 import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.retrofit.ExchangeRatesApi
 import org.totschnig.myexpenses.room.ExchangeRate
 import org.totschnig.myexpenses.room.ExchangeRateDao
+import timber.log.Timber
 import java.io.IOException
 
 class ExchangeRateRepository(val dao: ExchangeRateDao, val api: ExchangeRatesApi) {
     @Throws(IOException::class)
-    suspend fun loadExchangeRate(other: String, base: String): Float {
-        val date = LocalDate.now()
-        var rate = dao.getRate(base, other, date)
+    suspend fun loadExchangeRate(other: String, base: String, date: LocalDate): Float {
+        val rate = dao.getRate(base, other, date)
         val error : String?
         if (rate != null) {
             return rate
         } else {
-            val response = api.getRate(other, base).execute()
+            val response = api.getRate(date, other, base).execute()
+            if (BuildConfig.DEBUG) {
+                if (response.raw().cacheResponse() != null) {
+                    Timber.i("Response was cached")
+                }
+                if (response.raw().networkResponse() != null) {
+                    Timber.i("Response was from network")
+                }
+            }
             if (response.isSuccessful) {
-                rate = response.body()?.rates?.get(other)
-                rate?.let {
-                    dao.insert(ExchangeRate(base, other, date, it))
-                    return it
+                response.body()?.let { result ->
+                    result.rates.get(other)?.let {
+                        dao.insert(ExchangeRate(base, other, result.date, it))
+                        return it
+                    }
                 }
                 error = "Unable to retrieve rate"
             } else {
