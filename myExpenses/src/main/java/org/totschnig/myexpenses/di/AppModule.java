@@ -77,7 +77,6 @@ public class AppModule {
     return new PrefHandlerImpl(context);
   }
 
-
   @Provides
   @Singleton
   static CurrencyContext provideCurrencyContext(PrefHandler prefHandler) {

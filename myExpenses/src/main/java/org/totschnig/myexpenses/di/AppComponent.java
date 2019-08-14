@@ -24,8 +24,8 @@ import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.retrofit.ExchangeRatesApi;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
@@ -108,7 +108,7 @@ public interface AppComponent {
 
   CurrencyContext currencyContext();
 
-  ExchangeRatesApi exchangeRatesApi();
+  ExchangeRateRepository exchangeRateRepository();
 
   void inject(DonateDialogFragment donateDialogFragment);
 

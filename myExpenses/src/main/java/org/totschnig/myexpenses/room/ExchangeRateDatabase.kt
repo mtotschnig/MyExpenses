@@ -16,6 +16,7 @@ abstract class ExchangeRateDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: ExchangeRateDatabase? = null
 
+        @JvmStatic
         fun getDatabase(context: Context): ExchangeRateDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {

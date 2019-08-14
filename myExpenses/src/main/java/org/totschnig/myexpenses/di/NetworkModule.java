@@ -13,7 +13,11 @@ import com.google.gson.JsonParseException;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.provider.ExchangeRateRepository;
+import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.retrofit.ExchangeRatesApi;
+import org.totschnig.myexpenses.room.ExchangeRateDatabase;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
 
 import java.io.IOException;
@@ -100,6 +104,19 @@ class NetworkModule {
         .client(builder.build())
         .build();
     return retrofit.create(ExchangeRatesApi.class);
+  }
+
+  @Provides
+  @Singleton
+  static ExchangeRateService provideExchangeRateService(ExchangeRatesApi api) {
+    return new ExchangeRateService(api);
+  }
+
+  @Provides
+  @Singleton
+  static ExchangeRateRepository provideExchangeRateRepository(
+      MyApplication application, ExchangeRateService service, PrefHandler prefHandler) {
+    return new ExchangeRateRepository(ExchangeRateDatabase.getDatabase(application).exchangeRateDao(), prefHandler, service);
   }
 
   private static class DateTimeDeserializer implements JsonDeserializer<LocalDate> {

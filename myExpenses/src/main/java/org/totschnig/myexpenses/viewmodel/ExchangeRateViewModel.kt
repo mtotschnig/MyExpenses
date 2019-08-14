@@ -8,7 +8,6 @@ import kotlinx.coroutines.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
-import org.totschnig.myexpenses.room.ExchangeRateDatabase
 import java.io.IOException
 
 class ExchangeRateViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,9 +19,7 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
     var date: LocalDate = LocalDate.now()
 
     init {
-        repository = ExchangeRateRepository(
-                ExchangeRateDatabase.getDatabase(application).exchangeRateDao(),
-                (application as MyApplication).appComponent.exchangeRatesApi())
+        repository = (application as MyApplication).appComponent.exchangeRateRepository()
     }
 
     fun getData(): LiveData<Float> = exchangeRate
