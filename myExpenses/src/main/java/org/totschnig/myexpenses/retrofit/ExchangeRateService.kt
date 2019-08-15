@@ -89,12 +89,13 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
                 Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()).toLocalDate()
     }
 
-    fun configure(prefHandler: @NotNull PrefHandler) {
+    fun configure(prefHandler: @NotNull PrefHandler): ExchangeRateSource {
         source = try {
             ExchangeRateSource.valueOf(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, ExchangeRateSource.RATESAPI.name))
         } catch (e: IllegalArgumentException) {
             ExchangeRateSource.RATESAPI
         }
-        appId = prefHandler.getString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "");
+        appId = prefHandler.getString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
+        return source;
     }
 }

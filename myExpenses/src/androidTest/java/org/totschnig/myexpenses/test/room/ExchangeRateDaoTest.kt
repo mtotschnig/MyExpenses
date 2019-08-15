@@ -60,17 +60,17 @@ class ExchangeRateDaoTest {
     @Throws(InterruptedException::class)
     fun getProductsWhenNoProductInserted() {
         runBlocking {
-            assertNull(exchangeRateDao.getRate("EUR", "USD", localDate))
+            assertNull(exchangeRateDao.getRate("EUR", "USD", localDate, "RATESAPI"))
         }
     }
 
     @Test
     @Throws(InterruptedException::class)
     fun getProductsAfterInserted() {
-        val exchangeRate = ExchangeRate("EUR", "USD", localDate, 1.444F)
+        val exchangeRate = ExchangeRate("EUR", "USD", localDate, 1.444F, "RATESAPI")
         runBlocking {
             exchangeRateDao.insert(exchangeRate)
-            assertEquals(1.444F, exchangeRateDao.getRate("EUR", "USD", localDate))
+            assertEquals(1.444F, exchangeRateDao.getRate("EUR", "USD", localDate, "RATESAPI"))
         }
     }
 }
