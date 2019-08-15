@@ -6,9 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-data class Result(val rates: Map<String, Float>, val base: String, val date: LocalDate)
-
-interface ExchangeRatesApi {
+interface RatesApi {
     @GET("api/{date}")
     fun getRate(@Path("date") date: LocalDate, @Query("symbols") symbol: String, @Query("base") base: String): Call<Result>
+    data class Result(val rates: Map<String, Float>, val base: String, val date: LocalDate)
 }

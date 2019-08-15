@@ -16,7 +16,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
-import org.totschnig.myexpenses.retrofit.ExchangeRatesApi;
+import org.totschnig.myexpenses.retrofit.OpenExchangeRatesApi;
+import org.totschnig.myexpenses.retrofit.RatesApi;
 import org.totschnig.myexpenses.room.ExchangeRateDatabase;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
 
@@ -95,21 +96,38 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  static ExchangeRatesApi provideExchangeRatesApi(OkHttpClient.Builder builder, Gson gson, MyApplication context) {
-    Cache responseCache = new Cache(context.getCacheDir(), 1024 * 1024);
-    builder.cache(responseCache);
+  static Cache provideCache(MyApplication context) {
+    return new Cache(context.getCacheDir(), 1024 * 1024);
+  }
+
+  @Provides
+  @Singleton
+  static RatesApi provideRatesApi(OkHttpClient.Builder builder, Gson gson, Cache cache) {
+    builder.cache(cache);
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("https://api.ratesapi.io/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(builder.build())
         .build();
-    return retrofit.create(ExchangeRatesApi.class);
+    return retrofit.create(RatesApi.class);
   }
 
   @Provides
   @Singleton
-  static ExchangeRateService provideExchangeRateService(ExchangeRatesApi api) {
-    return new ExchangeRateService(api);
+  static OpenExchangeRatesApi provideOpenExchangeRatesApi(OkHttpClient.Builder builder, Gson gson, Cache cache) {
+    builder.cache(cache);
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl("https://openexchangerates.org/")
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .client(builder.build())
+        .build();
+    return retrofit.create(OpenExchangeRatesApi.class);
+  }
+
+  @Provides
+  @Singleton
+  static ExchangeRateService provideExchangeRateService(RatesApi api1, OpenExchangeRatesApi api2) {
+    return new ExchangeRateService(api1, api2);
   }
 
   @Provides
