@@ -12,7 +12,7 @@ import java.io.IOException
 
 class ExchangeRateViewModel(application: Application) : AndroidViewModel(application) {
     private val exchangeRate: MutableLiveData<Float> = MutableLiveData()
-    private val error: MutableLiveData<String> = MutableLiveData()
+    private val error: MutableLiveData<Exception> = MutableLiveData()
     private val repository: ExchangeRateRepository
     private val viewModelJob = SupervisorJob()
     private val bgScope = CoroutineScope(Dispatchers.Default + viewModelJob)
@@ -23,7 +23,7 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun getData(): LiveData<Float> = exchangeRate
-    fun getError(): LiveData<String> = error
+    fun getError(): LiveData<Exception> = error
 
     fun loadExchangeRate(other: String, base: String) {
         bgScope.launch {
@@ -32,9 +32,15 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
                 withContext(Dispatchers.Main) {
                     exchangeRate.postValue(rate)
                 }
-            } catch(e: IOException) {
-                withContext(Dispatchers.Main) {
-                    error.postValue(e.message)
+            } catch(e: Exception) {
+                when(e) {
+                    is IOException,
+                    is UnsupportedOperationException -> {
+                        withContext(Dispatchers.Main) {
+                            error.postValue(e)
+                        }
+                    }
+                    else -> throw e
                 }
             }
         }

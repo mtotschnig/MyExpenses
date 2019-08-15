@@ -11,6 +11,10 @@ enum class ExchangeRateSource {
 }
 
 class ExchangeRateService(val ratesApi: ExchangeRatesApi) {
+    val ECP_SUPPORTED_CURRENCIES = arrayOf(
+            "USD", "JPY", "BGN", "CZK", "DKK", "GBP", "HUF", "PLN", "RON", "SEK", "CHF", "ISK", "NOK",
+            "HRK", "RUB", "TRY", "AUD", "BRL", "CAD", "CNY", "HKD", "IDR", "ILS", "INR", "KRW", "MXN",
+            "MYR", "NZD", "PHP", "SGD", "THB", "ZAR")
     fun getRate(date: LocalDate, symbol: String, base: String, source: ExchangeRateSource): Pair<LocalDate, Float> = when (source) {
         ExchangeRateSource.RATESAPI -> {
             val error: String
@@ -31,9 +35,13 @@ class ExchangeRateService(val ratesApi: ExchangeRatesApi) {
                 }
                 error = "Unable to retrieve rate"
             } else {
-                error = response.errorBody()?.let {
-                    JSONObject(it.string()).getString("error")
-                } ?: "Unknown Error"
+                if (symbol in ECP_SUPPORTED_CURRENCIES && base in ECP_SUPPORTED_CURRENCIES) {
+                    error = response.errorBody()?.let {
+                        JSONObject(it.string()).getString("error")
+                    } ?: "Unknown Error"
+                } else {
+                    throw UnsupportedOperationException()
+                }
             }
             throw IOException(error)
         }

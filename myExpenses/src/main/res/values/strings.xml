@@ -849,4 +849,5 @@
     <string name="warning_account_for_transaction_is_closed">At least one of the selected transactions can not be edited:</string>
     <string name="object_sealed">Object refers to a closed account.</string>
     <string name="content_description_download_exchange_rate">Download exchange rate</string>
+    <string name="exchange_rate_not_supported">The configured exchange rate provider does not provide the rate %1$s : %2$s. You can try to select a different one in the settings.</string>
 </resources>

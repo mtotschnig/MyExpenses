@@ -1,15 +1,18 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
@@ -55,8 +58,10 @@ public class ExchangeRateEdit extends ConstraintLayout {
     viewModel.getData().observe((LifecycleOwner) getContext(), result -> {
       rate2Edit.setAmount(BigDecimal.valueOf(result));
     });
-    viewModel.getError().observe((LifecycleOwner) getContext(), result -> {
-      Toast.makeText(getContext(), result, Toast.LENGTH_LONG).show();
+    viewModel.getError().observe((LifecycleOwner) getContext(), exception -> {
+      complain(exception instanceof UnsupportedOperationException ? getContext().getString(
+          R.string.exchange_rate_not_supported, firstCurrency.code(), secondCurrency.code()) :
+          exception.getMessage());
     });
   }
 
@@ -88,6 +93,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
 
   /**
    * does not trigger call to registered ExchangeRateWatcher calculates rates based on two values
+   *
    * @param amount1
    * @param amount2
    */
@@ -111,6 +117,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
 
   /**
    * does not trigger call to registered ExchangeRateWatcher; calculates inverse rate, and sets both values
+   *
    * @param rate
    */
   public void setRate(@NonNull BigDecimal rate) {
@@ -185,5 +192,24 @@ public class ExchangeRateEdit extends ConstraintLayout {
   public void setOnFocusChangeListener(OnFocusChangeListener l) {
     rate1Edit.setOnFocusChangeListener(l);
     rate2Edit.setOnFocusChangeListener(l);
+  }
+
+  private void complain(String message) {
+    ProtectedFragmentActivity activity = getActivity();
+    if (activity != null) {
+      activity.showSnackbar(message, Snackbar.LENGTH_LONG);
+    }
+  }
+
+  @Nullable
+  private ProtectedFragmentActivity getActivity() {
+    Context context = getContext();
+    while (context instanceof ContextWrapper) {
+      if (context instanceof ProtectedFragmentActivity) {
+        return (ProtectedFragmentActivity) context;
+      }
+      context = ((ContextWrapper) context).getBaseContext();
+    }
+    return null;
   }
 }
