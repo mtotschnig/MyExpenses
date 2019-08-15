@@ -8,7 +8,6 @@ import kotlinx.coroutines.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
-import java.io.IOException
 
 class ExchangeRateViewModel(application: Application) : AndroidViewModel(application) {
     private val exchangeRate: MutableLiveData<Float> = MutableLiveData()
@@ -33,14 +32,8 @@ class ExchangeRateViewModel(application: Application) : AndroidViewModel(applica
                     exchangeRate.postValue(rate)
                 }
             } catch(e: Exception) {
-                when(e) {
-                    is IOException,
-                    is UnsupportedOperationException -> {
-                        withContext(Dispatchers.Main) {
-                            error.postValue(e)
-                        }
-                    }
-                    else -> throw e
+                withContext(Dispatchers.Main) {
+                    error.postValue(e)
                 }
             }
         }

@@ -850,4 +850,8 @@
     <string name="object_sealed">Object refers to a closed account.</string>
     <string name="content_description_download_exchange_rate">Download exchange rate</string>
     <string name="exchange_rate_not_supported">The configured exchange rate provider does not provide the rate %1$s : %2$s. You can try to select a different one in the settings.</string>
+    <string name="pref_category_exchange_rates">Exchange rates</string>
+    <string name="pref_exchange_rate_provider_summary">Select provider to download exchange rates</string>
+    <string name="pref_exchange_rate_provider_title">Exchange Rate Provider</string>
+    <string name="pref_openexchangerates_app_id_summary">Please register a free account on OpenExchangeRates and provide your App ID</string>
 </resources>

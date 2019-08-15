@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.retrofit.MissingAppIdException;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
 import java.math.BigDecimal;
@@ -61,7 +62,8 @@ public class ExchangeRateEdit extends ConstraintLayout {
     viewModel.getError().observe((LifecycleOwner) getContext(), exception -> {
       complain(exception instanceof UnsupportedOperationException ? getContext().getString(
           R.string.exchange_rate_not_supported, firstCurrency.code(), secondCurrency.code()) :
-          exception.getMessage());
+          (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
+              exception.getMessage()));
     });
   }
 

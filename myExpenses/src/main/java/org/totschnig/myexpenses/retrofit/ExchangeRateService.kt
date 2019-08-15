@@ -7,6 +7,8 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
@@ -15,13 +17,16 @@ enum class ExchangeRateSource {
     RATESAPI, OPENEXCHANGERATES;
 }
 
+class MissingAppIdException : java.lang.IllegalStateException()
+
 class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRatesApi: @NotNull OpenExchangeRatesApi) {
     val ECP_SUPPORTED_CURRENCIES = arrayOf(
             "USD", "JPY", "BGN", "CZK", "DKK", "GBP", "HUF", "PLN", "RON", "SEK", "CHF", "ISK", "NOK",
             "HRK", "RUB", "TRY", "AUD", "BRL", "CAD", "CNY", "HKD", "IDR", "ILS", "INR", "KRW", "MXN",
             "MYR", "NZD", "PHP", "SGD", "THB", "ZAR")
-    val APP_ID = "TODO"
-    fun getRate(date: LocalDate, symbol: String, base: String, source: ExchangeRateSource): Pair<LocalDate, Float> = when (source) {
+    var appId = ""
+    var source = ExchangeRateSource.RATESAPI
+    fun getRate(date: LocalDate, symbol: String, base: String): Pair<LocalDate, Float> = when (source) {
         ExchangeRateSource.RATESAPI -> {
             val error: String
             val response = ratesApi.getRate(date, symbol, base).execute()
@@ -45,9 +50,10 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
             throw IOException(error)
         }
         ExchangeRateSource.OPENEXCHANGERATES -> {
+            if (appId.equals("")) throw MissingAppIdException()
             val error: String
             val response = openExchangeRatesApi.getRate(date,
-                    symbol+","+base, APP_ID).execute()
+                    symbol + "," + base, appId).execute()
             log(response)
             if (response.isSuccessful) {
                 response.body()?.let { result ->
@@ -81,5 +87,14 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
     fun toLocalDate(timestamp: Long): LocalDate {
         return ZonedDateTime.ofInstant(
                 Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()).toLocalDate()
+    }
+
+    fun configure(prefHandler: @NotNull PrefHandler) {
+        source = try {
+            ExchangeRateSource.valueOf(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, ExchangeRateSource.RATESAPI.name))
+        } catch (e: IllegalArgumentException) {
+            ExchangeRateSource.RATESAPI
+        }
+        appId = prefHandler.getString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "");
     }
 }

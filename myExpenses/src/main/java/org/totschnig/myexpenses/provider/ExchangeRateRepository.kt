@@ -13,8 +13,9 @@ class ExchangeRateRepository(val dao: @NotNull ExchangeRateDao, val prefHandler:
                              val service: @NotNull ExchangeRateService) {
     @Throws(IOException::class)
     suspend fun loadExchangeRate(other: String, base: String, date: LocalDate): Float {
+        service.configure(prefHandler)
         return dao.getRate(base, other, date)
-                ?: service.getRate(date, other, base, ExchangeRateSource.RATESAPI).let {
+                ?: service.getRate(date, other, base).let {
                     dao.insert(ExchangeRate(base, other, it.first, it.second))
                     it.second
                 }
