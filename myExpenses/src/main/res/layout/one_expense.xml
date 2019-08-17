@@ -91,7 +91,9 @@
                     style="@style/FormField"
                     android:contentDescription="@string/menu_original_amount"
                     app:withCurrencySelection="true"
-                    app:withTypeSwitch="false"/>
+                    app:withTypeSwitch="false"
+                    app:withExchangeRate="true"/>
+
             </TableRow>
 
             <TableRow
@@ -123,7 +125,8 @@
                     android:id="@+id/EquivalentAmount"
                     style="@style/FormField"
                     android:contentDescription="@string/menu_equivalent_amount"
-                    app:withTypeSwitch="false"/>
+                    app:withTypeSwitch="false"
+                    app:withExchangeRate="true"/>
             </TableRow>
 
             <TableRow

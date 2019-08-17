@@ -319,7 +319,6 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int ACCOUNTS_CURSOR = 3;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
-  public static final int LAST_EXCHANGE_CURSOR = 7;
   public static final int AUTOFILL_CURSOR = 8;
 
   private LoaderManager mManager;
@@ -389,7 +388,6 @@ public class ExpenseEdit extends AmountActivity implements
 
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     amountInput.setTypeEnabled(false);
-    mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
 
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[]{KEY_PAYEE_NAME},
@@ -659,11 +657,9 @@ public class ExpenseEdit extends AmountActivity implements
       });
     }
 
-    amountInput.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
     if (mOperationType == TYPE_TRANSFER) {
+      amountInput.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
       transferInput.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
-    } else if (mIsMainTransaction) {
-      equivalentInput.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
     }
 
     // Spinner for account and transfer account
@@ -807,6 +803,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       if (mTransaction instanceof Transfer) {
+        mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
         if (mTransaction.getId() != 0) {
           setTitle(R.string.menu_edit_transfer);
         }
@@ -866,7 +863,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (equivalentAmountVisible) {
       equivalentAmountRow.setVisibility(View.VISIBLE);
-      exchangeRateRow.setVisibility(View.VISIBLE);
     }
     if (mIsMainTransaction) {
       final CurrencyUnit homeCurrency = Utils.getHomeCurrency();
@@ -1056,11 +1052,10 @@ public class ExpenseEdit extends AmountActivity implements
         equivalentAmountVisible = true;
         supportInvalidateOptionsMenu();
         equivalentAmountRow.setVisibility(View.VISIBLE);
-        exchangeRateRow.setVisibility(View.VISIBLE);
         final Account currentAccount = getCurrentAccount();
         if (validateAmountInput(equivalentInput, false) == null && currentAccount != null) {
           final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
-          mExchangeRateEdit.setRate(rate);
+          //mExchangeRateEdit.setRate(rate);
           isProcessingLinkedAmountInputs = true;
           applyExchangRate(amountInput, equivalentInput, rate);
           isProcessingLinkedAmountInputs = false;
@@ -1156,7 +1151,7 @@ public class ExpenseEdit extends AmountActivity implements
     populateOriginalCurrency();
     if (cachedOrSelf.getEquivalentAmount() != null) {
       equivalentInput.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
-      mExchangeRateEdit.calculateAndSetRate(cachedOrSelf.getAmount().getAmountMajor(), cachedOrSelf.getEquivalentAmount().getAmountMajor());
+      //mExchangeRateEdit.calculateAndSetRate(cachedOrSelf.getAmount().getAmountMajor(), cachedOrSelf.getEquivalentAmount().getAmountMajor());
     }
 
     if (mNewInstance) {
@@ -1833,10 +1828,9 @@ public class ExpenseEdit extends AmountActivity implements
     addCurrencyToInput(mAmountLabel, amountInput, currencyUnit.symbol(), R.string.amount);
     if (hasHomeCurrency(account)) {
       equivalentAmountRow.setVisibility(View.GONE);
-      exchangeRateRow.setVisibility(View.GONE);
       equivalentAmountVisible = false;
     } else {
-      mExchangeRateEdit.setCurrencies(currencyUnit, Utils.getHomeCurrency());
+      //mExchangeRateEdit.setCurrencies(currencyUnit, Utils.getHomeCurrency());
     }
     configureDateInput(account);
   }
@@ -1904,9 +1898,6 @@ public class ExpenseEdit extends AmountActivity implements
 
     Bundle bundle = new Bundle(2);
     bundle.putStringArray(KEY_CURRENCY, new String[]{currency.code(), transferAccountCurrencyUnit.code()});
-    if (!isSame && !mSavedInstance && (mNewInstance || mPlanInstanceId == -1) && !(mTransaction instanceof Template)) {
-      mManager.restartLoader(LAST_EXCHANGE_CURSOR, bundle, this);
-    }
   }
 
   private void addCurrencyToInput(TextView label, AmountInput amountInput, String symbol, int textResId) {
@@ -2042,15 +2033,6 @@ public class ExpenseEdit extends AmountActivity implements
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
             null, KEY_SEALED + " = 0", null, null);
-      case LAST_EXCHANGE_CURSOR:
-        String[] currencies = args.getStringArray(KEY_CURRENCY);
-        return new CursorLoader(this,
-            Transaction.CONTENT_URI.buildUpon()
-                .appendPath(TransactionProvider.URI_SEGMENT_LAST_EXCHANGE)
-                .appendPath(currencies[0])
-                .appendPath(currencies[1])
-                .build(),
-            null, null, null, null);
       case AUTOFILL_CURSOR:
         List<String> dataToLoad = new ArrayList<>();
         String autoFillAccountFromPreference = getPrefHandler().getString(AUTO_FILL_ACCOUNT, "never");
@@ -2191,23 +2173,6 @@ public class ExpenseEdit extends AmountActivity implements
         configureType();
         configureStatusSpinner();
         if (mIsResumed) setupListeners();
-        break;
-      case LAST_EXCHANGE_CURSOR:
-        if (data.moveToFirst()) {
-          final Account transferAccount = getTransferAccount();
-          final Account currentAccount = getCurrentAccount();
-          if (transferAccount == null || currentAccount == null) {
-            return;
-          }
-          final CurrencyUnit currency1 = currentAccount.getCurrencyUnit();
-          final CurrencyUnit currency2 = transferAccount.getCurrencyUnit();
-          if (currency1.code().equals(data.getString(0)) &&
-              currency2.code().equals(data.getString(1))) {
-            BigDecimal amount = new Money(currency1, data.getLong(2)).getAmountMajor();
-            BigDecimal transferAmount = new Money(currency2, data.getLong(3)).getAmountMajor();
-            mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
-          }
-        }
         break;
       case AUTOFILL_CURSOR:
         if (data.moveToFirst()) {
@@ -2493,26 +2458,17 @@ public class ExpenseEdit extends AmountActivity implements
       if (mTransaction instanceof Template) {
         (isMain ? transferInput : amountInput).clear();
       } else if (exchangeRateRow.getVisibility() == View.VISIBLE) {
-        if (mTransaction instanceof Transfer) {
-          int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
-          if (lastExchangeRateRelevantInputs[0] != currentFocus) {
-            lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
-            lastExchangeRateRelevantInputs[0] = currentFocus;
-          }
-          if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
-            applyExchangRate(isMain ? amountInput : transferInput,
-                isMain ? transferInput : amountInput,
-                mExchangeRateEdit.getRate(!isMain));
-          } else {
-            updateExchangeRates(transferInput);
-          }
+        int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
+        if (lastExchangeRateRelevantInputs[0] != currentFocus) {
+          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+          lastExchangeRateRelevantInputs[0] = currentFocus;
+        }
+        if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
+          applyExchangRate(isMain ? amountInput : transferInput,
+              isMain ? transferInput : amountInput,
+              mExchangeRateEdit.getRate(!isMain));
         } else {
-          if (isMain) {
-            applyExchangRate(amountInput, equivalentInput,
-                mExchangeRateEdit.getRate(false));
-          } else {
-            updateExchangeRates(equivalentInput);
-          }
+          updateExchangeRates(transferInput);
         }
       }
       isProcessingLinkedAmountInputs = false;
@@ -2528,25 +2484,20 @@ public class ExpenseEdit extends AmountActivity implements
 
       AmountInput constant, variable;
       BigDecimal exchangeFactor;
-      if (mTransaction instanceof Transfer) {
-        if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
-          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
-          lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
-        }
 
-        if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
-          constant = amountInput;
-          variable = transferInput;
-          exchangeFactor = rate;
-        } else {
-          constant = transferInput;
-          variable = amountInput;
-          exchangeFactor = inverse;
-        }
-      } else {
+      if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
+        lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+        lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
+      }
+
+      if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
         constant = amountInput;
-        variable = equivalentInput;
+        variable = transferInput;
         exchangeFactor = rate;
+      } else {
+        constant = transferInput;
+        variable = amountInput;
+        exchangeFactor = inverse;
       }
 
       applyExchangRate(constant, variable, exchangeFactor);

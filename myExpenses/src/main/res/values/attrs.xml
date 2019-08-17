@@ -37,5 +37,6 @@
     <declare-styleable name="AmountInput">
         <attr name="withTypeSwitch" format="boolean"/>
         <attr name="withCurrencySelection" format="boolean"/>
+        <attr name="withExchangeRate" format="boolean"/>
     </declare-styleable>
 </resources>

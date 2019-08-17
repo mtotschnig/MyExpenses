@@ -1,22 +1,18 @@
 package org.totschnig.myexpenses.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,10 +26,11 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AmountInput extends LinearLayout {
+public class AmountInput extends ConstraintLayout {
   @BindView(R.id.TaType)
   CompoundButton typeButton;
   @BindView(R.id.AmountEditText)
@@ -42,9 +39,12 @@ public class AmountInput extends LinearLayout {
   View calculator;
   @BindView(R.id.AmountCurrency)
   Spinner currencySpinner;
+  @BindView(R.id.AmountExchangeRate)
+  ExchangeRateEdit exchangeRateEdit;
 
   private boolean withTypeSwitch;
   private boolean withCurrencySelection;
+  private boolean withExchangeRate;
   private TypeChangedListener typeChangedListener;
   private boolean initialized;
 
@@ -66,20 +66,13 @@ public class AmountInput extends LinearLayout {
     init(attrs);
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public AmountInput(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    init(attrs);
-  }
-
   private void init(@Nullable AttributeSet attrs) {
     final Context context = getContext();
     TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AmountInput);
     withTypeSwitch = ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true);
     withCurrencySelection = ta.getBoolean(R.styleable.AmountInput_withCurrencySelection, false);
+    withExchangeRate = ta.getBoolean(R.styleable.AmountInput_withExchangeRate, false);
     ta.recycle();
-    setOrientation(HORIZONTAL);
-    setGravity(Gravity.CENTER_VERTICAL);
     LayoutInflater inflater = LayoutInflater.from(context);
     inflater.inflate(R.layout.amount_input, this, true);
     ButterKnife.bind(this);
@@ -120,6 +113,9 @@ public class AmountInput extends LinearLayout {
       });
     } else {
       currencySpinner.setVisibility(View.GONE);
+    }
+    if (!withExchangeRate) {
+      exchangeRateEdit.setVisibility(View.GONE);
     }
     calculator.setOnClickListener(v -> {
       getHost().showCalculator(validate(false), getId());
@@ -227,6 +223,12 @@ public class AmountInput extends LinearLayout {
 
   public void setSelectedCurrency(String originalCurrencyCode) {
     currencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(originalCurrencyCode)));
+  }
+
+  public void configureExchange() {
+    if (withExchangeRate) {
+      exchangeRateEdit.setCurrencies();
+    }
   }
 
   public Currency getSelectedCurrency() {
