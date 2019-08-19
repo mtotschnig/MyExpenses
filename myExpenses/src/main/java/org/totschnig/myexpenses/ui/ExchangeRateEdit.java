@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.threeten.bp.LocalDate;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.retrofit.MissingAppIdException;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
@@ -54,12 +55,26 @@ public class ExchangeRateEdit extends ConstraintLayout {
     this.exchangeRateWatcher = exchangeRateWatcher;
   }
 
-  public void setViewModel(ExchangeRateViewModel viewModel) {
-    this.viewModel = viewModel;
-    viewModel.getData().observe((LifecycleOwner) getContext(), result -> {
+  @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    setupViewModel();
+  }
+
+  @Override
+  protected void onDetachedFromWindow() {
+    super.onDetachedFromWindow();
+    viewModel.clear();
+  }
+
+  public void setupViewModel() {
+    Context context = getContext();
+    viewModel = new ExchangeRateViewModel(((MyApplication) context.getApplicationContext()));
+    final LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
+    viewModel.getData().observe(lifecycleOwner, result -> {
       rate2Edit.setAmount(BigDecimal.valueOf(result));
     });
-    viewModel.getError().observe((LifecycleOwner) getContext(), exception -> {
+    viewModel.getError().observe(lifecycleOwner, exception -> {
       complain(exception instanceof UnsupportedOperationException ? getContext().getString(
           R.string.exchange_rate_not_supported, firstCurrency.code(), secondCurrency.code()) :
           (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
@@ -70,7 +85,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
   @OnClick(R.id.iv_download)
   void loadRate() {
     if (firstCurrency != null && secondCurrency != null && viewModel != null) {
-      viewModel.loadExchangeRate(firstCurrency.code(), secondCurrency.code());
+      viewModel.loadExchangeRate(firstCurrency.code(), secondCurrency.code(), getHost().getDate());
     }
   }
 
@@ -129,11 +144,17 @@ public class ExchangeRateEdit extends ConstraintLayout {
     blockWatcher = false;
   }
 
-  public void setCurrencies(CurrencyUnit first, CurrencyUnit second) {
-    this.firstCurrency = first;
-    this.secondCurrency = second;
-    setSymbols(rate1Container, first.symbol(), second.symbol());
-    setSymbols(rate2Container, second.symbol(), first.symbol());
+  public void setCurrencies(@Nullable CurrencyUnit first, @Nullable CurrencyUnit second) {
+    if (first != null) {
+      this.firstCurrency = first;
+    }
+    if (second != null) {
+      this.secondCurrency = second;
+    }
+    if (firstCurrency != null && secondCurrency != null) {
+      setSymbols(rate1Container, firstCurrency.symbol(), secondCurrency.symbol());
+      setSymbols(rate2Container, secondCurrency.symbol(), firstCurrency.symbol());
+    }
   }
 
   private void setSymbols(ViewGroup group, String symbol1, String symbol2) {
@@ -197,21 +218,24 @@ public class ExchangeRateEdit extends ConstraintLayout {
   }
 
   private void complain(String message) {
-    ProtectedFragmentActivity activity = getActivity();
-    if (activity != null) {
-      activity.showSnackbar(message, Snackbar.LENGTH_LONG);
-    }
+    Host host = getHost();
+    host.showSnackbar(message, Snackbar.LENGTH_LONG);
   }
 
-  @Nullable
-  private ProtectedFragmentActivity getActivity() {
+  @NonNull
+  protected Host getHost() {
     Context context = getContext();
-    while (context instanceof ContextWrapper) {
-      if (context instanceof ProtectedFragmentActivity) {
-        return (ProtectedFragmentActivity) context;
+    while (context instanceof android.content.ContextWrapper) {
+      if (context instanceof Host) {
+        return (Host)context;
       }
-      context = ((ContextWrapper) context).getBaseContext();
+      context = ((ContextWrapper)context).getBaseContext();
     }
-    return null;
+    throw new IllegalStateException("Host context does not implement interface");
+  }
+
+  public interface Host {
+    void showSnackbar(@NonNull CharSequence message, int lengthLong);
+    @NonNull LocalDate getDate();
   }
 }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
@@ -103,7 +104,9 @@ public class AmountInput extends ConstraintLayout {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           String currency = ((Currency) currencySpinner.getSelectedItem()).code();
-          amountEditText.setFractionDigits(currencyContext.get(currency).fractionDigits());
+          final CurrencyUnit currencyUnit = currencyContext.get(currency);
+          amountEditText.setFractionDigits(currencyUnit.fractionDigits());
+          exchangeRateEdit.setCurrencies(currencyUnit, null);
         }
 
         @Override
@@ -225,9 +228,21 @@ public class AmountInput extends ConstraintLayout {
     currencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(originalCurrencyCode)));
   }
 
-  public void configureExchange() {
+  public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
     if (withExchangeRate) {
-      exchangeRateEdit.setCurrencies();
+      exchangeRateEdit.setCurrencies(currencyUnit, homeCurrency);
+    }
+  }
+
+  /**
+   * sets the second currency on the exchangeedit, the first one taken from the currency selector
+   * @param currencyUnit
+   */
+  public void configureExchange(CurrencyUnit currencyUnit) {
+    if (withExchangeRate && withCurrencySelection) {
+      final Currency selectedCurrency = getSelectedCurrency();
+      exchangeRateEdit.setCurrencies(selectedCurrency != null ?
+          currencyContext.get(selectedCurrency.code()) : null, currencyUnit);
     }
   }
 
@@ -261,7 +276,6 @@ public class AmountInput extends ConstraintLayout {
   public interface Host {
     void showCalculator(BigDecimal amount, int id);
   }
-
 
   @Override
   public void setOnFocusChangeListener(OnFocusChangeListener l) {

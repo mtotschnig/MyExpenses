@@ -35,6 +35,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -49,12 +50,12 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.AmountInput;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
-import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.io.Serializable;
@@ -78,7 +79,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLI
  *
  * @author Michael Totschnig
  */
-public class AccountEdit extends AmountActivity implements
+public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host,
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
   @BindView(R.id.Label)
@@ -130,7 +131,6 @@ public class AccountEdit extends AmountActivity implements
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
 
     ButterKnife.bind(this);
-    mExchangeRateEdit.setViewModel(ViewModelProviders.of(this).get(ExchangeRateViewModel.class));
 
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
@@ -512,5 +512,11 @@ public class AccountEdit extends AmountActivity implements
   @IdRes
   protected int getSnackbarContainerId() {
     return R.id.OneAccount;
+  }
+
+
+  @Override
+  public LocalDate getDate() {
+    return LocalDate.now();
   }
 }

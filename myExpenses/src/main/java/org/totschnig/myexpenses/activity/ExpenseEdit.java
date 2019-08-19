@@ -107,7 +107,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
-import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.ExpenseEditViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod;
@@ -188,7 +187,7 @@ import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
  */
 public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
-    ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host {
+    ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
 
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
@@ -336,7 +335,12 @@ public class ExpenseEdit extends AmountActivity implements
 
   private ExpenseEditViewModel viewModel;
   private CurrencyViewModel currencyViewModel;
-  private ExchangeRateViewModel exchangeRateViewModel;
+
+  @NonNull
+  @Override
+  public LocalDate getDate() {
+    return date2Edit.getDate();
+  }
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
@@ -378,8 +382,6 @@ public class ExpenseEdit extends AmountActivity implements
       }
     });
     ButterKnife.bind(this);
-    exchangeRateViewModel = ViewModelProviders.of(this).get(ExchangeRateViewModel.class);
-    mExchangeRateEdit.setViewModel(exchangeRateViewModel);
     currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       originalInput.setCurrencies(currencies, currencyContext);
@@ -881,9 +883,6 @@ public class ExpenseEdit extends AmountActivity implements
     setDirty();
     if (view instanceof DateButton) {
       LocalDate date = ((DateButton) view).getDate();
-      if (view.getId() == R.id.DateButton) {
-        exchangeRateViewModel.setDate(date);
-      }
       if (areDatesLinked()) {
         DateButton other = view.getId() == R.id.Date2Button ? dateEdit : date2Edit;
         other.setDate(date);
@@ -1826,11 +1825,12 @@ public class ExpenseEdit extends AmountActivity implements
   private void configureAccountDependent(Account account) {
     final CurrencyUnit currencyUnit = account.getCurrencyUnit();
     addCurrencyToInput(mAmountLabel, amountInput, currencyUnit.symbol(), R.string.amount);
+    originalInput.configureExchange(currencyUnit);
     if (hasHomeCurrency(account)) {
       equivalentAmountRow.setVisibility(View.GONE);
       equivalentAmountVisible = false;
     } else {
-      //mExchangeRateEdit.setCurrencies(currencyUnit, Utils.getHomeCurrency());
+      equivalentInput.configureExchange(currencyUnit, Utils.getHomeCurrency());
     }
     configureDateInput(account);
   }
