@@ -1045,6 +1045,7 @@ public class ExpenseEdit extends AmountActivity implements
         supportInvalidateOptionsMenu();
         originalAmountRow.setVisibility(View.VISIBLE);
         originalInput.requestFocus();
+        originalInput.setCompoundResultOutListener(amountInput::setAmount);
         return true;
       }
       case R.id.EQUIVALENT_AMOUNT_COMMAND: {

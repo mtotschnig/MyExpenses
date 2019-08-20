@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -47,6 +48,7 @@ public class AmountInput extends ConstraintLayout {
   private boolean withCurrencySelection;
   private boolean withExchangeRate;
   private TypeChangedListener typeChangedListener;
+  private CompoundResultOutListener compoundResultOutListener;
   private boolean initialized;
 
   private CurrencyAdapter currencyAdapter;
@@ -155,6 +157,38 @@ public class AmountInput extends ConstraintLayout {
     this.typeChangedListener = typeChangedListener;
   }
 
+  public void setCompoundResultOutListener(CompoundResultOutListener compoundResultOutListener) {
+    this.compoundResultOutListener = compoundResultOutListener;
+    amountEditText.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        onCompoundResultChanged();
+      }
+    });
+    exchangeRateEdit.setExchangeRateWatcher((rate, inverse) -> {
+      onCompoundResultChanged();
+    });
+  }
+
+  private void onCompoundResultChanged() {
+    if (compoundResultOutListener == null) return;
+    BigDecimal input = getTypedValue(true, false);
+    BigDecimal rate = exchangeRateEdit.getRate(false);
+    if (input != null && rate != null) {
+      compoundResultOutListener.onResultChanged(input.multiply(rate));
+    }
+  }
+
   public void addTextChangedListener(TextWatcher textWatcher) {
     amountEditText.addTextChangedListener(textWatcher);
   }
@@ -256,6 +290,14 @@ public class AmountInput extends ConstraintLayout {
 
   public void setError(CharSequence error) {
     amountEditText.setError(error);
+  }
+
+  /**
+   * this amount input is supposed to output the application of the exchange rate to its amount
+   * used for the original amount in {@link org.totschnig.myexpenses.activity.ExpenseEdit}
+   */
+  public interface CompoundResultOutListener {
+    void onResultChanged(BigDecimal result);
   }
 
   public interface TypeChangedListener {
