@@ -514,7 +514,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     return R.id.OneAccount;
   }
 
-
+  @NonNull
   @Override
   public LocalDate getDate() {
     return LocalDate.now();

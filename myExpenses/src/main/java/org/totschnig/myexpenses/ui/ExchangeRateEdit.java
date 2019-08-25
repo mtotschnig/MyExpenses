@@ -201,6 +201,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
     }
   }
 
+  @Nullable
   public BigDecimal getRate(boolean inverse) {
     return (inverse ? rate2Edit : rate1Edit).validate(false);
   }

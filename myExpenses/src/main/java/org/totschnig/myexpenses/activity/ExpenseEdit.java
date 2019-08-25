@@ -1045,7 +1045,7 @@ public class ExpenseEdit extends AmountActivity implements
         supportInvalidateOptionsMenu();
         originalAmountRow.setVisibility(View.VISIBLE);
         originalInput.requestFocus();
-        originalInput.setCompoundResultOutListener(amountInput::setAmount);
+        originalInput.setCompoundResultOutListener(amount -> amountInput.setAmount(amount, false));
         return true;
       }
       case R.id.EQUIVALENT_AMOUNT_COMMAND: {
@@ -1055,10 +1055,14 @@ public class ExpenseEdit extends AmountActivity implements
         final Account currentAccount = getCurrentAccount();
         if (validateAmountInput(equivalentInput, false) == null && currentAccount != null) {
           final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
-          //mExchangeRateEdit.setRate(rate);
-          isProcessingLinkedAmountInputs = true;
-          applyExchangRate(amountInput, equivalentInput, rate);
-          isProcessingLinkedAmountInputs = false;
+          equivalentInput.setExchangeRate(rate);
+          equivalentInput.setCompoundResultInput(amountInput.validate(false));
+          amountInput.addTextChangedListener(new MyTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+              equivalentInput.setCompoundResultInput(amountInput.validate(false));
+            }
+          });
         }
         equivalentInput.requestFocus();
         return true;

@@ -49,6 +49,7 @@ public class AmountInput extends ConstraintLayout {
   private boolean withExchangeRate;
   private TypeChangedListener typeChangedListener;
   private CompoundResultOutListener compoundResultOutListener;
+  private BigDecimal compoundResultInput;
   private boolean initialized;
 
   private CurrencyAdapter currencyAdapter;
@@ -119,7 +120,12 @@ public class AmountInput extends ConstraintLayout {
     } else {
       currencySpinner.setVisibility(View.GONE);
     }
-    if (!withExchangeRate) {
+    if (withExchangeRate) {
+      exchangeRateEdit.setExchangeRateWatcher((rate, inverse) -> {
+        onCompoundResultOutput();
+        onCompoundResultInput();
+      });
+    } else {
       exchangeRateEdit.setVisibility(View.GONE);
     }
     calculator.setOnClickListener(v -> {
@@ -134,6 +140,10 @@ public class AmountInput extends ConstraintLayout {
     if (initialized) {
       updateChildContentDescriptions();
     }
+  }
+
+  public void setExchangeRate(BigDecimal rate) {
+    exchangeRateEdit.setRate(rate);
   }
 
   private void updateChildContentDescriptions() {
@@ -158,6 +168,7 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setCompoundResultOutListener(CompoundResultOutListener compoundResultOutListener) {
+    this.compoundResultInput = null;
     this.compoundResultOutListener = compoundResultOutListener;
     amountEditText.addTextChangedListener(new TextWatcher() {
       @Override
@@ -172,20 +183,31 @@ public class AmountInput extends ConstraintLayout {
 
       @Override
       public void afterTextChanged(Editable s) {
-        onCompoundResultChanged();
+        onCompoundResultOutput();
       }
-    });
-    exchangeRateEdit.setExchangeRateWatcher((rate, inverse) -> {
-      onCompoundResultChanged();
     });
   }
 
-  private void onCompoundResultChanged() {
+  public void setCompoundResultInput(BigDecimal input) {
+    this.compoundResultInput = input;
+    onCompoundResultInput();
+  }
+
+  private void onCompoundResultOutput() {
     if (compoundResultOutListener == null) return;
-    BigDecimal input = getTypedValue(true, false);
+    BigDecimal input = validate(false);
     BigDecimal rate = exchangeRateEdit.getRate(false);
     if (input != null && rate != null) {
       compoundResultOutListener.onResultChanged(input.multiply(rate));
+    }
+  }
+
+  private void onCompoundResultInput() {
+    if (compoundResultInput != null) {
+      final BigDecimal rate = exchangeRateEdit.getRate(false);
+      if (rate != null) {
+        setAmount(compoundResultInput.multiply(rate), false);
+      }
     }
   }
 
