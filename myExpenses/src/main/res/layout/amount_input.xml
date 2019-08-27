@@ -27,23 +27,9 @@
         app:layout_constraintEnd_toStartOf="@+id/AmountCurrency"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <Spinner
-        android:id="@+id/AmountCurrency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:prompt="@string/currency"
-        app:layout_constraintEnd_toStartOf="@+id/AmountEditText"
-        app:layout_constraintStart_toEndOf="@+id/TaType"/>
+    <include layout="@layout/amount_currency" />
 
-    <org.totschnig.myexpenses.ui.AmountEditText
-        android:id="@+id/AmountEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/Calculator"
-        app:layout_constraintStart_toEndOf="@+id/AmountCurrency"/>
+    <include layout="@layout/amount_edittext" />
 
     <include
         layout="@layout/calc_icon"
@@ -52,9 +38,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/AmountEditText"/>
 
-    <org.totschnig.myexpenses.ui.ExchangeRateEdit
-        app:layout_constraintTop_toBottomOf="@id/AmountEditText"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/AmountExchangeRate" />
+    <include layout="@layout/amount_exchange_rate" />
 </merge>

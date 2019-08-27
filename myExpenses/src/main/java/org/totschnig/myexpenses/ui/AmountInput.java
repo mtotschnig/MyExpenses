@@ -76,9 +76,10 @@ public class AmountInput extends ConstraintLayout {
     withTypeSwitch = ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true);
     withCurrencySelection = ta.getBoolean(R.styleable.AmountInput_withCurrencySelection, false);
     withExchangeRate = ta.getBoolean(R.styleable.AmountInput_withExchangeRate, false);
+    boolean alternateLayout = ta.getBoolean(R.styleable.AmountInput_alternateLayout, false);
     ta.recycle();
     LayoutInflater inflater = LayoutInflater.from(context);
-    inflater.inflate(R.layout.amount_input, this, true);
+    inflater.inflate(alternateLayout ? R.layout.amount_input_alternate : R.layout.amount_input, this, true);
     ButterKnife.bind(this);
     updateChildContentDescriptions();
     if (withTypeSwitch) {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.totschnig.myexpenses.ui.ExchangeRateEdit xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_constraintTop_toBottomOf="@id/AmountEditText"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:id="@+id/AmountExchangeRate"
+    tools:showIn="@layout/amount_input" />
