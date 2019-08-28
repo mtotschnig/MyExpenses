@@ -84,6 +84,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
@@ -194,7 +195,8 @@ public class CategoryList extends SortableListFragment {
         KEY_ICON,
         //here we do not filter out void transactions since they need to be considered as mapped
         "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-        "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+        "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES,
+        "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     if (isFiltered) {
@@ -231,7 +233,7 @@ public class CategoryList extends SortableListFragment {
     ArrayList<Long> idList;
     switch (command) {
       case R.id.DELETE_COMMAND: {
-        int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
+        int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0, mappedBudgetsCount = 0;
         idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           Category c;
@@ -259,16 +261,27 @@ public class CategoryList extends SortableListFragment {
               if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
                 hasChildrenCount++;
               }
+              if (c.hasMappedBudgets) {
+                mappedBudgetsCount++;
+              }
               idList.add(c.id);
             }
           }
         }
         if (!idList.isEmpty()) {
           Long[] objectIds = idList.toArray(new Long[idList.size()]);
-          if (hasChildrenCount > 0) {
+          if (hasChildrenCount > 0 || mappedBudgetsCount > 0) {
+            String message = hasChildrenCount > 0  ?
+                getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount) : "";
+            if (mappedBudgetsCount > 0) {
+              if (!message.equals("")) {
+                message += " ";
+              }
+              message += getString(R.string.warning_delete_category_with_budget);
+            }
             MessageDialogFragment.newInstance(
-                R.string.dialog_title_warning_delete_main_category,
-                getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount),
+                R.string.dialog_title_warning_delete_category,
+                message,
                 new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
                 null,
                 new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))

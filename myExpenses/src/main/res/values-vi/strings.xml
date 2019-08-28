@@ -100,7 +100,6 @@
   <plurals name="dialog_title_warning_delete_account">
     <item quantity="other">Xóa tài khoản %1$d?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
   <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
   <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
   <string name="expense">Chi</string>

@@ -71,7 +71,6 @@
   <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Premium opcija</string>
   <string name="dialog_title_template_title">Odaberi naslov</string>
-  <string name="dialog_title_warning_delete_main_category">Izbrišu osnovnu kategoriju?</string>
   <string name="dialog_title_warning_delete_template">Izbriši predložak?</string>
   <string name="dialog_title_warning_delete_transaction">Izbriši transakciju?</string>
   <string name="expense">Trošak</string>

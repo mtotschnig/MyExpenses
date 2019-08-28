@@ -102,7 +102,6 @@
     <item quantity="one">Да се изтрие ли профилът?</item>
     <item quantity="other">Да се изтрият ли тези %1$d сметки?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">Да изтрия ли основната категория?</string>
   <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
   <string name="dialog_title_warning_delete_transaction">Да изтрия ли транзакцията?</string>
   <string name="expense">Разход</string>

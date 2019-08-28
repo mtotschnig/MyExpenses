@@ -101,7 +101,6 @@
   <plurals name="dialog_title_warning_delete_account">
     <item quantity="other">%1$d 勘定を削除しますか?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">主分類を削除しますか?</string>
   <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
   <string name="expense">支出</string>

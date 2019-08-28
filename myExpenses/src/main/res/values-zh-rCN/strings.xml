@@ -83,7 +83,6 @@
   <string name="dialog_title_balance_account">余额 %1$s</string>
   <string name="dialog_title_contrib_feature">高级功能</string>
   <string name="dialog_title_template_title">设置名称</string>
-  <string name="dialog_title_warning_delete_main_category">删除主类别</string>
   <string name="dialog_title_warning_delete_template">要删除模板?</string>
   <string name="dialog_title_warning_delete_transaction">删除交易吗?</string>
   <string name="expense">支出</string>

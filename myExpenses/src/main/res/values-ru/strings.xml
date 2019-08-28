@@ -97,7 +97,6 @@
   <string name="dialog_title_balance_account">Баланс %1$s</string>
   <string name="dialog_title_contrib_feature">Премиум функция</string>
   <string name="dialog_title_template_title">Установить заголовок</string>
-  <string name="dialog_title_warning_delete_main_category">Удалить основную категорию?</string>
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
   <string name="expense">Расход</string>

@@ -159,6 +159,7 @@ public class DatabaseConstants {
   public static final String KEY_MAPPED_METHODS = "mapped_methods";
   public static final String KEY_MAPPED_TEMPLATES = "mapped_templates";
   public static final String KEY_MAPPED_TRANSACTIONS = "mapped_transactions";
+  public static final String KEY_MAPPED_BUDGETS = "mapped_budgets";
   public static final String KEY_HAS_CLEARED = "has_cleared";
   public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
@@ -270,7 +271,7 @@ public class DatabaseConstants {
   public static final String TABLE_EVENT_CACHE = "event_cache";
 
   static final String TABLE_BUDGETS = "budgets";
-  static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
+  public static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
 
   /**
    * an SQL CASE expression for transactions

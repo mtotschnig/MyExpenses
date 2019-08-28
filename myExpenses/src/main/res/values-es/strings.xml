@@ -102,7 +102,6 @@
     <item quantity="one">¿Borrar cuenta?</item>
     <item quantity="other">¿Eliminar %1$d cuentas?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">¿Borrar categoría principal?</string>
   <string name="dialog_title_warning_delete_template">¿Borrar plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">¿Borrar transacción?</string>
   <string name="expense">Gasto</string>

@@ -30,6 +30,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_BUDGETS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -180,7 +181,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         LongSparseArray<Integer> positionMap = new LongSparseArray<>();
         int position = 0;
         if (withNullCategory) {
-          newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, null, 0, null, null));
+          newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, null, null, 0, null, null));
           position = 1;
         }
         final int columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
@@ -189,6 +190,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         final int columnIndexBudget = cursor.getColumnIndex(KEY_BUDGET);
         final int columnIndexMapTransactions = cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS);
         final int columnIndexMapTemplates = cursor.getColumnIndex(KEY_MAPPED_TEMPLATES);
+        final int columnIndexMapBudgets = cursor.getColumnIndex(KEY_MAPPED_BUDGETS);
         final int columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
         final int columIndexIcon = cursor.getColumnIndex(KEY_ICON);
         while (cursor.moveToNext()) {
@@ -199,6 +201,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
               columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapTemplates == -1 ? null : cursor.getInt(columnIndexMapTemplates) > 0,
               columnIndexMapTransactions == -1 ? null : cursor.getInt(columnIndexMapTransactions) > 0,
+              columnIndexMapBudgets == -1 ? null : cursor.getInt(columnIndexMapBudgets) > 0,
               cursor.getInt(columnIndexColor),
               columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget),  cursor.getString(columIndexIcon));
           if (parentId == null) {

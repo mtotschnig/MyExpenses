@@ -101,7 +101,6 @@
     <item quantity="one">Supprimer le compte?</item>
     <item quantity="other">Supprimer %1$dcomptes?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
   <string name="expense">Dépense</string>

@@ -222,7 +222,6 @@ public class ManageCategories extends CategoryActivity implements
     super.onPostExecute(result);
   }
 
-  //callback from grisbi import task
   @Override
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
@@ -251,9 +250,12 @@ public class ManageCategories extends CategoryActivity implements
           break;
       }
     }
-    final String print = r.print0(this);
-    if (print != null) {
-      showSnackbar(print, Snackbar.LENGTH_LONG);
+
+    if (taskId != TaskExecutionFragment.TASK_DELETE_CATEGORY /*handled in super*/) {
+      final String print = r.print0(this);
+      if (print != null) {
+        showSnackbar(print, Snackbar.LENGTH_LONG);
+      }
     }
   }
 

@@ -117,7 +117,7 @@
         <item quantity="one">Delete account?</item>
         <item quantity="other">Delete %1$d accounts?</item>
     </plurals>
-    <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
+    <string name="dialog_title_warning_delete_category">Delete category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
     <string name="expense">Expense</string>
@@ -418,6 +418,7 @@
         <item quantity="one">One selected category has subcategories, that will be deleted as well.</item>
         <item quantity="other">%1$d selected categories have subcategories, that will be deleted as well.</item>
     </plurals>
+    <string name="warning_delete_category_with_budget">For at least one selected category, there are budget allocations, that will be deleted as well.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">The selected template will be deleted.</item>
         <item quantity="other">%1$d selected templates will be deleted.</item>

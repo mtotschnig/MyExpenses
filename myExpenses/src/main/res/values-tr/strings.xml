@@ -97,7 +97,6 @@
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
-  <string name="dialog_title_warning_delete_main_category">Ana kategori silinsin mi?</string>
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
   <string name="expense">gider</string>

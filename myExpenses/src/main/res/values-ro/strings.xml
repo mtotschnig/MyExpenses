@@ -77,7 +77,6 @@
   <string name="dialog_title_balance_account">Sold  %1$s</string>
   <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
   <string name="dialog_title_template_title">Setează titlul</string>
-  <string name="dialog_title_warning_delete_main_category">Şterg categoria principală ?</string>
   <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
   <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
   <string name="expense">Cheltuială</string>

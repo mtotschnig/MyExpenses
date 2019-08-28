@@ -104,7 +104,6 @@
     <item quantity="many">למחוק חשבונות %1$d?</item>
     <item quantity="other">האם מחוק חשבונות %1$d?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">האם למחוק את קטגוריה הראשית?</string>
   <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
   <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
   <string name="expense">הוצאה</string>

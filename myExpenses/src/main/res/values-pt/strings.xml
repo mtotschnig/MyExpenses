@@ -97,7 +97,6 @@
   <string name="dialog_title_balance_account">Balancear %1$s</string>
   <string name="dialog_title_contrib_feature">Recurso premium</string>
   <string name="dialog_title_template_title">Defina o título</string>
-  <string name="dialog_title_warning_delete_main_category">Excluir a categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
   <string name="expense">Despesa</string>

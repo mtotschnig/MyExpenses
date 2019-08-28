@@ -147,7 +147,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 89;
+  public static final int DATABASE_VERSION = 90;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -477,7 +477,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
           + KEY_BUDGETID + " integer references " + TABLE_BUDGETS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
+          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_BUDGET + " integer not null, "
           + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
 
@@ -1930,6 +1930,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 89) {
         createOrRefreshViews(db);
+      }
+
+      if (oldVersion < 90) {
+        db.execSQL("ALTER TABLE budget_categories RENAME to budget_categories_old");
+        db.execSQL("CREATE TABLE budget_categories (budget_id integer references budgets(_id) ON DELETE CASCADE, "
+            + "cat_id integer references categories(_id) ON DELETE CASCADE, budget integer not null, "
+            + "primary key (budget_id,cat_id))");
+        db.execSQL("INSERT INTO budget_categories (budget_id,cat_id,budget) " +
+            " SELECT  budget_id,cat_id,budget FROM budget_categories_old");
+        db.execSQL("DROP TABLE budget_categories_old");
       }
 
 

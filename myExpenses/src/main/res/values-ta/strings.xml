@@ -102,7 +102,6 @@
     <item quantity="one">கணக்கை நீக்கவா?</item>
     <item quantity="other">%1$d கணக்குகளை நீக்கவா?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">முக்கிய வகையை நீக்கவா?</string>
   <string name="dialog_title_warning_delete_template">வார்ப்புருவை நீக்கவா?</string>
   <string name="dialog_title_warning_delete_transaction">பரிவர்த்தனையை நீக்கவா?</string>
   <string name="expense">செலவு</string>

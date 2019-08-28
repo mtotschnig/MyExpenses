@@ -91,7 +91,6 @@
   <string name="dialog_title_balance_account">Υπόλοιπο %1$s</string>
   <string name="dialog_title_contrib_feature">Αναβαθμισμένο χαρακτηριστικό</string>
   <string name="dialog_title_template_title">Ρυθμίστε τον τίτλο</string>
-  <string name="dialog_title_warning_delete_main_category">Διαγραφή κύριας κατηγορίας;</string>
   <string name="dialog_title_warning_delete_template">Θέλετε να διαγράψετε το πρότυπο;</string>
   <string name="dialog_title_warning_delete_transaction">Να διαγραφεί η συναλλαγή;</string>
   <string name="expense">Δαπάνη</string>

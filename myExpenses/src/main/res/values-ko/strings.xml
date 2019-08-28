@@ -82,7 +82,6 @@
   <string name="dialog_title_balance_account">잔고 %1$s</string>
   <string name="dialog_title_contrib_feature">프리미엄 기능</string>
   <string name="dialog_title_template_title">제목 설정</string>
-  <string name="dialog_title_warning_delete_main_category">주 카테고리를 삭제할까요?</string>
   <string name="dialog_title_warning_delete_template">템플릿을 삭제할까요?</string>
   <string name="dialog_title_warning_delete_transaction">거래 내역을 삭제할까요?</string>
   <string name="expense">지출</string>

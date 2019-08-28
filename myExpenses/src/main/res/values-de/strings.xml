@@ -101,7 +101,6 @@
     <item quantity="one">Konto löschen?</item>
     <item quantity="other">%1$d Konten löschen?</item>
   </plurals>
-  <string name="dialog_title_warning_delete_main_category">Hauptkategorie löschen?</string>
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="expense">Ausgabe</string>
