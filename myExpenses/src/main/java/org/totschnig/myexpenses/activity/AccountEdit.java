@@ -35,6 +35,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.AmountInput;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -77,7 +79,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLI
  *
  * @author Michael Totschnig
  */
-public class AccountEdit extends AmountActivity implements
+public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host,
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
   @BindView(R.id.Label)
@@ -161,7 +163,9 @@ public class AccountEdit extends AmountActivity implements
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.addAll(currencies);
-      mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
+      if (savedInstanceState == null) {
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
+      }
     });
     currencyViewModel.loadCurrencies();
   }
@@ -241,7 +245,7 @@ public class AccountEdit extends AmountActivity implements
     final boolean isHomeAccount = currencyUnit.code().equals(homeCurrencyPref);
     exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
-      mExchangeRateEdit.setSymbols(currencyUnit.symbol(), currencyContext.get(homeCurrencyPref).symbol());
+      mExchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
       mExchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
           mAccount.getExchangeRate() : 1));
     }
@@ -508,5 +512,11 @@ public class AccountEdit extends AmountActivity implements
   @IdRes
   protected int getSnackbarContainerId() {
     return R.id.OneAccount;
+  }
+
+  @NonNull
+  @Override
+  public LocalDate getDate() {
+    return LocalDate.now();
   }
 }

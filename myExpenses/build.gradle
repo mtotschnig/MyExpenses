@@ -21,6 +21,7 @@ repositories {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: "com.jaredsburrows.spoon"
 apply plugin: 'com.novoda.android-command'
@@ -65,6 +66,12 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "ko", "ms", "pl", "pt", "ro", "ru", "si", "ta", "tr", "uk", "vi", "pt_PT", "zh_CN", "zh_TW"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
     compileOptions {
@@ -141,6 +148,7 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/proguard/androidx-annotations.pro'
+        exclude 'META-INF/gradle/incremental.annotation.processors'
     }
     testBuildType "forTest"
 
@@ -164,21 +172,21 @@ dependencies {
     implementation project(':transactionscontract')
     implementation 'com.jakewharton:butterknife:' + project.butterknifeVersion
     implementation 'com.squareup.phrase:phrase:1.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:' + project.butterknifeVersion
-    annotationProcessor 'com.google.dagger:dagger-compiler:' + project.daggerVersion
+    kapt 'com.jakewharton:butterknife-compiler:' + project.butterknifeVersion
+    kapt 'com.google.dagger:dagger-compiler:' + project.daggerVersion
     implementation 'com.google.dagger:dagger:' + project.daggerVersion
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
-    annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
+    kapt 'frankiesardo:icepick-processor:3.2.0'
     implementation 'com.google.code.gson:gson:2.8.5'
-    compileOnly 'com.google.auto.value:auto-value:1.5.3'
-    annotationProcessor 'com.google.auto.value:auto-value:1.5.3'
-    annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
-    compileOnly 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
-    annotationProcessor 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
-    implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.1'
-    annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
+    api 'com.google.auto.value:auto-value:1.6.2'
+    kapt 'com.google.auto.value:auto-value:1.6.2'
+    kapt 'com.ryanharter.auto.value:auto-value-gson:1.0.0'
+    api 'com.ryanharter.auto.value:auto-value-gson:1.0.0'
+    kapt 'com.gabrielittner.auto.value:auto-value-cursor:1.1.0'
+    implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.1.0'
+    kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.6'
     implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
     implementation 'com.github.mtotschnig:MaterialSeekBarPreference:87e7c0d19d'
     implementation project(':PlayLicensingOrig')
@@ -235,9 +243,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:' + project.okHttpVersion
 
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
@@ -260,16 +265,36 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'pl.pragmatists:JUnitParams:1.1.0'
     testImplementation 'org.mockito:mockito-core:2.7.22'
-    testImplementation "org.robolectric:robolectric:" + project.robolectricVersion
+    testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:" + project.robolectricVersion
     testImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation 'org.assertj:assertj-core:2.8.0'
     androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
     androidTestImplementation 'com.jraska:falcon:2.1.0'
     androidTestImplementation 'com.jraska:falcon-spoon-compat:2.1.0'
-    compile "androidx.core:core-ktx:1.1.0-rc02"
-    compile "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "androidx.core:core-ktx:1.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    // Room components
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.archLifecycleVersion"
+
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.androidxArchVersion"
+
+    // ViewModel Kotlin support
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
+
+    // Coroutines
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
 }
 
@@ -308,11 +333,6 @@ if (getGradle().getStartParameter().getTaskRequests().toString().contains("Amazo
 } else {
     if (!isR8Enabled())
         throw new GradleException('Any build (with the exception of Amazon) should use R8.')
-}
-
-configurations {
-    cleanedAnnotations
-    compile.exclude group: 'org.jetbrains', module: 'annotations'
 }
 
 def categoryIcons() {

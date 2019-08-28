@@ -408,6 +408,21 @@
             android:title="@string/pref_ad_consent_title"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_category_exchange_rates">
+        <ListPreference
+            android:defaultValue="RATESAPI"
+            android:entries="@array/exchange_rate_provider_entries"
+            android:entryValues="@array/exchange_rate_provider_values"
+            android:key="@string/pref_exchange_rate_provider_key"
+            android:summary="@string/pref_exchange_rate_provider_summary"
+            android:title="@string/pref_exchange_rate_provider_title" />
+        <EditTextPreference
+            android:enabled="false"
+            android:key="@string/pref_openexchangerates_app_id_key"
+            android:summary="@string/pref_openexchangerates_app_id_summary"
+            android:title="OpenExchangeRates App ID" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="@string/pref_category_advanced_key"
         android:title="@string/pref_category_title_advanced">

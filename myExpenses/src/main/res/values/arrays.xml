@@ -619,4 +619,14 @@
         <item>aggregate</item>
         <item>always</item>
     </string-array>
+
+    <string-array name="exchange_rate_provider_entries">
+        <item>https://ratesapi.io/</item>
+        <item>https://openexchangerates.org</item>
+    </string-array>
+
+    <string-array name="exchange_rate_provider_values">
+        <item>RATESAPI</item>
+        <item>OPENEXCHANGERATES</item>
+    </string-array>
 </resources>

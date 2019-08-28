@@ -98,6 +98,8 @@
     <string name="pref_security_export_password_key">security_export_password</string>
     <string name="pref_account_list_fast_scroll_key">account_list_fast_scroll</string>
     <string name="pref_sync_changes_immediately_key">sync_changes_immediately</string>
+    <string name="pref_exchange_rate_provider_key">exchange_rate_provider</string>
+    <string name="pref_openexchangerates_app_id_key">openexchangerates_app_id</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

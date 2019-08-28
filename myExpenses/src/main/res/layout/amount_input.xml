@@ -15,23 +15,28 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <merge
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <include layout="@layout/type_switch"/>
-
-    <Spinner
-        android:id="@+id/AmountCurrency"
+    <include
+        layout="@layout/type_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:prompt="@string/currency"/>
+        app:layout_constraintEnd_toStartOf="@+id/AmountCurrency"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <org.totschnig.myexpenses.ui.AmountEditText
-        android:id="@+id/AmountEditText"
-        android:layout_width="0dp"
+    <include layout="@layout/amount_currency" />
+
+    <include layout="@layout/amount_edittext" />
+
+    <include
+        layout="@layout/calc_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/AmountEditText"/>
 
-    <include layout="@layout/calc_icon"/>
+    <include layout="@layout/amount_exchange_rate" />
 </merge>

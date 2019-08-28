@@ -112,6 +112,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATE_PROVIDER;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
@@ -378,6 +379,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
         findPreference(TRANSLATION).setSummary(String.format("%s: %s", getString(R.string.translated_by), translators));
       }
+      findPreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
+      configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
@@ -693,8 +696,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;
       }
+    } else if (matches(pref, EXCHANGE_RATE_PROVIDER)) {
+      configureOpenExchangeRatesPreference((String) value);
     }
     return true;
+  }
+
+  private void configureOpenExchangeRatesPreference(String provider) {
+    findPreference(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).setEnabled(provider.equals("OPENEXCHANGERATES"));
   }
 
   private void setDefaultNumberFormat(EditTextPreference pref) {

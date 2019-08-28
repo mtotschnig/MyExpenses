@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ExchangeRate_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:id="@+id/ExchangeRate_1"
         layout="@layout/exchange_rate"/>
 
     <include
+        app:layout_constraintEnd_toStartOf="@id/iv_download"
+        app:layout_constraintStart_toEndOf="@id/ExchangeRate_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:id="@+id/ExchangeRate_2"
         layout="@layout/exchange_rate"/>
+
+    <include layout="@layout/exchange_rate_download"/>
 </merge>

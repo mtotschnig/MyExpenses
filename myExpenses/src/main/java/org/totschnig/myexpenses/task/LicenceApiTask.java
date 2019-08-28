@@ -3,13 +3,7 @@ package org.totschnig.myexpenses.task;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 
-import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.retrofit.ValidationService;
@@ -19,7 +13,6 @@ import org.totschnig.myexpenses.util.licence.Licence;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -49,17 +42,13 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
   @Named("deviceId")
   String deviceId;
 
+  @Inject
+  Gson gson;
+
   LicenceApiTask(TaskExecutionFragment tTaskExecutionFragment, int taskId) {
     this.taskExecutionFragment = tTaskExecutionFragment;
     this.taskId = taskId;
     MyApplication.getInstance().getAppComponent().inject(this);
-  }
-
-  private class DateTimeDeserializer implements JsonDeserializer<LocalDate> {
-    public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
-      return LocalDate.parse(json.getAsJsonPrimitive().getAsString());
-    }
   }
 
   @Override
@@ -80,10 +69,6 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         .writeTimeout(20, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build();
-
-    Gson gson = new GsonBuilder()
-        .registerTypeAdapter(LocalDate.class, new DateTimeDeserializer())
-        .create();
 
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(licenceHandler.getBackendUri())

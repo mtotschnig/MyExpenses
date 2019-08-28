@@ -188,7 +188,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setNeutralButton(R.string.button_label_close, this)
         .setIcon(R.mipmap.ic_launcher_alt)
         .setPositiveButton(R.string.upgrade_now, this);
-    if (feature.isAvailable(prefHandler)) {
+    if (feature != null && feature.isAvailable(prefHandler)) {
         builder.setNegativeButton(R.string.dialog_contrib_no, this);
     }
     AlertDialog dialog = builder.create();

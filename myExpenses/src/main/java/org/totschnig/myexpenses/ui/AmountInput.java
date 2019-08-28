@@ -1,28 +1,26 @@
 package org.totschnig.myexpenses.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
@@ -30,10 +28,11 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AmountInput extends LinearLayout {
+public class AmountInput extends ConstraintLayout {
   @BindView(R.id.TaType)
   CompoundButton typeButton;
   @BindView(R.id.AmountEditText)
@@ -42,10 +41,15 @@ public class AmountInput extends LinearLayout {
   View calculator;
   @BindView(R.id.AmountCurrency)
   Spinner currencySpinner;
+  @BindView(R.id.AmountExchangeRate)
+  ExchangeRateEdit exchangeRateEdit;
 
   private boolean withTypeSwitch;
   private boolean withCurrencySelection;
+  private boolean withExchangeRate;
   private TypeChangedListener typeChangedListener;
+  private CompoundResultOutListener compoundResultOutListener;
+  private BigDecimal compoundResultInput;
   private boolean initialized;
 
   private CurrencyAdapter currencyAdapter;
@@ -66,22 +70,16 @@ public class AmountInput extends LinearLayout {
     init(attrs);
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public AmountInput(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    init(attrs);
-  }
-
   private void init(@Nullable AttributeSet attrs) {
     final Context context = getContext();
     TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AmountInput);
     withTypeSwitch = ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true);
     withCurrencySelection = ta.getBoolean(R.styleable.AmountInput_withCurrencySelection, false);
+    withExchangeRate = ta.getBoolean(R.styleable.AmountInput_withExchangeRate, false);
+    boolean alternateLayout = ta.getBoolean(R.styleable.AmountInput_alternateLayout, false);
     ta.recycle();
-    setOrientation(HORIZONTAL);
-    setGravity(Gravity.CENTER_VERTICAL);
     LayoutInflater inflater = LayoutInflater.from(context);
-    inflater.inflate(R.layout.amount_input, this, true);
+    inflater.inflate(alternateLayout ? R.layout.amount_input_alternate : R.layout.amount_input, this, true);
     ButterKnife.bind(this);
     updateChildContentDescriptions();
     if (withTypeSwitch) {
@@ -110,7 +108,9 @@ public class AmountInput extends LinearLayout {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           String currency = ((Currency) currencySpinner.getSelectedItem()).code();
-          amountEditText.setFractionDigits(currencyContext.get(currency).fractionDigits());
+          final CurrencyUnit currencyUnit = currencyContext.get(currency);
+          amountEditText.setFractionDigits(currencyUnit.fractionDigits());
+          exchangeRateEdit.setCurrencies(currencyUnit, null);
         }
 
         @Override
@@ -120,6 +120,14 @@ public class AmountInput extends LinearLayout {
       });
     } else {
       currencySpinner.setVisibility(View.GONE);
+    }
+    if (withExchangeRate) {
+      exchangeRateEdit.setExchangeRateWatcher((rate, inverse) -> {
+        onCompoundResultOutput();
+        onCompoundResultInput();
+      });
+    } else {
+      exchangeRateEdit.setVisibility(View.GONE);
     }
     calculator.setOnClickListener(v -> {
       getHost().showCalculator(validate(false), getId());
@@ -133,6 +141,10 @@ public class AmountInput extends LinearLayout {
     if (initialized) {
       updateChildContentDescriptions();
     }
+  }
+
+  public void setExchangeRate(BigDecimal rate) {
+    exchangeRateEdit.setRate(rate);
   }
 
   private void updateChildContentDescriptions() {
@@ -154,6 +166,50 @@ public class AmountInput extends LinearLayout {
 
   public void setTypeChangedListener(TypeChangedListener typeChangedListener) {
     this.typeChangedListener = typeChangedListener;
+  }
+
+  public void setCompoundResultOutListener(CompoundResultOutListener compoundResultOutListener) {
+    this.compoundResultInput = null;
+    this.compoundResultOutListener = compoundResultOutListener;
+    amountEditText.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        onCompoundResultOutput();
+      }
+    });
+  }
+
+  public void setCompoundResultInput(BigDecimal input) {
+    this.compoundResultInput = input;
+    onCompoundResultInput();
+  }
+
+  private void onCompoundResultOutput() {
+    if (compoundResultOutListener == null) return;
+    BigDecimal input = validate(false);
+    BigDecimal rate = exchangeRateEdit.getRate(false);
+    if (input != null && rate != null) {
+      compoundResultOutListener.onResultChanged(input.multiply(rate));
+    }
+  }
+
+  private void onCompoundResultInput() {
+    if (compoundResultInput != null) {
+      final BigDecimal rate = exchangeRateEdit.getRate(false);
+      if (rate != null) {
+        setAmount(compoundResultInput.multiply(rate), false);
+      }
+    }
   }
 
   public void addTextChangedListener(TextWatcher textWatcher) {
@@ -229,6 +285,24 @@ public class AmountInput extends LinearLayout {
     currencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(originalCurrencyCode)));
   }
 
+  public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
+    if (withExchangeRate) {
+      exchangeRateEdit.setCurrencies(currencyUnit, homeCurrency);
+    }
+  }
+
+  /**
+   * sets the second currency on the exchangeedit, the first one taken from the currency selector
+   * @param currencyUnit
+   */
+  public void configureExchange(CurrencyUnit currencyUnit) {
+    if (withExchangeRate && withCurrencySelection) {
+      final Currency selectedCurrency = getSelectedCurrency();
+      exchangeRateEdit.setCurrencies(selectedCurrency != null ?
+          currencyContext.get(selectedCurrency.code()) : null, currencyUnit);
+    }
+  }
+
   public Currency getSelectedCurrency() {
     return (Currency) currencySpinner.getSelectedItem();
   }
@@ -239,6 +313,14 @@ public class AmountInput extends LinearLayout {
 
   public void setError(CharSequence error) {
     amountEditText.setError(error);
+  }
+
+  /**
+   * this amount input is supposed to output the application of the exchange rate to its amount
+   * used for the original amount in {@link org.totschnig.myexpenses.activity.ExpenseEdit}
+   */
+  public interface CompoundResultOutListener {
+    void onResultChanged(BigDecimal result);
   }
 
   public interface TypeChangedListener {
@@ -260,7 +342,6 @@ public class AmountInput extends LinearLayout {
     void showCalculator(BigDecimal amount, int id);
   }
 
-
   @Override
   public void setOnFocusChangeListener(OnFocusChangeListener l) {
     amountEditText.setOnFocusChangeListener(l);
@@ -272,7 +353,9 @@ public class AmountInput extends LinearLayout {
   @Override
   protected Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
-    return new SavedState(superState, typeButton.onSaveInstanceState(), amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState());
+    return new SavedState(superState, typeButton.onSaveInstanceState(),
+        amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState(),
+        exchangeRateEdit.getRate(false));
   }
 
   @Override
@@ -282,6 +365,7 @@ public class AmountInput extends LinearLayout {
     typeButton.onRestoreInstanceState(savedState.getTypeButtonState());
     amountEditText.onRestoreInstanceState(savedState.getAmountEditTextState());
     currencySpinner.onRestoreInstanceState(savedState.getCurrencySpinnerState());
+    exchangeRateEdit.setRate(savedState.getExchangeRateState());
   }
 
   @Override
@@ -298,6 +382,7 @@ public class AmountInput extends LinearLayout {
     private Parcelable typeButtonState;
     private Parcelable amountEditTextState;
     private Parcelable currencySpinnerState;
+    private BigDecimal exchangeRateState;
 
     private SavedState(Parcel in) {
       super(in);
@@ -305,13 +390,16 @@ public class AmountInput extends LinearLayout {
       this.typeButtonState = in.readParcelable(classLoader);
       this.amountEditTextState = in.readParcelable(classLoader);
       this.currencySpinnerState = in.readParcelable(classLoader);
+      this.exchangeRateState = (BigDecimal) in.readSerializable();
     }
 
-    SavedState(Parcelable superState, Parcelable typeButtonState, Parcelable amountEditTextState, Parcelable currencySpinnerState) {
+    SavedState(Parcelable superState, Parcelable typeButtonState, Parcelable amountEditTextState,
+               Parcelable currencySpinnerState, BigDecimal exchangeRateState) {
       super(superState);
       this.typeButtonState = typeButtonState;
       this.amountEditTextState = amountEditTextState;
       this.currencySpinnerState = currencySpinnerState;
+      this.exchangeRateState = exchangeRateState;
     }
 
     @Override
@@ -320,6 +408,7 @@ public class AmountInput extends LinearLayout {
       destination.writeParcelable(typeButtonState, flags);
       destination.writeParcelable(amountEditTextState, flags);
       destination.writeParcelable(currencySpinnerState, flags);
+      destination.writeSerializable(exchangeRateState);
     }
 
     public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
@@ -343,6 +432,10 @@ public class AmountInput extends LinearLayout {
 
     Parcelable getCurrencySpinnerState() {
       return currencySpinnerState;
+    }
+
+    BigDecimal getExchangeRateState() {
+      return exchangeRateState;
     }
   }
 }
