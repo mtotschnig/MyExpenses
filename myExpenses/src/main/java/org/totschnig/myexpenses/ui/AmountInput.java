@@ -353,7 +353,9 @@ public class AmountInput extends ConstraintLayout {
   @Override
   protected Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
-    return new SavedState(superState, typeButton.onSaveInstanceState(), amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState());
+    return new SavedState(superState, typeButton.onSaveInstanceState(),
+        amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState(),
+        exchangeRateEdit.getRate(false));
   }
 
   @Override
@@ -363,6 +365,7 @@ public class AmountInput extends ConstraintLayout {
     typeButton.onRestoreInstanceState(savedState.getTypeButtonState());
     amountEditText.onRestoreInstanceState(savedState.getAmountEditTextState());
     currencySpinner.onRestoreInstanceState(savedState.getCurrencySpinnerState());
+    exchangeRateEdit.setRate(savedState.getExchangeRateState());
   }
 
   @Override
@@ -379,6 +382,7 @@ public class AmountInput extends ConstraintLayout {
     private Parcelable typeButtonState;
     private Parcelable amountEditTextState;
     private Parcelable currencySpinnerState;
+    private BigDecimal exchangeRateState;
 
     private SavedState(Parcel in) {
       super(in);
@@ -386,13 +390,16 @@ public class AmountInput extends ConstraintLayout {
       this.typeButtonState = in.readParcelable(classLoader);
       this.amountEditTextState = in.readParcelable(classLoader);
       this.currencySpinnerState = in.readParcelable(classLoader);
+      this.exchangeRateState = (BigDecimal) in.readSerializable();
     }
 
-    SavedState(Parcelable superState, Parcelable typeButtonState, Parcelable amountEditTextState, Parcelable currencySpinnerState) {
+    SavedState(Parcelable superState, Parcelable typeButtonState, Parcelable amountEditTextState,
+               Parcelable currencySpinnerState, BigDecimal exchangeRateState) {
       super(superState);
       this.typeButtonState = typeButtonState;
       this.amountEditTextState = amountEditTextState;
       this.currencySpinnerState = currencySpinnerState;
+      this.exchangeRateState = exchangeRateState;
     }
 
     @Override
@@ -401,6 +408,7 @@ public class AmountInput extends ConstraintLayout {
       destination.writeParcelable(typeButtonState, flags);
       destination.writeParcelable(amountEditTextState, flags);
       destination.writeParcelable(currencySpinnerState, flags);
+      destination.writeSerializable(exchangeRateState);
     }
 
     public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
@@ -424,6 +432,10 @@ public class AmountInput extends ConstraintLayout {
 
     Parcelable getCurrencySpinnerState() {
       return currencySpinnerState;
+    }
+
+    BigDecimal getExchangeRateState() {
+      return exchangeRateState;
     }
   }
 }

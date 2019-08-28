@@ -137,11 +137,13 @@ public class ExchangeRateEdit extends ConstraintLayout {
    *
    * @param rate
    */
-  public void setRate(@NonNull BigDecimal rate) {
-    blockWatcher = true;
-    rate1Edit.setAmount(rate);
-    rate2Edit.setAmount(calculateInverse(rate));
-    blockWatcher = false;
+  public void setRate(@Nullable BigDecimal rate) {
+    if (rate != null) {
+      blockWatcher = true;
+      rate1Edit.setAmount(rate);
+      rate2Edit.setAmount(calculateInverse(rate));
+      blockWatcher = false;
+    }
   }
 
   public void setCurrencies(@Nullable CurrencyUnit first, @Nullable CurrencyUnit second) {
@@ -228,15 +230,17 @@ public class ExchangeRateEdit extends ConstraintLayout {
     Context context = getContext();
     while (context instanceof android.content.ContextWrapper) {
       if (context instanceof Host) {
-        return (Host)context;
+        return (Host) context;
       }
-      context = ((ContextWrapper)context).getBaseContext();
+      context = ((ContextWrapper) context).getBaseContext();
     }
     throw new IllegalStateException("Host context does not implement interface");
   }
 
   public interface Host {
     void showSnackbar(@NonNull CharSequence message, int lengthLong);
-    @NonNull LocalDate getDate();
+
+    @NonNull
+    LocalDate getDate();
   }
 }

@@ -861,10 +861,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     if (originalAmountVisible) {
-      originalAmountRow.setVisibility(View.VISIBLE);
+      showOriginalAmount();
     }
     if (equivalentAmountVisible) {
-      equivalentAmountRow.setVisibility(View.VISIBLE);
+      showEquivalentAmount();
     }
     if (mIsMainTransaction) {
       final CurrencyUnit homeCurrency = Utils.getHomeCurrency();
@@ -1043,26 +1043,18 @@ public class ExpenseEdit extends AmountActivity implements
       case R.id.ORIGINAL_AMOUNT_COMMAND: {
         originalAmountVisible = true;
         supportInvalidateOptionsMenu();
-        originalAmountRow.setVisibility(View.VISIBLE);
+        showOriginalAmount();
         originalInput.requestFocus();
-        originalInput.setCompoundResultOutListener(amount -> amountInput.setAmount(amount, false));
         return true;
       }
       case R.id.EQUIVALENT_AMOUNT_COMMAND: {
         equivalentAmountVisible = true;
         supportInvalidateOptionsMenu();
-        equivalentAmountRow.setVisibility(View.VISIBLE);
+        showEquivalentAmount();
         final Account currentAccount = getCurrentAccount();
         if (validateAmountInput(equivalentInput, false) == null && currentAccount != null) {
           final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
           equivalentInput.setExchangeRate(rate);
-          equivalentInput.setCompoundResultInput(amountInput.validate(false));
-          amountInput.addTextChangedListener(new MyTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-              equivalentInput.setCompoundResultInput(amountInput.validate(false));
-            }
-          });
         }
         equivalentInput.requestFocus();
         return true;
@@ -1146,7 +1138,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (cachedOrSelf.getOriginalAmount() != null) {
       originalAmountVisible = true;
-      originalAmountRow.setVisibility(View.VISIBLE);
+      showOriginalAmount();
       originalInput.setAmount(cachedOrSelf.getOriginalAmount().getAmountMajor());
       originalCurrencyCode = cachedOrSelf.getOriginalAmount().getCurrencyUnit().code();
     } else {
@@ -1167,6 +1159,22 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     isProcessingLinkedAmountInputs = false;
+  }
+
+  private void showEquivalentAmount() {
+    equivalentAmountRow.setVisibility(View.VISIBLE);
+    equivalentInput.setCompoundResultInput(amountInput.validate(false));
+    amountInput.addTextChangedListener(new MyTextWatcher() {
+      @Override
+      public void afterTextChanged(Editable s) {
+        equivalentInput.setCompoundResultInput(amountInput.validate(false));
+      }
+    });
+  }
+
+  private void showOriginalAmount() {
+    originalAmountRow.setVisibility(View.VISIBLE);
+    originalInput.setCompoundResultOutListener(amount -> amountInput.setAmount(amount, false));
   }
 
   private void populateOriginalCurrency() {
