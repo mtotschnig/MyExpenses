@@ -704,7 +704,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   private void configureOpenExchangeRatesPreference(String provider) {
     findPreference(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).setEnabled(provider.equals("OPENEXCHANGERATES"));
-
   }
 
   private void setDefaultNumberFormat(EditTextPreference pref) {
