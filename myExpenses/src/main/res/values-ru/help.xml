@@ -20,6 +20,7 @@
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_plans_title">Календарь планов</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Подтвердить выбранные шаблоны и немедленно их сохранить.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Подтвердить выбранный шаблон и войти в форму редактирования, где вы можете изменить его перед сохранением.</string>
   <string name="cab_ManageTemplates_delete_help_text">Удалить выбранные шаблоны и любые связанные планы.</string>
@@ -71,4 +72,5 @@
   <!--SyncBackends-->
   <!--History-->
   <!--Budget-->
+  <string name="menu_switch_budget_help_text">Переключиться на другой тип бюджета</string>
 </resources>

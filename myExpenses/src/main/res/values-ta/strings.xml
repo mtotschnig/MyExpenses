@@ -286,8 +286,8 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">நீங்கள் ஒரு திறவுகோலைப் பெற்றிருந்தால் மதிப்பு அம்சங்களை அணுகலாம்.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">திறவுகோலை உள்ளிடவும்</string>
   <string name="pref_export_format_title">தரவு வடிவம்</string>
-  <string name="pref_import_from_grisbi_summary">கிரிஸ்பி XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
-  <string name="pref_import_from_grisbi_title">கிரிஸ்பியிலிருந்து இறக்குமதி செய்</string>
+  <string name="pref_import_from_grisbi_summary">Grisbi XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
+  <string name="pref_import_from_grisbi_title">Grisbi-யிலிருந்து இறக்குமதி செய்</string>
   <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_summary">%s கோப்பில் இருந்து பரிவர்த்தனைகள், வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
   <!--%s is replaced with QIF or CSV-->
@@ -298,11 +298,11 @@
   <string name="pref_manage_categories_title">வகைகள்</string>
   <string name="pref_manage_methods_summary">கட்டண முறைகளை உருவாக்கி மற்றும் திருத்தி அவற்றை கணக்கு வகைகளுடன் இணைக்கவும்.</string>
   <string name="pref_manage_methods_title">கட்டணம் செலுத்தும் முறைகள்</string>
-  <string name="pref_manage_parties_summary">தரப்புகளை (பணம்  செலுத்துபவர் மற்றும் பெறுபவர்) சேர்க, நீக்க, திருத்த.</string>
+  <string name="pref_manage_parties_summary">தரப்புகளை (பணம்  செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
   <string name="pref_manage_parties_title">தரப்புகள்</string>
-  <string name="pref_manage_sync_backends_title">ஒத்திசைவு பின்தளம்</string>
+  <string name="pref_manage_sync_backends_title">ஒத்திசைவு பின்தளங்கள்</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">ஒத்திசைவு கணக்குகளுக்கான பின்தளங்களை (%s) சேர்க்கவும்.</string>
+  <string name="pref_manage_sync_backends_summary">கணக்குகளை (%s) ஒத்திசைக்க பின்தளங்களை சேர்க்கவும்.</string>
   <string name="pref_more_info_dialog_title">உரிமம் &amp; புகழாரம்</string>
   <string name="pref_password_not_equal">கடவுச்சொற்கள் பொருந்தவில்லை</string>
   <string name="pref_perform_protection_title">பாதுகாப்பு</string>
@@ -319,15 +319,15 @@
   <string name="pref_qif_export_file_encoding_title">எழுத்து குறியேற்றம்</string>
   <string name="pref_request_licence_title">திறவுகோல் கோரு</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">மாற்று</string>
+  <string name="pref_restore_alternative">மாற்று வழி</string>
   <string name="pref_restore_alternative_summary">கருவியில் கோப்பு நிர்வகிக்கும் செயலி நிறுவப்படவில்லை என்றால், இந்த மாற்று முறையைப் பயன்படுத்தவும்.</string>
-  <string name="pref_restore_summary">தரவுத்தளங்கள் மற்றும் விருப்பத்தேர்வுகளை மீட்டமைப்பதற்கு காப்புப் பிரதி ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
+  <string name="pref_restore_summary">தரவுத்தளங்கள் மற்றும் விருப்பத்தேர்வுகளை மீட்டமைப்பதற்கு காப்புப்பிரதி ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
   <string name="pref_restore_title">மீட்டமைப்பு</string>
   <string name="pref_security_question_summary">உங்கள் கடவுச்சொல்லை மறந்துவிட்டால், செயலியைத் திறக்க உங்களை அனுமதிக்கும்.</string>
   <string name="pref_security_question_title">பாதுகாப்பு கேள்வி</string>
   <string name="pref_send_feedback_title">கருத்தினை அனுப்பவும்</string>
-  <string name="pref_share_target_summary">உரிய செயலிகளின் (மின்னஞ்சல், டிராப்பாக்ஸ், கூகுள் டாக்ஸ், ...) இடையே தேர்வு செய்ய விரும்பினால் காலியாக விடவும் அல்லது ஆதரிக்கப்படும் திட்டத்தின்படி உரலி ஒன்றை வழங்கவும்</string>
-  <string name="pref_share_target_title">பதிவேற்று உரலி</string>
+  <string name="pref_share_target_summary">உரிய செயலிகளின் (மின்னஞ்சல், டிராப்பாக்ஸ், கூகுள் டாக்ஸ், ...) இடையே தேர்வு செய்ய விரும்பினால் காலியாக விடவும் அல்லது ஆதரிக்கப்படும் திட்டங்களில் ஒன்றின்படி உரலி வழங்கவும்</string>
+  <string name="pref_share_target_title">பதிவேற்ற உரலி</string>
   <string name="pref_shortcut_added">முகப்பு திரைக்கு குறுக்குவழி சேர்க்கப்பட்டது</string>
   <string name="pref_shortcut_not_added">குறுக்குவழிகளை ஏற்றுக்கொள்வதற்கான எந்த முகப்பு திரைகளும் கிடைக்கவில்லை.</string>
   <string name="pref_shortcut_summary">முகப்பு திரைக்கு குறுக்குவழியைச் சேர்க்கவும்.</string>
@@ -342,7 +342,7 @@
   <string name="pref_ui_theme_title">பின்புலத்தோற்றம்</string>
   <string name="pref_visit_website_summary">மாற்றக் குறிப்பு மற்றும் அடிக்கடி கேட்கப்படும் கேள்விகள்</string>
   <string name="pref_visit_website_title">வலைத்தளத்தைப் பார்க்கவும்</string>
-  <string name="progress_dialog_deleting">பொருட்களை நீக்குதல்</string>
+  <string name="progress_dialog_deleting">பொருட்கள் நீக்கப்படுகிறது</string>
   <string name="progress_dialog_loading">தரவுத்தளத்திலிருந்து பொருளை ஏற்றுகிறது</string>
   <string name="progress_dialog_printing">PDF உருவாக்கப்படுகிறது</string>
   <string name="progress_dialog_saving">தரவுத்தளத்திற்கு பொருளை சேமிக்கிறது</string>
@@ -355,7 +355,7 @@
   <string name="restore_no_backup_found">காப்புப்பிரதி ஏதும் கிடைக்கவில்லை.</string>
   <string name="restore_preferences_failure">விருப்பத்தேர்வுகளின் மீட்டமைப்பு தோல்வியடைந்தது.</string>
   <string name="restore_backup_archive_not_valid">ஆவணக்கிடங்கு %1$s செல்லுபடியாகாது</string>
-  <string name="restore_backup_file_not_found">\"%2$s\" ஆவணக்கிடங்கில் %1$s கோப்பு இல்லை</string>
+  <string name="restore_backup_file_not_found">\"%2$s\" ஆவணக்கிடங்கில் %1$s எனும் கோப்பு இல்லை</string>
   <string name="restore_preferences_success">காப்புப்பிரதியில் இருந்து விருப்பத்தேர்வுகள் மீட்டமைக்கப்பட்டன.</string>
   <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d திட்டங்கள் காப்புப்பிரதியில் இருந்து மீட்டமைக்கப்பட்டன.</string>
   <string name="save_transaction_and_new_success">வெற்றிகரமாக சேமிக்கப்பட்டது</string>
@@ -365,7 +365,7 @@
     <item quantity="other">%1$d புதிய பரிவர்த்தனைகள் வார்ப்புருவிலிருந்து வெற்றிகரமாக சேமிக்கப்பட்டன.</item>
   </plurals>
   <string name="save_transaction_template_deleted">வார்ப்புரு நீக்கப்பட்டது</string>
-  <string name="select">தேர்வு செய்</string>
+  <string name="select">தேர்வு செய்க</string>
   <string name="select_category">வகையைத் தேர்வு செய்க</string>
   <string name="menu_select_category">இந்த வகையைத் தேர்வு செய்க</string>
   <string name="menu_select_folder">இந்த கோப்புறையைத் தேர்வு செய்க</string>
@@ -390,7 +390,7 @@
   <string name="total_cleared">ஒப்புக்கொள்ளப்பட்ட மொத்தம்</string>
   <string name="total_reconciled">சரிசெய்யப்பட்ட மொத்தம்</string>
   <string name="transaction">பரிவர்த்தனை</string>
-  <string name="transfer">பரிமாற்றங்கள்</string>
+  <string name="transfer">பரிமாற்றம்</string>
   <string name="transfer_from_account">இதிலிருந்து</string>
   <string name="transfer_to_account">இதற்கு</string>
   <string name="type">வகை</string>
@@ -401,7 +401,7 @@
   <string name="warning_delete_account">\"%1$s\" கணக்கு அதன் அனைத்து பரிமாற்றங்களுடன் நீக்கப்படும்.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">தேர்ந்தெடுக்கப்பட்ட வகைகள் ஒன்றில் துணை வகைகள் உள்ளன, அவை நீக்கப்படும்.</item>
-    <item quantity="other">%1$d தேர்ந்தெடுக்கப்பட்ட வகைகளில் துணை வகைகள் உள்ளன, அவையும் நீக்கப்படும்.</item>
+    <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d வகைகளில் துணை வகைகள் உள்ளன, அவையும் நீக்கப்படும்.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">தேர்ந்தெடுக்கப்பட்ட வார்ப்புரு நீக்கப்படும்.</item>
@@ -441,7 +441,7 @@
   <string name="import_categories_success">%1$s வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
   <string name="import_parties_success">%1$s தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
   <string name="import_accounts_success">%1$s கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டது</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டன</string>
   <string name="import_accounts_none">எந்த கணக்குகளும் இறக்குமதி செய்யப்படவில்லை</string>
   <string name="import_categories_none">எந்த வகைகளும் இறக்குமதி செய்யப்படவில்லை</string>
   <string name="import_parties_none">எந்த தரப்புகளும் இறக்குமதி செய்யப்படவில்லை</string>
@@ -458,8 +458,8 @@
   <string name="create_new_folder_fail">கோப்புறையை உருவாக்க முடியவில்லை</string>
   <string name="widget_title_accounts">எனது கணக்குகள்</string>
   <string name="widget_title_templates">எனது வார்ப்புருக்கள்</string>
-  <string name="app_dir_not_accessible">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுக்கப்பட்டுள்ள கோப்புறையை (%1$s) அணுக முடியாது. தயவு செய்து வேறொன்றைத் தேர்ந்தெடுக்கவும்.</string>
-  <string name="app_dir_not_compatible_with_nougat">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது விருப்பமைக்கப்பட்டURI (%1$s) ஆண்ட்ராய்டு நோகட்டில் ஆதரிக்கப்படவில்லை. மீண்டும் ஒரு கோப்புறையைத் தேர்ந்தெடுக்கவும்.</string>
+  <string name="app_dir_not_accessible">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுக்கப்பட்டுள்ள கோப்புறையை (%1$s) அணுக முடியவில்லை. தயவு செய்து வேறொன்றைத் தேர்ந்தெடுக்கவும்.</string>
+  <string name="app_dir_not_compatible_with_nougat">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது விருப்பமைக்கப்பட்டURI (%1$s) ஆண்ட்ராய்டு நோகட்டில் ஆதரிக்கப்படவில்லை. தயவு செய்து மீண்டும் ஒரு கோப்புறையைத் தேர்ந்தெடுக்கவும்.</string>
   <string name="search_amount">தொகையைத் தேடவும்</string>
   <string name="search_category">வகையைத் தேடவும்</string>
   <string name="search_comment">குறிப்புக்களைத் தேடவும்</string>
@@ -472,8 +472,8 @@
   <string name="before">%s க்கு முன்</string>
   <string name="after">%s க்கு பின்</string>
   <string name="comparison_operator_equal">சமமாக</string>
-  <string name="comparison_operator_greater_than">விட அதிகமாக</string>
-  <string name="comparison_operator_lesser_than">விட குறைவாக</string>
+  <string name="comparison_operator_greater_than">அதிகமாக</string>
+  <string name="comparison_operator_lesser_than">குறைவாக</string>
   <string name="comparison_operator_between">இடையே</string>
   <string name="comparison_operator_date_before">முன்</string>
   <string name="comparison_operator_date_after">பின்</string>

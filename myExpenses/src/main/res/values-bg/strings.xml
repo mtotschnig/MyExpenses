@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Няма транзакции за експорт.</string>
   <string name="dialog_command_disabled_distribution">В тази сметка няма транзакции, отнесени към категорията.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Опитай</string>
   <string name="dialog_contrib_no_usages_left">Няма безплатни употреби.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s е функция от Премиум вариант  (%2$s).</string>
@@ -612,6 +613,7 @@
   <string name="all_contrib_key_features">Всички възможности според лиценза</string>
   <string name="all_extended_key_features">Всички възможности на разширения ключ</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Надстрой</string>
   <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
   <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
   <string name="auto_backup_cloud_create_backend">Задаване на отдалечено хранилище за синхронизация от основния екран на менюто Настройки</string>
