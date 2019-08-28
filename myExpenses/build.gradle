@@ -285,7 +285,8 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
-    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.archLifecycleVersion"
+
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.androidxArchVersion"
 
     // ViewModel Kotlin support
@@ -341,10 +342,4 @@ def categoryIcons() {
             .collect { it.take(it.lastIndexOf('.')) }
             .collect { "\"" + it + "\"" }
             .join(", ")
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
