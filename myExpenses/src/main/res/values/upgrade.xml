@@ -15,11 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3032">
-        <item>Monthly section index for transaction list fast scroll</item>
-    </string-array>
-    <string-array name="whats_new_3031">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_304">>
+        <item>Download exchange rates</item>
     </string-array>
     <string-array name="whats_new_303">
         <item>Tamil translation</item>
