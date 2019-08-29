@@ -1763,18 +1763,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 73) {
         db.execSQL("ALTER TABLE transactions add column value_date");
         db.execSQL("ALTER TABLE changes add column value_date");
-        //createOrRefreshTransactionTriggers(db);
       }
 
       if (oldVersion < 74) {
-        if (oldVersion < 73) {
-          db.execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log");
-          db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
-        }
+        db.execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log");
+        db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
         db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
-        if (oldVersion < 73) {
-          createOrRefreshTransactionTriggers(db);
-        }
+        createOrRefreshTransactionTriggers(db);
       }
 
       if (oldVersion < 75) {
@@ -1945,7 +1940,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
-          new SQLiteUpgradeFailedException("Database upgrade failed", e) :
+          new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :
           e;
     }
   }
@@ -2021,17 +2016,19 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   @Override
   public final void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    throw new SQLiteDowngradeFailedException();
+    throw new SQLiteDowngradeFailedException(oldVersion, newVersion);
   }
 
   public static class SQLiteDowngradeFailedException extends SQLiteException {
+    SQLiteDowngradeFailedException(int oldVersion, int newVersion) {
+      super(String.format(Locale.ROOT, "Downgrade not supported %d -> %d", oldVersion, newVersion));
+    }
   }
 
   public static class SQLiteUpgradeFailedException extends SQLiteException {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public SQLiteUpgradeFailedException(String error, Throwable cause) {
-      super(error, cause);
+    SQLiteUpgradeFailedException(int oldVersion, int newVersion, SQLException e) {
+      super(String.format(Locale.ROOT, "Upgrade failed  %d -> %d", oldVersion, newVersion), e);
     }
   }
-
 }
