@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,7 +70,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
     // Start a drag whenever the handle view it touched
     holder.handleView.setOnTouchListener((v, event) -> {
-      if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+      if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
         mDragStartListener.onStartDrag(holder);
       }
       return false;
