@@ -34,9 +34,9 @@ ext {
     targetSdkVersion = 28
     espressoVersion = "3.2.0"
     androidSupportTestVersion = "1.2.0"
-    daggerVersion = "2.23.1"
-    okHttpVersion = "3.9.1"
-    acraVersion = "5.1.2"
+    daggerVersion = "2.24"
+    okHttpVersion = "4.1.0"
+    acraVersion = "5.4.0"
     butterknifeVersion = "10.1.0"
     robolectricVersion = "4.2.1"
     roomVersion = "2.1.0"

@@ -170,11 +170,11 @@ android {
 
 dependencies {
     implementation project(':transactionscontract')
-    implementation 'com.jakewharton:butterknife:' + project.butterknifeVersion
+    implementation "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
     implementation 'com.squareup.phrase:phrase:1.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:' + project.butterknifeVersion
-    kapt 'com.google.dagger:dagger-compiler:' + project.daggerVersion
-    implementation 'com.google.dagger:dagger:' + project.daggerVersion
+    kapt "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
@@ -194,8 +194,8 @@ dependencies {
         exclude group: "com.android.support", module: "support-annotations"
     }
     implementation 'com.itextpdf:itextg:5.5.10'
-    acraImplementation "ch.acra:acra-mail:" + project.acraVersion
-    acraImplementation "ch.acra:acra-dialog:" + project.acraVersion
+    acraImplementation "ch.acra:acra-mail:$rootProject.acraVersion"
+    acraImplementation "ch.acra:acra-dialog:$rootProject.acraVersion"
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency
     implementation 'org.apache.commons:commons-lang3:3.5'
@@ -207,8 +207,8 @@ dependencies {
     implementation 'com.github.eltos:simpledialogfragments:v3.1-androidx'
     implementation 'com.annimon:stream:1.2.1'
 
-    // WebDAV
-    implementation 'com.squareup.okhttp3:okhttp:' + project.okHttpVersion
+    // WebDAV2
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
 
     // Dropbox
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.10'
@@ -241,7 +241,7 @@ dependencies {
     //licence validation
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:' + project.okHttpVersion
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 
@@ -252,12 +252,12 @@ dependencies {
     implementation 'com.squareup.sqlbrite3:sqlbrite:3.2.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:' + project.espressoVersion
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test:runner:' + project.androidSupportTestVersion
-    androidTestImplementation 'androidx.test:rules:' + project.androidSupportTestVersion
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:' + project.espressoVersion
-    androidTestImplementation('androidx.test.espresso:espresso-contrib:' + project.espressoVersion) {
+    androidTestImplementation "androidx.test:runner:$rootProject.androidSupportTestVersion"
+    androidTestImplementation "androidx.test:rules:$rootProject.androidSupportTestVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion") {
         exclude module: 'accessibility-test-framework'
     }
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
@@ -266,7 +266,7 @@ dependencies {
     testImplementation 'pl.pragmatists:JUnitParams:1.1.0'
     testImplementation 'org.mockito:mockito-core:2.7.22'
     testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:" + project.robolectricVersion
+    testImplementation "org.robolectric:shadows-multidex:$rootProject.robolectricVersion"
     testImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation 'org.assertj:assertj-core:2.8.0'
     androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
