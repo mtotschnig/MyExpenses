@@ -439,6 +439,9 @@
         <ListPreference
             android:key="@string/pref_planner_calendar_id_key"
             android:title="@string/pref_planning_calendar_title"/>
+        <org.totschnig.myexpenses.preference.TimePreference
+            android:key="@string/pref_plan_executor_time_key"
+            android:title="@string/pref_plan_executor_time_title"/>
         <LiveSeekBarPreference
             android:defaultValue="10"
             android:key="@string/pref_webdav_timeout_key"

@@ -17,10 +17,10 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.preference.TimePreference;
 
-import java.util.Calendar;
 import java.util.Date;
+
+import static org.totschnig.myexpenses.preference.TimePreference.getScheduledTime;
 
 /**
  * Original implementation based on Financisto
@@ -46,7 +46,7 @@ public class DailyAutoBackupScheduler {
     cancelAutoBackup(context);
     AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     PendingIntent pendingIntent = createPendingIntent(context);
-    Date scheduledTime = getScheduledTime();
+    Date scheduledTime = getScheduledTime(((MyApplication) context.getApplicationContext()).getAppComponent().prefHandler(), PrefKey.AUTO_BACKUP_TIME);
     service.set(AlarmManager.RTC_WAKEUP, scheduledTime.getTime(), pendingIntent);
   }
 
@@ -60,23 +60,6 @@ public class DailyAutoBackupScheduler {
   private static PendingIntent createPendingIntent(Context context) {
     Intent intent = new Intent(context, ScheduledBackupReceiver.class);
     return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_ONE_SHOT);
-  }
-
-  private static Date getScheduledTime() {
-    int hhmm = PrefKey.AUTO_BACKUP_TIME.getInt(TimePreference.DEFAULT_VALUE);
-    int hh = hhmm / 100;
-    int mm = hhmm - 100 * hh;
-    Calendar c = Calendar.getInstance();
-    long now = System.currentTimeMillis();
-    c.setTimeInMillis(now);
-    c.set(Calendar.HOUR_OF_DAY, hh);
-    c.set(Calendar.MINUTE, mm);
-    c.set(Calendar.SECOND, 0);
-    c.set(Calendar.MILLISECOND, 0);
-    if (c.getTimeInMillis() < now) {
-      c.add(Calendar.DAY_OF_MONTH, 1);
-    }
-    return c.getTime();
   }
 
 }

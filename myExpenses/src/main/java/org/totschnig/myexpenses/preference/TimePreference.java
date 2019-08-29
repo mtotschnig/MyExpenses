@@ -13,6 +13,8 @@ import android.util.AttributeSet;
 
 import org.totschnig.myexpenses.R;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -24,7 +26,7 @@ import java.util.Locale;
  */
 public class TimePreference extends IntegerDialogPreference {
 
-    public static final int DEFAULT_VALUE = 500;
+    public static final int DEFAULT_VALUE = 700;
 
     public TimePreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -51,4 +53,20 @@ public class TimePreference extends IntegerDialogPreference {
         return String.format(Locale.getDefault(),"%1$02d:%2$02d",getHour(), getMinute());
     }
 
+    public static Date getScheduledTime(PrefHandler prefHandler, PrefKey prefKey) {
+        int hhmm = prefHandler.getInt(prefKey, DEFAULT_VALUE);
+        int hh = hhmm / 100;
+        int mm = hhmm - 100 * hh;
+        Calendar c = Calendar.getInstance();
+        long now = System.currentTimeMillis();
+        c.setTimeInMillis(now);
+        c.set(Calendar.HOUR_OF_DAY, hh);
+        c.set(Calendar.MINUTE, mm);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        if (c.getTimeInMillis() < now) {
+            c.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return c.getTime();
+    }
 }

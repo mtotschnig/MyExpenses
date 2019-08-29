@@ -791,7 +791,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (granted) {
       switch (requestCode) {
         case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-          MyApplication.getInstance().initPlanner();
+          MyApplication.getInstance().initPlanner(false);
         }
       }
     } else {

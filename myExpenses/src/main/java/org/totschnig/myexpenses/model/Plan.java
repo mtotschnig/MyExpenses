@@ -178,7 +178,7 @@ public class Plan extends Model implements Serializable {
       }
       uri = cr().insert(Events.CONTENT_URI, values);
       setId(ContentUris.parseId(uri));
-      MyApplication.getInstance().initPlanner();
+      MyApplication.getInstance().initPlanner(true);
     } else {
       uri = ContentUris.withAppendedId(Events.CONTENT_URI, getId());
       cr().update(uri, values, null, null);

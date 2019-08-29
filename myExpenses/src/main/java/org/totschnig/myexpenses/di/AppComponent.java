@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.AutoBackupService;
+import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.ads.AdHandler;
@@ -129,5 +130,7 @@ public interface AppComponent {
   void inject(EditCurrencyViewModel editCurrencyViewModel);
 
   void inject(ExportDialogFragment exportDialogFragment);
+
+  void inject(PlanExecutor planExecutor);
 
 }

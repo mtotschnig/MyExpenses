@@ -106,7 +106,7 @@ public class DbUtils {
     } catch (Exception e) {
       CrashHandler.report(e);
     }
-    app.initPlanner();
+    app.initPlanner(false);
     DailyAutoBackupScheduler.updateAutoBackupAlarms(app);
     return result;
   }

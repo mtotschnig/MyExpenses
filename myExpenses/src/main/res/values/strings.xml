@@ -855,4 +855,5 @@
     <string name="pref_exchange_rate_provider_summary">Select provider to download exchange rates</string>
     <string name="pref_exchange_rate_provider_title">Exchange Rate Provider</string>
     <string name="pref_openexchangerates_app_id_summary">Please register a free account on OpenExchangeRates and provide your App ID</string>
+    <string name="pref_plan_executor_time_title">Planner notification time</string>
 </resources>

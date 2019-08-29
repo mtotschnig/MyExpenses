@@ -77,6 +77,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
+import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_EXECUTION_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
@@ -291,6 +292,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
     } else if (key.equals(TRACKING.getKey())) {
       setTrackingEnabled(sharedPreferences.getBoolean(key, false));
+    } else if (key.equals(PLANNER_EXECUTION_TIME.getKey())) {
+      MyApplication.getInstance().initPlanner(false);
     }
   }
 
