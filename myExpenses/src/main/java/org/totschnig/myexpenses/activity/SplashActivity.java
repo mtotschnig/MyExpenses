@@ -169,8 +169,12 @@ public class SplashActivity extends SyncBackendSetupActivity {
           if (result.backups != null && result.syncAccounts != null) {
             accountName = result.accountName;
             if (result.backups.size() > 0 || result.syncAccounts.size() > 0) {
-              RestoreFromCloudDialogFragment.newInstance(result.backups, result.syncAccounts)
-                  .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
+              if (Stream.of(result.syncAccounts).map(accountMetaData -> accountMetaData.uuid()).distinct().count() < result.syncAccounts.size()) {
+                showSnackbar("Found accounts with duplicate uuids");
+              } else {
+                RestoreFromCloudDialogFragment.newInstance(result.backups, result.syncAccounts)
+                    .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
+              }
               break;
             }
           }
