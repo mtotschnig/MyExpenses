@@ -595,7 +595,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.CREATE_ACCOUNT_COMMAND:
         if (mAccountsCursor == null) {
-          showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
+          complainAccountsNotLoaded();
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
         else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
@@ -756,6 +756,10 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     return false;
+  }
+
+  private void complainAccountsNotLoaded() {
+    showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
   }
 
   public void showExportDisabledCommand() {
@@ -1249,19 +1253,23 @@ public class MyExpenses extends LaunchActivity implements
       }
       result = true;
       if (itemId == R.id.SORT_CUSTOM_COMMAND) {
-        ArrayList<AbstractMap.SimpleEntry<Long, String>> accounts = new ArrayList<>();
-        if (mAccountsCursor.moveToFirst()) {
-          final int columnIndexId = mAccountsCursor.getColumnIndex(KEY_ROWID);
-          final int columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
-          while (!mAccountsCursor.isAfterLast()) {
-            final long id = mAccountsCursor.getLong(columnIndexId);
-            if (id > 0) {
-              accounts.add(new AbstractMap.SimpleEntry<>(id, mAccountsCursor.getString(columnIndexLabel)));
+        if (mAccountsCursor == null) {
+          complainAccountsNotLoaded();
+        } else {
+          ArrayList<AbstractMap.SimpleEntry<Long, String>> accounts = new ArrayList<>();
+          if (mAccountsCursor.moveToFirst()) {
+            final int columnIndexId = mAccountsCursor.getColumnIndex(KEY_ROWID);
+            final int columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
+            while (!mAccountsCursor.isAfterLast()) {
+              final long id = mAccountsCursor.getLong(columnIndexId);
+              if (id > 0) {
+                accounts.add(new AbstractMap.SimpleEntry<>(id, mAccountsCursor.getString(columnIndexLabel)));
+              }
+              mAccountsCursor.moveToNext();
             }
-            mAccountsCursor.moveToNext();
           }
+          SortUtilityDialogFragment.newInstance(accounts).show(getSupportFragmentManager(), "SORT_ACCOUNTS");
         }
-        SortUtilityDialogFragment.newInstance(accounts).show(getSupportFragmentManager(), "SORT_ACCOUNTS");
       }
     }
     return result;
