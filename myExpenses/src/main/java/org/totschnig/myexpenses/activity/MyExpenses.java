@@ -844,10 +844,12 @@ public class MyExpenses extends LaunchActivity implements
           Bundle args = new Bundle();
           args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
           args.putLong(KEY_ROWID, mAccountId);
-          getSupportFragmentManager().beginTransaction()
-              .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
-              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), PROGRESS_TAG)
-              .commit();
+          if (!getSupportFragmentManager().isStateSaved()) {
+            getSupportFragmentManager().beginTransaction()
+                .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
+                .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), PROGRESS_TAG)
+                .commit();
+          }
         }
         break;
       }
