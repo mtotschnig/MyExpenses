@@ -179,7 +179,9 @@ public class TemplatesList extends SortableListFragment
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
               mTemplatesCursor.getInt(columnIndexColor), isSealed, ctx.getThemeType());
-          planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
+          if (!getChildFragmentManager().isStateSaved()) {
+            planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
+          }
         } else {
           ctx.requestCalendarPermission();
         }
