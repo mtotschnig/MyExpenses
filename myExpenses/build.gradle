@@ -203,7 +203,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
-    implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
+    implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
     implementation 'com.github.eltos:simpledialogfragments:v3.1-androidx'
     implementation 'com.annimon:stream:1.2.1'
 
