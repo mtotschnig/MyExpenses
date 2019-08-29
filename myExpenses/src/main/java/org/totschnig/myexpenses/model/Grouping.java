@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
@@ -33,7 +36,11 @@ public enum Grouping {
    * @param c           a cursor where we can find information about the current date
    * @return a human readable String representing the group as header or activity title
    */
-  public String getDisplayTitle(Context ctx, int groupYear, int groupSecond, Cursor c) {
+  @NonNull
+  public String getDisplayTitle(@Nullable Context ctx, int groupYear, int groupSecond, Cursor c) {
+    if (ctx == null) {
+      return "";
+    }
     Calendar cal;
     switch (this) {
       case NONE:
