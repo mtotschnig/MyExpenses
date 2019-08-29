@@ -102,6 +102,7 @@
     <item quantity="one">Да се изтрие ли профилът?</item>
     <item quantity="other">Да се изтрият ли тези %1$d сметки?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">Да се изтрие ли категорията?</string>
   <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
   <string name="dialog_title_warning_delete_transaction">Да изтрия ли транзакцията?</string>
   <string name="expense">Разход</string>
@@ -402,6 +403,7 @@
     <item quantity="one">Избраната категория има подкатегории, които също ще бъдат изтрити.</item>
     <item quantity="other">%1$d избрани категории имат подкатегори, които също ще бъдат изтрити.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Поне една избрана категория има бюджетно разпределение, което също ще бъдат изтрито.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Избрания шаблон ще бъде изтрит.</item>
     <item quantity="other">Избраните %1$d шаблона ще бъдат изтрити.</item>
@@ -832,4 +834,10 @@
   <string name="roadmap_vote">Гласуване в картата за развитие</string>
   <string name="warning_account_for_transaction_is_closed">Поне една от избраните транзакции не може да се редактира:</string>
   <string name="object_sealed">Обектът се отнася за затворена сметка.</string>
+  <string name="content_description_download_exchange_rate">Изтегляне на валутни курсове</string>
+  <string name="exchange_rate_not_supported">Зададеният доставчик на валутни курсове не предоставя курс %1$s: %2$s. Опитате с избор на различен в настройките.</string>
+  <string name="pref_category_exchange_rates">Валутни курсове</string>
+  <string name="pref_exchange_rate_provider_summary">Изберете доставчик, за да изтеглите валутни курсове</string>
+  <string name="pref_exchange_rate_provider_title">Доставчик на валутни курсове</string>
+  <string name="pref_openexchangerates_app_id_summary">Моля, регистрирайте безплатен акаунт в OpenExchangeRates и предоставете идентификационния номер на своето приложение</string>
 </resources>

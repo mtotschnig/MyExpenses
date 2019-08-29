@@ -102,6 +102,7 @@
     <item quantity="one">கணக்கை நீக்கவா?</item>
     <item quantity="other">%1$d கணக்குகளை நீக்கவா?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">வகையை நீக்கவா?</string>
   <string name="dialog_title_warning_delete_template">வார்ப்புருவை நீக்கவா?</string>
   <string name="dialog_title_warning_delete_transaction">பரிவர்த்தனையை நீக்கவா?</string>
   <string name="expense">செலவு</string>
@@ -402,6 +403,7 @@
     <item quantity="one">தேர்ந்தெடுக்கப்பட்ட வகைகள் ஒன்றில் துணை வகைகள் உள்ளன, அவை நீக்கப்படும்.</item>
     <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d வகைகளில் துணை வகைகள் உள்ளன, அவையும் நீக்கப்படும்.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">தேர்ந்தெடுக்கப்பட்ட ஒரு வகையிலாவது, திட்டமிடப்பட்ட ஒதுக்கீடுகள் உள்ளன, அவையும் நீக்கப்படும்.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">தேர்ந்தெடுக்கப்பட்ட வார்ப்புரு நீக்கப்படும்.</item>
     <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d வார்ப்புருக்கள் நீக்கப்படும்.</item>
@@ -832,4 +834,10 @@
   <string name="roadmap_vote">திட்ட வாக்களிப்பு</string>
   <string name="warning_account_for_transaction_is_closed">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளில் குறைந்தபட்சம் ஒன்றையாவது தொகுக்க முடியவில்லை:</string>
   <string name="object_sealed">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>
+  <string name="content_description_download_exchange_rate">மாற்று விகிதத்தைப் பதிவிறக்குக</string>
+  <string name="exchange_rate_not_supported">கட்டமைக்கப்பட்ட மாற்று விகித வழங்குநர் \"%1$s: %2$s\" விகிதத்தை வழங்கவில்லை. அமைப்புகளில் வேறு ஒன்றைத் தேர்ந்தெடுத்து முயற்சி செய்யலாம்.</string>
+  <string name="pref_category_exchange_rates">மாற்று விகிதங்கள்</string>
+  <string name="pref_exchange_rate_provider_summary">மாற்று விகிதங்களைப் பதிவிறக்க வழங்குநரைத் தேர்ந்தெடுக்கவும்</string>
+  <string name="pref_exchange_rate_provider_title">மாற்று விகித வழங்குநர்</string>
+  <string name="pref_openexchangerates_app_id_summary">OpenExchangeRates இல் இலவச கணக்கைப் பதிவுசெய்து உங்களுடைய பயன்பாட்டு ஐடியை வழங்கவும்</string>
 </resources>
