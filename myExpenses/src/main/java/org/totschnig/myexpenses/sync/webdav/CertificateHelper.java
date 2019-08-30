@@ -48,7 +48,7 @@ public class CertificateHelper {
         String subject = sujectHelper.getCN();
 
         SortedSet<String> subjectAltNames = new TreeSet<>();
-        subjectAltNames.addAll(OkHostnameVerifier.allSubjectAltNames(certificate));
+        subjectAltNames.addAll(OkHostnameVerifier.INSTANCE.allSubjectAltNames(certificate));
 
         X500PrincipalHelper issuerHelper = new X500PrincipalHelper(certificate.getIssuerX500Principal());
         String issuer = issuerHelper.getCN();
