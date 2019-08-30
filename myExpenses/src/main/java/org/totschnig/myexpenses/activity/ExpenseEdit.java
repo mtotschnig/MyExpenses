@@ -645,6 +645,10 @@ public class ExpenseEdit extends AmountActivity implements
         // Do Nothing.  Observer has already been unregistered.
       }
     }
+    Cursor oldCursor = mPayeeAdapter.getCursor();
+    if (oldCursor != null && !oldCursor.isClosed()) {
+      oldCursor.close();
+    }
   }
 
   private void setup() {
