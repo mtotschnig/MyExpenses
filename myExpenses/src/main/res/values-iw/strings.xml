@@ -104,6 +104,7 @@
     <item quantity="many">למחוק חשבונות %1$d?</item>
     <item quantity="other">האם מחוק חשבונות %1$d?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">האם למחוק קטגוריה?</string>
   <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
   <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
   <string name="expense">הוצאה</string>
@@ -412,6 +413,7 @@
     <item quantity="many">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
     <item quantity="other">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">לפחות בקטגוריה אחת שנבחרה יש הקצאות תקציב, שיימחקו גם הן.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">התבנית שנבחרה תימחק.</item>
     <item quantity="two">%1$d תבניות שנבחרו  יימחקו.</item>
@@ -856,4 +858,11 @@
   <string name="roadmap_vote">הצבעה על מפת דרכים</string>
   <string name="warning_account_for_transaction_is_closed">לא ניתן לערוך לפחות אחת מהעסקאות שנבחרו:</string>
   <string name="object_sealed">אובייקט מתייחס לחשבון סגור.</string>
+  <string name="content_description_download_exchange_rate">עדכן שערי חליפין</string>
+  <string name="exchange_rate_not_supported">ספק שער החליפין המוגדר אינו מספק את התעריף %1$s:%2$s. אתה יכול לנסות לבחור אחד אחר בהגדרות.</string>
+  <string name="pref_category_exchange_rates">שערי חליפין</string>
+  <string name="pref_exchange_rate_provider_summary">בחר ספק כדי להוריד שערי חליפין</string>
+  <string name="pref_exchange_rate_provider_title">בחר לספק להוריד שערי חליפין</string>
+  <string name="pref_openexchangerates_app_id_summary">אנא הרשמו לחשבון בחינם ב- OpenExchangeRates וספקו את מזהה האפליקציה שלכם</string>
+  <string name="pref_plan_executor_time_title">זמן התראה למתכנן</string>
 </resources>
