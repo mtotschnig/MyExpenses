@@ -1,3 +1,6 @@
 apply from: 'standalone-rules.gradle'
 
-android.compileSdkVersion project.compileSdkVersion
+android {
+    compileSdkVersion project.compileSdkVersion
+    defaultConfig.targetSdkVersion project.targetSdkVersion
+}
