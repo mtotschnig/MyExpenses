@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Essayer</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium (%2$s).</string>
@@ -101,6 +102,7 @@
     <item quantity="one">Supprimer le compte?</item>
     <item quantity="other">Supprimer %1$dcomptes?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">Supprimer la catégorie?</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
   <string name="expense">Dépense</string>
@@ -401,6 +403,7 @@
     <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>
     <item quantity="other">%1$d catégories sélectionnées possèdent des sous-catégories, qui seront aussi supprimées.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Pour au moins une catégorie sélectionnée, il existe des affectations budgétaires, qui seront également supprimées.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Le modèle sélectionné sera supprimé.</item>
     <item quantity="other">%1$d modèles sélectionnés seront supprimés.</item>
@@ -611,6 +614,7 @@
   <string name="all_contrib_key_features">Toutes les fonctions de la Clé Contrib</string>
   <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Mettre à jour</string>
   <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
   <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
   <string name="auto_backup_cloud_create_backend">Créer un paramètre de synchronisation à partir de l\'écran principal des réglages.</string>
@@ -830,4 +834,11 @@
   <string name="roadmap_vote">Vote sur la feuille de route</string>
   <string name="warning_account_for_transaction_is_closed">Au moins une des transactions sélectionnées ne peut pas être modifiée:</string>
   <string name="object_sealed">L\'objet fait référence à un compte fermé.</string>
+  <string name="content_description_download_exchange_rate">Télécharger le taux de change</string>
+  <string name="exchange_rate_not_supported">Le fournisseur de taux de change configuré ne fournit pas le taux %1$s: %2$s. Vous pouvez essayer d\'en sélectionner un autre dans les paramètres.</string>
+  <string name="pref_category_exchange_rates">Taux d\'échange</string>
+  <string name="pref_exchange_rate_provider_summary">Sélectionner un fournisseur pour télécharger les taux de change</string>
+  <string name="pref_exchange_rate_provider_title">Fournisseur de taux de change</string>
+  <string name="pref_openexchangerates_app_id_summary">Veuillez créer un compte gratuit sur OpenExchangeRates et fournir votre App ID.</string>
+  <string name="pref_plan_executor_time_title">Heure de notification du planificateur</string>
 </resources>

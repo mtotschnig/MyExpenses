@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_304">
+        <item>Wechselkurse herunterladen</item>
+    </string-array>
     <string-array name="whats_new_303">
         <item>Tamilische Übersetzung</item>
         <item>Schaltfläche Jetzt synchronisieren im Hauptmenü</item>

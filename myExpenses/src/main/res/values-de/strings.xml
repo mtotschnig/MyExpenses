@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Ausprobieren</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion (%2$s).</string>
@@ -101,6 +102,7 @@
     <item quantity="one">Konto löschen?</item>
     <item quantity="other">%1$d Konten löschen?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">Kategorie löschen?</string>
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="expense">Ausgabe</string>
@@ -401,6 +403,7 @@
     <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Für mindestens eine ausgewählte Kategorie gibt es Budgetzuweisungen, die ebenfalls gelöscht werden.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Die ausgewählte Vorlage wird gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Vorlagen werden gelöscht.</item>
@@ -611,6 +614,7 @@
   <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
   <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Upgrade</string>
   <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
   <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
   <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
@@ -830,4 +834,11 @@
   <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
   <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Transaktionen kann nicht bearbeitet werden:</string>
   <string name="object_sealed">Objekt bezieht sich auf ein geschlossenes Konto.</string>
+  <string name="content_description_download_exchange_rate">Wechselkurs herunterladen</string>
+  <string name="exchange_rate_not_supported">Der konfigurierte Wechselkursanbieter bietet nicht den Kurs %1$s: %2$s an. Sie können versuchen, in den Einstellungen einen anderen auszuwählen.</string>
+  <string name="pref_category_exchange_rates">Wechselkurse</string>
+  <string name="pref_exchange_rate_provider_summary">Wählen Sie den Anbieter für Wechselkurse aus</string>
+  <string name="pref_exchange_rate_provider_title">Anbieter für Wechselkurse</string>
+  <string name="pref_openexchangerates_app_id_summary">Bitte registrieren Sie ein kostenloses Konto bei OpenExchangeRates und geben Sie Ihre App-ID an</string>
+  <string name="pref_plan_executor_time_title">Planer Benachrichtigungszeit</string>
 </resources>

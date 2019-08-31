@@ -680,4 +680,8 @@
   <string name="content_description_closed">Закрыт</string>
   <string name="translated_by">Перевод</string>
   <string name="pref_debug_title">Отладка</string>
+  <string name="pref_category_exchange_rates">Курсы валют</string>
+  <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
+  <string name="pref_exchange_rate_provider_title">Поставщик курсов валют</string>
+  <string name="pref_openexchangerates_app_id_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе OpenExchangeRates и введите ваш App ID</string>
 </resources>

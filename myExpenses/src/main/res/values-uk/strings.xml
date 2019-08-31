@@ -829,4 +829,8 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="pref_category_exchange_rates">Курси валют</string>
+  <string name="pref_exchange_rate_provider_summary">Вибрати постачальника курсів валют для завантаження</string>
+  <string name="pref_exchange_rate_provider_title">Постачальник курсів валют</string>
+  <string name="pref_openexchangerates_app_id_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі OpenExchangeRates та введіть ваш App ID</string>
 </resources>

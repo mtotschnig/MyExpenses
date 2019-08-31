@@ -102,6 +102,7 @@
     <item quantity="one">Cancellare il conto ?</item>
     <item quantity="other">Eliminare %1$d conti?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">Eliminare la categoria?</string>
   <string name="dialog_title_warning_delete_template">Eliminare modello ?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminare transazione ?</string>
   <string name="expense">Spesa</string>
@@ -402,6 +403,7 @@
     <item quantity="one">La categoria selezionata ha sottocategorie, che verranno quindi cancellate.</item>
     <item quantity="other">%1$d categorie selezionate hanno sottocategorie, che verranno quindi cancellate.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Per almeno una delle categorie selezionate, ci sono allocazioni di budget che verranno eliminate.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Il modello selezionato verrà cancellato.</item>
     <item quantity="other">Saranno cancellati %1$d modelli selezionati.</item>
@@ -832,4 +834,11 @@
   <string name="roadmap_vote">Voto sulla Roadmap</string>
   <string name="warning_account_for_transaction_is_closed">Almeno una delle transazioni selezionate non può essere modificata:</string>
   <string name="object_sealed">L\'oggetto fa riferimento ad un account chiuso.</string>
+  <string name="content_description_download_exchange_rate">Scarica il tasso di cambio</string>
+  <string name="exchange_rate_not_supported">Il fornitore dei tassi di cambio selezionato non fornisce il tasso %1$s: %2$s. Puoi provare a selezionarne uno diverso dalle impostazioni.</string>
+  <string name="pref_category_exchange_rates">Tassi di cambio</string>
+  <string name="pref_exchange_rate_provider_summary">Seleziona il fornitore da cui scaricare i tassi di cambio</string>
+  <string name="pref_exchange_rate_provider_title">Fornitore dei Tassi di Cambio</string>
+  <string name="pref_openexchangerates_app_id_summary">Registri un account gratuito su OpenExchangeRates e riporti il suo App ID</string>
+  <string name="pref_plan_executor_time_title">Tempo di notifica del pianificatore</string>
 </resources>

@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_304">
+        <item>Download dei tassi di cambio</item>
+    </string-array>
     <string-array name="whats_new_303">
         <item>Traduzione Tamil</item>
         <item>Pulsante \"Sincronizza ora\" nel menù principale</item>

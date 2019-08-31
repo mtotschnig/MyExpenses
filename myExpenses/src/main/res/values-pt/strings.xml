@@ -793,4 +793,5 @@
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">Traduzido por</string>
+  <string name="pref_category_exchange_rates">Taxas de câmbio</string>
 </resources>

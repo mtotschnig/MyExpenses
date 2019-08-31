@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_304">
+        <item>為替レートのダウンロード</item>
+    </string-array>
     <string-array name="whats_new_303">
         <item>タミル語翻訳</item>
         <item>メインメニューに今すぐ同期ボタン</item>
