@@ -75,10 +75,10 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
 
     fun log(response: Response<*>) {
         if (BuildConfig.DEBUG) {
-            if (response.raw().cacheResponse != null) {
+            if (response.raw().cacheResponse() != null) {
                 Timber.i("Response was cached")
             }
-            if (response.raw().networkResponse != null) {
+            if (response.raw().networkResponse() != null) {
                 Timber.i("Response was from network")
             }
         }

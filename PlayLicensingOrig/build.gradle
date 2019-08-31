@@ -4,7 +4,7 @@ android {
   compileSdkVersion project.compileSdkVersion
   defaultConfig {
     minSdkVersion 3
-    targetSdkVersion project.compileSdkVersion
+    targetSdkVersion project.targetSdkVersion
   }
   sourceSets {
     main {
