@@ -872,8 +872,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     private int getSectioningId(int position) {
       Cursor c = getCursor();
-      c.moveToPosition(position);
-      return calculateHeaderId(c.getInt(columnIndexYear), c.getInt(columnIndexMonth), Grouping.MONTH);
+      return c.moveToPosition(position) ? calculateHeaderId(c.getInt(columnIndexYear), c.getInt(columnIndexMonth), Grouping.MONTH) : 0;
     }
 
     private int getSecond(Cursor c) {
