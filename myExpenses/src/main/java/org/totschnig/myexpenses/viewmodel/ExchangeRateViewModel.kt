@@ -6,6 +6,9 @@ import kotlinx.coroutines.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
+import org.totschnig.myexpenses.retrofit.MissingAppIdException
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import java.io.IOException
 
 class ExchangeRateViewModel(application: MyApplication) {
     private val exchangeRate: MutableLiveData<Float> = MutableLiveData()
@@ -24,8 +27,14 @@ class ExchangeRateViewModel(application: MyApplication) {
                 withContext(Dispatchers.Main) {
                     exchangeRate.postValue(rate)
                 }
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    when (e) {
+                        is IOException, is UnsupportedOperationException, is MissingAppIdException -> {
+                        }
+                        else -> CrashHandler.report(e)
+
+                    }
                     error.postValue(e)
                 }
             }

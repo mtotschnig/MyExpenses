@@ -30,6 +30,7 @@ import java.net.Socket;
 import javax.inject.Singleton;
 import javax.net.SocketFactory;
 
+import androidx.annotation.Nullable;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
@@ -49,10 +50,13 @@ import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 class NetworkModule {
 
   @Provides
-  static OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor loggingInterceptor,
+  static OkHttpClient.Builder provideOkHttpClientBuilder(@Nullable HttpLoggingInterceptor loggingInterceptor,
                                                   SocketFactory socketFactory) {
-    final OkHttpClient.Builder builder = new OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor);
+    final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+    if (loggingInterceptor != null) {
+      builder.addInterceptor(loggingInterceptor);
+    }
     if (BuildConfig.DEBUG) {
       builder.eventListener(new EventListener() {
         @Override
@@ -80,10 +84,14 @@ class NetworkModule {
 
   @Provides
   @Singleton
+  @Nullable
   static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
-    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-    loggingInterceptor.setLevel(BuildConfig.DEBUG ? BODY : BASIC);
-    return loggingInterceptor;
+    if (BuildConfig.DEBUG) {
+      HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+      loggingInterceptor.setLevel(BODY);
+      return loggingInterceptor;
+    }
+    return null;
   }
 
   @Provides
