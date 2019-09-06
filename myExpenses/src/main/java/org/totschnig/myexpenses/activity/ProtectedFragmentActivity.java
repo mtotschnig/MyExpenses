@@ -647,6 +647,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (hasPendingTask(true)) {
       return;
     }
+    if (m.isStateSaved()) {
+      return;
+    }
     //noinspection AndroidLintCommitTransaction
     FragmentTransaction ft = m.beginTransaction()
         .add(TaskExecutionFragment.newInstance(
