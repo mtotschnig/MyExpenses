@@ -115,7 +115,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           return Result.ofFailure(errorMessage);
         }
         try {
-          is = syncBackendProvider.getInputStreamForBackup(account, backupFromSync);
+          is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
           isEncrypted = backupFromSync.endsWith("enc");
         } catch (IOException e) {
           return Result.ofFailure(e.getMessage());

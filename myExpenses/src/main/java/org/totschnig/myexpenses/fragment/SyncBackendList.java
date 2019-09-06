@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -325,19 +326,20 @@ public class SyncBackendList extends Fragment implements
         android.accounts.Account account = GenericAccountService.GetAccount(accountName);
         return SyncBackendProviderFactory.get(getContext(), account)
             .map(syncBackendProvider -> {
-              final AccountMetaDataLoaderResult remoteAccountList = getRemoteAccountList(account, syncBackendProvider);
+              final AccountMetaDataLoaderResult remoteAccountList = getRemoteAccountList(syncBackendProvider);
               syncBackendProvider.tearDown();
               return remoteAccountList;
             })
             .getOrThrow();
       } catch (Throwable throwable) {
+        CrashHandler.report(throwable);
         return new AccountMetaDataLoaderResult(null, throwable);
       }
     }
 
-    private AccountMetaDataLoaderResult getRemoteAccountList(android.accounts.Account account, SyncBackendProvider provider) {
+    private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
       try {
-        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList(account).collect(Collectors.toList()), null);
+        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList().collect(Collectors.toList()), null);
       } catch (IOException e) {
         return new AccountMetaDataLoaderResult(null, e);
       }

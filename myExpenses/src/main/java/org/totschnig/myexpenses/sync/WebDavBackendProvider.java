@@ -205,7 +205,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException {
+  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
     return getInputStream(BACKUP_FOLDER_NAME, backupFile);
   }
 
@@ -286,7 +286,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups(android.accounts.Account account) {
+  public List<String> getStoredBackups() {
     try {
       return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
           .map(DavResource::fileName)
@@ -395,7 +395,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
+  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
     return Stream.of(webDavClient.getFolderMembers((String[]) null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, getAccountMetadataFilename()))

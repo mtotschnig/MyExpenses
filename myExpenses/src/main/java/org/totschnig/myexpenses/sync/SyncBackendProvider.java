@@ -36,7 +36,7 @@ public interface SyncBackendProvider {
   @NonNull SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
 
   @NonNull
-  Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException;
+  Stream<AccountMetaData> getRemoteAccountList() throws IOException;
 
   Exceptional<Void> setUp(String authToken, String encryptionPassword);
 
@@ -45,9 +45,9 @@ public interface SyncBackendProvider {
   void storeBackup(Uri uri, String fileName) throws IOException;
 
   @NonNull
-  List<String> getStoredBackups(android.accounts.Account account) throws IOException;
+  List<String> getStoredBackups() throws IOException;
 
-  InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException;
+  InputStream getInputStreamForBackup(String backupFile) throws IOException;
 
   /**
    *

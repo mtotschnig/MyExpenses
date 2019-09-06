@@ -222,7 +222,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException {
+  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
     return getInputStream(getBackupPath() + "/" + backupFile);
   }
 
@@ -310,7 +310,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
+  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
     Stream<AccountMetaData> result;
     try {
       result = Stream.of(mDbxClient.files().listFolder(basePath).getEntries())
@@ -343,7 +343,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups(android.accounts.Account account) throws IOException {
+  public List<String> getStoredBackups() throws IOException {
     try {
       return Stream.of(mDbxClient.files().listFolder(getBackupPath()).getEntries())
           .map(Metadata::getName)

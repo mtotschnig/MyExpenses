@@ -556,7 +556,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName));
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList();
           remoteUuidList = remoteAccounStream
               .map(AccountMetaData::uuid)
               .collect(Collectors.toList());
@@ -602,13 +602,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
-        String syncAccountName = ((String) mExtra);
         Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
         if (!syncBackendProvider.isPresent()) {
           return Result.ofFailure(syncBackendProvider.getException().getMessage());
         }
         try {
-          if (syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
+          if (syncBackendProvider.get().getRemoteAccountList()
               .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
             return Result.ofFailure(concatResStrings(application, " ",
                 R.string.link_account_failure_2, R.string.link_account_failure_3)
@@ -654,7 +653,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         try {
           List<String> accountUuids = Arrays.asList((String[]) ids);
-          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
+          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountList()
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
               .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {

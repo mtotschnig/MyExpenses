@@ -103,8 +103,8 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
       syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
           account).getOrThrow();
       if (shouldReturnRemoteDataList) {
-        syncAccounts = syncBackendProvider.getRemoteAccountList(account).collect(Collectors.toList());
-        backups = syncBackendProvider.getStoredBackups(account);
+        syncAccounts = syncBackendProvider.getRemoteAccountList().collect(Collectors.toList());
+        backups = syncBackendProvider.getStoredBackups();
         syncBackendProvider.tearDown();
       } else {
         syncAccounts = null;

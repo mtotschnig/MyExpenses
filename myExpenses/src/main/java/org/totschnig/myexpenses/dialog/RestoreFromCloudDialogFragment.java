@@ -104,7 +104,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
         restorePlanStrategie.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener);
       }
       DialogUtils.configureCalendarRestoreStrategy(backupListContainer);
-      tabLayout.addTab(tabLayout.newTab().setText("From backup").setTag(backupListContainer));
+      tabLayout.addTab(tabLayout.newTab().setText(R.string.onboarding_restore_from_cloud_backup).setTag(backupListContainer));
     }
     if (syncAccounts != null && syncAccounts.size() > 0) {
       ListView syncAccountList = findListView(syncAccountListContainer);
@@ -112,7 +112,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
           android.R.layout.simple_list_item_multiple_choice, syncAccounts));
       syncAccountList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
       syncAccountList.setOnItemClickListener(this);
-      tabLayout.addTab(tabLayout.newTab().setText("From Sync accounts").setTag(syncAccountListContainer));
+      tabLayout.addTab(tabLayout.newTab().setText(R.string.onboarding_restore_from_cloud_sync_accounts).setTag(syncAccountListContainer));
     }
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
