@@ -54,6 +54,7 @@ import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -286,17 +287,19 @@ public class PlanMonthFragment extends CaldroidFragment
   public void dispatchCommandSingle(int command, int position) {
     Intent i;
     long instanceId = getPlanInstanceForPosition(position);
+    final FragmentActivity activity = getActivity();
+    if (activity == null) return;
     if (instanceId != -1) {
       switch (command) {
         case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-          i = new Intent(getActivity(), ExpenseEdit.class);
+          i = new Intent(activity, ExpenseEdit.class);
           i.putExtra(KEY_TEMPLATEID, getArguments().getLong(KEY_ROWID));
           i.putExtra(KEY_INSTANCEID, instanceId);
           i.putExtra(KEY_DATE, getDateForPosition(position));
           startActivityForResult(i, 0);
           break;
         case R.id.EDIT_PLAN_INSTANCE_COMMAND:
-          i = new Intent(getActivity(), ExpenseEdit.class);
+          i = new Intent(activity, ExpenseEdit.class);
           i.putExtra(KEY_ROWID, instance2TransactionMap.get(instanceId));
           startActivity(i);
           break;
