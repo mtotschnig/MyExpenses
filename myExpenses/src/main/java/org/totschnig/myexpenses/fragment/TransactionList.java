@@ -992,6 +992,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @Override
     public int getSectionForPosition(int position) {
+      if (sectionIds == null) return 0;
       final int indexOfKey = IntStream.range(0, sectionIds.length)
           .filter(i -> sectionIds[i] == getSectioningId(position))
           .findFirst().orElse(0);
