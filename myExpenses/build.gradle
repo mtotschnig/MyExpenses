@@ -211,7 +211,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
 
     // Dropbox
-    implementation 'com.dropbox.core:dropbox-core-sdk:3.0.10'
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.1'
 
     //noinspection GradleCompatible
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -227,7 +227,7 @@ dependencies {
         exclude group: 'com.google.android', module: 'android'
     }
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -272,7 +272,7 @@ dependencies {
     androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
     androidTestImplementation 'com.jraska:falcon:2.1.0'
     androidTestImplementation 'com.jraska:falcon-spoon-compat:2.1.0'
-    implementation "androidx.core:core-ktx:1.0.2"
+    implementation "androidx.core:core-ktx:1.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
