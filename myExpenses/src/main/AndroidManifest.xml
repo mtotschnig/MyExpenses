@@ -278,6 +278,8 @@
 
         <activity android:name=".activity.HistoryActivity" />
 
+        <activity android:name=".activity.DropboxSetup"/>
+        
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"

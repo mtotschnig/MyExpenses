@@ -117,21 +117,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     if (setupPending) {
       startSetupDo();
       setupPending = false;
-    } else {
-      if (selectedFactoryId == R.id.SYNC_BACKEND_DROPBOX) {
-        final String authToken = Auth.getOAuth2Token();
-        if (authToken != null) {
-          Bundle extra = new Bundle(1);
-          extra.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-          SimpleInputDialog.build()
-              .title("Dropbox")
-              .msg(R.string.dropbox_folder_name_prompt)
-              .pos(android.R.string.ok)
-              .extra(extra)
-              .neut()
-              .show(this, DIALOG_DROPBOX_FOLDER);
-        }
-      }
     }
   }
 

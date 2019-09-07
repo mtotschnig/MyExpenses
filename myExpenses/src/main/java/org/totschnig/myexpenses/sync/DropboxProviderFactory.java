@@ -6,9 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.dropbox.core.android.Auth;
-
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.DropboxSetup;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.util.Result;
@@ -19,7 +18,6 @@ import androidx.annotation.NonNull;
 
 public class DropboxProviderFactory extends SyncBackendProviderFactory {
   public static final String LABEL = "Dropbox";
-  private static final String APP_KEY = "09ctg08r5gnsh5c";
 
   @NonNull
   @Override
@@ -34,7 +32,8 @@ public class DropboxProviderFactory extends SyncBackendProviderFactory {
 
   @Override
   public void startSetup(ProtectedFragmentActivity activity) {
-    Auth.startOAuth2Authentication(activity, APP_KEY);
+    activity.startActivityForResult(new Intent(activity, DropboxSetup.class),
+        ProtectedFragmentActivity.SYNC_BACKEND_SETUP_REQUEST);
   }
 
   @Override
