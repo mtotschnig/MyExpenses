@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.view.SubMenu;
 
 import com.annimon.stream.Exceptional;
-import com.dropbox.core.android.Auth;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -23,14 +23,12 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.task.SyncAccountTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.Result;
 
 import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
@@ -44,13 +42,11 @@ import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVI
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_DROPBOX_SETUP;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
 public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     implements EditTextDialog.EditTextDialogListener, SimpleInputDialog.OnDialogResultListener {
-  private static final String DIALOG_DROPBOX_FOLDER = "dropboxFolder";
   private static final String DIALOG_TAG_PASSWORD = "password";
   private static final int REQUEST_CODE_RESOLUTION = 1;
 
@@ -61,6 +57,8 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
 
   @State
   int selectedFactoryId;
+  @NotNull
+  public static final String KEY_SYNC_PROVIDER_ID  = "syncProviderId";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +107,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     createAccount(accountName, password, null, bundle);
   }
 
-  //Dropbox
   @Override
   protected void onResume() {
     super.onResume();
@@ -143,13 +140,15 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     }
   }
 
-  //Google Drive
+  //Google Drive & Dropbox
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
-      createAccount(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME), null,
-          null, intent.getBundleExtra(AccountManager.KEY_USERDATA));
+      String accountName = getSyncBackendProviderFactoryByIdOrThrow(intent.getIntExtra(KEY_SYNC_PROVIDER_ID, 0))
+          .buildAccountName(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
+      createAccount(accountName, null,
+          intent.getStringExtra(AccountManager.KEY_AUTHTOKEN), intent.getBundleExtra(AccountManager.KEY_USERDATA));
     }
     if (requestCode == REQUEST_CODE_RESOLUTION) {
       showSnackbar("Please try again");
@@ -231,19 +230,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         getWebdavFragment().onTestLoginResult((Exceptional<Void>) o);
         break;
       }
-      case TASK_DROPBOX_SETUP: {
-        Result<Pair<String, String>> result = (Result<Pair<String, String>>) o;
-        selectedFactoryId = 0;
-        if (result.isSuccess()) {
-          String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX)
-              .buildAccountName(String.format("%s - %s", result.getExtra().first, result.getExtra().second));
-          Bundle bundle = new Bundle(1);
-          bundle.putString(KEY_SYNC_PROVIDER_URL, result.getExtra().second);
-          createAccount(accountName, null, Auth.getOAuth2Token(), bundle);
-        } else {
-          showSnackbar(result.print(this));
-        }
-      }
     }
   }
 
@@ -279,12 +265,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (DIALOG_DROPBOX_FOLDER.equals(dialogTag) && which == BUTTON_POSITIVE) {
-      extras.putString(KEY_SYNC_PROVIDER_URL, extras.getString(SimpleInputDialog.TEXT));
-      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, extras,
-          R.string.progress_dialog_checking_sync_backend);
-      return true;
-    }
     if (DIALOG_TAG_PASSWORD.equals(dialogTag)) {
       if (which != BUTTON_POSITIVE || "".equals(extras.getString(KEY_PASSWORD_ENCRYPTION))) {
         extras.remove(KEY_PASSWORD_ENCRYPTION);
