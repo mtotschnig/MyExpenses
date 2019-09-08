@@ -486,7 +486,7 @@
   <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
   <string name="learn_more">Научете повече</string>
   <string name="import_source_file">Файл</string>
-  <string name="restore_calendar_handling">Възтановяване на данни в календара</string>
+  <string name="restore_calendar_handling">Възстановяване на данни в календара</string>
   <string name="restore_calendar_handling_configured">Възстанови плановете в текущия календар</string>
   <string name="restore_calendar_handling_backup">Възстанови плановете в календар, записан в архива, ако има такъв</string>
   <string name="restore_calendar_handling_ignore">Не възстановявай планове</string>
@@ -546,7 +546,7 @@
   <string name="pref_grouping_periods">Периоди за групиране</string>
   <string name="exchange_rate">Обменен курс</string>
   <string name="date_format_hour">Час</string>
-  <string name="date_format_minute">Минута</string>
+  <string name="date_format_minute">Минути</string>
   <string name="copied_to_clipboard">Копирано в клипборда</string>
   <string name="menu_sort">Подреди по</string>
   <string name="pref_sort_order_last_used">Последно използван</string>
@@ -840,4 +840,5 @@
   <string name="pref_exchange_rate_provider_summary">Изберете доставчик, за да изтеглите валутни курсове</string>
   <string name="pref_exchange_rate_provider_title">Доставчик на валутни курсове</string>
   <string name="pref_openexchangerates_app_id_summary">Моля, регистрирайте безплатен акаунт в OpenExchangeRates и предоставете идентификационния номер на своето приложение</string>
+  <string name="pref_plan_executor_time_title">Планиране на време за уведомяване</string>
 </resources>
