@@ -8,10 +8,6 @@ apply from: '../tools/gradle/dist-unit-tests.gradle'
 apply plugin: 'net.ltgt.errorprone'
 
 buildscript {
-    repositories {
-        maven { url "$rootDir/prebuilts/tools/common/m2/repository" }
-    }
-
     dependencies {
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.13"
     }
