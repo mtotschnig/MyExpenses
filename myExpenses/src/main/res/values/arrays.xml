@@ -446,7 +446,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>381;3.0.4</item>
+        <item>382;3.0.4</item>
         <item>375;3.0.3</item>
         <item>372;3.0.2</item>
         <item>365;3.0.1</item>
