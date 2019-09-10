@@ -1,47 +1,44 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FolderMetadata
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import java.util.*
 
 
+class DropboxSetupViewModel(application: Application) : AbstractSetupViewModel(application) {
+    private var mDbxClient: DbxClientV2? = null
 
-class DropboxSetupViewModel(application: Application) : AndroidViewModel(application) {
-    // Create a LiveData with a String
-    val folderList: MutableLiveData<List<String>> by lazy {
-        MutableLiveData<List<String>>()
-    }
-
-    fun loadDropboxRootFolders(authToken: String) {
-        viewModelScope.launch {
-            folderList.postValue(getRootFolders(authToken))
-        }
-    }
-
-    suspend fun getRootFolders(authToken: String) = withContext(Dispatchers.IO) {
+    fun initWithAuthToken(authToken: String) {
         val userLocale = Locale.getDefault().toString()
         val requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build()
-        val mDbxClient = DbxClientV2(requestConfig, authToken)
-        var result = mDbxClient.files().listFolder("")
-        val folderList = mutableListOf<String>()
-        while (true) {
-            folderList.addAll(result.entries
-                    .filter { metadata -> metadata is FolderMetadata }
-                    .map { metadata -> metadata.name })
-            if (!result.getHasMore()) {
-                break
+        mDbxClient = DbxClientV2(requestConfig, authToken)
+    }
+
+    override suspend fun getFolders() = withContext(Dispatchers.IO) {
+        val folderList = mutableListOf<Pair<String, String>>()
+        mDbxClient?.let {
+            var result = it.files().listFolder("")
+            while (true) {
+                folderList.addAll(result.entries
+                        .filter { metadata -> metadata is FolderMetadata }
+                        .map { metadata ->  (metadata as FolderMetadata).let { Pair(metadata.id, metadata.name) } })
+                if (!result.getHasMore()) {
+                    break
+                }
+                result = it.files().listFolderContinue(result.getCursor())
             }
-            result = mDbxClient.files().listFolderContinue(result.getCursor())
         }
         folderList
+    }
+
+    override suspend fun createFolderBackground(label: String) = withContext(Dispatchers.IO) {
+        mDbxClient?.let {
+            it.files().createFolderV2("/" + label).metadata.let { Pair(it.id, it.name) }
+        } ?: throw Exception("Dropbox client not set up")
     }
 }
