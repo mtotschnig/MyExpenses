@@ -902,7 +902,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void showDismissableSnackbar(int message) {
-    showSnackbar(getText(message), Snackbar.LENGTH_INDEFINITE,
+    showDismissableSnackbar(getText(message));
+  }
+
+  public void showDismissableSnackbar(CharSequence message) {
+    showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
         new SnackbarAction(R.string.snackbar_dismiss, v -> snackbar.dismiss()));
   }
 
@@ -934,7 +938,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     snackbar = Snackbar.make(container, message, duration);
     View snackbarView = snackbar.getView();
     TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-    textView.setMaxLines(4);
+    textView.setMaxLines(10);
     UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
     if (snackbarAction != null) {
       snackbar.setAction(snackbarAction.resId, snackbarAction.listener);

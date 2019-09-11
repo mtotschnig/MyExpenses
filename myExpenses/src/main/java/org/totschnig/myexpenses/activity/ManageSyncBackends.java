@@ -215,7 +215,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       }
       case TASK_SYNC_LINK_SAVE: {
         Result result = (Result) o;
-        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+        showDismissableSnackbar(result.print(this));
         //fall through
       }
       case TASK_SYNC_UNLINK:
