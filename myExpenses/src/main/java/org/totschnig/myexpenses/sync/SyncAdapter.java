@@ -127,11 +127,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private static long getIoDefaultDelaySeconds() {
-    return  (System.currentTimeMillis() / 1000) + IO_DEFAULT_DELAY_SECONDS;
+    return (System.currentTimeMillis() / 1000) + IO_DEFAULT_DELAY_SECONDS;
   }
 
   private static long getIoLockDelaySeconds() {
-    return  (System.currentTimeMillis() / 1000) + IO_LOCK_DELAY_SECONDS;
+    return (System.currentTimeMillis() / 1000) + IO_LOCK_DELAY_SECONDS;
   }
 
   private String getUserDataWithDefault(AccountManager accountManager, Account account,

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.webkit.MimeTypeMap;
 
@@ -370,7 +371,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   public void lock() throws IOException {
     String existingLockTocken = getExistingLockToken();
     log().i("ExistingLockTocken: %s", existingLockTocken);
-    if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
+    if (TextUtils.isEmpty(existingLockTocken) || shouldOverrideLock(existingLockTocken)) {
       String lockToken = Model.generateUuid();
       writeLockToken(lockToken);
       saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
