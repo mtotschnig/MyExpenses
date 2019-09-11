@@ -255,7 +255,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
         </activity>
-        
+
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -279,7 +279,7 @@
         <activity android:name=".activity.HistoryActivity" />
 
         <activity android:name=".activity.DropboxSetup"/>
-        
+
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"
