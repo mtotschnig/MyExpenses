@@ -75,7 +75,7 @@
   <string name="form_account_help_text">Muamelenin ait olduğu hesabı seçin.</string>
   <string name="form_date_time_help_text">Muamelenin gerçekleştiği tarih ve zamanı girin.</string>
   <string name="form_date_time_help_text_configuration">Ayarlarda, zaman girişini devre dışı bırakabilir ve muamele tarihi ile değer tarihi arasındaki farklılığı etkinleştirebilirsiniz.</string>
-  <string name="form_date_time_help_text_link">![CDATA[Eğer &lt;img src="ic_hchain"&gt;/&lt;img src="ic_hchain_broken"&gt; geçişi bağlı durumundaysa, değer tarihi veya muamele tarihini ayarlamak diğer tarihi de güncelleyecektir.]]&gt;</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Eğer <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> geçişi bağlı durumundaysa, değer tarihi veya muamele tarihini ayarlamak diğer tarihi de güncelleyecektir.]]></string>
   <string name="form_payer_or_payee_help_text">Bu alan girdiğiniz değerleri hatırlar ve gelecekte onları tekrar önerir.</string>
   <string name="form_amount_switch_help_text">Harcamalar ve gelirler arası geçiş yapmak için düğmeyi kullanın.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> düğme hesap makinesini açar.]]></string>
