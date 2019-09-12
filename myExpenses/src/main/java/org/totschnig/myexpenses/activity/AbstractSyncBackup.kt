@@ -88,7 +88,7 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
             SimpleInputDialog.build()
                     .title(R.string.menu_create_folder)
                     .pos(android.R.string.ok)
-                    .neut()
+                    .neg()
                     .show(this, DIALOG_TAG_FOLDER_CREATE)
         }
     }
