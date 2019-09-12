@@ -617,7 +617,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
-              "0 AS " + KEY_SEALED,
+              "max(" + KEY_SEALED + ") AS " + KEY_SEALED,
               KEY_BUDGET};
         } else {
           qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %4$s AND %1$s.%5$s = %2$s.%5$s)",
@@ -638,7 +638,8 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
-              "0 AS " + KEY_SEALED,
+              "(select max(" + KEY_SEALED
+                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED,
               KEY_BUDGET};
           qb.appendWhere(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(" + currencyId + ")");
         }

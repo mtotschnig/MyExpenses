@@ -117,6 +117,8 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       bundle.putLong(KEY_ACCOUNTID, accountId);
       bundle.putBoolean(KEY_IS_FILTERED, isFiltered);
       dialogFragment.setArguments(bundle);
+    } else {
+      throw new IllegalStateException("Cannot be used without accountId");
     }
     return dialogFragment;
   }
@@ -132,21 +134,25 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx = (MyExpenses) getActivity();
     Bundle args = getArguments();
-    Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
+    if (args == null) {
+      throw new IllegalStateException("Cannot be used without args");
+    }
+    long accountId = args.getLong(KEY_ACCOUNTID);
     boolean allP = false, hasExported;
     String warningText;
     final String fileName;
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
 
-    if (accountId == null) {
+    //TODO Strict mode violation
+    Account a = Account.getInstanceFromDb(accountId);
+    boolean canReset = !a.isSealed();
+    if (accountId == Account.HOME_AGGREGATE_ID) {
       allP = true;
-      warningText = getString(R.string.warning_reset_account_all);
-      //potential Strict mode violation (currently exporting all accounts with different currencies is not active in the UI)
+      warningText = getString(R.string.warning_reset_account_all,"");
       hasExported = Account.getHasExported(null);
       fileName = "export" + "-" + now;
     } else {
-      Account a = Account.getInstanceFromDb(accountId);
       hasExported = ctx.hasExported();
       if (accountId < 0L) {
         allP = true;
@@ -291,7 +297,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       }
     }
 
-    deleteCB.setOnCheckedChangeListener(this);
+    if (canReset) {
+      deleteCB.setOnCheckedChangeListener(this);
+    } else {
+      deleteCB.setVisibility(View.GONE);
+    }
     if (hasExported) {
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);

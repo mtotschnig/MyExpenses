@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -176,7 +177,11 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     }
     for (Account a : successfullyExported) {
       if (deleteP) {
-        a.reset(filter,handleDelete, fileName);
+        if (a.isSealed()) {
+          CrashHandler.report("Trying to reset account that is sealed");
+        } else {
+          a.reset(filter,handleDelete, fileName);
+        }
       }
       else {
         a.markAsExported(filter);
