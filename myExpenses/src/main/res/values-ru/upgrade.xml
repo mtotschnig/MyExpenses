@@ -15,9 +15,30 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_304">
+        <item>Скачать курсы валют</item>
+    </string-array>
+    <string-array name="whats_new_303">
+        <item>Тамильский перевод</item>
+    </string-array>
+    <string-array name="whats_new_302">
+        <item>Иконки для категорий</item>
+    </string-array>
+    <string-array name="whats_new_301">
+        <item>Аккаунт может быть закрыт и/или скрыт</item>
+    </string-array>
     <string-array name="whats_new_300">
         <item>Перевод на украинский</item>
         <item>Экспорт в CSV: настраиваемый разделитель</item>
+    </string-array>
+    <string-array name="whats_new_299">
+        <item>Шифрование для резервных копий и синхронизации</item>
+    </string-array>
+    <string-array name="whats_new_297">
+        <item>Свои валюты</item>
+    </string-array>
+    <string-array name="whats_new_295">
+        <item>Свои цвета для главных категорий</item>
     </string-array>
     <string-array name="whats_new_290">
         <item>Несколько операций могут быть сгруппированы в одну дробную операцию.</item>

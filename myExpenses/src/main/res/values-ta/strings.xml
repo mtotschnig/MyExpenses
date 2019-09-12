@@ -243,7 +243,7 @@
   <!--Plan for future and recurring transactions-->
   <string name="plan">திட்டம்</string>
   <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">தன்னியக்கம்</string>
+  <string name="plan_automatic">தன்னியக்கமாக</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} இழைப்புளி</string>
   <string name="planner_notification_channel_name">இழைப்புளி</string>
@@ -482,13 +482,13 @@
   <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
   <string name="yes">ஆம்</string>
   <string name="no">இல்லை</string>
-  <string name="hint_template_click">இந்த பட்டியலில் உள்ள உள்ளீட்டை சிறிதாக தட்டுவதன் மூலம் வார்ப்புருவை செயலாக்கி பின் அதை உடனே சேமிக்கலாம் அல்லது அதன் தொகுத்தல் படிவத்திற்குள் நுழையலாம். அந்த படிவத்தில் நீங்கள் அதை சேமிப்பதற்கு முன்பு மாற்றலாம். நீங்கள் இந்த இரண்டு செயல்பாடுகளை எப்பொழுதும் நீண்ட நேரம் தட்டுவதன் மூலம் அணுகலாம், மேலும் அமைப்புகளில் இயல்புநிலையை மாற்றலாம்.</string>
+  <string name="hint_template_click">இந்த பட்டியலில் உள்ள உள்ளீட்டை சிறிதாக தட்டுவதன் மூலம் வார்ப்புருவை செயலாக்கி பின் அதை உடனே சேமிக்கும் அல்லது அதன் தொகுத்தல் படிவத்திற்குள் நுழையும். அந்த படிவத்தில் நீங்கள் அதை சேமிப்பதற்கு முன்பு மாற்றலாம். நீங்கள் இந்த இரண்டு செயல்பாடுகளை எப்பொழுதும் நீண்ட நேரம் தட்டுவதன் மூலம் அணுகலாம், மேலும் அமைப்புகளில் இயல்புநிலையை மாற்றலாம்.</string>
   <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s-ஐ நாணயமாக கொண்ட %1$d கணக்குகள் புதுப்பிக்கப்பட்டன.</string>
   <string name="learn_more">மேலும் அறிக</string>
   <string name="import_source_file">கோப்பு</string>
   <string name="restore_calendar_handling">நாட்காட்டி தரவு கையாளுதல்</string>
-  <string name="restore_calendar_handling_configured">தற்போது கட்டமைக்கப்பட்ட கேலெண்டருக்கு திட்டங்களை மீட்டமைக்கவும்</string>
-  <string name="restore_calendar_handling_backup">காப்புப்பிரதியில் திட்டங்கள் இருந்தால் நாட்காட்டி மீட்டமைக்கவும்</string>
+  <string name="restore_calendar_handling_configured">தற்போது விருப்பமைக்கப்பட்ட நாட்காட்டிக்கு திட்டங்களை மீட்டமைக்கவும்</string>
+  <string name="restore_calendar_handling_backup">காப்புப்பிரதியில் நாட்காட்டி அமைக்கப்பட்டிருந்தால் திட்டங்களை அதற்கு மீட்டமைக்கவும்</string>
   <string name="restore_calendar_handling_ignore">திட்டங்களை மீட்டமைக்க வேண்டாம்</string>
   <string name="restore_not_possible_target_calendar_missing">காப்புப்பிரதியில் அமைக்கப்பட்டுள்ள நாட்காட்டி %s கருவியில் இல்லை. மீட்டெடுப்பு ரத்து செய்யப்பட்டது.</string>
   <string name="restore_not_possible_local_calendar_missing">தற்போதைய திட்டமிடல் நாட்காட்டி கிடைக்கவில்லை.</string>
@@ -840,4 +840,5 @@
   <string name="pref_exchange_rate_provider_summary">மாற்று விகிதங்களைப் பதிவிறக்க வழங்குநரைத் தேர்ந்தெடுக்கவும்</string>
   <string name="pref_exchange_rate_provider_title">மாற்று விகித வழங்குநர்</string>
   <string name="pref_openexchangerates_app_id_summary">OpenExchangeRates இல் இலவச கணக்கைப் பதிவுசெய்து உங்களுடைய பயன்பாட்டு ஐடியை வழங்கவும்</string>
+  <string name="pref_plan_executor_time_title">இழைப்புளி அறிவிக்கை நேரம்</string>
 </resources>

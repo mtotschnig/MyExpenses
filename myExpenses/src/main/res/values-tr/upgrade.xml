@@ -15,6 +15,37 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_305">
+        <item>Dropbox ve Drive ile eşleşme için yeni yöntem</item>
+    </string-array>
+    <string-array name="whats_new_304">
+        <item>Döviz kurları indirme imkânı</item>
+    </string-array>
+    <string-array name="whats_new_303">
+        <item>Tamil dilinde tercüme</item>
+        <item>Ana menüde şimdi eşleştir düğmesi</item>
+        <item>Yerel değişimlerden sonra anında eşleşme devre dışı bırakılabilir</item>
+    </string-array>
+    <string-array name="whats_new_302">
+        <item>Kategoriler için ikonlar</item>
+    </string-array>
+    <string-array name="whats_new_301">
+        <item>Hesaplar kapatılabilir ve/veya gizlenebilir</item>
+    </string-array>
+    <string-array name="whats_new_300">
+        <item>Ukraynaca tercüme</item>
+        <item>CSV dışa aktarımı: Sınırlayıcı artık yapılandırılabilir</item>
+    </string-array>
+    <string-array name="whats_new_299">
+        <item>Yedeklemeler ve eşleşme verileri için şifreleme</item>
+    </string-array>
+    <string-array name="whats_new_298">
+        <item>Muameleler, kategoriler, alacaklılar veya metotlarla eşleşmeden filtrelenebilir</item>
+        <item>Eşleştirilen verilerin optimize edilmiş depolanması</item>
+    </string-array>
+    <string-array name="whats_new_297">
+        <item>Özel para birimleri</item>
+    </string-array>
     <string-array name="whats_new_295">
         <item>Ana kategoriler için özel renkler</item>
     </string-array>

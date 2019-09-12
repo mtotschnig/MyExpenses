@@ -14,6 +14,7 @@
   <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir. Bir grup başlığına tıkladığınız zaman muamele grubu küçültülür ve sadece başlık görüntülenir. Genişletmek için tekrar tıklamak yeterlidir.</string>
   <string name="menu_sort_direction_help_text">Muameleler artan (en eski en üstte) ya da azalan (en yeni en üstte) yönde sıralanabilirler.</string>
   <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına uzun tıklayarak belli bir zaman bölümü için dağılımı inceleyebilirsiniz.</string>
+  <string name="menu_budget_help_text">Güncel olarak görüntülenen hesap için günlük, haftalık, aylık veya senelik bütçeleri yönetin.</string>
   <string name="menu_history_help_text">Nakit akışı grafiği gösterir: Gelir ve harcamalarınız yıllık, aylık, haftalık ve günlük olarak nasıl gelişti?</string>
   <string name="menu_manage_plans_help_text">Gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
   <string name="menu_balance_help_text">Bu komut son mutabık ve kullanılabilir bakiyeyi gösteren bir diyalog açar. Kullanılabilir bakiyeyi banka hesabınız ile karşılaştırabilir ve tüm çözümlenmiş muameleleri uzlaşmış olarak işaretleyebilirsiniz. Seçime dayalı olarak, uzlaşmış muameleleri silmeye de karar verebilirsiniz.</string>
@@ -74,6 +75,7 @@
   <string name="form_account_help_text">Muamelenin ait olduğu hesabı seçin.</string>
   <string name="form_date_time_help_text">Muamelenin gerçekleştiği tarih ve zamanı girin.</string>
   <string name="form_date_time_help_text_configuration">Ayarlarda, zaman girişini devre dışı bırakabilir ve muamele tarihi ile değer tarihi arasındaki farklılığı etkinleştirebilirsiniz.</string>
+  <string name="form_date_time_help_text_link">![CDATA[Eğer &lt;img src="ic_hchain"&gt;/&lt;img src="ic_hchain_broken"&gt; geçişi bağlı durumundaysa, değer tarihi veya muamele tarihini ayarlamak diğer tarihi de güncelleyecektir.]]&gt;</string>
   <string name="form_payer_or_payee_help_text">Bu alan girdiğiniz değerleri hatırlar ve gelecekte onları tekrar önerir.</string>
   <string name="form_amount_switch_help_text">Harcamalar ve gelirler arası geçiş yapmak için düğmeyi kullanın.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> düğme hesap makinesini açar.]]></string>
@@ -117,6 +119,8 @@
   <string name="form_MethodEdit_account_types_help_text">Bu metodun uygulanabilir olduğu hesap türlerini seçin.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Her para birimi için kullanılan kesir basamak sayısını değiştirebilirsiniz. Mesela avro için bir sentin 1/10\'nu yani bir avronun 1/1000\'ni dikkate almanız gerekiyorsa bu sayıyı üç olarak ayarlamanız gerekir. Bu para birimini kullanan mevcut hesaplar bu yeni ayara geçecektir.</string>
+  <string name="help_ManageCurrencies_symbol">Belli bir para biriminde meblağlar biçimlendirildiğinde kullanılan para birimi simgesini de yapılandırabilirsiniz.</string>
+  <string name="help_ManageCurrencies_new">Özel para birimleri için menülerde para birimi seçmek için gösterilecek ilave bir etiket ve üç karakterden oluşması gereken bir alfabetik kod tanımlamanız gerektir.</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Burada seçtiğiniz klasör yedeklemeleri ve dışa aktarmaları saklamak için kullanılacaktır. İstediğiniz klasöre ulaşana dek klasör hiyerarşisinde gezinebilirsiniz.</string>
   <string name="menu_create_folder_help_text">Güncel klasörün içinde yeni klasör oluştur.</string>
@@ -132,11 +136,15 @@
   <string name="menu_NavigationDrawer_sort_help_text">Hesap listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre, ya da son muamele oluşturma tarihine göre sıralanabilir.</string>
   <string name="menu_NavigationDrawer_sort_help_text_custom">\"Özel\" üzerine tıklamanız, her bir hesabın konumunu serbestçe yapılandırmanıza izin verir.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Hesap listesi hesap türüne veya  para birimine göre gruplandırılmış şekilde ya da gruplandırılmamış şekilde görüntülenebilir.</string>
+  <string name="menu_NavigationDrawer_hidden_accounts_help_text">Tüm gizli hesapların listesini görüntüler, ki bu listede tekrar görünür yapılabilirler veya silinebilirler.</string>
+  <string name="cab_NavigationDrawer_hide_help_text">Hesabı listeden kaldır.</string>
+  <string name="cab_NavigationDrawer_close_reopen_help_text">Hesabı kapatarak, verilerine yapılacak tüm değişikliklere (eklemeler, silmeler, düzenlemeler) engel olabilirsiniz, ancak tüm istatistiksel hesaplamalar için dikkate alınmasının devamını sağlayabilirsiniz.</string>
   <string name="form_instant_plan_help_text">Burada muamelenin günlük, haftalık, aylık ya da yıllık olarak tekrarlanmasını ayarlayabilirsiniz. \"Şablonlar ve Planlamalar\" ekranında sonuç muameleyi gözden geçirebilir ve gelişmiş seçenekleri yapılandırabilirsiniz.  Eğer bir muamele zaten bir planlama ile ilişkili ise tekrar türünü artık değiştiremezsiniz, ancak bir takvim görünümü açıp tüm tekrar tarihlerini görüntüleyebilirsiniz.</string>
   <!--SyncBackends-->
   <string name="help_ManageSyncBackends_intro">Harcamalarım her hesap için değişik eşleştirme arka uçları yapılandırmanıza izin verir. Mesela bir hesabı paylaşılan bir klasör ile, başka bir hesabı da özel bir klasör ile eşleştirebilirsiniz. Bu ekranda eşleştirme arka uçları ekleyip kaldırabilir, uzaktaki hesaplarla eşleştirmeyi başlatıp sonlandırabilirsiniz. Eşleştirme otomatik olarak periyodik bir şekilde yapılsa da burada onu bir arka uçla elle başlatabilirsiniz. Lütfen Harcamalarım\'ın uzaktaki klasörde tam kontrole ihtiyacı olduğunu unutmayınız. İçeriğini değiştirmek için başka araçlar ya da arayüzler kullanmamalısınız çünkü bu eşleşme sırasında muhtemelen başarısızlıklara yol açacaktır.</string>
   <string name="help_ManageSyncBackends_webdav">WebDAV: eğer bulut depolama sağlayıcınız bu protokolü destekliyorsa Harcamalarım onunla veri eşleştirmesi yapabilecektir. Bir klasör için bağlantı, kullanıcı isminiz ve parola belirtmeniz yeterli olacaktır. Eğer https kullanıyorsanız ve sunucunuz kendisi imzaladığı bir sertifika kullanıyorsa, ona güvendiğinizi açıkça belirtebileceksiniz.</string>
   <string name="help_ManageSyncBackends_drive">Google Drive: sahip olduğunuz ya da sizinle paylaşılan herhangi bir klasör seçin.</string>
+  <string name="help_ManageSyncBackends_encryption">Eşleşme verilerinin şifrelenmesi amacıyla her arka uç için değişik bir parola ayarlayabilirsiniz. Mevcut bir arka uç için şifrelenmemişten şifrelenmişe geçiş yapamazsınız. Bu durumda yeni bir arka uç oluşturmanız gerekir. Eğer otomatik yedeklemeleri eşleşme arka ucunda depolama işlevini kullanıyorsanız, bu dosyalar arka uca özel parola ile şifrelenmezler. Bunun yerine Ayarlar ekranının Güvenlik bölümünde tüm yedekleme dosyalarını kapsayan bir parola tanımlayabilirsiniz.</string>
   <string name="menu_create_sync_backend_help_text">Alt menüden eklemek istediğiniz eşleşme arka ucu türünü seçin ve her birine özel detayları girin.</string>
   <string name="cab_sync_now_help_text">Seçili arka uçla derhal bir eşleşme başlat.</string>
   <string name="cab_remove_help_text">Seçili arka ucu kaldır.</string>
@@ -149,4 +157,8 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Bakiyenin gösterilmesini aç ya da kapat</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Transferlerin düzenli gelir veya masraf olarak değerlendirilmesi arasında geçiş yapın.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Bütçeleme ekranı, günlük, haftalık, aylık veya senelik bir bütçe tanımlamanıza imkân verir. Önce her periyot için harcamak istediğiniz toplam meblağı ayarlarsınız. Bunun ardından kategoriler ile alt kategorilere meblağlar tahsis edebilirsiniz ve ne kadar harcadığınızı ve harcanacak ne kadar para kaldığını izleyebilirsiniz. Bütçelenmiş meblağların üzerine tıklamak onları değiştirmeye imkân sağlar.</string>
+  <string name="menu_switch_budget_help_text">Başka bir bütçe türüne geçiş yap.</string>
+  <string name="cab_show_transactions_help_text">Güncel hesapta seçilen kategoriye eşlenen tüm muameleleri listeleyen bir diyalog kutusu aç.</string>
+  <string name="menu_BudgetActivity_back_forward_help_text">Bütçeyi geçmiş ve gelecekteki zaman periyotlarındaki harcamalar ile karşılaştırın.</string>
 </resources>

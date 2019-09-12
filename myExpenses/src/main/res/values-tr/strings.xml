@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Dene</string>
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
@@ -97,6 +98,11 @@
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Kategori silinsin mi?</item>
+    <item quantity="other">%1$d hesap silinsin mi?</item>
+  </plurals>
+  <string name="dialog_title_warning_delete_category">Kategori silinsin mi?</string>
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
   <string name="expense">gider</string>
@@ -397,6 +403,7 @@
     <item quantity="one">Seçili kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
     <item quantity="other">Seçilen %1$d kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Seçilen en az bir kategori için, silinecek bütçe tahsisleri de vardır.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Seçilen şablon silinecektir.</item>
     <item quantity="other">Seçilen %1$d şablon silinecektir.</item>
@@ -592,6 +599,8 @@
   <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır.</string>
   <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
   <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>
+  <string name="warning_limited_trial">%1$s işlevi %2$s tarihine dek denenebilir.</string>
+  <string name="warning_trial_limit_reached">%s işlevini deneme periyotu sona ermiştir.</string>
   <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Seçtiğiniz klasör mevcut arka ucun bir hesabına denk gelmektedir. Bu arka ucu kullanmak için bir üst klasörü seçmeniz gerekir.</string>
   <string name="select_unsynced_accounts">Bu arka uçla eşleştirilecek hesapları seç</string>
@@ -605,6 +614,7 @@
   <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
   <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Yükselt</string>
   <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
   <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
   <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
@@ -620,6 +630,7 @@
   <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı.</string>
   <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
   <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
+  <string name="sync_success_reset_account_data">%s hesabı için uzaktaki veriler silindi.</string>
   <string name="sync_io_exception_setup_remote_account">Uzaktaki hesabın ayarlanması sırasında hata.</string>
   <string name="sync_io_exception_syncing">Sunucu ile değişiklikler eşleştirilirken hata oluştu.</string>
   <string name="sync_io_exception_unlocking">Uzaktaki arka uçtan kilit kaldırılırken hata oluştu.</string>
@@ -736,6 +747,7 @@
   <string name="sort_order">Sıralama düzeni</string>
   <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
   <string name="pref_sync_wifi_only_summary">Sadece Wi-Fi üzerindeyken eşleştir</string>
+  <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
   <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">Tercüme</string>
@@ -750,17 +762,83 @@
   <string name="clear_all_filters">Tüm filtreleri temizle</string>
   <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
   <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
+  <string name="menu_budget">Bütçeleme</string>
+  <string name="dialog_title_new_budget">Yeni bütçe</string>
+  <string name="dialog_title_edit_budget">Bütçeyi düzenle</string>
+  <string name="daily_budget">Günlük bütçe</string>
+  <string name="weekly_budget">Haftalıkbütçe</string>
+  <string name="monthly_budget">Aylık bütçe</string>
+  <string name="yearly_budget">Senelik bütçe</string>
+  <string name="menu_switch_budget">Geçiş yap</string>
+  <string name="budget_table_header_budgeted">Bütçelenmiş</string>
+  <string name="budget_table_header_allocated">Tahsis edilmiş</string>
+  <string name="budget_table_header_spent">Harcanmış</string>
+  <string name="budget_table_header_remainder">Kalan</string>
+  <string name="budget_allocated_amount">Tahsis edilen meblağ</string>
+  <string name="budget_exceeded_error_1_1">Bütçenizin %s haricindeki tümü başka kategorilere tahsis edildi.</string>
+  <string name="budget_exceeded_error_1_2">Tüm bütçeniz başka kategorilere tahsis edildi.</string>
+  <string name="budget_exceeded_error_2">Bütçelenmiş meblağı arttırın veya diğer kategorilerden para kaldırın.</string>
+  <string name="budget_under_allocated_error">%s zaten başka kategorilere tahsis edilmiş. Onlardan para kaldırmazsanız, en az bu meblağı bütçelemeniz gerekir.</string>
+  <string name="sub_budget_exceeded_error_1_1">Ana kategoriye tahsis edilen %s haricindeki tüm meblağ başka alt kategorilere tahsis edilmiştir.</string>
+  <string name="sub_budget_exceeded_error_1_2">Ana kategoriye tahsis edilen meblağın tümü başka alt kategorilere tahsis edilmiştir.</string>
+  <string name="sub_budget_exceeded_error_2">Ana kategoriye tahsis edilen meblağı arttırın veya başka alt kategorilerden para kaldırın.</string>
+  <string name="sub_budget_under_allocated_error">%s zaten alt kategorilere tahsis edilmiştir. Onlardan para kaldırmazsanız, ana kategori için en az bu meblağı bütçelemeniz gerekir.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Metodu sil</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Kategoriyi sil</string>
+  <string name="currency_code">Kod</string>
+  <string name="dialog_title_new_currency">Yeni para birimi</string>
+  <string name="currency_code_already_definded">Para birimi kodu zaten tanımlanmıştır.</string>
+  <string name="currency_still_used">Para birimi kullanımdadır, silinemez.</string>
+  <string name="unmapped">Eşlenmemiş</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">\'Eşlenmemiş\' filtresi çoklu seçime dahil edilemez</string>
+  <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşleşme arka uçlarına yazılma yöntemi değişmiştir. Eşleştirme yapılan tüm cihazlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
+  <string name="pref_security_export_passphrase_title">Yedeklemeler için parola</string>
+  <string name="pref_security_export_passphrase_summary">Yedeklemeler bu parola ile şifrelenecektir</string>
+  <string name="backup_is_encrypted">Yedekleme dosyası şifrelenmiştir. Şifrelemeyi çözmek için parolayı girmeniz gerekir.</string>
+  <string name="backup_wrong_password">Yedekleme dosyası başka bir parola ile şifrelenmiş görünmektedir.</string>
+  <string name="passphrase_for_synchronization">Eğer bu arka uçtaki eşleşme verilerinin şifrelenmesini istiyorsanız bir parola giriniz.</string>
+  <string name="sync_backend_is_encrypted">Uzaktaki arka uç şifrelenmiştir. Bir parola girmeniz gerekmektedir.</string>
+  <string name="sync_backend_wrong_passphrase">Uzaktaki arka uç başka bir parola ile şifrelenmiş görünmektedir.</string>
+  <string name="warning_backup_protected">Arşiv parolanız ile korunacaktır.</string>
+  <string name="dialog_title_backup_protected">Yedekleme (şifrelenmiş)</string>
+  <string name="input_label_passphrase">Parola</string>
+  <string name="button_label_no_encryption">Şifresiz</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <string name="joining_or">veya</string>
+  <string name="pref_account_list_fast_scroll_summary">Hesap listesi için hızlı kaydırmayı etkinleştir. Bazı cihazlarda yanlış görüntüleme oluşmasına sebep olabilir</string>
+  <string name="menu_hide">Gizle</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Yakın</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Tekrar aç</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Gizli hesaplar</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Göster</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Şifrelenmiş</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Kapatılmış</string>
+  <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşleşme arka ucuna bağlı bir hesap kapatılamaz</string>
+  <string name="translated_by">Tercümanlar:</string>
+  <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
+  <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
+  <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>
+  <string name="icon">İkon</string>
+  <string name="pref_debug_title">Hata ayıklama</string>
+  <string name="roadmap_vote">Gelecek işlevler Oylaması</string>
+  <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez.</string>
+  <string name="object_sealed">Nesne kapalı bir hesaba atıfta bulunmaktadır.</string>
+  <string name="content_description_download_exchange_rate">Döviz kurunu indir</string>
+  <string name="exchange_rate_not_supported">Yapılandırılmış döviz kuru sağlayıcısı %1$s: %2$s kurunu sağlamamaktadır. Ayarlarda başka birini seçmeyi deneyebilirsiniz.</string>
+  <string name="pref_category_exchange_rates">Döviz kurları</string>
+  <string name="pref_exchange_rate_provider_summary">Döviz kurlarını indirmek için bir sağlayıcı seçin</string>
+  <string name="pref_exchange_rate_provider_title">Döviz Kuru Sağlayıcısı</string>
+  <string name="pref_openexchangerates_app_id_summary">Lütfen OpenExchangeRates üzerinde ücretsiz bir hesap oluşturun ve Uygulama Kimliğinizi (App ID) girin</string>
+  <string name="pref_plan_executor_time_title">Planlayıcı bildirim zamanı</string>
 </resources>
