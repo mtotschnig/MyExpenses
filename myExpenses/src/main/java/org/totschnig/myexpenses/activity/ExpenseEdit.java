@@ -391,6 +391,15 @@ public class ExpenseEdit extends AmountActivity implements
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     amountInput.setTypeEnabled(false);
 
+    amountInput.addTextChangedListener(new MyTextWatcher() {
+      @Override
+      public void afterTextChanged(Editable s) {
+        equivalentInput.setCompoundResultInput(amountInput.validate(false));
+      }
+    });
+
+    originalInput.setCompoundResultOutListener(amount -> amountInput.setAmount(amount, false));
+
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[]{KEY_PAYEE_NAME},
         new int[]{android.R.id.text1},
@@ -968,17 +977,15 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    if (originalAmountVisible) {
-      final MenuItem item = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND);
-      if (item != null) {
-        Utils.menuItemSetEnabledAndVisible(item, false);
-      }
+    final MenuItem oaMenuItem = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND);
+    if (oaMenuItem != null) {
+      oaMenuItem.setChecked(originalAmountVisible);
     }
     final Account currentAccount = getCurrentAccount();
-    final MenuItem item = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND);
-    if (item != null) {
-      Utils.menuItemSetEnabledAndVisible(item,
-          !(currentAccount == null || hasHomeCurrency(currentAccount) || equivalentAmountVisible));
+    final MenuItem eaMenuItem = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND);
+    if (eaMenuItem != null) {
+      Utils.menuItemSetEnabledAndVisible(eaMenuItem, !(currentAccount == null || hasHomeCurrency(currentAccount)));
+      eaMenuItem.setChecked(equivalentAmountVisible);
     }
     return super.onPrepareOptionsMenu(menu);
   }
@@ -1003,8 +1010,10 @@ public class ExpenseEdit extends AmountActivity implements
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     } else if (mIsMainTransaction) {
       menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
+          .setCheckable(true)
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
       menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount)
+          .setCheckable(true)
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     }
     return true;
@@ -1045,22 +1054,30 @@ public class ExpenseEdit extends AmountActivity implements
         return true;
       }
       case R.id.ORIGINAL_AMOUNT_COMMAND: {
-        originalAmountVisible = true;
+        originalAmountVisible = !originalAmountVisible;
         supportInvalidateOptionsMenu();
         showOriginalAmount();
-        originalInput.requestFocus();
+        if (originalAmountVisible) {
+          originalInput.requestFocus();
+        } else {
+          originalInput.clear();
+        }
         return true;
       }
       case R.id.EQUIVALENT_AMOUNT_COMMAND: {
-        equivalentAmountVisible = true;
+        equivalentAmountVisible = !equivalentAmountVisible;
         supportInvalidateOptionsMenu();
         showEquivalentAmount();
-        final Account currentAccount = getCurrentAccount();
-        if (validateAmountInput(equivalentInput, false) == null && currentAccount != null) {
-          final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
-          equivalentInput.setExchangeRate(rate);
+        if (equivalentAmountVisible) {
+          final Account currentAccount = getCurrentAccount();
+          if (validateAmountInput(equivalentInput, false) == null && currentAccount != null) {
+            final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
+            equivalentInput.setExchangeRate(rate);
+          }
+          equivalentInput.requestFocus();
+        } else {
+          equivalentInput.clear();
         }
-        equivalentInput.requestFocus();
         return true;
       }
     }
@@ -1150,8 +1167,8 @@ public class ExpenseEdit extends AmountActivity implements
     }
     populateOriginalCurrency();
     if (cachedOrSelf.getEquivalentAmount() != null) {
+      equivalentAmountVisible = true;
       equivalentInput.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
-      //mExchangeRateEdit.calculateAndSetRate(cachedOrSelf.getAmount().getAmountMajor(), cachedOrSelf.getEquivalentAmount().getAmountMajor());
     }
 
     if (mNewInstance) {
@@ -1166,19 +1183,12 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void showEquivalentAmount() {
-    equivalentAmountRow.setVisibility(View.VISIBLE);
-    equivalentInput.setCompoundResultInput(amountInput.validate(false));
-    amountInput.addTextChangedListener(new MyTextWatcher() {
-      @Override
-      public void afterTextChanged(Editable s) {
-        equivalentInput.setCompoundResultInput(amountInput.validate(false));
-      }
-    });
+    setVisibility(equivalentAmountRow, equivalentAmountVisible);
+    equivalentInput.setCompoundResultInput(equivalentAmountVisible ? amountInput.validate(false) : null);
   }
 
   private void showOriginalAmount() {
-    originalAmountRow.setVisibility(View.VISIBLE);
-    originalInput.setCompoundResultOutListener(amount -> amountInput.setAmount(amount, false));
+    setVisibility(originalAmountRow, originalAmountVisible);
   }
 
   private void populateOriginalCurrency() {

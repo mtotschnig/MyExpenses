@@ -136,13 +136,16 @@ public class ExchangeRateEdit extends ConstraintLayout {
    * does not trigger call to registered ExchangeRateWatcher; calculates inverse rate, and sets both values
    *
    * @param rate
+   * @param blockWatcher
    */
-  public void setRate(@Nullable BigDecimal rate) {
+  public void setRate(@Nullable BigDecimal rate, boolean blockWatcher) {
     if (rate != null) {
-      blockWatcher = true;
+      if (blockWatcher) {
+        this.blockWatcher = true;
+      }
       rate1Edit.setAmount(rate);
       rate2Edit.setAmount(calculateInverse(rate));
-      blockWatcher = false;
+      this.blockWatcher = false;
     }
   }
 

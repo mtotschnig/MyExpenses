@@ -247,7 +247,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     if (!isHomeAccount) {
       mExchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
       mExchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
-          mAccount.getExchangeRate() : 1));
+          mAccount.getExchangeRate() : 1), true);
     }
   }
 

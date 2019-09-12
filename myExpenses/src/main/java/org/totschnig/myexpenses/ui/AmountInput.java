@@ -144,7 +144,7 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setExchangeRate(BigDecimal rate) {
-    exchangeRateEdit.setRate(rate);
+    exchangeRateEdit.setRate(rate, false);
   }
 
   private void updateChildContentDescriptions() {
@@ -224,11 +224,11 @@ public class AmountInput extends ConstraintLayout {
     amountEditText.setFractionDigits(i);
   }
 
-  public void setAmount(BigDecimal amount) {
+  public void setAmount(@NonNull BigDecimal amount) {
     setAmount(amount, true);
   }
 
-  public void setAmount(BigDecimal amount, boolean updateType) {
+  public void setAmount(@NonNull BigDecimal amount, boolean updateType) {
     amountEditText.setError(null);
     amountEditText.setAmount(amount.abs());
     if (updateType) {
@@ -365,7 +365,7 @@ public class AmountInput extends ConstraintLayout {
     typeButton.onRestoreInstanceState(savedState.getTypeButtonState());
     amountEditText.onRestoreInstanceState(savedState.getAmountEditTextState());
     currencySpinner.onRestoreInstanceState(savedState.getCurrencySpinnerState());
-    exchangeRateEdit.setRate(savedState.getExchangeRateState());
+    exchangeRateEdit.setRate(savedState.getExchangeRateState(), true);
   }
 
   @Override
