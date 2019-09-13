@@ -560,6 +560,9 @@
     <string-array name="version_more_info_304" tools:ignore="UnusedResources">
         <item>2381168955477902</item>
     </string-array>
+    <string-array name="version_more_info_305" tools:ignore="UnusedResources">
+        <item>2389599737968157</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
