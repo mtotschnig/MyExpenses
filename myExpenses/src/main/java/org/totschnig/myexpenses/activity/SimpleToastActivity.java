@@ -4,17 +4,19 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 public class SimpleToastActivity extends ProtectedFragmentActivity {
-  public static final String KEY_MESSAGE_ID = "message_id";
+  public static final String KEY_MESSAGE = "message_id";
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getIntent() != null) {
-      int intExtra = getIntent().getIntExtra(KEY_MESSAGE_ID, 0);
-      if (intExtra != 0) {
-        showMessage(intExtra);
+      String message = getIntent().getStringExtra(KEY_MESSAGE);
+      if (message != null) {
+        showMessage(message);
+        return;
       }
     }
+    finish();
   }
 
   @Override

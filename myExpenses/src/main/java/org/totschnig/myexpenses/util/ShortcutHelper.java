@@ -79,7 +79,7 @@ public class ShortcutHelper {
     } else {
       intent = new Intent(context, SimpleToastActivity.class)
           .setAction(Intent.ACTION_MAIN)
-          .putExtra(SimpleToastActivity.KEY_MESSAGE_ID, R.string.dialog_command_disabled_insert_transfer);
+          .putExtra(SimpleToastActivity.KEY_MESSAGE, context.getString(R.string.dialog_command_disabled_insert_transfer));
     }
     ShortcutInfo shortcut = new ShortcutInfo.Builder(context, "transfer")
         .setShortLabel(context.getString(R.string.transfer))
