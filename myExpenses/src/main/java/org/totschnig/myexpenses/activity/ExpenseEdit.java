@@ -838,8 +838,8 @@ public class ExpenseEdit extends AmountActivity implements
     if (mOperationType == TYPE_SPLIT) {
       categoryRow.setVisibility(View.GONE);
       //add split list
-      if (findSplitPartList() == null) {
-        FragmentManager fm = getSupportFragmentManager();
+      FragmentManager fm = getSupportFragmentManager();
+      if (findSplitPartList() == null && !fm.isStateSaved()) {
         fm.beginTransaction()
             .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction), SPLIT_PART_LIST)
             .commit();
