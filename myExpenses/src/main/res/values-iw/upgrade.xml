@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_305">
+        <item>יישום חדש לסנכרון באמצעות Dropbox ו- Drive</item>
+    </string-array>
     <string-array name="whats_new_304">
         <item>עדכן שערי חליפין</item>
     </string-array>

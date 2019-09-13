@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_305">
+        <item>Nouvelle implémentation pour la synchronisation via Dropbox et Drive</item>
+    </string-array>
     <string-array name="whats_new_304">
         <item>Télécharger les taux de change</item>
     </string-array>
