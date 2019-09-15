@@ -911,7 +911,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     @Override
     public int getPositionForSection(int sectionIndex) {
       // Check bounds
-      if (sectionIndex <= 0) {
+      if (sectionIndex <= 0 || sectionIds == null) {
         return 0;
       }
       if (sectionIndex >= sections.length) {
