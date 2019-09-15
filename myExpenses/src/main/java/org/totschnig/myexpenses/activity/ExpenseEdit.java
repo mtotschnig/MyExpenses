@@ -339,7 +339,7 @@ public class ExpenseEdit extends AmountActivity implements
   @NonNull
   @Override
   public LocalDate getDate() {
-    return date2Edit.getDate();
+    return date2Edit.date;
   }
 
   public enum HelpVariant {
@@ -895,7 +895,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void onValueSet(View view) {
     setDirty();
     if (view instanceof DateButton) {
-      LocalDate date = ((DateButton) view).getDate();
+      LocalDate date = ((DateButton) view).date;
       if (areDatesLinked()) {
         DateButton other = view.getId() == R.id.Date2Button ? dateEdit : date2Edit;
         other.setDate(date);
@@ -1346,7 +1346,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mPlan == null) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
           mPlan = new Plan(
-              mPlanButton.getDate(),
+              mPlanButton.date,
               ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()),
               ((Template) mTransaction).getTitle(),
               description);
@@ -1361,7 +1361,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.setReferenceNumber(mReferenceNumberText.getText().toString());
       if (forSave && !isSplitPart()) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
-          mTransaction.setInitialPlan(Pair.create((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem(), dateEdit.getDate()));
+          mTransaction.setInitialPlan(Pair.create((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem(), dateEdit.date));
         }
       }
     }
@@ -1374,7 +1374,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   @NonNull
   private ZonedDateTime readZonedDateTime(DateButton dateEdit) {
-    return ZonedDateTime.of(dateEdit.getDate(),
+    return ZonedDateTime.of(dateEdit.date,
         timeEdit.getVisibility() == View.VISIBLE ? timeEdit.getTime() : LocalTime.now(),
         ZoneId.systemDefault());
   }
