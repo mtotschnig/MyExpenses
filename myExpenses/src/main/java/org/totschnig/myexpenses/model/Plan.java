@@ -21,6 +21,7 @@ import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -178,7 +179,7 @@ public class Plan extends Model implements Serializable {
       }
       uri = cr().insert(Events.CONTENT_URI, values);
       setId(ContentUris.parseId(uri));
-      MyApplication.getInstance().initPlanner(true);
+      DailyScheduler.updatePlannerAlarms(MyApplication.getInstance(), true, true);
     } else {
       uri = ContentUris.withAppendedId(Events.CONTENT_URI, getId());
       cr().update(uri, values, null, null);

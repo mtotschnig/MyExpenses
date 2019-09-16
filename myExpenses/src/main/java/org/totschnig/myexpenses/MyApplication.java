@@ -44,7 +44,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
+import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.ui.ContextHelper;
@@ -160,7 +160,6 @@ public class MyApplication extends MultiDexApplication implements
     if (!isSyncService()) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      initPlannerInternal(60000, false);
       registerWidgetObservers();
     }
     licenceHandler.init();
@@ -355,6 +354,7 @@ public class MyApplication extends MultiDexApplication implements
 
   /**
    * verifies if the passed in calendarid exists and is the one stored in {@link PrefKey#PLANNER_CALENDAR_PATH}
+   *
    * @param calendarId id of calendar in system calendar content provider
    * @return the same calendarId if it is safe to use, {@link #INVALID_CALENDAR_ID} if the calendar
    * is no longer valid, null if verification was not possible
@@ -407,6 +407,7 @@ public class MyApplication extends MultiDexApplication implements
   /**
    * WARNING this method relies on calendar permissions being granted. It is the callers duty
    * to check if they have been granted
+   *
    * @return id of planning calendar if it has been configured and passed checked
    */
   public String checkPlanner() {
@@ -467,7 +468,7 @@ public class MyApplication extends MultiDexApplication implements
           CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
       values.put(Calendars.NAME, PLANNER_CALENDAR_NAME);
       values.put(Calendars.CALENDAR_DISPLAY_NAME,
-          Utils.getTextWithAppName(this,R.string.plan_calendar_name).toString());
+          Utils.getTextWithAppName(this, R.string.plan_calendar_name).toString());
       values.put(Calendars.CALENDAR_COLOR,
           getResources().getColor(R.color.appDefault));
       values.put(Calendars.CALENDAR_ACCESS_LEVEL, Calendars.CAL_ACCESS_OWNER);
@@ -497,20 +498,6 @@ public class MyApplication extends MultiDexApplication implements
       PrefKey.PLANNER_CALENDAR_ID.putString(plannerCalendarId);
     }
     return plannerCalendarId;
-  }
-
-  /**
-   * call PlanExecutor, which will 1) set up the planner calendar 2) execute
-   * plans 3) reschedule execution through alarm
-   * @param force
-   */
-  public void initPlanner(boolean force) {
-    initPlannerInternal(0, force);
-  }
-
-  private void initPlannerInternal(long delay, boolean force) {
-    Timber.i("initPlanner called, setting plan executor to run with delay %d", delay);
-    PlanExecutor.setAlarm(this, System.currentTimeMillis() + delay, force);
   }
 
   public static String[] buildEventProjection() {
@@ -626,7 +613,7 @@ public class MyApplication extends MultiDexApplication implements
           return;
         }
         if (oldValue.equals(INVALID_CALENDAR_ID)) {
-          initPlanner(false);
+          DailyScheduler.updatePlannerAlarms(this, false, true);
         } else if (safeToMovePlans) {
           ContentValues eventValues = new ContentValues();
           eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
@@ -688,6 +675,7 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   //TODO move out to helper class
+
   /**
    * 1.check if a planner is configured. If no, nothing to do 2.check if the
    * configured planner exists on the device 2.1 if yes go through all events
@@ -789,7 +777,7 @@ public class MyApplication extends MultiDexApplication implements
 
   public static void markDataDirty() {
     PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
-    DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);
+    DailyScheduler.updateAutoBackupAlarms(mSelf);
   }
 
   private void enableStrictMode() {

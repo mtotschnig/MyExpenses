@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextHelper;
@@ -794,7 +795,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (granted) {
       switch (requestCode) {
         case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-          MyApplication.getInstance().initPlanner(false);
+          DailyScheduler.updatePlannerAlarms(this, false, true);
         }
       }
     } else {

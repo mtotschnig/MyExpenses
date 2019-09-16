@@ -121,7 +121,7 @@ public class AutoBackupService extends JobIntentService {
             NOTIFICATION_AUTO_BACKUP, notification);
       }
     } else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
-      DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
+      DailyScheduler.updateAutoBackupAlarms(this);
     }
   }
 

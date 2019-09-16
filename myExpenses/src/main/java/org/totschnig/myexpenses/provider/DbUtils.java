@@ -35,8 +35,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
-import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.ColorUtils;
@@ -92,8 +91,8 @@ public class DbUtils {
     boolean result = false;
     MyApplication app = MyApplication.getInstance();
     try {
-      DailyAutoBackupScheduler.cancelAutoBackup(app);
-      PlanExecutor.cancelPlans(app);
+      DailyScheduler.cancelAutoBackup(app);
+      DailyScheduler.cancelPlans(app);
       PaymentMethod.clear();
 
       if (backupFile.exists()) {
@@ -106,8 +105,8 @@ public class DbUtils {
     } catch (Exception e) {
       CrashHandler.report(e);
     }
-    app.initPlanner(false);
-    DailyAutoBackupScheduler.updateAutoBackupAlarms(app);
+    DailyScheduler.updatePlannerAlarms(app,false, true);
+    DailyScheduler.updateAutoBackupAlarms(app);
     return result;
   }
 

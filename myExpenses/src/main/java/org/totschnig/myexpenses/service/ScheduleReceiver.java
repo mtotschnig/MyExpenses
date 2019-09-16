@@ -14,16 +14,31 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class ScheduledBackupReceiver extends BroadcastReceiver {
+import static org.totschnig.myexpenses.service.AutoBackupService.ACTION_AUTO_BACKUP;
+import static org.totschnig.myexpenses.service.PlanExecutor.ACTION_EXECUTE_PLANS;
+
+public class ScheduleReceiver extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    requestAutoBackup(context);
+    String action = intent.getAction();
+    if (ACTION_AUTO_BACKUP.equals(action)) {
+      requestAutoBackup(context);
+    } else if (ACTION_EXECUTE_PLANS.equals(action)) {
+      requestPlanner(context, intent);
+    }
+  }
+
+  private void requestPlanner(Context context, Intent intent) {
+    Intent serviceIntent = new Intent(context, PlanExecutor.class);
+    serviceIntent.setAction(ACTION_EXECUTE_PLANS);
+    serviceIntent.putExtras(intent.getExtras());
+    PlanExecutor.enqueueWork(context, serviceIntent);
   }
 
   private void requestAutoBackup(Context context) {
     Intent serviceIntent = new Intent(context, AutoBackupService.class);
-    serviceIntent.setAction(AutoBackupService.ACTION_AUTO_BACKUP);
+    serviceIntent.setAction(ACTION_AUTO_BACKUP);
     AutoBackupService.enqueueWork(context, serviceIntent);
   }
 }

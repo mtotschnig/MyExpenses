@@ -46,7 +46,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
+import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -284,7 +284,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       //Log.d("DEBUG","shared preference changed: Template Widget");
       updateWidgets(TemplateWidget.class);
     } else if (key.equals(AUTO_BACKUP.getKey()) || key.equals(AUTO_BACKUP_TIME.getKey())) {
-      DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
+      DailyScheduler.updateAutoBackupAlarms(this);
     } else if (key.equals(SYNC_FREQUCENCY.getKey())) {
       for (Account account : GenericAccountService.getAccountsAsArray(this)) {
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
@@ -293,7 +293,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     } else if (key.equals(TRACKING.getKey())) {
       setTrackingEnabled(sharedPreferences.getBoolean(key, false));
     } else if (key.equals(PLANNER_EXECUTION_TIME.getKey())) {
-      MyApplication.getInstance().initPlanner(false);
+      DailyScheduler.updatePlannerAlarms(this, false, false);
     }
   }
 

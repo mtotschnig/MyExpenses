@@ -364,7 +364,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".service.ScheduledBackupReceiver" />
+        <receiver android:name=".service.ScheduleReceiver" />
 
         <receiver
             android:name="org.totschnig.myexpenses.widget.AccountWidget"
