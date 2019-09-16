@@ -58,7 +58,7 @@ public interface SyncBackendProvider {
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {
-      super(e);
+      super(e.getMessage(), e);
     }
     SyncParseException(String message) {
       super(message);

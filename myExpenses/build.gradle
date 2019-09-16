@@ -180,13 +180,18 @@ dependencies {
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
     implementation 'com.google.code.gson:gson:2.8.5'
-    api 'com.google.auto.value:auto-value:1.6.2'
-    kapt 'com.google.auto.value:auto-value:1.6.2'
+
+    api 'com.google.auto.value:auto-value-annotations:1.6.6'
+    kapt 'com.google.auto.value:auto-value:1.6.6'
+
     kapt 'com.ryanharter.auto.value:auto-value-gson:1.0.0'
-    api 'com.ryanharter.auto.value:auto-value-gson:1.0.0'
+    api 'com.ryanharter.auto.value:auto-value-gson-runtime:1.0.0'
+
     kapt 'com.gabrielittner.auto.value:auto-value-cursor:1.1.0'
     implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.1.0'
-    kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.6'
+
+    kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.8'
+
     implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
     implementation 'com.github.mtotschnig:MaterialSeekBarPreference:87e7c0d19d'
     implementation project(':PlayLicensingOrig')
