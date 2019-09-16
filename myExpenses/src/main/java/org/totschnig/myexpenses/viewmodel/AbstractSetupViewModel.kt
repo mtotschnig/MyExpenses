@@ -29,7 +29,11 @@ abstract class AbstractSetupViewModel(application: Application) : AndroidViewMod
 
     fun createFolder(label: String) {
         viewModelScope.launch {
-            folderCreateResult.postValue(createFolderBackground(label))
+            try {
+                folderCreateResult.postValue(createFolderBackground(label))
+            } catch (e: Exception) {
+                error.postValue(e)
+            }
         }
     }
 
