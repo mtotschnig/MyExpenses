@@ -273,18 +273,14 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   public void fillData(Transaction o) {
     if (o == null) {
-      dismiss();
+      errorView.setVisibility(View.VISIBLE);
+      errorView.setText(R.string.transaction_deleted);
       return;
     }
     final FragmentActivity ctx = getActivity();
     progressView.setVisibility(View.GONE);
     mTransaction = o;
     final Account account = Account.getInstanceFromDb(mTransaction.getAccountId());
-    if (mTransaction == null) {
-      errorView.setVisibility(View.VISIBLE);
-      errorView.setText(R.string.transaction_deleted);
-      return;
-    }
     boolean doShowPicture = false;
     if (mTransaction.getPictureUri() != null) {
       doShowPicture = true;

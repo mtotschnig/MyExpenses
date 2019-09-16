@@ -31,6 +31,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -100,6 +101,10 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
   Spinner encodingSpinner;
   @BindView(R.id.DelimiterRow)
   TableRow delimiterRow;
+  @BindView(R.id.error)
+  TextView errorView;
+  @BindView(R.id.Table)
+  ViewGroup tableView;
 
   @Inject
   PrefHandler prefHandler;
@@ -110,16 +115,12 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
   static final String PREFKEY_EXPORT_ENCODING = "export_encoding";
   private int handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
 
-  public static ExportDialogFragment newInstance(Long accountId, boolean isFiltered) {
+  public static ExportDialogFragment newInstance(long accountId, boolean isFiltered) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
-    if (accountId != null) {
-      Bundle bundle = new Bundle();
-      bundle.putLong(KEY_ACCOUNTID, accountId);
-      bundle.putBoolean(KEY_IS_FILTERED, isFiltered);
-      dialogFragment.setArguments(bundle);
-    } else {
-      throw new IllegalStateException("Cannot be used without accountId");
-    }
+    Bundle bundle = new Bundle();
+    bundle.putLong(KEY_ACCOUNTID, accountId);
+    bundle.putBoolean(KEY_IS_FILTERED, isFiltered);
+    dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
 
@@ -144,199 +145,208 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
 
-    //TODO Strict mode violation
-    Account a = Account.getInstanceFromDb(accountId);
-    boolean canReset = !a.isSealed();
-    if (accountId == Account.HOME_AGGREGATE_ID) {
-      allP = true;
-      warningText = getString(R.string.warning_reset_account_all,"");
-      hasExported = Account.getHasExported(null);
-      fileName = "export" + "-" + now;
-    } else {
-      hasExported = ctx.hasExported();
-      if (accountId < 0L) {
-        allP = true;
-        currency = a.getCurrencyUnit().code();
-        fileName = "export" + "-" + currency + "-" + now;
-        warningText = getString(R.string.warning_reset_account_all, " (" + currency + ")");
-      } else {
-        fileName = Utils.escapeForFileName(a.getLabel()) + "-" + now;
-        warningText = getString(R.string.warning_reset_account);
-      }
-    }
-
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     dialogView = li.inflate(R.layout.export_dialog, null);
     ButterKnife.bind(this, dialogView);
 
-    if (args.getBoolean(KEY_IS_FILTERED)) {
-      dialogView.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
-      warningText = getString(R.string.warning_reset_account_matched);
-    }
-
-    String dateFormatDefault =
-        ((SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
-    String dateFormat = prefHandler.getString(PREFKEY_EXPORT_DATE_FORMAT, "");
-    if (dateFormat.equals(""))
-      dateFormat = dateFormatDefault;
-    else {
-      try {
-        new SimpleDateFormat(dateFormat, Locale.US);
-      } catch (IllegalArgumentException e) {
-        dateFormat = dateFormatDefault;
-      }
-    }
-    dateFormatET.setText(dateFormat);
-    dateFormatET.addTextChangedListener(new TextWatcher() {
-      public void afterTextChanged(Editable s) {
-        try {
-          new SimpleDateFormat(s.toString(), Locale.US);
-          dateFormatET.setError(null);
-        } catch (IllegalArgumentException e) {
-          dateFormatET.setError(getString(R.string.date_format_illegal));
-        }
-        configureButton();
-      }
-
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-      }
-
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-      }
-    });
-
-    fileNameET.setText(fileName);
-    fileNameET.addTextChangedListener(new TextWatcher() {
-      public void afterTextChanged(Editable s) {
-        int error = 0;
-        if (s.toString().length() > 0) {
-          if (s.toString().indexOf('/') > -1) {
-            error = R.string.slash_forbidden_in_filename;
-          }
-        } else {
-          error = R.string.no_title_given;
-        }
-        fileNameET.setError(error != 0 ? getString(error) : null);
-        configureButton();
-      }
-
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-      }
-
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-      }
-    });
-    fileNameET.setFilters(new InputFilter[]{
-        (source, start, end, dest, dstart, dend) -> {
-          StringBuilder sb = new StringBuilder(end - start);
-          for (int i = start; i < end; i++) {
-            final char c = source.charAt(i);
-            int type = Character.getType(c);
-            if (type != Character.SURROGATE && type != Character.OTHER_SYMBOL) {
-              sb.append(c);
-            }
-          }
-          return sb;
-        }
-    });
-
-    String encoding = prefHandler.getString(PREFKEY_EXPORT_ENCODING, "UTF-8");
-
-    encodingSpinner.setSelection(
-        Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
-            .indexOf(encoding));
-
-    formatGroup.setOnCheckedChangeListener((group, checkedId) ->
-        delimiterRow.setVisibility(checkedId == R.id.csv ? View.VISIBLE : View.GONE));
-    String format = PrefKey.EXPORT_FORMAT.getString("QIF");
-    formatGroup.check(format.equals("CSV") ? R.id.csv : R.id.qif);
-
-    char delimiter = (char) prefHandler.getInt(ExportTask.KEY_DELIMITER, ',');
-    @IdRes final int delimiterButtonResId;
-    switch (delimiter) {
-      case ';':
-        delimiterButtonResId = R.id.delimiter_semicolon;
-        break;
-      case '\t':
-        delimiterButtonResId = R.id.delimiter_tab;
-        break;
-      case ',':
-      default:
-        delimiterButtonResId = R.id.delimiter_comma;
-    }
-    delimiterGroup.check(delimiterButtonResId);
-
-    char separator = (char) prefHandler.getInt(
-        ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator());
-    separatorGroup.check(separator == ',' ?  R.id.comma : R.id.dot);
-
-    View.OnClickListener radioClickListener = v -> {
-      int mappedAction = v.getId() == R.id.create_helper ?
-          Account.EXPORT_HANDLE_DELETED_CREATE_HELPER : Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
-      if (handleDeletedAction == mappedAction) {
-        handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
-        handleDeletedGroup.clearCheck();
-      } else {
-        handleDeletedAction = mappedAction;
-      }
-    };
-
-    final RadioButton updateBalanceRadioButton = dialogView.findViewById(R.id.update_balance);
-    final RadioButton createHelperRadioButton = dialogView.findViewById(R.id.create_helper);
-    updateBalanceRadioButton.setOnClickListener(radioClickListener);
-    createHelperRadioButton.setOnClickListener(radioClickListener);
-
-    if (savedInstanceState == null) {
-      handleDeletedAction = prefHandler.getInt(
-          ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_DO_NOTHING);
-      if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
-        updateBalanceRadioButton.setChecked(true);
-      } else if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-        createHelperRadioButton.setChecked(true);
-      }
-    }
-
-    if (canReset) {
-      deleteCB.setOnCheckedChangeListener(this);
-    } else {
+    //TODO Strict mode violation
+    Account a = Account.getInstanceFromDb(accountId);
+    if (a == null) {
+      errorView.setVisibility(View.VISIBLE);
+      tableView.setVisibility(View.GONE);
       deleteCB.setVisibility(View.GONE);
-    }
-    if (hasExported) {
-      notYetExportedCB.setChecked(true);
-      notYetExportedCB.setVisibility(View.VISIBLE);
-    }
+      errorView.setText("Unable to instantiate account " + accountId);
+    } else {
+      boolean canReset = !a.isSealed();
+      if (accountId == Account.HOME_AGGREGATE_ID) {
+        allP = true;
+        warningText = getString(R.string.warning_reset_account_all, "");
+        hasExported = Account.getHasExported(null);
+        fileName = "export" + "-" + now;
+      } else {
+        hasExported = ctx.hasExported();
+        if (accountId < 0L) {
+          allP = true;
+          currency = a.getCurrencyUnit().code();
+          fileName = "export" + "-" + currency + "-" + now;
+          warningText = getString(R.string.warning_reset_account_all, " (" + currency + ")");
+        } else {
+          fileName = Utils.escapeForFileName(a.getLabel()) + "-" + now;
+          warningText = getString(R.string.warning_reset_account);
+        }
+      }
 
-    warningTV.setText(warningText);
-    if (allP) {
-      ((TextView) dialogView.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
+      if (args.getBoolean(KEY_IS_FILTERED)) {
+        dialogView.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
+        warningText = getString(R.string.warning_reset_account_matched);
+      }
+
+      String dateFormatDefault =
+          ((SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
+      String dateFormat = prefHandler.getString(PREFKEY_EXPORT_DATE_FORMAT, "");
+      if (dateFormat.equals(""))
+        dateFormat = dateFormatDefault;
+      else {
+        try {
+          new SimpleDateFormat(dateFormat, Locale.US);
+        } catch (IllegalArgumentException e) {
+          dateFormat = dateFormatDefault;
+        }
+      }
+      dateFormatET.setText(dateFormat);
+      dateFormatET.addTextChangedListener(new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+          try {
+            new SimpleDateFormat(s.toString(), Locale.US);
+            dateFormatET.setError(null);
+          } catch (IllegalArgumentException e) {
+            dateFormatET.setError(getString(R.string.date_format_illegal));
+          }
+          configureButton();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+      });
+
+      fileNameET.setText(fileName);
+      fileNameET.addTextChangedListener(new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+          int error = 0;
+          if (s.toString().length() > 0) {
+            if (s.toString().indexOf('/') > -1) {
+              error = R.string.slash_forbidden_in_filename;
+            }
+          } else {
+            error = R.string.no_title_given;
+          }
+          fileNameET.setError(error != 0 ? getString(error) : null);
+          configureButton();
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+      });
+      fileNameET.setFilters(new InputFilter[]{
+          (source, start, end, dest, dstart, dend) -> {
+            StringBuilder sb = new StringBuilder(end - start);
+            for (int i = start; i < end; i++) {
+              final char c = source.charAt(i);
+              int type = Character.getType(c);
+              if (type != Character.SURROGATE && type != Character.OTHER_SYMBOL) {
+                sb.append(c);
+              }
+            }
+            return sb;
+          }
+      });
+
+      String encoding = prefHandler.getString(PREFKEY_EXPORT_ENCODING, "UTF-8");
+
+      encodingSpinner.setSelection(
+          Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
+              .indexOf(encoding));
+
+      formatGroup.setOnCheckedChangeListener((group, checkedId) ->
+          delimiterRow.setVisibility(checkedId == R.id.csv ? View.VISIBLE : View.GONE));
+      String format = PrefKey.EXPORT_FORMAT.getString("QIF");
+      formatGroup.check(format.equals("CSV") ? R.id.csv : R.id.qif);
+
+      char delimiter = (char) prefHandler.getInt(ExportTask.KEY_DELIMITER, ',');
+      @IdRes final int delimiterButtonResId;
+      switch (delimiter) {
+        case ';':
+          delimiterButtonResId = R.id.delimiter_semicolon;
+          break;
+        case '\t':
+          delimiterButtonResId = R.id.delimiter_tab;
+          break;
+        case ',':
+        default:
+          delimiterButtonResId = R.id.delimiter_comma;
+      }
+      delimiterGroup.check(delimiterButtonResId);
+
+      char separator = (char) prefHandler.getInt(
+          ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator());
+      separatorGroup.check(separator == ',' ? R.id.comma : R.id.dot);
+
+      View.OnClickListener radioClickListener = v -> {
+        int mappedAction = v.getId() == R.id.create_helper ?
+            Account.EXPORT_HANDLE_DELETED_CREATE_HELPER : Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
+        if (handleDeletedAction == mappedAction) {
+          handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
+          handleDeletedGroup.clearCheck();
+        } else {
+          handleDeletedAction = mappedAction;
+        }
+      };
+
+      final RadioButton updateBalanceRadioButton = dialogView.findViewById(R.id.update_balance);
+      final RadioButton createHelperRadioButton = dialogView.findViewById(R.id.create_helper);
+      updateBalanceRadioButton.setOnClickListener(radioClickListener);
+      createHelperRadioButton.setOnClickListener(radioClickListener);
+
+      if (savedInstanceState == null) {
+        handleDeletedAction = prefHandler.getInt(
+            ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_DO_NOTHING);
+        if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
+          updateBalanceRadioButton.setChecked(true);
+        } else if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_CREATE_HELPER) {
+          createHelperRadioButton.setChecked(true);
+        }
+      }
+
+      if (canReset) {
+        deleteCB.setOnCheckedChangeListener(this);
+      } else {
+        deleteCB.setVisibility(View.GONE);
+      }
+      if (hasExported) {
+        notYetExportedCB.setChecked(true);
+        notYetExportedCB.setVisibility(View.VISIBLE);
+      }
+
+      warningTV.setText(warningText);
+      if (allP) {
+        ((TextView) dialogView.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
+      }
+
+      final View helpIcon = dialogView.findViewById(R.id.date_format_help);
+      helpIcon.setOnClickListener(v -> {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        //noinspection InflateParams
+        final TextView infoTextView = (TextView) inflater.inflate(
+            R.layout.textview_info, null);
+        final CharSequence infoText = buildDateFormatHelpText();
+        final PopupWindow infoWindow = new PopupWindow(infoTextView);
+
+        infoWindow.setBackgroundDrawable(new BitmapDrawable());
+        infoWindow.setOutsideTouchable(true);
+        infoWindow.setFocusable(true);
+        chooseSize(infoWindow, infoText, infoTextView);
+        infoTextView.setText(infoText);
+        infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
+        infoWindow.showAsDropDown(helpIcon);
+      });
     }
-
-    final View helpIcon = dialogView.findViewById(R.id.date_format_help);
-    helpIcon.setOnClickListener(v -> {
-      LayoutInflater inflater = LayoutInflater.from(getActivity());
-      //noinspection InflateParams
-      final TextView infoTextView = (TextView) inflater.inflate(
-          R.layout.textview_info, null);
-      final CharSequence infoText = buildDateFormatHelpText();
-      final PopupWindow infoWindow = new PopupWindow(infoTextView);
-
-      infoWindow.setBackgroundDrawable(new BitmapDrawable());
-      infoWindow.setOutsideTouchable(true);
-      infoWindow.setFocusable(true);
-      chooseSize(infoWindow, infoText, infoTextView);
-      infoTextView.setText(infoText);
-      infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-      //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
-      infoWindow.showAsDropDown(helpIcon);
-    });
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
         .setView(dialogView)
-        .setPositiveButton(android.R.string.ok, this)
-        .setNegativeButton(android.R.string.cancel, null);
-    builder.setIcon(R.drawable.ic_warning);
+        .setNegativeButton(android.R.string.cancel, null)
+        .setIcon(R.drawable.ic_warning);
+    if (a != null) {
+        builder.setPositiveButton(android.R.string.ok, this)
+    }
 
     mDialog = builder.create();
     return mDialog;
