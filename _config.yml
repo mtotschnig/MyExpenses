@@ -114,6 +114,46 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.0.5
+    - "2019-09-13"
+    -
+      en: |
+        New implementation for synchronization via Dropbox and Drive.
+      fr: |
+        Nouvelle implémentation pour la synchronisation via Dropbox et Drive.
+      de: |
+        Neue Implementierung für die Synchronisation über Dropbox und Drive.
+      it: |
+        Nuova implementazione per la sincronizzazione tramite Dropbox e Drive.
+      tr: |
+        Dropbox ve Drive ile eşleşme için yeni yöntem.
+      ja: |
+        Dropbox と Drive を経由した同期の新しい実装.
+      iw: |
+        יישום חדש לסנכרון באמצעות Dropbox ו- Drive.
+  -
+    - 3.0.4
+    - "2019-09-01"
+    -
+      en: |
+        Download exchange rates.
+      fr: |
+        Télécharger les taux de change.
+      de: |
+        Wechselkurse herunterladen.
+      it: |
+        Download dei tassi di cambio.
+      tr: |
+        Döviz kurları indirme imkânı.
+      bg: |
+        Изтегляне на валутни курсове.
+      ru: |
+        Скачать курсы валют.
+      ja: |
+        為替レートのダウンロード.
+      iw: |
+        עדכן שערי חליפין.
+  -
     - 3.0.3
     - "2019-06-12"
     -
