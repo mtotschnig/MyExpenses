@@ -132,7 +132,7 @@
   <string name="important_upgrade_information_heading">முக்கிய தகவல்கள்</string>
   <string name="import_select_transactions">பரிவர்த்தனைகள்</string>
   <string name="income">வருமானம்</string>
-  <string name="invalid_number_format">உங்கள் மொழியால் வரையறுக்கப்படாத பதின்ம வடிவம். தயவுசெய்து %1$s ஐப் பயன்படுத்துக</string>
+  <string name="invalid_number_format">உங்கள் வட்டாரத்தால் வரையறுக்கப்படாத பதின்ம வடிவம். தயவுசெய்து %1$s ஐப் பயன்படுத்துக</string>
   <string name="label">விவரத்துணுக்கு</string>
   <string name="licence_validation_failure">உரிம திறவுகோலை சரிபார்க்க முடியவில்லை.</string>
   <string name="licence_validation_success">உரிம திறவுகோல் வெற்றிகரமாக சரிபார்க்கப்பட்டது:</string>
@@ -517,13 +517,13 @@
   <string name="menu_parse">பாகுபடுத்து</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">நீக்கு</string>
-  <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டதுப் பட்டுள்ளது.</string>
+  <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டதுப்பட்டுள்ளது.</string>
   <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d பதிவுகளை இறக்குமதி செய்ய முடியவில்லை.</string>
   <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
-  <string name="csv_import_subcategory_requires_category">நீங்கள் துணை வகையைத் தொடற்பு படுத்தினால், நீங்கள் வகையையும் தொடற்பு படுத்த வேண்டும்.</string>
+  <string name="csv_import_subcategory_requires_category">நீங்கள் துணை வகையைத் தொடற்பு படுத்தினால், அதன் வகையையும் தொடற்பு படுத்த வேண்டும்.</string>
   <string name="cvs_import_set_first_line_as_header">முதல் வரி ஒரு தலைப்பு வரியாக கருதப்பட வேண்டுமா?</string>
-  <string name="csv_import_delimiter_comma">காற்புள்ளி: ,</string>
-  <string name="csv_import_delimiter_semicolon">அரைப்புள்ளி: ;</string>
+  <string name="csv_import_delimiter_comma">காற்புள்ளி</string>
+  <string name="csv_import_delimiter_semicolon">அரைப்புள்ளி</string>
   <string name="csv_import_delimiter_tab">டாபு (tab)</string>
   <string name="csv_import_no_mapping_found_for_amount">ஒரு வரிசையை தயவுசெய்து தொகை, வருமானம் அல்லது செலவுடன் தொடற்பு படுத்தவும்.</string>
   <string name="menu_show_transactions">பரிவர்த்தனைகளைக் காட்டு</string>

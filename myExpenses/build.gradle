@@ -54,8 +54,8 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 383
-        versionName '3.0.5'
+        versionCode 384
+        versionName '3.0.5.1'
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -209,7 +209,7 @@ dependencies {
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
-    implementation 'com.github.eltos:simpledialogfragments:v3.1-androidx'
+    implementation 'com.github.mtotschnig:SimpleDialogFragments:0e6ab5bc05'
     implementation 'com.annimon:stream:1.2.1'
 
     // WebDAV2

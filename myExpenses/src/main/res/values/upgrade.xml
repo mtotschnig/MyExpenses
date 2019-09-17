@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_3051">
+        <item>@string/bug_fixes</item>
+    </string-array>
     <string-array name="whats_new_305">
         <item>New implementation for synchronization via Dropbox and Drive</item>
     </string-array>

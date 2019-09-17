@@ -303,7 +303,13 @@
 
         <service
             android:name=".service.PlanExecutor"
-            android:exported="${debug}"/>
+            android:exported="${debug}"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter>
+                <action android:name="${applicationId}.ACTION_SCHEDULE_EXECUTE_PLANS"/>
+                <action android:name="${applicationId}.ACTION_EXECUTE_PLANS"/>
+            </intent-filter>
+        </service>
 
         <service android:name=".service.PlanNotificationClickHandler"/>
 
