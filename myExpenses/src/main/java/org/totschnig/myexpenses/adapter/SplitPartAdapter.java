@@ -1,10 +1,7 @@
 package org.totschnig.myexpenses.adapter;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
@@ -12,6 +9,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Transfer;
@@ -39,19 +37,15 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
 
   private CurrencyFormatter currencyFormatter;
 
-  public SplitPartAdapter(Context context, int layout, Cursor c,
+  public SplitPartAdapter(ProtectedFragmentActivity context, int layout, Cursor c,
                           String[] from, int[] to, int flags, CurrencyUnit currency,
                           CurrencyFormatter currencyFormatter) {
     super(context, layout, c, from, to, flags);
     if (context instanceof MyExpenses) {
       insideFragment = true;
     }
-    Resources.Theme theme = context.getTheme();
-    TypedValue color = new TypedValue();
-    theme.resolveAttribute(R.attr.colorExpense, color, true);
-    colorExpense = color.data;
-    theme.resolveAttribute(R.attr.colorIncome, color, true);
-    colorIncome = color.data;
+    colorExpense = context.getColorExpense();
+    colorIncome = context.getColorIncome();
     this.currency = currency;
     this.currencyFormatter = currencyFormatter;
   }

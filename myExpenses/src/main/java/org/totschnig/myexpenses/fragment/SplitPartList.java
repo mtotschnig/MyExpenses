@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.util.Utils;
 import javax.inject.Inject;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -114,7 +113,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final FragmentActivity ctx = getActivity();
+    final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
     balanceTv = (TextView) v.findViewById(R.id.end);

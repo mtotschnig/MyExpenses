@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
+import org.totschnig.myexpenses.ui.DiscoveryHelper;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -47,6 +48,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class})
 public interface AppComponent {
+  DiscoveryHelper discoveryHelper();
 
   public String USER_COUNTRY = "userCountry";
 

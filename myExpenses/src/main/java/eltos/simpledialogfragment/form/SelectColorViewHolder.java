@@ -17,12 +17,12 @@ package eltos.simpledialogfragment.form;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.UiUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -104,9 +104,9 @@ class SelectColorViewHolder extends FormElementViewHolder<SelectColorField> impl
   protected boolean validate(Context context) {
     boolean valid = posButtonEnabled(context);
     if (valid) {
-      TypedValue value = new TypedValue();
-      if (label.getContext().getTheme().resolveAttribute(android.R.attr.textColor, value, true)) {
-        label.setTextColor(value.data);
+      int color = UiUtils.themeIntAttr(label.getContext(), android.R.attr.textColor);
+      if (color != -1) {
+        label.setTextColor(color);
       } else {
         label.setTextColor(0x8a000000);
       }

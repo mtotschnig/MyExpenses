@@ -211,6 +211,7 @@ dependencies {
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
     implementation 'com.github.mtotschnig:SimpleDialogFragments:0e6ab5bc05'
     implementation 'com.annimon:stream:1.2.1'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
 
     // WebDAV2
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"

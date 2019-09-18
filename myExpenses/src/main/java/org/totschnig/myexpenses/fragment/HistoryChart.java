@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -46,6 +45,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
@@ -130,10 +130,7 @@ public class HistoryChart extends Fragment
     TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
     valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / getResources().getDisplayMetrics().density;
     a.recycle();
-    typedValue = new TypedValue();
-    Resources.Theme theme = getContext().getTheme();
-    theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true);
-    textColor = typedValue.data;
+    textColor = UiUtils.themeIntAttr(getContext(), R.attr.colorControlNormal);
   }
 
   @Override

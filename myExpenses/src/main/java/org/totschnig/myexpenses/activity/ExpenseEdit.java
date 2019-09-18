@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ButtonWithDialog;
 import org.totschnig.myexpenses.ui.DateButton;
+import org.totschnig.myexpenses.ui.DiscoveryHelper;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.ui.TimeButton;
@@ -197,6 +198,8 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String KEY_CACHED_PICTURE_URI = "cachedPictureUri";
   public static final String KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount";
   private static final String KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences";
+  private static final String KEY_SHOW_DISCOVERY_EI_SWITCH = "showDiscoveryExpenseIncomeSwitch";
+  private static final String KEY_SHOW_DISCOVERY_OPERATION_TYPE_SELECT = "showDiscoveryOperationTypeSelect";
   private static int INPUT_EXCHANGE_RATE = 1;
   private static int INPUT_AMOUNT = 2;
   private static int INPUT_TRANSFER_AMOUNT = 3;
@@ -350,6 +353,8 @@ public class ExpenseEdit extends AmountActivity implements
   ImageViewIntentProvider imageViewIntentProvider;
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  DiscoveryHelper discoveryHelper;
 
   @Override
   int getDiscardNewMessage() {
@@ -460,6 +465,7 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
+    View operationTypeSpinner = findViewById(R.id.OperationType);
     currencyViewModel.loadCurrencies();
 
     TextPaint paint = mPlanToggleButton.getPaint();
@@ -554,9 +560,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
       final Long parentId = getIntent().getLongExtra(KEY_PARENTID, 0);
       getSupportActionBar().setDisplayShowTitleEnabled(false);
-      View spinner = findViewById(R.id.OperationType);
-      mOperationTypeSpinner = new SpinnerHelper(spinner);
-      spinner.setVisibility(View.VISIBLE);
+
+      mOperationTypeSpinner = new SpinnerHelper(operationTypeSpinner);
+      operationTypeSpinner.setVisibility(View.VISIBLE);
       List<Integer> allowedOperationTypes = new ArrayList<>();
       allowedOperationTypes.add(TYPE_TRANSACTION);
       allowedOperationTypes.add(TYPE_TRANSFER);
@@ -628,6 +634,16 @@ public class ExpenseEdit extends AmountActivity implements
         }
         setup();
       }
+    }
+
+    if (!discoveryHelper.discover(this, amountInput.findViewById(R.id.TaType),
+        String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
+        getString(R.string.discover_feature_expense_income_switch),
+        1, KEY_SHOW_DISCOVERY_EI_SWITCH, false)) {
+      discoveryHelper.discover(this, operationTypeSpinner,
+          String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
+          ExpenseEdit.this.getString(R.string.discover_feature_operation_type_select),
+          2, KEY_SHOW_DISCOVERY_OPERATION_TYPE_SELECT, true);
     }
   }
 
@@ -973,6 +989,7 @@ public class ExpenseEdit extends AmountActivity implements
       mMethodId = null;
       loadMethods(getCurrentAccount());
     }
+    discoveryHelper.markDiscovered(KEY_SHOW_DISCOVERY_EI_SWITCH);
   }
 
   @Override
@@ -1810,6 +1827,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
         break;
       case R.id.OperationType:
+        discoveryHelper.markDiscovered(KEY_SHOW_DISCOVERY_OPERATION_TYPE_SELECT);
         int newType = ((Integer) mOperationTypeSpinner.getItemAtPosition(position));
         if (newType != mOperationType && isValidType(newType)) {
           if (newType == TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
