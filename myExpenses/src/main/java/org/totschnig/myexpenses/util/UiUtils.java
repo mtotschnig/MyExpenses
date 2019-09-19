@@ -25,6 +25,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -125,6 +127,10 @@ public class UiUtils {
     return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
   }
 
+  public static int px2Dp(int px) {
+    return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+  }
+
   public static int resolveIcon(Context context, String resourceName) {
     return context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
   }
@@ -135,5 +141,19 @@ public class UiUtils {
     } else {
       textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end,bottom);
     }
+  }
+
+  /** Returns the value of the desired theme integer attribute, or -1 if not found **/
+  @ColorInt public static int themeIntAttr(@Nullable Context context, int attr) {
+    if (context != null) {
+      final Resources.Theme theme = context.getTheme();
+      if (theme != null) {
+        final TypedValue value = new TypedValue();
+        if (theme.resolveAttribute(attr, value, true)) {
+          return value.data;
+        }
+      }
+    }
+    return -1;
   }
 }

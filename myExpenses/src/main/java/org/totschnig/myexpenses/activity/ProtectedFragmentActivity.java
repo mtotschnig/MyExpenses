@@ -23,14 +23,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -198,15 +196,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           WindowManager.LayoutParams.FLAG_SECURE);
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    Resources.Theme theme = getTheme();
-    TypedValue color = new TypedValue();
-    theme.resolveAttribute(R.attr.colorExpense, color, true);
-    colorExpense = color.data;
-    theme.resolveAttribute(R.attr.colorIncome, color, true);
-    colorIncome = color.data;
-    theme.resolveAttribute(R.attr.colorAggregate, color, true);
-    colorAggregate = color.data;
-    TypedArray themeArray = theme.obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
+    colorExpense = UiUtils.themeIntAttr(this, R.attr.colorExpense);
+    colorIncome = UiUtils.themeIntAttr(this, R.attr.colorIncome);
+    colorAggregate = UiUtils.themeIntAttr(this, R.attr.colorAggregate);
+    TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
 
     tracker.init(this);
@@ -283,9 +276,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   protected void configureFloatingActionButton(int fabDescription) {
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
-    TypedValue color = new TypedValue();
-    getTheme().resolveAttribute(R.attr.colorControlActivated, color, true);
-    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color.data);
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, UiUtils.themeIntAttr(this, R.attr.colorControlActivated));
   }
 
   protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {

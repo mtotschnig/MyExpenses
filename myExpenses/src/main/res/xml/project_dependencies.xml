@@ -168,7 +168,7 @@
     </project>
     <project>
         <name>Sqlbrite</name>
-        <url>https://github.com/square/sqlbrite/</url>
+        <url>https://github.com/square/sqlbrite</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>
@@ -182,5 +182,10 @@
         <url>https://github.com/FortAwesome/Font-Awesome</url>
         <extra_info>Category Icons</extra_info>
         <licence>CC BY 4.0 License</licence>
+    </project>
+    <project>
+        <name>TapTargetView</name>
+        <url>https://github.com/KeepSafe/TapTargetView</url>
+        <licence>Apache License, Version 2.0</licence>
     </project>
 </credits>
