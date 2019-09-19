@@ -5,27 +5,29 @@ import android.content.ContentUris;
 import android.net.Uri;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
-import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class TransactionListViewModel extends AndroidViewModel {
 
-  private BriteContentResolver briteContentResolver;
+  @Inject
+  BriteContentResolver briteContentResolver;
   private Disposable disposable;
 
   private final MutableLiveData<Account> account = new MutableLiveData<>();
 
   public TransactionListViewModel(@NonNull Application application) {
     super(application);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(application.getContentResolver(), Schedulers.io());
+    ((MyApplication) application).getAppComponent().inject(this);
   }
 
   public MutableLiveData<Account> getAccount() {

@@ -3,19 +3,18 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.squareup.sqlbrite3.BriteContentResolver
-import com.squareup.sqlbrite3.SqlBrite
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import javax.inject.Inject
 
 class UpgradeHandlerViewModel(application: Application) : AndroidViewModel(application) {
-    private val briteContentResolver: BriteContentResolver
+    @Inject
+    lateinit var briteContentResolver: BriteContentResolver
     private var disposable: Disposable? = null
     init {
-        briteContentResolver = SqlBrite.Builder().build().wrapContentProvider(
-                application.contentResolver, Schedulers.io())
+        (application as MyApplication).appComponent.inject(this)
     }
     fun upgrade(fromVersion:Int, toVersion: Int) {
         if (fromVersion < 385) {

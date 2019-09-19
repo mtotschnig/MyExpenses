@@ -5,11 +5,14 @@ import android.app.Application;
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,15 +22,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ExpenseEditViewModel extends AndroidViewModel {
-  private BriteContentResolver briteContentResolver;
+  @Inject
+  BriteContentResolver briteContentResolver;
   private Disposable disposable;
 
   private final MutableLiveData<List<PaymentMethod>> methods = new MutableLiveData<>();
 
   public ExpenseEditViewModel(@NonNull Application application) {
     super(application);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(application.getContentResolver(), Schedulers.io());
-  }
+    ((MyApplication) application).getAppComponent().inject(this);  }
 
   public LiveData<List<PaymentMethod>> getMethods() {
     return methods;

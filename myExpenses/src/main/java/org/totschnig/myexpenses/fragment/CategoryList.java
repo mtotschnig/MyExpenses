@@ -92,7 +92,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 public class CategoryList extends SortableListFragment {
 
   public static final String KEY_FILTER = "filter";
-  protected BriteContentResolver briteContentResolver;
   private Disposable categoryDisposable;
   protected static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
       TABLE_CATEGORIES + "." + KEY_ROWID +
@@ -127,6 +126,8 @@ public class CategoryList extends SortableListFragment {
   CurrencyFormatter currencyFormatter;
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  BriteContentResolver briteContentResolver;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

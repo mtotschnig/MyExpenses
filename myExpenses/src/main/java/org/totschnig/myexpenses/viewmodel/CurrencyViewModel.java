@@ -5,6 +5,7 @@ import android.app.Application;
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -12,6 +13,8 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 import java.text.Collator;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,13 +24,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class CurrencyViewModel extends AndroidViewModel {
-  private BriteContentResolver briteContentResolver;
+  @Inject
+  BriteContentResolver briteContentResolver;
   private Disposable disposable;
 
   private final MutableLiveData<List<Currency>> currencies = new MutableLiveData<>();
 
   public CurrencyViewModel(@NonNull Application application) {
     super(application);
+    ((MyApplication) application).getAppComponent().inject(this);
   }
 
   public LiveData<List<Currency>> getCurrencies() {

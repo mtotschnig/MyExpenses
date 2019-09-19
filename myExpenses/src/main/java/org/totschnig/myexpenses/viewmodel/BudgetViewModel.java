@@ -9,20 +9,21 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
-import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
@@ -34,13 +35,14 @@ public class BudgetViewModel extends AndroidViewModel {
   static final int TOKEN = 0;
   private final MutableLiveData<List<Budget>> currentBudget = new MutableLiveData<>();
   private final InsertHandler asyncInsertHandler;
-  private BriteContentResolver briteContentResolver;
+  @Inject
+  BriteContentResolver briteContentResolver;
   private Disposable budgetDisposable;
   public BudgetViewModel(@NonNull Application application) {
     super(application);
     final ContentResolver contentResolver = application.getContentResolver();
     asyncInsertHandler = new InsertHandler(contentResolver);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(contentResolver, Schedulers.io());
+    ((MyApplication) application).getAppComponent().inject(this);
   }
 
   public MutableLiveData<List<Budget>> getData() {

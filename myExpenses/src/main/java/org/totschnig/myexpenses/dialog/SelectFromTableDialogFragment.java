@@ -30,20 +30,21 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
-import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
@@ -51,7 +52,8 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
 
   private static final String KEY_CHECKED_POSITIONS = "checked_positions";
   private final boolean withNullItem;
-  private BriteContentResolver briteContentResolver;
+  @Inject
+  BriteContentResolver briteContentResolver;
   private Disposable itemDisposable;
   private SimpleCursorAdapter adapter;
 
@@ -74,7 +76,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override

@@ -3,21 +3,23 @@ package org.totschnig.myexpenses.viewmodel;
 import android.app.Application;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
-import com.squareup.sqlbrite3.SqlBrite;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 
 public class MyExpensesViewModel extends AndroidViewModel {
-  private BriteContentResolver briteContentResolver;
+  @Inject
+  BriteContentResolver briteContentResolver;
   private Disposable disposable;
 
   public LiveData<Boolean> getHasHiddenAccounts() {
@@ -28,7 +30,7 @@ public class MyExpensesViewModel extends AndroidViewModel {
 
   public MyExpensesViewModel(@NonNull Application application) {
     super(application);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(application.getContentResolver(), Schedulers.io());
+    ((MyApplication) application).getAppComponent().inject(this);
   }
 
   @Override
