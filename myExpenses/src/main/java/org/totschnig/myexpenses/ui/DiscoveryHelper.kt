@@ -9,32 +9,40 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import timber.log.Timber
 import javax.inject.Inject
 
 class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
+
+    enum class Feature(val key: String) {
+        EI_SWITCH("showDiscoveryExpenseIncomeSwitch"),
+        OPERATION_TYPE_SELECT("showDiscoveryOperationTypeSelect")
+    }
+
     fun discover(context: Activity, target: View, title: CharSequence, description: CharSequence,
-                 daysSinceInstall: Int, prefKey: String, measureTarget: Boolean) =
-            Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(prefKey, true).also {
+                 daysSinceInstall: Int, feature: Feature, measureTarget: Boolean) =
+            Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true).also {
                 if (it) {
                     if (measureTarget) {
                         target.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                             override fun onGlobalLayout() {
-                                discoveryShow(context, target, title, description, prefKey, UiUtils.px2Dp(target.width / 2))
+                                discoveryShow(context, target, title, description, feature, UiUtils.px2Dp(target.width / 2))
                                 target.getViewTreeObserver().removeGlobalOnLayoutListener(this)
                             }
                         })
                     } else {
-                        discoveryShow(context, target, title, description, prefKey)
+                        discoveryShow(context, target, title, description, feature)
                     }
                 }
             }
 
-    fun markDiscovered(prefKey: String) {
-        prefHandler.putBoolean(prefKey, false)
+    fun markDiscovered(feature: Feature) {
+        prefHandler.putBoolean(feature.key, false)
+        Timber.d("Marked as discoverd: %s", feature)
     }
 
     private fun discoveryShow(context: Activity, target: View, title: CharSequence, description: CharSequence,
-                              prefKey: String, targetRadius: Int? = null) {
+                              feature: Feature, targetRadius: Int? = null) {
         TapTargetView.showFor(context,
                 TapTarget.forView(target, title, description)
                         .transparentTarget(true)
@@ -44,7 +52,7 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
                         },
                 object : TapTargetView.Listener() {
                     override fun onTargetDismissed(view: TapTargetView?, userInitiated: Boolean) {
-                        markDiscovered(prefKey)
+                        markDiscovered(feature)
                     }
                 })
     }

@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import java.io.File;
 import java.util.Map;
@@ -36,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.lifecycle.ViewModelProviders;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
@@ -57,6 +59,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
   public static final String TAG_VERSION_INFO = "VERSION_INFO";
   private OpenIabHelper mHelper;
+  private UpgradeHandlerViewModel upgradeHandlerViewModel;
 
   @Override
   protected void injectDependencies() {
@@ -91,6 +94,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         mHelper = null;
       }
     }
+    upgradeHandlerViewModel = ViewModelProviders.of(this).get(UpgradeHandlerViewModel.class);
   }
 
   @Override
@@ -178,6 +182,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (prev_version == -1) {
         return;
       }
+      upgradeHandlerViewModel.upgrade(prev_version, current_version);
       boolean showImportantUpgradeInfo = false;
       getPrefHandler().putInt(CURRENT_VERSION, current_version);
       SharedPreferences settings = MyApplication.getInstance().getSettings();

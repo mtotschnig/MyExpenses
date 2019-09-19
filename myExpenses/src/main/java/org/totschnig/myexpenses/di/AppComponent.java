@@ -48,7 +48,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class})
 public interface AppComponent {
-  DiscoveryHelper discoveryHelper();
+  @Singleton DiscoveryHelper discoveryHelper();
 
   public String USER_COUNTRY = "userCountry";
 

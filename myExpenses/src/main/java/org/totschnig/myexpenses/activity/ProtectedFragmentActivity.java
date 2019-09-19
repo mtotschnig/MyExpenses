@@ -23,14 +23,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -200,7 +198,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     colorExpense = UiUtils.themeIntAttr(this, R.attr.colorExpense);
     colorIncome = UiUtils.themeIntAttr(this, R.attr.colorIncome);
-    colorAggregate = UiUtils.themeIntAttr(this, R.attr.colorAggregate;
+    colorAggregate = UiUtils.themeIntAttr(this, R.attr.colorAggregate);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
 
