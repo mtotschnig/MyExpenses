@@ -14,7 +14,7 @@ class DatabaseHandler extends AsyncQueryHandler {
   }
 
   interface DeleteListener {
-    void onDeleteComplete(int token, boolean success);
+    void onDeleteComplete(int token, int result);
   }
 
   public DatabaseHandler(ContentResolver cr) {
@@ -33,6 +33,6 @@ class DatabaseHandler extends AsyncQueryHandler {
 
   @Override
   protected void onDeleteComplete(int token, Object cookie, int result) {
-    ((DeleteListener) cookie).onDeleteComplete(token, result == 1);
+    ((DeleteListener) cookie).onDeleteComplete(token, result);
   }
 }

@@ -8,10 +8,10 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 class BudgetEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val accounts = MutableLiveData<List<Account>>()
     val databaseResult = MutableLiveData<Boolean>()
-    private val asyncInsertHandler: DatabaseHandler
+    private val databaseHandler: DatabaseHandler
 
     init {
-        asyncInsertHandler = DatabaseHandler(application.contentResolver)
+        databaseHandler = DatabaseHandler(application.contentResolver)
     }
 
     fun loadAccounts() {
@@ -21,7 +21,7 @@ class BudgetEditViewModel(application: Application) : ContentResolvingAndroidVie
     }
 
     fun createBudget(budget: Budget) {
-        asyncInsertHandler.startInsert(TOKEN, object: DatabaseHandler.InsertListener {
+        databaseHandler.startInsert(TOKEN, object: DatabaseHandler.InsertListener {
             override fun onInsertComplete(token: Int, success: Boolean) {
                 databaseResult.postValue(success)
             }

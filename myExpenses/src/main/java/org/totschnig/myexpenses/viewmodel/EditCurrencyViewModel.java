@@ -110,8 +110,8 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
 
 
   public void deleteCurrency(String currency) {
-    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DatabaseHandler.DeleteListener) (token, success) -> {
-      deleteComplete.postValue(success);
+    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DatabaseHandler.DeleteListener) (token, result) -> {
+      deleteComplete.postValue(result == 1);
     }, buildItemUri(currency), null, null);
   }
 

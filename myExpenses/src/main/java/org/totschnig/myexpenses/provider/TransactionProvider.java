@@ -1167,6 +1167,9 @@ public class TransactionProvider extends ContentProvider {
       case SETTINGS:
         count = db.delete(TABLE_SETTINGS, where, whereArgs);
         break;
+      case BUDGETS:
+        count = db.delete(TABLE_BUDGETS, where, whereArgs);
+        break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
           count = resumeChangeTrigger(db);

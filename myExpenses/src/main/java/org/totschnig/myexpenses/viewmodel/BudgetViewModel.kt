@@ -8,17 +8,21 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import java.util.*
 import javax.inject.Inject
 
 class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val data = MutableLiveData<List<Budget>>()
     @Inject
     lateinit var currencyContext: CurrencyContext
-    private val PROJECTION = arrayOf(KEY_ROWID, KEY_ACCOUNTID, KEY_TITLE, KEY_DESCRIPTION,
-            "coalesce(%1\$s, (SELECT %1\$s from %2\$s WHERE %2\$s.%3\$s = %4\$s )) "
-                    .format(KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_ACCOUNTID),
-            KEY_BUDGET, KEY_GROUPING)
+    private val databaseHandler: DatabaseHandler
+
+    init {
+        databaseHandler = DatabaseHandler(application.contentResolver)
+    }
 
     init {
         (application as MyApplication).appComponent.inject(this)
@@ -50,5 +54,23 @@ class BudgetViewModel(application: Application) : ContentResolvingAndroidViewMod
                     )
                 }
                 .subscribe { data.postValue(it) }
+    }
+
+    fun deleteBudgets(budgetIds: List<Long>) {
+        databaseHandler.startDelete(TOKEN, object: DatabaseHandler.DeleteListener {
+            override fun onDeleteComplete(token: Int, result: Int) {
+                if (result != budgetIds.size) {
+                    CrashHandler.report(IllegalStateException("Budget delete failed %d/d".format(Locale.ROOT, result, budgetIds.size)))
+                }
+            }
+        }, TransactionProvider.BUDGETS_URI, KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(budgetIds.size), budgetIds.map(Long::toString).toTypedArray())
+    }
+
+    companion object {
+        private val TOKEN = 0
+        private val PROJECTION = arrayOf(KEY_ROWID, KEY_ACCOUNTID, KEY_TITLE, KEY_DESCRIPTION,
+                "coalesce(%1\$s, (SELECT %1\$s from %2\$s WHERE %2\$s.%3\$s = %4\$s )) "
+                        .format(KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_ACCOUNTID),
+                KEY_BUDGET, KEY_GROUPING)
     }
 }
