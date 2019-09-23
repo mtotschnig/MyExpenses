@@ -371,7 +371,7 @@ public class ExpenseEdit extends AmountActivity implements
     setContentView(R.layout.one_expense);
 
     setupToolbar();
-    mManager = getSupportLoaderManager();
+    mManager = LoaderManager.getInstance(this);
     viewModel = ViewModelProviders.of(this).get(ExpenseEditViewModel.class);
     viewModel.getMethods().observe(this, paymentMethods -> {
       if (mMethodsAdapter == null || paymentMethods == null || paymentMethods.isEmpty()) {

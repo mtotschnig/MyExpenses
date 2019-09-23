@@ -464,15 +464,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
           + KEY_ROWID + " integer primary key autoincrement, "
+          + KEY_TITLE+ " text not null, "
+          + KEY_DESCRIPTION + " text not null, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
           + KEY_BUDGET + " integer not null, "
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_CURRENCY + " text)";
-
-  private static final String BUDGETS_TYPE_ACCOUNT_INDEX_CREATE = "CREATE UNIQUE INDEX budgets_type_account ON "
-      + TABLE_BUDGETS + "(" + KEY_GROUPING + "," + KEY_ACCOUNTID + ")";
-  private static final String BUDGETS_TYPE_CURRENCY_INDEX_CREATE = "CREATE UNIQUE INDEX budgets_type_currency ON "
-      + TABLE_BUDGETS + "(" + KEY_GROUPING + "," + KEY_CURRENCY + ")";
 
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
@@ -761,8 +758,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
     db.execSQL(BUDGETS_CREATE);
-    db.execSQL(BUDGETS_TYPE_ACCOUNT_INDEX_CREATE);
-    db.execSQL(BUDGETS_TYPE_CURRENCY_INDEX_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
 
     //Run on ForTest build type

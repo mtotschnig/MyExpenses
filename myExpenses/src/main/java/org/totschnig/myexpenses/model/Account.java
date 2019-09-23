@@ -172,7 +172,7 @@ public class Account extends Model {
     PROJECTION_BASE = new String[]{
         TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
         KEY_LABEL,
-        KEY_DESCRIPTION,
+        TABLE_ACCOUNTS + "." + KEY_DESCRIPTION + " AS " + KEY_DESCRIPTION,
         KEY_OPENING_BALANCE,
         TABLE_ACCOUNTS + "." + KEY_CURRENCY + " AS " + KEY_CURRENCY,
         KEY_COLOR,

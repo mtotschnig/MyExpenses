@@ -63,6 +63,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -80,6 +81,7 @@ import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -110,6 +112,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 import static org.totschnig.myexpenses.util.DistribHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.DistribHelper.getVersionInfo;
@@ -119,7 +122,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
-    ProgressDialogFragment.ProgressDialogListener {
+    ProgressDialogFragment.ProgressDialogListener, AmountInput.Host {
   public static final int CALCULATOR_REQUEST = 0;
   public static final int EDIT_TRANSACTION_REQUEST = 1;
   public static final int EDIT_ACCOUNT_REQUEST = 2;
@@ -758,6 +761,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         confirmCredentialResult = Optional.of(false);
       }
     }
+    if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
+      View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
+      if (target instanceof AmountInput) {
+        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false);
+      } else {
+        showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Snackbar.LENGTH_LONG);
+      }
+    }
   }
 
   protected void restartAfterRestore() {
@@ -994,6 +1005,21 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     Transaction.buildProjection();
     Account.buildProjection();
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
+  }
+
+  public void showCalculator(BigDecimal amount, int id) {
+    Intent intent = new Intent(this, CalculatorInput.class);
+    forwardDataEntryFromWidget(intent);
+    if (amount != null) {
+      intent.putExtra(KEY_AMOUNT, amount);
+    }
+    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id);
+    startActivityForResult(intent, CALCULATOR_REQUEST);
+  }
+
+  protected void forwardDataEntryFromWidget(Intent intent) {
+    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+        getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
   }
 
   public enum ThemeType {

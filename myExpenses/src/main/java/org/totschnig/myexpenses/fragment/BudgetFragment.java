@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -77,11 +78,11 @@ public class BudgetFragment extends DistributionBaseFragment {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
     if (mAdapter == null) {
-      mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, budget.getCurrency());
+      mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, currencyContext.get(budget.getCurrency()));
       mListView.setAdapter(mAdapter);
     }
-    if (this.budget == null || this.budget.getGrouping() != budget.getGrouping()) {
-      mGrouping = budget.getGrouping();
+    if (this.budget == null) {
+      mGrouping = Grouping.DAY;
       mGroupingYear = 0;
       mGroupingSecond = 0;
       updateDateInfo(false);

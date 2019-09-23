@@ -362,7 +362,7 @@ public class MyExpenses extends LaunchActivity implements
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
     myPager.setPageMarginDrawable(margin.resourceId);
-    mManager = getSupportLoaderManager();
+    mManager =  LoaderManager.getInstance(this);
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
 
@@ -856,9 +856,7 @@ public class MyExpenses extends LaunchActivity implements
       case BUDGET: {
         if (mAccountId != 0 && currentCurrency != null) {
           recordUsage(feature);
-          Intent i = new Intent(this, BudgetActivity.class);
-          i.putExtra(KEY_ACCOUNTID, mAccountId);
-          i.putExtra(KEY_CURRENCY, currentCurrency);
+          Intent i = new Intent(this, ManageBudgets.class);
           startActivity(i);
         }
         break;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,7 +31,6 @@ import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.FormElement;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.form.Spinner;
-import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -43,7 +41,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
-    SimpleInputDialog.OnDialogResultListener, BudgetAdapter.OnBudgetClickListener {
+    BudgetAdapter.OnBudgetClickListener {
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
   private static final String NEW_BUDGET_DIALOG = "NEW_BUDGET";
@@ -78,18 +76,13 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
         findViewById(R.id.fragment_container).setVisibility(View.INVISIBLE);
       } else {
         findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-        Grouping currentType = getCurrentTypeFromPreference();
         budgetList = result;
         invalidateOptionsMenu();
-        setBudget(Stream.of(budgetList).filter(
-            budget -> budget.getGrouping().equals(currentType)).findFirst().orElse(budgetList.get(0)));
+        setBudget(budgetList.get(0));
         invalidateOptionsMenu();
       }
     });
-    budgetViewModel.loadBudgets(accountId, currency,
-        cursor -> new Budget(cursor.getLong(0), accountId, currencyUnit,
-            Grouping.valueOf(cursor.getString(1)),
-            new Money(currencyUnit, cursor.getLong(2)), isHomeAggregate));
+    budgetViewModel.loadBudgets(accountId, currency);
   }
 
   private void setBudget(Budget budget) {
@@ -104,7 +97,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
     boolean autofocus;
     if (newType == null) {
       final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
-        .items(Stream.of(Budget.BUDGET_TYPES)
+        .items(Stream.of(Budget.Companion.getBUDGET_TYPES())
             .map(this::getBudgetLabelForSpinner)
             .map(this::getString)
             .toArray(String[]::new))
@@ -215,13 +208,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   }
 
   private void switchBudget(Grouping newGrouping) {
-    Optional<Budget> newBudget = Stream.of(budgetList).filter(budget -> budget.getGrouping() == newGrouping).findSingle();
-    if (newBudget.isPresent()) {
-      persistTypeToPreference(newGrouping);
-      setBudget(newBudget.get());
-    } else {
-      showNewBudgetDialog(newGrouping);
-    }
+    showNewBudgetDialog(newGrouping);
   }
 
   private @NonNull Grouping getCurrentTypeFromPreference() {
@@ -250,31 +237,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   @Override
   protected int getContentView() {
     return R.layout.activity_budget;
-  }
-
-  @Override
-  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (super.onResult(dialogTag, which, extras)) {
-      return true;
-    }
-    if (which == BUTTON_POSITIVE) {
-      final Money amount = new Money(currencyUnit, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
-      if (dialogTag.equals(NEW_BUDGET_DIALOG)) {
-        Grouping budgetType = extras.containsKey(KEY_BUDGET_TYPE) ?
-            (Grouping) extras.getSerializable(KEY_BUDGET_TYPE) :
-            Budget.BUDGET_TYPES[extras.getInt(KEY_TYPE)];
-        Budget budget = new Budget(0, accountId, currencyUnit, budgetType,
-            amount, isHomeAggregate);
-        persistTypeToPreference(budgetType);
-        budgetViewModel.createBudget(budget);
-      } else if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
-        budgetViewModel.updateBudget(currentBudget.getId(), extras.getLong(KEY_CATID), amount);
-      }
-      return true;
-    } else if (!hasBudgets()) {
-      finish();
-    }
-    return false;
   }
 
   @Override

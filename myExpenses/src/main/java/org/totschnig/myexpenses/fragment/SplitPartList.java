@@ -247,7 +247,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   private void requireLoaders() {
-    Utils.requireLoader(getActivity().getSupportLoaderManager(), ExpenseEdit.TRANSACTION_CURSOR, null, this);
-    Utils.requireLoader(getActivity().getSupportLoaderManager(), ExpenseEdit.SUM_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.TRANSACTION_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.SUM_CURSOR, null, this);
   }
 }

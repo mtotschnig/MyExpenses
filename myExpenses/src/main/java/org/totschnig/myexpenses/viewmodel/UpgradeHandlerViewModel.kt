@@ -1,21 +1,11 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import com.squareup.sqlbrite3.BriteContentResolver
-import io.reactivex.disposables.Disposable
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.DiscoveryHelper
-import javax.inject.Inject
 
-class UpgradeHandlerViewModel(application: Application) : AndroidViewModel(application) {
-    @Inject
-    lateinit var briteContentResolver: BriteContentResolver
-    private var disposable: Disposable? = null
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
+class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     fun upgrade(fromVersion:Int, toVersion: Int) {
         if (fromVersion < 385) {
             val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
@@ -38,9 +28,5 @@ class UpgradeHandlerViewModel(application: Application) : AndroidViewModel(appli
                         }
                     }
         }
-    }
-
-    override fun onCleared() {
-        disposable?.dispose()
     }
 }

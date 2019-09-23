@@ -28,6 +28,9 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.ui.AmountInput;
+
+import java.math.BigDecimal;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -41,6 +44,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   private int accentColor;
 
   abstract int getDiscardNewMessage();
+
+  protected BigDecimal validateAmountInput(AmountInput input, boolean showToUser) {
+    return input.getTypedValue(true, showToUser);
+  }
 
   protected abstract void setupListeners();
 

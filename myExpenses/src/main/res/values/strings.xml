@@ -865,4 +865,9 @@
     <string name="discover_feature_expense_income_switch">Use this switch button to record income.</string>
     <!-- This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature  -->
     <string name="discover_feature_operation_type_select">Use this dropdown menu to record transfers between accounts or split transactions.</string>
+    <string name="menu_create_budget">New budget</string>
+    <string name="budget_onetime">Einmalig</string>
+    <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
+    <string name="budget_duration_from">From</string>
+    <string name="budget_duration_to">To</string>
 </resources>

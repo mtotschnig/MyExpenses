@@ -37,13 +37,9 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
-import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
-import org.totschnig.myexpenses.viewmodel.ExpenseEditViewModel;
-import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
-import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
-import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -142,18 +138,10 @@ public interface AppComponent {
 
   void inject(PlanExecutor planExecutor);
 
-  void inject(UpgradeHandlerViewModel upgradeHandlerViewModel);
-
   void inject(BudgetViewModel budgetViewModel);
 
-  void inject(CurrencyViewModel currencyViewModel);
-
-  void inject(ExpenseEditViewModel expenseEditViewModel);
-
-  void inject(MyExpensesViewModel myExpensesViewModel);
+  void inject(ContentResolvingAndroidViewModel myExpensesViewModel);
 
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
-
-  void inject(TransactionListViewModel transactionListViewModel);
 
 }

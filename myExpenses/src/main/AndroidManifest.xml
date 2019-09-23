@@ -131,6 +131,9 @@
         <activity
             android:name=".activity.MethodEdit"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
+        <activity
+            android:name=".activity.BudgetEdit"
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
 
         <activity
             android:name=".activity.ManageCategories"
@@ -186,6 +189,12 @@
 
         <activity
             android:name=".activity.ManageParties"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+        </activity>
+
+        <activity
+            android:name=".activity.ManageBudgets"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
         </activity>
