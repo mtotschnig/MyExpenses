@@ -1,12 +1,15 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentUris
 import androidx.lifecycle.MutableLiveData
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
 
-class BudgetEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    val accounts = MutableLiveData<List<Account>>()
+class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
+    val accounts = SingleLiveEvent<List<Account>>()
+    val budget = SingleLiveEvent<Budget>()
     val databaseResult = MutableLiveData<Boolean>()
     private val databaseHandler: DatabaseHandler
 
@@ -14,19 +17,41 @@ class BudgetEditViewModel(application: Application) : ContentResolvingAndroidVie
         databaseHandler = DatabaseHandler(application.contentResolver)
     }
 
-    fun loadAccounts() {
+    fun loadData(budgetId: Long) {
         disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null, false)
                 .mapToList { cursor -> Account(cursor.getLong(0), cursor.getString(1), cursor.getString(2)) }
-                .subscribe { accounts.postValue(it) }
+                .subscribe {
+                    accounts.postValue(it)
+                    dispose()
+                    if (budgetId != 0L) loadBudget(budgetId)
+                }
     }
 
-    fun createBudget(budget: Budget) {
-        databaseHandler.startInsert(TOKEN, object: DatabaseHandler.InsertListener {
-            override fun onInsertComplete(token: Int, success: Boolean) {
-                databaseResult.postValue(success)
-            }
-        }, TransactionProvider.BUDGETS_URI,
-                budget.toContentValues())
+    private fun loadBudget(budgetId: Long) {
+        disposable = createQuery("%s = ?".format(KEY_ROWID), arrayOf(budgetId.toString()))
+                .mapToOne(budgetCreatorFunction)
+                .subscribe {
+                    budget.postValue(it)
+                    dispose()
+                }
+    }
+
+    fun saveBudget(budget: Budget) {
+        if (budget.id == 0L) {
+            databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
+                override fun onInsertComplete(token: Int, success: Boolean) {
+                    databaseResult.postValue(success)
+                }
+            }, TransactionProvider.BUDGETS_URI,
+                    budget.toContentValues())
+        } else {
+            databaseHandler.startUpdate(TOKEN, object : DatabaseHandler.UpdateListener {
+                override fun onUpdateComplete(token: Int, result: Int) {
+                    databaseResult.postValue(result == 1)
+                }
+            }, ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budget.id),
+                    budget.toContentValues(), null, null)
+        }
     }
 
     companion object {

@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.one_budget.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -22,12 +23,16 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
     lateinit var viewModel: BudgetEditViewModel
     override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_budget
+    var pendingBudgetLoad = 0L
 
     override fun setupListeners() {
         Title.addTextChangedListener(this)
         Description.addTextChangedListener(this)
         Amount.addTextChangedListener(this)
     }
+
+    private val budgetId
+        get() = intent.extras?.getLong(KEY_ROWID) ?: 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +42,35 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         viewModel.accounts.observe(this, Observer {
             Accounts.adapter = AccountAdapter(this, it)
         })
-        viewModel.loadAccounts()
-        viewModel.databaseResult.observe(this,  Observer {
-           if (it) finish() else {
-               Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
-           }
+        viewModel.budget.observe(this, Observer { populateData(it) })
+        mNewInstance = budgetId == 0L
+        //on orientation change data is restored via view
+        pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0
+        viewModel.loadData(pendingBudgetLoad)
+        viewModel.databaseResult.observe(this, Observer {
+            if (it) finish() else {
+                Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
+            }
         })
         Type.adapter = GroupingAdapter(this)
         Type.setSelection(Grouping.MONTH.ordinal)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (pendingBudgetLoad == 0L) setupListeners()
+    }
+
+    private fun populateData(budget: Budget) {
+        Title.setText(budget.title)
+        Description.setText(budget.description)
+        Amount.setAmount(budget.amount.amountMajor)
+        (Accounts.adapter as AccountAdapter).getPosition(budget.accountId).takeIf { it > -1 }?.let {
+            Accounts.setSelection(it)
+        }
+        Type.setSelection(budget.grouping.ordinal)
+        setupListeners()
+        pendingBudgetLoad = 0L
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -60,19 +86,15 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         DurationToRow.isVisible = visible
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupListeners()
-    }
-
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (command == R.id.SAVE_COMMAND) {
             val account: Account = Accounts.selectedItem as Account
             val currencyUnit = currencyContext[account.currency]
-            viewModel.createBudget(Budget(0, Accounts.selectedItemId,
+            val budget = Budget(budgetId, Accounts.selectedItemId,
                     Title.text.toString(), Description.text.toString(), account.currency,
                     Money(currencyUnit, validateAmountInput(Amount, false)),
-                    Type.selectedItem as Grouping))
+                    Type.selectedItem as Grouping)
+            viewModel.saveBudget(budget)
             return true;
         }
         return super.dispatchCommand(command, tag)
@@ -114,4 +136,10 @@ class AccountAdapter(context: Context, accounts: List<Account>) : ArrayAdapter<A
         context, android.R.layout.simple_spinner_item, android.R.id.text1, accounts) {
     override fun hasStableIds(): Boolean = true
     override fun getItemId(position: Int): Long = getItem(position)!!.id
+    fun getPosition(accountId: Long): Int {
+        for (i in 0 until count) {
+            if (getItem(i)!!.id == accountId) return i
+        }
+        return -1
+    }
 }

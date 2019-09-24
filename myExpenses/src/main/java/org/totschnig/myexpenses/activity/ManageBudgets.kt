@@ -17,9 +17,6 @@ class ManageBudgets : ProtectedFragmentActivity() {
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (command == R.id.CREATE_COMMAND) {
-            /*val currency = currencyContext.get("EUR")
-            ViewModelProviders.of(this)[BudgetViewModel::class.java].createBudget(
-                    Budget(0, "LABEL",  "DESCRIPTION", currency, Money(currency, 40000)))*/
             val i = Intent(this, BudgetEdit::class.java)
             startActivity(i)
             return true

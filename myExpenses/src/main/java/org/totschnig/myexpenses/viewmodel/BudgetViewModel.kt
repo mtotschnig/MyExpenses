@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -14,11 +15,23 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
 import javax.inject.Inject
 
-class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+open class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val data = MutableLiveData<List<Budget>>()
     @Inject
     lateinit var currencyContext: CurrencyContext
     private val databaseHandler: DatabaseHandler
+    val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
+        val currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
+        Budget(
+                cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
+                cursor.getLong(cursor.getColumnIndex(KEY_ACCOUNTID)),
+                cursor.getString(cursor.getColumnIndex(KEY_TITLE)),
+                cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                currency,
+                Money(currencyContext.get(currency), cursor.getLong(cursor.getColumnIndex(KEY_BUDGET))),
+                Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING)))
+        )
+    }
 
     init {
         databaseHandler = DatabaseHandler(application.contentResolver)
@@ -39,22 +52,14 @@ class BudgetViewModel(application: Application) : ContentResolvingAndroidViewMod
     }
 
     private fun doLoad(selection: String?, selectionArgs: Array<String>?) {
-        disposable = briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
-                PROJECTION, selection, selectionArgs, null, true)
-                .mapToList { cursor ->
-                    val currency = cursor.getString(4)
-                    Budget(
-                            cursor.getLong(0),
-                            cursor.getLong(1),
-                            cursor.getString(2),
-                            cursor.getString(3),
-                            currency,
-                            Money(currencyContext.get(currency), cursor.getLong(5)),
-                            Grouping.valueOf(cursor.getString(6))
-                    )
-                }
+        disposable = createQuery(selection, selectionArgs)
+                .mapToList(budgetCreatorFunction)
                 .subscribe { data.postValue(it) }
     }
+
+    fun createQuery(selection: String?, selectionArgs: Array<String>?) =
+            briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
+                    PROJECTION, selection, selectionArgs, null, true)
 
     fun deleteBudgets(budgetIds: List<Long>) {
         databaseHandler.startDelete(TOKEN, object: DatabaseHandler.DeleteListener {
@@ -69,7 +74,7 @@ class BudgetViewModel(application: Application) : ContentResolvingAndroidViewMod
     companion object {
         private val TOKEN = 0
         private val PROJECTION = arrayOf(KEY_ROWID, KEY_ACCOUNTID, KEY_TITLE, KEY_DESCRIPTION,
-                "coalesce(%1\$s, (SELECT %1\$s from %2\$s WHERE %2\$s.%3\$s = %4\$s )) "
+                "coalesce(%1\$s, (SELECT %1\$s from %2\$s WHERE %2\$s.%3\$s = %4\$s )) AS %1\$s"
                         .format(KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_ACCOUNTID),
                 KEY_BUDGET, KEY_GROUPING)
     }

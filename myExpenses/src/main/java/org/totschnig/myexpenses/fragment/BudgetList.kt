@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -14,9 +15,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.budgets.*
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BudgetEdit
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
+import androidx.recyclerview.selection.ItemKeyProvider
+import androidx.annotation.NonNull
+
 
 class BudgetList : Fragment() {
     private lateinit var viewModel: BudgetViewModel
@@ -35,7 +41,13 @@ class BudgetList : Fragment() {
         selectionTracker = SelectionTracker.Builder<Long>(
                 "my_selection",
                 recycler_view,
-                StableIdKeyProvider(recycler_view),
+                //https://stackoverflow.com/a/53533775/1199911
+                object : ItemKeyProvider<Long>(SCOPE_MAPPED) {
+                    override fun getKey(position: Int) = adapter.getItemId(position)
+
+                    override fun getPosition(@NonNull key: Long) =
+                            recycler_view.findViewHolderForItemId(key)?.layoutPosition ?: RecyclerView.NO_POSITION
+                },
                 BudgetDetailsLookup(recycler_view),
                 StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
@@ -52,7 +64,7 @@ class BudgetList : Fragment() {
                         actionMode = null
                     }
                 } else {
-                    (requireActivity() as? AppCompatActivity)?.let { activity ->
+                    (activity as? AppCompatActivity)?.let { activity ->
                         if (actionMode == null) {
                             actionMode = activity.startSupportActionMode(actionModeCallback)
                         }
@@ -73,6 +85,9 @@ class BudgetList : Fragment() {
                     true
                 }
                 R.id.EDIT_COMMAND -> {
+                    val i = Intent(requireContext(), BudgetEdit::class.java)
+                    i.putExtra(KEY_ROWID, selectionTracker.selection.first())
+                    startActivity(i)
                     true
                 }
                 else -> false
