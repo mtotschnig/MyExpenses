@@ -13,35 +13,56 @@ import android.widget.TextView;
 
 import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
-import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
+import org.totschnig.myexpenses.viewmodel.data.Category;
+
+import java.math.BigDecimal;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eltos.simpledialogfragment.form.AmountEdit;
+import eltos.simpledialogfragment.form.SimpleFormDialog;
 
 import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
-public class BudgetFragment extends DistributionBaseFragment {
+public class BudgetFragment extends DistributionBaseFragment implements
+    BudgetAdapter.OnBudgetClickListener, SimpleFormDialog.OnDialogResultListener {
   private Budget budget;
+  @NonNull
+  private CurrencyUnit currencyUnit;
   @BindView(R.id.budgetProgressTotal) DonutProgress budgetProgress;
   @BindView(R.id.totalBudget) TextView totalBudget;
   @BindView(R.id.totalAllocated) TextView totalAllocated;
   @BindView(R.id.totalAmount) TextView totalAmount;
   @BindView(R.id.totalAvailable) TextView totalAvailable;
+  private static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
+
+  private BudgetViewModel viewModel;
 
   public long getAllocated() {
     return allocated;
@@ -61,36 +82,107 @@ public class BudgetFragment extends DistributionBaseFragment {
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setupAccount();
-    if (mAccount == null) {
-      return errorView();
-    }
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
-    budgetProgress.setFinishedStrokeColor(mAccount.color);
-    budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
-    totalBudget.setOnClickListener(view1 -> ((BudgetActivity) getActivity()).onBudgetClick(null, null));
+    totalBudget.setOnClickListener(view1 -> onBudgetClick(null, null));
     registerForContextMenu(mListView);
     return view;
   }
 
-  public void setBudget(Budget budget) {
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    viewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
+  }
+
+  private void showEditBudgetDialog(Category category, Category parentItem) {
+    final Money amount, max, min;
+    final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
+        .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
+        .neg();
+    if (category != null) {
+      long allocated = parentItem == null ? getAllocated() :
+          Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.budget).sum();
+      final Long budget = parentItem == null ? this.budget.getAmount().getAmountMinor() : parentItem.budget;
+      long allocatable = budget - allocated;
+      final long maxLong = allocatable + category.budget;
+      if (maxLong <= 0) {
+        ((ProtectedFragmentActivity) getActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
+            parentItem == null? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
+            parentItem == null? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2),
+            Snackbar.LENGTH_LONG);
+        return;
+      }
+      Bundle bundle = new Bundle(1);
+      bundle.putLong(KEY_CATID, category.id);
+      simpleFormDialog.extra(bundle);
+      amount = new Money(currencyUnit, category.budget);
+      max = new Money(currencyUnit, maxLong);
+      min = parentItem != null ? null : new Money(currencyUnit, Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
+    } else {
+      amount = this.budget.getAmount();
+      max = null;
+      min = new Money(currencyUnit, getAllocated());
+    }
+    simpleFormDialog
+        .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor(),
+            min == null ? null : min.getAmountMajor(), category != null, parentItem != null))
+        .show(this, EDIT_BUDGET_DIALOG);
+  }
+
+  private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min, boolean isMainCategory, boolean isSubCategory) {
+    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
+        .label(appendCurrencySymbol(getContext(), R.string.budget_allocated_amount, currencyUnit))
+        .fractionDigits(currencyUnit.fractionDigits()).required();
+    if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
+      amountEdit.amount(amount);
+    }
+    if (max != null) {
+      amountEdit.max(max, String.format(Locale.ROOT, "%s %s",
+          getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1: R.string.budget_exceeded_error_1_1, max),
+          getString(isSubCategory ? R.string.sub_budget_exceeded_error_2: R.string.budget_exceeded_error_2)));
+    }
+    if (min != null) {
+      amountEdit.min(min, getString(isMainCategory ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
+    }
+    return amountEdit;
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (which == BUTTON_POSITIVE) {
+      final Money amount = new Money(currencyUnit, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
+      if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
+        viewModel.updateBudget(this.budget.getId(), extras.getLong(KEY_CATID), amount);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public void setBudget(@NonNull Budget budget) {
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
+    mAccount = Account.getInstanceFromDb(budget.getAccountId());
     actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
     if (mAdapter == null) {
-      mAdapter = new BudgetAdapter((BudgetActivity) getActivity(), currencyFormatter, currencyContext.get(budget.getCurrency()));
+      mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
+          currencyContext.get(budget.getCurrency()), this);
       mListView.setAdapter(mAdapter);
     }
-    if (this.budget == null) {
-      mGrouping = Grouping.DAY;
-      mGroupingYear = 0;
-      mGroupingSecond = 0;
-      updateDateInfo(false);
-    } else {
-      loadData();
-    }
+    mGrouping = budget.getGrouping();
+    mGroupingYear = 0;
+    mGroupingSecond = 0;
+    updateDateInfo(false);
     this.budget = budget;
     updateTotals();
+    budgetProgress.setFinishedStrokeColor(mAccount.color);
+    budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
+    currencyUnit = budget.getCurrency().equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
+        ? Utils.getHomeCurrency() : currencyContext.get(budget.getCurrency());
+  }
+
+  @Override
+  public void onBudgetClick(Category category, Category parentItem) {
+    showEditBudgetDialog(category, parentItem);
   }
 
   @Override
@@ -158,9 +250,7 @@ public class BudgetFragment extends DistributionBaseFragment {
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    if (((BudgetActivity) getActivity()).hasBudgets()) {
-      inflater.inflate(R.menu.budget, menu);
-    }
+    inflater.inflate(R.menu.budget, menu);
   }
 
   @Override

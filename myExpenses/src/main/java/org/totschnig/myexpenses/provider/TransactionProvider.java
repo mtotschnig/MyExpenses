@@ -463,7 +463,9 @@ public class TransactionProvider extends ContentProvider {
             CrashHandler.report(
                 "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
           }
-          String accountSubquery = qb.buildQuery(minimal ? new String[]{KEY_ROWID, KEY_LABEL, KEY_CURRENCY} : Account.PROJECTION_FULL, selection, null,
+          String accountSubquery = qb.buildQuery(minimal ?
+                  new String[]{KEY_ROWID, KEY_LABEL, KEY_CURRENCY, "0 AS " + KEY_IS_AGGREGATE} :
+                  Account.PROJECTION_FULL, selection, null,
               null, null, null);
           //Currency query
           String homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
@@ -552,8 +554,9 @@ public class TransactionProvider extends ContentProvider {
           String rowIdColumn = "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
               + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY + ")  AS " + KEY_ROWID;
           String labelColumn = KEY_CURRENCY + " AS " + KEY_LABEL;
-          String currencyColumn  = KEY_CURRENCY;
-          projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn} : new String[]{
+          String currencyColumn = KEY_CURRENCY;
+          String aggregateColumn = "1 AS " + KEY_IS_AGGREGATE;
+          projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn, aggregateColumn} : new String[]{
               rowIdColumn,//we use negative ids for aggregate accounts
               labelColumn,
               "'' AS " + KEY_DESCRIPTION,
@@ -579,7 +582,7 @@ public class TransactionProvider extends ContentProvider {
               "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
               "0 AS " + KEY_RECONCILED_TOTAL,
               "0 AS " + KEY_USAGES,
-              "1 AS " + KEY_IS_AGGREGATE,
+              aggregateColumn,
               "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
               "0 AS " + KEY_HAS_CLEARED,
               "0 AS " + KEY_SORT_KEY_TYPE,
@@ -593,7 +596,8 @@ public class TransactionProvider extends ContentProvider {
             rowIdColumn = Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID;
             labelColumn = "'' AS " + KEY_LABEL;
             currencyColumn = "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY;
-            projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn} :  new String[]{
+            aggregateColumn = AggregateAccount.AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE;
+            projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn, aggregateColumn} : new String[]{
                 rowIdColumn,
                 labelColumn,
                 "'' AS " + KEY_DESCRIPTION,
@@ -619,7 +623,7 @@ public class TransactionProvider extends ContentProvider {
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
                 "0 AS " + KEY_RECONCILED_TOTAL,
                 "0 AS " + KEY_USAGES,
-                AggregateAccount.AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE,
+                aggregateColumn,
                 "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,
@@ -631,15 +635,15 @@ public class TransactionProvider extends ContentProvider {
           } else {
             subQueries = new String[]{accountSubquery, currencySubquery};
           }
-          String grouping = "";
-          AccountGrouping accountGrouping;
-          try {
-            accountGrouping = AccountGrouping.valueOf(prefHandler.getString(
-                PrefKey.ACCOUNT_GROUPING, "TYPE"));
-          } catch (IllegalArgumentException e) {
-            accountGrouping = AccountGrouping.TYPE;
-          }
+          String grouping = KEY_IS_AGGREGATE;
           if (!minimal) {
+            AccountGrouping accountGrouping;
+            try {
+              accountGrouping = AccountGrouping.valueOf(prefHandler.getString(
+                  PrefKey.ACCOUNT_GROUPING, "TYPE"));
+            } catch (IllegalArgumentException e) {
+              accountGrouping = AccountGrouping.TYPE;
+            }
             switch (accountGrouping) {
               case CURRENCY:
                 grouping = KEY_CURRENCY + "," + KEY_IS_AGGREGATE;
@@ -647,15 +651,11 @@ public class TransactionProvider extends ContentProvider {
               case TYPE:
                 grouping = KEY_IS_AGGREGATE + "," + KEY_SORT_KEY_TYPE;
                 break;
-              case NONE:
-                //real accounts should come first, then aggregate accounts
-                grouping = KEY_IS_AGGREGATE;
             }
-            sortOrder = grouping + "," + sortOrder;
           }
           String sql = qb.buildUnionQuery(
               subQueries,
-              sortOrder,
+              grouping + "," + sortOrder,
               null);
           Timber.d("Query : %s", sql);
           c = db.rawQuery(sql, null);

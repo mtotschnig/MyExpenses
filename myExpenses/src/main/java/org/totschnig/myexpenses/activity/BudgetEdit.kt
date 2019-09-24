@@ -90,7 +90,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         if (command == R.id.SAVE_COMMAND) {
             val account: Account = Accounts.selectedItem as Account
             val currencyUnit = currencyContext[account.currency]
-            val budget = Budget(budgetId, Accounts.selectedItemId,
+            val budget = Budget(budgetId, account.id,
                     Title.text.toString(), Description.text.toString(), account.currency,
                     Money(currencyUnit, validateAmountInput(Amount, false)),
                     Type.selectedItem as Grouping)

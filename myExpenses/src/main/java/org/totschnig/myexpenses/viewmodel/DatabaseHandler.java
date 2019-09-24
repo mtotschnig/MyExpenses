@@ -23,16 +23,22 @@ class DatabaseHandler extends AsyncQueryHandler {
 
   @Override
   protected void onUpdateComplete(int token, Object cookie, int result) {
-    ((UpdateListener) cookie).onUpdateComplete(token, result);
+    if (cookie instanceof  UpdateListener) {
+      ((UpdateListener) cookie).onUpdateComplete(token, result);
+    }
   }
 
   @Override
   protected void onInsertComplete(int token, Object cookie, Uri uri) {
-    ((InsertListener) cookie).onInsertComplete(token, uri != null);
+    if (cookie instanceof InsertListener) {
+      ((InsertListener) cookie).onInsertComplete(token, uri != null);
+    }
   }
 
   @Override
   protected void onDeleteComplete(int token, Object cookie, int result) {
-    ((DeleteListener) cookie).onDeleteComplete(token, result);
+    if (cookie instanceof DeleteListener) {
+      ((DeleteListener) cookie).onDeleteComplete(token, result);
+    }
   }
 }

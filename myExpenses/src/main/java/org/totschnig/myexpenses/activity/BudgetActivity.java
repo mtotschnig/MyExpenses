@@ -3,181 +3,29 @@ package org.totschnig.myexpenses.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.annimon.stream.Stream;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
-import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
-import org.totschnig.myexpenses.viewmodel.data.Category;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
-import eltos.simpledialogfragment.form.AmountEdit;
-import eltos.simpledialogfragment.form.FormElement;
-import eltos.simpledialogfragment.form.SimpleFormDialog;
-import eltos.simpledialogfragment.form.Spinner;
 
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
-public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
-    BudgetAdapter.OnBudgetClickListener {
+public class BudgetActivity extends CategoryActivity<BudgetFragment> {
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
-  private static final String NEW_BUDGET_DIALOG = "NEW_BUDGET";
-  private static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
-  private static final String KEY_BUDGET_TYPE = "budgetType";
-  private static final String PREFKEY_PREFIX = "current_budgetType_";
-  private BudgetViewModel budgetViewModel;
-  private long accountId;
-  @NonNull
-  private CurrencyUnit currencyUnit;
-  private boolean isHomeAggregate;
-  private List<Budget> budgetList;
-  private Budget currentBudget;
+  public static final String KEY_BUDGET = "budget";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(getThemeId());
     super.onCreate(savedInstanceState);
-    budgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
-    accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
-    String currency = getIntent().getStringExtra(KEY_CURRENCY);
-    if (currency == null) {
-      throw new NullPointerException();
-    }
-    isHomeAggregate = AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE.equals(currency);
-    currencyUnit = isHomeAggregate ? Utils.getHomeCurrency() : currencyContext.get(currency);
-    budgetViewModel.getData().observe(this, result -> {
-      if (result.isEmpty()) {
-        if (getSupportFragmentManager().findFragmentByTag(NEW_BUDGET_DIALOG) == null) {
-          showNewBudgetDialog(null);
-        }
-        findViewById(R.id.fragment_container).setVisibility(View.INVISIBLE);
-      } else {
-        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-        budgetList = result;
-        invalidateOptionsMenu();
-        setBudget(budgetList.get(0));
-        invalidateOptionsMenu();
-      }
-    });
-    budgetViewModel.loadBudgets(accountId, currency);
+    setBudget((Budget) getIntent().getSerializableExtra(KEY_BUDGET));
   }
 
-  private void setBudget(Budget budget) {
-    currentBudget = budget;
+  private void setBudget(@NonNull Budget budget) {
     mListFragment.setBudget(budget);
-  }
-
-  private void showNewBudgetDialog(Grouping newType) {
-    final AmountEdit amountEdit = buildAmountField(null, null, null, false, false);
-    final FormElement[] fields;
-    final int dialog_title_new_budget;
-    boolean autofocus;
-    if (newType == null) {
-      final Spinner typeSpinner = Spinner.plain(KEY_TYPE).label(R.string.type)
-        .items(Stream.of(Budget.Companion.getBUDGET_TYPES())
-            .map(this::getBudgetLabelForSpinner)
-            .map(this::getString)
-            .toArray(String[]::new))
-        .required().preset(0);
-      fields = new FormElement[]{typeSpinner, amountEdit};
-      dialog_title_new_budget = R.string.dialog_title_new_budget;
-      autofocus = false;
-    } else {
-      dialog_title_new_budget = getBudgetLabelForDialogTitle(newType);
-      fields = new FormElement[]{amountEdit};
-      autofocus = true;
-    }
-    final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
-        .title(dialog_title_new_budget)
-        .neg()
-        .fields(fields)
-        .autofocus(autofocus);
-    if (newType != null) {
-      Bundle extras = new Bundle(1);
-      extras.putSerializable(KEY_BUDGET_TYPE, newType);
-      simpleFormDialog.extra(extras);
-    }
-    simpleFormDialog.show(this, NEW_BUDGET_DIALOG);
-  }
-
-  private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min, boolean isMainCategory, boolean isSubCategory) {
-    final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
-        .label(appendCurrencySymbol(this, R.string.budget_allocated_amount, currencyUnit))
-        .fractionDigits(currencyUnit.fractionDigits()).required();
-    if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
-      amountEdit.amount(amount);
-    }
-    if (max != null) {
-      amountEdit.max(max, String.format(Locale.ROOT, "%s %s",
-          getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1: R.string.budget_exceeded_error_1_1, max),
-          getString(isSubCategory ? R.string.sub_budget_exceeded_error_2: R.string.budget_exceeded_error_2)));
-    }
-    if (min != null) {
-      amountEdit.min(min, getString(isMainCategory ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
-    }
-    return amountEdit;
-  }
-
-  private void showEditBudgetDialog(Category category, Category parentItem) {
-    final Money amount, max, min;
-    final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
-        .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
-        .neg();
-    if (category != null) {
-      long allocated = parentItem == null ? mListFragment.getAllocated() :
-          Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.budget).sum();
-      final Long budget = parentItem == null ? currentBudget.getAmount().getAmountMinor() : parentItem.budget;
-      long allocatable = budget - allocated;
-      final long maxLong = allocatable + category.budget;
-      if (maxLong <= 0) {
-        showSnackbar(TextUtils.concatResStrings(this, " ",
-            parentItem == null? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
-            parentItem == null? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2),
-            Snackbar.LENGTH_LONG);
-        return;
-      }
-      Bundle bundle = new Bundle(1);
-      bundle.putLong(KEY_CATID, category.id);
-      simpleFormDialog.extra(bundle);
-      amount = new Money(currencyUnit, category.budget);
-      max = new Money(currencyUnit, maxLong);
-      min = parentItem != null ? null : new Money(currencyUnit, Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
-    } else {
-      amount = currentBudget.getAmount();
-      max = null;
-      min = new Money(currencyUnit, mListFragment.getAllocated());
-    }
-    simpleFormDialog
-        .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor(),
-            min == null ? null : min.getAmountMajor(), category != null, parentItem != null))
-        .show(this, EDIT_BUDGET_DIALOG);
-  }
-
-  public boolean hasBudgets() {
-    return budgetList != null;
   }
 
   @Override
@@ -188,44 +36,7 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
       startActivity(i);
       return true;
     }
-    return handleGrouping(item) || super.onOptionsItemSelected(item);
-  }
-
-  private boolean handleGrouping(MenuItem item) {
-    Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
-    if (newGrouping != null) {
-      if (!item.isChecked()) {
-        switchBudget(newGrouping);
-        invalidateOptionsMenu();
-      }
-      return true;
-    }
-    return false;
-  }
-
-  private void persistTypeToPreference(Grouping newType) {
-    getPrefHandler().putString(getPrefKey(), newType.name());
-  }
-
-  private void switchBudget(Grouping newGrouping) {
-    showNewBudgetDialog(newGrouping);
-  }
-
-  private @NonNull Grouping getCurrentTypeFromPreference() {
-    final String typeFromPreference = getPrefHandler().getString(getPrefKey(), null);
-    if (typeFromPreference != null) {
-      try {
-        return Grouping.valueOf(typeFromPreference);
-      } catch (IllegalArgumentException ignored) {
-      }
-    }
-    return Grouping.MONTH;
-  }
-
-  @NonNull
-  private String getPrefKey() {
-    return PREFKEY_PREFIX + (accountId != 0 ? String.valueOf(accountId) :
-        (isHomeAggregate ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currencyUnit.code()));
+    return super.onOptionsItemSelected(item);
   }
 
   @NonNull
@@ -237,39 +48,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> implements
   @Override
   protected int getContentView() {
     return R.layout.activity_budget;
-  }
-
-  @Override
-  public void onBudgetClick(Category category, Category parentItem) {
-    showEditBudgetDialog(category, parentItem);
-  }
-
-  public int getBudgetLabelForDialogTitle(Grouping type) {
-    switch (type) {
-      case DAY:
-        return R.string.daily_budget;
-      case WEEK:
-        return R.string.weekly_budget;
-      case MONTH:
-        return R.string.monthly_budget;
-      case YEAR:
-        return R.string.yearly_budget;
-    }
-    throw new IllegalStateException();
-  }
-
-  public int getBudgetLabelForSpinner(Grouping type) {
-    switch (type) {
-      case DAY:
-        return R.string.daily_plain;
-      case WEEK:
-        return R.string.weekly_plain;
-      case MONTH:
-        return R.string.monthly;
-      case YEAR:
-        return R.string.yearly_plain;
-    }
-    throw new IllegalStateException();
   }
 
   public static int getBackgroundForAvailable(boolean onBudget, ProtectedFragmentActivity.ThemeType themeType) {

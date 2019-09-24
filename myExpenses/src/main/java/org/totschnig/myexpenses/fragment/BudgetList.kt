@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -15,13 +16,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.budgets.*
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BudgetActivity
+import org.totschnig.myexpenses.activity.BudgetActivity.KEY_BUDGET
 import org.totschnig.myexpenses.activity.BudgetEdit
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
-import androidx.recyclerview.selection.ItemKeyProvider
-import androidx.annotation.NonNull
 
 
 class BudgetList : Fragment() {
@@ -32,8 +33,10 @@ class BudgetList : Fragment() {
             inflater.inflate(R.layout.budgets, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(activity!!)[BudgetViewModel::class.java]
-        val adapter = BudgetsAdapter(context)
+        val adapter = requireActivity().let {
+            viewModel = ViewModelProviders.of(it)[BudgetViewModel::class.java]
+            BudgetsAdapter(it)
+        }
         viewModel.data.observe(this, Observer {
             adapter.submitList(it)
         })
@@ -117,7 +120,7 @@ class BudgetList : Fragment() {
     }
 }
 
-class BudgetsAdapter(val context: Context?) : ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
+class BudgetsAdapter(val context: Context) : ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
     var tracker: SelectionTracker<Long>? = null
 
     init {
@@ -134,6 +137,11 @@ class BudgetsAdapter(val context: Context?) : ListAdapter<Budget, BudgetViewHold
             with(holder) {
                 itemView.isActivated = isSelected
                 title.setText(budget.title)
+                itemView.setOnClickListener {
+                    val i = Intent(context, BudgetActivity::class.java)
+                    i.putExtra(KEY_BUDGET, budget)
+                    context.startActivity(i)
+                }
             }
         }
     }

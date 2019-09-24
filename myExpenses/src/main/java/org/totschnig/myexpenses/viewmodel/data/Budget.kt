@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.DiffUtil
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-
+import java.io.Serializable
 
 
 data class Budget(val id: Long, val accountId: Long, val title: String, val description: String,
-                  val currency: String, val amount: Money, val grouping: Grouping) {
+                  val currency: String, val amount: Money, val grouping: Grouping): Serializable {
 
     fun toContentValues(): ContentValues {
         val contentValues = ContentValues()
@@ -19,8 +19,10 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
         contentValues.put(KEY_BUDGET, amount.amountMinor)
         if (accountId > 0) {
             contentValues.put(KEY_ACCOUNTID, accountId)
+            contentValues.putNull(KEY_CURRENCY)
         } else {
             contentValues.put(KEY_CURRENCY, currency)
+            contentValues.putNull(KEY_ACCOUNTID)
         }
         return contentValues
     }

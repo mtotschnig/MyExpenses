@@ -86,10 +86,6 @@ public abstract class DistributionBaseFragment extends CategoryList {
     aggregateTypes = getPrefKey().getBoolean(true);
   }
 
-  protected void setupAccount() {
-    mAccount = Account.getInstanceFromDb(getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0));
-  }
-
   protected void disposeDateInfo() {
     if (dateInfoDisposable != null && !dateInfoDisposable.isDisposed()) {
       dateInfoDisposable.dispose();
