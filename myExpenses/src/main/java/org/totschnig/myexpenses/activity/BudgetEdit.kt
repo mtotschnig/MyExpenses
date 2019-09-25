@@ -42,6 +42,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         viewModel = ViewModelProviders.of(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, Observer {
             Accounts.adapter = AccountAdapter(this, it)
+            linkInputWithLabel(Accounts, AccountsLabel)
         })
         viewModel.budget.observe(this, Observer { populateData(it) })
         mNewInstance = budgetId == 0L
@@ -54,8 +55,19 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
                 Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
             }
         })
+        Type.onItemSelectedListener = this
         Type.adapter = GroupingAdapter(this)
         Type.setSelection(Grouping.MONTH.ordinal)
+        linkInputWithLabels()
+    }
+
+    private fun linkInputWithLabels() {
+        linkInputWithLabel(Title, TitleLabel)
+        linkInputWithLabel(Description, DescriptionLabel)
+        linkInputWithLabel(Amount, AmountLabel)
+        linkInputWithLabel(Type, TypeLabel)
+        linkInputWithLabel(DurationFrom, DurationFromLabel)
+        linkInputWithLabel(DurationTo, DurationToLabel)
     }
 
     override fun onResume() {

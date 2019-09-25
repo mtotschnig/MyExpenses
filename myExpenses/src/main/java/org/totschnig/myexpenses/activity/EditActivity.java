@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -161,8 +162,19 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   protected void linkInputWithLabel(final View input, final View label) {
-    input.setOnFocusChangeListener((v, hasFocus) ->
+    setOnFocusChangeListenerRecursive(input, (v, hasFocus) ->
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));
+  }
+
+  private void setOnFocusChangeListenerRecursive(View view, View.OnFocusChangeListener listener) {
+    if (view instanceof ViewGroup && !view.isFocusable()) {
+      ViewGroup group = ((ViewGroup) view);
+      for (int i = 0; i < group.getChildCount(); i++) {
+        setOnFocusChangeListenerRecursive(group.getChildAt(i), listener);
+      }
+    } else {
+      view.setOnFocusChangeListener(listener);
+    }
   }
 
   @Override

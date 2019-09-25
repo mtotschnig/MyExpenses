@@ -217,12 +217,6 @@ public class ExchangeRateEdit extends ConstraintLayout {
         nullValue;
   }
 
-  @Override
-  public void setOnFocusChangeListener(OnFocusChangeListener l) {
-    rate1Edit.setOnFocusChangeListener(l);
-    rate2Edit.setOnFocusChangeListener(l);
-  }
-
   private void complain(String message) {
     Host host = getHost();
     host.showSnackbar(message, Snackbar.LENGTH_LONG);
