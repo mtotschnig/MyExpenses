@@ -903,7 +903,7 @@ public class TransactionProvider extends ContentProvider {
         projection = new String[]{KEY_EXCHANGE_RATE};
         break;
       case BUDGETS:
-        qb.setTables(TABLE_BUDGETS);
+        qb.setTables(TABLE_BUDGETS + " LEFT JOIN " + TABLE_ACCOUNTS + " ON (" + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         break;
       default:
         throw unknownUri(uri);
@@ -1579,6 +1579,9 @@ public class TransactionProvider extends ContentProvider {
     }
     if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
+    }
+    if (uriMatch == BUDGET_CATEGORY) {
+      notifyChange(CATEGORIES_URI, false);
     }
     return count;
   }

@@ -17,13 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.budgets.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
-import org.totschnig.myexpenses.activity.BudgetActivity.KEY_BUDGET
 import org.totschnig.myexpenses.activity.BudgetEdit
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
-
 
 class BudgetList : Fragment() {
     private lateinit var viewModel: BudgetViewModel
@@ -139,7 +137,7 @@ class BudgetsAdapter(val context: Context) : ListAdapter<Budget, BudgetViewHolde
                 title.setText(budget.title)
                 itemView.setOnClickListener {
                     val i = Intent(context, BudgetActivity::class.java)
-                    i.putExtra(KEY_BUDGET, budget)
+                    i.putExtra(KEY_ROWID, budget.id)
                     context.startActivity(i)
                 }
             }

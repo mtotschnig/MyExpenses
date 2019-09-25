@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -59,6 +60,7 @@ public class DistributionFragment extends DistributionBaseFragment {
   View bottomLine;
   boolean showChart = false;
   private int textColorSecondary;
+  private Account mAccount;
 
   public Grouping getGrouping() {
     return mGrouping;
@@ -70,6 +72,17 @@ public class DistributionFragment extends DistributionBaseFragment {
     if (mAccount == null) {
       return errorView();
     }
+    setAccountInfo(new AccountInfo() {
+      @Override
+      public long getId() {
+        return mAccount.getId();
+      }
+
+      @Override
+      public CurrencyUnit getCurrencyUnit() {
+        return mAccount.getCurrencyUnit();
+      }
+    });
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();

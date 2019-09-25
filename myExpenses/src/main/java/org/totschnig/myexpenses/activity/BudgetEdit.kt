@@ -24,6 +24,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
     lateinit var viewModel: BudgetEditViewModel
     override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_budget
     var pendingBudgetLoad = 0L
+    var resumedP = false
 
     override fun setupListeners() {
         Title.addTextChangedListener(this)
@@ -44,9 +45,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         })
         viewModel.budget.observe(this, Observer { populateData(it) })
         mNewInstance = budgetId == 0L
-        //on orientation change data is restored via view
-        pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0
-        viewModel.loadData(pendingBudgetLoad)
+        if (savedInstanceState == null) {
+            pendingBudgetLoad = budgetId
+            viewModel.loadData(pendingBudgetLoad)
+        }
         viewModel.databaseResult.observe(this, Observer {
             if (it) finish() else {
                 Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
@@ -58,7 +60,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onResume() {
         super.onResume()
+        resumedP = true
         if (pendingBudgetLoad == 0L) setupListeners()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        resumedP = false
     }
 
     private fun populateData(budget: Budget) {
@@ -69,7 +77,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
             Accounts.setSelection(it)
         }
         Type.setSelection(budget.grouping.ordinal)
-        setupListeners()
+        if (resumedP) setupListeners()
         pendingBudgetLoad = 0L
     }
 
@@ -93,7 +101,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
             val budget = Budget(budgetId, account.id,
                     Title.text.toString(), Description.text.toString(), account.currency,
                     Money(currencyUnit, validateAmountInput(Amount, false)),
-                    Type.selectedItem as Grouping)
+                    Type.selectedItem as Grouping,
+                    -1)
             viewModel.saveBudget(budget)
             return true;
         }

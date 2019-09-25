@@ -5,11 +5,10 @@ import androidx.recyclerview.widget.DiffUtil
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import java.io.Serializable
 
 
 data class Budget(val id: Long, val accountId: Long, val title: String, val description: String,
-                  val currency: String, val amount: Money, val grouping: Grouping): Serializable {
+                  val currency: String, val amount: Money, val grouping: Grouping, val color: Int) {
 
     fun toContentValues(): ContentValues {
         val contentValues = ContentValues()
@@ -29,7 +28,6 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
 
 
     companion object {
-        val BUDGET_TYPES = arrayOf(Grouping.YEAR, Grouping.MONTH, Grouping.WEEK, Grouping.DAY)
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Budget>() {
             override fun areItemsTheSame(oldItem: Budget, newItem: Budget): Boolean {
                 return oldItem.id == newItem.id
@@ -38,7 +36,6 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
             override fun areContentsTheSame(oldItem: Budget, newItem: Budget): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

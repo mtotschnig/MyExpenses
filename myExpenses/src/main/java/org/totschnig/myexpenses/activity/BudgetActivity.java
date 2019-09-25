@@ -6,26 +6,21 @@ import android.view.MenuItem;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
-import org.totschnig.myexpenses.viewmodel.data.Budget;
 
 import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class BudgetActivity extends CategoryActivity<BudgetFragment> {
 
   public static final String ACTION_BUDGET = "ACTION_BUDGET";
-  public static final String KEY_BUDGET = "budget";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(getThemeId());
     super.onCreate(savedInstanceState);
-    setBudget((Budget) getIntent().getSerializableExtra(KEY_BUDGET));
-  }
-
-  private void setBudget(@NonNull Budget budget) {
-    mListFragment.setBudget(budget);
+    mListFragment.loadBudget(getIntent().getLongExtra(KEY_ROWID,0));
   }
 
   @Override

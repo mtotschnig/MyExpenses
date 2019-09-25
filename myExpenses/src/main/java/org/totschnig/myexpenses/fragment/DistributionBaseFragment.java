@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -78,7 +79,12 @@ public abstract class DistributionBaseFragment extends CategoryList {
   boolean aggregateTypes;
   private Disposable dateInfoDisposable;
   private Disposable sumDisposable;
-  protected Account mAccount;
+  private AccountInfo accountInfo;
+
+  interface AccountInfo {
+    long getId();
+    CurrencyUnit getCurrencyUnit();
+  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,10 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (dateInfoDisposable != null && !dateInfoDisposable.isDisposed()) {
       dateInfoDisposable.dispose();
     }
+  }
+
+  protected void setAccountInfo(AccountInfo accountInfo) {
+   this.accountInfo = accountInfo;
   }
 
   protected void updateDateInfo(boolean withMaxValue) {
@@ -219,11 +229,12 @@ public abstract class DistributionBaseFragment extends CategoryList {
   protected void updateSum() {
     disposeSum();
     Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
-    if (!mAccount.isHomeAggregate()) {
-      if (mAccount.isAggregate()) {
-        builder.appendQueryParameter(KEY_CURRENCY, mAccount.getCurrencyUnit().code());
+    long id = accountInfo.getId();
+    if (id != Account.HOME_AGGREGATE_ID) {
+      if (id < 0) {
+        builder.appendQueryParameter(KEY_CURRENCY, accountInfo.getCurrencyUnit().code());
       } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(id));
       }
     }
     //if we have no income or expense, there is no row in the cursor
@@ -270,7 +281,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
-        mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
+        accountInfo.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
   }
 
@@ -334,17 +345,18 @@ public abstract class DistributionBaseFragment extends CategoryList {
     String[] selectionArgs;
     String catFilter;
     String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
-    if (mAccount.isHomeAggregate()) {
+    long id = accountInfo.getId();
+    if (id == Account.HOME_AGGREGATE_ID) {
       accountSelection = null;
       amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
       table = VIEW_EXTENDED;
-    } else if (mAccount.isAggregate()) {
+    } else if (id < 0) {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = mAccount.getCurrencyUnit().code();
+      accountSelector = accountInfo.getCurrencyUnit().code();
     } else {
-      accountSelection = " = " + mAccount.getId();
+      accountSelection = " = " + id;
     }
     catFilter = "FROM " + table +
         " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));

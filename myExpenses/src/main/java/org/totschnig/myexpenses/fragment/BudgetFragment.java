@@ -18,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
@@ -92,6 +91,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     viewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
+    viewModel.getBudget().observe(this, this::setBudget);
   }
 
   private void showEditBudgetDialog(Category category, Category parentItem) {
@@ -159,10 +159,29 @@ public class BudgetFragment extends DistributionBaseFragment implements
     return false;
   }
 
-  public void setBudget(@NonNull Budget budget) {
+  public void loadBudget(long budgetId) {
+    viewModel.loadBudget(budgetId, false);
+  }
+
+  private void setBudget(@NonNull Budget budget) {
+    this.budget = budget;
+    currencyUnit = budget.getCurrency().equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
+        ? Utils.getHomeCurrency() : currencyContext.get(budget.getCurrency());
+    setAccountInfo(new AccountInfo() {
+      @Override
+      public long getId() {
+        return budget.getAccountId();
+      }
+
+      @Override
+      public CurrencyUnit getCurrencyUnit() {
+        return currencyUnit;
+      }
+    });
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
-    mAccount = Account.getInstanceFromDb(budget.getAccountId());
-    actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
+    actionBar.setTitle(budget.getTitle());
+    budgetProgress.setFinishedStrokeColor(budget.getColor());
+    budgetProgress.setUnfinishedStrokeColor(getContrastColor(budget.getColor()));
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
           currencyContext.get(budget.getCurrency()), this);
@@ -172,12 +191,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     mGroupingYear = 0;
     mGroupingSecond = 0;
     updateDateInfo(false);
-    this.budget = budget;
     updateTotals();
-    budgetProgress.setFinishedStrokeColor(mAccount.color);
-    budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
-    currencyUnit = budget.getCurrency().equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
-        ? Utils.getHomeCurrency() : currencyContext.get(budget.getCurrency());
   }
 
   @Override
@@ -215,7 +229,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   protected void onLoadFinished() {
     super.onLoadFinished();
     allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
-    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(),
+    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(currencyUnit,
         allocated)));
   }
 
@@ -236,10 +250,10 @@ public class BudgetFragment extends DistributionBaseFragment implements
       return;
     }
     totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    totalAmount.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(), -spent)));
+    totalAmount.setText(currencyFormatter.formatCurrency(new Money(currencyUnit, -spent)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
     long available = allocated - spent;
-    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(mAccount.getCurrencyUnit(), available)));
+    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(currencyUnit, available)));
     boolean onBudget = available >=0;
     totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget, context.getThemeType()));
     totalAvailable.setTextColor(onBudget ? context.getColorIncome() :

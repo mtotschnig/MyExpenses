@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 open class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val data = MutableLiveData<List<Budget>>()
+    val budget = MutableLiveData<Budget>()
     @Inject
     lateinit var currencyContext: CurrencyContext
     private val databaseHandler: DatabaseHandler
@@ -32,7 +33,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
                 currency,
                 Money(currencyContext.get(currency), cursor.getLong(cursor.getColumnIndex(KEY_BUDGET))),
-                Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING)))
+                Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING))),
+                cursor.getInt(cursor.getColumnIndex(KEY_COLOR))
         )
     }
 
@@ -45,13 +47,18 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     fun loadAllBudgets() {
-        doLoad(null, null)
-    }
-
-    private fun doLoad(selection: String?, selectionArgs: Array<String>?) {
-        disposable = createQuery(selection, selectionArgs)
+        disposable = createQuery(null, null)
                 .mapToList(budgetCreatorFunction)
                 .subscribe { data.postValue(it) }
+    }
+
+    fun loadBudget(budgetId: Long, once: Boolean) {
+        disposable = createQuery("%s = ?".format(q(KEY_ROWID)), arrayOf(budgetId.toString()))
+                .mapToOne(budgetCreatorFunction)
+                .subscribe {
+                    budget.postValue(it)
+                    if (once) dispose()
+                }
     }
 
     fun createQuery(selection: String?, selectionArgs: Array<String>?) =
@@ -77,15 +84,24 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 contentValues, null, null)
     }
 
+
+
     companion object {
         private val TOKEN = 0
-        private val PROJECTION = arrayOf(KEY_ROWID,
+        private val PROJECTION = arrayOf(
+                q(KEY_ROWID),
                 "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
                         .format(Locale.ROOT, KEY_ACCOUNTID, KEY_ROWID, TABLE_CURRENCIES, KEY_CODE,
-                                KEY_CURRENCY, AggregateAccount.HOME_AGGREGATE_ID),
-                KEY_TITLE, KEY_DESCRIPTION,
-                "coalesce(%1\$s, (SELECT %1\$s from %2\$s WHERE %2\$s.%3\$s = %4\$s )) AS %1\$s"
-                        .format(KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_ACCOUNTID),
-                KEY_BUDGET, KEY_GROUPING)
+                                q(KEY_CURRENCY), AggregateAccount.HOME_AGGREGATE_ID),
+                KEY_TITLE,
+                q(KEY_DESCRIPTION),
+                "coalesce(%1\$s.%2\$s, %3\$s.%2\$s) AS %2\$s"
+                        .format(TABLE_BUDGETS, KEY_CURRENCY, TABLE_ACCOUNTS),
+                KEY_BUDGET,
+                q(KEY_GROUPING),
+                KEY_COLOR
+        )
+
+        private fun q(column:String) = TABLE_BUDGETS + "." + column
     }
 }

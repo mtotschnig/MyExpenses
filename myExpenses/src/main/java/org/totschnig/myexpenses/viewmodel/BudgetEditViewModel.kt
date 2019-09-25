@@ -6,13 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
 
 class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
-    val accounts = SingleLiveEvent<List<Account>>()
-    val budget = SingleLiveEvent<Budget>()
+    val accounts = MutableLiveData<List<Account>>()
     val databaseResult = MutableLiveData<Boolean>()
     private val databaseHandler: DatabaseHandler
 
@@ -29,16 +27,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
                 .subscribe {
                     accounts.postValue(it)
                     dispose()
-                    if (budgetId != 0L) loadBudget(budgetId)
-                }
-    }
-
-    private fun loadBudget(budgetId: Long) {
-        disposable = createQuery("%s = ?".format(KEY_ROWID), arrayOf(budgetId.toString()))
-                .mapToOne(budgetCreatorFunction)
-                .subscribe {
-                    budget.postValue(it)
-                    dispose()
+                    if (budgetId != 0L) loadBudget(budgetId, true)
                 }
     }
 
