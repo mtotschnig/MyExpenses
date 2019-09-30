@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 
 class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
     val accounts = MutableLiveData<List<Account>>()
-    val databaseResult = MutableLiveData<Boolean>()
     private val databaseHandler: DatabaseHandler
 
     init {

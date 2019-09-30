@@ -12,8 +12,6 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
 import javax.inject.Inject
@@ -21,6 +19,7 @@ import javax.inject.Inject
 open class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val data = MutableLiveData<List<Budget>>()
     val budget = MutableLiveData<Budget>()
+    val databaseResult = MutableLiveData<Boolean>()
     @Inject
     lateinit var currencyContext: CurrencyContext
     private val databaseHandler: DatabaseHandler
@@ -65,14 +64,12 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
                     PROJECTION, selection, selectionArgs, null, true)
 
-    fun deleteBudgets(budgetIds: List<Long>) {
+    fun deleteBudget(budgetId: Long) {
         databaseHandler.startDelete(TOKEN, object: DatabaseHandler.DeleteListener {
             override fun onDeleteComplete(token: Int, result: Int) {
-                if (result != budgetIds.size) {
-                    CrashHandler.report(IllegalStateException("Budget delete failed %d/d".format(Locale.ROOT, result, budgetIds.size)))
-                }
+                databaseResult.postValue(result == 1)
             }
-        }, TransactionProvider.BUDGETS_URI, KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(budgetIds.size), budgetIds.map(Long::toString).toTypedArray())
+        }, TransactionProvider.BUDGETS_URI, KEY_ROWID + " = ?", arrayOf(budgetId.toString()))
     }
 
     fun updateBudget(budgetId: Long, categoryId: Long, amount: Money) {

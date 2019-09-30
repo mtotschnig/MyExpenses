@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,12 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BudgetEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -46,6 +50,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
@@ -54,11 +59,16 @@ public class BudgetFragment extends DistributionBaseFragment implements
   private Budget budget;
   @NonNull
   private CurrencyUnit currencyUnit;
-  @BindView(R.id.budgetProgressTotal) DonutProgress budgetProgress;
-  @BindView(R.id.totalBudget) TextView totalBudget;
-  @BindView(R.id.totalAllocated) TextView totalAllocated;
-  @BindView(R.id.totalAmount) TextView totalAmount;
-  @BindView(R.id.totalAvailable) TextView totalAvailable;
+  @BindView(R.id.budgetProgressTotal)
+  DonutProgress budgetProgress;
+  @BindView(R.id.totalBudget)
+  TextView totalBudget;
+  @BindView(R.id.totalAllocated)
+  TextView totalAllocated;
+  @BindView(R.id.totalAmount)
+  TextView totalAmount;
+  @BindView(R.id.totalAvailable)
+  TextView totalAvailable;
   private static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
 
   private BudgetViewModel viewModel;
@@ -92,6 +102,35 @@ public class BudgetFragment extends DistributionBaseFragment implements
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     viewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
     viewModel.getBudget().observe(this, this::setBudget);
+    viewModel.getDatabaseResult().observe(this, success -> {
+      Activity activity = getActivity();
+      if (activity != null) {
+        if (success) {
+          activity.finish();
+        } else {
+          Toast.makeText(activity, "Error while deleting budget", Toast.LENGTH_LONG).show();
+        }
+      }
+    });
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (budget != null) {
+      switch (item.getItemId()) {
+        case R.id.EDIT_COMMAND: {
+          Intent intent = new Intent(getActivity(), BudgetEdit.class);
+          intent.putExtra(KEY_ROWID, budget.getId());
+          startActivity(intent);
+          return true;
+        }
+        case R.id.DELETE_COMMAND: {
+          viewModel.deleteBudget(budget.getId());
+          return true;
+        }
+      }
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   private void showEditBudgetDialog(Category category, Category parentItem) {
@@ -107,8 +146,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
       final long maxLong = allocatable + category.budget;
       if (maxLong <= 0) {
         ((ProtectedFragmentActivity) getActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
-            parentItem == null? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
-            parentItem == null? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2),
+            parentItem == null ? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
+            parentItem == null ? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2),
             Snackbar.LENGTH_LONG);
         return;
       }
@@ -138,8 +177,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
     }
     if (max != null) {
       amountEdit.max(max, String.format(Locale.ROOT, "%s %s",
-          getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1: R.string.budget_exceeded_error_1_1, max),
-          getString(isSubCategory ? R.string.sub_budget_exceeded_error_2: R.string.budget_exceeded_error_2)));
+          getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1 : R.string.budget_exceeded_error_1_1, max),
+          getString(isSubCategory ? R.string.sub_budget_exceeded_error_2 : R.string.budget_exceeded_error_2)));
     }
     if (min != null) {
       amountEdit.min(min, getString(isMainCategory ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
@@ -205,7 +244,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     //then we use this info in second run
     if (mGroupingYear == 0) {
       mGroupingYear = thisYear;
-      switch(mGrouping) {
+      switch (mGrouping) {
         case DAY:
           mGroupingSecond = thisDay;
           break;
@@ -254,7 +293,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     final Long allocated = this.budget.getAmount().getAmountMinor();
     long available = allocated - spent;
     totalAvailable.setText(currencyFormatter.formatCurrency(new Money(currencyUnit, available)));
-    boolean onBudget = available >=0;
+    boolean onBudget = available >= 0;
     totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget, context.getThemeType()));
     totalAvailable.setTextColor(onBudget ? context.getColorIncome() :
         context.getColorExpense());
