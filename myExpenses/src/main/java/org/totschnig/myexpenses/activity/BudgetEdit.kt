@@ -56,6 +56,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
             }
         })
         Type.onItemSelectedListener = this
+        Accounts.onItemSelectedListener = this
         Type.adapter = GroupingAdapter(this)
         Type.setSelection(Grouping.MONTH.ordinal)
         linkInputWithLabels()
@@ -93,12 +94,17 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         pendingBudgetLoad = 0L
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        showDateRange(false)
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        when (parent.id) {
+            R.id.Type -> showDateRange(false)
+        }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        showDateRange(position == Grouping.NONE.ordinal)
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        when (parent.id) {
+            R.id.Type -> showDateRange(position == Grouping.NONE.ordinal)
+            R.id.Accounts -> Amount.setFractionDigits(currencyContext[selectedAccount().currency].fractionDigits())
+        }
     }
 
     private fun showDateRange(visible: Boolean) {
@@ -108,7 +114,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (command == R.id.SAVE_COMMAND) {
-            val account: Account = Accounts.selectedItem as Account
+            val account: Account = selectedAccount()
             val currencyUnit = currencyContext[account.currency]
             val budget = Budget(budgetId, account.id,
                     Title.text.toString(), Description.text.toString(), account.currency,
@@ -120,6 +126,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener {
         }
         return super.dispatchCommand(command, tag)
     }
+
+    private fun selectedAccount() = Accounts.selectedItem as Account
 }
 
 class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, android.R.layout.simple_spinner_item, android.R.id.text1, Grouping.values()) {
