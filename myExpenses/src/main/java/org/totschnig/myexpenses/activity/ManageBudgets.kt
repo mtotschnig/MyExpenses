@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.R
 class ManageBudgets : ProtectedFragmentActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(themeIdEditDialog)
+        setTheme(themeId)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_budgets)
         setupToolbar(true)

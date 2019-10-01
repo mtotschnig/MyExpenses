@@ -118,7 +118,7 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
-      Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccountsGroupedByType");
+      Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccounts");
   public static final Uri EVENT_CACHE_URI =
       Uri.parse("content://" + AUTHORITY + "/eventcache");
   public static final Uri DEBUG_SCHEMA_URI =
@@ -170,6 +170,8 @@ public class TransactionProvider extends ContentProvider {
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_START = "withStart";
   public static final String QUERY_PARAMETER_SECTIONS = "sections";
+  public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
+  public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -310,6 +312,8 @@ public class TransactionProvider extends ContentProvider {
         break;
       case TRANSACTIONS_SUMS: {
         String accountSelectionQuery = null;
+        boolean groupByType = uri.getQueryParameter(QUERY_PARAMETER_GROUPED_BY_TYPE) != null;
+        boolean aggregateTypes = uri.getQueryParameter(QUERY_PARAMETER_AGGREGATE_TYPES) != null;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
@@ -321,9 +325,14 @@ public class TransactionProvider extends ContentProvider {
         } else {
           accountSelectionQuery = " = ?";
         }
-        groupBy = KEY_TYPE;
         qb.appendWhere(WHERE_TRANSACTION);
-        String typeColumn = KEY_AMOUNT + ">0 as " + KEY_TYPE;
+
+        if (groupByType) {
+          groupBy = KEY_TYPE;
+        } else  if (!aggregateTypes) {
+          //expenses only
+          qb.appendWhere(" AND " + KEY_AMOUNT + " < 0");
+        }
         String amountCalculation;
         if (accountSelector != null) {
           qb.setTables(VIEW_COMMITTED);
@@ -334,7 +343,8 @@ public class TransactionProvider extends ContentProvider {
           qb.setTables(VIEW_EXTENDED);
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
         }
-        projection = new String[]{typeColumn, "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM};
+        final String sumColumn = "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM;
+        projection = groupByType ? new String[]{KEY_AMOUNT + " > 0 as " + KEY_TYPE, sumColumn} : new String[]{sumColumn};
         break;
       }
       case TRANSACTIONS_GROUPS: {
@@ -1683,7 +1693,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccounts", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);

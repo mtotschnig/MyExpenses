@@ -6,26 +6,41 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.view.ActionMode
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.budget_list_row.view.*
+import kotlinx.android.synthetic.main.budget_total_table.view.*
 import kotlinx.android.synthetic.main.budgets.*
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
+import javax.inject.Inject
 
 class BudgetList : Fragment() {
     private lateinit var viewModel: BudgetViewModel
-    private var actionMode: ActionMode? = null
+    private var position2Spent: Array<Long?>? = null
+
+    @Inject
+    lateinit var currencyFormatter: CurrencyFormatter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.budgets, container, false)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        MyApplication.getInstance().getAppComponent().inject(this)
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = requireActivity().let {
@@ -33,44 +48,59 @@ class BudgetList : Fragment() {
             BudgetsAdapter(it)
         }
         viewModel.data.observe(this, Observer {
+            position2Spent = arrayOfNulls(it.size)
             adapter.submitList(it)
+        })
+        viewModel.spent.observe( this, Observer {
+            position2Spent?.set(it.first, it.second)
+            adapter.notifyItemChanged(it.first)
         })
         recycler_view.adapter = adapter
         viewModel.loadAllBudgets()
     }
-}
 
-class BudgetsAdapter(val context: Context) : ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
+    inner class BudgetsAdapter(val context: Context) :
+            ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
 
-    init {
-        setHasStableIds(true)
-    }
+        init {
+            setHasStableIds(true)
+        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BudgetViewHolder {
-        return BudgetViewHolder(LayoutInflater.from(context).inflate(R.layout.budget_list_row, parent, false))
-    }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BudgetViewHolder {
+            return BudgetViewHolder(LayoutInflater.from(context).inflate(R.layout.budget_list_row, parent, false))
+        }
 
-    override fun onBindViewHolder(holder: BudgetViewHolder, position: Int) {
-        getItem(position).let { budget ->
-            with(holder) {
-                title.setText(budget.title)
-                itemView.setOnClickListener {
-                    val i = Intent(context, BudgetActivity::class.java)
-                    i.putExtra(KEY_ROWID, budget.id)
-                    context.startActivity(i)
+        override fun onBindViewHolder(holder: BudgetViewHolder, position: Int) {
+            getItem(position).let { budget ->
+                with(holder.itemView) {
+                    Title.setText(budget.title)
+                    totalBudget.setText(currencyFormatter.formatCurrency(budget.amount))
+                    val spent = position2Spent?.get(position) ?: run {
+                        viewModel.loadBudgetSpend(position, budget, false)
+                        0L
+                    }
+                    val remaining = budget.amount.amountMinor - spent
+                    totalAmount.setText(currencyFormatter.formatCurrency(Money(budget.currency, spent)))
+                    totalAvailable.setText(currencyFormatter.formatCurrency(Money(budget.currency, remaining)))
+                    setOnClickListener {
+                        val i = Intent(context, BudgetActivity::class.java)
+                        i.putExtra(KEY_ROWID, budget.id)
+                        context.startActivity(i)
+                    }
                 }
             }
         }
-    }
 
-    override fun getItemId(position: Int): Long = getItem(position).id
+        override fun getItemId(position: Int): Long = getItem(position).id
+    }
 }
 
-class BudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val title: TextView
 
+
+class BudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     init {
-        title = itemView.findViewById(R.id.Title)
+        itemView.allocatedLabel.isVisible = false
+        itemView.totalAllocated.isVisible = false
     }
 }
 

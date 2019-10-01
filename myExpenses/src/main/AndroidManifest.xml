@@ -194,9 +194,7 @@
         </activity>
 
         <activity
-            android:name=".activity.ManageBudgets"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:name=".activity.ManageBudgets">
         </activity>
 
         <activity
@@ -334,9 +332,7 @@
             android:name=".activity.SimpleImageActivity"
             android:theme="@style/Launch"/>
 
-        <activity android:name=".activity.BudgetActivity"
-                  android:exported="false"
-                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
+        <activity android:name=".activity.BudgetActivity"/>
 
         <service
             android:name=".service.AutoBackupService"

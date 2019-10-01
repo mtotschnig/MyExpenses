@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.dialog.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CurrencyList;
 import org.totschnig.myexpenses.fragment.HistoryChart;
@@ -143,5 +145,7 @@ public interface AppComponent {
   void inject(ContentResolvingAndroidViewModel myExpensesViewModel);
 
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
+
+  void inject(@NotNull BudgetList budgetList);
 
 }

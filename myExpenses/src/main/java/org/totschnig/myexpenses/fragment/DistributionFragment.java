@@ -295,13 +295,9 @@ public class DistributionFragment extends DistributionBaseFragment {
   }
 
   @Override
-  void updateIncome(long amount) {
-    updateSum("+", incomeSumTv, amount);
-  }
-
-  @Override
-  void updateExpense(long amount) {
-    updateSum("-", expenseSumTv, amount);
+  void updateIncomeAndExpense(long income, long expense) {
+    updateSum("+", incomeSumTv, income);
+    updateSum("-", expenseSumTv, expense);
   }
 
   private void updateSum(String prefix, TextView tv, long amount) {

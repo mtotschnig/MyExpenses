@@ -89,7 +89,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    aggregateTypes = getPrefKey().getBoolean(true);
+    aggregateTypes = prefHandler.getBoolean(getPrefKey(),true);
   }
 
   protected void disposeDateInfo() {
@@ -228,7 +228,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   protected void updateSum() {
     disposeSum();
-    Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
+    Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1");
     long id = accountInfo.getId();
     if (id != Account.HOME_AGGREGATE_ID) {
       if (id < 0) {
@@ -250,23 +251,19 @@ public abstract class DistributionBaseFragment extends CategoryList {
         })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(pairs -> {
-          boolean[] seen = new boolean[2];
+          long income = 0, expense = 0;
           for (Pair<Integer, Long> pair : pairs) {
-            seen[pair.first] = true;
             if (pair.first > 0) {
-              updateIncome(pair.second);
+              income = pair.second;
             } else {
-              updateExpense(pair.second);
+              expense = pair.second;
             }
           }
-          if (!seen[1]) updateIncome(0L);
-          if (!seen[0]) updateExpense(0L);
+          updateIncomeAndExpense(income, expense);
         });
   }
 
-  abstract void updateIncome(long amount);
-
-  abstract void updateExpense(long amount);
+  abstract void updateIncomeAndExpense(long income, long expense);
 
   @Override
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {

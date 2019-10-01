@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -57,8 +56,6 @@ import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 public class BudgetFragment extends DistributionBaseFragment implements
     BudgetAdapter.OnBudgetClickListener, SimpleFormDialog.OnDialogResultListener {
   private Budget budget;
-  @NonNull
-  private CurrencyUnit currencyUnit;
   @BindView(R.id.budgetProgressTotal)
   DonutProgress budgetProgress;
   @BindView(R.id.totalBudget)
@@ -141,8 +138,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
     if (category != null) {
       long allocated = parentItem == null ? getAllocated() :
           Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.budget).sum();
-      final Long budget = parentItem == null ? this.budget.getAmount().getAmountMinor() : parentItem.budget;
-      long allocatable = budget - allocated;
+      final Long budgetAmount = parentItem == null ? budget.getAmount().getAmountMinor() : parentItem.budget;
+      long allocatable = budgetAmount - allocated;
       final long maxLong = allocatable + category.budget;
       if (maxLong <= 0) {
         ((ProtectedFragmentActivity) getActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
@@ -154,13 +151,13 @@ public class BudgetFragment extends DistributionBaseFragment implements
       Bundle bundle = new Bundle(1);
       bundle.putLong(KEY_CATID, category.id);
       simpleFormDialog.extra(bundle);
-      amount = new Money(currencyUnit, category.budget);
-      max = new Money(currencyUnit, maxLong);
-      min = parentItem != null ? null : new Money(currencyUnit, Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
+      amount = new Money(budget.getCurrency(), category.budget);
+      max = new Money(budget.getCurrency(), maxLong);
+      min = parentItem != null ? null : new Money(budget.getCurrency(), Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
     } else {
-      amount = this.budget.getAmount();
+      amount = budget.getAmount();
       max = null;
-      min = new Money(currencyUnit, getAllocated());
+      min = new Money(budget.getCurrency(), getAllocated());
     }
     simpleFormDialog
         .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor(),
@@ -170,8 +167,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min, boolean isMainCategory, boolean isSubCategory) {
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
-        .label(appendCurrencySymbol(getContext(), R.string.budget_allocated_amount, currencyUnit))
-        .fractionDigits(currencyUnit.fractionDigits()).required();
+        .label(appendCurrencySymbol(getContext(), R.string.budget_allocated_amount, budget.getCurrency()))
+        .fractionDigits(budget.getCurrency().fractionDigits()).required();
     if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
       amountEdit.amount(amount);
     }
@@ -189,7 +186,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which == BUTTON_POSITIVE) {
-      final Money amount = new Money(currencyUnit, (BigDecimal) extras.getSerializable(KEY_AMOUNT));
+      final Money amount = new Money(budget.getCurrency(), (BigDecimal) extras.getSerializable(KEY_AMOUNT));
       if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
         viewModel.updateBudget(this.budget.getId(), extras.getLong(KEY_CATID), amount);
       }
@@ -204,8 +201,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private void setBudget(@NonNull Budget budget) {
     this.budget = budget;
-    currencyUnit = budget.getCurrency().equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)
-        ? Utils.getHomeCurrency() : currencyContext.get(budget.getCurrency());
     setAccountInfo(new AccountInfo() {
       @Override
       public long getId() {
@@ -214,7 +209,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
       @Override
       public CurrencyUnit getCurrencyUnit() {
-        return currencyUnit;
+        return budget.getCurrency();
       }
     });
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
@@ -223,7 +218,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     budgetProgress.setUnfinishedStrokeColor(getContrastColor(budget.getColor()));
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
-          currencyContext.get(budget.getCurrency()), this);
+          budget.getCurrency(), this);
       mListView.setAdapter(mAdapter);
     }
     mGrouping = budget.getGrouping();
@@ -268,18 +263,16 @@ public class BudgetFragment extends DistributionBaseFragment implements
   protected void onLoadFinished() {
     super.onLoadFinished();
     allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
-    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(currencyUnit,
+    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(budget.getCurrency(),
         allocated)));
   }
 
   @Override
-  void updateIncome(long amount) {
-
-  }
-
-  @Override
-  void updateExpense(long amount) {
-    this.spent = amount;
+  void updateIncomeAndExpense(long income, long expense) {
+    this.spent = expense;
+    if (aggregateTypes) {
+      this.spent -= income;
+    }
     updateTotals();
   }
 
@@ -289,10 +282,10 @@ public class BudgetFragment extends DistributionBaseFragment implements
       return;
     }
     totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    totalAmount.setText(currencyFormatter.formatCurrency(new Money(currencyUnit, -spent)));
+    totalAmount.setText(currencyFormatter.formatCurrency(new Money(budget.getCurrency(), -spent)));
     final Long allocated = this.budget.getAmount().getAmountMinor();
     long available = allocated - spent;
-    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(currencyUnit, available)));
+    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(budget.getCurrency(), available)));
     boolean onBudget = available >= 0;
     totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget, context.getThemeType()));
     totalAvailable.setTextColor(onBudget ? context.getColorIncome() :

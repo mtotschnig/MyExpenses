@@ -5,6 +5,8 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -12,6 +14,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
 import javax.inject.Inject
@@ -20,18 +23,22 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     val data = MutableLiveData<List<Budget>>()
     val budget = MutableLiveData<Budget>()
     val databaseResult = MutableLiveData<Boolean>()
+    val spent = MutableLiveData<Pair<Int, Long>>()
+    var spentDisposables = CompositeDisposable()
     @Inject
     lateinit var currencyContext: CurrencyContext
     private val databaseHandler: DatabaseHandler
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
+        val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
+            Utils.getHomeCurrency() else currencyContext.get(currency)
         Budget(
                 cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
                 cursor.getLong(cursor.getColumnIndex(KEY_ACCOUNTID)),
                 cursor.getString(cursor.getColumnIndex(KEY_TITLE)),
                 cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
-                currency,
-                Money(currencyContext.get(currency), cursor.getLong(cursor.getColumnIndex(KEY_BUDGET))),
+                currencyUnit,
+                Money(currencyUnit, cursor.getLong(cursor.getColumnIndex(KEY_BUDGET))),
                 Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING))),
                 cursor.getInt(cursor.getColumnIndex(KEY_COLOR))
         )
@@ -60,6 +67,37 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 }
     }
 
+    fun loadBudgetSpend(position: Int, budget: Budget, aggregate: Boolean) {
+        val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+        if (aggregate) {
+            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
+                    .build()
+        }
+        if (budget.accountId != AggregateAccount.HOME_AGGREGATE_ID.toLong()) {
+            if (budget.accountId < 0) {
+                builder.appendQueryParameter(KEY_CURRENCY, budget.currency.code())
+            } else {
+                builder.appendQueryParameter(KEY_ACCOUNTID, budget.accountId.toString())
+            }
+        }
+        spentDisposables.add(briteContentResolver.createQuery(builder.build(),
+                null, buildGroupingClause(budget.grouping), null, null, true)
+                .mapToOne { cursor -> cursor.getLong(0) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { spent.value = Pair(position, it) })
+    }
+
+    protected fun buildGroupingClause(grouping: Grouping): String? {
+        val year = "$YEAR = $THIS_YEAR"
+        when (grouping) {
+            Grouping.YEAR -> return year
+            Grouping.DAY -> return "$year AND $DAY = $THIS_DAY"
+            Grouping.WEEK -> return getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + getThisWeek()
+            Grouping.MONTH -> return getYearOfMonthStart() + " = " + getThisYearOfWeekStart() + " AND " + getMonth() + " = " + getThisMonth()
+            else -> return null
+        }
+    }
+
     fun createQuery(selection: String?, selectionArgs: Array<String>?) =
             briteContentResolver.createQuery(TransactionProvider.BUDGETS_URI,
                     PROJECTION, selection, selectionArgs, null, true)
@@ -81,6 +119,10 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 contentValues, null, null)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        spentDisposables.clear()
+    }
 
 
     companion object {
