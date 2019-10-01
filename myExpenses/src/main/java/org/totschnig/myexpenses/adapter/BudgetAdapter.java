@@ -45,7 +45,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     final long available = item.budget + item.sum;
     final boolean onBudget = available >= 0;
     holder.available.setText(currencyFormatter.convAmount(available, currency));
-    holder.available.setBackgroundResource(getBackgroundForAvailable(onBudget, themeType));
+    holder.available.setBackgroundResource(getBackgroundForAvailable(onBudget, context));
     holder.available.setTextColor(onBudget ? colorIncome : colorExpense);
     int progress = item.budget == 0 ? 100 : Math.round(-item.sum * 100F / item.budget);
     UiUtils.configureProgress(holder.budgetProgress, progress);

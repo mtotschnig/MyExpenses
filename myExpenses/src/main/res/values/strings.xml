@@ -870,4 +870,5 @@
     <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
     <string name="budget_duration_from">From</string>
     <string name="budget_duration_to">To</string>
+    <string name="no_budgets">Define your first budget by tapping the + button.</string>
 </resources>

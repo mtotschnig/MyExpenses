@@ -27,7 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/budget_summary" />
+        <org.totschnig.myexpenses.ui.BudgetSummary
+            android:id="@+id/budgetSummary"
+            style="@style/ExpandableListRowWithCustomIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
     </androidx.cardview.widget.CardView>
 

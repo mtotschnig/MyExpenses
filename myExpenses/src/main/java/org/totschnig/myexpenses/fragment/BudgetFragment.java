@@ -11,11 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Stream;
-import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
@@ -25,8 +23,8 @@ import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
@@ -44,28 +42,18 @@ import butterknife.ButterKnife;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 
-import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetFragment extends DistributionBaseFragment implements
     BudgetAdapter.OnBudgetClickListener, SimpleFormDialog.OnDialogResultListener {
   private Budget budget;
-  @BindView(R.id.budgetProgressTotal)
-  DonutProgress budgetProgress;
-  @BindView(R.id.totalBudget)
-  TextView totalBudget;
-  @BindView(R.id.totalAllocated)
-  TextView totalAllocated;
-  @BindView(R.id.totalAmount)
-  TextView totalAmount;
-  @BindView(R.id.totalAvailable)
-  TextView totalAvailable;
+  @BindView(R.id.budgetSummary)
+  BudgetSummary budgetSummary;
   private static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
 
   private BudgetViewModel viewModel;
@@ -90,7 +78,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
-    totalBudget.setOnClickListener(view1 -> onBudgetClick(null, null));
+    budgetSummary.setOnBudgetClickListener(view1 -> onBudgetClick(null, null));
     registerForContextMenu(mListView);
     return view;
   }
@@ -214,8 +202,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
     });
     final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
     actionBar.setTitle(budget.getTitle());
-    budgetProgress.setFinishedStrokeColor(budget.getColor());
-    budgetProgress.setUnfinishedStrokeColor(getContrastColor(budget.getColor()));
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
           budget.getCurrency(), this);
@@ -225,7 +211,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     mGroupingYear = 0;
     mGroupingSecond = 0;
     updateDateInfo(false);
-    updateTotals();
+    updateSummary();
   }
 
   @Override
@@ -263,7 +249,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   protected void onLoadFinished() {
     super.onLoadFinished();
     allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
-    totalAllocated.setText(currencyFormatter.formatCurrency(new Money(budget.getCurrency(),
+    budgetSummary.setAllocated(currencyFormatter.formatCurrency(new Money(budget.getCurrency(),
         allocated)));
   }
 
@@ -273,25 +259,15 @@ public class BudgetFragment extends DistributionBaseFragment implements
     if (aggregateTypes) {
       this.spent -= income;
     }
-    updateTotals();
+    updateSummary();
   }
 
-  private void updateTotals() {
+  private void updateSummary() {
     final ProtectedFragmentActivity context = (ProtectedFragmentActivity) getActivity();
     if (context == null) {
       return;
     }
-    totalBudget.setText(currencyFormatter.formatCurrency(budget.getAmount()));
-    totalAmount.setText(currencyFormatter.formatCurrency(new Money(budget.getCurrency(), -spent)));
-    final Long allocated = this.budget.getAmount().getAmountMinor();
-    long available = allocated - spent;
-    totalAvailable.setText(currencyFormatter.formatCurrency(new Money(budget.getCurrency(), available)));
-    boolean onBudget = available >= 0;
-    totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget, context.getThemeType()));
-    totalAvailable.setTextColor(onBudget ? context.getColorIncome() :
-        context.getColorExpense());
-    int progress = allocated == 0 ? 100 : Math.round(spent * 100F / allocated);
-    UiUtils.configureProgress(budgetProgress, progress);
+    budgetSummary.bind(budget, spent, currencyFormatter);
   }
 
   @Override

@@ -13,12 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.budget_list_row.view.*
-import kotlinx.android.synthetic.main.budget_total_table.view.*
 import kotlinx.android.synthetic.main.budgets.*
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
@@ -50,6 +48,8 @@ class BudgetList : Fragment() {
         viewModel.data.observe(this, Observer {
             position2Spent = arrayOfNulls(it.size)
             adapter.submitList(it)
+            empty.isVisible = it.size == 0
+            recycler_view.isVisible = it.size > 0
         })
         viewModel.spent.observe( this, Observer {
             position2Spent?.set(it.first, it.second)
@@ -74,14 +74,11 @@ class BudgetList : Fragment() {
             getItem(position).let { budget ->
                 with(holder.itemView) {
                     Title.setText(budget.title)
-                    totalBudget.setText(currencyFormatter.formatCurrency(budget.amount))
                     val spent = position2Spent?.get(position) ?: run {
                         viewModel.loadBudgetSpend(position, budget, false)
                         0L
                     }
-                    val remaining = budget.amount.amountMinor - spent
-                    totalAmount.setText(currencyFormatter.formatCurrency(Money(budget.currency, spent)))
-                    totalAvailable.setText(currencyFormatter.formatCurrency(Money(budget.currency, remaining)))
+                    budgetSummary.bind(budget, spent, currencyFormatter)
                     setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
@@ -97,10 +94,5 @@ class BudgetList : Fragment() {
 
 
 
-class BudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    init {
-        itemView.allocatedLabel.isVisible = false
-        itemView.totalAllocated.isVisible = false
-    }
-}
+class BudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

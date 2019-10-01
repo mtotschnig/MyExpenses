@@ -12,9 +12,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <include layout="@layout/budget_summary"
+    <org.totschnig.myexpenses.ui.BudgetSummary
+        android:id="@+id/budgetSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:withAllocated="false"
         app:layout_constraintTop_toBottomOf="@+id/Title"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

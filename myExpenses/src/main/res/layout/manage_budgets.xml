@@ -15,19 +15,26 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-    <include layout="@layout/toolbar"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <fragment android:name="org.totschnig.myexpenses.fragment.BudgetList"
-                  android:id="@+id/budget_list"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"/>
-        <include layout="@layout/floating_action_button"/>
+
+        <fragment
+            android:id="@+id/budget_list"
+            android:name="org.totschnig.myexpenses.fragment.BudgetList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/general_padding"
+            android:layout_marginRight="@dimen/general_padding" />
+
+        <include layout="@layout/floating_action_button" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
 

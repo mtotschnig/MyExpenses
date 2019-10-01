@@ -217,7 +217,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     MyApplication.getInstance().getAppComponent().inject(this);
   }
 
-
   public ThemeType getThemeType() {
     try {
       return ThemeType.valueOf(getPrefHandler().getString(PrefKey.UI_THEME_KEY,

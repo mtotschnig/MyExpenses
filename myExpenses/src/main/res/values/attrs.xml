@@ -40,4 +40,8 @@
         <attr name="withExchangeRate" format="boolean"/>
         <attr name="alternateLayout" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="BudgetSummary">
+        <attr name="withAllocated" format="boolean"/>
+    </declare-styleable>
 </resources>

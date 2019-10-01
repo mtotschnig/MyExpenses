@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ExpandableListRowWithCustomIndicator"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:showIn="@layout/budget_list">
+    tools:parentTag="android.widget.LinearLayout">
 
     <FrameLayout
         android:id="@+id/color1"
         android:layout_width="?account_color_indicator_diameter"
         android:layout_height="?account_color_indicator_diameter"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="4dp"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginRight="4dp"
         android:layout_marginStart="-4dp"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:padding="4dp">
 
         <com.github.lzyzsd.circleprogress.DonutProgress
@@ -30,4 +26,4 @@
     </FrameLayout>
 
     <include layout="@layout/budget_total_table" />
-</LinearLayout>
+</merge>
