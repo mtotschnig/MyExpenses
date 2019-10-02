@@ -123,7 +123,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -855,7 +854,7 @@ public class ExpenseEdit extends AmountActivity implements
       FragmentManager fm = getSupportFragmentManager();
       if (findSplitPartList() == null && !fm.isStateSaved()) {
         fm.beginTransaction()
-            .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction), SPLIT_PART_LIST)
+            .add(R.id.edit_container, SplitPartList.newInstance(mTransaction), SPLIT_PART_LIST)
             .commit();
         fm.executePendingTransactions();
       }
@@ -2569,12 +2568,6 @@ public class ExpenseEdit extends AmountActivity implements
     if (isIncome() && mOperationType == TYPE_TRANSFER) {
       switchAccountViews();
     }
-  }
-
-  @Override
-  @IdRes
-  protected int getSnackbarContainerId() {
-    return R.id.OneExpense;
   }
 
   public void clearMethodSelection(View view) {

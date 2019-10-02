@@ -198,4 +198,9 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   public void clearDirty() {
     setDirty(false);
   }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return R.id.edit_container;
+  }
 }

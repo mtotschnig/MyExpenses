@@ -193,6 +193,8 @@ public class DatabaseConstants {
   public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
   public static final String KEY_TRANSFER_PEER_PARENT = "transfer_peer_parent";
   public static final String KEY_BUDGETID = "budget_id";
+  public static final String KEY_START = "start";
+  public static final String KEY_END = "end";
   /**
    * Used for both saving goal and credit limit on accounts
    */

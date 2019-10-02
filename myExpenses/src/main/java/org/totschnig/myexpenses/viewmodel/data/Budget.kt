@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.ContentValues
 import androidx.recyclerview.widget.DiffUtil
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -9,7 +11,18 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
 
 data class Budget(val id: Long, val accountId: Long, val title: String, val description: String,
-                  val currency: CurrencyUnit, val amount: Money, val grouping: Grouping, val color: Int) {
+                  val currency: CurrencyUnit, val amount: Money, val grouping: Grouping, val color: Int,
+                  val start: LocalDate?, val end: LocalDate?) {
+    constructor(id: Long, accountId: Long, title: String, description: String, currency: CurrencyUnit, amount: Money, grouping: Grouping, color: Int, start: String?, end: String?) : this(
+            id, accountId, title, description, currency, amount, grouping, color, LocalDate.parse(start), LocalDate.parse(end)
+    )
+
+    init {
+        when(grouping) {
+            Grouping.NONE -> if (start == null || end == null) throw IllegalArgumentException("start and date are required with Grouping.NONE")
+            else -> if (start != null || end != null) throw IllegalArgumentException("start and date are only allowed with Grouping.NONE")
+        }
+    }
 
     fun toContentValues(): ContentValues {
         val contentValues = ContentValues()
@@ -23,6 +36,13 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
         } else {
             contentValues.put(KEY_CURRENCY, currency.code())
             contentValues.putNull(KEY_ACCOUNTID)
+        }
+        if (grouping == Grouping.NONE) {
+            contentValues.put(KEY_START, start!!.format(ISO_LOCAL_DATE))
+            contentValues.put(KEY_END, end!!.format(ISO_LOCAL_DATE))
+        } else {
+            contentValues.putNull(KEY_START)
+            contentValues.putNull(KEY_END)
         }
         return contentValues
     }

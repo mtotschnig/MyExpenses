@@ -61,7 +61,6 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProviders;
@@ -506,12 +505,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       return true;
     }
     return false;
-  }
-
-  @Override
-  @IdRes
-  protected int getSnackbarContainerId() {
-    return R.id.OneAccount;
   }
 
   @NonNull
