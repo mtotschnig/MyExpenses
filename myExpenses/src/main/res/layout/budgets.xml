@@ -12,8 +12,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingBottom="75dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:paddingBottom="75dp" />
     <TextView
         android:id="@+id/empty"
         android:layout_width="match_parent"

@@ -10,6 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.budget_list_row.view.*
@@ -49,7 +51,13 @@ class BudgetList : Fragment() {
             position2Spent = arrayOfNulls(it.size)
             adapter.submitList(it)
             empty.isVisible = it.size == 0
-            recycler_view.isVisible = it.size > 0
+            with(recycler_view) {
+                isVisible = it.size > 0
+                LinearLayoutManager(activity).also {
+                    layoutManager = it
+                    addItemDecoration(DividerItemDecoration(activity, it.orientation))
+                }
+            }
         })
         viewModel.spent.observe( this, Observer {
             position2Spent?.set(it.first, it.second)
