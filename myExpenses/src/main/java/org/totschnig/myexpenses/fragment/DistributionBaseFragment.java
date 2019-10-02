@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -196,7 +197,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
   }
 
-  protected String buildGroupingClause() {
+  protected String buildDateFilterClause() {
     String year = YEAR + " = " + mGroupingYear;
     switch (mGrouping) {
       case YEAR:
@@ -241,7 +242,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     //if we have no income or expense, there is no row in the cursor
     sumDisposable = briteContentResolver.createQuery(builder.build(),
         null,
-        buildGroupingClause(),
+        buildDateFilterClause(),
         null,
         null, true)
         .mapToList(cursor -> {
@@ -278,7 +279,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
-        accountInfo.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
+        accountInfo.getId(), cat_id, isMain, mGrouping, buildDateFilterClause(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
   }
 
@@ -361,7 +362,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
       catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
     }
     if (!mGrouping.equals(Grouping.NONE)) {
-      catFilter += " AND " + buildGroupingClause();
+      catFilter += " AND " + buildDateFilterClause();
     }
     //we need to include transactions mapped to children for main categories
     catFilter += " AND " + CATTREE_WHERE_CLAUSE;
@@ -399,6 +400,11 @@ public abstract class DistributionBaseFragment extends CategoryList {
     MenuItem m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
     if (m != null) {
       m.setChecked(aggregateTypes);
+    }
+    if (mGrouping != null) {
+      boolean grouped = !mGrouping.equals(Grouping.NONE);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
     }
   }
 }

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,11 +22,11 @@ import org.totschnig.myexpenses.activity.BudgetEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
@@ -39,6 +40,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 
@@ -50,11 +52,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetFragment extends DistributionBaseFragment implements
-    BudgetAdapter.OnBudgetClickListener, SimpleFormDialog.OnDialogResultListener {
+    BudgetAdapter.OnBudgetClickListener, SimpleDialog.OnDialogResultListener {
   private Budget budget;
   @BindView(R.id.budgetSummary)
   BudgetSummary budgetSummary;
-  private static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
+  public static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
 
   private BudgetViewModel viewModel;
 
@@ -120,7 +122,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private void showEditBudgetDialog(Category category, Category parentItem) {
     final Money amount, max, min;
-    final SimpleFormDialog simpleFormDialog = new SimpleFormDialog()
+    final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build()
         .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
         .neg();
     if (category != null) {
@@ -148,36 +150,39 @@ public class BudgetFragment extends DistributionBaseFragment implements
       min = new Money(budget.getCurrency(), getAllocated());
     }
     simpleFormDialog
-        .fields(buildAmountField(amount.getAmountMajor(), max == null ? null : max.getAmountMajor(),
-            min == null ? null : min.getAmountMajor(), category != null, parentItem != null))
+        .fields(buildAmountField(amount, max == null ? null : max.getAmountMajor(),
+            min == null ? null : min.getAmountMajor(), category != null, parentItem != null, getContext()))
         .show(this, EDIT_BUDGET_DIALOG);
   }
 
-  private AmountEdit buildAmountField(BigDecimal amount, BigDecimal max, BigDecimal min, boolean isMainCategory, boolean isSubCategory) {
+  public static AmountEdit buildAmountField(Money amount, Context context) {
+    return buildAmountField(amount, null, null, false, false, context);
+  }
+
+  public static AmountEdit buildAmountField(Money amount, BigDecimal max, BigDecimal min,
+                                            boolean isMainCategory, boolean isSubCategory, Context context) {
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
-        .label(appendCurrencySymbol(getContext(), R.string.budget_allocated_amount, budget.getCurrency()))
-        .fractionDigits(budget.getCurrency().fractionDigits()).required();
-    if (amount != null && !(amount.compareTo(BigDecimal.ZERO) == 0)) {
-      amountEdit.amount(amount);
+        .label(appendCurrencySymbol(context, R.string.budget_allocated_amount, amount.getCurrencyUnit()))
+        .fractionDigits(amount.getCurrencyUnit().fractionDigits()).required();
+    if (!(amount.getAmountMajor().compareTo(BigDecimal.ZERO) == 0)) {
+      amountEdit.amount(amount.getAmountMajor());
     }
     if (max != null) {
       amountEdit.max(max, String.format(Locale.ROOT, "%s %s",
-          getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1 : R.string.budget_exceeded_error_1_1, max),
-          getString(isSubCategory ? R.string.sub_budget_exceeded_error_2 : R.string.budget_exceeded_error_2)));
+          context.getString(isSubCategory ? R.string.sub_budget_exceeded_error_1_1 : R.string.budget_exceeded_error_1_1, max),
+          context.getString(isSubCategory ? R.string.sub_budget_exceeded_error_2 : R.string.budget_exceeded_error_2)));
     }
     if (min != null) {
-      amountEdit.min(min, getString(isMainCategory ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
+      amountEdit.min(min, context.getString(isMainCategory ? R.string.sub_budget_under_allocated_error : R.string.budget_under_allocated_error, min));
     }
     return amountEdit;
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (which == BUTTON_POSITIVE) {
+    if (which == BUTTON_POSITIVE && dialogTag.equals(EDIT_BUDGET_DIALOG)) {
       final Money amount = new Money(budget.getCurrency(), (BigDecimal) extras.getSerializable(KEY_AMOUNT));
-      if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
-        viewModel.updateBudget(this.budget.getId(), extras.getLong(KEY_CATID), amount);
-      }
+      viewModel.updateBudget(this.budget.getId(), extras.getLong(KEY_CATID), amount);
       return true;
     }
     return false;
@@ -246,6 +251,22 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
+  protected String buildDateFilterClause() {
+    if (budget.getGrouping() == Grouping.NONE) {
+      return budget.durationAsSqlFilter();
+    }
+    return super.buildDateFilterClause();
+  }
+
+  @Override
+  protected String getSubTitle(Cursor cursor) {
+    if (budget.getGrouping() == Grouping.NONE) {
+      return budget.durationPrettyPrint();
+    }
+    return super.getSubTitle(cursor);
+  }
+
+  @Override
   protected void onLoadFinished() {
     super.onLoadFinished();
     allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
@@ -273,15 +294,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.budget, menu);
-  }
-
-  @Override
-  public void onPrepareOptionsMenu(Menu menu) {
-    final MenuItem item = menu.findItem(R.id.GROUPING_COMMAND);
-    if (item != null) {
-      Utils.configureGroupingMenu(item.getSubMenu(), mGrouping);
-    }
-    super.onPrepareOptionsMenu(menu);
   }
 
   @Override

@@ -83,20 +83,20 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             }
         }
         spentDisposables.add(briteContentResolver.createQuery(builder.build(),
-                null, buildGroupingClause(budget.grouping), null, null, true)
+                null, buildDateFilterClause(budget), null, null, true)
                 .mapToOne { cursor -> cursor.getLong(0) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { spent.value = Pair(position, it) })
     }
 
-    protected fun buildGroupingClause(grouping: Grouping): String? {
+    protected fun buildDateFilterClause(budget: Budget): String? {
         val year = "$YEAR = $THIS_YEAR"
-        when (grouping) {
-            Grouping.YEAR -> return year
-            Grouping.DAY -> return "$year AND $DAY = $THIS_DAY"
-            Grouping.WEEK -> return getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + getThisWeek()
-            Grouping.MONTH -> return getYearOfMonthStart() + " = " + getThisYearOfWeekStart() + " AND " + getMonth() + " = " + getThisMonth()
-            else -> return null
+        return when (budget.grouping) {
+            Grouping.YEAR -> year
+            Grouping.DAY -> "$year AND $DAY = $THIS_DAY"
+            Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + getThisWeek()
+            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfWeekStart() + " AND " + getMonth() + " = " + getThisMonth()
+            else -> budget.durationAsSqlFilter()
         }
     }
 

@@ -278,9 +278,6 @@ public class DistributionFragment extends DistributionBaseFragment {
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
       Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), mGrouping);
-      boolean grouped = !mGrouping.equals(Grouping.NONE);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
     }
     MenuItem m = menu.findItem(R.id.TOGGLE_CHART_COMMAND);
     if (m != null) {

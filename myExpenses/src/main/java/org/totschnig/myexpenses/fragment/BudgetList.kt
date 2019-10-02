@@ -14,19 +14,26 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.android.synthetic.main.budget_list_row.view.*
 import kotlinx.android.synthetic.main.budgets.*
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.fragment.BudgetFragment.EDIT_BUDGET_DIALOG
+import org.totschnig.myexpenses.fragment.BudgetFragment.buildAmountField
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
+import java.math.BigDecimal
 import javax.inject.Inject
 
-class BudgetList : Fragment() {
+class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
     private lateinit var viewModel: BudgetViewModel
     private var position2Spent: Array<Long?>? = null
 
@@ -59,12 +66,21 @@ class BudgetList : Fragment() {
                 }
             }
         })
-        viewModel.spent.observe( this, Observer {
+        viewModel.spent.observe(this, Observer {
             position2Spent?.set(it.first, it.second)
             adapter.notifyItemChanged(it.first)
         })
         recycler_view.adapter = adapter
         viewModel.loadAllBudgets()
+    }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+        if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE && dialogTag == EDIT_BUDGET_DIALOG) {
+            val amount = Money(extras.getSerializable(KEY_CURRENCY) as CurrencyUnit, extras.getSerializable(KEY_AMOUNT) as BigDecimal)
+            viewModel.updateBudget(extras.getLong(KEY_ROWID), 0L, amount)
+            return true
+        }
+        return false
     }
 
     inner class BudgetsAdapter(val context: Context) :
@@ -81,12 +97,25 @@ class BudgetList : Fragment() {
         override fun onBindViewHolder(holder: BudgetViewHolder, position: Int) {
             getItem(position).let { budget ->
                 with(holder.itemView) {
-                    Title.setText(budget.title)
+                    Title.setText(budget.titleComplete(context))
                     val spent = position2Spent?.get(position) ?: run {
                         viewModel.loadBudgetSpend(position, budget, false)
                         0L
                     }
                     budgetSummary.bind(budget, spent, currencyFormatter)
+                    budgetSummary.setOnBudgetClickListener(object : View.OnClickListener {
+                        override fun onClick(v: View?) {
+                            val bundle = Bundle(2)
+                            bundle.putSerializable(KEY_CURRENCY, budget.currency)
+                            bundle.putLong(KEY_ROWID, budget.id)
+                            SimpleFormDialog.build()
+                                    .title(getString(R.string.dialog_title_edit_budget))
+                                    .neg()
+                                    .extra(bundle)
+                                    .fields(buildAmountField(budget.amount, context))
+                                    .show(this@BudgetList, EDIT_BUDGET_DIALOG);
+                        }
+                    })
                     setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
@@ -99,7 +128,6 @@ class BudgetList : Fragment() {
         override fun getItemId(position: Int): Long = getItem(position).id
     }
 }
-
 
 
 class BudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

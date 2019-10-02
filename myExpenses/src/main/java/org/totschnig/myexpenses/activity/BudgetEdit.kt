@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
 
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicker.OnDateChangedListener {
     lateinit var viewModel: BudgetEditViewModel
@@ -180,15 +181,7 @@ class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, androi
     }
 
     private fun setText(position: Int, row: View) {
-        (row.findViewById<View>(android.R.id.text1) as TextView).setText(getBudgetLabelForSpinner(getItem(position)!!))
-    }
-
-    private fun getBudgetLabelForSpinner(type: Grouping) = when (type) {
-        Grouping.DAY -> R.string.daily_plain
-        Grouping.WEEK -> R.string.weekly_plain
-        Grouping.MONTH -> R.string.monthly
-        Grouping.YEAR -> R.string.yearly_plain
-        Grouping.NONE -> R.string.budget_onetime
+        (row.findViewById<View>(android.R.id.text1) as TextView).setText(getItem(position)!!.getLabelForBudgetType())
     }
 }
 
