@@ -361,8 +361,9 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (!aggregateTypes) {
       catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
     }
-    if (!mGrouping.equals(Grouping.NONE)) {
-      catFilter += " AND " + buildDateFilterClause();
+    final String dateFilter = buildDateFilterClause();
+    if (dateFilter != null) {
+      catFilter += " AND " + dateFilter;
     }
     //we need to include transactions mapped to children for main categories
     catFilter += " AND " + CATTREE_WHERE_CLAUSE;
