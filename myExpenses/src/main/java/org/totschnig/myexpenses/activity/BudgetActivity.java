@@ -22,7 +22,9 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> {
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(getThemeId());
     super.onCreate(savedInstanceState);
-    mListFragment.loadBudget(getIntent().getLongExtra(KEY_ROWID,0));
+    if (savedInstanceState == null) {
+      mListFragment.loadBudget(getIntent().getLongExtra(KEY_ROWID,0));
+    }
   }
 
   @Override

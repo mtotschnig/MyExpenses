@@ -872,4 +872,5 @@
     <string name="budget_duration_to">To</string>
     <string name="no_budgets">Define your first budget by tapping the + button.</string>
     <string name="budget_date_end_after_start">The budget\'s end date must come after its start date.</string>
+    <string name="menu_budget_allocated_only">Show only categories with allocation</string>
 </resources>

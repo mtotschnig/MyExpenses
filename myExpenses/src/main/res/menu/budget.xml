@@ -27,6 +27,11 @@
         android:title="@string/menu_distribution_aggreate"
         app:showAsAction="never"/>
     <item
+        android:id="@id/BUDGET_ALLOCATED_ONLY"
+        android:checkable="true"
+        android:title="@string/menu_budget_allocated_only"
+        app:showAsAction="never"/>
+    <item
         android:id="@id/DELETE_COMMAND"
         android:icon="@drawable/ic_menu_delete"
         android:orderInCategory="20"

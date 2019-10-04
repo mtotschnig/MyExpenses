@@ -320,8 +320,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
-    mManager = getLoaderManager();
-    //setGrouping();
+    mManager = LoaderManager.getInstance(this);
     if (savedInstanceState != null) {
       mFilter = new WhereFilter(savedInstanceState.getSparseParcelableArray(KEY_FILTER));
     } else {

@@ -119,6 +119,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                     setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
+                        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(i)
                     }
                 }

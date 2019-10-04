@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -65,6 +66,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   private long allocated, spent;
+
+  private boolean allocatedOnly;
 
   @Override
   protected boolean showAllCategories() {
@@ -113,6 +116,12 @@ public class BudgetFragment extends DistributionBaseFragment implements
         }
         case R.id.DELETE_COMMAND: {
           viewModel.deleteBudget(budget.getId());
+          return true;
+        }
+        case R.id.BUDGET_ALLOCATED_ONLY: {
+          allocatedOnly = !allocatedOnly;
+          prefHandler.putBoolean(getTemplateForAllocatedOnlyKey(budget), allocatedOnly);
+          reset();
           return true;
         }
       }
@@ -194,6 +203,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private void setBudget(@NonNull Budget budget) {
     this.budget = budget;
+    allocatedOnly = prefHandler.getBoolean(getTemplateForAllocatedOnlyKey(budget),false);
     setAccountInfo(new AccountInfo() {
       @Override
       public long getId() {
@@ -215,8 +225,18 @@ public class BudgetFragment extends DistributionBaseFragment implements
     mGrouping = budget.getGrouping();
     mGroupingYear = 0;
     mGroupingSecond = 0;
-    updateDateInfo(false);
+    if (mGrouping == Grouping.NONE) {
+      updateSum();
+      loadData();
+    } else {
+      updateDateInfo(false);
+    }
     updateSummary();
+  }
+
+  private String getTemplateForAllocatedOnlyKey(@NonNull Budget budget) {
+    return String.format(Locale.ROOT, "allocatedOnly_%d",
+        budget.getId());
   }
 
   @Override
@@ -297,14 +317,27 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    MenuItem m = menu.findItem(R.id.BUDGET_ALLOCATED_ONLY);
+    if (m != null) {
+      m.setChecked(allocatedOnly);
+    }
+  }
+
+  @Override
   protected String getExtraColumn() {
     return KEY_BUDGET;
   }
 
   @Override
   protected Uri getCategoriesUri() {
-    return super.getCategoriesUri().buildUpon()
-        .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId())).build();
+    final Uri.Builder builder = super.getCategoriesUri().buildUpon()
+        .appendQueryParameter(KEY_BUDGETID, String.valueOf(budget.getId()));
+    if (allocatedOnly) {
+      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY, "1");
+    }
+    return builder.build();
   }
 
   @NonNull

@@ -294,7 +294,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
         return true;
       case R.id.TOGGLE_AGGREGATE_TYPES:
         aggregateTypes = !aggregateTypes;
-        getPrefKey().putBoolean(aggregateTypes);
+        prefHandler.putBoolean(getPrefKey(), aggregateTypes);
         getActivity().invalidateOptionsMenu();
         reset();
         return true;

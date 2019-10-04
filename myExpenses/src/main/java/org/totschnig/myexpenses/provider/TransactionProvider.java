@@ -172,6 +172,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_SECTIONS = "sections";
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
+  public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -447,8 +448,9 @@ public class TransactionProvider extends ContentProvider {
       case CATEGORIES:
         final String budgetIdFromQuery = uri.getQueryParameter(KEY_BUDGETID);
         qb.setTables(budgetIdFromQuery == null ? TABLE_CATEGORIES :
-            String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
-                TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery));
+            String.format(Locale.ROOT, "%1$s %7$s %2$s ON (%3$s = %1$s.%4$s AND %5$s = %6$s)",
+                TABLE_CATEGORIES, TABLE_BUDGET_CATEGORIES, KEY_CATID, KEY_ROWID, KEY_BUDGETID, budgetIdFromQuery,
+                uri.getQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY) == null ? "LEFT JOIN" : "INNER JOIN"));
         qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
         if (projection == null) {
           projection = Category.PROJECTION;
