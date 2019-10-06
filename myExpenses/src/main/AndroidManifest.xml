@@ -107,7 +107,7 @@
         <activity
             android:name=".activity.ExpenseEdit"
             android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
+            android:theme="@style/ThemeLight.EditDialog"
             android:exported="true"
             tools:ignore="UnusedAttribute">
             <intent-filter>
@@ -126,19 +126,19 @@
 
         <activity
             android:name=".activity.AccountEdit"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
+            android:theme="@style/ThemeLight.EditDialog"/>
 
         <activity
             android:name=".activity.MethodEdit"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
+            android:theme="@style/ThemeLight.EditDialog"/>
         <activity
             android:name=".activity.BudgetEdit"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
+            android:theme="@style/ThemeLight.EditDialog"/>
 
         <activity
             android:name=".activity.ManageCategories"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable">
@@ -190,7 +190,7 @@
         <activity
             android:name=".activity.ManageParties"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
         </activity>
 
         <activity
@@ -200,13 +200,13 @@
         <activity
             android:name=".activity.ManageStaleImages"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
         </activity>
 
         <activity
             android:name=".activity.ManageTemplates"
             android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
+            android:theme="@style/ThemeLight.EditDialog"
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT"/>
@@ -227,12 +227,12 @@
         <activity
             android:name=".activity.ManageMethods"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
         </activity>
 
         <activity
             android:name=".activity.FolderBrowser"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
         </activity>
 
         <activity
@@ -254,13 +254,13 @@
         <activity
             android:name=".activity.ManageCurrencies"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
         </activity>
 
         <activity
             android:name=".activity.ManageSyncBackends"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/ThemeLight.EditDialog">
         </activity>
 
         <activity

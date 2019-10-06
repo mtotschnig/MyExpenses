@@ -1129,7 +1129,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     mCheckedListItems = null;
   }
 
-  public void addFilterCriteria(Integer id, Criteria c) {
+  public void addFilterCriteria(int id, Criteria c) {
     mFilter.put(id, c);
     prefHandler.putString(prefNameForCriteria(c.columnName), c.toStringExtra());
     refreshAfterFilterChange();
@@ -1161,7 +1161,6 @@ public class TransactionList extends ContextualActionBarFragment implements
     return String.format(Locale.ROOT, "%s_%s_%d", KEY_FILTER, criteriaColumn,
         getArguments().getLong(KEY_ACCOUNTID));
   }
-
 
   public void clearFilter() {
     for (int i = 0, size = getFilterCriteria().size(); i < size; i++) {

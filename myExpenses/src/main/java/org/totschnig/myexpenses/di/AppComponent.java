@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
@@ -141,6 +142,8 @@ public interface AppComponent {
   void inject(PlanExecutor planExecutor);
 
   void inject(BudgetViewModel budgetViewModel);
+
+  void inject(BudgetEditViewModel budgetEditViewModel);
 
   void inject(ContentResolvingAndroidViewModel myExpensesViewModel);
 

@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -157,7 +158,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOU
 public class MyExpenses extends LaunchActivity implements
     ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener, SortUtilityDialogFragment.OnConfirmListener {
+    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener,
+    SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   public static final long THRESHOLD_REMIND_RATE = 47L;
 
@@ -470,7 +472,8 @@ public class MyExpenses extends LaunchActivity implements
     }
   }
 
-  public void addFilterCriteria(Integer id, Criteria c) {
+  @Override
+  public void addFilterCriteria(int id, Criteria c) {
     TransactionList tl = getCurrentFragment();
     if (tl != null) {
       tl.addFilterCriteria(id, c);

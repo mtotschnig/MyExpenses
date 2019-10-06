@@ -39,7 +39,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
   }
 
   @Override
-  int getCommand() {
+  protected int getCommand() {
     return R.id.FILTER_METHOD_COMMAND;
   }
 
@@ -55,7 +55,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
   }
 
   @Override
-  Criteria makeCriteria(String label, long... ids) {
+  protected Criteria makeCriteria(String label, long... ids) {
     return ids.length == 1 && ids[0] == -1 ? new NullCriteria(KEY_METHODID) : new MethodCriteria(label, ids);
   }
 }

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -68,6 +69,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
   private long allocated, spent;
 
   private boolean allocatedOnly;
+
+  private WhereFilter mFilter = WhereFilter.empty();
 
   @Override
   protected boolean showAllCategories() {

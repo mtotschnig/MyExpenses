@@ -34,7 +34,7 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
     return R.string.search_transfer;
   }
   @Override
-  int getCommand() {
+  protected int getCommand() {
     return R.id.FILTER_TRANSFER_COMMAND;
   }
   @Override
@@ -48,7 +48,7 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
     return dialogFragment;
   }
   @Override
-  Criteria makeCriteria(String label, long... ids) {
+  protected Criteria makeCriteria(String label, long... ids) {
     return new TransferCriteria(label, ids);
   }
 }

@@ -23,7 +23,6 @@ import android.util.SparseBooleanArray;
 import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 
@@ -73,7 +72,7 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
       }
     }
     if (!statusList.isEmpty() && statusList.size() < Transaction.CrStatus.values().length) {
-      ((MyExpenses) getActivity()).addFilterCriteria(
+      ((SelectFilterDialog.Host) getActivity()).addFilterCriteria(
           R.id.FILTER_STATUS_COMMAND,
           new CrStatusCriteria(statusList.toArray(new String[statusList.size()])));
     }

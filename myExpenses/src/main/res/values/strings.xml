@@ -873,4 +873,9 @@
     <string name="no_budgets">Define your first budget by tapping the + button.</string>
     <string name="budget_date_end_after_start">The budget\'s end date must come after its start date.</string>
     <string name="menu_budget_allocated_only">Show only categories with allocation</string>
+    <string name="budget_filter_all_categories">All categories</string>
+    <string name="budget_filter_all_parties">All parties</string>
+    <string name="budget_filter_all_methods">All methods</string>
+    <string name="budget_filter_all_states">All states</string>
+    <string name="budget_form_label_filter">Filter</string>
 </resources>

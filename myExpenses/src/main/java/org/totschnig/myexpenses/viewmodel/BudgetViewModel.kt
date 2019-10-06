@@ -48,9 +48,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
 
     init {
         databaseHandler = DatabaseHandler(application.contentResolver)
-    }
-
-    init {
         (application as MyApplication).appComponent.inject(this)
     }
 
