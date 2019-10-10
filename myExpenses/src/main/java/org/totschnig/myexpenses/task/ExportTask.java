@@ -81,7 +81,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       format = ExportFormat.QIF;
     }
     accountId = extras.getLong(KEY_ROWID);
-    filter = new WhereFilter(extras.getSparseParcelableArray(TransactionList.KEY_FILTER));
+    filter = new WhereFilter(extras.getParcelableArrayList(TransactionList.KEY_FILTER));
     
   }
   String getProgress() {

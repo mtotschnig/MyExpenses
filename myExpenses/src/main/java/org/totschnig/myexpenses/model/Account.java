@@ -31,7 +31,6 @@ import android.os.RemoteException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -461,8 +460,7 @@ public class Account extends Model {
   @VisibleForTesting
   public Money getClearedBalance() {
     WhereFilter filter = WhereFilter.empty();
-    filter.put(R.id.FILTER_STATUS_COMMAND,
-        new CrStatusCriteria(CrStatus.RECONCILED.name(), CrStatus.CLEARED.name()));
+    filter.put(new CrStatusCriteria(CrStatus.RECONCILED.name(), CrStatus.CLEARED.name()));
     return new Money(currencyUnit,
         openingBalance.getAmountMinor() +
             getTransactionSum(filter));
@@ -795,8 +793,7 @@ public class Account extends Model {
 
   private WhereFilter reconciledFilter() {
     WhereFilter filter = WhereFilter.empty();
-    filter.put(R.id.FILTER_STATUS_COMMAND,
-        new CrStatusCriteria(CrStatus.RECONCILED.name()));
+    filter.put(new CrStatusCriteria(CrStatus.RECONCILED.name()));
     return filter;
   }
 

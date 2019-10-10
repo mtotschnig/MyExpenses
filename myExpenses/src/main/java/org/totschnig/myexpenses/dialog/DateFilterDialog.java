@@ -98,6 +98,6 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
           WhereFilter.Operation.valueOf(selectedOp),
           date1);
     }
-    ctx.addFilterCriteria(R.id.FILTER_DATE_COMMAND,c);
+    ctx.addFilterCriteria(c);
   }
 }

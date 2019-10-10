@@ -22,20 +22,22 @@ import android.content.Context;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+
 import java.util.Arrays;
 
 public abstract class IdCriteria extends Criteria {
 
   protected final String label;
 
-  public IdCriteria(String title, String column, String label, long... ids) {
-    this(title, column, label, longArrayToStringArray(ids));
+  IdCriteria(String label, long... ids) {
+    this(label, longArrayToStringArray(ids));
   }
 
-  public IdCriteria(String title, String column, String label, String... ids) {
-    super(column, WhereFilter.Operation.IN, ids);
+  IdCriteria(String label, String... ids) {
+    super(WhereFilter.Operation.IN, ids);
     this.label = label;
-    this.title = title;
   }
 
   private static String[] longArrayToStringArray(long[] in) {
@@ -46,14 +48,29 @@ public abstract class IdCriteria extends Criteria {
     return out;
   }
 
-  public IdCriteria(Parcel in) {
+  IdCriteria(Parcel in) {
     super(in);
     label = in.readString();
   }
 
+  IdCriteria() {
+    super(WhereFilter.Operation.ISNULL);
+    label = null;
+  }
+
   @Override
   public String prettyPrint(Context context) {
-    return label;
+    return operation == WhereFilter.Operation.ISNULL ?
+        String.format("%s: %s", columnName2Label(context), context.getString(R.string.unmapped)) : label;
+  }
+
+  private String columnName2Label(Context context) {
+    switch (getColumn()) {
+      case DatabaseConstants.KEY_CATID: return context.getString(R.string.category);
+      case DatabaseConstants.KEY_PAYEEID: return context.getString(R.string.payer_or_payee);
+      case DatabaseConstants.KEY_METHODID: return context.getString(R.string.method);
+    }
+    return getColumn();
   }
 
   @Override
@@ -64,7 +81,8 @@ public abstract class IdCriteria extends Criteria {
 
   @Override
   public String toStringExtra() {
-    return escapeSeparator(label) + EXTRA_SEPARATOR + TextUtils.join(EXTRA_SEPARATOR, values);
+    return operation == WhereFilter.Operation.ISNULL ? "null" :
+        escapeSeparator(label) + EXTRA_SEPARATOR + TextUtils.join(EXTRA_SEPARATOR, values);
   }
 
   public static <T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {

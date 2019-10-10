@@ -32,21 +32,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
-public class Criteria implements Parcelable {
+public abstract class Criteria implements Parcelable {
 
   protected static final String EXTRA_SEPARATOR = ";";
   protected static final String EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;";
-  public static final Creator<Criteria> CREATOR = new Creator<Criteria>() {
-    @Override
-    public Criteria createFromParcel(Parcel in) {
-      return new Criteria(in);
-    }
-
-    @Override
-    public Criteria[] newArray(int size) {
-      return new Criteria[size];
-    }
-  };
 
   public static String escapeSeparator(String in) {
     return in.replace(";","\\;");
@@ -54,28 +43,24 @@ public class Criteria implements Parcelable {
   public static String unescapeSeparator(String in) {
     return in.replace("\\;",";");
   }
-  public String title;
-  public final String columnName;
   public final WhereFilter.Operation operation;
   public final String[] values;
 
-  public Criteria(String columnName, WhereFilter.Operation operation,
-      String... values) {
-    this.columnName = columnName;
+  public abstract int getID();
+  abstract String getColumn();
+
+  public Criteria(Operation operation,
+                  String... values) {
     this.operation = operation;
     this.values = values;
   }
-  
 
-  public Criteria(Criteria c) {
-    this.columnName = c.columnName;
-    this.operation = c.operation;
-    this.values = c.values;
+  Criteria(CriteriaInfo c) {
+    this.operation = c.getOperation();
+    this.values = c.getValues();
   }
 
   public Criteria(Parcel in) {
-    title = in.readString();
-    columnName = in.readString();
     operation = Operation.valueOf(in.readString());
     values = in.createStringArray();
   }
@@ -101,7 +86,7 @@ public class Criteria implements Parcelable {
   }
 
   public String getSelection() {
-    return columnName + " " + operation.getOp(values.length);
+    return getColumn() + " " + operation.getOp(values.length);
   }
 
   public int size() {
@@ -120,15 +105,11 @@ public class Criteria implements Parcelable {
   public int describeContents() {
     return 0;
   }
+
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(title);
-    dest.writeString(columnName);
     dest.writeString(operation.name());
     dest.writeStringArray(values);
-  }
-  protected String prettyPrintInternal(String value) {
-    return title + " : " + value;
   }
 
   public String toStringExtra() {
@@ -178,6 +159,5 @@ public class Criteria implements Parcelable {
   protected boolean shouldApplyToParts() {
     return true;
   }
-  
 }
  

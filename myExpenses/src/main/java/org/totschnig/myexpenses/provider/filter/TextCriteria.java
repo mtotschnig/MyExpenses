@@ -18,26 +18,25 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.Context;
 import android.os.Parcel;
 
+import org.totschnig.myexpenses.util.Utils;
+
 public abstract class TextCriteria extends Criteria {
   private String searchString;
-  public TextCriteria(String title, String columnName, String searchString) {
-    super(columnName, WhereFilter.Operation.LIKE,
+  TextCriteria(String searchString) {
+    super(WhereFilter.Operation.LIKE,
         "%" + Utils.esacapeSqlLikeExpression(searchString) + "%");
     this.searchString = searchString;
-    this.title = title;
   }
-  public TextCriteria(Parcel in) {
+  TextCriteria(Parcel in) {
    super(in);
    searchString = in.readString();
   }
   @Override
   public String prettyPrint(Context context) {
-    return prettyPrintInternal(searchString);
+    return searchString;
   }
   @Override
   public void writeToParcel(Parcel dest, int flags) {

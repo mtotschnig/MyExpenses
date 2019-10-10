@@ -73,7 +73,6 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
     }
     if (!statusList.isEmpty() && statusList.size() < Transaction.CrStatus.values().length) {
       ((SelectFilterDialog.Host) getActivity()).addFilterCriteria(
-          R.id.FILTER_STATUS_COMMAND,
           new CrStatusCriteria(statusList.toArray(new String[statusList.size()])));
     }
     dismiss();

@@ -8,18 +8,16 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import javax.inject.Inject
 
 class BudgetEditViewModel(application: Application) : BudgetViewModel(application) {
     val accounts = MutableLiveData<List<Account>>()
-    private val databaseHandler: DatabaseHandler
+    private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
     @Inject
     lateinit var prefHandler: PrefHandler
 
     init {
-        databaseHandler = DatabaseHandler(application.contentResolver)
         (application as MyApplication).appComponent.inject(this)
     }
 
@@ -36,7 +34,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
                 }
     }
 
-    fun saveBudget(budget: Budget, filter: WhereFilter) {
+    fun saveBudget(budget: Budget) {
         val contentValues = budget.toContentValues()
         if (budget.id == 0L) {
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
@@ -52,11 +50,10 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
             }, ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budget.id),
                     contentValues, null, null)
         }
-        prefHandler
     }
 
     companion object {
-        internal val TOKEN = 0
+        internal const val TOKEN = 0
     }
 }
 

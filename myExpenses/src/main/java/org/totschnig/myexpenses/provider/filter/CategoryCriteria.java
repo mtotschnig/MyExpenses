@@ -21,7 +21,6 @@ package org.totschnig.myexpenses.provider.filter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
@@ -32,27 +31,39 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
 public class CategoryCriteria extends IdCriteria {
+  static final String COLUMN = KEY_CATID;
 
   public CategoryCriteria(String label, long... ids) {
-    super(MyApplication.getInstance().getString(R.string.category),
-        KEY_CATID, label, ids
-    );
+    super(label, ids);
   }
 
   @SuppressWarnings("unused")
   public CategoryCriteria(String label, String... ids) {
-    super(MyApplication.getInstance().getString(R.string.method),
-        DatabaseConstants.KEY_CATID, label, ids);
+    super(label, ids);
   }
 
-  public CategoryCriteria(Parcel in) {
+  @Override
+  public int getID() {
+    return R.id.FILTER_CATEGORY_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
+  }
+
+  private CategoryCriteria(Parcel in) {
     super(in);
+  }
+
+  public CategoryCriteria() {
+    super();
   }
 
   @Override
   public String getSelection() {
     String selection = WhereFilter.Operation.IN.getOp(values.length);
-    return KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+    return getColumn() + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " " + selection + " OR "
         + KEY_ROWID + " " + selection + ")";
   }
@@ -73,6 +84,6 @@ public class CategoryCriteria extends IdCriteria {
   };
 
   public static Criteria fromStringExtra(String extra) {
-    return extra.equals("null") ? new NullCriteria(KEY_CATID) : IdCriteria.fromStringExtra(extra, CategoryCriteria.class);
+    return extra.equals("null") ? new CategoryCriteria() : IdCriteria.fromStringExtra(extra, CategoryCriteria.class);
   }
 }

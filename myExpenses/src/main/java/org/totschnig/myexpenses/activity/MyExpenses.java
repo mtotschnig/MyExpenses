@@ -43,6 +43,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
@@ -473,10 +474,10 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public void addFilterCriteria(int id, Criteria c) {
+  public void addFilterCriteria(@NotNull Criteria c) {
     TransactionList tl = getCurrentFragment();
     if (tl != null) {
-      tl.addFilterCriteria(id, c);
+      tl.addFilterCriteria(c);
     }
   }
 
@@ -845,7 +846,7 @@ public class MyExpenses extends LaunchActivity implements
         TransactionList tl = getCurrentFragment();
         if (tl != null) {
           Bundle args = new Bundle();
-          args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
+          args.putParcelableArrayList(TransactionList.KEY_FILTER, tl.getFilterCriteria());
           args.putLong(KEY_ROWID, mAccountId);
           if (!getSupportFragmentManager().isStateSaved()) {
             getSupportFragmentManager().beginTransaction()
@@ -1011,7 +1012,7 @@ public class MyExpenses extends LaunchActivity implements
     if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
       final String textResult = extras.getString(SimpleInputDialog.TEXT);
       if (textResult != null) {
-        addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
+        addFilterCriteria(
             new CommentCriteria(textResult.trim()));
       }
       return true;
@@ -1147,7 +1148,7 @@ public class MyExpenses extends LaunchActivity implements
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.START_EXPORT_COMMAND:
         mExportFormat = args.getString("format");
-        args.putSparseParcelableArray(TransactionList.KEY_FILTER,
+        args.putParcelableArrayList(TransactionList.KEY_FILTER,
             getCurrentFragment().getFilterCriteria());
         getSupportFragmentManager().beginTransaction()
             .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_EXPORT),

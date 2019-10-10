@@ -21,25 +21,34 @@ package org.totschnig.myexpenses.provider.filter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 
 public class PayeeCriteria extends IdCriteria {
+  static final String COLUMN = KEY_PAYEEID;
+
 
   public PayeeCriteria(String label, long... ids) {
-    super(MyApplication.getInstance().getString(R.string.payer_or_payee),
-        KEY_PAYEEID, label, ids);
+    super(label, ids);
   }
 
   @SuppressWarnings("unused")
   public PayeeCriteria(String label, String... ids) {
-    super(MyApplication.getInstance().getString(R.string.payer_or_payee),
-        KEY_PAYEEID, label, ids);
+    super(label, ids);
   }
 
-  public PayeeCriteria(Parcel in) {
+  @Override
+  public int getID() {
+    return R.id.FILTER_PAYEE_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
+  }
+
+  private PayeeCriteria(Parcel in) {
     super(in);
   }
 
@@ -52,8 +61,13 @@ public class PayeeCriteria extends IdCriteria {
         return new PayeeCriteria[size];
     }
   };
+
+  public PayeeCriteria() {
+    super();
+  }
+
   public static Criteria fromStringExtra(String extra) {
-    return extra.equals("null") ? new NullCriteria(KEY_PAYEEID) : IdCriteria.fromStringExtra(extra,PayeeCriteria.class);
+    return extra.equals("null") ? new PayeeCriteria() : IdCriteria.fromStringExtra(extra,PayeeCriteria.class);
   }
 
   @Override

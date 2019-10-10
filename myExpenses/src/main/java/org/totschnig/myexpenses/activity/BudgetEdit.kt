@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.util.forEach
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,14 +18,12 @@ import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.SelectMethodsAllDialogFragment
 import org.totschnig.myexpenses.dialog.SelectPayeeAllDialogFragment
-import org.totschnig.myexpenses.fragment.TransactionList.KEY_FILTER
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria
 import org.totschnig.myexpenses.provider.filter.Criteria
-import org.totschnig.myexpenses.provider.filter.NullCriteria
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
@@ -37,14 +34,14 @@ import java.util.*
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicker.OnDateChangedListener,
         SelectFilterDialog.Host {
 
-    lateinit var viewModel: BudgetEditViewModel
+    private lateinit var viewModel: BudgetEditViewModel
     override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_budget
-    var pendingBudgetLoad = 0L
-    var resumedP = false
+    private var pendingBudgetLoad = 0L
+    private var resumedP = false
     private var budget: Budget? = null
     private lateinit var typeSpinnerHelper: SpinnerHelper
     private lateinit var accountSpinnerHelper: SpinnerHelper
-    private lateinit var filter: WhereFilter
+    private lateinit var filterPersistence: FilterPersistence
 
     override fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter(view.id) }
@@ -66,7 +63,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun removeFilter(id: Int) {
-        filter.remove(id)
+        filterPersistence.removeFilter(id)
         findViewById<Chip>(id)?.apply {
             when (id) {
                 R.id.FILTER_CATEGORY_COMMAND -> R.string.budget_filter_all_categories
@@ -75,7 +72,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 R.id.FILTER_STATUS_COMMAND -> R.string.budget_filter_all_methods
                 else -> 0
             }.takeIf { it != 0 }?.let { setText(it) }
-            setCloseIconVisible(false)
+            isCloseIconVisible = false
         }
     }
 
@@ -89,15 +86,15 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             }
             R.id.FILTER_PAYEE_COMMAND -> {
                 SelectPayeeAllDialogFragment()
-                        .show(getSupportFragmentManager(), "PAYER_FILTER")
+                        .show(supportFragmentManager, "PAYER_FILTER")
             }
             R.id.FILTER_METHOD_COMMAND -> {
                 SelectMethodsAllDialogFragment()
-                        .show(getSupportFragmentManager(), "METHOD_FILTER")
+                        .show(supportFragmentManager, "METHOD_FILTER")
             }
             R.id.FILTER_STATUS_COMMAND -> {
                 SelectCrStatusDialogFragment.newInstance()
-                        .show(getSupportFragmentManager(), "STATUS_FILTER")
+                        .show(supportFragmentManager, "STATUS_FILTER")
             }
             else -> super.dispatchCommand(v)
         }
@@ -132,41 +129,18 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         }
         accountSpinnerHelper = SpinnerHelper(Accounts)
         linkInputWithLabels()
-        filter = if (savedInstanceState != null) {
-            WhereFilter(savedInstanceState.getSparseParcelableArray(KEY_FILTER))
-        } else {
-            restoreFilterFromPreferences()
-        }
-        filter.criteria.forEach(this::showFilterCriteria)
+        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState)
+
+        filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
+    }
+
+    private fun prefNameForCriteria(): String {
+        return String.format(Locale.ROOT, "%s_%%s_%d", "budgetFilter", budgetId)
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSparseParcelableArray(KEY_FILTER, filter.getCriteria())
-    }
-
-    private fun restoreFilterFromPreferences(): WhereFilter {
-        return WhereFilter.empty()
-        //TODO
-        /* prefHandler.getString(prefNameForCriteria(KEY_CATID), null)?.let { string ->
-             CategoryCriteria.fromStringExtra(string).let { criteria ->
-                 filter.put(R.id.FILTER_CATEGORY_COMMAND, criteria)
-             }
-         }
-         prefHandler.getString(prefNameForCriteria(KEY_CR_STATUS), null)?.let {
-             this.filter.put(R.id.FILTER_STATUS_COMMAND, CrStatusCriteria.fromStringExtra(it))
-         }
-         prefHandler.getString(prefNameForCriteria(KEY_PAYEEID), null)?.let {
-             this.filter.put(R.id.FILTER_PAYEE_COMMAND, PayeeCriteria.fromStringExtra(it))
-         }
-         prefHandler.getString(prefNameForCriteria(KEY_METHODID), null)?.let {
-             this.filter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(it))
-         }*/
-    }
-
-    private fun prefNameForCriteria(criteriaColumn: String): String {
-        return String.format(Locale.ROOT, "%s_%s_%d", "budgetFilter", criteriaColumn,
-                budgetId)
+        filterPersistence.onSaveInstanceState(outState)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -185,21 +159,21 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
-        (if (catIds.size == 1 && catIds[0] == -1L) NullCriteria(KEY_CATID)
+        (if (catIds.size == 1 && catIds[0] == -1L) CategoryCriteria()
         else CategoryCriteria(label, *catIds)).let {
-            addFilterCriteria(R.id.FILTER_CATEGORY_COMMAND, it)
+            addFilterCriteria(it)
         }
     }
 
-    override fun addFilterCriteria(id: Int, c: Criteria) {
-        filter.put(id, c)
-        showFilterCriteria(id, c)
+    override fun addFilterCriteria(c: Criteria) {
+        filterPersistence.addCriteria(c, false)
+        showFilterCriteria(c)
     }
 
-    private fun showFilterCriteria(id: Int, c: Criteria) {
-        findViewById<Chip>(id)?.apply {
+    private fun showFilterCriteria(c: Criteria) {
+        findViewById<Chip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
-            setCloseIconVisible(true)
+            isCloseIconVisible = true
         }
     }
 
@@ -279,11 +253,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                             -1,
                             start,
                             end)
-                    viewModel.saveBudget(budget, filter)
+                    viewModel.saveBudget(budget)
+                    filterPersistence.persistAll()
                 }
 
             }
-            return true;
+            return true
         }
         return super.dispatchCommand(command, tag)
     }
@@ -332,4 +307,4 @@ fun DatePicker.initWith(date: LocalDate, listener: DatePicker.OnDateChangedListe
     }
 }
 
-fun DatePicker.getDate() = LocalDate.of(year, month + 1, dayOfMonth)
+fun DatePicker.getDate(): LocalDate = LocalDate.of(year, month + 1, dayOfMonth)
