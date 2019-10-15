@@ -5,7 +5,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 
 const val KEY_FILTER = "filter"
 
-class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, savedInstanceState: Bundle?) {
+class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean) {
     val whereFilter: WhereFilter
     init {
         if (savedInstanceState == null) {
@@ -43,12 +43,20 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
         }
     }
 
-    fun addCriteria(criteria: Criteria, persist: Boolean) {
+    fun addCriteria(criteria: Criteria) {
         whereFilter.put(criteria)
-        if (persist) {
+        if (immediatePersist) {
             persist(criteria)
         }
     }
+
+    fun removeFilter(id: Int) : Boolean = whereFilter.get(id)?.let {
+        whereFilter.remove(id)
+        if (immediatePersist) {
+            prefHandler.remove(prefNameForCriteria(it.column))
+        }
+        true
+    } ?: false
 
     fun persistAll() {
         arrayOf(CategoryCriteria.COLUMN, AmountCriteria.COLUMN, CommentCriteria.COLUMN,
@@ -66,14 +74,10 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
 
-    fun removeFilter(id: Int) : Boolean = whereFilter.get(id)?.let {
-        prefHandler.remove(prefNameForCriteria(it.column))
-        whereFilter.remove(id)
-        true
-    } ?: false
-
     fun clearFilter() {
-        whereFilter.criteria.forEach { criteria -> prefHandler.remove(prefNameForCriteria(criteria.column)) }
+        if (immediatePersist) {
+            whereFilter.criteria.forEach { criteria -> prefHandler.remove(prefNameForCriteria(criteria.column)) }
+        }
         whereFilter.clear()
     }
 

@@ -197,7 +197,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
   }
 
-  protected String buildDateFilterClause() {
+  protected String buildFilterClause(String tableName) {
     String year = YEAR + " = " + mGroupingYear;
     switch (mGrouping) {
       case YEAR:
@@ -242,8 +242,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
     //if we have no income or expense, there is no row in the cursor
     sumDisposable = briteContentResolver.createQuery(builder.build(),
         null,
-        buildDateFilterClause(),
-        null,
+        buildFilterClause(VIEW_COMMITTED),
+        filterSelectionArgs(),
         null, true)
         .mapToList(cursor -> {
           int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
@@ -264,6 +264,10 @@ public abstract class DistributionBaseFragment extends CategoryList {
         });
   }
 
+  protected String[] filterSelectionArgs() {
+    return null;
+  }
+
   abstract void updateIncomeAndExpense(long income, long expense);
 
   @Override
@@ -279,7 +283,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
-        accountInfo.getId(), cat_id, isMain, mGrouping, buildDateFilterClause(), label, 0, true)
+        accountInfo.getId(), cat_id, isMain, mGrouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(),  label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
   }
 
@@ -361,7 +365,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (!aggregateTypes) {
       catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
     }
-    final String dateFilter = buildDateFilterClause();
+    final String dateFilter = buildFilterClause(VIEW_COMMITTED);
     if (dateFilter != null) {
       catFilter += " AND " + dateFilter;
     }
@@ -379,9 +383,9 @@ public abstract class DistributionBaseFragment extends CategoryList {
       projection[6] = extraColumn;
     }
     final boolean showAllCategories = showAllCategories();
-    selectionArgs = accountSelector != null ?
+    selectionArgs = Utils.joinArrays(accountSelector != null ?
         (showAllCategories ? new String[]{accountSelector} : new String[]{accountSelector, accountSelector})
-        : null;
+        : null, filterSelectionArgs());
     return briteContentResolver.createQuery(getCategoriesUri(),
         projection, showAllCategories ? null : " exists (SELECT 1 " + catFilter + ")", selectionArgs, getSortExpression(), true);
   }

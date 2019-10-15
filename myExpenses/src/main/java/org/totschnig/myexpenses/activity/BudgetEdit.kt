@@ -10,7 +10,6 @@ import android.widget.*
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
@@ -18,6 +17,7 @@ import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.SelectMethodsAllDialogFragment
 import org.totschnig.myexpenses.dialog.SelectPayeeAllDialogFragment
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -25,11 +25,12 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriteria
 import org.totschnig.myexpenses.provider.filter.Criteria
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.ui.SpinnerHelper
+import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
-import java.util.*
 
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicker.OnDateChangedListener,
         SelectFilterDialog.Host {
@@ -44,11 +45,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private lateinit var filterPersistence: FilterPersistence
 
     override fun setupListeners() {
-        val removeFilter: (View) -> Unit = { view -> removeFilter(view.id) }
-        FILTER_CATEGORY_COMMAND.setOnCloseIconClickListener(removeFilter)
-        FILTER_PAYEE_COMMAND.setOnCloseIconClickListener(removeFilter)
-        FILTER_METHOD_COMMAND.setOnCloseIconClickListener(removeFilter)
-        FILTER_STATUS_COMMAND.setOnCloseIconClickListener(removeFilter)
+        val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
+        val startFilterDialog: (View) -> Unit = { view -> startFilterDialog((view.parent as View).id) }
+        arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND).forEach {
+            it.setOnCloseIconClickListener(removeFilter)
+            it.setOnClickListener(startFilterDialog)
+        }
         Title.addTextChangedListener(this)
         Description.addTextChangedListener(this)
         Amount.addTextChangedListener(this)
@@ -63,21 +65,22 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun removeFilter(id: Int) {
+        setDirty()
         filterPersistence.removeFilter(id)
-        findViewById<Chip>(id)?.apply {
+        findViewById<ScrollingChip>(id)?.apply {
             when (id) {
                 R.id.FILTER_CATEGORY_COMMAND -> R.string.budget_filter_all_categories
                 R.id.FILTER_PAYEE_COMMAND -> R.string.budget_filter_all_parties
                 R.id.FILTER_METHOD_COMMAND -> R.string.budget_filter_all_methods
-                R.id.FILTER_STATUS_COMMAND -> R.string.budget_filter_all_methods
+                R.id.FILTER_STATUS_COMMAND -> R.string.budget_filter_all_states
                 else -> 0
-            }.takeIf { it != 0 }?.let { setText(it) }
+            }.takeIf { it != 0 }?.let { text = getString(it) }
             isCloseIconVisible = false
         }
     }
 
-    override fun dispatchCommand(v: View) {
-        when (v.id) {
+    fun startFilterDialog(id: Int) {
+        when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> {
                 Intent(this, ManageCategories::class.java).apply {
                     action = ManageCategories.ACTION_SELECT_FILTER
@@ -96,7 +99,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 SelectCrStatusDialogFragment.newInstance()
                         .show(supportFragmentManager, "STATUS_FILTER")
             }
-            else -> super.dispatchCommand(v)
         }
     }
 
@@ -111,6 +113,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel.accounts.observe(this, Observer {
             accountSpinnerHelper.adapter = AccountAdapter(this, it)
             linkInputWithLabel(accountSpinnerHelper.spinner, AccountsLabel)
+            it.firstOrNull()?.let { configureAmount(it) }
         })
         viewModel.budget.observe(this, Observer { populateData(it) })
         mNewInstance = budgetId == 0L
@@ -129,13 +132,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         }
         accountSpinnerHelper = SpinnerHelper(Accounts)
         linkInputWithLabels()
-        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState)
+        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false)
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
-    }
-
-    private fun prefNameForCriteria(): String {
-        return String.format(Locale.ROOT, "%s_%%s_%d", "budgetFilter", budgetId)
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
@@ -166,12 +165,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     override fun addFilterCriteria(c: Criteria) {
-        filterPersistence.addCriteria(c, false)
+        setDirty()
+        filterPersistence.addCriteria(c)
         showFilterCriteria(c)
     }
 
     private fun showFilterCriteria(c: Criteria) {
-        findViewById<Chip>(c.id)?.apply {
+        findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true
         }
@@ -206,7 +206,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 setSelection(it)
             }
         }
-        Amount.setFractionDigits(budget.currency.fractionDigits())
+        configureAmount(budget.currency)
         Amount.setAmount(budget.amount.amountMajor)
         typeSpinnerHelper.setSelection(budget.grouping.ordinal)
         showDateRange(budget.grouping == Grouping.NONE)
@@ -222,8 +222,16 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setDirty()
         when (parent.id) {
             R.id.Type -> showDateRange(position == Grouping.NONE.ordinal)
-            R.id.Accounts -> Amount.setFractionDigits(currencyContext[selectedAccount().currency].fractionDigits())
+            R.id.Accounts -> configureAmount(selectedAccount())
         }
+    }
+
+    private fun configureAmount(account: Account) {
+        configureAmount(currencyContext[account.currency])
+    }
+
+    private fun configureAmount(currencyUnit: CurrencyUnit) {
+        Amount.setFractionDigits(currencyUnit.fractionDigits())
     }
 
     private fun showDateRange(visible: Boolean) {

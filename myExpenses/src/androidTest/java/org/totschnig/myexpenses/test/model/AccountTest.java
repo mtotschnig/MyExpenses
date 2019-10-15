@@ -252,7 +252,7 @@ public class AccountTest extends ModelTest {
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6, count(account1.getId(), null));
     WhereFilter filter = WhereFilter.empty();
-    filter.put(0, new CategoryCriteria(TEST_CAT, catId));
+    filter.put(new CategoryCriteria(TEST_CAT, catId));
     account1.reset(filter, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     assertEquals(5, count(account1.getId(), null));//1 Transaction deleted
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
@@ -268,7 +268,7 @@ public class AccountTest extends ModelTest {
     assertEquals(1, count(account1.getId(), KEY_CATID + "=" + catId));
     assertEquals(0, count(account1.getId(), KEY_STATUS + "=" + STATUS_HELPER));
     WhereFilter filter = WhereFilter.empty();
-    filter.put(0, new CategoryCriteria(TEST_CAT, catId));
+    filter.put(new CategoryCriteria(TEST_CAT, catId));
     account1.reset(filter, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER, null);
     assertEquals(6, count(account1.getId(), null));//-1 Transaction deleted;+1 helper
     assertEquals(0, count(account1.getId(), KEY_CATID + "=" + catId));

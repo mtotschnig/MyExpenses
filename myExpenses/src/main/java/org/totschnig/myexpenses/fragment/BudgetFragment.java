@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -45,6 +45,7 @@ import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
+import hugo.weaving.DebugLog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
@@ -70,7 +71,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private boolean allocatedOnly;
 
-  private WhereFilter mFilter = WhereFilter.empty();
+  FilterPersistence filterPersistence;
 
   @Override
   protected boolean showAllCategories() {
@@ -105,6 +106,9 @@ public class BudgetFragment extends DistributionBaseFragment implements
         }
       }
     });
+    final long budgetId = getActivity().getIntent().getLongExtra(KEY_ROWID, 0);
+    loadBudget(budgetId);
+    filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), savedInstanceState, false);
   }
 
   @Override
@@ -206,6 +210,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private void setBudget(@NonNull Budget budget) {
     this.budget = budget;
+
     allocatedOnly = prefHandler.getBoolean(getTemplateForAllocatedOnlyKey(budget),false);
     setAccountInfo(new AccountInfo() {
       @Override
@@ -274,11 +279,18 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
-  protected String buildDateFilterClause() {
-    if (budget.getGrouping() == Grouping.NONE) {
-      return budget.durationAsSqlFilter();
-    }
-    return super.buildDateFilterClause();
+  protected String buildFilterClause(String tableName) {
+    String dateFilter = (budget.getGrouping() == Grouping.NONE) ? budget.durationAsSqlFilter() :
+        super.buildFilterClause(tableName);
+
+    return filterPersistence.getWhereFilter().isEmpty() ? dateFilter :
+        dateFilter + " AND " + filterPersistence.getWhereFilter().getSelectionForParts(tableName);
+  }
+
+  @Override
+  @DebugLog
+  protected String[] filterSelectionArgs() {
+    return filterPersistence.getWhereFilter().getSelectionArgs(true);
   }
 
   @Override

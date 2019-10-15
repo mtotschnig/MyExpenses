@@ -12,8 +12,10 @@ import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
@@ -66,7 +68,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 }
     }
 
-    fun loadBudgetSpend(position: Int, budget: Budget, aggregate: Boolean) {
+    fun loadBudgetSpend(position: Int, budget: Budget, aggregate: Boolean, prefHandler: PrefHandler) {
         val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (aggregate) {
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
@@ -79,8 +81,17 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 builder.appendQueryParameter(KEY_ACCOUNTID, budget.accountId.toString())
             }
         }
+        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
+        var filterClause = buildDateFilterClause(budget)
+        val selectionArgs: Array<String>?
+        if (!filterPersistence.whereFilter.isEmpty) {
+            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(VIEW_COMMITTED)
+            selectionArgs = filterPersistence.whereFilter.getSelectionArgs(true)
+        } else {
+            selectionArgs = null
+        }
         spentDisposables.add(briteContentResolver.createQuery(builder.build(),
-                null, buildDateFilterClause(budget), null, null, true)
+                null, filterClause, selectionArgs, null, true)
                 .mapToOne { cursor -> cursor.getLong(0) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { spent.value = Pair(position, it) })
@@ -143,5 +154,9 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         )
 
         private fun q(column:String) = TABLE_BUDGETS + "." + column
+
+        fun prefNameForCriteria(budgetId: Long): String {
+            return String.format(Locale.ROOT, "%s_%%s_%d", "budgetFilter", budgetId)
+        }
     }
 }

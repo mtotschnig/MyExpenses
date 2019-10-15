@@ -308,7 +308,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
     mManager = LoaderManager.getInstance(this);
-    filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState);
+    filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true);
     View v = inflater.inflate(R.layout.expenses_list, container, false);
     ButterKnife.bind(this, v);
     setAdapter();
@@ -1117,7 +1117,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   public void addFilterCriteria(Criteria c) {
-    filterPersistence.addCriteria(c, true);
+    filterPersistence.addCriteria(c);
     refreshAfterFilterChange();
   }
 

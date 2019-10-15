@@ -113,62 +113,32 @@
                 <com.google.android.material.chip.ChipGroup
                     android:gravity="center_horizontal"
                     style="@style/FormField">
-                    <HorizontalScrollView
-                        android:scrollbars="none"
-                        android:layout_width="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_height="wrap_content">
-                    <com.google.android.material.chip.Chip
+                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
                         android:id="@id/FILTER_CATEGORY_COMMAND"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:onClick="dispatchCommand"
                         android:theme="@style/Theme.MaterialComponents"
                         android:text="@string/budget_filter_all_categories" />
-                    </HorizontalScrollView>
-                    <HorizontalScrollView
-                        android:scrollbars="none"
-                        android:layout_width="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_height="wrap_content">
-                    <com.google.android.material.chip.Chip
+                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
                         android:id="@id/FILTER_PAYEE_COMMAND"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:onClick="dispatchCommand"
                         android:theme="@style/Theme.MaterialComponents"
                         android:text="@string/budget_filter_all_parties" />
-                    </HorizontalScrollView>
-                    <HorizontalScrollView
-                        android:scrollbars="none"
-                        android:layout_width="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_height="wrap_content">
-                    <com.google.android.material.chip.Chip
+                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
                         android:id="@id/FILTER_METHOD_COMMAND"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:onClick="dispatchCommand"
                         android:theme="@style/Theme.MaterialComponents"
                         android:text="@string/budget_filter_all_methods" />
-                    </HorizontalScrollView>
-                    <HorizontalScrollView
-                        android:scrollbars="none"
-                        android:layout_width="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_height="wrap_content">
-                    <com.google.android.material.chip.Chip
+                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
                         android:id="@id/FILTER_STATUS_COMMAND"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:onClick="dispatchCommand"
                         android:theme="@style/Theme.MaterialComponents"
                         android:text="@string/budget_filter_all_states" />
-                    </HorizontalScrollView>
                 </com.google.android.material.chip.ChipGroup>
             </TableRow>
 

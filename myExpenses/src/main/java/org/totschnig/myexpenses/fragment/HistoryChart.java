@@ -175,7 +175,7 @@ public class HistoryChart extends Fragment
           //expense is first entry, income second
           int type = h.getStackIndex() == 0 ? -1 : 1;
           TransactionListDialogFragment.newInstance(
-              account.getId(), 0, false, grouping, buildGroupingClause((int) e.getX()), formatXValue(e.getX()), type, includeTransfers)
+              account.getId(), 0, false, grouping, buildGroupingClause((int) e.getX()), null, formatXValue(e.getX()), type, includeTransfers)
               .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
         }
       }

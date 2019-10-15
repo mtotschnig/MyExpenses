@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import androidx.annotation.Nullable;
 
@@ -34,23 +33,12 @@ public class WhereFilter {
   public static final String LIKE_ESCAPE_CHAR = "\\";
 
   private ArrayList<Criteria> criterias = new ArrayList<>();
-  private final LinkedList<String> sorts = new LinkedList<>();
 
   public WhereFilter() {
   }
 
   public WhereFilter(ArrayList<Criteria> criterias) {
     this.criterias = criterias;
-  }
-
-  public WhereFilter asc(String column) {
-    sorts.add(column + " asc");
-    return this;
-  }
-
-  public WhereFilter desc(String column) {
-    sorts.add(column + " desc");
-    return this;
   }
 
   public String getSelectionForParents(String tableName) {
@@ -147,26 +135,10 @@ public class WhereFilter {
 
   public void clear() {
     criterias.clear();
-    sorts.clear();
   }
 
   public static WhereFilter empty() {
     return new WhereFilter();
-  }
-
-  public String getSortOrder() {
-    StringBuilder sb = new StringBuilder();
-    for (String o : sorts) {
-      if (sb.length() > 0) {
-        sb.append(",");
-      }
-      sb.append(o);
-    }
-    return sb.toString();
-  }
-
-  public void resetSort() {
-    sorts.clear();
   }
 
   public boolean isEmpty() {
@@ -196,21 +168,19 @@ public class WhereFilter {
     }
 
     public String getOp(int length) {
-      switch (this) {
-        case IN:
-          StringBuilder sb = new StringBuilder();
-          sb.append("IN (");
-          for (int i = 0; i < length; i++) {
-            sb.append("?");
-            if (i < length - 1) {
-              sb.append(",");
-            }
+      if (this == Operation.IN) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("IN (");
+        for (int i = 0; i < length; i++) {
+          sb.append("?");
+          if (i < length - 1) {
+            sb.append(",");
           }
-          sb.append(")");
-          return sb.toString();
-        default:
-          return op;
+        }
+        sb.append(")");
+        return sb.toString();
       }
+      return op;
     }
   }
 

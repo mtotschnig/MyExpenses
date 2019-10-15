@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.util.UiUtils;
 import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class BudgetActivity extends CategoryActivity<BudgetFragment> {
 
@@ -22,9 +21,6 @@ public class BudgetActivity extends CategoryActivity<BudgetFragment> {
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(getThemeId());
     super.onCreate(savedInstanceState);
-    if (savedInstanceState == null) {
-      mListFragment.loadBudget(getIntent().getLongExtra(KEY_ROWID,0));
-    }
   }
 
   @Override

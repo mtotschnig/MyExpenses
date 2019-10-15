@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.fragment.BudgetFragment.EDIT_BUDGET_DIALOG
 import org.totschnig.myexpenses.fragment.BudgetFragment.buildAmountField
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
@@ -39,6 +40,8 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
 
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.budgets, container, false)
@@ -54,17 +57,17 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
             viewModel = ViewModelProviders.of(it)[BudgetViewModel::class.java]
             BudgetsAdapter(it)
         }
+        with(recycler_view) {
+            LinearLayoutManager(activity).also {
+                layoutManager = it
+                addItemDecoration(DividerItemDecoration(activity, it.orientation))
+            }
+        }
         viewModel.data.observe(this, Observer {
             position2Spent = arrayOfNulls(it.size)
             adapter.submitList(it)
             empty.isVisible = it.size == 0
-            with(recycler_view) {
-                isVisible = it.size > 0
-                LinearLayoutManager(activity).also {
-                    layoutManager = it
-                    addItemDecoration(DividerItemDecoration(activity, it.orientation))
-                }
-            }
+            recycler_view.isVisible = it.size > 0
         })
         viewModel.spent.observe(this, Observer {
             position2Spent?.set(it.first, it.second)
@@ -99,7 +102,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                 with(holder.itemView) {
                     Title.setText(budget.titleComplete(context))
                     val spent = position2Spent?.get(position) ?: run {
-                        viewModel.loadBudgetSpend(position, budget, false)
+                        viewModel.loadBudgetSpend(position, budget, false, prefHandler)
                         0L
                     }
                     budgetSummary.bind(budget, spent, currencyFormatter)

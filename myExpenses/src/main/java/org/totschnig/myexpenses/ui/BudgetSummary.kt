@@ -16,8 +16,7 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.viewmodel.data.Budget
 
 class BudgetSummary @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :LinearLayout(context, attrs, defStyleAttr) {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.budget_summary, this, true)

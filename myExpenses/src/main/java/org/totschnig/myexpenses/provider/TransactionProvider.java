@@ -337,7 +337,7 @@ public class TransactionProvider extends ContentProvider {
         String amountCalculation;
         if (accountSelector != null) {
           qb.setTables(VIEW_COMMITTED);
-          selectionArgs = new String[]{accountSelector};
+          selectionArgs = Utils.joinArrays(new String[]{accountSelector}, selectionArgs);
           qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
