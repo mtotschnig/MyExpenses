@@ -30,7 +30,7 @@ class ScrollingChip @JvmOverloads constructor(
             chip.text = value
         }
 
-    private var chip: Chip = LayoutInflater.from(context).inflate(R.layout.scrollable_chip, this, false) as Chip
+    private var chip: Chip = LayoutInflater.from(context).inflate(R.layout.chip, this, false) as Chip
 
     init {
         addView(chip)

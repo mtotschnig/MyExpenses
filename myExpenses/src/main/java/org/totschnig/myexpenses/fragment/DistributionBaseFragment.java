@@ -184,17 +184,17 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   protected void onDateInfoReceived(Cursor cursor) {
+    setSubTitle(mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor));
+  }
+
+  protected void setSubTitle(CharSequence title) {
     final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
     if (activity != null) {
       final ActionBar actionBar = activity.getSupportActionBar();
       if (actionBar != null) {
-        actionBar.setSubtitle(getSubTitle(cursor));
+        actionBar.setSubtitle(title);
       }
     }
-  }
-
-  protected String getSubTitle(Cursor cursor) {
-    return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
   }
 
   protected String buildFilterClause(String tableName) {

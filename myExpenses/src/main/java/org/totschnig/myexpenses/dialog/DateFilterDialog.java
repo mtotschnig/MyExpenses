@@ -26,7 +26,6 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   private DatePicker mDate1;
   private DatePicker mDate2;
   private Spinner mOperatorSpinner;
-  private View date2And;
   public static DateFilterDialog newInstance() {
     return new DateFilterDialog();
   }
@@ -38,7 +37,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
     //noinspection InflateParams
     View view = li.inflate(R.layout.filter_date, null);
     mOperatorSpinner = view.findViewById(R.id.Operator);
-    final View date2Row = view.findViewById(R.id.Date2Row);
+    final View date2And = view.findViewById(R.id.Date2And);
     mOperatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override

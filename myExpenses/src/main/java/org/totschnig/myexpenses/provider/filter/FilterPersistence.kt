@@ -8,15 +8,12 @@ const val KEY_FILTER = "filter"
 class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean) {
     val whereFilter: WhereFilter
     init {
-        if (savedInstanceState == null) {
-            whereFilter = WhereFilter.empty()
-            restoreFromPreferences()
-        } else {
-            whereFilter = WhereFilter(savedInstanceState.getParcelableArrayList(KEY_FILTER))
-        }
+        whereFilter = savedInstanceState?.getParcelableArrayList<Criteria>(KEY_FILTER)?.let {
+            WhereFilter(it)
+        } ?: WhereFilter.empty().apply { restoreFromPreferences(this) }
     }
 
-    private fun restoreFromPreferences() {
+    private fun restoreFromPreferences(whereFilter: WhereFilter) {
         prefHandler.getString(prefNameForCriteria(CategoryCriteria.COLUMN), null)?.let {
             whereFilter.put(CategoryCriteria.fromStringExtra(it))
         }

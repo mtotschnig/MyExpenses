@@ -14,32 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginLeft="@dimen/margin_list_expandable"
-              android:layout_marginRight="@dimen/margin_list_expandable"
-              android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/budgetTotalCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <org.totschnig.myexpenses.ui.BudgetSummary
-            android:id="@+id/budgetSummary"
-            style="@style/ExpandableListRowWithCustomIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-
-    </androidx.cardview.widget.CardView>
-
-    <ExpandableListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:groupIndicator="@android:color/transparent"
-        android:drawSelectorOnTop="false"/>
-</LinearLayout>
+<ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/margin_list_expandable"
+    android:layout_marginRight="@dimen/margin_list_expandable"
+    android:drawSelectorOnTop="false"
+    android:groupIndicator="@android:color/transparent" />

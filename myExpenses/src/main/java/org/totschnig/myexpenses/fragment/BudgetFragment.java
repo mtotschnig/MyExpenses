@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.annimon.stream.Stream;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
@@ -34,13 +35,13 @@ import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.AmountEdit;
@@ -52,13 +53,14 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
 public class BudgetFragment extends DistributionBaseFragment implements
     BudgetAdapter.OnBudgetClickListener, SimpleDialog.OnDialogResultListener {
   private Budget budget;
-  @BindView(R.id.budgetSummary)
   BudgetSummary budgetSummary;
+  ChipGroup filterGroup;
   public static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
 
   private BudgetViewModel viewModel;
@@ -87,7 +89,9 @@ public class BudgetFragment extends DistributionBaseFragment implements
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.budget_list, container, false);
     ButterKnife.bind(this, view);
+    budgetSummary = (BudgetSummary) inflater.inflate(R.layout.budget_fragment_summary, mListView, false);
     budgetSummary.setOnBudgetClickListener(view1 -> onBudgetClick(null, null));
+    filterGroup = (ChipGroup) inflater.inflate(R.layout.budget_filter, mListView, false);
     registerForContextMenu(mListView);
     return view;
   }
@@ -108,7 +112,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     });
     final long budgetId = getActivity().getIntent().getLongExtra(KEY_ROWID, 0);
     loadBudget(budgetId);
-    filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), savedInstanceState, false);
+    filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), null, false);
   }
 
   @Override
@@ -229,17 +233,31 @@ public class BudgetFragment extends DistributionBaseFragment implements
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
           budget.getCurrency(), this);
       mListView.setAdapter(mAdapter);
+      mListView.addHeaderView(filterGroup);
+      mListView.addHeaderView(budgetSummary);
     }
+
     mGrouping = budget.getGrouping();
     mGroupingYear = 0;
     mGroupingSecond = 0;
     if (mGrouping == Grouping.NONE) {
       updateSum();
       loadData();
+      setSubTitle(budget.durationPrettyPrint());
     } else {
       updateDateInfo(false);
     }
     updateSummary();
+    setFilterInfo();
+  }
+
+  private void setFilterInfo() {
+    ArrayList<String> filterList = new ArrayList<>();
+    String accountName = budget.getAccountName();
+    if (accountName == null) accountName = budget.getCurrency().code();
+    filterList.add(accountName);
+    Stream.of(filterPersistence.getWhereFilter().getCriteria()).forEach(criterion -> filterList.add(criterion.prettyPrint(getContext())));
+    addChipsBulk(filterGroup, filterList);
   }
 
   private String getTemplateForAllocatedOnlyKey(@NonNull Budget budget) {
@@ -291,14 +309,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
   @DebugLog
   protected String[] filterSelectionArgs() {
     return filterPersistence.getWhereFilter().getSelectionArgs(true);
-  }
-
-  @Override
-  protected String getSubTitle(Cursor cursor) {
-    if (budget.getGrouping() == Grouping.NONE) {
-      return budget.durationPrettyPrint();
-    }
-    return super.getSubTitle(cursor);
   }
 
   @Override

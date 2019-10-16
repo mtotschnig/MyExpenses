@@ -47,7 +47,7 @@
                 android:tint="#FF00FF00"
                 app:srcCompat="@drawable/ic_menu_search"/>
 
-            <TextView
+            <com.google.android.material.chip.ChipGroup
                 android:id="@+id/filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

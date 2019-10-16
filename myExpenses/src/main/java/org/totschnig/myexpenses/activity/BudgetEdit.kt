@@ -260,7 +260,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                             grouping,
                             -1,
                             start,
-                            end)
+                            end, null)
                     viewModel.saveBudget(budget)
                     filterPersistence.persistAll()
                 }

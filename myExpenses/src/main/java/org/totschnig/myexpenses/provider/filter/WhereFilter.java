@@ -18,13 +18,11 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
@@ -32,12 +30,12 @@ public class WhereFilter {
 
   public static final String LIKE_ESCAPE_CHAR = "\\";
 
-  private ArrayList<Criteria> criterias = new ArrayList<>();
+  @NonNull private ArrayList<Criteria> criterias = new ArrayList<>();
 
   public WhereFilter() {
   }
 
-  public WhereFilter(ArrayList<Criteria> criterias) {
+  public WhereFilter(@NonNull ArrayList<Criteria> criterias) {
     this.criterias = criterias;
   }
 
@@ -143,17 +141,6 @@ public class WhereFilter {
 
   public boolean isEmpty() {
     return criterias.size() == 0;
-  }
-
-  public String prettyPrint(Context context) {
-    ArrayList<String> labels = new ArrayList<>();
-    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      Criteria c = criterias.get(i);
-      if (c != null) {
-        labels.add(c.prettyPrint(context));
-      }
-    }
-    return TextUtils.join("\n", labels);
   }
 
   public enum Operation {

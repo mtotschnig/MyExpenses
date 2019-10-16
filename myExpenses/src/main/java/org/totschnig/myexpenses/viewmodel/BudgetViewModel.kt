@@ -44,7 +44,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING))),
                 cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
                 cursor.getString(cursor.getColumnIndex(KEY_START)),
-                cursor.getString(cursor.getColumnIndex(KEY_END))
+                cursor.getString(cursor.getColumnIndex(KEY_END)),
+                cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL))
         )
     }
 
@@ -150,7 +151,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 q(KEY_GROUPING),
                 KEY_COLOR,
                 KEY_START,
-                KEY_END
+                KEY_END,
+                TABLE_ACCOUNTS + "." + KEY_LABEL + " AS " + KEY_ACCOUNT_LABEL
         )
 
         private fun q(column:String) = TABLE_BUDGETS + "." + column

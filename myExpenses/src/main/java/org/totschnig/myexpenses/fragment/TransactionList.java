@@ -46,9 +46,12 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.IntStream;
 import com.annimon.stream.LongStream;
+import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -162,6 +165,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public class TransactionList extends ContextualActionBarFragment implements
@@ -195,7 +199,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   @BindView(R.id.list)
   StickyListHeadersListView mListView;
   @BindView(R.id.filter)
-  TextView filterView;
+  ChipGroup filterView;
   @BindView(R.id.filterCard)
   ViewGroup filterCard;
   private LoaderManager mManager;
@@ -1169,7 +1173,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         DrawableCompat.setTintList(searchMenuIcon, getFilter().isEmpty() ? null : ColorStateList.valueOf(Color.GREEN));
       }
       if (!getFilter().isEmpty()) {
-        filterView.setText(getFilter().prettyPrint(getContext()));
+        addChipsBulk(filterView, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()));
       }
       getActivity().setTitle(mAccount.getLabelForScreenTitle(getContext()));
       SubMenu filterMenu = searchMenu.getSubMenu();
