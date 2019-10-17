@@ -453,7 +453,7 @@ public class MyExpenses extends LaunchActivity implements
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
+    if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
       if (!DistribHelper.isGithub()) {
@@ -469,6 +469,8 @@ public class MyExpenses extends LaunchActivity implements
       adHandler.onEditTransactionResult();
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
+      //navigating to the new account currently does not work, due to the way LoaderManager behaves
+      //since its implementation is based on MutableLiveData
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
   }
@@ -496,7 +498,7 @@ public class MyExpenses extends LaunchActivity implements
       //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
       i.putExtra(KEY_ACCOUNTID, mAccountId);
     }
-    startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
+    startActivityForResult(i, EDIT_REQUEST);
   }
 
   @Override

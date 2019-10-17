@@ -78,6 +78,13 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
         whereFilter.clear()
     }
 
+    fun reloadFromPreferences() {
+        whereFilter.let {
+            it.clear()
+            restoreFromPreferences(it)
+        }
+    }
+
     fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelableArrayList(KEY_FILTER, whereFilter.getCriteria())
     }

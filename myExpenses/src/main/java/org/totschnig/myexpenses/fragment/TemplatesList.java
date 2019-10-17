@@ -285,7 +285,7 @@ public class TemplatesList extends SortableListFragment
         i = new Intent(getActivity(), ExpenseEdit.class);
         i.putExtra(DatabaseConstants.KEY_TEMPLATEID, menuInfo.id);
         //TODO check what to do on Result
-        startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
+        startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST);
         return true;
       case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:

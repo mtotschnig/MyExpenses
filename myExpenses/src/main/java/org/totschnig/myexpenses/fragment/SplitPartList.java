@@ -135,7 +135,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     lv.setOnItemClickListener((a, v1, position, id) -> {
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
-      startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+      startActivityForResult(i, MyExpenses.EDIT_REQUEST);
     });
     registerForContextMenu(lv);
     fab = v.findViewById(R.id.CREATE_COMMAND);

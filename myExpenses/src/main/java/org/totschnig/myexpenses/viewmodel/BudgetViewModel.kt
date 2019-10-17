@@ -73,9 +73,13 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         disposable = createQuery("%s = ?".format(q(KEY_ROWID)), arrayOf(budgetId.toString()))
                 .mapToOne(budgetCreatorFunction)
                 .subscribe {
-                    budget.postValue(it)
+                    postBudget(it)
                     if (once) dispose()
                 }
+    }
+
+    open fun postBudget(budget: Budget) {
+        this.budget.postValue(budget)
     }
 
     fun loadBudgetSpend(position: Int, budget: Budget, aggregate: Boolean, prefHandler: PrefHandler) {

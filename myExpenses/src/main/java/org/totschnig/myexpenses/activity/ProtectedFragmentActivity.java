@@ -124,7 +124,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
     ProgressDialogFragment.ProgressDialogListener, AmountInput.Host {
   public static final int CALCULATOR_REQUEST = 0;
-  public static final int EDIT_TRANSACTION_REQUEST = 1;
+  public static final int EDIT_REQUEST = 1;
   public static final int EDIT_ACCOUNT_REQUEST = 2;
   public static final int PREFERENCES_REQUEST = 3;
   public static final int CREATE_ACCOUNT_REQUEST = 4;

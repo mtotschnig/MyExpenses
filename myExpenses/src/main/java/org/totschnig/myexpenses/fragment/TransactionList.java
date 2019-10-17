@@ -22,11 +22,13 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -99,7 +101,6 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
 
 import java.text.SimpleDateFormat;
@@ -237,7 +238,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private Account mAccount;
   private Money budget = null;
   private TransactionListViewModel viewModel;
-  private BudgetViewModel budgetViewModel;
+  private ContentObserver budgetsObserver;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -260,36 +261,58 @@ public class TransactionList extends ContextualActionBarFragment implements
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
-    budgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
     viewModel.getAccount().observe(this, account -> {
       mAccount = account;
-      long budgetId = budgetViewModel.getDefault(mAccount.getId(), mAccount.getGrouping());
-      if (budgetId != 0 && ContribFeature.BUDGET.isAvailable(prefHandler)) {
-        budgetViewModel.loadBudget(budgetId, false);
+      if (mAccount.isSealed()) {
+        mListView.getWrappedList().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
       } else {
-        startLoad();
+        registerForContextualActionBar(mListView.getWrappedList());
       }
+      setAdapter();
+      setGrouping();
+      Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
+      Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
+      Utils.requireLoader(mManager, SECTION_CURSOR, null, TransactionList.this);
     });
-    budgetViewModel.getBudget().observe(this, budget -> {
-      this.budget = budget.getAmount();
-      startLoad();
+    viewModel.getBudgetAmount().observe(this, budget -> {
+      if (this.budget != budget) {
+        this.budget = budget;
+        refresh(false);
+      }
     });
     viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
+    budgetsObserver = new BudgetObserver();
+    getContext().getContentResolver().registerContentObserver(
+        TransactionProvider.BUDGETS_URI,
+        true, budgetsObserver);
   }
 
-  private void startLoad() {
-    if (mAccount.isSealed()) {
-      mListView.getWrappedList().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-    } else {
-      registerForContextualActionBar(mListView.getWrappedList());
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    if (budgetsObserver != null) {
+      try {
+        ContentResolver cr = getContext().getContentResolver();
+        cr.unregisterContentObserver(budgetsObserver);
+      } catch (IllegalStateException ise) {
+        // Do Nothing.  Observer has already been unregistered.
+      }
     }
-    setAdapter();
-    setGrouping();
-    Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
-    Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
-    Utils.requireLoader(mManager, SECTION_CURSOR, null, TransactionList.this);
+  }
+
+  private class BudgetObserver extends ContentObserver {
+    public BudgetObserver() {
+      super(new Handler());
+    }
+
+    @Override
+    public void onChange(boolean selfChange) {
+      if (mAccount != null) {
+        viewModel.loadBudget(mAccount);
+      }
+    }
   }
 
   @Override
@@ -513,7 +536,7 @@ public class TransactionList extends ContextualActionBarFragment implements
               if (command == R.id.CLONE_TRANSACTION_COMMAND) {
                 i.putExtra(ExpenseEdit.KEY_CLONE, true);
               }
-              ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+              ctx.startActivityForResult(i, MyExpenses.EDIT_REQUEST);
             }
           } else {
             warnSealedAccount();

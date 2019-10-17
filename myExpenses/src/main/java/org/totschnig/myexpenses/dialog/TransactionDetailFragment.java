@@ -260,7 +260,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, mTransaction.getId());
         //i.putExtra("operationType", operationType);
-        ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
+        ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST);
         break;
       case AlertDialog.BUTTON_NEUTRAL:
         if (mTransaction.getPictureUri() != null) {

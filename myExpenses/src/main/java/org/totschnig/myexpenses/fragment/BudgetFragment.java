@@ -214,7 +214,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private void setBudget(@NonNull Budget budget) {
     this.budget = budget;
-
+    filterPersistence.reloadFromPreferences();
     allocatedOnly = prefHandler.getBoolean(getTemplateForAllocatedOnlyKey(budget),false);
     setAccountInfo(new AccountInfo() {
       @Override
