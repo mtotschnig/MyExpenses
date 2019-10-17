@@ -14,7 +14,7 @@ class TransactionListViewModel(application: Application) : ContentResolvingAndro
         dispose()
         val base = if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
         disposable = briteContentResolver.createQuery(ContentUris.withAppendedId(base, accountId),
-                Account.PROJECTION_EXTENDED, null, null, null, true)
+                Account.PROJECTION_BASE, null, null, null, true)
                 .mapToOne { Account.fromCursor(it) }
                 .subscribe { account.postValue(it) }
     }

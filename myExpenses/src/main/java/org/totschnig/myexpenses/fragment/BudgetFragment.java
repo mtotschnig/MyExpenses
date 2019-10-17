@@ -103,7 +103,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     viewModel.getDatabaseResult().observe(this, success -> {
       Activity activity = getActivity();
       if (activity != null) {
-        if (success) {
+        if (success > -1) {
           activity.finish();
         } else {
           Toast.makeText(activity, "Error while deleting budget", Toast.LENGTH_LONG).show();
@@ -112,7 +112,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     });
     final long budgetId = getActivity().getIntent().getLongExtra(KEY_ROWID, 0);
     loadBudget(budgetId);
-    filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), null, false);
+    filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), null, false, true);
   }
 
   @Override

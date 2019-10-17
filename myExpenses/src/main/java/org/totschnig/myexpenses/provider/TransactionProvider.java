@@ -683,8 +683,7 @@ public class TransactionProvider extends ContentProvider {
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
           String grouping = MyApplication.getInstance().getSettings().getString(
               GROUPING_AGGREGATE, "NONE");
-          qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%2$s.%3$s = '%4$s' AND %2$s.%5$s = '%6$s')",
-              TABLE_ACCOUNTS, TABLE_BUDGETS, KEY_CURRENCY, AGGREGATE_HOME_CURRENCY_CODE, KEY_GROUPING, grouping));
+          qb.setTables(TABLE_ACCOUNTS);
           projection = new String[]{
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
@@ -701,11 +700,9 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
-              "max(" + KEY_SEALED + ") AS " + KEY_SEALED,
-              KEY_BUDGET};
+              "max(" + KEY_SEALED + ") AS " + KEY_SEALED};
         } else {
-          qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %4$s AND %1$s.%5$s = %2$s.%5$s)",
-              TABLE_CURRENCIES, TABLE_BUDGETS, KEY_CODE, KEY_CURRENCY, KEY_GROUPING));
+          qb.setTables(TABLE_CURRENCIES);
           projection = new String[]{
               "0 - " + TABLE_CURRENCIES + "." + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
               KEY_CODE + " AS " + KEY_LABEL,
@@ -723,8 +720,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
               "(select max(" + KEY_SEALED
-                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED,
-              KEY_BUDGET};
+                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED};
           qb.appendWhere(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(" + currencyId + ")");
         }
         break;

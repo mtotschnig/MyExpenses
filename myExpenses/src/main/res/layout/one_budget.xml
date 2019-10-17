@@ -108,6 +108,7 @@
 
             <TableRow>
                 <TextView
+                    android:id="@+id/FilterLabel"
                     style="@style/FormLabel"
                     android:text="@string/budget_form_label_filter" />
                 <com.google.android.material.chip.ChipGroup
@@ -150,11 +151,21 @@
                     android:labelFor="@+id/TaType"
                     android:text="@string/type" />
 
-                <Spinner
-                    android:id="@+id/Type"
-                    style="@style/FormField"
-                    android:layout_gravity="center_vertical"
-                    android:prompt="@string/type" />
+                <LinearLayout
+                    style="@style/FormField">
+                    <Spinner
+                        android:id="@+id/Type"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:prompt="@string/type" />
+                    <CheckBox
+                        android:id="@+id/DefaultBudget"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Default" />
+                </LinearLayout>
             </TableRow>
 
             <TableRow

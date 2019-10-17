@@ -24,28 +24,37 @@ import javax.inject.Inject
 open class BudgetViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     val data = MutableLiveData<List<Budget>>()
     val budget = MutableLiveData<Budget>()
-    val databaseResult = MutableLiveData<Boolean>()
+    /**
+     * provides id of budget on success, -1 on error
+     */
+    val databaseResult = MutableLiveData<Long>()
     val spent = MutableLiveData<Pair<Int, Long>>()
     var spentDisposables = CompositeDisposable()
     @Inject
     lateinit var currencyContext: CurrencyContext
+    @Inject
+    lateinit var prefHandler: PrefHandler
     private val databaseHandler: DatabaseHandler
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
         val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
             Utils.getHomeCurrency() else currencyContext.get(currency)
+        val budgetId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
+        val accountId = cursor.getLong(cursor.getColumnIndex(KEY_ACCOUNTID))
+        val grouping = Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING)))
         Budget(
-                cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-                cursor.getLong(cursor.getColumnIndex(KEY_ACCOUNTID)),
+                budgetId,
+                accountId,
                 cursor.getString(cursor.getColumnIndex(KEY_TITLE)),
                 cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
                 currencyUnit,
                 Money(currencyUnit, cursor.getLong(cursor.getColumnIndex(KEY_BUDGET))),
-                Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING))),
+                grouping,
                 cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
                 cursor.getString(cursor.getColumnIndex(KEY_START)),
                 cursor.getString(cursor.getColumnIndex(KEY_END)),
-                cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL))
+                cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)),
+                getDefault(accountId, grouping) == budgetId
         )
     }
 
@@ -116,7 +125,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     fun deleteBudget(budgetId: Long) {
         databaseHandler.startDelete(TOKEN, object: DatabaseHandler.DeleteListener {
             override fun onDeleteComplete(token: Int, result: Int) {
-                databaseResult.postValue(result == 1)
+                databaseResult.postValue(if (result == 1) budgetId else -1)
             }
         }, TransactionProvider.BUDGETS_URI, KEY_ROWID + " = ?", arrayOf(budgetId.toString()))
     }
@@ -134,6 +143,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         super.onCleared()
         spentDisposables.clear()
     }
+
+    fun getDefault(accountId: Long, grouping: Grouping) = prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
 
     companion object {
@@ -157,8 +168,10 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
 
         private fun q(column:String) = TABLE_BUDGETS + "." + column
 
-        fun prefNameForCriteria(budgetId: Long): String {
-            return String.format(Locale.ROOT, "%s_%%s_%d", "budgetFilter", budgetId)
-        }
+        fun prefNameForCriteria(budgetId: Long): String =
+                "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
+
+        fun prefNameForDefaultBudget(accountId: Long, grouping: Grouping): String =
+                "defaultBudget_%d_%s".format(Locale.ROOT, accountId, grouping)
     }
 }

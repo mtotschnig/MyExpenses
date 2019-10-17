@@ -54,7 +54,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -129,8 +128,6 @@ public class Account extends Model {
 
   private Money criterion;
 
-  private Money budget;
-
   /**
    * exchange rate comparing major units
    */
@@ -158,7 +155,7 @@ public class Account extends Model {
     return currencyUnit;
   }
 
-  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
+  public static String[] PROJECTION_BASE, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
       + " AND " + WHERE_IN_PAST + " )";
 
@@ -188,9 +185,6 @@ public class Account extends Model {
         KEY_SEALED
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 1];
-    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
-    PROJECTION_EXTENDED[baseLength] = KEY_BUDGET;
     PROJECTION_FULL = new String[baseLength + 13];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_FULL, 0, baseLength);
     PROJECTION_FULL[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
@@ -429,13 +423,6 @@ public class Account extends Model {
     long criterion = DbUtils.getLongOr0L(c, KEY_CRITERION);
     if (criterion != 0) {
       this.criterion = new Money(this.currencyUnit, criterion);
-    }
-    final int columnIndexBudget = c.getColumnIndex(KEY_BUDGET);
-    if (columnIndexBudget != -1) {
-      long budget = DbUtils.getLongOr0L(c, columnIndexBudget);
-      if (budget != 0) {
-        this.budget = new Money(this.currencyUnit, budget);
-      }
     }
   }
 
@@ -750,11 +737,6 @@ public class Account extends Model {
         return false;
     } else if (!criterion.equals(other.criterion))
       return false;
-    if (budget == null) {
-      if (other.budget != null)
-        return false;
-    } else if (!budget.equals(other.budget))
-      return false;
     if (getType() != other.getType())
       return false;
     return true;
@@ -988,10 +970,6 @@ public class Account extends Model {
 
   public Money getCriterion() {
     return criterion;
-  }
-
-  public Money getBudget() {
-    return budget;
   }
 
   public boolean isSealed() {

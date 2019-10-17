@@ -99,7 +99,8 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
     ContentValues contentValues = new ContentValues(2);
     contentValues.put(KEY_LABEL, label);
     contentValues.put(KEY_CODE, code);
-    asyncDatabaseHandler.startInsert(TOKEN_INSERT_CURRENCY, (DatabaseHandler.InsertListener) (token, success) -> {
+    asyncDatabaseHandler.startInsert(TOKEN_INSERT_CURRENCY, (DatabaseHandler.InsertListener) (token, uri) -> {
+      boolean success = uri != null;
       if (success) {
         currencyContext.storeCustomSymbol(code, symbol);
         currencyContext.storeCustomFractionDigits(code, fractionDigits);

@@ -4,13 +4,15 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.net.Uri;
 
+import androidx.annotation.Nullable;
+
 class DatabaseHandler extends AsyncQueryHandler {
   interface UpdateListener {
     void onUpdateComplete(int token, int result);
   }
 
   interface InsertListener {
-    void onInsertComplete(int token, boolean success);
+    void onInsertComplete(int token, @Nullable Uri uri);
   }
 
   interface DeleteListener {
@@ -31,7 +33,7 @@ class DatabaseHandler extends AsyncQueryHandler {
   @Override
   protected void onInsertComplete(int token, Object cookie, Uri uri) {
     if (cookie instanceof InsertListener) {
-      ((InsertListener) cookie).onInsertComplete(token, uri != null);
+      ((InsertListener) cookie).onInsertComplete(token, uri);
     }
   }
 

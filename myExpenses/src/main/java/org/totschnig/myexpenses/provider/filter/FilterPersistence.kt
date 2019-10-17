@@ -5,12 +5,12 @@ import org.totschnig.myexpenses.preference.PrefHandler
 
 const val KEY_FILTER = "filter"
 
-class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean) {
+class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean, restoreFromPreferences: Boolean = true) {
     val whereFilter: WhereFilter
     init {
         whereFilter = savedInstanceState?.getParcelableArrayList<Criteria>(KEY_FILTER)?.let {
             WhereFilter(it)
-        } ?: WhereFilter.empty().apply { restoreFromPreferences(this) }
+        } ?: WhereFilter.empty().apply { if (restoreFromPreferences) restoreFromPreferences(this) }
     }
 
     private fun restoreFromPreferences(whereFilter: WhereFilter) {

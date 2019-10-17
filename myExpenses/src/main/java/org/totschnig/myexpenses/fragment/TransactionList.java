@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
@@ -98,6 +99,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
 
 import java.text.SimpleDateFormat;
@@ -232,9 +234,10 @@ public class TransactionList extends ContextualActionBarFragment implements
       columnIndexPayee, columnIndexCrStatus, columnIndexYearOfMonthStart,
       columnIndexLabelMain;
   private boolean indexesCalculated = false;
-  //the following values are cached from the account object, so that we can react to changes in the observer
   private Account mAccount;
+  private Money budget = null;
   private TransactionListViewModel viewModel;
+  private BudgetViewModel budgetViewModel;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -257,22 +260,36 @@ public class TransactionList extends ContextualActionBarFragment implements
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
+    budgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
     viewModel.getAccount().observe(this, account -> {
       mAccount = account;
-      if (mAccount.isSealed()) {
-        mListView.getWrappedList().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+      long budgetId = budgetViewModel.getDefault(mAccount.getId(), mAccount.getGrouping());
+      if (budgetId != 0 && ContribFeature.BUDGET.isAvailable(prefHandler)) {
+        budgetViewModel.loadBudget(budgetId, false);
       } else {
-        registerForContextualActionBar(mListView.getWrappedList());
+        startLoad();
       }
-      setAdapter();
-      setGrouping();
-      Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
-      Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
-      Utils.requireLoader(mManager, SECTION_CURSOR, null, TransactionList.this);
+    });
+    budgetViewModel.getBudget().observe(this, budget -> {
+      this.budget = budget.getAmount();
+      startLoad();
     });
     viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
+  }
+
+  private void startLoad() {
+    if (mAccount.isSealed()) {
+      mListView.getWrappedList().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+    } else {
+      registerForContextualActionBar(mListView.getWrappedList());
+    }
+    setAdapter();
+    setGrouping();
+    Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
+    Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
+    Utils.requireLoader(mManager, SECTION_CURSOR, null, TransactionList.this);
   }
 
   @Override
@@ -312,7 +329,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getActivity();
     mManager = LoaderManager.getInstance(this);
-    filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true);
+    filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true, true);
     View v = inflater.inflate(R.layout.expenses_list, container, false);
     ButterKnife.bind(this, v);
     setAdapter();
@@ -802,16 +819,20 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      HeaderViewHolder holder;
-      if (convertView == null) {
-        final int headerLayout = !TransactionList.this.getFilter().isEmpty() || mAccount.getBudget() == null
-            || !ContribFeature.BUDGET.isAvailable(prefHandler)
-            ? R.layout.header : R.layout.header_with_budget;
+      HeaderViewHolder holder = null;
+      final boolean withBudget = TransactionList.this.getFilter().isEmpty() &&
+          budget != null;
+
+      if (convertView != null) {
+        holder = (HeaderViewHolder) convertView.getTag();
+        boolean holderHasBudget = holder.budgetProgress != null;
+        if (withBudget != holderHasBudget) holder = null;
+      }
+      if (holder == null) {
+        final int headerLayout = withBudget ? R.layout.header_with_budget : R.layout.header;
         convertView = inflater.inflate(headerLayout, parent, false);
         holder = new HeaderViewHolder(convertView);
         convertView.setTag(holder);
-      } else {
-        holder = (HeaderViewHolder) convertView.getTag();
       }
 
       Cursor c = getCursor();
@@ -838,9 +859,9 @@ public class TransactionList extends ContextualActionBarFragment implements
                 currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
-        if (holder.budgetProgress != null && mAccount.getBudget() != null) {
-          long budget = mAccount.getBudget().getAmountMinor();
-          int progress = budget == 0 ? 100 : Math.round(expensesSum * 100F / budget);
+        if (holder.budgetProgress != null && budget != null) {
+          long budgetAmountMinor = budget.getAmountMinor();
+          int progress = budgetAmountMinor == 0 ? 100 : Math.round(expensesSum * 100F / budgetAmountMinor);
           UiUtils.configureProgress(holder.budgetProgress, progress);
           holder.budgetProgress.setFinishedStrokeColor(mAccount.color);
           holder.budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));

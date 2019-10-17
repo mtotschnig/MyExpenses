@@ -44,10 +44,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private lateinit var accountSpinnerHelper: SpinnerHelper
     private lateinit var filterPersistence: FilterPersistence
 
+    private val allFilterChips: Array<ScrollingChip>
+        get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND)
+
     override fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
         val startFilterDialog: (View) -> Unit = { view -> startFilterDialog((view.parent as View).id) }
-        arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND).forEach {
+        allFilterChips.forEach {
             it.setOnCloseIconClickListener(removeFilter)
             it.setOnClickListener(startFilterDialog)
         }
@@ -77,6 +80,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             }.takeIf { it != 0 }?.let { text = getString(it) }
             isCloseIconVisible = false
         }
+        configureFilterDependents()
     }
 
     fun startFilterDialog(id: Int) {
@@ -122,7 +126,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             viewModel.loadData(pendingBudgetLoad)
         }
         viewModel.databaseResult.observe(this, Observer {
-            if (it) finish() else {
+            if (it > -1) {
+                finish()
+            } else {
                 Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
             }
         })
@@ -132,9 +138,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         }
         accountSpinnerHelper = SpinnerHelper(Accounts)
         linkInputWithLabels()
-        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false)
+        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !mNewInstance)
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
+        configureFilterDependents()
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
@@ -168,6 +175,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setDirty()
         filterPersistence.addCriteria(c)
         showFilterCriteria(c)
+        configureFilterDependents()
     }
 
     private fun showFilterCriteria(c: Criteria) {
@@ -182,8 +190,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         linkInputWithLabel(Description, DescriptionLabel)
         linkInputWithLabel(Amount, AmountLabel)
         linkInputWithLabel(typeSpinnerHelper.spinner, TypeLabel)
+        linkInputWithLabel(DefaultBudget, TypeLabel)
         linkInputWithLabel(DurationFrom, DurationFromLabel)
         linkInputWithLabel(DurationTo, DurationToLabel)
+        allFilterChips.forEach {
+            linkInputWithLabel(it, FilterLabel)
+        }
     }
 
     override fun onResume() {
@@ -209,7 +221,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         configureAmount(budget.currency)
         Amount.setAmount(budget.amount.amountMajor)
         typeSpinnerHelper.setSelection(budget.grouping.ordinal)
-        showDateRange(budget.grouping == Grouping.NONE)
+        configureTypeDependents(budget.grouping)
+        DefaultBudget.isChecked = budget.default
         if (resumedP) setupListeners()
         pendingBudgetLoad = 0L
     }
@@ -221,7 +234,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         setDirty()
         when (parent.id) {
-            R.id.Type -> showDateRange(position == Grouping.NONE.ordinal)
+            R.id.Type -> {
+                configureTypeDependents(Type.adapter.getItem(position) as Grouping)
+            }
             R.id.Accounts -> configureAmount(selectedAccount())
         }
     }
@@ -234,9 +249,21 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         Amount.setFractionDigits(currencyUnit.fractionDigits())
     }
 
-    private fun showDateRange(visible: Boolean) {
-        DurationFromRow.isVisible = visible
-        DurationToRow.isVisible = visible
+    private fun configureTypeDependents(grouping: Grouping) {
+        DurationFromRow.isVisible = grouping == Grouping.NONE
+        DurationToRow.isVisible = grouping == Grouping.NONE
+        DefaultBudget.isVisible = grouping != Grouping.NONE
+    }
+
+    private fun configureFilterDependents() {
+        with(DefaultBudget) {
+            filterPersistence.whereFilter.isEmpty.let {
+                if (!it) {
+                    isChecked = false
+                }
+                isEnabled = it
+            }
+        }
     }
 
     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -260,9 +287,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                             grouping,
                             -1,
                             start,
-                            end, null)
-                    viewModel.saveBudget(budget)
-                    filterPersistence.persistAll()
+                            end, null, DefaultBudget.isChecked)
+                    viewModel.saveBudget(budget, filterPersistence.whereFilter)
                 }
 
             }
