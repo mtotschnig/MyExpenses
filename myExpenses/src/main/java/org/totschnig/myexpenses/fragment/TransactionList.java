@@ -1278,7 +1278,9 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    filterPersistence.onSaveInstanceState(outState);
+    if (filterPersistence != null) {
+      filterPersistence.onSaveInstanceState(outState);
+    }
   }
 
   @Override
