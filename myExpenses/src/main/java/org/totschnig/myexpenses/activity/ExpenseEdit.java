@@ -2550,7 +2550,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void applyExchangRate(AmountInput from, AmountInput to, BigDecimal rate) {
     BigDecimal input = validateAmountInput(from, false);
-    to.setAmount(rate != null && input != null ? input.multiply(rate) : new BigDecimal(0));
+    to.setAmount(rate != null && input != null ? input.multiply(rate) : new BigDecimal(0), false);
   }
 
   @Override
