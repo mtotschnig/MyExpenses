@@ -595,7 +595,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     String selection;
     String[] selectionArgs;
     if (mAccount.isHomeAggregate()) {
-      selection = "";
+      selection = KEY_ACCOUNTID + " IN " +
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0)";
       selectionArgs = null;
     } else if (mAccount.isAggregate()) {
       selection = KEY_ACCOUNTID + " IN " +

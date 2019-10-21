@@ -688,6 +688,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mOperationType == TYPE_TRANSFER) {
       amountInput.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
       transferInput.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
+      mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
     }
 
     // Spinner for account and transfer account
@@ -831,7 +832,6 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       if (mTransaction instanceof Transfer) {
-        mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
         if (mTransaction.getId() != 0) {
           setTitle(R.string.menu_edit_transfer);
         }
@@ -2549,7 +2549,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void applyExchangRate(AmountInput from, AmountInput to, BigDecimal rate) {
     BigDecimal input = validateAmountInput(from, false);
-    to.setAmount(rate != null && input != null ? input.multiply(rate) : new BigDecimal(0));
+    to.setAmount(rate != null && input != null ? input.multiply(rate) : new BigDecimal(0), false);
   }
 
   @Override

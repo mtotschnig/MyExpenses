@@ -44,8 +44,6 @@ public class ContextHelper {
 
   @TargetApi(Build.VERSION_CODES.N)
   private static Context buildContext24(Context context, Locale newLocale, Configuration configuration) {
-    configuration.setLocale(newLocale);
-
     LocaleList localeList = new LocaleList(newLocale);
     LocaleList.setDefault(localeList);
     configuration.setLocales(localeList);

@@ -349,13 +349,14 @@ public class TransactionProvider extends ContentProvider {
         break;
       }
       case TRANSACTIONS_GROUPS: {
-        String accountSelectionQuery = null;
+        String accountSelectionQuery = "";
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
           if (accountSelector != null) {
-            accountSelectionQuery = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+            accountSelectionQuery = KEY_CURRENCY + " = ? AND ";
           }
+          accountSelectionQuery += KEY_EXCLUDE_FROM_TOTALS + " = 0";
         } else {
           accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         }
@@ -436,9 +437,9 @@ public class TransactionProvider extends ContentProvider {
                 + " AS " + KEY_GROUP_START;
           }
         }
+        selection = accountSelectionQuery
+            + (selection != null ? " AND " + selection : "");
         if (accountSelector != null) {
-          selection = accountSelectionQuery
-              + (selection != null ? " AND " + selection : "");
           selectionArgs = Utils.joinArrays(
               new String[]{accountSelector},
               selectionArgs);
@@ -628,8 +629,8 @@ public class TransactionProvider extends ContentProvider {
                 "0 AS " + KEY_CRITERION,
                 "0 AS " + KEY_SEALED,
                 "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
-                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_INCOME,
-                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_EXPENSES,
+                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_EXTENDED + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_INCOME,
+                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_EXTENDED + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_EXPENSES,
                 "0 AS " + KEY_SUM_TRANSFERS,
                 "sum(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
@@ -703,12 +704,13 @@ public class TransactionProvider extends ContentProvider {
               "max(" + KEY_SEALED + ") AS " + KEY_SEALED};
         } else {
           qb.setTables(TABLE_CURRENCIES);
+          String accountSelect = "from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + " AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
           projection = new String[]{
               "0 - " + TABLE_CURRENCIES + "." + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
               KEY_CODE + " AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
               "(select sum(" + KEY_OPENING_BALANCE
-                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
+                  + ") " + accountSelect + ") AS " + KEY_OPENING_BALANCE,
               KEY_CODE + " AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
               TABLE_CURRENCIES + "." + KEY_GROUPING,
@@ -719,8 +721,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "0 AS " + KEY_CRITERION,
-              "(select max(" + KEY_SEALED
-                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED};
+              "(select max(" + KEY_SEALED + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_SEALED};
           qb.appendWhere(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(" + currencyId + ")");
         }
         break;

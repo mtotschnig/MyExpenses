@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
@@ -211,6 +212,18 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(ContextHelper.wrap(newBase, MyApplication.getUserPreferedLocale()));
+  }
+
+
+  @Override
+  public void applyOverrideConfiguration(Configuration overrideConfiguration) {
+    if (overrideConfiguration != null && Build.VERSION.SDK_INT >= 21
+        && Build.VERSION.SDK_INT <= 25) {
+      int uiMode = overrideConfiguration.uiMode;
+      overrideConfiguration.setTo(getBaseContext().getResources().getConfiguration());
+      overrideConfiguration.uiMode = uiMode;
+    }
+    super.applyOverrideConfiguration(overrideConfiguration);
   }
 
   protected void injectDependencies() {
