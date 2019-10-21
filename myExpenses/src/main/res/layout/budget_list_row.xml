@@ -15,11 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.chip.ChipGroup
+        app:layout_constraintTop_toBottomOf="@+id/Title"
+        style="@style/ExpandableListRowWithCustomIndicator"
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <org.totschnig.myexpenses.ui.BudgetSummary
         android:id="@+id/budgetSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:withAllocated="false"
-        app:layout_constraintTop_toBottomOf="@+id/Title"
+        app:layout_constraintTop_toBottomOf="@+id/filter"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.form.SimpleFormDialog
+import icepick.State
 import kotlinx.android.synthetic.main.budget_list_row.view.*
 import kotlinx.android.synthetic.main.budgets.*
 import org.totschnig.myexpenses.MyApplication
@@ -27,7 +28,9 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Budget.Companion.DIFF_CALLBACK
@@ -42,6 +45,10 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
     lateinit var currencyFormatter: CurrencyFormatter
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @State
+    @JvmField
+    var lastClickedPosition: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.budgets, container, false)
@@ -86,6 +93,13 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
         return false
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        lastClickedPosition?.let {
+            recycler_view.adapter?.notifyItemChanged(it)
+            lastClickedPosition = null
+        }
+    }
+
     inner class BudgetsAdapter(val context: Context) :
             ListAdapter<Budget, BudgetViewHolder>(DIFF_CALLBACK) {
 
@@ -119,11 +133,19 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                                     .show(this@BudgetList, EDIT_BUDGET_DIALOG);
                         }
                     })
+
+                    val filterList = mutableListOf<String>()
+                    var accountName = budget.accountName ?: budget.currency.code()
+                    filterList.add(accountName)
+                    val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false, true)
+                    filterPersistence.whereFilter.criteria.forEach { criterion -> filterList.add(criterion.prettyPrint(context)) }
+                    addChipsBulk(filter, filterList)
                     setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
                         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        context.startActivity(i)
+                        lastClickedPosition = position
+                        startActivityForResult(i, 0)
                     }
                 }
             }
