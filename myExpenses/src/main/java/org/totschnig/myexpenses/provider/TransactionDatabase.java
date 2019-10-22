@@ -34,6 +34,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
@@ -1943,6 +1944,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE budgets ADD COLUMN \"end\" datetime");
         db.execSQL("DROP INDEX if exists budgets_type_account");
         db.execSQL("DROP INDEX if exists budgets_type_currency");
+        Cursor c = db.query("budgets", new String[]{"_id",
+            String.format(Locale.ROOT, "coalesce(%1$s, -(select %2$s from %3$s where %4$s = %5$s), %6$d) AS %1$s",
+                "account_id", "_id", "currency", "code", "budgets.currency", AggregateAccount.HOME_AGGREGATE_ID), "grouping"},
+            null, null, null, null, null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            final SharedPreferences settings = MyApplication.getInstance().getSettings();
+            final SharedPreferences.Editor editor = settings.edit();
+            while (c.getPosition() < c.getCount()) {
+              editor.putLong(String.format(Locale.ROOT, "defaultBudget_%d_%s", c.getLong(1), c.getString(2)), c.getLong(0));
+              c.moveToNext();
+            }
+            editor.apply();
+          }
+          c.close();
+        }
       }
 
 

@@ -61,7 +61,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
         whereFilter.criteria.forEach { filterPersistence.addCriteria(it) }
         filterPersistence.persistAll()
         if (budget.grouping != Grouping.NONE && whereFilter.isEmpty) {
-            val prefKey = BudgetViewModel.prefNameForDefaultBudget(budget.accountId, budget.grouping)
+            val prefKey = prefNameForDefaultBudget(budget.accountId, budget.grouping)
             if (budget.default) {
                 prefHandler.putLong(prefKey, budget.id)
             } else {
