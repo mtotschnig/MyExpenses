@@ -149,7 +149,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 90;
+  public static final int DATABASE_VERSION = 91;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1934,6 +1934,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO budget_categories (budget_id,cat_id,budget) " +
             " SELECT  budget_id,cat_id,budget FROM budget_categories_old");
         db.execSQL("DROP TABLE budget_categories_old");
+      }
+
+      if (oldVersion < 91) {
+        db.execSQL("ALTER TABLE budgets ADD COLUMN title text not null");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN description text");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN start datetime");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN \"end\" datetime");
+        db.execSQL("DROP INDEX if exists budgets_type_account");
+        db.execSQL("DROP INDEX if exists budgets_type_currency");
       }
 
 
