@@ -304,7 +304,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
         reset();
         return true;
     }
-    return false;
+    return super.onOptionsItemSelected(item);
   }
 
   protected abstract PrefKey getPrefKey();
@@ -403,6 +403,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
     MenuItem m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
     if (m != null) {
       m.setChecked(aggregateTypes);

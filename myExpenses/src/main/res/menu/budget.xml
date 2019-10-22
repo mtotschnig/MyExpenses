@@ -8,6 +8,19 @@
         android:title="@string/menu_edit">
     </item>
     <item
+        android:id="@id/SORT_COMMAND"
+        android:title="@string/menu_sort"
+        android:icon="@drawable/ic_menu_sort"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@id/SORT_TITLE_COMMAND" android:title="@string/title"/>
+                <item android:id="@id/SORT_ALLOCATED_COMMAND" android:title="@string/budget_table_header_allocated" />
+                <item android:id="@id/SORT_SPENT_COMMAND" android:title="@string/budget_table_header_spent" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@+id/MANAGE_CATEGORIES_COMMAND"
         android:title="@string/menu_manage_categories"
         app:showAsAction="never"/>

@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -469,7 +470,7 @@ public class TransactionProvider extends ContentProvider {
         boolean mergeCurrencyAggregates = minimal ||
             uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
         if (sortOrder == null) {
-          sortOrder = minimal ? KEY_LABEL : Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS, prefHandler);
+          sortOrder = minimal ? KEY_LABEL : Utils.preferredOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.USAGES);
         }
         if (mergeCurrencyAggregates) {
           if (projection != null) {
@@ -811,7 +812,7 @@ public class TransactionProvider extends ContentProvider {
       case TEMPLATES:
         qb.setTables(VIEW_TEMPLATES_EXTENDED);
         if (sortOrder == null) {
-          sortOrder = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler);
+          sortOrder = Utils.preferredOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.USAGES);
         }
         if (projection == null) {
           projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);

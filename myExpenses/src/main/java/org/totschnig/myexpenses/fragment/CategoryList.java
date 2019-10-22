@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -221,7 +222,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected Object getSecondarySort() {
-    return Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES, prefHandler);
+    return Utils.preferredOrderBy(KEY_LABEL, getSortOrderPrefKey(), prefHandler, Sort.USAGES);
   }
 
   private void disposeCategory() {

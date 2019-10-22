@@ -95,8 +95,10 @@ import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 
 /**
@@ -201,12 +203,12 @@ public class Utils {
     return sep;
   }
 
-  public static String defaultOrderBy(String textColumn, PrefKey prefKey, PrefHandler prefHandler) {
+  public static String preferredOrderBy(String textColumn, PrefKey prefKey, PrefHandler prefHandler, Sort defaultOrderBy) {
     Sort sort;
     try {
-      sort = Sort.valueOf(prefHandler.getString(prefKey, "USAGES"));
+      sort = Sort.valueOf(prefHandler.getString(prefKey, defaultOrderBy.name()));
     } catch (IllegalArgumentException e) {
-      sort = Sort.USAGES;
+      sort = defaultOrderBy;
     }
 
     String sortOrder = textColumn + " COLLATE LOCALIZED";
@@ -225,6 +227,13 @@ public class Utils {
         break;
       case NEXT_INSTANCE:
         sortOrder = null; //handled by PlanInfoCursorWrapper
+        break;
+      case ALLOCATED:
+        sortOrder = KEY_BUDGET + " DESC, " + sortOrder;
+        break;
+      case SPENT:
+        sortOrder = KEY_SUM + " DESC, " + sortOrder;
+        break;
         //default is textColumn
     }
     return sortOrder;
