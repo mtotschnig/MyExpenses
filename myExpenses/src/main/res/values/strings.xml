@@ -866,7 +866,7 @@
     <!-- This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature  -->
     <string name="discover_feature_operation_type_select">Use this dropdown menu to record transfers between accounts or split transactions.</string>
     <string name="menu_create_budget">New budget</string>
-    <string name="budget_onetime">Einmalig</string>
+    <string name="budget_onetime">One-time</string>
     <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
     <string name="budget_duration_from">From</string>
     <string name="budget_duration_to">To</string>
@@ -878,4 +878,7 @@
     <string name="budget_filter_all_methods">All methods</string>
     <string name="budget_filter_all_states">All states</string>
     <string name="budget_form_label_filter">Filter</string>
+    <string name="dialog_title_warning_delete_budget">Delete budget?</string>
+    <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
+    <string name="menu_edit_budget">Edit budget</string>
 </resources>

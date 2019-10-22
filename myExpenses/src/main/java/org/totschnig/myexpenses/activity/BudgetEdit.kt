@@ -142,6 +142,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
         configureFilterDependents()
+        setTitle(if (mNewInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {

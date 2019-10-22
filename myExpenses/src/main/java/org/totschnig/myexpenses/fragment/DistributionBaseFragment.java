@@ -84,13 +84,14 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   interface AccountInfo {
     long getId();
+
     CurrencyUnit getCurrencyUnit();
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    aggregateTypes = prefHandler.getBoolean(getPrefKey(),true);
+    aggregateTypes = prefHandler.getBoolean(getPrefKey(), true);
   }
 
   protected void disposeDateInfo() {
@@ -100,7 +101,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   protected void setAccountInfo(AccountInfo accountInfo) {
-   this.accountInfo = accountInfo;
+    this.accountInfo = accountInfo;
   }
 
   protected void updateDateInfo(boolean withMaxValue) {
@@ -283,7 +284,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
-        accountInfo.getId(), cat_id, isMain, mGrouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(),  label, 0, true)
+        accountInfo.getId(), cat_id, isMain, mGrouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
   }
 

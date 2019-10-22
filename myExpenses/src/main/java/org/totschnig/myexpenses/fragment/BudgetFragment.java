@@ -62,6 +62,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   BudgetSummary budgetSummary;
   ChipGroup filterGroup;
   public static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
+  private static final String DELETE_BUDGET_DIALOG = "DELETE_BUDGET";
 
   private BudgetViewModel viewModel;
 
@@ -126,7 +127,12 @@ public class BudgetFragment extends DistributionBaseFragment implements
           return true;
         }
         case R.id.DELETE_COMMAND: {
-          viewModel.deleteBudget(budget.getId());
+          SimpleDialog.build()
+              .title(R.string.dialog_title_warning_delete_budget)
+              .msg(getString(R.string.warning_delete_budget, budget.getTitle()) + " " + getString(R.string.continue_confirmation))
+              .pos(R.string.menu_delete)
+              .neg(android.R.string.cancel)
+              .show(this, DELETE_BUDGET_DIALOG);
           return true;
         }
         case R.id.BUDGET_ALLOCATED_ONLY: {
@@ -200,11 +206,18 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (which == BUTTON_POSITIVE && dialogTag.equals(EDIT_BUDGET_DIALOG)) {
-      final Money amount = new Money(budget.getCurrency(), (BigDecimal) extras.getSerializable(KEY_AMOUNT));
-      viewModel.updateBudget(this.budget.getId(), extras.getLong(KEY_CATID), amount);
-      return true;
+    if (which == BUTTON_POSITIVE) {
+      if (dialogTag.equals(EDIT_BUDGET_DIALOG)) {
+        final Money amount = new Money(budget.getCurrency(), (BigDecimal) extras.getSerializable(KEY_AMOUNT));
+        viewModel.updateBudget(this.budget.getId(), extras.getLong(KEY_CATID), amount);
+        return true;
+      }
+      if (dialogTag.equals(DELETE_BUDGET_DIALOG)) {
+        viewModel.deleteBudget(budget.getId());
+        return true;
+      }
     }
+
     return false;
   }
 

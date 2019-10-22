@@ -24,7 +24,7 @@
     <item
         android:id="@id/TOGGLE_AGGREGATE_TYPES"
         android:checkable="true"
-        android:title="@string/menu_distribution_aggreate"
+        android:title="@string/menu_budget_aggregate"
         app:showAsAction="never"/>
     <item
         android:id="@id/BUDGET_ALLOCATED_ONLY"

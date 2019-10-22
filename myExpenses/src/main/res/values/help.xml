@@ -185,8 +185,23 @@
   <string name="menu_HistoryActivity_history_transfers_help_text">Toggle, if transfers should be treated like a regular income or expense.</string>
 
   <!-- Budget -->
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">The budgeting screen allows you to define a daily, weekly, monthly or yearly budget. First you set the total money that you want to spend for each period. Then you can allocate amounts for categories and sub-categories, and monitor how much you have spent and how much remains to be spent. Clicking on the budgeted amounts allows to change them.</string>
-  <string name="menu_switch_budget_help_text">Switch to a different type of budget.</string>
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">By defining a budget, you define an overall amount that you want to spend during a given period. You can also allocate amounts for categories and sub-categories. You then monitor how much you have spent and how much remains to be spent.</string>
+  <string name="help_Budget_amount_click">Clicking on the budgeted amounts allows to change them.</string>
   <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Compare budget with spending of past and future periods of time.</string>
+  <string name="menu_BudgetActivity_edit_help_text">Change the budget\'s definition.</string>
+  <string name="menu_budget_aggregate_help_text">By default, the calculated sums include both expenses and income. If you deactivate this option, income is ignored, only expenses are taken into account.</string>
+  <string name="menu_budget_allocated_only_help_text">By activating this option, only categories, for which some amount has been allocated, are displayed.</string>
+  <string name="menu_BudgetActivity_delete_help_text">The currently displayed budget will be deleted.</string>
+
+  <string name="help_ManageBudgets_title">List of all budgets</string>
+  <string name="help_ManageBudgets_info">This screen shows a summary of all budgets you have created. Use the floating action button to create a new budget. Clicking on a list entry displays a single budget.</string>
+
+  <string name="help_BudgetEdit_title">Form for budgets</string>
+  <string name="help_BudgetEdit_info">Use this form to create a new budget or to edit an existing one.</string>
+  <string name="form_BudgetEdit_title_help_text">A budget\'s title helps identifying it in the budget list.</string>
+  <string name="form_BudgetEdit_amount_help_text">How much money is available in the context of this budget.</string>
+  <string name="form_BudgetEdit_accounts_help_text">A budget is either limited to one account; it covers all accounts with the same currency; or it refers to the total aggregate across all currencies.</string>
+  <string name="form_BudgetEdit_filter_help_text">Budgets can be filtered with respect to categories, parties, methods or states. Only transactions matched by these filters are taken into account.</string>
+  <string name="form_BudgetEdit_type_help_text">A budget is defined as either regular (daily, monthly, weekly, annual) or one-time. For one-time budgets, you specify the beginning and the end of its duration. A regular budget (that is not filtered) can be set as default: This means that the transaction list (if it is configured to group data per day, week, month or year) will show the progress for this budget for each period.</string>
 </resources>

@@ -60,8 +60,8 @@ import java.util.List;
 public class HelpDialogFragment extends CommitSafeDialogFragment implements ImageGetter {
 
   public static final String KEY_VARIANT = "variant";
-  public static final String KEY_CONTEXT = "context";
-  public static final HashMap<String, Integer> iconMap = new HashMap<>();
+  private static final String KEY_CONTEXT = "context";
+  private static final HashMap<String, Integer> iconMap = new HashMap<>();
 
   static {
     iconMap.put("edit", R.drawable.ic_menu_edit);

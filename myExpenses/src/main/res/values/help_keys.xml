@@ -29,9 +29,11 @@
     <string name="help_RoadmapVoteActivity_info"><![CDATA[Please help us define the future development roadmap! This screen lists all the open tickets from <a href="https://github.com/mtotschnig/MyExpenses/issues">Github</a> . Distribute 10 points (50 if you own a professional licence key) among those tickets that are most important for you. Long press on an issue to learn more about it and to spend weight on it. Once you have finished, do not forget to submit your vote. Thank you for your participation!]]></string>
     <string name="menu_RoadmapVoteActivity_search_help_text">Only tickets which match your query will be displayed.</string>
     <string name="menu_RoadmapVoteActivity_vote_help_text">Once you have distributed all your points, this button will allow to submit your vote.</string>
-    <string name="menu_RoadmapVoteActivity_refresh_help_text">The list of isues is cached locally. Fetch list again from the Internet.</string>
+    <string name="menu_RoadmapVoteActivity_refresh_help_text">The list of issues is cached locally. Fetch list again from the Internet.</string>
     <string name="menu_RoadmapVoteActivity_result_help_text">Display the current voting results.</string>
     <string name="cab_RoadmapVoteActivity_learn_more_help_text">Learn more about the ticket by reading its page on Github.</string>
     <string name="cab_RoadmapVoteActivity_set_weight_help_text">Select the amount of points that corresponds to how relevant the issue is for you.</string>
-
+    <string name="menu_budget_aggregate">@string/menu_distribution_aggreate</string>
+    <string name="accounts">@string/pref_manage_accounts_title</string>
+    <string name="filter">@string/budget_form_label_filter</string>
 </resources>
