@@ -740,7 +740,6 @@
   <string name="weekly_budget">Quỹ theo tuần</string>
   <string name="monthly_budget">Quỹ theo tháng</string>
   <string name="yearly_budget">Quỹ theo năm</string>
-  <string name="menu_switch_budget">Chuyển</string>
   <string name="budget_table_header_budgeted">Đã góp quỹ</string>
   <string name="budget_table_header_allocated">Đã phân bố</string>
   <string name="budget_table_header_spent">Đã chi</string>

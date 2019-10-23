@@ -758,7 +758,6 @@
   <string name="weekly_budget">毎週の予算</string>
   <string name="monthly_budget">毎月の予算</string>
   <string name="yearly_budget">毎年の予算</string>
-  <string name="menu_switch_budget">切り替え</string>
   <string name="budget_table_header_budgeted">予算計画済</string>
   <string name="budget_table_header_allocated">割り当て済</string>
   <string name="budget_table_header_spent">消費</string>

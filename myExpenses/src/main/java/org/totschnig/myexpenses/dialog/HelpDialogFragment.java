@@ -117,7 +117,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("color", R.drawable.ic_color);
     iconMap.put("history", R.drawable.ic_history);
     iconMap.put("budget", R.drawable.ic_budget);
-    iconMap.put("switch_budget", R.drawable.ic_budget);
     iconMap.put("manage_categories", null);
     iconMap.put("show_transactions", null);
     iconMap.put("back.forward", null);

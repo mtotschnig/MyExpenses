@@ -769,7 +769,6 @@
   <string name="weekly_budget">Budget settimanale</string>
   <string name="monthly_budget">Budget mensile</string>
   <string name="yearly_budget">Budget annuale</string>
-  <string name="menu_switch_budget">Cambia</string>
   <string name="budget_table_header_budgeted">Preventivato</string>
   <string name="budget_table_header_allocated">Stanziato</string>
   <string name="budget_table_header_spent">Speso</string>

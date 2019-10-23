@@ -159,7 +159,6 @@
   <string name="menu_HistoryActivity_history_transfers_help_text">Basculer, si les transferts doivent être traités comme un revenu ou une dépense régulière.</string>
   <!--Budget-->
   <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">L\'écran de budgétisation vous permet de définir un budget quotidien, hebdomadaire, mensuel ou annuel. Tout d\'abord, vous définissez le montant total que vous souhaitez dépenser pour chaque période. Ensuite, vous pouvez allouer des montants pour des catégories et des sous-catégories et contrôler le montant que vous avez dépensé et le montant restant à dépenser. En cliquant sur les montants budgétés, vous pouvez les modifier.</string>
-  <string name="menu_switch_budget_help_text">Basculez vers un type de budget différent.</string>
   <string name="cab_show_transactions_help_text">Ouvre une boîte de dialogue répertoriant toutes les transactions associées à la catégorie sélectionnée dans le compte actuel.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Comparez le budget aux dépenses des périodes passées et futures.</string>
 </resources>

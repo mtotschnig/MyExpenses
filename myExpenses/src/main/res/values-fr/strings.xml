@@ -769,7 +769,6 @@
   <string name="weekly_budget">Budget hebdomadaire</string>
   <string name="monthly_budget">Budget mensuel</string>
   <string name="yearly_budget">Budget annuel</string>
-  <string name="menu_switch_budget">Changer</string>
   <string name="budget_table_header_budgeted">Budgétisé</string>
   <string name="budget_table_header_allocated">Alloué</string>
   <string name="budget_table_header_spent">Dépensé</string>

@@ -769,7 +769,6 @@
   <string name="weekly_budget">Wochenbudget</string>
   <string name="monthly_budget">Monatsbudget</string>
   <string name="yearly_budget">Jahresbudget</string>
-  <string name="menu_switch_budget">Wechseln</string>
   <string name="budget_table_header_budgeted">Budgetiert</string>
   <string name="budget_table_header_allocated">Zugewiesen</string>
   <string name="budget_table_header_spent">Ausgegeben</string>

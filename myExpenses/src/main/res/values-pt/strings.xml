@@ -759,7 +759,6 @@
   <string name="weekly_budget">Orçamento semanal</string>
   <string name="monthly_budget">Orçamento mensal</string>
   <string name="yearly_budget">Orçamento anual</string>
-  <string name="menu_switch_budget">Trocar</string>
   <string name="budget_table_header_budgeted">Orçado</string>
   <string name="budget_table_header_allocated">Alocado</string>
   <string name="budget_table_header_spent">Gasto</string>
