@@ -467,7 +467,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
           + KEY_ROWID + " integer primary key autoincrement, "
-          + KEY_TITLE+ " text not null, "
+          + KEY_TITLE+ " text not null default '', "
           + KEY_DESCRIPTION + " text not null, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
           + KEY_BUDGET + " integer not null, "
@@ -1938,10 +1938,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 91) {
-        db.execSQL("ALTER TABLE budgets ADD COLUMN title text not null");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN title text not null default ''");
         db.execSQL("ALTER TABLE budgets ADD COLUMN description text");
         db.execSQL("ALTER TABLE budgets ADD COLUMN start datetime");
-        db.execSQL("ALTER TABLE budgets ADD COLUMN \"end\" datetime");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN end datetime");
         db.execSQL("DROP INDEX if exists budgets_type_account");
         db.execSQL("DROP INDEX if exists budgets_type_currency");
         Cursor c = db.query("budgets", new String[]{"_id",
@@ -1953,7 +1953,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             final SharedPreferences settings = MyApplication.getInstance().getSettings();
             final SharedPreferences.Editor editor = settings.edit();
             while (c.getPosition() < c.getCount()) {
-              editor.putLong(String.format(Locale.ROOT, "defaultBudget_%d_%s", c.getLong(1), c.getString(2)), c.getLong(0));
+              final long accountId = c.getLong(1);
+              editor.remove(String.format(Locale.ROOT, "current_budgetType_%d", accountId));
+              editor.putLong(String.format(Locale.ROOT, "defaultBudget_%d_%s", accountId, c.getString(2)), c.getLong(0));
               c.moveToNext();
             }
             editor.apply();
@@ -1961,7 +1963,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
-
 
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

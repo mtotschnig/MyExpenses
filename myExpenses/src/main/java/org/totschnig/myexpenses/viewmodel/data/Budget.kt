@@ -14,10 +14,10 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 
 
-data class Budget(val id: Long, val accountId: Long, val title: String, val description: String,
+data class Budget(val id: Long, val accountId: Long, val title: String, val description: String?,
                   val currency: CurrencyUnit, val amount: Money, val grouping: Grouping, val color: Int,
                   val start: LocalDate?, val end: LocalDate?, val accountName: String?, val default: Boolean) {
-    constructor(id: Long, accountId: Long, title: String, description: String, currency: CurrencyUnit, amount: Money, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(
+    constructor(id: Long, accountId: Long, title: String, description: String?, currency: CurrencyUnit, amount: Money, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(
             id, accountId, title, description, currency, amount, grouping, color, start?.let { LocalDate.parse(it) }, end?.let { LocalDate.parse(it) }, accountName, default)
 
     init {
