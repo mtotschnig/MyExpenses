@@ -19,31 +19,34 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 
 import java.util.Calendar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 public class DateFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
   private DatePicker mDate1;
   private DatePicker mDate2;
   private Spinner mOperatorSpinner;
-  public static final DateFilterDialog newInstance() {
-    DateFilterDialog f = new DateFilterDialog();
-    return f;
+  public static DateFilterDialog newInstance() {
+    return new DateFilterDialog();
   }
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     View view = li.inflate(R.layout.filter_date, null);
-    mOperatorSpinner = (Spinner) view.findViewById(R.id.Operator);
-    final View date2Row = view.findViewById(R.id.Date2Row);
+    mOperatorSpinner = view.findViewById(R.id.Operator);
+    final View date2And = view.findViewById(R.id.Date2And);
     mOperatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
           int position, long id) {
         String selectedOp = getResources().getStringArray(R.array.comparison_operator_date_values)[position];
-        date2Row.setVisibility(selectedOp.equals("BTW") ? View.VISIBLE : View.GONE);
+        final int date2Visible = selectedOp.equals("BTW") ? View.VISIBLE : View.GONE;
+        date2And.setVisibility(date2Visible);
+        mDate2.setVisibility(date2Visible);
       }
 
       @Override
@@ -54,8 +57,8 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
     ((ArrayAdapter) mOperatorSpinner.getAdapter())
         .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-    mDate1 = (DatePicker) view.findViewById(R.id.date1);
-    mDate2 = (DatePicker) view.findViewById(R.id.date2);
+    mDate1 = view.findViewById(R.id.date1);
+    mDate2 = view.findViewById(R.id.date2);
 
 
     return new AlertDialog.Builder(ctx)
@@ -68,7 +71,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    Long date1, date2;
+    long date1, date2;
     DateCriteria c;
     if (ctx==null) {
       return;
@@ -94,6 +97,6 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
           WhereFilter.Operation.valueOf(selectedOp),
           date1);
     }
-    ctx.addFilterCriteria(R.id.FILTER_DATE_COMMAND,c);
+    ctx.addFilterCriteria(c);
   }
 }

@@ -24,10 +24,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.ui.AmountInput;
+
+import java.math.BigDecimal;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -41,6 +45,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   private int accentColor;
 
   abstract int getDiscardNewMessage();
+
+  protected BigDecimal validateAmountInput(AmountInput input, boolean showToUser) {
+    return input.getTypedValue(true, showToUser);
+  }
 
   protected abstract void setupListeners();
 
@@ -154,8 +162,19 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   protected void linkInputWithLabel(final View input, final View label) {
-    input.setOnFocusChangeListener((v, hasFocus) ->
+    setOnFocusChangeListenerRecursive(input, (v, hasFocus) ->
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));
+  }
+
+  private void setOnFocusChangeListenerRecursive(View view, View.OnFocusChangeListener listener) {
+    if (view instanceof ViewGroup && !view.isFocusable()) {
+      ViewGroup group = ((ViewGroup) view);
+      for (int i = 0; i < group.getChildCount(); i++) {
+        setOnFocusChangeListenerRecursive(group.getChildAt(i), listener);
+      }
+    } else {
+      view.setOnFocusChangeListener(listener);
+    }
   }
 
   @Override
@@ -178,5 +197,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   public void clearDirty() {
     setDirty(false);
+  }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return R.id.edit_container;
   }
 }

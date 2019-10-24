@@ -26,7 +26,7 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   PrintTask(TaskExecutionFragment taskExecutionFragment, Bundle extras) {
     this.taskExecutionFragment = taskExecutionFragment;
     accountId = extras.getLong(KEY_ROWID);
-    filter = new WhereFilter(extras.getSparseParcelableArray(TransactionList.KEY_FILTER));
+    filter = new WhereFilter(extras.getParcelableArrayList(TransactionList.KEY_FILTER));
   }
 
   /*

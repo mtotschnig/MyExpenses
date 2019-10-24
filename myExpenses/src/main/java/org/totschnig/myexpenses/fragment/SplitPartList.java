@@ -135,7 +135,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     lv.setOnItemClickListener((a, v1, position, id) -> {
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
-      startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+      startActivityForResult(i, MyExpenses.EDIT_REQUEST);
     });
     registerForContextMenu(lv);
     fab = v.findViewById(R.id.CREATE_COMMAND);
@@ -247,7 +247,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   private void requireLoaders() {
-    Utils.requireLoader(getActivity().getSupportLoaderManager(), ExpenseEdit.TRANSACTION_CURSOR, null, this);
-    Utils.requireLoader(getActivity().getSupportLoaderManager(), ExpenseEdit.SUM_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.TRANSACTION_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.SUM_CURSOR, null, this);
   }
 }

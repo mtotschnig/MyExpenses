@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -155,5 +156,12 @@ public class UiUtils {
       }
     }
     return -1;
+  }
+
+  public static boolean themeBoolAttr(Context context, int attr) {
+    TypedArray themeArray = context.getTheme().obtainStyledAttributes(new int[]{attr});
+    boolean result = themeArray.getBoolean(0, false);
+    themeArray.recycle();
+    return result;
   }
 }

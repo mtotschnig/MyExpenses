@@ -27,6 +27,7 @@ import android.widget.CheckBox;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 /**
@@ -41,7 +42,7 @@ import androidx.appcompat.app.AlertDialog;
  */
 public class ConfirmationDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
-  CheckBox checkBox;
+  private CheckBox checkBox;
 
   public static final String KEY_TITLE = "title";
   public static final String KEY_MESSAGE = "message";
@@ -52,12 +53,13 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public static final String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
   public static final String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
 
-  public static final ConfirmationDialogFragment newInstance(Bundle args) {
+  public static ConfirmationDialogFragment newInstance(Bundle args) {
     ConfirmationDialogFragment dialogFragment = new ConfirmationDialogFragment();
     dialogFragment.setArguments(args);
     return dialogFragment;
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();

@@ -14,55 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginLeft="@dimen/margin_list_expandable"
-              android:layout_marginRight="@dimen/margin_list_expandable"
-              android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/budgetTotalCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            style="@style/ExpandableListRowWithCustomIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:attr/activatedBackgroundIndicator">
-
-            <FrameLayout
-                android:id="@+id/color1"
-                android:layout_width="?account_color_indicator_diameter"
-                android:layout_height="?account_color_indicator_diameter"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="4dp"
-                android:layout_marginLeft="-4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginStart="-4dp"
-                android:padding="4dp">
-
-                <com.github.lzyzsd.circleprogress.DonutProgress
-                    android:id="@+id/budgetProgressTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:donut_finished_stroke_width="3sp"
-                    app:donut_text_color="?android:textColorPrimary"
-                    app:donut_text_size="?textSizeLabel"
-                    app:donut_unfinished_stroke_width="3sp"/>
-            </FrameLayout>
-
-            <include layout="@layout/budget_total_table"/>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <ExpandableListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:groupIndicator="@android:color/transparent"
-        android:drawSelectorOnTop="false"/>
-</LinearLayout>
+<ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/margin_list_expandable"
+    android:layout_marginRight="@dimen/margin_list_expandable"
+    android:drawSelectorOnTop="false"
+    android:groupIndicator="@android:color/transparent" />

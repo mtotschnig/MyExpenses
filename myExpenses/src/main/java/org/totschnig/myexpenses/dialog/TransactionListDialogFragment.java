@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Utils;
 
 import javax.inject.Inject;
 
@@ -65,6 +66,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_IS_MAIN = "is_main";
   private static final String KEY_GROUPING_CLAUSE = "grouping_clause";
+  private static final String KEY_GROUPING_ARGS = "grouping_args";
   private static final String KEY_WITH_TRANSFERS = "with_transfers";
   public static final int TRANSACTION_CURSOR = 1;
   public static final int SUM_CURSOR = 2;
@@ -84,13 +86,14 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
 
   public static TransactionListDialogFragment newInstance(
       Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause,
-      String label, int type, boolean withTransfers) {
+      String[] groupingArgs, String label, int type, boolean withTransfers) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_ACCOUNTID, account_id);
     bundle.putLong(KEY_CATID, cat_id);
     bundle.putString(KEY_GROUPING_CLAUSE, groupingClause);
     bundle.putSerializable(KEY_GROUPING, grouping);
+    bundle.putStringArray(KEY_GROUPING_ARGS, groupingArgs);
     bundle.putString(KEY_LABEL, label);
     bundle.putBoolean(KEY_IS_MAIN, isMain);
     bundle.putInt(KEY_TYPE, type);
@@ -131,8 +134,9 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       }
     };
     mListView.setAdapter(mAdapter);
-    getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
-    getLoaderManager().initLoader(SUM_CURSOR, null, this);
+    final LoaderManager loaderManager = LoaderManager.getInstance(this);
+    loaderManager.initLoader(TRANSACTION_CURSOR, null, this);
+    loaderManager.initLoader(SUM_CURSOR, null, this);
     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -199,6 +203,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         selection += " AND ";
       }
       selection += groupingClause;
+      selectionArgs = Utils.joinArrays(selectionArgs, getArguments().getStringArray(KEY_GROUPING_ARGS));
     }
     int type = getArguments().getInt(KEY_TYPE);
     if (type != 0) {

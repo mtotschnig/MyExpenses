@@ -2,24 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@id/GROUPING_COMMAND"
-        android:icon="@drawable/ic_budget"
-        android:title="@string/menu_switch_budget"
+        android:id="@id/EDIT_COMMAND"
+        android:icon="@drawable/ic_menu_edit"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_edit">
+    </item>
+    <item
+        android:id="@id/SORT_COMMAND"
+        android:title="@string/menu_sort"
+        android:icon="@drawable/ic_menu_sort"
         app:showAsAction="ifRoom">
         <menu>
             <group android:checkableBehavior="single">
-                <item
-                    android:id="@id/GROUPING_DAY_COMMAND"
-                    android:title="@string/daily_budget"/>
-                <item
-                    android:id="@id/GROUPING_WEEK_COMMAND"
-                    android:title="@string/weekly_budget"/>
-                <item
-                    android:id="@id/GROUPING_MONTH_COMMAND"
-                    android:title="@string/monthly_budget"/>
-                <item
-                    android:id="@id/GROUPING_YEAR_COMMAND"
-                    android:title="@string/yearly_budget"/>
+                <item android:id="@id/SORT_TITLE_COMMAND" android:title="@string/title"/>
+                <item android:id="@id/SORT_ALLOCATED_COMMAND" android:title="@string/budget_table_header_allocated" />
+                <item android:id="@id/SORT_SPENT_COMMAND" android:title="@string/budget_table_header_spent" />
             </group>
         </menu>
     </item>
@@ -40,6 +37,18 @@
     <item
         android:id="@id/TOGGLE_AGGREGATE_TYPES"
         android:checkable="true"
-        android:title="@string/menu_distribution_aggreate"
+        android:title="@string/menu_budget_aggregate"
         app:showAsAction="never"/>
+    <item
+        android:id="@id/BUDGET_ALLOCATED_ONLY"
+        android:checkable="true"
+        android:title="@string/menu_budget_allocated_only"
+        app:showAsAction="never"/>
+    <item
+        android:id="@id/DELETE_COMMAND"
+        android:icon="@drawable/ic_menu_delete"
+        android:orderInCategory="20"
+        app:showAsAction="never"
+        android:title="@string/menu_delete">
+    </item>
 </menu>

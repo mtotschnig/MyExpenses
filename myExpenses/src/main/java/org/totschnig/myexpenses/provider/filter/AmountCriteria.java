@@ -27,11 +27,13 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+
 public class AmountCriteria extends Criteria {
+  static final String COLUMN = KEY_AMOUNT;
   private boolean type;
   private String currency;
   private Operation origOperation;
@@ -44,10 +46,19 @@ public class AmountCriteria extends Criteria {
     this.origOperation = operation;
     this.origValue1 = values[0];
     this.origValue2 = values[1];
-    this.title = MyApplication.getInstance().getString(R.string.amount);
   }
 
-  public AmountCriteria(Parcel in) {
+  @Override
+  public int getID() {
+    return R.id.FILTER_AMOUNT_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
+  }
+
+  private AmountCriteria(Parcel in) {
     super(in);
     type = in.readByte() != 0;
     currency = in.readString();
@@ -81,7 +92,7 @@ public class AmountCriteria extends Criteria {
     return result;
   }
 
-  private static Criteria transformCriteria(Operation operation, boolean type, Long... values) {
+  private static CriteriaInfo transformCriteria(Operation operation, boolean type, Long... values) {
     switch (operation) {
       case BTW:
       case EQ:
@@ -99,16 +110,14 @@ public class AmountCriteria extends Criteria {
       }
       longAmount2 = type ? values[1] : -values[1];
       boolean needSwap = longAmount2 < longAmount1;
-      return new Criteria(
-          DatabaseConstants.KEY_AMOUNT,
+      return new CriteriaInfo(
           WhereFilter.Operation.BTW,
           String.valueOf(needSwap ? longAmount2 : longAmount1),
           String.valueOf(needSwap ? longAmount1 : longAmount2));
     }
     if (type) {
       if (operation == Operation.LTE) {
-        return new Criteria(
-            DatabaseConstants.KEY_AMOUNT,
+        return new CriteriaInfo(
             Operation.BTW,
             "0",
             String.valueOf(longAmount1));
@@ -117,15 +126,13 @@ public class AmountCriteria extends Criteria {
       if (operation == Operation.GTE) {
         operation = Operation.LTE;
       } else if (operation == Operation.LTE) {
-        return new Criteria(
-            DatabaseConstants.KEY_AMOUNT,
+        return new CriteriaInfo(
             Operation.BTW,
             String.valueOf(longAmount1),
             "0");
       }
     }
-    return new Criteria(
-        DatabaseConstants.KEY_AMOUNT,
+    return new CriteriaInfo(
         operation,
         String.valueOf(longAmount1));
   }

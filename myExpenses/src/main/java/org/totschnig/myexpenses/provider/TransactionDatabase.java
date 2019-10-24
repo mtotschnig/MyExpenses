@@ -34,6 +34,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
@@ -71,6 +72,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_O
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
@@ -101,6 +103,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
@@ -147,7 +150,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 90;
+  public static final int DATABASE_VERSION = 91;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -464,15 +467,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
           + KEY_ROWID + " integer primary key autoincrement, "
+          + KEY_TITLE+ " text not null default '', "
+          + KEY_DESCRIPTION + " text not null, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
           + KEY_BUDGET + " integer not null, "
           + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_CURRENCY + " text)";
-
-  private static final String BUDGETS_TYPE_ACCOUNT_INDEX_CREATE = "CREATE UNIQUE INDEX budgets_type_account ON "
-      + TABLE_BUDGETS + "(" + KEY_GROUPING + "," + KEY_ACCOUNTID + ")";
-  private static final String BUDGETS_TYPE_CURRENCY_INDEX_CREATE = "CREATE UNIQUE INDEX budgets_type_currency ON "
-      + TABLE_BUDGETS + "(" + KEY_GROUPING + "," + KEY_CURRENCY + ")";
+          + KEY_CURRENCY + " text, "
+          + KEY_START + " datetime, "
+          + KEY_END + " datetime)";
 
   private static final String BUDGETS_CATEGORY_CREATE =
       "CREATE TABLE " + TABLE_BUDGET_CATEGORIES + " ( "
@@ -761,8 +763,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
     db.execSQL(BUDGETS_CREATE);
-    db.execSQL(BUDGETS_TYPE_ACCOUNT_INDEX_CREATE);
-    db.execSQL(BUDGETS_TYPE_CURRENCY_INDEX_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
 
     //Run on ForTest build type
@@ -1937,6 +1937,32 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE budget_categories_old");
       }
 
+      if (oldVersion < 91) {
+        db.execSQL("ALTER TABLE budgets ADD COLUMN title text not null default ''");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN description text");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN start datetime");
+        db.execSQL("ALTER TABLE budgets ADD COLUMN end datetime");
+        db.execSQL("DROP INDEX if exists budgets_type_account");
+        db.execSQL("DROP INDEX if exists budgets_type_currency");
+        Cursor c = db.query("budgets", new String[]{"_id",
+            String.format(Locale.ROOT, "coalesce(%1$s, -(select %2$s from %3$s where %4$s = %5$s), %6$d) AS %1$s",
+                "account_id", "_id", "currency", "code", "budgets.currency", AggregateAccount.HOME_AGGREGATE_ID), "grouping"},
+            null, null, null, null, null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            final SharedPreferences settings = MyApplication.getInstance().getSettings();
+            final SharedPreferences.Editor editor = settings.edit();
+            while (c.getPosition() < c.getCount()) {
+              final long accountId = c.getLong(1);
+              editor.remove(String.format(Locale.ROOT, "current_budgetType_%d", accountId));
+              editor.putLong(String.format(Locale.ROOT, "defaultBudget_%d_%s", accountId, c.getString(2)), c.getLong(0));
+              c.moveToNext();
+            }
+            editor.apply();
+          }
+          c.close();
+        }
+      }
 
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

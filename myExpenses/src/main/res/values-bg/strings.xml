@@ -769,7 +769,6 @@
   <string name="weekly_budget">Седмичен бюджет</string>
   <string name="monthly_budget">Месечен бюджет</string>
   <string name="yearly_budget">Годишен бюджет</string>
-  <string name="menu_switch_budget">Превключи</string>
   <string name="budget_table_header_budgeted">В бюджета</string>
   <string name="budget_table_header_allocated">Разпределена</string>
   <string name="budget_table_header_spent">Похарчено</string>

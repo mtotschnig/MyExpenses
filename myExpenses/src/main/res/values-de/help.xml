@@ -158,7 +158,6 @@
   <string name="menu_HistoryActivity_history_transfers_help_text">Schalten Sie um, ob Umbuchungen wie normale Einnahmen oder Ausgaben behandelt werden sollen.</string>
   <!--Budget-->
   <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Im Bildschirm Budgetierung können Sie ein Tages-, Wochen-, Monats- oder Jahresbudget festlegen. Zuerst legen Sie den Gesamtbetrag fest, den Sie für jeden Zeitraum ausgeben möchten. Anschließend können Sie Beträge für Kategorien und Unterkategorien zuordnen und überwachen, wie viel Sie ausgegeben haben und wie viel noch ausgegeben werden kann. Durch Klicken auf die budgetierten Beträge können diese geändert werden.</string>
-  <string name="menu_switch_budget_help_text">Wechseln Sie zu einem anderen Budget.</string>
   <string name="cab_show_transactions_help_text">Öffnet ein Dialogfeld mit allen Transaktionen, die der ausgewählten Kategorie im aktuellen Konto zugeordnet sind.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Vergleichen Sie das Budget mit den Ausgaben vergangener und zukünftiger Zeiträume.</string>
 </resources>

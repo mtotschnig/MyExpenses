@@ -18,47 +18,31 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
-import android.content.Context;
-import android.os.Parcelable;
-import android.text.TextUtils;
-import android.util.SparseArray;
-
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 public class WhereFilter {
 
   public static final String LIKE_ESCAPE_CHAR = "\\";
 
-  private SparseArray<Criteria> criterias = new SparseArray<>();
-  private final LinkedList<String> sorts = new LinkedList<>();
+  @NonNull private ArrayList<Criteria> criterias = new ArrayList<>();
 
   public WhereFilter() {
   }
 
-  public WhereFilter(SparseArray<Parcelable> sparseArray) {
-    for (int i = 0; i < sparseArray.size(); i++) {
-      put(sparseArray.keyAt(i), (Criteria) sparseArray.valueAt(i));
-    }
-  }
-
-  public WhereFilter asc(String column) {
-    sorts.add(column + " asc");
-    return this;
-  }
-
-  public WhereFilter desc(String column) {
-    sorts.add(column + " desc");
-    return this;
+  public WhereFilter(@NonNull ArrayList<Criteria> criterias) {
+    this.criterias = criterias;
   }
 
   public String getSelectionForParents(String tableName) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      Criteria c = criterias.valueAt(i);
+      Criteria c = criterias.get(i);
       if (c != null) {
         if (sb.length() > 0) {
           sb.append(" AND ");
@@ -72,7 +56,7 @@ public class WhereFilter {
   public String getSelectionForParts(String tableName) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      Criteria c = criterias.valueAt(i);
+      Criteria c = criterias.get(i);
       if (c != null) {
         if (sb.length() > 0) {
           sb.append(" AND ");
@@ -86,9 +70,9 @@ public class WhereFilter {
   public String[] getSelectionArgs(boolean queryParts) {
     String[] args = new String[0];
     for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      Criteria c = criterias.valueAt(i);
+      Criteria c = criterias.get(i);
       if (c != null) {
-        String critArgs[] = c.getSelectionArgs();
+        String[] critArgs = c.getSelectionArgs();
         if (queryParts || c.shouldApplyToParts()) {
           critArgs = Utils.joinArrays(critArgs, critArgs);
         }
@@ -99,57 +83,64 @@ public class WhereFilter {
     return args;
   }
 
+  @Nullable
   public Criteria get(int id) {
-    return criterias.get(id);
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
+      Criteria c = criterias.get(i);
+      if (c.getID() == id) {
+        return c;
+      }
+    }
+    return  null;
   }
 
-  public void put(int id, Criteria criteria) {
+  @Nullable
+  public Criteria get(String column) {
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
+      Criteria c = criterias.get(i);
+      if (c.getColumn().equals(column)) {
+        return c;
+      }
+    }
+    return  null;
+  }
+
+  public void put(Criteria criteria) {
     if (criteria != null) {
-      criterias.put(id, criteria);
+      int existing = indexOf(criteria.getID());
+      if ( existing > -1) {
+        criterias.set(existing, criteria);
+      } else {
+        criterias.add(criteria);
+      }
     }
   }
 
+  private int indexOf(int id) {
+    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
+      if (criterias.get(i).getID() == id)
+        return i;
+    }
+    return -1;
+  }
+
   public void remove(int id) {
-    criterias.remove(id);
+    int existing = indexOf(id);
+    if (existing > -1) {
+      criterias.remove(existing);
+    }
   }
 
   public void clear() {
     criterias.clear();
-    sorts.clear();
   }
 
   public static WhereFilter empty() {
     return new WhereFilter();
   }
 
-  public String getSortOrder() {
-    StringBuilder sb = new StringBuilder();
-    for (String o : sorts) {
-      if (sb.length() > 0) {
-        sb.append(",");
-      }
-      sb.append(o);
-    }
-    return sb.toString();
-  }
-
-  public void resetSort() {
-    sorts.clear();
-  }
-
   public boolean isEmpty() {
     return criterias.size() == 0;
-  }
-
-  public String prettyPrint(Context context) {
-    ArrayList<String> labels = new ArrayList<>();
-    for (int i = 0, nsize = criterias.size(); i < nsize; i++) {
-      Criteria c = criterias.valueAt(i);
-      if (c != null) {
-        labels.add(c.prettyPrint(context));
-      }
-    }
-    return TextUtils.join("\n", labels);
   }
 
   public enum Operation {
@@ -164,25 +155,23 @@ public class WhereFilter {
     }
 
     public String getOp(int length) {
-      switch (this) {
-        case IN:
-          StringBuilder sb = new StringBuilder();
-          sb.append("IN (");
-          for (int i = 0; i < length; i++) {
-            sb.append("?");
-            if (i < length - 1) {
-              sb.append(",");
-            }
+      if (this == Operation.IN) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("IN (");
+        for (int i = 0; i < length; i++) {
+          sb.append("?");
+          if (i < length - 1) {
+            sb.append(",");
           }
-          sb.append(")");
-          return sb.toString();
-        default:
-          return op;
+        }
+        sb.append(")");
+        return sb.toString();
       }
+      return op;
     }
   }
 
-  public SparseArray<Criteria> getCriteria() {
+  public ArrayList<Criteria> getCriteria() {
     return criterias;
   }
 

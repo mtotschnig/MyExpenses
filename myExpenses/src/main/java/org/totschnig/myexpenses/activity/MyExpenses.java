@@ -43,6 +43,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
@@ -53,6 +54,7 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -157,7 +159,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOU
 public class MyExpenses extends LaunchActivity implements
     ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener, SortUtilityDialogFragment.OnConfirmListener {
+    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener,
+    SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   public static final long THRESHOLD_REMIND_RATE = 47L;
 
@@ -362,7 +365,7 @@ public class MyExpenses extends LaunchActivity implements
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
     myPager.setPageMarginDrawable(margin.resourceId);
-    mManager = getSupportLoaderManager();
+    mManager =  LoaderManager.getInstance(this);
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
 
@@ -450,7 +453,7 @@ public class MyExpenses extends LaunchActivity implements
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
+    if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
       if (!DistribHelper.isGithub()) {
@@ -466,14 +469,17 @@ public class MyExpenses extends LaunchActivity implements
       adHandler.onEditTransactionResult();
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
+      //navigating to the new account currently does not work, due to the way LoaderManager behaves
+      //since its implementation is based on MutableLiveData
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
   }
 
-  public void addFilterCriteria(Integer id, Criteria c) {
+  @Override
+  public void addFilterCriteria(@NotNull Criteria c) {
     TransactionList tl = getCurrentFragment();
     if (tl != null) {
-      tl.addFilterCriteria(id, c);
+      tl.addFilterCriteria(c);
     }
   }
 
@@ -492,7 +498,7 @@ public class MyExpenses extends LaunchActivity implements
       //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
       i.putExtra(KEY_ACCOUNTID, mAccountId);
     }
-    startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
+    startActivityForResult(i, EDIT_REQUEST);
   }
 
   @Override
@@ -842,7 +848,7 @@ public class MyExpenses extends LaunchActivity implements
         TransactionList tl = getCurrentFragment();
         if (tl != null) {
           Bundle args = new Bundle();
-          args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
+          args.putParcelableArrayList(TransactionList.KEY_FILTER, tl.getFilterCriteria());
           args.putLong(KEY_ROWID, mAccountId);
           if (!getSupportFragmentManager().isStateSaved()) {
             getSupportFragmentManager().beginTransaction()
@@ -856,9 +862,7 @@ public class MyExpenses extends LaunchActivity implements
       case BUDGET: {
         if (mAccountId != 0 && currentCurrency != null) {
           recordUsage(feature);
-          Intent i = new Intent(this, BudgetActivity.class);
-          i.putExtra(KEY_ACCOUNTID, mAccountId);
-          i.putExtra(KEY_CURRENCY, currentCurrency);
+          Intent i = new Intent(this, ManageBudgets.class);
           startActivity(i);
         }
         break;
@@ -1010,7 +1014,7 @@ public class MyExpenses extends LaunchActivity implements
     if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
       final String textResult = extras.getString(SimpleInputDialog.TEXT);
       if (textResult != null) {
-        addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
+        addFilterCriteria(
             new CommentCriteria(textResult.trim()));
       }
       return true;
@@ -1146,7 +1150,7 @@ public class MyExpenses extends LaunchActivity implements
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.START_EXPORT_COMMAND:
         mExportFormat = args.getString("format");
-        args.putSparseParcelableArray(TransactionList.KEY_FILTER,
+        args.putParcelableArrayList(TransactionList.KEY_FILTER,
             getCurrentFragment().getFilterCriteria());
         getSupportFragmentManager().beginTransaction()
             .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_EXPORT),

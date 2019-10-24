@@ -14,16 +14,25 @@ public abstract class SortableListFragment extends ContextualActionBarFragment {
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
-    if (menuItem == null) return;
-    menuItem.getSubMenu().findItem(getCurrentSortOrder().commandId).setChecked(true);
+    if (menuItem != null) {
+      final MenuItem currentItem = menuItem.getSubMenu().findItem(getCurrentSortOrder().commandId);
+      if (currentItem != null) {
+        currentItem.setChecked(true);
+      }
+    }
+  }
+
+  protected Sort getDefaultSortOrder() {
+    return Sort.USAGES;
   }
 
   @NonNull
   protected Sort getCurrentSortOrder() {
+    Sort defaultSortOrder = getDefaultSortOrder();
     try {
-      return Sort.valueOf(getSortOrderPrefKey().getString("USAGES"));
+      return Sort.valueOf(getSortOrderPrefKey().getString(defaultSortOrder.name()));
     } catch (IllegalArgumentException e) {
-      return Sort.USAGES;
+      return defaultSortOrder;
     }
   }
 

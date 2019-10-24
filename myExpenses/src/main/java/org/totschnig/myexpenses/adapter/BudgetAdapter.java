@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.BudgetActivity;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -25,9 +25,9 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     void onBudgetClick(Category category, Category parentItem);
   }
 
-  public BudgetAdapter(BudgetActivity ctx, CurrencyFormatter currencyFormatter, CurrencyUnit currency) {
+  public BudgetAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter, CurrencyUnit currency, OnBudgetClickListener listener) {
     super(ctx, currencyFormatter, currency, true, true, false);
-    this.listener = ctx;
+    this.listener = listener;
   }
 
   @NonNull
@@ -45,7 +45,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     final long available = item.budget + item.sum;
     final boolean onBudget = available >= 0;
     holder.available.setText(currencyFormatter.convAmount(available, currency));
-    holder.available.setBackgroundResource(getBackgroundForAvailable(onBudget, themeType));
+    holder.available.setBackgroundResource(getBackgroundForAvailable(onBudget, context));
     holder.available.setTextColor(onBudget ? colorIncome : colorExpense);
     int progress = item.budget == 0 ? 100 : Math.round(-item.sum * 100F / item.budget);
     UiUtils.configureProgress(holder.budgetProgress, progress);

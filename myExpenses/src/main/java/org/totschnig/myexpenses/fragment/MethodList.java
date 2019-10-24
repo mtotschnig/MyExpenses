@@ -51,7 +51,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.methods_list, container, false);
-    final ListView lv = (ListView) v.findViewById(R.id.list);
+    final ListView lv = v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{DatabaseConstants.KEY_LABEL};
     // and an array of the fields we want to bind those fields to 

@@ -769,7 +769,6 @@
   <string name="weekly_budget">Haftalıkbütçe</string>
   <string name="monthly_budget">Aylık bütçe</string>
   <string name="yearly_budget">Senelik bütçe</string>
-  <string name="menu_switch_budget">Geçiş yap</string>
   <string name="budget_table_header_budgeted">Bütçelenmiş</string>
   <string name="budget_table_header_allocated">Tahsis edilmiş</string>
   <string name="budget_table_header_spent">Harcanmış</string>

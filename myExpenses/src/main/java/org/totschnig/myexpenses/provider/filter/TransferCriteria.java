@@ -20,7 +20,6 @@ package org.totschnig.myexpenses.provider.filter;
 
 import android.os.Parcel;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -29,27 +28,37 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
 public class TransferCriteria extends IdCriteria {
+  static final String COLUMN = KEY_TRANSFER_ACCOUNT;
+
 
   public TransferCriteria(String label, long... ids) {
-    super(MyApplication.getInstance().getString(R.string.transfer),
-        KEY_TRANSFER_ACCOUNT, label, ids);
+    super(label, ids);
   }
 
   @SuppressWarnings("unused")
   public TransferCriteria(String label, String... ids) {
-    super(MyApplication.getInstance().getString(R.string.transfer),
-        KEY_TRANSFER_ACCOUNT, label, ids);
+    super(label, ids);
   }
 
   @Override
   public String getSelection() {
     String selection = operation.getOp(values.length);
-    return KEY_TRANSFER_PEER + " IS NOT NULL AND (" + KEY_TRANSFER_ACCOUNT + " " + selection + " OR " + KEY_ACCOUNTID + " " + selection + ")";
+    return KEY_TRANSFER_PEER + " IS NOT NULL AND (" + getColumn() + " " + selection + " OR " + KEY_ACCOUNTID + " " + selection + ")";
   }
 
   @Override
   public String[] getSelectionArgs() {
     return Utils.joinArrays(values,values);
+  }
+
+  @Override
+  public int getID() {
+    return R.id.FILTER_TRANSFER_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
   }
 
   public TransferCriteria(Parcel in) {

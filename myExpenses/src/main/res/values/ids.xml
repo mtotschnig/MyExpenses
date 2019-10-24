@@ -105,6 +105,8 @@
     <item name="SORT_USAGES_COMMAND" type="id"/>
     <item name="SORT_LAST_USED_COMMAND" type="id"/>
     <item name="SORT_AMOUNT_COMMAND" type="id"/>
+    <item name="SORT_ALLOCATED_COMMAND" type="id"/>
+    <item name="SORT_SPENT_COMMAND" type="id"/>
     <item name="GROUPING_ACCOUNTS_COMMAND" type="id"/>
     <item name="GROUPING_ACCOUNTS_TYPE_COMMAND" type="id"/>
     <item name="GROUPING_ACCOUNTS_CURRENCY_COMMAND" type="id"/>
@@ -178,4 +180,5 @@
     <item name="CLOSE_ACCOUNT_COMMAND" type="id"/>
     <item name="REOPEN_ACCOUNT_COMMAND" type="id"/>
     <item name="HIDDEN_ACCOUNTS_COMMAND" type="id"/>
+    <item name="BUDGET_ALLOCATED_ONLY" type="id"/>
 </resources>

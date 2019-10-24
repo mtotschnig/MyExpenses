@@ -20,20 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
-import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.math.BigDecimal;
 
 import butterknife.BindView;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-
-public abstract class AmountActivity extends EditActivity implements AmountInput.Host {
+public abstract class AmountActivity extends EditActivity {
   @BindView(R.id.AmountLabel)
   protected TextView mAmountLabel;
   @BindView(R.id.AmountRow)
@@ -49,14 +44,6 @@ public abstract class AmountActivity extends EditActivity implements AmountInput
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
-      View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
-      if (target instanceof AmountInput) {
-        ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false);
-      } else {
-        showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Snackbar.LENGTH_LONG);
-      }
-    }
   }
 
   /**
@@ -75,26 +62,6 @@ public abstract class AmountActivity extends EditActivity implements AmountInput
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
     return validateAmountInput(amountInput, showToUser);
-  }
-
-  protected BigDecimal validateAmountInput(AmountInput input, boolean showToUser) {
-    return input.getTypedValue(true, showToUser);
-  }
-
-  @Override
-  public void showCalculator(BigDecimal amount, int id) {
-    Intent intent = new Intent(this, CalculatorInput.class);
-    forwardDataEntryFromWidget(intent);
-    if (amount != null) {
-      intent.putExtra(KEY_AMOUNT, amount);
-    }
-    intent.putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id);
-    startActivityForResult(intent, CALCULATOR_REQUEST);
-  }
-
-  protected void forwardDataEntryFromWidget(Intent intent) {
-    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
-        getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
   }
 
   protected void setupListeners() {

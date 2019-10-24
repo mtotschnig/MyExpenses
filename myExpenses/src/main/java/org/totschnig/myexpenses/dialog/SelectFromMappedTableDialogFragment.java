@@ -16,16 +16,8 @@
 package org.totschnig.myexpenses.dialog;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.AggregateAccount;
-import org.totschnig.myexpenses.provider.filter.Criteria;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -35,32 +27,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
 
-public abstract class SelectFromMappedTableDialogFragment extends SelectFromTableDialogFragment {
+public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDialog {
 
   protected SelectFromMappedTableDialogFragment(boolean withNullItem) {
     super(withNullItem);
   }
 
-  abstract Criteria makeCriteria(String label, long... id);
-
-  abstract int getCommand();
-
   @Override
   String getColumn() {
     return KEY_LABEL;
-  }
-
-  @Override
-  boolean onResult(List<String> labelList, long[] itemIds, int which) {
-    if (itemIds.length == 1 || Arrays.asList(ArrayUtils.toObject(itemIds)).indexOf(-1L) == -1) {
-      ((MyExpenses) getActivity()).addFilterCriteria(
-          getCommand(),
-          makeCriteria(TextUtils.join(",", labelList), itemIds));
-      return true;
-    } else {
-      showSnackbar(R.string.unmapped_filter_only_single);
-      return false;
-    }
   }
 
   @Override

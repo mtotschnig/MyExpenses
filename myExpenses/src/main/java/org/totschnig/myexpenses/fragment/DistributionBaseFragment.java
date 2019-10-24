@@ -14,11 +14,13 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,22 +80,28 @@ public abstract class DistributionBaseFragment extends CategoryList {
   boolean aggregateTypes;
   private Disposable dateInfoDisposable;
   private Disposable sumDisposable;
-  protected Account mAccount;
+  private AccountInfo accountInfo;
+
+  interface AccountInfo {
+    long getId();
+
+    CurrencyUnit getCurrencyUnit();
+  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    aggregateTypes = getPrefKey().getBoolean(true);
-  }
-
-  protected void setupAccount() {
-    mAccount = Account.getInstanceFromDb(getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0));
+    aggregateTypes = prefHandler.getBoolean(getPrefKey(), true);
   }
 
   protected void disposeDateInfo() {
     if (dateInfoDisposable != null && !dateInfoDisposable.isDisposed()) {
       dateInfoDisposable.dispose();
     }
+  }
+
+  protected void setAccountInfo(AccountInfo accountInfo) {
+    this.accountInfo = accountInfo;
   }
 
   protected void updateDateInfo(boolean withMaxValue) {
@@ -177,20 +185,20 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   protected void onDateInfoReceived(Cursor cursor) {
+    setSubTitle(mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor));
+  }
+
+  protected void setSubTitle(CharSequence title) {
     final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
     if (activity != null) {
       final ActionBar actionBar = activity.getSupportActionBar();
       if (actionBar != null) {
-        actionBar.setSubtitle(getSubTitle(cursor));
+        actionBar.setSubtitle(title);
       }
     }
   }
 
-  protected String getSubTitle(Cursor cursor) {
-    return mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor);
-  }
-
-  protected String buildGroupingClause() {
+  protected String buildFilterClause(String tableName) {
     String year = YEAR + " = " + mGroupingYear;
     switch (mGrouping) {
       case YEAR:
@@ -222,19 +230,21 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   protected void updateSum() {
     disposeSum();
-    Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
-    if (!mAccount.isHomeAggregate()) {
-      if (mAccount.isAggregate()) {
-        builder.appendQueryParameter(KEY_CURRENCY, mAccount.getCurrencyUnit().code());
+    Uri.Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE, "1");
+    long id = accountInfo.getId();
+    if (id != Account.HOME_AGGREGATE_ID) {
+      if (id < 0) {
+        builder.appendQueryParameter(KEY_CURRENCY, accountInfo.getCurrencyUnit().code());
       } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(id));
       }
     }
     //if we have no income or expense, there is no row in the cursor
     sumDisposable = briteContentResolver.createQuery(builder.build(),
         null,
-        buildGroupingClause(),
-        null,
+        buildFilterClause(VIEW_COMMITTED),
+        filterSelectionArgs(),
         null, true)
         .mapToList(cursor -> {
           int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
@@ -243,23 +253,23 @@ public abstract class DistributionBaseFragment extends CategoryList {
         })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(pairs -> {
-          boolean[] seen = new boolean[2];
+          long income = 0, expense = 0;
           for (Pair<Integer, Long> pair : pairs) {
-            seen[pair.first] = true;
             if (pair.first > 0) {
-              updateIncome(pair.second);
+              income = pair.second;
             } else {
-              updateExpense(pair.second);
+              expense = pair.second;
             }
           }
-          if (!seen[1]) updateIncome(0L);
-          if (!seen[0]) updateExpense(0L);
+          updateIncomeAndExpense(income, expense);
         });
   }
 
-  abstract void updateIncome(long amount);
+  protected String[] filterSelectionArgs() {
+    return null;
+  }
 
-  abstract void updateExpense(long amount);
+  abstract void updateIncomeAndExpense(long income, long expense);
 
   @Override
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
@@ -274,7 +284,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
-        mAccount.getId(), cat_id, isMain, mGrouping, buildGroupingClause(), label, 0, true)
+        accountInfo.getId(), cat_id, isMain, mGrouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(), label, 0, true)
         .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
   }
 
@@ -289,12 +299,12 @@ public abstract class DistributionBaseFragment extends CategoryList {
         return true;
       case R.id.TOGGLE_AGGREGATE_TYPES:
         aggregateTypes = !aggregateTypes;
-        getPrefKey().putBoolean(aggregateTypes);
+        prefHandler.putBoolean(getPrefKey(), aggregateTypes);
         getActivity().invalidateOptionsMenu();
         reset();
         return true;
     }
-    return false;
+    return super.onOptionsItemSelected(item);
   }
 
   protected abstract PrefKey getPrefKey();
@@ -338,25 +348,27 @@ public abstract class DistributionBaseFragment extends CategoryList {
     String[] selectionArgs;
     String catFilter;
     String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
-    if (mAccount.isHomeAggregate()) {
+    long id = accountInfo.getId();
+    if (id == Account.HOME_AGGREGATE_ID) {
       accountSelection = null;
       amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
       table = VIEW_EXTENDED;
-    } else if (mAccount.isAggregate()) {
+    } else if (id < 0) {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = mAccount.getCurrencyUnit().code();
+      accountSelector = accountInfo.getCurrencyUnit().code();
     } else {
-      accountSelection = " = " + mAccount.getId();
+      accountSelection = " = " + id;
     }
     catFilter = "FROM " + table +
         " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND +" + KEY_ACCOUNTID + accountSelection));
     if (!aggregateTypes) {
       catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
     }
-    if (!mGrouping.equals(Grouping.NONE)) {
-      catFilter += " AND " + buildGroupingClause();
+    final String dateFilter = buildFilterClause(VIEW_COMMITTED);
+    if (dateFilter != null) {
+      catFilter += " AND " + dateFilter;
     }
     //we need to include transactions mapped to children for main categories
     catFilter += " AND " + CATTREE_WHERE_CLAUSE;
@@ -372,9 +384,9 @@ public abstract class DistributionBaseFragment extends CategoryList {
       projection[6] = extraColumn;
     }
     final boolean showAllCategories = showAllCategories();
-    selectionArgs = accountSelector != null ?
+    selectionArgs = Utils.joinArrays(accountSelector != null ?
         (showAllCategories ? new String[]{accountSelector} : new String[]{accountSelector, accountSelector})
-        : null;
+        : null, filterSelectionArgs());
     return briteContentResolver.createQuery(getCategoriesUri(),
         projection, showAllCategories ? null : " exists (SELECT 1 " + catFilter + ")", selectionArgs, getSortExpression(), true);
   }
@@ -391,9 +403,15 @@ public abstract class DistributionBaseFragment extends CategoryList {
 
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
     MenuItem m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
     if (m != null) {
       m.setChecked(aggregateTypes);
+    }
+    if (mGrouping != null) {
+      boolean grouped = !mGrouping.equals(Grouping.NONE);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
     }
   }
 }

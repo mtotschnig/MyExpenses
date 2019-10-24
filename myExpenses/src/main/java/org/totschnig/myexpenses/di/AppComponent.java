@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.dialog.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CurrencyList;
 import org.totschnig.myexpenses.fragment.HistoryChart;
@@ -36,14 +38,11 @@ import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
-import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
-import org.totschnig.myexpenses.viewmodel.ExpenseEditViewModel;
-import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
-import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
-import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -142,18 +141,14 @@ public interface AppComponent {
 
   void inject(PlanExecutor planExecutor);
 
-  void inject(UpgradeHandlerViewModel upgradeHandlerViewModel);
-
   void inject(BudgetViewModel budgetViewModel);
 
-  void inject(CurrencyViewModel currencyViewModel);
+  void inject(BudgetEditViewModel budgetEditViewModel);
 
-  void inject(ExpenseEditViewModel expenseEditViewModel);
-
-  void inject(MyExpensesViewModel myExpensesViewModel);
+  void inject(ContentResolvingAndroidViewModel myExpensesViewModel);
 
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
 
-  void inject(TransactionListViewModel transactionListViewModel);
+  void inject(@NotNull BudgetList budgetList);
 
 }

@@ -158,7 +158,6 @@
   <string name="menu_HistoryActivity_history_transfers_help_text">Cambie si las transferencias deberían de ser tratadas como un ingreso o gasto regular.</string>
   <!--Budget-->
   <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">La pantalla de presupuestos le permite definir un presupuesto diario, semanal, mensual o anual. Antes deberá de establecer el dinero total que quiere gastar en cada periodo. Posteriormente podrá distribuir cantidades entre las categorías y subcategorías, y monitorizar cuánto lleva gastado, así como cuánto queda por gastar. Presionar sobre las cantidades de presupuesto, le permitirá cambiar dichas cantidades.</string>
-  <string name="menu_switch_budget_help_text">Cambiar a un tipo de presupuesto diferente.</string>
   <string name="cab_show_transactions_help_text">Abrir una ventana con un listado de transacciones de la categoría seleccionada en la actual cuenta.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Comparar presupuestos con gastos de periodos de tiempo pasados y futuros.</string>
 </resources>

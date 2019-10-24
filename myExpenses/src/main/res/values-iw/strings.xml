@@ -791,7 +791,6 @@
   <string name="weekly_budget">תקציב שבועי</string>
   <string name="monthly_budget">תקציב חודשי</string>
   <string name="yearly_budget">תקציב שנתי</string>
-  <string name="menu_switch_budget">החלף</string>
   <string name="budget_table_header_budgeted">מתוקצב</string>
   <string name="budget_table_header_allocated">מוקצה</string>
   <string name="budget_table_header_spent">הוצאה</string>

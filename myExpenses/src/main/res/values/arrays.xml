@@ -178,7 +178,7 @@
         <item>back</item>
         <item>forward</item>
         <item>distribution_show_pie_char</item><!-- sic! -->
-        <item>distribution_aggreate</item>
+        <item>distribution_aggreate</item><!-- sic! -->
     </string-array>
     <string-array name="ManageCategories_manage_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
@@ -203,9 +203,12 @@
     </string-array>
 
     <string-array name="BudgetActivity_menuitems" tools:ignore="UnusedResources">
-        <item>switch_budget</item>
+        <item>edit</item>
         <item>manage_categories</item>
         <item>back.forward</item>
+        <item>budget_aggregate</item>
+        <item>budget_allocated_only</item>
+        <item>delete</item>
     </string-array>
     <string-array name="BudgetActivity_cabitems" tools:ignore="UnusedResources">
         <item>color</item>
@@ -443,6 +446,25 @@
         <item>grouping</item>
         <item>history_show_balance</item>
         <item>history_transfers</item>
+    </string-array>
+
+    <string-array name="help_BudgetActivity_info">
+        <item>help_BudgetActivity_info</item>
+        <item>help_Budget_amount_click</item>
+    </string-array>
+
+    <string-array name="help_ManageBudgets_info">
+        <item>help_ManageBudgets_info</item>
+        <item>help_Budget_amount_click</item>
+    </string-array>
+
+    <string-array name="BudgetEdit_formfields" tools:ignore="UnusedResources">
+        <item>title</item>
+        <item>description</item>
+        <item>amount</item>
+        <item>accounts</item>
+        <item>filter</item>
+        <item>type</item>
     </string-array>
 
     <string-array name="versions">

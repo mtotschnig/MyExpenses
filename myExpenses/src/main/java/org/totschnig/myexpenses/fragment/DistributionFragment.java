@@ -28,6 +28,8 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -45,6 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
@@ -57,6 +60,7 @@ public class DistributionFragment extends DistributionBaseFragment {
   View bottomLine;
   boolean showChart = false;
   private int textColorSecondary;
+  private Account mAccount;
 
   public Grouping getGrouping() {
     return mGrouping;
@@ -64,10 +68,21 @@ public class DistributionFragment extends DistributionBaseFragment {
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setupAccount();
+    mAccount = Account.getInstanceFromDb(getActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0));
     if (mAccount == null) {
       return errorView();
     }
+    setAccountInfo(new AccountInfo() {
+      @Override
+      public long getId() {
+        return mAccount.getId();
+      }
+
+      @Override
+      public CurrencyUnit getCurrencyUnit() {
+        return mAccount.getCurrencyUnit();
+      }
+    });
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
@@ -263,9 +278,6 @@ public class DistributionFragment extends DistributionBaseFragment {
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
       Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), mGrouping);
-      boolean grouped = !mGrouping.equals(Grouping.NONE);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped);
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BACK_COMMAND), grouped);
     }
     MenuItem m = menu.findItem(R.id.TOGGLE_CHART_COMMAND);
     if (m != null) {
@@ -280,13 +292,9 @@ public class DistributionFragment extends DistributionBaseFragment {
   }
 
   @Override
-  void updateIncome(long amount) {
-    updateSum("+", incomeSumTv, amount);
-  }
-
-  @Override
-  void updateExpense(long amount) {
-    updateSum("-", expenseSumTv, amount);
+  void updateIncomeAndExpense(long income, long expense) {
+    updateSum("+", incomeSumTv, income);
+    updateSum("-", expenseSumTv, expense);
   }
 
   private void updateSum(String prefix, TextView tv, long amount) {

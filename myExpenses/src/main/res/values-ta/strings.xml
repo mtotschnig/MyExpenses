@@ -769,7 +769,6 @@
   <string name="weekly_budget">வாராந்திர வரவு செலவுத் திட்டம்</string>
   <string name="monthly_budget">மாதாந்திர வரவு செலவுத் திட்டம்</string>
   <string name="yearly_budget">வருடாந்திர வரவு செலவுத் திட்டம்</string>
-  <string name="menu_switch_budget">மாற்று</string>
   <string name="budget_table_header_budgeted">திட்டமிடப்பட்டது</string>
   <string name="budget_table_header_allocated">ஒதுக்கப்பட்டது</string>
   <string name="budget_table_header_spent">செலவிடப்பட்டது</string>

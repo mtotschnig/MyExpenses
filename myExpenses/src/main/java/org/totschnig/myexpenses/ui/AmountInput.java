@@ -343,14 +343,6 @@ public class AmountInput extends ConstraintLayout {
   }
 
   @Override
-  public void setOnFocusChangeListener(OnFocusChangeListener l) {
-    amountEditText.setOnFocusChangeListener(l);
-    typeButton.setOnFocusChangeListener(l);
-    currencySpinner.setOnFocusChangeListener(l);
-    calculator.setOnFocusChangeListener(l);
-  }
-
-  @Override
   protected Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
     return new SavedState(superState, typeButton.onSaveInstanceState(),

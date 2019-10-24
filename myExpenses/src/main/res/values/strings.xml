@@ -788,7 +788,6 @@
     <string name="weekly_budget">Weekly budget</string>
     <string name="monthly_budget">Monthly budget</string>
     <string name="yearly_budget">Yearly budget</string>
-    <string name="menu_switch_budget">Switch</string>
     <string name="budget_table_header_budgeted">Budgeted</string>
     <string name="budget_table_header_allocated">Allocated</string>
     <string name="budget_table_header_spent">Spent</string>
@@ -865,4 +864,20 @@
     <string name="discover_feature_expense_income_switch">Use this switch button to record income.</string>
     <!-- This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature  -->
     <string name="discover_feature_operation_type_select">Use this dropdown menu to record transfers between accounts or split transactions.</string>
+    <string name="menu_create_budget">New budget</string>
+    <string name="budget_onetime">One-time</string>
+    <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
+    <string name="budget_duration_from">From</string>
+    <string name="budget_duration_to">To</string>
+    <string name="no_budgets">Define your first budget by tapping the + button.</string>
+    <string name="budget_date_end_after_start">The budget\'s end date must come after its start date.</string>
+    <string name="menu_budget_allocated_only">Show only categories with allocation</string>
+    <string name="budget_filter_all_categories">All categories</string>
+    <string name="budget_filter_all_parties">All parties</string>
+    <string name="budget_filter_all_methods">All methods</string>
+    <string name="budget_filter_all_states">All states</string>
+    <string name="budget_form_label_filter">Filter</string>
+    <string name="dialog_title_warning_delete_budget">Delete budget?</string>
+    <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
+    <string name="menu_edit_budget">Edit budget</string>
 </resources>

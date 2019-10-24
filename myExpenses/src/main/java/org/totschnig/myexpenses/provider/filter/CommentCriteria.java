@@ -21,16 +21,28 @@ package org.totschnig.myexpenses.provider.filter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 
 public class CommentCriteria extends TextCriteria {
+  static final String COLUMN = KEY_COMMENT;
+
   public CommentCriteria(String searchString) {
-    super(MyApplication.getInstance().getString(R.string.comment), DatabaseConstants.KEY_COMMENT, searchString);
+    super(searchString);
   }
 
-  public CommentCriteria(Parcel in) {
+  @Override
+  public int getID() {
+    return R.id.FILTER_COMMENT_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
+  }
+
+  private CommentCriteria(Parcel in) {
     super(in);
   }
 

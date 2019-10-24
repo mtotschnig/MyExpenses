@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel;
 
 import android.app.Application;
-import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
@@ -21,18 +20,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 
 public class EditCurrencyViewModel extends CurrencyViewModel {
-
-  interface UpdateListener {
-    void onUpdateComplete(int token, int result);
-  }
-
-  interface InsertListener {
-    void onInsertComplete(int token, boolean success);
-  }
-
-  interface DeleteListener {
-    void onDeleteComplete(int token, boolean success);
-  }
 
   private static final int TOKEN_UPDATE_FRACTION_DIGITS = 1;
   private static final int TOKEN_UPDATE_LABEL = 2;
@@ -73,7 +60,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
   }
 
   public void save(String currency, String symbol, int fractionDigits, String label, boolean withUpdate) {
-    UpdateListener updateListener = (token, result) -> {
+    DatabaseHandler.UpdateListener updateListener = (token, result) -> {
       updateOperationsCount--;
       if (token == TOKEN_UPDATE_FRACTION_DIGITS) {
         updatedAccountsCount = result;
@@ -112,7 +99,8 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
     ContentValues contentValues = new ContentValues(2);
     contentValues.put(KEY_LABEL, label);
     contentValues.put(KEY_CODE, code);
-    asyncDatabaseHandler.startInsert(TOKEN_INSERT_CURRENCY, (InsertListener) (token, success) -> {
+    asyncDatabaseHandler.startInsert(TOKEN_INSERT_CURRENCY, (DatabaseHandler.InsertListener) (token, uri) -> {
+      boolean success = uri != null;
       if (success) {
         currencyContext.storeCustomSymbol(code, symbol);
         currencyContext.storeCustomFractionDigits(code, fractionDigits);
@@ -123,8 +111,8 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
 
 
   public void deleteCurrency(String currency) {
-    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DeleteListener) (token, success) -> {
-      deleteComplete.postValue(success);
+    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DatabaseHandler.DeleteListener) (token, result) -> {
+      deleteComplete.postValue(result == 1);
     }, buildItemUri(currency), null, null);
   }
 
@@ -132,25 +120,4 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
     return TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(currency).build();
   }
 
-  static class DatabaseHandler extends AsyncQueryHandler {
-
-    public DatabaseHandler(ContentResolver cr) {
-      super(cr);
-    }
-
-    @Override
-    protected void onUpdateComplete(int token, Object cookie, int result) {
-      ((UpdateListener) cookie).onUpdateComplete(token, result);
-    }
-
-    @Override
-    protected void onInsertComplete(int token, Object cookie, Uri uri) {
-      ((InsertListener) cookie).onInsertComplete(token, uri != null);
-    }
-
-    @Override
-    protected void onDeleteComplete(int token, Object cookie, int result) {
-      ((DeleteListener) cookie).onDeleteComplete(token, result == 1);
-    }
-  }
 }

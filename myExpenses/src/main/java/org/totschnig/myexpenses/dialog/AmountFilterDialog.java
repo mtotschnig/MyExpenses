@@ -102,7 +102,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     }
 
     final CurrencyUnit currency = (CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY);
-    ctx.addFilterCriteria(R.id.FILTER_AMOUNT_COMMAND, new AmountCriteria(
+    ctx.addFilterCriteria(new AmountCriteria(
         WhereFilter.Operation.valueOf(selectedOp),
         currency.code(),
         type,

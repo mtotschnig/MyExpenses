@@ -60,8 +60,8 @@ import java.util.List;
 public class HelpDialogFragment extends CommitSafeDialogFragment implements ImageGetter {
 
   public static final String KEY_VARIANT = "variant";
-  public static final String KEY_CONTEXT = "context";
-  public static final HashMap<String, Integer> iconMap = new HashMap<>();
+  private static final String KEY_CONTEXT = "context";
+  private static final HashMap<String, Integer> iconMap = new HashMap<>();
 
   static {
     iconMap.put("edit", R.drawable.ic_menu_edit);
@@ -117,7 +117,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("color", R.drawable.ic_color);
     iconMap.put("history", R.drawable.ic_history);
     iconMap.put("budget", R.drawable.ic_budget);
-    iconMap.put("switch_budget", R.drawable.ic_budget);
     iconMap.put("manage_categories", null);
     iconMap.put("show_transactions", null);
     iconMap.put("back.forward", null);

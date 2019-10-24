@@ -39,28 +39,22 @@
             android:datePickerMode="spinner"
             tools:ignore="UnusedAttribute"/>
 
-
-        <LinearLayout
-            android:id="@+id/Date2Row"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/Date2And"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center_horizontal"
+            android:text="@string/and"
+            android:visibility="gone"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/and"/>
-
-            <DatePicker
-                android:id="@+id/date2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner"
-                tools:ignore="UnusedAttribute"/>
-        </LinearLayout>
+        <DatePicker
+            android:id="@+id/date2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:visibility="gone"
+            tools:ignore="UnusedAttribute"/>
     </LinearLayout>
 </ScrollView>

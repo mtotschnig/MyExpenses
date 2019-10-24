@@ -23,15 +23,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 
 public class CrStatusCriteria extends Criteria {
+  static final String COLUMN = KEY_CR_STATUS;
+
   public CrStatusCriteria(String... values) {
-    super(DatabaseConstants.KEY_CR_STATUS, WhereFilter.Operation.IN, values);
-    this.title = MyApplication.getInstance().getString(R.string.status);
+    super(WhereFilter.Operation.IN, values);
+  }
+
+  @Override
+  public int getID() {
+    return R.id.FILTER_STATUS_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
   }
 
   public CrStatusCriteria(Parcel in) {

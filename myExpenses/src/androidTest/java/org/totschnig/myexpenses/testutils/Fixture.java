@@ -227,7 +227,7 @@ public class Fixture {
     if (templateuri == null)
       throw new RuntimeException("Could not save template");
 
-    Budget budget = new Budget(0, account1.getId(), defaultCurrency, Grouping.MONTH, new Money(defaultCurrency, 200000L), false);
+    Budget budget = new Budget(0L, account1.getId(), "TITLE", "DESCRIPTION", defaultCurrency, new Money(defaultCurrency, 200000L), Grouping.MONTH, -1, (LocalDate) null, (LocalDate) null, account1.getLabel(), true);
     long budgetId = ContentUris.parseId(appContext.getContentResolver().insert(TransactionProvider.BUDGETS_URI, budget.toContentValues()));
     setCategoryBudget(budgetId, mainCat1, 50000);
     setCategoryBudget(budgetId, mainCat2, 40000);

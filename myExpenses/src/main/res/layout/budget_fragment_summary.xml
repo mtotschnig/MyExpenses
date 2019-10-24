@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.totschnig.myexpenses.ui.BudgetSummary
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/budgetSummary"
+    style="@style/ExpandableListRowWithCustomIndicator"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />

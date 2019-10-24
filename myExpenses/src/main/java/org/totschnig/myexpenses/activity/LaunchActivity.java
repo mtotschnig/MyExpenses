@@ -62,11 +62,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   private UpgradeHandlerViewModel upgradeHandlerViewModel;
 
   @Override
-  protected void injectDependencies() {
-    MyApplication.getInstance().getAppComponent().inject(this);
-  }
-
-  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mHelper = licenceHandler.getIabHelper(this);

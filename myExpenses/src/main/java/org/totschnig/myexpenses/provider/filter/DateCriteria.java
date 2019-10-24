@@ -23,13 +23,16 @@ import android.os.Parcel;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 
 import java.text.DateFormat;
 import java.util.Date;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+
 public class DateCriteria extends Criteria {
+  static final String COLUMN = KEY_DATE;
+
 
   /**
    * filters transactions up to or from the provided value, depending on operation
@@ -37,10 +40,9 @@ public class DateCriteria extends Criteria {
    * @param value1
    */
   public DateCriteria(Operation operation, long value1) {
-    super(DatabaseConstants.KEY_DATE,
+    super(
         operation,
         String.valueOf(value1));
-    this.title = MyApplication.getInstance().getString(R.string.date);
   }
 
   /**
@@ -49,12 +51,22 @@ public class DateCriteria extends Criteria {
    * @param value2
    */
   public DateCriteria(long value1,long value2) {
-    super(DatabaseConstants.KEY_DATE,
+    super(
         Operation.BTW,
         String.valueOf(value1),
         String.valueOf(value2));
-    this.title = MyApplication.getInstance().getString(R.string.date);
   }
+
+  @Override
+  public int getID() {
+    return R.id.FILTER_DATE_COMMAND;
+  }
+
+  @Override
+  String getColumn() {
+    return COLUMN;
+  }
+
   public DateCriteria(Parcel in) {
     super(in);
   }
