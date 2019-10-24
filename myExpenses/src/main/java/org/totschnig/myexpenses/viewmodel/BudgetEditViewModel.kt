@@ -17,10 +17,6 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     val accounts = MutableLiveData<List<Account>>()
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
 
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
-
     fun loadData(budgetId: Long) {
         disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null, false)
                 .mapToList { cursor ->
