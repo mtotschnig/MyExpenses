@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.task;
 
 import android.accounts.AccountManager;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -11,6 +13,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat.Calendars;
@@ -43,6 +46,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -52,6 +56,7 @@ import androidx.core.content.FileProvider;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
@@ -335,14 +340,15 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       //3. move pictures home and update uri
       File backupPictureDir = new File(workingDir, ZipUtils.PICTURES);
       Cursor c = cr.query(TransactionProvider.TRANSACTIONS_URI,
-          new String[]{DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PICTURE_URI},
+          new String[]{DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PICTURE_URI, DatabaseConstants.KEY_ACCOUNTID},
           DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL", null, null);
       if (c == null)
         return Result.ofFailure(R.string.restore_db_failure);
       if (c.moveToFirst()) {
         do {
           ContentValues uriValues = new ContentValues();
-          int rowId = c.getInt(0);
+          String[] rowId = new String[] {c.getString(0)};
+          String[] accountId = new String[] {c.getString(2)};
           Uri fromBackup = Uri.parse(c.getString(1));
           String fileName = fromBackup.getLastPathSegment();
           File backupImage = new File(backupPictureDir, fileName);
@@ -363,11 +369,25 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           } else {
             uriValues.putNull(DatabaseConstants.KEY_PICTURE_URI);
           }
-          cr.update(
-              TransactionProvider.TRANSACTIONS_URI,
-              uriValues,
-              DatabaseConstants.KEY_ROWID + " = ?",
-              new String[]{String.valueOf(rowId)});
+          ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+          try {
+            ContentValues unsealValues = new ContentValues(1);
+            unsealValues.put(KEY_SEALED, 0);
+            ContentValues sealValues = new ContentValues(1);
+            sealValues.put(KEY_SEALED, 1);
+            ops.add(ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
+                .withValues(unsealValues).withSelection(DatabaseConstants.KEY_ROWID + " = ?", accountId)
+                .build());
+            ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+                .withValues(uriValues).withSelection(DatabaseConstants.KEY_ROWID + " = ?", rowId)
+                .build());
+            ops.add(ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
+                .withValues(sealValues).withSelection(DatabaseConstants.KEY_ROWID + " = ?", accountId)
+                .build());
+            cr.applyBatch(TransactionProvider.AUTHORITY, ops);
+          } catch (OperationApplicationException | RemoteException e) {
+            CrashHandler.report(e);
+          }
         } while (c.moveToNext());
       }
       c.close();
