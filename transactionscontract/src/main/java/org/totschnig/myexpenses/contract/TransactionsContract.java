@@ -19,7 +19,7 @@ public class TransactionsContract {
    * Example code:
    * <pre>{@code
    * Intent intent = new Intent(Intent.ACTION_INSERT);
-   * intent.setData(Uri.parse("content://org.totschnig.myexpenses.debug/transactions"));
+   * intent.setData(TransactionsContract.Transactions.CONTENT_URI);
    * intent.putExtra(TransactionsContract.Transactions.AMOUNT_MICROS, 10500000L);
    * intent.putExtra(TransactionsContract.Transactions.PAYEE_NAME, "Aldi");
    * intent.putExtra(TransactionsContract.Transactions.CATEGORY_LABEL, "Food:Supermarket");
