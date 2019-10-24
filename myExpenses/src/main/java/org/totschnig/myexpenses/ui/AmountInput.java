@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -28,6 +27,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +40,7 @@ public class AmountInput extends ConstraintLayout {
   @BindView(R.id.Calculator)
   View calculator;
   @BindView(R.id.AmountCurrency)
-  Spinner currencySpinner;
+  AppCompatSpinner currencySpinner;
   @BindView(R.id.AmountExchangeRate)
   ExchangeRateEdit exchangeRateEdit;
 
