@@ -14,6 +14,7 @@
   <string name="menu_grouping_help_text">Anda boleh kumpulkan transaksi mengikut hari, minggu, bulan atau tahun. Bagi setiap kumpulan, jumlah pendapatan, perbelanjaan dan pemindahan dikira dan dipaparkan. Bila anda mengklik tajuk kumpulan, kumpulan transaksi dikuncupkan dan hanya tajuk dipaparkan. Klik sekali lagi untuk dikembangkannya.</string>
   <string name="menu_sort_direction_help_text">Transaksi boleh diisih secara arah menaik (paling lama di bahagian atas) atau menurun (terkini di bahagian atas)</string>
   <string name="menu_distribution_help_text">Papar agihan perbelanjaan per kategori anda. Anda juga boleh mengklik-lama pada tajuk kumpulan untuk memeriksa agihan untuk tempoh masa tertentu.</string>
+  <string name="menu_budget_help_text">Urus bajet secara harian, mingguan, bulanan atau tahunan untuk akaun dipapar ketika ini.</string>
   <string name="menu_history_help_text">Papar rajah aliran tunai: Bagaimana perbelanjaan dan pendapatan anda berubah secara harian, mingguan, bulanan atau tahunan?</string>
   <string name="menu_manage_plans_help_text">Buka senarai templat dan plan, yang mana anda boleh laksana, sunting atau padam ia, dan juga takrifkan plan untuk transaksi akan datang dan berulang.</string>
   <string name="menu_balance_help_text">Perintah ini membuka satu dialog yang memaparkan baki tersesuai dan baki selesai. Anda boleh bandingkan kemudian dengan penyata bank anda, dan tandakan semua transaksi selesai sebagai disesuaikan. Atau anda boleh cadang untuk padamkan transaksi tersesuai.</string>
@@ -74,6 +75,7 @@
   <string name="form_account_help_text">Pilih akaun yang mana milik transaksi tersebut.</string>
   <string name="form_date_time_help_text">Masukkan tarikh dan waktu bila transaksi berlaku.</string>
   <string name="form_date_time_help_text_configuration">Dalam tetapan anda boleh lumpuhkan input waktu dan benarkan perbezaan diantara tarikh tempahan dengan tarikh nilai.</string>
+  <string name="form_date_time_help_text_link"><![CDATA[Jika togol <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> dalam keadaan terpautnya, tetapan sama ada tarikh nilai atau tarikh tempahan juga akan mengemaskini tarikh yang lain.]]></string>
   <string name="form_payer_or_payee_help_text">Medan ini mengingati nilai yang anda masukkan dan akan cadangkannya pada masa hadapan.</string>
   <string name="form_amount_switch_help_text">Guna suis untuk togol diantara perbelanjaan dengan pendapatan.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> butang yang membuka kalculator.]]></string>
@@ -117,6 +119,8 @@
   <string name="form_MethodEdit_account_types_help_text">Pilih jenis akaun yang mana kaedah ini boleh dilaksanakan.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Bagi setiap matawang, anda boleh ubahsuai bilangan digit pecahan yang digunakan. Sebagai contoh, jika Euro, anda perlu kendali 1/10 untuk ¢, iaitu 1/1000 Euro, anda perlu tetapkan bilangan menjadi tiga. Akaun sedia ada yang gunakan matawang, akan ditukar ke tetapan baharu.</string>
+  <string name="help_ManageCurrencies_symbol">Anda juga boleh mengkonfigur simbol matawang, yang digunakan ketika amaun dalam matawang tertentu diformat.</string>
+  <string name="help_ManageCurrencies_new">Bagi matawang suai, anda boleh takrifkan satu label, yang ditunjukkan dalam menu untuk pemilihan matawang, dan kod abjadnya, yang biasanya mempunyai tiga aksara.</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Folder yang anda pilih di sini, akan digunakan untuk menyimpan sandar dan eksport. Navigasi melalui hieraki folder sehinggalah anda menemui folder yang dikehendaki.</string>
   <string name="menu_create_folder_help_text">Cipta folder baharu di dalam folder semasa.</string>
@@ -132,6 +136,9 @@
   <string name="menu_NavigationDrawer_sort_help_text">Senarai akaun boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau kali terakhir transaksi dicipta untuknya.</string>
   <string name="menu_NavigationDrawer_sort_help_text_custom">Dengan mengklik pada \"Suai\" anda bebas konfigur kedudukan setiap akaun.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Senarai akaun boleh dipapar berkempulan mengikut jenis akaun, mengikut matawang, atau tidak dikelompokkan.</string>
+  <string name="menu_NavigationDrawer_hidden_accounts_help_text">Papar satu senarai semua akaun tersembunyi, yang boleh dipapar semula atau dipadamkan.</string>
+  <string name="cab_NavigationDrawer_hide_help_text">Buang akaun di dalam senarai.</string>
+  <string name="cab_NavigationDrawer_close_reopen_help_text">Dengan menutup akaun, anda boleh hindari apa jua perubahan (penambahan, pemadaman, penyuntingan) ke dalam datanya, tetapi masih boleh diambil kira untuk semua pengiraan berstatistik.</string>
   <string name="form_instant_plan_help_text">Di sini anda boleh tetapkan transaksi yang berulang secara harian, mingguan, bulanan atau tahunan. Pada skrin \'Templat dan Plan\', anda boleh periksa plan yang dihasilkan dan konfigur pilihan lanjutannya. Jika sesebuah transaksi sudah dipautkan dengan plan, anda tidak boleh lagi mengubah jenis pengulangan, tetapi anda boleh buka paparan kalendar yang memaparkan semua tarikh pengulangan.</string>
   <!--SyncBackends-->
   <string name="help_ManageSyncBackends_intro">My Expenses membolehkan konfigur bahagian belakang penyegerakkan berlainan bagi setiap akaun. Sebagai contoh, anda boleh segerakkan satu akaun dengan folder terkongsi, manakala anda boleh segerakkan akaun lain dengan folder persendirian. Pada skrin ini anda boleh tambah atau buang bahagian belakang penyegerakan, mula atau hentikan penyegerakkan dengan akaun sedia ada secara jauh. Walaupun penyegerakkan berlaku secara automatik secara berkala, di sini anda boleh picukannya secara manual dengan bahagian belakang. Perlu diketahui My Expenses perlukan kawalan penuh terhadap folder jauh. Anda tidak sepatutnya menggunakan alatan atau antarmuka lain untuk menukar kandungannya, kerana ia berkemungkinan menyebabkan kegagalan ketika proses penyegerakkan berlaku.</string>
@@ -149,4 +156,7 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Togol ketampakan baki.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Togol, jika pemindahan patut dianggap seperti pendapatan atau perbelanjaan biasa.</string>
   <!--Budget-->
+  <string name="menu_switch_budget_help_text">Tukar ke jenis bajet yang berlainan.</string>
+  <string name="cab_show_transactions_help_text">Buka satu dialog yang menyenaraikan semua transaksi terpeta ke kategori terpilih dalam akaun semasa.</string>
+  <string name="menu_BudgetActivity_back_forward_help_text">Bandingkan bajet dengan perbelanjaan bagi tempoh masa lepas dan akan datang.</string>
 </resources>

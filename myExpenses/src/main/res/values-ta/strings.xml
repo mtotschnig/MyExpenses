@@ -532,20 +532,20 @@
   <string name="pref_auto_backup_title">தன்னியக்க காப்புப்பிரதி</string>
   <string name="pref_auto_backup_summary">குறிப்பிட்ட காலப்பொழுதில் தினசரி தரவுத்தளத்தை காப்புப்பதிவு எடுக்கவும் (தரவு மாற்றப்பட்டால் மட்டுமே).</string>
   <string name="pref_auto_backup_time_title">தன்னியக்க காப்புப்பிரதி காலப்பொழுது</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d வெற்றிகரமான தன்னியக்க காப்புப் பிரதிகளுக்குப் பிறகு, தன்னியக்க காப்புப்பிரதி எடுத்தல் செயலிழக்கப்படும்.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d வெற்றிகரமான தன்னியக்க காப்புப்பிரதிகளுக்குப் பிறகு, தன்னியக்க காப்புப்பிரதி எடுத்தல் செயலிழக்கப்படும்.</string>
   <string name="calendar_permission_required"><i> {app_name} </i> -க்கு எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் உருவாக்க, உங்களுடைய நாட்காட்டியை அணுக அனுமதி தேவை.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">அனுமதி வழங்கு</string>
   <string name="switch_on_text">இயக்கு</string>
   <string name="switch_off_text">அணை</string>
   <string name="menu_move">நகர்த்து</string>
   <string name="dialog_title_select_target">இலக்கைத் தேர்ந்தெடுக்கவும்</string>
-  <string name="transform_subcategory_to_main">முக்கிய வகைக்கு மாற்றவும்</string>
+  <string name="transform_subcategory_to_main">முக்கிய வகையாக மாற்றவும்</string>
   <string name="preferences_week_start_day_title">வாரம் தொடங்கும் நாள்</string>
-  <string name="preferences_month_start_date_title">மாதம் தொடங்கும் நாள்</string>
+  <string name="preferences_month_start_date_title">மாதம் தொடங்கும் தேதி</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">குழுவமைப்பு காலங்கள்</string>
   <string name="exchange_rate">மாற்று விகிதம்</string>
-  <string name="date_format_hour">மணி</string>
+  <string name="date_format_hour">மணி நேரம்</string>
   <string name="date_format_minute">நிமிடம்</string>
   <string name="copied_to_clipboard">நகல் நினைவிக்கு நகலெடுக்கப்பட்டது</string>
   <string name="menu_sort">வரிசைப்படுத்தும் முறை</string>
@@ -555,19 +555,19 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">திறந்துள்ளது</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">நீக்கப்பட்டது</string>
+  <string name="plan_instance_state_cancelled">ரத்துசெய்யப்பட்டது</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">பயன்படுத்தப்பட்டது</string>
   <string name="progress_dialog_updating_split_parts">பிரிவு பகுதிகள் புதுப்பிக்கப்படுகின்றன</string>
-  <string name="warning_cannot_move_split_transaction">இந்த பிரிவு பரிவர்த்தனையை %1$s கணக்கிற்கு நகர்த்த முடியாது, ஏனெனில் இந்த இதில் இந்த கணக்கை தொடர்புபடுத்தும் பரிமாற்ற பிரிவுகள் உள்ளன.</string>
+  <string name="warning_cannot_move_split_transaction">இந்த பிரிவு பரிவர்த்தனையை %1$s கணக்கிற்கு நகர்த்த முடியாது, ஏனெனில் இதில் இந்த கணக்கை தொடர்புபடுத்தும் பரிமாற்ற பிரிவுகள் உள்ளன.</string>
   <string name="content_description_calculator_clear_button">அனைத்தையும் நிலை கொணர்</string>
   <string name="content_description_calculator_delete_button">கடைசி இலக்கத்தை நீக்கு</string>
   <string name="paypal_callback_info">உங்கள் பரிவர்த்தனை முடிக்கப்பட்டது, மேலும் நீங்கள் வாங்கியதற்கான ரசீது உங்களுக்கு மின்னஞ்சல் மூலம் அனுப்பப்பட்டது. நீங்கள் www.paypal.com இல் உங்கள் கணக்கில் உள்நுழைந்து இந்த பரிவர்த்தனை விவரங்களைப் பார்வையிடலாம். </string>
-  <string name="search_transfer">பரிமாற்றத்தை தேடு</string>
+  <string name="search_transfer">பரிமாற்றத்தைத் தேடு</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">அடுத்த நிகழ்வு</string>
   <string name="crash_dialog_title">{app_name} செயலிழந்தது</string>
-  <string name="crash_dialog_text">எதிர்பாராத பிழை ஏற்பட்டு செயலியின் நிறுத்தை கட்டாயப்படுத்தியது. இதை சரிசெய்ய தயவு செய்து எங்களுக்கு பிழை தொடர்பான தரவுகளை அனுப்பி புவதன் மூலம்  உதவவும், நீங்கள் செய்ய வேண்டியது எல்லாம் சரி என்பதை சொடுக்குதல்.</string>
+  <string name="crash_dialog_text">எதிர்பாராத பிழை ஏற்பட்டு செயலியின் நிறுத்தத்தை கட்டாயப்படுத்தியது. இதை சரிசெய்ய தயவு செய்து எங்களுக்கு பிழை தொடர்பான தரவுகளை அனுப்பி உதவவும், நீங்கள் செய்ய வேண்டியது எல்லாம் சரி என்பதை சொடுக்குதல் மட்டுமே.</string>
   <string name="crash_dialog_comment_prompt">சிக்கலைப் பற்றிய உங்கள் கருத்துகளை நீங்கள் சேர்க்கலாம்:</string>
   <string name="synchronization">ஒத்திசைவு</string>
   <string name="synchronization_none">ஒத்திசைக்காதே</string>
@@ -585,46 +585,46 @@
   <string name="validate_error_webdav_404">சேவையகத்தில் உரலி இல்லை.</string>
   <string name="url_not_valid">செல்லுபடியாகாத உரலி</string>
   <string name="menu_sync_unlink">ஒத்திசைவை நிறுத்து</string>
-  <string name="menu_sync_link">ஒத்திசைவைத் தொடங்கு</string>
+  <string name="menu_sync_link">ஒத்திசைவை தொடங்கு</string>
   <string name="menu_sync_download">பதிவிறக்கு மற்றும் ஒத்திசை</string>
   <string name="menu_sync_now">இப்போது ஒத்திசை</string>
   <string name="pref_sync_frequency_title">ஒத்திசைவு கால இடைவெளி</string>
-  <string name="pref_sync_frequency_summary">எவ்வளவு (மணி நேர) இடைவெளியில் ஒத்திசைவு நிகழ வேண்டும்</string>
+  <string name="pref_sync_frequency_summary">எவ்வளவு கால இடைவெளியில் (மணி நேரங்களில்) ஒத்திசைவு நிகழ வேண்டும்</string>
   <string name="dialog_confirm_sync_unlink">இந்த கணக்கை நீங்கள் %s இலிருந்து நீக்கினால், ஒத்திசைவு நிலை இழக்கப்படும். பின்னர் அவற்றை மீண்டும் இணைக்கும் போது, மீண்டும் முழு ஒத்திசைவு நிகழ்த்தப்பட வேண்டும்.</string>
-  <string name="dialog_sync_link">%s uuid கொண்ட ஒரு கணக்கு உள் தரவுத்தளம் மற்றும் தொலைநிலை பின்தளம் இரண்டிலும் உள்ளது. நீங்கள் இரண்டையும் இணைக்கும் போது, ஆரம்பத்தில், உள் தரவுதளத்தில் உள்ள தரவைத் தொலைநிலை பின்தளத்திற்கு பதிவேற்ற வேண்டுமா அல்லது தொலைநிலை பின்தளத்தில் இருக்கும் தரவை உள் தரவுத்தளத்திற்கு பதிவிறக்க வேண்டுமா என்பதை நீங்கள் முடிவு செய்ய வேண்டும்.</string>
+  <string name="dialog_sync_link">%s uuid கொண்ட ஒரு கணக்கு உள் தரவுத்தளம் மற்றும் தொலைநிலை பின்தளம் இரண்டிலும் உள்ளது. நீங்கள் இரண்டையும் இணைக்கும் போது, தொடக்கத்தில், உள் தரவுதளத்தில் உள்ள தரவைத் தொலைநிலை பின்தளத்திற்கு பதிவேற்ற வேண்டுமா அல்லது தொலைநிலை பின்தளத்தில் இருக்கும் தரவை உள் தரவுத்தளத்திற்கு பதிவிறக்க வேண்டுமா என்பதை நீங்கள் முடிவு செய்ய வேண்டும்.</string>
   <string name="dialog_command_sync_link_remote">தொலைநிலையில் இருந்து பதிவிறக்கு</string>
-  <string name="dialog_command_sync_link_local">உள்ளே இருந்து பதிவேற்று</string>
+  <string name="dialog_command_sync_link_local">உள் தரவுத்தளத்திலிருந்து பதிவேற்று</string>
   <string name="dialog_synced_to_other">%s uuid கொண்ட ஒரு கணக்கு ஏற்கனவே உள் தரவுத்தளத்தில் உள்ளது மேலும் அது வேறு தொலை பின்தளத்துடன் இணைக்கப்பட்டுள்ளது.</string>
   <string name="menu_remove">அகற்று</string>
-  <string name="dialog_confirm_sync_remove_backend">தொலைநிலை பின்தேடு %s அகற்றப்படும். இது உள்ளே அல்லது தொலைநிலையில் சேமிக்கப்பட்ட தரவை பாதிக்காது, ஆனால் ஒத்திசைவு நிலை இழக்கப்படும்.</string>
-  <string name="dialog_confirm_sync_link_local">இந்த கணக்கிற்கான தொலைநிலை தரவு நீக்கப்படும். இத்துடன் வேறு எந்த கருவியும் இணைக்கப்படவில்லை என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
+  <string name="dialog_confirm_sync_remove_backend">தொலைநிலை பின்தளம் %s அகற்றப்படும். இது உள்ளே அல்லது தொலைநிலையில் சேமிக்கப்பட்ட தரவை பாதிக்காது, ஆனால் ஒத்திசைவு நிலை இழக்கப்படும்.</string>
+  <string name="dialog_confirm_sync_link_local">இந்த கணக்கிற்கான தொலைநிலை தரவு நீக்கப்படும். வேறு எந்த கருவியும் அதனுடன் இணைக்கப்படவில்லை என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
   <string name="dialog_confirm_sync_link_remote">இந்த கணக்கிற்கான உள் தரவு நீக்கப்படும்.</string>
-  <string name="warning_limited_trial">%1$s அம்சம் %2$s வரை சோதனை செய்யப்படலாம்.</string>
+  <string name="warning_limited_trial">%1$s அம்சம் %2$s வரை பரிசோதனை செய்யலாம்.</string>
   <string name="warning_trial_limit_reached">%s அம்சத்திற்கான பரிசோதனைக் காலம் முடிந்தது.</string>
-  <string name="warning_synchronization_folder_usage">வெவ்வேறு சாதனங்களில் {app_name} இன் நிறுவல்களுக்கு இடையேயான ஒத்திசைவுக்காக இந்த கோப்புறை பயன்படுத்தப்படுகிறது. அதன் உள்ளடக்கங்களை கைமுறையாக மாற்ற வேண்டாம்.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">நீங்கள் தேர்ந்தெடுத்திற்கும் கோப்புறை ஏற்கனவே இருக்கும் ஒரு பின்தளத்தின் ஒரு கணக்குடன் ஒத்துள்ளது. இந்த பின்தளத்தில் மீண்டும் பயன்படுத்த, அதன் மூலக் (parent) கோப்புறையை நீங்கள் தேர்ந்தெடுக்க வேண்டும்.</string>
+  <string name="warning_synchronization_folder_usage">வெவ்வேறு சாதனங்களில் {app_name} இன் நிறுவல்களுக்கு இடையேயான ஒத்திசைவுக்காக இந்த கோப்புறை பயன்படுத்தப்படுகிறது.  தயவு செய்து அதன் உள்ளடக்கங்களை கைமுறையாக மாற்ற வேண்டாம்.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">நீங்கள் தேர்ந்தெடுத்திற்கும் கோப்புறை ஏற்கனவே இருக்கும் ஒரு பின்தளத்தின் ஒரு கணக்குடன் ஒத்துள்ளது. இந்த பின்தளத்தை மறுபயன்பாடு செய்ய, அதன் மூலக் (parent) கோப்புறையை நீங்கள் தேர்ந்தெடுக்க வேண்டும்.</string>
   <string name="select_unsynced_accounts">இந்த பின்தளத்துடன் ஒத்திசைக்க வேண்டிய கணக்குகளைத் தேர்ந்தெடுக்கவும்</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d கணக்குகளை பின்தளத்துடன் ஒத்திசைக்கப்படுகிறது.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d கணக்குகளை பின்தளத்டுகிறது ஒத்திசைக்க முடியவில்லை.</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d கணக்குகள் பின்தளத்துடன் ஒத்திசைக்கப்படுகிறது.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d கணக்குகளை பின்தளத்துடன் ஒத்திசைக்க முடியவில்லை.</string>
   <string name="link_account_failure_2">தொலைநிலை பின்தளத்தில் அதே uuid கொண்ட ஒரு கணக்கு ஏற்கனவே உள்ளது.</string>
   <string name="link_account_failure_3">இந்த முரண்பாட்டை உள்ளீட்டின் சூழல் பட்டியலில் இருந்து கைமுறையாக தீர்க்க முடியும்.</string>
   <string name="progress_dialog_checking_sync_backend">பின்தளத்தை உறுதிப்படுத்துகிறது</string>
   <string name="template">வார்ப்புரு</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">முகில் ஒத்திசைவு</string>
   <string name="all_contrib_key_features">பங்களிப்பு திறவுகோலின் அனைத்து அம்சங்கள்</string>
-  <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோல் அனைத்து அம்சங்கள்</string>
+  <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோலின் அனைத்து அம்சங்கள்</string>
   <!--button leading user to purchase flow for licence keys-->
   <string name="upgrade_now">மேம்படுத்து</string>
   <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
   <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
-  <string name="auto_backup_cloud_create_backend">பிரதான அமைப்புகள் திரையில் இருந்து ஒத்திசைவு பின்தளத்தை உருவாக்கவும்.</string>
+  <string name="auto_backup_cloud_create_backend">பிரதான அமைப்புகள் திரையில் இருந்து ஒத்திசைவு பின்தளம் ஒன்றை உருவாக்கவும்.</string>
   <string name="auto_backup_cloud_failure">காப்புப்பிரதி கோப்பு %1$s-ஐ, %2$s எனும் பின்தளத்தில் சேமிக்க முயற்சிக்கும் போது பிழை ஏற்பட்டது:</string>
-  <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s  எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டுள்ளது.</string>
+  <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s  எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
   <string name="home_screen_shortcuts_nougate_info">முகப்பு திரையில் செயலியின் ஐகானை நீண்ட நேரம் தட்டுவதன் மூலம் குறுக்குவழிகளைச் சேர்க்கலாம்.</string>
   <string name="currency_symbol">நாணய சின்னம்</string>
   <string name="number_of_fraction_digits">பின்ன இலக்கங்களின் எண்ணிக்கை</string>
-  <string name="warning_auto_backup_deactivated">தன்னியக்க காப்புப்பிரதி எடுத்தல் செயலிழக்கப்பட்டது. சிக்கலைத் தீர்த்த பிறகு நீங்கள் அதை மீண்டும் செயல்படச் செய்ய முடியும் (எ.கா. காப்புப்பிரதிகளுக்காக வேறு கோப்புறையைத் தேர்ந்தெடுத்தல்).</string>
-  <string name="pref_tracking_summary">மேம்படுத்தல்களைத் திட்டமிட உதவுவதற்கு, பயன்பாட்டு முறைகள் பற்றிய அடையாளமற்ற தரவை சேகரிக்க எங்களை அனுமதிக்கவும்.</string>
+  <string name="warning_auto_backup_deactivated">தன்னியக்க காப்புப்பிரதி எடுத்தல் செயலிழக்கப்பட்டது. சிக்கலைத் தீர்த்த பிறகு நீங்கள் அதை மீண்டும் அமைப்புகளிலிருந்து செயல்படச் செய்ய முடியும் (எ.கா. காப்புப்பிரதிகளுக்காக வேறு கோப்புறையைத் தேர்ந்தெடுத்தல்).</string>
+  <string name="pref_tracking_summary">மேம்படுத்தல்களைத் திட்டமிட உதவுவதற்கு, பயன்பாட்டு முறைகள் பற்றிய அடையாளமற்ற தரவை சேகரிக்க எங்களுக்கு அனுமதி அளிக்கவும்.</string>
   <string name="pref_tracking_title">பயன்பாட்டு தரவு சேகரிப்பு</string>
   <string name="sync_database_error">ஒத்திசைவின் போது தரவுத்தள பிழை ஏற்பட்டது.</string>
   <string name="sync_io_error_cannot_connect">ஒத்திசைவு பின்தளத்துடன் இணைக்க முடியவில்லை.</string>
@@ -805,7 +805,7 @@
   <string name="sync_backend_is_encrypted">தொலை பின்தளம் மறையாக்கம் செய்யப்பட்டது. கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
   <string name="sync_backend_wrong_passphrase">தொலை பின்தளம் வேறு கடவுச்சொல்லைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தோன்றுகிறது.</string>
   <string name="warning_backup_protected">இந்த ஆவணக்கிடங்கு உங்கள் கடவுச்சொற்றொடரால் பாதுகாக்கப்படும்.</string>
-  <string name="dialog_title_backup_protected">காப்பு (மறையாக்கப்பட்டது)</string>
+  <string name="dialog_title_backup_protected">காப்புப்பிரதி (மறையாக்கப்பட்டது)</string>
   <string name="input_label_passphrase">கடவுச்சொற்றொடர்</string>
   <string name="button_label_no_encryption">மறையாக்கம் இல்லாமல்</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->

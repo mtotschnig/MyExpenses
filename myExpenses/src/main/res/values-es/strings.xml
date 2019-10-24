@@ -102,6 +102,7 @@
     <item quantity="one">¿Borrar cuenta?</item>
     <item quantity="other">¿Eliminar %1$d cuentas?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">¿Borrar categoría?</string>
   <string name="dialog_title_warning_delete_template">¿Borrar plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">¿Borrar transacción?</string>
   <string name="expense">Gasto</string>
@@ -402,6 +403,7 @@
     <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
     <item quantity="other">%1$d categorías seleccionadas tienen subcategorías, que también serán eliminadas.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Para al menos una de las categorías seleccionadas existen asignaciones de presupuesto que también serán eliminadas.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Se eliminará la plantilla seleccionada. </item>
     <item quantity="other">%1$d plantillas seleccionadas serán eliminadas.</item>
@@ -542,7 +544,7 @@
   <string name="preferences_month_start_date_title">El mes comienza el</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="pref_grouping_periods">Períodos de agrupación</string>
-  <string name="exchange_rate">Tasa de cambio</string>
+  <string name="exchange_rate">Tipo de cambio</string>
   <string name="date_format_hour">Hora</string>
   <string name="date_format_minute">Minuto</string>
   <string name="copied_to_clipboard">Copiado al portapapeles</string>
@@ -832,5 +834,11 @@
   <string name="roadmap_vote">Votar hoja de ruta</string>
   <string name="warning_account_for_transaction_is_closed">Al menos una de las transacciones seleccionadas no puede editarse:</string>
   <string name="object_sealed">El objeto hace referencia a una cuenta cerrada.</string>
+  <string name="content_description_download_exchange_rate">Descargar tipo de cambio</string>
+  <string name="exchange_rate_not_supported">El proveedor de tipo de cambio configurado no ofrece cambio para %1$s:%2$s. Pruebe a seleccionar otro diferente desde configuración.</string>
   <string name="pref_category_exchange_rates">Tasas de cambio</string>
+  <string name="pref_exchange_rate_provider_summary">Seleccionar proveedor para descargar tipo de cambio</string>
+  <string name="pref_exchange_rate_provider_title">Proveedor de tipo de cambio</string>
+  <string name="pref_openexchangerates_app_id_summary">Por favor, ingrese en una cuenta gratuita en OpenExchangeRates e introduzca su App ID</string>
+  <string name="pref_plan_executor_time_title">Tiempo de notificación de agenda</string>
 </resources>

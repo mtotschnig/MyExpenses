@@ -152,7 +152,7 @@
   <string name="menu_create_instance_edit">Uygula ve düzenle</string>
   <string name="menu_create_instance_save">Uygula ve kaydet</string>
   <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
-  <string name="menu_create_method">Yeni ödeme metotu oluştur</string>
+  <string name="menu_create_method">Yeni ödeme metodu oluştur</string>
   <string name="menu_create_party">Yeni borçlu/alacaklı</string>
   <string name="menu_create_split">Yeni bölünmüş muamele</string>
   <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
@@ -199,9 +199,9 @@
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_share">Bir arkadaşa bahset</string>
   <string name="button_label_share_file">Paylaş</string>
-  <string name="button_label_close">Yakın</string>
+  <string name="button_label_close">Kapat</string>
   <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
-  <string name="method">Ödeme metot</string>
+  <string name="method">Ödeme metodu</string>
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
@@ -340,7 +340,7 @@
   <string name="pref_ui_theme_dark">Karanlık</string>
   <string name="pref_ui_theme_light">Aydınlık</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
+  <string name="pref_visit_website_summary">Değişiklikler ve SSS</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="progress_dialog_deleting">Nesneler siliniyor</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
@@ -813,7 +813,7 @@
   <string name="pref_account_list_fast_scroll_summary">Hesap listesi için hızlı kaydırmayı etkinleştir. Bazı cihazlarda yanlış görüntüleme oluşmasına sebep olabilir</string>
   <string name="menu_hide">Gizle</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">Yakın</string>
+  <string name="menu_close">Kapat</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
   <string name="menu_reopen">Tekrar aç</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
@@ -825,7 +825,7 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">Kapatılmış</string>
   <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşleşme arka ucuna bağlı bir hesap kapatılamaz</string>
-  <string name="translated_by">Tercümanlar:</string>
+  <string name="translated_by">Tercümanlar</string>
   <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
   <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
   <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>

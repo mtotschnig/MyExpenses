@@ -15,6 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_305">
+        <item>Nueva implementación para la sincronización con Dropbox y Drive</item>
+    </string-array>
+    <string-array name="whats_new_304">
+        <item>Descargue tipos de cambios</item>
+    </string-array>
     <string-array name="whats_new_303">
         <item>Traducción a Tamil</item>
         <item>Botón de sincronizar en el menú principal</item>

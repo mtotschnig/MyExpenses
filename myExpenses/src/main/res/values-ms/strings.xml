@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Tiada transaksi dieksport.</string>
   <string name="dialog_command_disabled_distribution">Tiada transaksi telah dipetakan pada kategori dalam akaun ini.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Cuba</string>
   <string name="dialog_contrib_no_usages_left">Tiada penggunaan percuma berbaki.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium (%2$s).</string>
@@ -97,6 +98,10 @@
   <string name="dialog_title_balance_account">Baki %1$s</string>
   <string name="dialog_title_contrib_feature">Fitur premium</string>
   <string name="dialog_title_template_title">Tetapkan tajuk</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="other">Padam akaun %1$d?</item>
+  </plurals>
+  <string name="dialog_title_warning_delete_category">Padam kategori?</string>
   <string name="dialog_title_warning_delete_template">Padam templat?</string>
   <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>
   <string name="expense">Perbelanjaan</string>
@@ -393,6 +398,7 @@
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d kategori terpilih mempunyai subkategori, yang juga akan dipadamkan.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Sekurang-kurangnya satu kategori terpilih, mesti ada peruntukan bajet, yang juga akan dipadamkan.</string>
   <plurals name="warning_delete_template">
     <item quantity="other">%1$d templat terpilih akan dipadam.</item>
   </plurals>
@@ -599,6 +605,7 @@
   <string name="all_contrib_key_features">Semua fitur Kunci Contrib</string>
   <string name="all_extended_key_features">Semua fitur Kunci Lanjutan</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Tatar</string>
   <string name="pref_backup_cloud_title">Simpan dalam bahagian belakang penyegerakan</string>
   <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
   <string name="auto_backup_cloud_create_backend">Cipta bahagian belakang penyegerakan melalui skrin tetapan utama.</string>
@@ -614,6 +621,7 @@
   <string name="sync_io_error_cannot_connect">Tidak dapat sambung ke bahagian belakang penyegerakkan.</string>
   <string name="sync_error_will_try_again_later">Cuba lagi kemudian.</string>
   <string name="sync_io_exception_reset_account_data">Ralat ketika menetap semula akaun jauh.</string>
+  <string name="sync_success_reset_account_data">Data jauh bagi akaun %s telah dipadamkan.</string>
   <string name="sync_io_exception_setup_remote_account">Ralat ketika menetapkan akaun jauh.</string>
   <string name="sync_io_exception_syncing">Ralat ketika menyegerak perubahan dengan pelayan.</string>
   <string name="sync_io_exception_unlocking">Ralat ketika membuang kunci dari bahagian belakang jauh.</string>
@@ -728,6 +736,7 @@
   <string name="sort_order">Tertib isih</string>
   <string name="navigation_drawer_accounts_title">Urus akaun</string>
   <string name="pref_sync_wifi_only_summary">Hanya segerak jika guna Wi-Fi</string>
+  <string name="pref_sync_changes_immediately_summary">Tulis perubahan setempat serta-merta pada bahagian belakang</string>
   <string name="wifi_not_connected">Peranti tidak bersambung dengan Wi-Fi. Penyegerakan ditunda.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">Terjemahan</string>
@@ -742,18 +751,73 @@
   <string name="clear_all_filters">Kosongkan semua penapis</string>
   <string name="pref_scroll_to_current_date_summary">Ketika apl mula, tatal senarai transaksi dengan tarikh semasa</string>
   <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
+  <string name="menu_budget">Pembelanjawan</string>
+  <string name="dialog_title_new_budget">Bajet baharu</string>
+  <string name="dialog_title_edit_budget">Sunting bajet</string>
+  <string name="daily_budget">Bajet harian</string>
+  <string name="weekly_budget">Bajet mingguan</string>
+  <string name="monthly_budget">Bajet bulanan</string>
+  <string name="yearly_budget">Bajet tahunan</string>
+  <string name="menu_switch_budget">Tukar</string>
+  <string name="budget_table_header_budgeted">Dibajetkan</string>
+  <string name="budget_table_header_allocated">Diperuntukkan</string>
+  <string name="budget_table_header_spent">Belanja</string>
+  <string name="budget_table_header_remainder">Baki</string>
+  <string name="budget_allocated_amount">Amaun diperuntukkan</string>
+  <string name="budget_exceeded_error_1_2">Semua bajet anda telah diperuntuk ke kategori lain.</string>
+  <string name="budget_exceeded_error_2">Tingkatkan amaun dibajetkan, atau buang duit daripada kategori lain.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Kosongkan kaedah</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Kosongkan kategori</string>
+  <string name="currency_code">Kod</string>
+  <string name="dialog_title_new_currency">Matawang baharu</string>
+  <string name="currency_code_already_definded">Kod matawang sudah ditakrif.</string>
+  <string name="currency_still_used">Matawang yang digunakan, tidak boleh dipadam.</string>
+  <string name="unmapped">Tanpa dipetakan</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="pref_security_export_passphrase_title">Frasa laluan untuk sandar</string>
+  <string name="pref_security_export_passphrase_summary">Sandar akan disulitkan dengan frasa laluan ini</string>
+  <string name="backup_is_encrypted">Fail sandar disulitkan. Untuk menyahsulitkannya, anda perlu tentukan frasa laluannya.</string>
+  <string name="backup_wrong_password">Fail sandar nampaknya telah disulitkan dengan frasa laluan yang lain.</string>
+  <string name="passphrase_for_synchronization">Masukkan satu frasa laluan, jika anda mahu data penyegerakan dalam bahagian belakang ini disulitkan.</string>
+  <string name="sync_backend_is_encrypted">Bahagian belakang jauh disulitkan. Anda perlu nyatakan satu frasa laluan.</string>
+  <string name="sync_backend_wrong_passphrase">Bahagian belakang jauh nampaknya telah disulitkan dengan frasa laluan yang lain.</string>
+  <string name="warning_backup_protected">Arkib akan dilindungi dengan frasa laluan anda.</string>
+  <string name="dialog_title_backup_protected">Sandar (tersulit)</string>
+  <string name="input_label_passphrase">Frasa Laluan</string>
+  <string name="button_label_no_encryption">Tanpa penyulitan</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <string name="joining_or">atau</string>
+  <string name="pref_account_list_fast_scroll_summary">Benarkan tatal pantas untuk senarai akaun. Boleh mengakibatkan paparan salah pada sesetengah peranti</string>
+  <string name="menu_hide">Sembunyi</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Tutup</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Buka Semula</string>
   <!--Menu entry for opening a list of all hidden accounts.-->
+  <string name="menu_hidden_accounts">Akaun tersembunyi</string>
   <!--Action of showing an account again that had previously been hidden.-->
+  <string name="button_label_show">Tunju</string>
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Disulitkan</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <string name="content_description_closed">Ditutup</string>
+  <string name="warning_synced_account_cannot_be_closed">Satu akaun yang terpaut dengan bahagian belakang penyegerakan tidak dapat ditutup</string>
   <string name="translated_by">terjemahan</string>
+  <string name="warning_no_account">Sekurang-kurangnya satu akaun mesti kelihatan dan boleh dibuka supaya dapat mencipta transaksi baharu.</string>
+  <string name="content_description_dates_are_linked">Tarikh tempahan dan tarikh nilai dikemaskini bersama-sama</string>
+  <string name="content_description_dates_are_not_linked">Tarikh tempahan dan tarikh nilai tidak dikemaskini bersama-sama</string>
+  <string name="icon">Ikon</string>
+  <string name="pref_debug_title">Nyahpepijat</string>
+  <string name="warning_account_for_transaction_is_closed">Sekurang-kurangnya satu transaksi terpilih tidak boleh disunting:</string>
+  <string name="object_sealed">Objek-objek merujuk kepada akaun ditutup.</string>
+  <string name="content_description_download_exchange_rate">Muat turun kadar pertukaran</string>
+  <string name="pref_category_exchange_rates">Kadar pertukaran</string>
+  <string name="pref_exchange_rate_provider_summary">Pilih penyedia untuk memuat turun kadar pertukaran</string>
+  <string name="pref_exchange_rate_provider_title">Penyedia Kadar Pertukaran</string>
+  <string name="pref_openexchangerates_app_id_summary">Sila daftar satu akaun percuma pada OpenExchangeRates dan sediakan ID Apl anda</string>
+  <string name="pref_plan_executor_time_title">Masa pemberitahuan perancang</string>
 </resources>
