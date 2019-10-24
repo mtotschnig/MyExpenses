@@ -637,6 +637,8 @@
   <string name="onboarding_get_started">Mari memulakan</string>
   <string name="onboarding_more_options">Lagi Pilihan</string>
   <string name="onboarding_restore_from_cloud">Pulihkan melalui penyegerakan awan</string>
+  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
+  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <string name="onboarding_restore_from_local">Pulih fail sandar setempat</string>
   <string name="dialog_button_add">Tambah</string>
   <string name="template_create_error">Ralat ketika menyimpan templat</string>
@@ -758,7 +760,6 @@
   <string name="weekly_budget">Bajet mingguan</string>
   <string name="monthly_budget">Bajet bulanan</string>
   <string name="yearly_budget">Bajet tahunan</string>
-  <string name="menu_switch_budget">Tukar</string>
   <string name="budget_table_header_budgeted">Dibajetkan</string>
   <string name="budget_table_header_allocated">Diperuntukkan</string>
   <string name="budget_table_header_spent">Belanja</string>
@@ -820,4 +821,10 @@
   <string name="pref_exchange_rate_provider_title">Penyedia Kadar Pertukaran</string>
   <string name="pref_openexchangerates_app_id_summary">Sila daftar satu akaun percuma pada OpenExchangeRates dan sediakan ID Apl anda</string>
   <string name="pref_plan_executor_time_title">Masa pemberitahuan perancang</string>
+  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="menu_create_budget">Bajet baharu</string>
+  <string name="budget_duration_from">Dari</string>
+  <string name="budget_duration_to">Sehingga</string>
+  <string name="menu_edit_budget">Sunting bajet</string>
 </resources>

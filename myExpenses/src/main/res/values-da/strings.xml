@@ -482,6 +482,8 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <!--button leading user to purchase flow for licence keys-->
+  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
+  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
@@ -505,4 +507,8 @@
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
+  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="budget_duration_from">Fra</string>
+  <string name="budget_duration_to">Til</string>
 </resources>

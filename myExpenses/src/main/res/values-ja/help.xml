@@ -157,7 +157,6 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">残高の表示を切り替えます。</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">振替を通常の収入または支出のように扱う必要がある場合、切り替えます。</string>
   <!--Budget-->
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">予算画面では、毎日、毎週、毎月、または毎年の予算を定義できます。 まず、各期間に費やしたい金額を設定します。 その後、分類や副分類に金額を割り当て、あなたが費やした金額と費やされる金額を監視することができます。 予算額をクリックすると、予算額を変更することができます。</string>
   <string name="cab_show_transactions_help_text">現在の勘定で選択した分類にマップされているすべての取引を一覧表示するダイアログを開きます。</string>
   <string name="menu_BudgetActivity_back_forward_help_text">過去と将来の支出と予算を比較する。</string>
 </resources>

@@ -157,7 +157,6 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Attiva la visibilità del bilancio.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Attiva / disattiva, se i trasferimenti devono essere considerati come entrate o uscite regolari.</string>
   <!--Budget-->
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">La schermata del bilancio consente di definire un budget giornaliero, settimanale, mensile o annuale. Per prima cosa inserisci l\'importo complessivo che vuoi spendere per ciascun periodo. Quindi puoi stanziare importi per le categorie e sottocategorie, e monitorare quanto hai speso e quanto rimane da spendere. Cliccando sugli importi stanziati è possibile cambiarli.</string>
   <string name="cab_show_transactions_help_text">Apri una schermata elencante tutte le transazioni associate alla categoria selezionata nell\'attuale conto.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Confronta il budget con le spese passate e future.</string>
 </resources>

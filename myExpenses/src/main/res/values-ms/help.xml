@@ -156,7 +156,6 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Togol ketampakan baki.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Togol, jika pemindahan patut dianggap seperti pendapatan atau perbelanjaan biasa.</string>
   <!--Budget-->
-  <string name="menu_switch_budget_help_text">Tukar ke jenis bajet yang berlainan.</string>
   <string name="cab_show_transactions_help_text">Buka satu dialog yang menyenaraikan semua transaksi terpeta ke kategori terpilih dalam akaun semasa.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Bandingkan bajet dengan perbelanjaan bagi tempoh masa lepas dan akan datang.</string>
 </resources>

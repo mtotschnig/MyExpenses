@@ -157,7 +157,6 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Bakiyenin gösterilmesini aç ya da kapat</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Transferlerin düzenli gelir veya masraf olarak değerlendirilmesi arasında geçiş yapın.</string>
   <!--Budget-->
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Bütçeleme ekranı, günlük, haftalık, aylık veya senelik bir bütçe tanımlamanıza imkân verir. Önce her periyot için harcamak istediğiniz toplam meblağı ayarlarsınız. Bunun ardından kategoriler ile alt kategorilere meblağlar tahsis edebilirsiniz ve ne kadar harcadığınızı ve harcanacak ne kadar para kaldığını izleyebilirsiniz. Bütçelenmiş meblağların üzerine tıklamak onları değiştirmeye imkân sağlar.</string>
   <string name="cab_show_transactions_help_text">Güncel hesapta seçilen kategoriye eşlenen tüm muameleleri listeleyen bir diyalog kutusu aç.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Bütçeyi geçmiş ve gelecekteki zaman periyotlarındaki harcamalar ile karşılaştırın.</string>
 </resources>

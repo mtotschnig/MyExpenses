@@ -646,6 +646,8 @@
   <string name="onboarding_get_started">Да започваме</string>
   <string name="onboarding_more_options">Още опции</string>
   <string name="onboarding_restore_from_cloud">Възстановяване от облачната синхронизация</string>
+  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
+  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <string name="onboarding_restore_from_local">Възстановяване от локален архивен файл</string>
   <string name="dialog_button_add">Добави</string>
   <string name="template_create_error">Грешка при запазването на шаблона</string>
@@ -840,4 +842,10 @@
   <string name="pref_exchange_rate_provider_title">Доставчик на валутни курсове</string>
   <string name="pref_openexchangerates_app_id_summary">Моля, регистрирайте безплатен акаунт в OpenExchangeRates и предоставете идентификационния номер на своето приложение</string>
   <string name="pref_plan_executor_time_title">Планиране на време за уведомяване</string>
+  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="menu_create_budget">Нов бюджет</string>
+  <string name="budget_duration_from">От</string>
+  <string name="budget_duration_to">До</string>
+  <string name="menu_edit_budget">Редактиране на бюджет</string>
 </resources>
