@@ -116,7 +116,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
     ConfirmationDialogFragment.newInstance(b)
-        .show(getSupportFragmentManager(), "AUTO_FILL_HINT");
+        .show(getSupportFragmentManager(), "DISCARD");
   }
 
   @Override

@@ -467,7 +467,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
           + KEY_ROWID + " integer primary key autoincrement, "
-          + KEY_TITLE+ " text not null default '', "
+          + KEY_TITLE + " text not null default '', "
           + KEY_DESCRIPTION + " text not null, "
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")), "
           + KEY_BUDGET + " integer not null, "
@@ -705,7 +705,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("PRAGMA foreign_keys=ON;");
     }
     try {
-      db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
+      String uncommitedSelect = String.format(Locale.ROOT, "(SELECT %s from %s where %s = %d)",
+          KEY_ROWID, TABLE_TRANSACTIONS, KEY_STATUS, STATUS_UNCOMMITTED);
+      String uncommitedParentSelect = String.format(Locale.ROOT, "%s IN %s", KEY_PARENTID, uncommitedSelect);
+      final String whereClause = String.format(Locale.ROOT,
+          "%1$s IN %2$s OR %3$s OR %4$s IN (SELECT %5$s FROM %6$s WHERE %3$s)",
+          KEY_ROWID, uncommitedSelect, uncommitedParentSelect, KEY_TRANSFER_PEER, KEY_ROWID, TABLE_TRANSACTIONS);
+      Timber.d(whereClause);
+      db.delete(TABLE_TRANSACTIONS, whereClause, null);
     } catch (SQLiteException e) {
       CrashHandler.report(e);
     }
@@ -1945,8 +1952,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP INDEX if exists budgets_type_account");
         db.execSQL("DROP INDEX if exists budgets_type_currency");
         Cursor c = db.query("budgets", new String[]{"_id",
-            String.format(Locale.ROOT, "coalesce(%1$s, -(select %2$s from %3$s where %4$s = %5$s), %6$d) AS %1$s",
-                "account_id", "_id", "currency", "code", "budgets.currency", AggregateAccount.HOME_AGGREGATE_ID), "grouping"},
+                String.format(Locale.ROOT, "coalesce(%1$s, -(select %2$s from %3$s where %4$s = %5$s), %6$d) AS %1$s",
+                    "account_id", "_id", "currency", "code", "budgets.currency", AggregateAccount.HOME_AGGREGATE_ID), "grouping"},
             null, null, null, null, null);
         if (c != null) {
           if (c.moveToFirst()) {

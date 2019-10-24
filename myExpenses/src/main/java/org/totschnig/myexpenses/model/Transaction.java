@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.model;
 
@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.File;
@@ -388,7 +389,8 @@ public class Transaction extends Model {
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, "V");
     public int color;
-    @NonNull public String symbol;
+    @NonNull
+    public String symbol;
 
     CrStatus(int color, @NonNull String symbol) {
       this.color = color;
@@ -429,12 +431,12 @@ public class Transaction extends Model {
     }
   }
 
-  @NonNull private CrStatus crStatus = CrStatus.UNRECONCILED;
+  @NonNull
+  private CrStatus crStatus = CrStatus.UNRECONCILED;
   transient protected Uri pictureUri;
 
   /**
    * factory method for retrieving an instance from the db with the given id
-   *
    *
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer} or null if not found
@@ -510,10 +512,11 @@ public class Transaction extends Model {
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
     if (!c.isNull(pictureUriColumnIndex)) {
       Uri parsedUri = Uri.parse(c.getString(pictureUriColumnIndex));
-      if("file".equals(parsedUri.getScheme())) { // Upgrade from legacy uris
+      if ("file".equals(parsedUri.getScheme())) { // Upgrade from legacy uris
         try {
           parsedUri = AppDirHelper.getContentUriForFile(new File(parsedUri.getPath()));
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
       }
       t.setPictureUri(parsedUri);
     }
@@ -534,7 +537,7 @@ public class Transaction extends Model {
 
   public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
-    switch(te.operationType()) {
+    switch (te.operationType()) {
       case TYPE_TRANSACTION:
         tr = new Transaction(te.getAccountId(), te.getAmount());
         tr.setMethodId(te.getMethodId());
@@ -646,7 +649,7 @@ public class Transaction extends Model {
 
   @Deprecated
   public void setDate(Date date) {
-    setDate(date.getTime()/1000);
+    setDate(date.getTime() / 1000);
   }
 
   public void setDate(ZonedDateTime zonedDateTime) {
@@ -719,7 +722,7 @@ public class Transaction extends Model {
           (isSplit() || isEmpty(getLabel()) ?
               (isEmpty(getComment()) ?
                   MyApplication.getInstance().getString(R.string.menu_create_template) :
-                  getComment()) :getLabel()) : getPayee();
+                  getComment()) : getLabel()) : getPayee();
       originTemplate = new Template(this, title);
       String description = originTemplate.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance());
       originTemplate.setPlanExecutionAutomatic(true);
@@ -760,13 +763,12 @@ public class Transaction extends Model {
   }
 
   private String[] getPartOrPeerSelectArgs(String extra) {
-    int count =  StringUtils.countMatches(getPartOrPeerSelect(), '?');
-    List<String> args = new ArrayList<>();
-    args.addAll(Collections.nCopies(count, String.valueOf(getId())));
+    int count = StringUtils.countMatches(getPartOrPeerSelect(), '?');
+    List<String> args = new ArrayList<>(Collections.nCopies(count, String.valueOf(getId())));
     if (extra != null) {
       args.add(extra);
     }
-    return args.toArray(new String[args.size()]);
+    return args.toArray(new String[0]);
   }
 
   /**
@@ -826,9 +828,9 @@ public class Transaction extends Model {
    * the transaction
    * as a side effect calls {@link Payee#require(String)}
    *
-   * @param offset       Number of operations that are already added to the batch, needed for calculating back references
-   * @param parentOffset if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
-   *                     Is used from SyncAdapter for creating split transactions
+   * @param offset              Number of operations that are already added to the batch, needed for calculating back references
+   * @param parentOffset        if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
+   *                            Is used from SyncAdapter for creating split transactions
    * @param callerIsSyncAdapter
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
@@ -1258,11 +1260,18 @@ public class Transaction extends Model {
     if (isSplit()) {
       String idStr = String.valueOf(getId());
       String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
-      //TODO wrap into transaction
-      cr().delete(getContentUri(),getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
-          getPartOrPeerSelectArgs(statusUncommitted));
-      cr().delete(getContentUri(), KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
-          new String[]{statusUncommitted, idStr});
+      ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+      ops.add(ContentProviderOperation.newDelete(getContentUri())
+          .withSelection(getPartOrPeerSelect(), getPartOrPeerSelectArgs(statusUncommitted))
+          .build());
+      ops.add(ContentProviderOperation.newDelete(getContentUri())
+          .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
+          .build());
+      try {
+        cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+      } catch (OperationApplicationException | RemoteException e) {
+        CrashHandler.report(e);
+      }
     }
   }
 
