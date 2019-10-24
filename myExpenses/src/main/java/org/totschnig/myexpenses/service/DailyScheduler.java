@@ -79,7 +79,7 @@ public class DailyScheduler {
     if (extras != null) {
       intent.putExtras(extras);
     }
-    return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_ONE_SHOT);
+    return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
   public static void updatePlannerAlarms(Context context, boolean force, boolean now) {
