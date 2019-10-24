@@ -299,6 +299,9 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
         edit.putString(PrefKey.PLANNER_CALENDAR_PATH.getKey(), currentPlannerPath);
         edit.putString(PrefKey.PLANNER_CALENDAR_ID.getKey(), currentPlannerId);
+      } else if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
+        edit.remove(PrefKey.PLANNER_CALENDAR_PATH.getKey());
+        edit.remove(PrefKey.PLANNER_CALENDAR_ID.getKey());
       }
 
       edit.apply();
@@ -314,14 +317,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP
           .putLong(System.currentTimeMillis());
       //now handling plans
-      if (restorePlanStrategy != R.id.restore_calendar_handling_ignore) {
-        publishProgress(application.restorePlanner());
-      } else {
+      if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
         //we remove all links to plans we did not restore
         ContentValues planValues = new ContentValues();
         planValues.putNull(DatabaseConstants.KEY_PLANID);
         cr.update(Template.CONTENT_URI,
             planValues, null, null);
+      } else {
+        publishProgress(application.restorePlanner());
       }
       Timber.i("now emptying event cache");
       cr.delete(
