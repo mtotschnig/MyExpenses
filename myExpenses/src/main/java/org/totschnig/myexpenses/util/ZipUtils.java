@@ -206,5 +206,6 @@ public class ZipUtils {
         fout.close();
       }
     }
+    zin.close();
   }
 }
