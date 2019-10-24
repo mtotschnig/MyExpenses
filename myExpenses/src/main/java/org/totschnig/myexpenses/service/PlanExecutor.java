@@ -39,6 +39,7 @@ import androidx.core.app.JobIntentService;
 import timber.log.Timber;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static org.totschnig.myexpenses.MyApplication.INVALID_CALENDAR_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -99,7 +100,12 @@ public class PlanExecutor extends JobIntentService {
         CrashHandler.report(e);
         return;
       }
-      if (plannerCalendarId.equals("-1")) {
+      if (plannerCalendarId == null) {
+        log("planner verification failed, try later");
+        scheduleNextRun(false);
+        return;
+      }
+      if (plannerCalendarId.equals(INVALID_CALENDAR_ID)) {
         log("no planner set, nothing to do");
         return;
       }

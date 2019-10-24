@@ -55,6 +55,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.MyApplication.INVALID_CALENDAR_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
@@ -214,7 +215,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
       currentPlannerId = application.checkPlanner();
       currentPlannerPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
-      if (currentPlannerId.equals("-1")) {
+      if (INVALID_CALENDAR_ID.equals(currentPlannerId)) {
         return Result.ofFailure(R.string.restore_not_possible_local_calendar_missing);
       }
     } else if (restorePlanStrategy == R.id.restore_calendar_handling_backup) {

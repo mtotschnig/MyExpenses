@@ -411,16 +411,15 @@ public class MyApplication extends MultiDexApplication implements
    *
    * @return id of planning calendar if it has been configured and passed checked
    */
+  @Nullable
   public String checkPlanner() {
     mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
     if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
       final String checkedId = checkPlannerInternal(mPlannerCalendarId);
-      if (mPlannerCalendarId.equals(checkedId)) {
-        return mPlannerCalendarId;
-      }
       if (INVALID_CALENDAR_ID.equals(checkedId)) {
         removePlanner();
       }
+      return checkedId;
     }
     return INVALID_CALENDAR_ID;
   }
@@ -439,7 +438,7 @@ public class MyApplication extends MultiDexApplication implements
    * {@link #PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
    *
    * @param persistToSharedPref if true id of the created calendar is stored in preferences
-   * @return true if we have configured a useable calendar
+   * @return id if we have configured a useable calendar, or {@link INVALID_CALENDAR_ID}
    */
   public String createPlanner(boolean persistToSharedPref) {
     Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
