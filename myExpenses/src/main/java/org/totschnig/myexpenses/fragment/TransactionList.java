@@ -38,6 +38,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
@@ -1181,7 +1182,7 @@ public class TransactionList extends ContextualActionBarFragment implements
    * @param id
    * @return true if the filter was set and succesfully removed, false otherwise
    */
-  public boolean removeFilter(int id) {
+  private boolean removeFilter(int id) {
     boolean isFiltered = filterPersistence.removeFilter(id);
     if (isFiltered) {
       refreshAfterFilterChange();
@@ -1199,7 +1200,13 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   @Override
-  public void onPrepareOptionsMenu(Menu menu) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    inflater.inflate(R.menu.expenses, menu);
+    inflater.inflate(R.menu.grouping, menu);
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
     super.onPrepareOptionsMenu(menu);
     if (mAccount == null || getActivity() == null) {
       //mAccount seen in report 3331195c529454ca6b25a4c5d403beda

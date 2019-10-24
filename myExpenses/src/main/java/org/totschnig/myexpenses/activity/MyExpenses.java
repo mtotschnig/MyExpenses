@@ -418,15 +418,6 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.expenses, menu);
-    inflater.inflate(R.menu.grouping, menu);
-    super.onCreateOptionsMenu(menu);
-    return true;
-  }
-
-  @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
     if (((AdapterView.AdapterContextMenuInfo) menuInfo).id > 0) {
       MenuInflater inflater = getMenuInflater();
