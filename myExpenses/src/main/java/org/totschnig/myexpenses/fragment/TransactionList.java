@@ -423,29 +423,31 @@ public class TransactionList extends ContextualActionBarFragment implements
     FragmentManager fm = getFragmentManager();
     switch (command) {
       case R.id.DELETE_COMMAND: {
+        boolean hasReconciled = false, hasNotVoid = false;
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            mTransactionsCursor.moveToPosition(positions.keyAt(i));
+            CrStatus status;
+            try {
+              status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
+            } catch (IllegalArgumentException ex) {
+              status = CrStatus.UNRECONCILED;
+            }
+            if (status == CrStatus.RECONCILED) {
+              hasReconciled = true;
+            }
+            if (status != CrStatus.VOID) {
+              hasNotVoid = true;
+            }
+            if (hasNotVoid && hasReconciled) break;
+          }
+        }
+        boolean finalHasReconciled = hasReconciled;
+        boolean finalHasNotVoid = hasNotVoid;
         checkSealed(ArrayUtils.toPrimitive(itemIds), result -> {
           if (result) {
-            boolean hasReconciled = false, hasNotVoid = false;
-            for (int i = 0; i < positions.size(); i++) {
-              if (positions.valueAt(i)) {
-                mTransactionsCursor.moveToPosition(positions.keyAt(i));
-                CrStatus status;
-                try {
-                  status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
-                } catch (IllegalArgumentException ex) {
-                  status = CrStatus.UNRECONCILED;
-                }
-                if (status == CrStatus.RECONCILED) {
-                  hasReconciled = true;
-                }
-                if (status != CrStatus.VOID) {
-                  hasNotVoid = true;
-                }
-                if (hasNotVoid && hasReconciled) break;
-              }
-            }
             String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
-            if (hasReconciled) {
+            if (finalHasReconciled) {
               message += " " + getString(R.string.warning_delete_reconciled);
             }
             Bundle b = new Bundle();
@@ -458,7 +460,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
                 R.id.CANCEL_CALLBACK_COMMAND);
             b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
-            if (hasNotVoid) {
+            if (finalHasNotVoid) {
               b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
                   R.string.mark_void_instead_of_delete);
             }
@@ -527,9 +529,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     switch (command) {
       case R.id.EDIT_COMMAND:
       case R.id.CLONE_TRANSACTION_COMMAND:
+        final boolean isTransferPartPeer = DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null;
         checkSealed(new long[]{acmi.id}, result -> {
           if (result) {
-            if (DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null) {
+            if (isTransferPartPeer) {
               ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
             } else {
               Intent i = new Intent(ctx, ExpenseEdit.class);
@@ -546,17 +549,18 @@ public class TransactionList extends ContextualActionBarFragment implements
         //super is handling deactivation of mActionMode
         break;
       case R.id.CREATE_TEMPLATE_COMMAND:
+        final boolean splitAtPosition = isSplitAtPosition(acmi.position);
+        String label = mTransactionsCursor.getString(columnIndexPayee);
+        if (TextUtils.isEmpty(label))
+          label = mTransactionsCursor.getString(columnIndexLabelSub);
+        if (TextUtils.isEmpty(label))
+          label = mTransactionsCursor.getString(columnIndexLabelMain);
+        String finalLabel = label;
         checkSealed(new long[]{acmi.id}, result -> {
           if (result) {
-            if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true)) {
+            if (splitAtPosition && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED, true)) {
               ctx.showContribDialog(ContribFeature.SPLIT_TEMPLATE, null);
             } else {
-              mTransactionsCursor.moveToPosition(acmi.position);
-              String label = mTransactionsCursor.getString(columnIndexPayee);
-              if (TextUtils.isEmpty(label))
-                label = mTransactionsCursor.getString(columnIndexLabelSub);
-              if (TextUtils.isEmpty(label))
-                label = mTransactionsCursor.getString(columnIndexLabelMain);
               Bundle args = new Bundle();
               args.putLong(KEY_ROWID, acmi.id);
               SimpleInputDialog.build()
@@ -564,7 +568,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                   .cancelable(false)
                   .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                   .hint(R.string.label)
-                  .text(label)
+                  .text(finalLabel)
                   .extra(args)
                   .pos(R.string.dialog_button_add)
                   .neut()
