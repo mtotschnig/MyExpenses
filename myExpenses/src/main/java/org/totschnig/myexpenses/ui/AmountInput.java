@@ -303,6 +303,7 @@ public class AmountInput extends ConstraintLayout {
     }
   }
 
+  @Nullable
   public Currency getSelectedCurrency() {
     return (Currency) currencySpinner.getSelectedItem();
   }
