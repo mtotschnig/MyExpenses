@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Bakiyenin gösterilmesini aç ya da kapat</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Transferlerin düzenli gelir veya masraf olarak değerlendirilmesi arasında geçiş yapın.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Bir bütçe tanımlayarak, belli bir zaman dilimi içinde harcamak istediğiniz toplam meblağı belirlemiş olursunuz. Aynı zamanda kategoriler ve alt kategoriler için tutarlar da tahsis edebilirsiniz. Bunun ardından ne kadar harcadığınızı ve ne kadar harcanacak para kaldığını izleyebilirsiniz.</string>
+  <string name="help_Budget_amount_click">Bütçelenmiş meblağlara tıklamak onları değiştirmenize imkân verir.</string>
   <string name="cab_show_transactions_help_text">Güncel hesapta seçilen kategoriye eşlenen tüm muameleleri listeleyen bir diyalog kutusu aç.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Bütçeyi geçmiş ve gelecekteki zaman periyotlarındaki harcamalar ile karşılaştırın.</string>
+  <string name="menu_BudgetActivity_edit_help_text">Bütçenin tanımını değiştirin.</string>
+  <string name="menu_budget_aggregate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem giderleri hem de gelirleri içerir. Şayet bu seçeneği devre dışı bırakırsanız, gelirler görmezden gelinecek ve sadece harcamalar dikkate alınacaktır.</string>
+  <string name="menu_budget_allocated_only_help_text">Bu seçeneği etkinleştirdiğinizde sadece herhangi bir meblağın tahsis edildiği kategoriler görüntülenecektir.</string>
+  <string name="menu_BudgetActivity_delete_help_text">Güncel olarak görüntülenen bütçe silinecektir.</string>
+  <string name="help_ManageBudgets_title">Tüm bütçelerin listesi</string>
+  <string name="help_ManageBudgets_info">Bu ekran oluşturduğunuz tüm bütçelerin özetini gösterir. Yeni bir bütçe oluşturmak için kaydırılabilir etkinlik düğmesini kullanın. Bir liste unsuruna tıkladığınızda tek bir bütçe görüntülenir.</string>
+  <string name="help_BudgetEdit_title">Bütçeler için form</string>
+  <string name="help_BudgetEdit_info">Yeni bir bütçe oluşturmak veya mevcut bir bütçeyi düzenlemek için bu formu kullanın.</string>
+  <string name="form_BudgetEdit_title_help_text">Herhangi bir bütçenin başlığı onu bütçe listesinde bulmanıza yardımcı olur.</string>
+  <string name="form_BudgetEdit_amount_help_text">Bu bütçe bağlamında ne kadar paranın kullanılabilir olduğu.</string>
+  <string name="form_BudgetEdit_accounts_help_text">Bir bütçe ya bir hesapla sınırlı olur; aynı para birimindeki tüm hesapları kapsar; ya da tüm para birimlerindeki genel toplamı ifade eder.</string>
+  <string name="form_BudgetEdit_filter_help_text">Bütçeler, kategorilere, taraflara, metotlara veya durumlara göre filtrelenebilir. Sadece bu filtrelerle eşleşen muameleler dikkate alınacaktır.</string>
+  <string name="form_BudgetEdit_type_help_text">Bir bütçe ya düzenli (günlük, aylık, haftalık, senelik) olarak ya da bir kerelik olarak tanımlanır. Bir kerelik bütçeler için süresinin başlangıcını ve sonunu belirtirsiniz. (Filtrelenmemiş) düzenli bir bütçe varsayılan bütçe olarak tanımlanabilir: bu, muamele listesinin (gün, hafta, ay veya sene için verileri gruplandırmak üzere yapılandırılmışsa) her bir dönem için bu bütçenin ilerlemesini göstereceği anlamına gelir.</string>
 </resources>

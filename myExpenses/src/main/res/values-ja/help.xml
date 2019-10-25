@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">残高の表示を切り替えます。</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">振替を通常の収入または支出のように扱う必要がある場合、切り替えます。</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">予算を定義することで、特定の期間に費やす全体の金額を定義します。また、分類と副分類に金額を割り当てることもできます。次に、どのくらい費やしたか、どれだけ残っているかを監視します。</string>
+  <string name="help_Budget_amount_click">予算額をクリックすると、変更できます。</string>
   <string name="cab_show_transactions_help_text">現在の勘定で選択した分類にマップされているすべての取引を一覧表示するダイアログを開きます。</string>
   <string name="menu_BudgetActivity_back_forward_help_text">過去と将来の支出と予算を比較する。</string>
+  <string name="menu_BudgetActivity_edit_help_text">予算の定義を変更します。</string>
+  <string name="menu_budget_aggregate_help_text">デフォルトでは、計算された合計には支出と収入の両方が含まれます。このオプションを無効にすると、収入は無視され、支出のみが考慮されます。</string>
+  <string name="menu_budget_allocated_only_help_text">このオプションを有効にすると、金額が割り当てられている分類のみが表示されます。</string>
+  <string name="menu_BudgetActivity_delete_help_text">現在表示されている予算が削除されます。</string>
+  <string name="help_ManageBudgets_title">すべての予算のリスト</string>
+  <string name="help_ManageBudgets_info">この画面には、作成したすべての予算の概要が表示されます。フローティングアクションボタンを使用して、新しい予算を作成します。リストの項目をクリックすると、単一の予算が表示されます。</string>
+  <string name="help_BudgetEdit_title">予算用のフォーム</string>
+  <string name="help_BudgetEdit_info">このフォームを使用して、新しい予算を作成したり、既存の予算を編集します。</string>
+  <string name="form_BudgetEdit_title_help_text">予算のタイトルは、予算リスト内での識別に役立ちます。</string>
+  <string name="form_BudgetEdit_amount_help_text">この予算の内容で利用可能な金額。</string>
+  <string name="form_BudgetEdit_accounts_help_text">予算は１つの勘定に制限、同じ通貨のすべての勘定をカバー、または、すべての通貨の総計を参照します。</string>
+  <string name="form_BudgetEdit_filter_help_text">予算は、分類、取引先、方法、または状態に関してフィルタリングできます。これらのフィルターと一致した取引のみが考慮されます。</string>
+  <string name="form_BudgetEdit_type_help_text">予算は、定期的（毎日、毎月、毎週、毎年）または１回限りとして定義されます。 １回限りの予算の場合は、期間の開始と終了を指定します。（フィルター処理されていない）通常の予算をデフォルトとして設定できます：これは、（日、週、月、または年ごとにデータをグループ化するように構成されている場合）取引リストが各期間のこの予算の進行状況を表示します。</string>
 </resources>
