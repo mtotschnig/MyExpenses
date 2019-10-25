@@ -49,8 +49,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
+import java.util.Locale;
+
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 
 public class TemplateWidget extends AbstractWidget<Template> {
 
@@ -115,7 +119,10 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   Cursor getCursor(Context c) {
     return c.getContentResolver().query(
-        TransactionProvider.TEMPLATES_URI, null, KEY_PLANID + " is null", null, null);
+        TransactionProvider.TEMPLATES_URI, null,
+        String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
+            KEY_PLANID, KEY_PARENTID, KEY_SEALED),
+        null, null);
   }
 
   @Override
