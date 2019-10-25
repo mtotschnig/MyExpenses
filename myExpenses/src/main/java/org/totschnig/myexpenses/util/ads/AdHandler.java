@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static org.totschnig.myexpenses.preference.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL;
 import static org.totschnig.myexpenses.preference.PrefKey.INTERSTITIAL_LAST_SHOWN;
@@ -44,11 +46,15 @@ public abstract class AdHandler {
     }
   }
   public void startBanner() {
-    init();
-    if (shouldHideAd()) {
-      hide();
-    } else {
-      _startBanner();
+    try {
+      init();
+      if (shouldHideAd()) {
+        hide();
+      } else {
+        _startBanner();
+      }
+    } catch (Exception e) {
+      Timber.e(e);
     }
   }
 
@@ -91,9 +97,13 @@ public abstract class AdHandler {
   }
 
   public void onEditTransactionResult() {
-    if (!shouldHideAd()) {
-      init();
-      maybeShowInterstitial();
+    try {
+      if (!shouldHideAd()) {
+        init();
+        maybeShowInterstitial();
+      }
+    } catch (Exception e) {
+      Timber.e(e);
     }
   }
 
