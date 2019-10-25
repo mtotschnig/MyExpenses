@@ -55,6 +55,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   WebDavBackendProvider(Context context, android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
     super(context);
     String url = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL);
+    if (url == null) throw new SyncParseException(new NullPointerException("sync_provider_url is null"));
     String userName = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_USERNAME);
     String password = accountManager.getPassword(account);
 

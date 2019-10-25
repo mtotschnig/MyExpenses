@@ -15,9 +15,6 @@
  */
 package org.totschnig.myexpenses.sync.webdav;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -35,6 +32,8 @@ import javax.inject.Inject;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import at.bitfire.dav4android.BasicDigestAuthHandler;
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.LockableDavResource;
@@ -66,7 +65,7 @@ public class WebDavClient {
   @Inject
   OkHttpClient.Builder builder;
 
-  public WebDavClient(String baseUrl, String userName, String password, final X509Certificate trustedCertificate) throws InvalidCertificateException {
+  public WebDavClient(@NonNull String baseUrl, String userName, String password, final X509Certificate trustedCertificate) throws InvalidCertificateException {
     MyApplication.getInstance().getAppComponent().inject(this);
 
     // Base URL needs to point to a directory.
