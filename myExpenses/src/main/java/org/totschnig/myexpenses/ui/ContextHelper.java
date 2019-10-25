@@ -19,19 +19,20 @@ public class ContextHelper {
   public static Context wrap(Context context, Locale newLocale) {
 
     Resources res = context.getResources();
-    Configuration configuration = res.getConfiguration();
+    if (res != null) {
+      Configuration configuration = res.getConfiguration();
 
-    if (Utils.hasApiLevel(24)) {
-      context = buildContext24(context, newLocale, configuration);
+      if (Utils.hasApiLevel(24)) {
+        context = buildContext24(context, newLocale, configuration);
 
-    } else if (Utils.hasApiLevel(17)) {
-      context = buildContext17(context, newLocale, configuration);
+      } else if (Utils.hasApiLevel(17)) {
+        context = buildContext17(context, newLocale, configuration);
 
-    } else {
-      configuration.locale = newLocale;
-      res.updateConfiguration(configuration, res.getDisplayMetrics());
+      } else {
+        configuration.locale = newLocale;
+        res.updateConfiguration(configuration, res.getDisplayMetrics());
+      }
     }
-
     return context;
   }
 
