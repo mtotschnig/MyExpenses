@@ -673,6 +673,13 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
 
+  private void updateSplitBalance() {
+    final SplitPartList splitPartList = findSplitPartList();
+    if (splitPartList != null) {
+      splitPartList.updateBalance();
+    }
+  }
+
   private void setup() {
     amountInput.setFractionDigits(mTransaction.getAmount().getCurrencyUnit().fractionDigits());
     linkInputsWithLabels();
@@ -680,7 +687,7 @@ public class ExpenseEdit extends AmountActivity implements
       amountInput.addTextChangedListener(new MyTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
-          findSplitPartList().updateBalance();
+          updateSplitBalance();
         }
       });
     }
@@ -1036,7 +1043,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void doSave(boolean andNew) {
     if (mOperationType == TYPE_SPLIT &&
-        !findSplitPartList().splitComplete()) {
+        !requireSplitPartList().splitComplete()) {
       showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT);
     } else {
       if (andNew) {
@@ -1489,7 +1496,7 @@ public class ExpenseEdit extends AmountActivity implements
       mPayeeLabel.setText(amountInput.getType() ? R.string.payer : R.string.payee);
     }
     if (mOperationType == TYPE_SPLIT) {
-      findSplitPartList().updateBalance();
+      updateSplitBalance();
     }
     setCategoryButton();
   }
@@ -1816,16 +1823,19 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case R.id.Account:
         final Account account = mAccounts[position];
-        if (mOperationType == TYPE_SPLIT && findSplitPartList().getSplitCount() > 0) {
-          //call background task for moving parts to new account
-          startTaskExecution(
-              TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS,
-              new Long[]{mTransaction.getId()},
-              account.getId(),
-              R.string.progress_dialog_updating_split_parts);
-        } else {
-          updateAccount(account);
+        if (mOperationType == TYPE_SPLIT) {
+          final SplitPartList splitPartList = findSplitPartList();
+          if (splitPartList != null && splitPartList.getSplitCount() > 0) {
+            //call background task for moving parts to new account
+            startTaskExecution(
+                TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS,
+                new Long[]{mTransaction.getId()},
+                account.getId(),
+                R.string.progress_dialog_updating_split_parts);
+            break;
+          }
         }
+        updateAccount(account);
         break;
       case R.id.OperationType:
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.OPERATION_TYPE_SELECT);
@@ -1902,7 +1912,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mOperationType == TYPE_SPLIT) {
         final SplitPartList splitPartList = findSplitPartList();
-        splitPartList.updateAccount(account);
+        if (splitPartList != null) {
+          splitPartList.updateAccount(account);
+        }
       }
     }
     configureStatusSpinner();
@@ -2025,7 +2037,10 @@ public class ExpenseEdit extends AmountActivity implements
           if (mOperationType == TYPE_SPLIT) {
             mTransaction = SplitTransaction.getNewInstance(mTransaction.getAccountId());
             mRowId = mTransaction.getId();
-            findSplitPartList().updateParent(mRowId);
+            final SplitPartList splitPartList = findSplitPartList();
+            if (splitPartList != null) {
+              splitPartList.updateParent(mRowId);
+            }
           } else {
             mTransaction.setId(0L);
             mTransaction.uuid = Model.generateUuid();
@@ -2375,8 +2390,16 @@ public class ExpenseEdit extends AmountActivity implements
     super.onPause();
   }
 
-  protected SplitPartList findSplitPartList() {
+  @Nullable
+  private SplitPartList findSplitPartList() {
     return (SplitPartList) getSupportFragmentManager().findFragmentByTag(SPLIT_PART_LIST);
+  }
+
+  @NonNull
+  private SplitPartList requireSplitPartList() {
+    SplitPartList splitPartList = findSplitPartList();
+    if (splitPartList == null) throw new IllegalStateException("Split part list not found");
+    return splitPartList;
   }
 
   @SuppressLint("NewApi")
