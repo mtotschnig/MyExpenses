@@ -150,7 +150,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 91;
+  public static final int DATABASE_VERSION = 92;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -459,7 +459,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
-          + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
+          + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
@@ -1969,6 +1969,35 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+      }
+
+      if (oldVersion < 92) {
+        //method_id on delete set null
+        db.execSQL("ALTER TABLE changes RENAME to changes_old");
+        db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
+            "type text not null check (type in ('created','updated','deleted','unsplit')), " +
+            "sync_sequence_local integer, " +
+            "uuid text not null," +
+            "timestamp datetime DEFAULT (strftime('%s','now')), " +
+            "parent_uuid text, " +
+            "comment text, " +
+            "date datetime, " +
+            "value_date datetime, " +
+            "amount integer, " +
+            "original_amount integer, " +
+            "original_currency text, " +
+            "equivalent_amount integer, " +
+            "cat_id integer references categories(_id) ON DELETE SET NULL, " +
+            "payee_id integer references payee(_id) ON DELETE SET NULL, " +
+            "transfer_account integer references accounts(_id) ON DELETE SET NULL, " +
+            "method_id integer references paymentmethods(_id) ON DELETE SET NULL, " +
+            "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')), " +
+            "number text," +
+            "picture_id text)");
+        db.execSQL("INSERT INTO changes " +
+            "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
+            "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
+        db.execSQL("DROP TABLE changes_old");
       }
 
     } catch (SQLException e) {
