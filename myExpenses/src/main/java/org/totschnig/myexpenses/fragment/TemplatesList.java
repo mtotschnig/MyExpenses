@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -103,7 +104,6 @@ public class TemplatesList extends SortableListFragment
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
   public static final String KEY_IS_SPLIT = "isSplit";
   private ListView mListView;
-  private PlanMonthFragment planMonthFragment;
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -168,13 +168,55 @@ public class TemplatesList extends SortableListFragment
     mListView.setEmptyView(v.findViewById(R.id.empty));
     mListView.setOnItemClickListener((parent, view, position, id) -> {
       if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
-      if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-        if (isCalendarPermissionGranted()) {
-          final boolean isSealed = mTemplatesCursor.getInt(columnIndexIsSealed) != 0;
-          if (isSealed) {
-            ctx.showSnackbar(R.string.object_sealed, Snackbar.LENGTH_LONG);
+      final boolean isSealed = mTemplatesCursor.getInt(columnIndexIsSealed) != 0;
+      if (isSealed) {
+        ctx.showSnackbar(R.string.object_sealed, Snackbar.LENGTH_LONG);
+      }
+      if (mTemplatesCursor.isNull(columnIndexPlanId)) {
+        if (!isSealed) {
+          if (isForeignExchangeTransfer(position)) {
+            dispatchCreateInstanceEditDo(id);
+          } else {
+            boolean splitAtPosition = isSplitAtPosition(position);
+            if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
+              if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
+                if (splitAtPosition) {
+                  requestSplitTransaction(new Long[]{id});
+                } else {
+                  dispatchCreateInstanceSaveDo(new Long[]{id});
+                }
+              } else {
+                if (splitAtPosition) {
+                  requestSplitTransaction(id);
+                } else {
+                  dispatchCreateInstanceEditDo(id);
+                }
+              }
+            } else {
+              Bundle b = new Bundle();
+              b.putLong(KEY_ROWID, id);
+              b.putBoolean(KEY_IS_SPLIT, splitAtPosition);
+              b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
+              b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
+                  .hint_template_click));
+              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id
+                  .CREATE_INSTANCE_SAVE_COMMAND);
+              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id
+                  .CREATE_INSTANCE_EDIT_COMMAND);
+              b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
+                  .TEMPLATE_CLICK_HINT_SHOWN.getKey());
+              b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string
+                  .menu_create_instance_save);
+              b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string
+                  .menu_create_instance_edit);
+              ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(),
+                  "TEMPLATE_CLICK_HINT");
+            }
           }
-          planMonthFragment = PlanMonthFragment.newInstance(
+        }
+      } else {
+        if (isCalendarPermissionGranted()) {
+          PlanMonthFragment planMonthFragment = PlanMonthFragment.newInstance(
               mTemplatesCursor.getString(columnIndexTitle),
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
@@ -184,44 +226,6 @@ public class TemplatesList extends SortableListFragment
           }
         } else {
           ctx.requestCalendarPermission();
-        }
-      } else if (isForeignExchangeTransfer(position)) {
-        dispatchCreateInstanceEditDo(id);
-      } else {
-        boolean splitAtPosition = isSplitAtPosition(position);
-        if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
-          if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
-            if (splitAtPosition) {
-              requestSplitTransaction(new Long[]{id});
-            } else {
-              dispatchCreateInstanceSaveDo(new Long[]{id});
-            }
-          } else {
-            if (splitAtPosition) {
-              requestSplitTransaction(id);
-            } else {
-              dispatchCreateInstanceEditDo(id);
-            }
-          }
-        } else {
-          Bundle b = new Bundle();
-          b.putLong(KEY_ROWID, id);
-          b.putBoolean(KEY_IS_SPLIT, splitAtPosition);
-          b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
-          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
-              .hint_template_click));
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id
-              .CREATE_INSTANCE_SAVE_COMMAND);
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id
-              .CREATE_INSTANCE_EDIT_COMMAND);
-          b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
-              .TEMPLATE_CLICK_HINT_SHOWN.getKey());
-          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string
-              .menu_create_instance_save);
-          b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string
-              .menu_create_instance_edit);
-          ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(),
-              "TEMPLATE_CLICK_HINT");
         }
       }
     });
@@ -260,7 +264,10 @@ public class TemplatesList extends SortableListFragment
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
       case R.id.RESET_PLAN_INSTANCE_COMMAND:
-        requirePlanMonthFragment().dispatchCommandMultiple(command, positions);
+        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+        if (planMonthFragment != null) {
+          planMonthFragment.dispatchCommandMultiple(command, positions);
+        }
         finishActionMode();
         return true;
     }
@@ -289,7 +296,10 @@ public class TemplatesList extends SortableListFragment
         return true;
       case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-        requirePlanMonthFragment().dispatchCommandSingle(command, menuInfo.position);
+        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+        if (planMonthFragment != null) {
+          planMonthFragment.dispatchCommandSingle(command, menuInfo.position);
+        }
         finishActionMode();
         return true;
     }
@@ -383,7 +393,7 @@ public class TemplatesList extends SortableListFragment
             mTemplatesCursor != null && mTemplatesCursor.moveToFirst()) {
           long needToExpand = expandedHandled ? ManageTemplates.NOT_CALLED :
               ctx.getCalledFromCalendarWithId();
-          boolean foundToExpand = false;
+          PlanMonthFragment planMonthFragment = null;
           while (!mTemplatesCursor.isAfterLast()) {
             long templateId = mTemplatesCursor.getLong(columnIndexRowId);
             if (needToExpand == templateId) {
@@ -392,13 +402,12 @@ public class TemplatesList extends SortableListFragment
                   templateId,
                   mTemplatesCursor.getLong(columnIndexPlanId),
                   mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0, ctx.getThemeType());
-              foundToExpand = true;
             }
             mTemplatesCursor.moveToNext();
           }
           if (needToExpand != ManageTemplates.NOT_CALLED) {
             expandedHandled = true;
-            if (foundToExpand) {
+            if (planMonthFragment != null) {
               planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
             } else {
               ctx.showSnackbar(R.string.save_transaction_template_deleted, Snackbar.LENGTH_LONG);
@@ -425,6 +434,7 @@ public class TemplatesList extends SortableListFragment
   }
 
   public void showSnackbar(String msg, int length) {
+    PlanMonthFragment planMonthFragment = getPlanMonthFragment();
     if (planMonthFragment != null) {
       planMonthFragment.showSnackbar(msg, length);
     } else {
@@ -471,9 +481,9 @@ public class TemplatesList extends SortableListFragment
 
 
   //after orientation change, we need to restore the reference
-  public PlanMonthFragment requirePlanMonthFragment() {
-    return planMonthFragment != null ? planMonthFragment : ((PlanMonthFragment)
-        getChildFragmentManager().findFragmentByTag(CALDROID_DIALOG_FRAGMENT_TAG));
+  @Nullable
+  private PlanMonthFragment getPlanMonthFragment() {
+    return (PlanMonthFragment) getChildFragmentManager().findFragmentByTag(CALDROID_DIALOG_FRAGMENT_TAG);
   }
 
   private class MyAdapter extends SimpleCursorAdapter {
@@ -565,7 +575,10 @@ public class TemplatesList extends SortableListFragment
         configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position), isSealed(info.position));
         break;
       case R.id.calendar_gridview:
-        requirePlanMonthFragment().configureMenuLegacy(menu, menuInfo);
+        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+        if (planMonthFragment != null) {
+          planMonthFragment.configureMenuLegacy(menu, menuInfo);
+        }
     }
   }
 
@@ -600,7 +613,10 @@ public class TemplatesList extends SortableListFragment
         configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan, hasSealed);
         break;
       case R.id.calendar_gridview:
-        requirePlanMonthFragment().configureMenu11(menu, count, lv);
+        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+        if (planMonthFragment != null) {
+          planMonthFragment.configureMenu11(menu, count, lv);
+        }
     }
   }
 
