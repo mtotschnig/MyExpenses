@@ -16,6 +16,8 @@ import android.content.Intent;
 
 import org.totschnig.myexpenses.model.Account;
 
+import timber.log.Timber;
+
 public class GenericAlarmReceiver extends BroadcastReceiver {
 
   static final String BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
@@ -28,7 +30,11 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
       requestScheduleAutoBackup(context);
       requestSchedulePlanExecutor(context);
     } else if (ACCOUNT_CHANGED.equals(action)) {
-      Account.checkSyncAccounts(context);
+      try {
+        Account.checkSyncAccounts(context);
+      } catch (Exception e) {
+        Timber.e(e);
+      }
     }
   }
 
