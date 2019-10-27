@@ -118,6 +118,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
       Activity activity = getActivity();
       if (activity != null) {
         if (success > -1) {
+          activity.setResult(Activity.RESULT_FIRST_USER);
           activity.finish();
         } else {
           Toast.makeText(activity, "Error while deleting budget", Toast.LENGTH_LONG).show();

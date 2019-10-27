@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -95,7 +96,9 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         lastClickedPosition?.let {
-            recycler_view.adapter?.notifyItemChanged(it)
+            if (resultCode != Activity.RESULT_FIRST_USER) { //budget was deleted
+                recycler_view.adapter?.notifyItemChanged(it)
+            }
             lastClickedPosition = null
         }
     }
@@ -144,7 +147,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)
                         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        lastClickedPosition = position
+                        lastClickedPosition = holder.adapterPosition
                         startActivityForResult(i, 0)
                     }
                 }
