@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">החלף את החשיפה של היתרה.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">החלף, אם העברות צריך להיות מטופל כמו הכנסה קבועה או הוצאה.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">על ידי הגדרת תקציב, אתה מגדיר סכום כולל שתרצה להוציא במהלך תקופה מסוימת. ניתן גם להקצות סכומים לקטגוריות ולקטגוריות משנה. לאחר מכן אתה עוקב אחר השקעתך וכמה נותר לבזבז.</string>
+  <string name="help_Budget_amount_click">לחיצה על הסכומים המתוקצבים מאפשרת לשנות אותם.</string>
   <string name="cab_show_transactions_help_text">פתיחת תיבת דו-שיח המפרטת את כל העסקאות הממופות לקטגוריה שנבחרה בחשבון הנוכחי.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">השווה את התקציב עם ההוצאות של תקופות העבר והעתיד.</string>
+  <string name="menu_BudgetActivity_edit_help_text">שנה את הגדרת התקציב.</string>
+  <string name="menu_budget_aggregate_help_text">כברירת מחדל, הסכומים המחושבים כוללים גם הוצאות וגם הכנסות. אם אתה מבטל אפשרות זו, מתעלמים מההכנסה, רק הוצאות נלקחות בחשבון.</string>
+  <string name="menu_budget_allocated_only_help_text">על ידי הפעלת אפשרות זו מוצגות רק קטגוריות, שהוקצו להם סכום מסוים.</string>
+  <string name="menu_BudgetActivity_delete_help_text">התקציב המוצג כעת יימחק.</string>
+  <string name="help_ManageBudgets_title">רשימת כל התקציבים</string>
+  <string name="help_ManageBudgets_info">מסך זה מציג סיכום של כל התקציבים שיצרת. השתמש בלחצן הפעולה הצף ליצירת תקציב חדש. לחיצה על רשומת רשימה מציגה תקציב יחיד.</string>
+  <string name="help_BudgetEdit_title">טופס לתקציבים</string>
+  <string name="help_BudgetEdit_info">השתמש בטופס זה כדי ליצור תקציב חדש או לעריכת תקציב קיים.</string>
+  <string name="form_BudgetEdit_title_help_text">כותרת של תקציב עוזרת בזיהויו ברשימת התקציבים.</string>
+  <string name="form_BudgetEdit_amount_help_text">כמה כסף זמין במסגרת תקציב זה.</string>
+  <string name="form_BudgetEdit_accounts_help_text">תקציב מוגבל לחשבון אחד, הוא מכסה את כל החשבונות באותו מטבע, או שהוא מתייחס לסך הכל המצטבר בכל המטבעות.</string>
+  <string name="form_BudgetEdit_filter_help_text">ניתן לסנן את התקציבים ביחס לקטגוריות, מפלגות, שיטות או מדינות. נלקחים בחשבון רק עסקאות התואמות את המסננים.</string>
+  <string name="form_BudgetEdit_type_help_text">תקציב מוגדר כרגיל (יומי, חודשי, שבועי, שנתי) או חד פעמי. עבור תקציבים חד פעמיים אתה מציין את ההתחלה ואת סיום משך הזמן. ניתן להגדיר כברירת מחדל תקציב רגיל (שאינו מסונן): פירוש הדבר שרשימת העסקאות (אם היא מוגדרת לקבוצת נתונים ביום, שבוע, חודש או שנה) תציג את ההתקדמות לתקציב זה לכל תקופה.</string>
 </resources>

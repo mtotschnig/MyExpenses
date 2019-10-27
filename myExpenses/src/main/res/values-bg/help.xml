@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Включва / изключва показването на баланса.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Посочете дали трансферите да се третират като приходи или като разходи.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">При дефиниране на бюджет определяте обща сума, която искате да похарчите за даден период. Може също да разпределите суми по категории и подкатегории. След това следите колко сте похарчили и колко остава да похарчите.</string>
+  <string name="help_Budget_amount_click">Чрез кликване върху бюджетните суми може да ги промените.</string>
   <string name="cab_show_transactions_help_text">Отваря списък на транзакциите от текущата сметка за избраната категория.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Сравнете бюджета с разходите от минали или бъдещи периоди от време.</string>
+  <string name="menu_BudgetActivity_edit_help_text">Промяна на бюджетната дефиниция.</string>
+  <string name="menu_budget_aggregate_help_text">По подразбиране изчислените суми включват както разходи, така и приходи. Ако деактивирате тази опция, приходите се игнорират, отчитат се само разходите.</string>
+  <string name="menu_budget_allocated_only_help_text">При активиране на тази опция се показват само категориите, за които има разпределена сума.</string>
+  <string name="menu_BudgetActivity_delete_help_text">Показаният бюджет ще бъде изтрит.</string>
+  <string name="help_ManageBudgets_title">Списък на всички бюджети</string>
+  <string name="help_ManageBudgets_info">Този екран показва обобщение на всички създадени от вас бюджети. Използвайте плаващия бутон за да създадете нов бюджет. Кликването върху запис от списъка показва съответния бюджет.</string>
+  <string name="help_BudgetEdit_title">Формуляр за бюджети</string>
+  <string name="help_BudgetEdit_info">Използвайте този формуляр, за да създадете нов бюджет или да редактирате съществуващ.</string>
+  <string name="form_BudgetEdit_title_help_text">Заглавието на бюджета помага за разпознаването му в списъка с бюджети.</string>
+  <string name="form_BudgetEdit_amount_help_text">Колко пари са налични в контекста на този бюджет.</string>
+  <string name="form_BudgetEdit_accounts_help_text">Бюджетът е ограничен или до една сметка; или обхваща всички сметки с една и съща валута; или се отнася до общата съвкупност във всички валути.</string>
+  <string name="form_BudgetEdit_filter_help_text">Бюджетите могат да се филтрират по категории, партии, методи или държави. Само транзакции, отговарящи на тези филтри, се вземат предвид.</string>
+  <string name="form_BudgetEdit_type_help_text">Бюджетът се определя като редовен (ежедневен, месечен, седмичен, годишен) или еднократен. За еднократен бюджет указвате началото и края на неговата продължителност. Редовният бюджет (който не е филтриран) може да бъде зададен като подразбиращ се: Това означава, че списъкът с транзакции (ако е конфигуриран да групира данни за ден, седмица, месец или година) ще показва напредъка на този бюджет за съответния период.</string>
 </resources>

@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Schalten Sie die Sichtbarkeit des Saldos um.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Schalten Sie um, ob Umbuchungen wie normale Einnahmen oder Ausgaben behandelt werden sollen.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Durch die Definition eines Budgets definieren Sie einen Gesamtbetrag, den Sie in einem bestimmten Zeitraum ausgeben möchten. Sie können auch Beträge für Kategorien und Unterkategorien zuweisen. Sie überwachen dann, wie viel Sie ausgegeben haben und wie viel noch ausgegeben werden kann.</string>
+  <string name="help_Budget_amount_click">Durch Klicken auf die budgetierten Beträge können diese geändert werden.</string>
   <string name="cab_show_transactions_help_text">Öffnet ein Dialogfeld mit allen Transaktionen, die der ausgewählten Kategorie im aktuellen Konto zugeordnet sind.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Vergleichen Sie das Budget mit den Ausgaben vergangener und zukünftiger Zeiträume.</string>
+  <string name="menu_BudgetActivity_edit_help_text">Ändern Sie die Definition des Budgets.</string>
+  <string name="menu_budget_aggregate_help_text">Standardmäßig enthalten die berechneten Beträge sowohl Aufwendungen als auch Erträge. Wenn Sie diese Option deaktivieren, werden Einnahmen ignoriert und nur Ausgaben berücksichtigt.</string>
+  <string name="menu_budget_allocated_only_help_text">Wenn Sie diese Option aktivieren, werden nur Kategorien angezeigt, denen ein Betrag zugewiesen wurde.</string>
+  <string name="menu_BudgetActivity_delete_help_text">Das aktuell angezeigte Budget wird gelöscht.</string>
+  <string name="help_ManageBudgets_title">Liste aller Budgets</string>
+  <string name="help_ManageBudgets_info">Dieser Bildschirm zeigt eine Zusammenfassung aller von Ihnen erstellten Budgets. Verwenden Sie die schwebende Aktionsschaltfläche, um ein neues Budget zu erstellen. Durch Klicken auf einen Listeneintrag wird ein einzelnes Budget angezeigt.</string>
+  <string name="help_BudgetEdit_title">Formular für Budgets</string>
+  <string name="help_BudgetEdit_info">Verwenden Sie dieses Formular, um ein neues Budget zu erstellen oder ein vorhandenes zu bearbeiten.</string>
+  <string name="form_BudgetEdit_title_help_text">Der Titel eines Budgets hilft dabei, es in der Budgetliste zu identifizieren.</string>
+  <string name="form_BudgetEdit_amount_help_text">Wie viel Geld steht im Rahmen dieses Budgets zur Verfügung.</string>
+  <string name="form_BudgetEdit_accounts_help_text">Ein Budget ist entweder auf ein Konto beschränkt; es deckt alle Konten mit der gleichen Währung ab; oder es bezieht sich auf das Gesamtaggregat über alle Währungen.</string>
+  <string name="form_BudgetEdit_filter_help_text">Budgets können nach Kategorien, Parteien, Methoden oder Zuständen gefiltert werden. Es werden nur Buchungen berücksichtigt, die mit diesen Filtern übereinstimmen.</string>
+  <string name="form_BudgetEdit_type_help_text">Ein Budget wird entweder als regulär (täglich, monatlich, wöchentlich, jährlich) oder einmalig definiert. Bei einmaligen Budgets geben Sie den Beginn und das Ende der Laufzeit an. Ein reguläres Budget (das nicht gefiltert wird) kann als Standard festgelegt werden: Dies bedeutet, dass die Buchungsliste (wenn sie so konfiguriert ist, dass Daten pro Tag, Woche, Monat oder Jahr gruppiert werden) den Fortschritt für dieses Budget für jeden Zeitraum anzeigt.</string>
 </resources>

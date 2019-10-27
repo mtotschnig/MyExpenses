@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_306">
+        <item>Ngân quỹ 2.0</item>
+    </string-array>
     <string-array name="whats_new_287">
         <item>Bảo vệ bằng cách khoá màn hình</item>
     </string-array>

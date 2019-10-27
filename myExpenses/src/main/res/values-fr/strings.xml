@@ -647,7 +647,9 @@
   <string name="onboarding_more_options">Plus d\'options</string>
   <string name="onboarding_restore_from_cloud">Restaurer à partir de la synchronisation distante</string>
   <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
+  <string name="onboarding_restore_from_cloud_sync_accounts">À partir des comptes de synchronisation</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">À partir de la sauvegarde</string>
   <string name="onboarding_restore_from_local">Restaurer le fichier de sauvegarde local</string>
   <string name="dialog_button_add">Ajouter</string>
   <string name="template_create_error">Erreur lors de la sauvegarde du modèle</string>
@@ -842,10 +844,25 @@
   <string name="pref_exchange_rate_provider_title">Fournisseur de taux de change</string>
   <string name="pref_openexchangerates_app_id_summary">Veuillez créer un compte gratuit sur OpenExchangeRates et fournir votre App ID.</string>
   <string name="pref_plan_executor_time_title">Heure de notification du planificateur</string>
+  <string name="synchronization_select_folder_dialog_title">Sélectionner un dossier existant ou en créer un nouveau</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <string name="discover_feature_expense_income_switch">Utilisez ce bouton pour enregistrer le revenu.</string>
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="discover_feature_operation_type_select">Utilisez ce menu déroulant pour enregistrer les transferts entre comptes ou les transactions fractionnées.</string>
   <string name="menu_create_budget">Nouveau budget</string>
+  <string name="budget_onetime">Une fois</string>
+  <string name="dialog_confirm_discard_new_budget">Annuler le nouveau budget?</string>
   <string name="budget_duration_from">À partir</string>
   <string name="budget_duration_to">Au</string>
+  <string name="no_budgets">Définissez votre premier budget en appuyant sur le bouton +.</string>
+  <string name="budget_date_end_after_start">La date de fin du budget doit être postérieure à sa date de début.</string>
+  <string name="menu_budget_allocated_only">Afficher uniquement les catégories avec allocation</string>
+  <string name="budget_filter_all_categories">Toutes les catégories</string>
+  <string name="budget_filter_all_parties">Tous les tiers</string>
+  <string name="budget_filter_all_methods">Toutes les méthodes</string>
+  <string name="budget_filter_all_states">Tous les états</string>
+  <string name="budget_form_label_filter">Filtre</string>
+  <string name="dialog_title_warning_delete_budget">Supprimer le budget?</string>
+  <string name="warning_delete_budget">Le budget \"%1$s\" sera supprimé.</string>
   <string name="menu_edit_budget">Modifier le budget</string>
 </resources>

@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_306">
+        <item>Bütçeleme 2.0</item>
+    </string-array>
     <string-array name="whats_new_305">
         <item>Dropbox ve Drive ile eşleşme için yeni yöntem</item>
     </string-array>

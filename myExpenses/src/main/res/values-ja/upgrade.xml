@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_306">
+        <item>予算作成 2.0</item>
+    </string-array>
     <string-array name="whats_new_305">
         <item>Dropbox と Drive を経由した同期の新しい実装</item>
     </string-array>
