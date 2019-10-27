@@ -1284,6 +1284,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (mOperationType == TYPE_TRANSACTION) {
       mTransaction.setCatId(mCatId);
+      mTransaction.setLabel(mLabel);
     }
     if (mIsMainTransactionOrTemplate) {
       mTransaction.setPayee(mPayeeText.getText().toString());
