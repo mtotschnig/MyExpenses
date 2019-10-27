@@ -1262,7 +1262,7 @@ public class Transaction extends Model {
       String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
       ArrayList<ContentProviderOperation> ops = new ArrayList<>();
       ops.add(ContentProviderOperation.newDelete(getContentUri())
-          .withSelection(getPartOrPeerSelect(), getPartOrPeerSelectArgs(statusUncommitted))
+          .withSelection(getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?", getPartOrPeerSelectArgs(statusUncommitted))
           .build());
       ops.add(ContentProviderOperation.newDelete(getContentUri())
           .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
