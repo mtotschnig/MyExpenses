@@ -62,6 +62,9 @@ public class CategoryCriteria extends IdCriteria {
 
   @Override
   public String getSelection() {
+    if (operation == WhereFilter.Operation.ISNULL) {
+      return super.getSelection();
+    }
     String selection = WhereFilter.Operation.IN.getOp(values.length);
     return getColumn() + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " " + selection + " OR "
