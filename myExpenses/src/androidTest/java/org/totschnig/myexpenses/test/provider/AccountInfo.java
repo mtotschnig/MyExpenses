@@ -3,26 +3,33 @@ package org.totschnig.myexpenses.test.provider;
 import android.content.ContentValues;
 
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 /**
  * A utility for converting account data to a ContentValues map.
  */
 public class AccountInfo {
-  String label;
-  long openingBalance;
-  AccountType type;
-  String currency;
+  private final String label;
+  private final long openingBalance;
+  private final AccountType type;
+  private final String currency;
+  private final Grouping grouping;
 
-  public AccountInfo(String label, AccountType type, long openingBalance) {
+  AccountInfo(String label, AccountType type, long openingBalance) {
     this(label, type, openingBalance, "EUR");
   }
 
-  public AccountInfo(String label, AccountType type, long openingBalance, String currency) {
+  AccountInfo(String label, AccountType type, long openingBalance, String currency) {
+    this(label, type, openingBalance, currency, Grouping.NONE);
+  }
+
+  AccountInfo(String label, AccountType type, long openingBalance, String currency, Grouping grouping) {
     this.label = label;
     this.type = type;
     this.openingBalance = openingBalance;
     this.currency = currency;
+    this.grouping = grouping;
   }
 
   public ContentValues getContentValues() {
@@ -33,10 +40,11 @@ public class AccountInfo {
     v.put(DatabaseConstants.KEY_OPENING_BALANCE, openingBalance);
     v.put(DatabaseConstants.KEY_CURRENCY, currency);
     v.put(DatabaseConstants.KEY_TYPE, type.name());
+    v.put(DatabaseConstants.KEY_GROUPING, grouping.name());
     return v;
   }
 
-  public String getDescription() {
+  String getDescription() {
     return "My account of type " + type.name();
   }
 
@@ -45,7 +53,7 @@ public class AccountInfo {
     return label;
   }
 
-  public long getOpeningBalance() {
+  long getOpeningBalance() {
     return openingBalance;
   }
 

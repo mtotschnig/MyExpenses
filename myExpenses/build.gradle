@@ -54,8 +54,8 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 386
-        versionName '3.0.6'
+        versionCode 387
+        versionName '3.0.6.1'
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""

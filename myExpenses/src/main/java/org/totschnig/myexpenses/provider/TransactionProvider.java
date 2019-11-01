@@ -727,9 +727,8 @@ public class TransactionProvider extends ContentProvider {
         }
         break;
       case ACCOUNT_ID:
-        qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON (%3$s = %1$s.%4$s AND %1$s.%5$s = %2$s.%5$s)",
-            TABLE_ACCOUNTS, TABLE_BUDGETS, KEY_ACCOUNTID, KEY_ROWID, KEY_GROUPING));
-        qb.appendWhere(TABLE_ACCOUNTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb.setTables(TABLE_ACCOUNTS);
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       case AGGREGATES_COUNT:
         qb.setTables(TABLE_ACCOUNTS);

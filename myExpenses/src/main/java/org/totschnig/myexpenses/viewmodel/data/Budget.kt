@@ -27,27 +27,25 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
         }
     }
 
-    fun toContentValues(): ContentValues {
-        val contentValues = ContentValues()
-        contentValues.put(KEY_TITLE, title)
-        contentValues.put(KEY_DESCRIPTION, description)
-        contentValues.put(KEY_GROUPING, grouping.name)
-        contentValues.put(KEY_BUDGET, amount.amountMinor)
+    fun toContentValues() = ContentValues().apply {
+        put(KEY_TITLE, title)
+        put(KEY_DESCRIPTION, description)
+        put(KEY_GROUPING, grouping.name)
+        put(KEY_BUDGET, amount.amountMinor)
         if (accountId > 0) {
-            contentValues.put(KEY_ACCOUNTID, accountId)
-            contentValues.putNull(KEY_CURRENCY)
+            put(KEY_ACCOUNTID, accountId)
+            putNull(KEY_CURRENCY)
         } else {
-            contentValues.put(KEY_CURRENCY, currency.code())
-            contentValues.putNull(KEY_ACCOUNTID)
+            put(KEY_CURRENCY, currency.code())
+            putNull(KEY_ACCOUNTID)
         }
         if (grouping == Grouping.NONE) {
-            contentValues.put(KEY_START, startIso())
-            contentValues.put(KEY_END, endIso())
+            put(KEY_START, startIso())
+            put(KEY_END, endIso())
         } else {
-            contentValues.putNull(KEY_START)
-            contentValues.putNull(KEY_END)
+            putNull(KEY_START)
+            putNull(KEY_END)
         }
-        return contentValues
     }
 
     fun startIso() = start!!.format(ISO_LOCAL_DATE)

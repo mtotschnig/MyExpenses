@@ -48,6 +48,27 @@ public class AccountTest extends BaseDbTest {
     }
   }
 
+  private long insertAccountWithTwoBudgets() {
+    final Grouping grouping = Grouping.MONTH;
+    long accountId = mDb.insertOrThrow(
+        DatabaseConstants.TABLE_ACCOUNTS,
+        null,
+        new AccountInfo("Account with 2 budgets", AccountType.CCARD, -100, "EUR", grouping).getContentValues()
+    );
+    BudgetInfo[] budgets = {
+        new BudgetInfo(accountId, "budget 1", "description", 400, grouping),
+        new BudgetInfo(accountId, "budget 2", "description", 5000, grouping)
+    };
+    for (BudgetInfo budgetInfo : budgets) {
+      mDb.insertOrThrow(
+          DatabaseConstants.TABLE_BUDGETS,
+          null,
+          budgetInfo.getContentValues()
+      );
+    }
+    return accountId;
+  }
+
   public void testQueriesOnAccountUri() {
     final String[] TEST_PROJECTION = {
         DatabaseConstants.KEY_LABEL, DatabaseConstants.KEY_DESCRIPTION, DatabaseConstants.KEY_CURRENCY
@@ -126,6 +147,24 @@ public class AccountTest extends BaseDbTest {
 
     assertEquals(SELECTION_ARGS.length, index);
     projectionCursor.close();
+  }
+
+  public void testAccountIdUriWithMultipleBudgets() {
+    long accountId = insertAccountWithTwoBudgets();
+
+    Uri AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId);
+
+    Cursor cursor = mMockResolver.query(AccountIdUri,
+        null,
+        null,
+        null,
+        null
+    );
+    assert cursor != null;
+
+    assertEquals(1, cursor.getCount());
+
+    cursor.close();
   }
 
   public void testQueriesOnAccountIdUri() {
