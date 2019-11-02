@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 import android.net.Uri;
-import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import android.text.TextUtils;
 
 import com.annimon.stream.Collectors;
@@ -35,6 +33,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
+
 public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   private static final String LOCK_FILE = ".lock";
   private DbxClientV2 mDbxClient;
@@ -46,12 +47,21 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
+  public Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create) {
     if (authToken == null) {
       return Exceptional.of(new Exception("authToken is null"));
     }
     setupClient(authToken);
-    return super.setUp(authToken, encryptionPassword);
+    return super.setUp(authToken, encryptionPassword, create);
+  }
+
+  @Override
+  protected boolean isEmpty() throws IOException {
+    try {
+      return mDbxClient.files().listFolder(basePath).getEntries().isEmpty();
+    } catch (DbxException e) {
+      throw new IOException(e);
+    }
   }
 
   private void setupClient(String authToken) {

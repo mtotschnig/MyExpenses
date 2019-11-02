@@ -8,6 +8,7 @@ import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -15,6 +16,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -38,7 +40,7 @@ public interface SyncBackendProvider {
   @NonNull
   Stream<AccountMetaData> getRemoteAccountList() throws IOException;
 
-  Exceptional<Void> setUp(String authToken, String encryptionPassword);
+  Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create);
 
   void tearDown();
 
@@ -55,6 +57,8 @@ public interface SyncBackendProvider {
    * @return true if exception is caused by invalid auth token
    */
   boolean isAuthException(Exception e);
+
+  void initEncryption() throws GeneralSecurityException, IOException;
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {
@@ -81,7 +85,16 @@ public interface SyncBackendProvider {
   }
 
   class EncryptionException extends Exception {
-    public EncryptionException(String message) {
+    public static EncryptionException notEncrypted(Context context) {
+      return new EncryptionException(context.getString(R.string.sync_backend_is_not_encrypted));
+    }
+    public static EncryptionException encrypted(Context context) {
+      return new EncryptionException(context.getString(R.string.sync_backend_is_encrypted));
+    }
+    public static EncryptionException wrongPassphrase(Context context) {
+      return new EncryptionException(context.getString(R.string.sync_backend_wrong_passphrase));
+    }
+    private EncryptionException(String message) {
       super(message);
     }
   }

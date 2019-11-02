@@ -112,23 +112,32 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Exceptional<Void> setUp(String authToken, String encryptionPassword) {
+  public void initEncryption() throws GeneralSecurityException, IOException {
+    saveFileContentsToBase(ENCRYPTION_TOKEN_FILE_NAME,
+        encrypt(EncryptionHelper.generateRandom(10)), MIMETYPE_OCTET_STREAM, false);
+  }
+
+  @Override
+  public Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create) {
     this.encryptionPassword = encryptionPassword;
     try {
       String encryptionToken = readEncryptionToken();
       if (encryptionToken == null) {
         if (encryptionPassword != null) {
-          saveFileContentsToBase(ENCRYPTION_TOKEN_FILE_NAME,
-              encrypt(EncryptionHelper.generateRandom(10)), MIMETYPE_OCTET_STREAM, false);
+          if (create && isEmpty()) {
+            initEncryption();
+          } else {
+            return Exceptional.of(EncryptionException.notEncrypted(context));
+          }
         }
       } else {
         if (encryptionPassword == null) {
-          return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_is_encrypted)));
+          return Exceptional.of(EncryptionException.encrypted(context));
         } else {
           try {
             decrypt(encryptionToken);
           } catch (GeneralSecurityException e) {
-            return Exceptional.of(new EncryptionException(context.getString(R.string.sync_backend_wrong_passphrase)));
+            return Exceptional.of(EncryptionException.wrongPassphrase(context));
           }
         }
       }
@@ -137,6 +146,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       return Exceptional.of(e);
     }
   }
+
+  protected abstract boolean isEmpty() throws IOException;
 
   private String decrypt(String input) throws GeneralSecurityException {
     return new String(EncryptionHelper.decrypt(Base64.decode(input, Base64.DEFAULT), encryptionPassword));

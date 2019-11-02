@@ -199,6 +199,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return "webdav_backend";
   }
 
+  @Override
+  protected boolean isEmpty() throws IOException {
+    return webDavClient.getFolderMembers((String[]) null).isEmpty();
+  }
+
   @NonNull
   @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {

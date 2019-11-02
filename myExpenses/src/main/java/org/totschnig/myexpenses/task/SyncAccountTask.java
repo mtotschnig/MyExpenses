@@ -95,26 +95,21 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
   private Exceptional<Result> buildResult() {
     final int localUnsynced = org.totschnig.myexpenses.model.Account.count(
         KEY_SYNC_ACCOUNT_NAME + " IS NULL", null);
-    final List<AccountMetaData> syncAccounts;
-    final List<String> backups;
     Account account = GenericAccountService.GetAccount(accountName);
     SyncBackendProvider syncBackendProvider;
     try {
       syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
-          account).getOrThrow();
-      if (shouldReturnRemoteDataList) {
-        syncAccounts = syncBackendProvider.getRemoteAccountList().collect(Collectors.toList());
-        backups = syncBackendProvider.getStoredBackups();
-        syncBackendProvider.tearDown();
-      } else {
-        syncAccounts = null;
-        backups = null;
-      }
+          account, create).getOrThrow();
+      final List<AccountMetaData> syncAccounts = shouldReturnRemoteDataList ? syncBackendProvider.getRemoteAccountList().collect(Collectors.toList()) : null;
+      final List<String> backups = shouldReturnRemoteDataList ? syncBackendProvider.getStoredBackups() : null;
+      syncBackendProvider.tearDown();
+      return Exceptional.of(() -> new Result(accountName, syncAccounts, backups, localUnsynced));
     } catch (Throwable throwable) {
-      SyncAdapter.log().e(throwable);
+      if (!(throwable instanceof IOException || throwable instanceof SyncBackendProvider.EncryptionException)) {
+        SyncAdapter.log().e(throwable);
+      }
       return Exceptional.of(throwable);
     }
-    return Exceptional.of(() -> new Result(accountName, syncAccounts, backups, localUnsynced));
   }
 
   @Override

@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 
 public abstract class SyncBackendProviderFactory {
 
-  public static Exceptional<SyncBackendProvider> get(Context context, Account account) {
+  public static Exceptional<SyncBackendProvider> get(Context context, Account account, boolean create) {
     final AccountManager accountManager = AccountManager.get(context);
     final Optional<Exceptional<SyncBackendProvider>> optional = Stream.of(ServiceLoader.load(context))
         .map(factory -> factory.from(context, account, accountManager))
@@ -34,7 +34,7 @@ public abstract class SyncBackendProviderFactory {
               Exceptional<Void> result = syncBackendProviderExceptional.get().setUp(
                   accountManager.blockingGetAuthToken(account,
                       GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true),
-                  GenericAccountService.loadPassword(context.getContentResolver(), account.name));
+                  GenericAccountService.loadPassword(context.getContentResolver(), account.name), create);
               if (!result.isPresent()) {
                 return Exceptional.of(result.getException());
               }

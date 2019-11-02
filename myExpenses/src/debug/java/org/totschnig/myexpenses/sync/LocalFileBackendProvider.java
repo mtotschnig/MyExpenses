@@ -262,4 +262,9 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
         .filter(Optional::isPresent)
         .map(Optional::get);
   }
+
+  @Override
+  protected boolean isEmpty() {
+    return baseDir.list().length == 0;
+  }
 }

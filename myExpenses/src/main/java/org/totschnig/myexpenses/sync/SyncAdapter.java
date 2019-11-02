@@ -175,12 +175,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     AccountManager accountManager = AccountManager.get(getContext());
 
     Exceptional<SyncBackendProvider> backendProviderExceptional =
-        SyncBackendProviderFactory.get(getContext(), account);
+        SyncBackendProviderFactory.get(getContext(), account, false);
     SyncBackendProvider backend;
     try {
       backend = backendProviderExceptional.getOrThrow();
     } catch (Throwable throwable) {
-      if (throwable instanceof SyncBackendProvider.SyncParseException) {
+      if (throwable instanceof SyncBackendProvider.SyncParseException || throwable instanceof SyncBackendProvider.EncryptionException) {
         syncResult.databaseError = true;
         CrashHandler.report(throwable);
         GenericAccountService.deactivateSync(account);
@@ -194,7 +194,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       } else if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
         notifyWithResolution((SyncBackendProvider.ResolvableSetupException) throwable);
       } else {
-        if (throwable instanceof IOException || throwable instanceof SyncBackendProvider.EncryptionException) {
+        if (throwable instanceof IOException) {
           log().i(throwable, "Error setting up account %s", account);
         } else {
           log().e(throwable, "Error setting up account %s", account);
