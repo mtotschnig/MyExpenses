@@ -865,9 +865,11 @@ public class TransactionList extends ContextualActionBarFragment implements
       }
 
       Cursor c = getCursor();
-      c.moveToPosition(position);
-      fillSums(holder, getHeaderId(position));
-      holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c), c));
+      if (c != null) {
+        c.moveToPosition(position);
+        fillSums(holder, getHeaderId(position));
+        holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c), c));
+      }
       return convertView;
     }
 
