@@ -876,7 +876,7 @@
     <string name="budget_filter_all_categories">All categories</string>
     <string name="budget_filter_all_parties">All parties</string>
     <string name="budget_filter_all_methods">All methods</string>
-    <string name="budget_filter_all_states">All states</string>
+    <string name="budget_filter_all_states">All status</string>
     <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Delete budget?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>

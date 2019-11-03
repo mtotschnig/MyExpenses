@@ -807,6 +807,7 @@
   <string name="passphrase_for_synchronization">Geben Sie eine Passphrase ein, wenn die Synchronisationsdaten in diesem Backend verschlüsselt werden sollen.</string>
   <string name="sync_backend_is_encrypted">Das Backend ist verschlüsselt. Sie müssen eine Passphrase angeben.</string>
   <string name="sync_backend_wrong_passphrase">Das Backend scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
+  <string name="sync_backend_is_not_encrypted">Das Backend ist nicht verschlüsselt.</string>
   <string name="warning_backup_protected">Das Archiv wird durch Ihre Passphrase geschützt.</string>
   <string name="dialog_title_backup_protected">Backup (verschlüsselt)</string>
   <string name="input_label_passphrase">Passphrase</string>
@@ -860,7 +861,7 @@
   <string name="budget_filter_all_categories">Alle Kategorien</string>
   <string name="budget_filter_all_parties">Alle Parteien</string>
   <string name="budget_filter_all_methods">Alle Zahlungsweisen</string>
-  <string name="budget_filter_all_states">Alle Zustände</string>
+  <string name="budget_filter_all_states">Alle Status</string>
   <string name="budget_form_label_filter">Filter</string>
   <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
   <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>

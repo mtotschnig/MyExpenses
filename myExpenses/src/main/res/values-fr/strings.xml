@@ -807,6 +807,7 @@
   <string name="passphrase_for_synchronization">Entrez une phrase secrète si vous souhaitez que les données de synchronisation sur ce backend soient cryptées.</string>
   <string name="sync_backend_is_encrypted">Le backend distant est crypté. Vous devez spécifier une phrase secrète.</string>
   <string name="sync_backend_wrong_passphrase">Le backend distant semble crypté avec une phrase secrète différente.</string>
+  <string name="sync_backend_is_not_encrypted">Le backend distant n\'est pas crypté.</string>
   <string name="warning_backup_protected">L\'archive sera protégée par votre phrase secrète.</string>
   <string name="dialog_title_backup_protected">Sauvegarde (cryptée)</string>
   <string name="input_label_passphrase">Phrase secrète</string>
