@@ -1972,6 +1972,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 92) {
+        db.execSQL("DROP VIEW IF EXISTS " + VIEW_CHANGES_EXTENDED);
         //method_id on delete set null
         db.execSQL("ALTER TABLE changes RENAME to changes_old");
         db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
@@ -1998,6 +1999,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
+        db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
       }
 
     } catch (SQLException e) {
