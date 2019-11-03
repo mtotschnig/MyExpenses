@@ -66,7 +66,11 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     fun loadAllBudgets() {
         disposable = createQuery(null, null)
                 .mapToList(budgetCreatorFunction)
-                .subscribe { data.postValue(it) }
+                .subscribe {
+                    spentDisposables.dispose()
+                    spentDisposables = CompositeDisposable()
+                    data.postValue(it)
+                }
     }
 
     fun loadBudget(budgetId: Long, once: Boolean) {
