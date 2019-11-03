@@ -203,6 +203,8 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
           if (result.get().localUnsynced > 0) {
             showSelectUnsyncedAccount(result.get().accountName);
           }
+        } else {
+          showSnackbar(result.getException().getMessage());
         }
         break;
       }

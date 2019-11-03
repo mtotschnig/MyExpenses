@@ -179,6 +179,8 @@ public class SplashActivity extends SyncBackendSetupActivity {
             }
           }
           showSnackbar("Neither backups nor sync accounts found");
+        } else {
+          showSnackbar(resultExceptional.getException().getMessage());
         }
         break;
       }
