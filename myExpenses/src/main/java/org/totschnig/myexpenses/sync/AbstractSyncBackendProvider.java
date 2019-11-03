@@ -251,7 +251,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
-      return Optional.of(gson.fromJson(bufferedReader, AccountMetaData.class));
+      final AccountMetaData accountMetaData = gson.fromJson(bufferedReader, AccountMetaData.class);
+      if (accountMetaData == null) {
+        throw new IOException("accountMetaData not found in input stream");
+      }
+      return Optional.of(accountMetaData);
     } catch (Exception e) {
       CrashHandler.report(e, SyncAdapter.TAG);
       return Optional.empty();
