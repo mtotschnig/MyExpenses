@@ -831,6 +831,7 @@
   <string name="passphrase_for_synchronization">הזן ביטוי סיסמה, אם ברצונך להצפין נתוני סנכרון ב- backend זה.</string>
   <string name="sync_backend_is_encrypted">Backend מרחוק מוצפן. עליך לציין ביטוי סיסמה.</string>
   <string name="sync_backend_wrong_passphrase">Backend מרחוק נראה מוצפן עם ביטוי סיסמה שונה.</string>
+  <string name="sync_backend_is_not_encrypted">גיבוי מרחוק אינו מוצפן</string>
   <string name="warning_backup_protected">הארכיון יהיה מוגן על ידי ביטוי הסיסמה שלך.</string>
   <string name="dialog_title_backup_protected">גיבוי (מוצפן)</string>
   <string name="input_label_passphrase">ביטוי סיסמה</string>

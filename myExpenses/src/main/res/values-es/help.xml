@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Cambie la visibilidad del balance.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Cambie si las transferencias deberían de ser tratadas como un ingreso o gasto regular.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Al definir un presupuesto, define un monto total que quiere gastar durante un periodo determinado. También puede asignar montantes para categorías y sub-categorías. Más adelante, puede monitorizar cuánto ha gastado y cuánto le queda por gastar.</string>
+  <string name="help_Budget_amount_click">Hacer clic cobre un monto presupuestado le permite cambiarlo.</string>
   <string name="cab_show_transactions_help_text">Abrir una ventana con un listado de transacciones de la categoría seleccionada en la actual cuenta.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Comparar presupuestos con gastos de periodos de tiempo pasados y futuros.</string>
+  <string name="menu_BudgetActivity_edit_help_text">Cambiar la definición del presupuesto.</string>
+  <string name="menu_budget_aggregate_help_text">Por defecto, las sumas calculadas incluyen tanto gastos como ingresos. Si desactiva esta opción, se ignorarán los ingresos, teniendo en cuento sólo los gastos.</string>
+  <string name="menu_budget_allocated_only_help_text">Activando esta opción, sólo se mostrarán las categorías que hayan sido asignadas al mismo monto.</string>
+  <string name="menu_BudgetActivity_delete_help_text">Se eliminará el actual presupuesto que se muestra.</string>
+  <string name="help_ManageBudgets_title">Lista de todos los presupuestos.</string>
+  <string name="help_ManageBudgets_info">Esta pantalla muestra un resumen de todos los presupuestos que ha creado. Use el botón de acción flotante para crear un nuevo presupuesto. Haciendo clic en una entrada de la lista mostrará un único presupuesto.</string>
+  <string name="help_BudgetEdit_title">Formulario para presupuestos</string>
+  <string name="help_BudgetEdit_info">Use este formulario para crear un nuevo presupuesto o editar uno existente.</string>
+  <string name="form_BudgetEdit_title_help_text">Un título de prepuesto ayuda a identificarlo en la lista lista de presupuestos.</string>
+  <string name="form_BudgetEdit_amount_help_text">Cuánto dinero hay disponible en el contexto de este presupuesto.</string>
+  <string name="form_BudgetEdit_accounts_help_text">Un propuesto está limitado a una cuenta, cubriendo todas las cuentas con la misma divisa, o se refiere al conjunto total de todas las divisas.</string>
+  <string name="form_BudgetEdit_filter_help_text">Se pueden filtrar los presupuestos con respecto a las categorías, grupos, métodos o estados. Sólo se tienen en cuenta las transacciones emparejadas con estos filtros.</string>
+  <string name="form_BudgetEdit_type_help_text">Un presupuesto se define como regular (diario, mensual, semanal, anual) o puntual. Para los presupuestos puntuales, especifique el comienzo y fin de su duración. Por otro lado, un presupuesto regular (no filtrado) puede configurarse por defecto: cada lista de transacción (si está configurada en grupo de datos por días, semanas, meses o años) mostrará el progreso de ese presupuesto para cada periodo.</string>
 </resources>

@@ -647,7 +647,9 @@
   <string name="onboarding_more_options">Più opzioni</string>
   <string name="onboarding_restore_from_cloud">Ripristino dal cloud</string>
   <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
+  <string name="onboarding_restore_from_cloud_sync_accounts">Dalla Sincronizzazione Conto</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Da backup</string>
   <string name="onboarding_restore_from_local">Ripristina il file di backup locale</string>
   <string name="dialog_button_add">Inserisci</string>
   <string name="template_create_error">Errore durante il salvataggio del modello</string>
@@ -805,6 +807,7 @@
   <string name="passphrase_for_synchronization">Inserisci una password, se vuoi che i dati di sincronizzazione su questo back-end vengano crittografati.</string>
   <string name="sync_backend_is_encrypted">Il back-end remoto è crittografato. Devi specificare una password.</string>
   <string name="sync_backend_wrong_passphrase">Il back-end remoto sembra essere crittografato con una password diversa.</string>
+  <string name="sync_backend_is_not_encrypted">Il back-end remoto non è crittografato.</string>
   <string name="warning_backup_protected">L\'archivio srà protetto dalla tua password.</string>
   <string name="dialog_title_backup_protected">Backup (crittografato)</string>
   <string name="input_label_passphrase">Password</string>
@@ -842,10 +845,25 @@
   <string name="pref_exchange_rate_provider_title">Fornitore dei Tassi di Cambio</string>
   <string name="pref_openexchangerates_app_id_summary">Registri un account gratuito su OpenExchangeRates e riporti il suo App ID</string>
   <string name="pref_plan_executor_time_title">Tempo di notifica del pianificatore</string>
+  <string name="synchronization_select_folder_dialog_title">Seleziona una cartella esistente o creane una nuova</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <string name="discover_feature_expense_income_switch">Usa questo pulsante per registrare le entrate.</string>
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="discover_feature_operation_type_select">Utilizza questo menù a tendina per registrare i trasferimenti fra i conti o fra le operazioni frazionate.</string>
   <string name="menu_create_budget">Nuovo budget</string>
+  <string name="budget_onetime">Una tantum</string>
+  <string name="dialog_confirm_discard_new_budget">Eliminare il nuovo budget?</string>
   <string name="budget_duration_from">Dal</string>
   <string name="budget_duration_to">Fino al</string>
+  <string name="no_budgets">Definisci il tuo budget iniziale toccando il pulsante +.</string>
+  <string name="budget_date_end_after_start">La data di termine del budget deve essere successiva alla data di inizio.</string>
+  <string name="menu_budget_allocated_only">Mostra solo le categorie con allocazione</string>
+  <string name="budget_filter_all_categories">Tutte le categorie</string>
+  <string name="budget_filter_all_parties">Tutti i beneficiari</string>
+  <string name="budget_filter_all_methods">Tutti i metodi</string>
+  <string name="budget_filter_all_states">Tutti gli stati</string>
+  <string name="budget_form_label_filter">Filtro</string>
+  <string name="dialog_title_warning_delete_budget">Elimina il budget?</string>
+  <string name="warning_delete_budget">Il budget \"%1$s\" verrà eliminato.</string>
   <string name="menu_edit_budget">Modifica il budget</string>
 </resources>

@@ -40,7 +40,7 @@
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право да гласувате на <b> карта за развитие </b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Графика на историята (паричен поток)</string>
   <string name="licence_status_free">Безплатен</string>
-  <string name="contrib_key">ключ за Премиум вариант</string>
+  <string name="contrib_key">ключ за Основен вариант</string>
   <string name="extended_key">ключ за Разширен вариант</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Изисква %s.</string>
@@ -67,13 +67,13 @@
   <string name="dialog_contrib_no">Опитай</string>
   <string name="dialog_contrib_no_usages_left">Няма безплатни употреби.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s е функция от Премиум вариант  (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Премахнете тези ограничения и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>
+  <string name="dialog_contrib_premium_feature">%1$s е допълнителна функция и изисква ключ за %2$sвариант.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Премахнете ограниченията и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> се предлага без реклами и с отворен код.</string>
   <string name="dialog_contrib_text_2">Моля, допринесете за развитието на <i>{app_name}</i> като надстроите и получете неограничен достъп до следните възможности:</string>
   <string name="dialog_contrib_usage_count">Оставащи безплатни употреби</string>
-  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате още %1$d пъти.</string>
-  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате  още %1$d дни.</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате общо %1$d пъти.</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате  общо %1$d дни.</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да създадете до %1$d сметки.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да създадете до %1$d плана.</string>
   <string name="dialog_contrib_usage_limit_split_templates">При сегашния лиценз (%1$s) може да създадете 1 шаблон за разпределяне.</string>
@@ -96,7 +96,7 @@
   <string name="dialog_title_information">Информация</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Баланс %1$s</string>
-  <string name="dialog_title_contrib_feature">Функция от Премиум вариант</string>
+  <string name="dialog_title_contrib_feature">Допълнителна функция</string>
   <string name="dialog_title_template_title">Задайте име</string>
   <plurals name="dialog_title_warning_delete_account">
     <item quantity="one">Да се изтрие ли профилът?</item>
@@ -136,7 +136,7 @@
   <string name="label">Име</string>
   <string name="licence_validation_failure">Не може да се валидира лицензен ключ.</string>
   <string name="licence_validation_success">Успешно валидиран ключ: </string>
-  <string name="licence_validation_premium">Функциите на Премиум вариант са отключени.</string>
+  <string name="licence_validation_premium">Допълнителните функции са отключени.</string>
   <string name="menu_aggregates">Общо</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Приложи</string>
@@ -277,13 +277,13 @@
   <string name="pref_checkbox_enabled">Разрешено</string>
   <string name="pref_checkbox_disabled">Забранено</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">Закупете достъп до Премиум функции.</string>
+  <string name="pref_contrib_purchase_summary">Закупете достъп до Допълнителни функции.</string>
   <string name="pref_contrib_purchase_title">Закупете Ключ</string>
   <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
   <string name="pref_contrib_purchase_title_in_app">Плащане в приложението</string>
   <string name="pref_custom_currency_title">Персонализирайте валути</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ако сте получили ключ, получавате достъп до премийните функции.</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ако сте получили ключ, получавате достъп до допълнителните функции.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Въведете ключ</string>
   <string name="pref_export_format_title">Формат на датата</string>
   <string name="pref_import_from_grisbi_summary">Внасяне на категории и страни от Grisbi XML файл</string>
@@ -337,8 +337,8 @@
   <string name="pref_ui_language_default">От системата</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Език</string>
-  <string name="pref_ui_theme_dark">Тъмен</string>
-  <string name="pref_ui_theme_light">Светлина</string>
+  <string name="pref_ui_theme_dark">Тъмна</string>
+  <string name="pref_ui_theme_light">Светла</string>
   <string name="pref_ui_theme_title">Тема</string>
   <string name="pref_visit_website_summary">Често задавани въпроси (FAQ)</string>
   <string name="pref_visit_website_title">Посетете сайта ни</string>
@@ -611,8 +611,8 @@
   <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото хранилище</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Синхронизация чрез облак</string>
-  <string name="all_contrib_key_features">Всички възможности според лиценза</string>
-  <string name="all_extended_key_features">Всички възможности на разширения ключ</string>
+  <string name="all_contrib_key_features">Всички възможности на Основен вариант</string>
+  <string name="all_extended_key_features">Всички възможности на Разширен вариант</string>
   <!--button leading user to purchase flow for licence keys-->
   <string name="upgrade_now">Надстрой</string>
   <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
@@ -666,7 +666,7 @@
   <string name="error">Грешка (%s)</string>
   <string name="button_validate">Валидиране</string>
   <string name="licence_key">Лицензен ключ</string>
-  <string name="licence_removal_information">Ако на това устройство вече не се нуждаете от възможностите на премиалния лиценз, може да премахнете лицензния ключ. Това освобождава ключа за активиране на още едно, друго устройство. Ключът може да бъде активиран на до %d устройства.</string>
+  <string name="licence_removal_information">Ако на това устройство вече не се нуждаете от допълнителните възможности на лиценза, може да премахнете лицензния ключ. Това освобождава ключа за активиране на още едно, друго устройство. Ключът може да бъде активиран на до %d устройства.</string>
   <string name="progress_removing_licence">Премахване на лиценза</string>
   <string name="licence_removal_success">Лицензният ключ бе успешно премахнат от това устройство.</string>
   <string name="professional_key">Професионален ключ</string>
@@ -676,9 +676,9 @@
   <string name="valid_until">Валиден до %s</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продължете до %1$s за %2$s</string>
-  <string name="extended_upgrade_goodie_github">Допълнителни %d месеца се предоставят еднократно на потребители, които вече притежават разширен лиценз</string>
-  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Потребителите, които вече притежават разширен лиценз, заплащат 50%% от обичайната цена (%s) през първата година.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Потребителите, които вече притежават разширен лиценз, имат право на %1$d%% намаление от обичайната цена (%2$s) на годишния абонамент.</string>
+  <string name="extended_upgrade_goodie_github">Допълнителни %d месеца се предоставят еднократно на потребители, които вече притежават Разширен лиценз</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Потребителите, които вече притежават Разширен лиценз, заплащат 50%% от обичайната цена (%s) през първата година.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Потребителите, които вече притежават Разширен лиценз, имат право на %1$d%% намаление от обичайната цена (%2$s) на годишния абонамент.</string>
   <string name="switch_to_yearly" tools:ignore="UnusedResources">Преминаване на годишен абонамент</string>
   <string name="switch_to_monthly" tools:ignore="UnusedResources">Преминаване на месечен абонамент</string>
   <string name="extend_validity">Удължаване на валидността</string>
@@ -807,6 +807,7 @@
   <string name="passphrase_for_synchronization">Въведете парола, ако искате данните за синхронизация в това отдалечено хранилище да бъдат шифровани.</string>
   <string name="sync_backend_is_encrypted">Отдалеченото хранилище е шифровано. Трябва да зададете парола.</string>
   <string name="sync_backend_wrong_passphrase">Отдалеченото хранилище е шифровано с различна парола.</string>
+  <string name="sync_backend_is_not_encrypted">Отдалеченото хранилище не е шифровано.</string>
   <string name="warning_backup_protected">Архивният файл ще бъде защитен с парола.</string>
   <string name="dialog_title_backup_protected">Отдалечено хранилище (шифровано)</string>
   <string name="input_label_passphrase">Парола</string>

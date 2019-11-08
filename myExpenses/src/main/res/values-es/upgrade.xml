@@ -16,7 +16,7 @@
  -->
 <resources>
     <string-array name="whats_new_306">
-        <item>Presupuestar 2.0</item>
+        <item>Presupuestos 2.0</item>
     </string-array>
     <string-array name="whats_new_305">
         <item>Nueva implementación para la sincronización con Dropbox y Drive</item>

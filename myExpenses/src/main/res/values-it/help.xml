@@ -157,6 +157,21 @@
   <string name="menu_HistoryActivity_history_show_balance_help_text">Attiva la visibilità del bilancio.</string>
   <string name="menu_HistoryActivity_history_transfers_help_text">Attiva / disattiva, se i trasferimenti devono essere considerati come entrate o uscite regolari.</string>
   <!--Budget-->
+  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Definendo un budget, si definisce un importo complessivo che si desidera spendere durante un determinato periodo. È inoltre possibile stanziare importi per categorie e sottocategorie. Puoi così monitorare quanto hai speso e quanto ti resta da spendere.</string>
+  <string name="help_Budget_amount_click">Cliccando sugli importi messi nel budget è possibile modificarli.</string>
   <string name="cab_show_transactions_help_text">Apri una schermata elencante tutte le transazioni associate alla categoria selezionata nell\'attuale conto.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Confronta il budget con le spese passate e future.</string>
+  <string name="menu_BudgetActivity_edit_help_text">Modifica la definizione del budget.</string>
+  <string name="menu_budget_aggregate_help_text">Da impostazione predefinita, le somme calcolate comprendono sia le spese che le entrate. Se si disattiva questa opzione, le entrate vengono ignorate, e vengono prese in considerazione solo le spese.</string>
+  <string name="menu_budget_allocated_only_help_text">Attivando questa opzione, vengono visualizzate solo le categorie per le quali è stato stanziato un determinato importo.</string>
+  <string name="menu_BudgetActivity_delete_help_text">Il budget attualmente visualizzato verrà eliminato.</string>
+  <string name="help_ManageBudgets_title">Elenco di tutti i budget</string>
+  <string name="help_ManageBudgets_info">Questa schermata mostra un riepilogo di tutti i budget che hai creato. Usa il pulsante + per creare un nuovo budget. Facendo clic su una voce dell\'elenco viene visualizzato il singolo budget.</string>
+  <string name="help_BudgetEdit_title">Modello per il budget</string>
+  <string name="help_BudgetEdit_info">Utilizza questo modello per creare un nuovo budget o per modificarne uno esistente.</string>
+  <string name="form_BudgetEdit_title_help_text">Il titolo aiuta ad identificare un budget all\'interno della lista dei budget.</string>
+  <string name="form_BudgetEdit_amount_help_text">Quanto denaro è disponibile nel contesto di questo budget.</string>
+  <string name="form_BudgetEdit_accounts_help_text">Un budget può essere limitato ad un solo account; oppure coprire tutti i conti nella stessa valuta; oppure ancora riferirsi al totale aggregato in tutte le valute.</string>
+  <string name="form_BudgetEdit_filter_help_text">I budget possono essere filtrati in base a categorie, beneficiari, metodi o stati. Vengono prese in considerazione solo le transazioni corrispondenti a questi filtri.</string>
+  <string name="form_BudgetEdit_type_help_text">Un budget è definito come ricorrente (giornaliero, mensile, settimanale, annuale) o una tantum. Per i budget una tantum, specifica l\'inizio e la fine della loro durata. Un budget ricorrente (che non è filtrato) può essere impostato come predefinito: ciò significa che l\'elenco delle transazioni (se configurato per raggruppare i dati per giorno, settimana, mese o anno) mostrerà lo stato di avanzamento di questo budget per ciascun periodo.</string>
 </resources>

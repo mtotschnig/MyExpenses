@@ -647,7 +647,9 @@
   <string name="onboarding_more_options">Más opciones</string>
   <string name="onboarding_restore_from_cloud">Restaurar desde la sincronización en la nube</string>
   <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
+  <string name="onboarding_restore_from_cloud_sync_accounts">Desde cuentas sincronizadas</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Desde copia de seguridad</string>
   <string name="onboarding_restore_from_local">Restaurar desde copia de seguridad local</string>
   <string name="dialog_button_add">Añadir</string>
   <string name="template_create_error">Error al salvar la plantilla</string>
@@ -805,6 +807,7 @@
   <string name="passphrase_for_synchronization">Introduzca una frase de contraseña si quiere que la sincronización de datos en este servicio sea encriptada.</string>
   <string name="sync_backend_is_encrypted">El servicio remoto está encriptado. Necesita especificar una contraseña de frase.</string>
   <string name="sync_backend_wrong_passphrase">El servicio remoto parece estar encriptado con una frase de contraseña diferente.</string>
+  <string name="sync_backend_is_not_encrypted">El servicio remoto no está encriptado.</string>
   <string name="warning_backup_protected">Se protegerá el archivo con su frase de contraseña.</string>
   <string name="dialog_title_backup_protected">Copia de seguridad (encriptada)</string>
   <string name="input_label_passphrase">Frase de contraseña</string>
@@ -842,10 +845,25 @@
   <string name="pref_exchange_rate_provider_title">Proveedor de tipo de cambio</string>
   <string name="pref_openexchangerates_app_id_summary">Por favor, ingrese en una cuenta gratuita en OpenExchangeRates e introduzca su App ID</string>
   <string name="pref_plan_executor_time_title">Tiempo de notificación de agenda</string>
+  <string name="synchronization_select_folder_dialog_title">Seleccionar una carpeta existente o crear una nueva</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <string name="discover_feature_expense_income_switch">Utilizar este botón de intercambio para guardar ingresos.</string>
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="discover_feature_operation_type_select">Usar este menú despegable para guardar transferencias entre cuentas o dividir transacciones.</string>
   <string name="menu_create_budget">Nuevo presupuesto</string>
-  <string name="budget_duration_from">Del</string>
-  <string name="budget_duration_to">Al</string>
+  <string name="budget_onetime">Puntual</string>
+  <string name="dialog_confirm_discard_new_budget">¿Descartar nuevo presupuesto?</string>
+  <string name="budget_duration_from">De</string>
+  <string name="budget_duration_to">A</string>
+  <string name="no_budgets">Defina su primer presupuesto pulsando la tecla +.</string>
+  <string name="budget_date_end_after_start">La fecha final del presupuesto tiene que ser posterior a su fecha de inicio.</string>
+  <string name="menu_budget_allocated_only">Mostrar sólo categorías con asignaciones</string>
+  <string name="budget_filter_all_categories">Todas las categorías</string>
+  <string name="budget_filter_all_parties">Todos los grupos</string>
+  <string name="budget_filter_all_methods">Todos los métodos</string>
+  <string name="budget_filter_all_states">Todos los estados</string>
+  <string name="budget_form_label_filter">Filtro</string>
+  <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
+  <string name="warning_delete_budget">El presupuesto \"%1$s\" será eliminado.</string>
   <string name="menu_edit_budget">Editar presupuesto</string>
 </resources>
