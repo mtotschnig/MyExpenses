@@ -10,6 +10,8 @@ import android.widget.*
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import icepick.Icepick
+import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
@@ -41,8 +43,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private var resumedP = false
     private var budget: Budget? = null
     private lateinit var typeSpinnerHelper: SpinnerHelper
-    private lateinit var accountSpinnerHelper: SpinnerHelper
     private lateinit var filterPersistence: FilterPersistence
+    @JvmField
+    @State
+    var accountId: Long? = null
 
     private val allFilterChips: Array<ScrollingChip>
         get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND)
@@ -58,7 +62,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         Description.addTextChangedListener(this)
         Amount.addTextChangedListener(this)
         typeSpinnerHelper.setOnItemSelectedListener(this)
-        accountSpinnerHelper.setOnItemSelectedListener(this)
+        Accounts.setOnItemSelectedListener(this)
         (budget?.start ?: LocalDate.now()).let {
             DurationFrom.initWith(it, this)
         }
@@ -111,13 +115,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Icepick.restoreInstanceState(this, savedInstanceState)
         setContentView(R.layout.one_budget)
         setupToolbar()
         viewModel = ViewModelProviders.of(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, Observer {
-            accountSpinnerHelper.adapter = AccountAdapter(this, it)
-            linkInputWithLabel(accountSpinnerHelper.spinner, AccountsLabel)
-            it.firstOrNull()?.let { configureAmount(it) }
+            Accounts.adapter = AccountAdapter(this, it)
+            linkInputWithLabel(Accounts, AccountsLabel)
+            accountId?.let { populateAccount(it) }
         })
         viewModel.budget.observe(this, Observer { populateData(it) })
         mNewInstance = budgetId == 0L
@@ -134,7 +139,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             adapter = GroupingAdapter(this@BudgetEdit)
             setSelection(Grouping.MONTH.ordinal)
         }
-        accountSpinnerHelper = SpinnerHelper(Accounts)
         linkInputWithLabels()
         filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !mNewInstance)
 
@@ -146,6 +150,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         filterPersistence.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -212,11 +217,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         this.budget = budget
         Title.setText(budget.title)
         Description.setText(budget.description)
-        with(accountSpinnerHelper) {
-            (adapter as AccountAdapter).getPosition(budget.accountId).takeIf { it > -1 }?.let {
-                setSelection(it)
-            }
-        }
+        populateAccount(budget.accountId)
         configureAmount(budget.currency)
         Amount.setAmount(budget.amount.amountMajor)
         typeSpinnerHelper.setSelection(budget.grouping.ordinal)
@@ -224,6 +225,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         DefaultBudget.isChecked = budget.default
         if (resumedP) setupListeners()
         pendingBudgetLoad = 0L
+    }
+
+    private fun populateAccount(accountId: Long) {
+        with(Accounts) {
+            (adapter as AccountAdapter).getPosition(accountId).takeIf { it > -1 }?.let {
+                setSelection(it)
+            }
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -236,11 +245,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             R.id.Type -> {
                 configureTypeDependents(Type.adapter.getItem(position) as Grouping)
             }
-            R.id.Accounts -> configureAmount(selectedAccount())
+            R.id.Accounts -> {
+                configureAccount(selectedAccount())
+            }
         }
     }
 
-    private fun configureAmount(account: Account) {
+    private fun configureAccount(account: Account) {
+        accountId = account.id
         configureAmount(currencyContext[account.currency])
     }
 
@@ -296,7 +308,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         return super.dispatchCommand(command, tag)
     }
 
-    private fun selectedAccount() = accountSpinnerHelper.selectedItem as Account
+    private fun selectedAccount() = Accounts.selectedItem as Account
 }
 
 class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, android.R.layout.simple_spinner_item, android.R.id.text1, Grouping.values()) {
