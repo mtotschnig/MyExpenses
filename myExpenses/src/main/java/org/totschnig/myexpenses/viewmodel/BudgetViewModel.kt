@@ -92,7 +92,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
                     .build()
         }
-        if (budget.accountId != AggregateAccount.HOME_AGGREGATE_ID.toLong()) {
+        val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID.toLong()
+        if (!isTotalAccount) {
             if (budget.accountId < 0) {
                 builder.appendQueryParameter(KEY_CURRENCY, budget.currency.code())
             } else {
@@ -103,7 +104,10 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         var filterClause = buildDateFilterClause(budget)
         val selectionArgs: Array<String>?
         if (!filterPersistence.whereFilter.isEmpty) {
-            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(VIEW_COMMITTED)
+            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(
+                    if (isTotalAccount) TransactionProvider.TRANSACTION_SUMS_TABLE_NAME_HOMME_ACCOUNT
+                    else TransactionProvider.TRANSACTION_SUMS_TABLE_NAME
+            )
             selectionArgs = filterPersistence.whereFilter.getSelectionArgs(true)
         } else {
             selectionArgs = null
