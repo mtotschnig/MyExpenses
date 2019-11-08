@@ -108,9 +108,9 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     //we go in three passes in order to prevent calendar provider from having to expand too much instances
     //1) one week 2) one month 3) one year
     long now = System.currentTimeMillis();
-    long inOneWeek = now + (7 * 24 * 60 * 60 * 1000);
-    long inOneMonth = now + (31 * 24 * 60 * 60 * 1000);
-    long inOneYear = now + (366 * 24 * 60 * 60 * 1000);
+    long inOneWeek = now + (7 * 24 * 60 * 60 * 1000L);
+    long inOneMonth = now + (31 * 24 * 60 * 60 * 1000L);
+    long inOneYear = now + (366 * 24 * 60 * 60 * 1000L);
     long[][] intervals = new long[][] {
         {now, inOneWeek},
         {inOneWeek, inOneMonth},
