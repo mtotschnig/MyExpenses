@@ -2008,7 +2008,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 94) {
-        //on very recent versions of Sqlite renaming tables like done in upgrade to 92 breaks views AND triggers
         createOrRefreshAccountTriggers(db);
       }
 
