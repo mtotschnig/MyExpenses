@@ -150,7 +150,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 93;
+  public static final int DATABASE_VERSION = 94;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -2005,6 +2005,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 93) {
         //on very recent versions of Sqlite renaming tables like done in upgrade to 92 breaks views AND triggers
         createOrRefreshTransactionTriggers(db);
+      }
+
+      if (oldVersion < 94) {
+        //on very recent versions of Sqlite renaming tables like done in upgrade to 92 breaks views AND triggers
+        createOrRefreshAccountTriggers(db);
       }
 
     } catch (SQLException e) {

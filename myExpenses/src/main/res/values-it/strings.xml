@@ -21,7 +21,7 @@
   <string name="already_defined">%1$s già definita</string>
   <string name="amount">Importo</string>
   <string name="app_name">Le mie spese</string>
-  <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
+  <string name="backup_failure">Il backup su \"%1$s\" non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate correttamente su \"%1$s\".</string>
   <string name="category">Categoria</string>
   <string name="color">Colore</string>
@@ -31,7 +31,7 @@
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di conti</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Allegare un\'immagine alla transazione</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Grafico a torta (Distribuzione per categoria)</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di scadenze</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di piani</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importazione CSV</string>
@@ -171,7 +171,7 @@
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica modo di pagamento</string>
   <string name="menu_edit_party">Modifica beneficiario</string>
-  <string name="menu_edit_plan_instance">Modifica la scadenza</string>
+  <string name="menu_edit_plan_instance">Modifica la ricorrenza del singolo piano</string>
   <string name="menu_edit_split">Modifica operazione frazionata</string>
   <string name="menu_edit_split_part_category">Modifica categoria (frazionamento)</string>
   <string name="menu_edit_split_part_transfer">Modifica trasferimento (frazionamento)</string>
@@ -184,7 +184,7 @@
   <string name="menu_help">Aiuto</string>
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverti</string>
-  <string name="menu_manage_plans">Modelli e scadenze</string>
+  <string name="menu_manage_plans">Modelli e piani</string>
   <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
   <string name="menu_open">Apri</string>
   <string name="menu_import">Importa</string>
@@ -241,19 +241,19 @@
   <string name="payer">Ordinante</string>
   <string name="payer_or_payee">Beneficiario/Pagatore</string>
   <!--Plan for future and recurring transactions-->
-  <string name="plan">Scadenza</string>
+  <string name="plan">Pianifica</string>
   <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
   <string name="plan_automatic">automatica</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} pianificazione</string>
-  <string name="planner_notification_channel_name">Pianificazione</string>
+  <string name="plan_calendar_name">{app_name} pianificatore</string>
+  <string name="planner_notification_channel_name">Pianificatore</string>
   <string name="plan_event_deleted">Il piano associato a questo modello è stato eliminato dal calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Esecuzione della scadenza annullata</string>
+  <string name="plan_execution_canceled">Esecuzione del piano annullata</string>
   <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
   <string name="plan_manual">manuale</string>
-  <string name="planner_create_calendar_failure">Impossibile creare il calendario locale di scadenze</string>
-  <string name="planner_create_calendar_success">Calendario locale di scadenze creato con successo</string>
+  <string name="planner_create_calendar_failure">Impossibile creare un calendario di pianificazione locale.</string>
+  <string name="planner_create_calendar_success">Calendario di pianificazione locale creato con successo</string>
   <!--payment methods-->
   <string name="pm_cheque">Assegno</string>
   <string name="pm_creditcard">Carta di credito</string>
@@ -265,7 +265,7 @@
   <string name="pref_app_dir_title">Cartella per backup ed esportazioni</string>
   <string name="pref_auto_fill_title">Operazioni di riempimento automatico</string>
   <string name="pref_auto_fill_summary">Compila i dati dell\'ultima transazione per lo stesso beneficiario / pagatore</string>
-  <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.</string>
+  <string name="pref_backup_summary">Crea un backup del database e delle preferenze.</string>
   <string name="pref_sort_order_usages">Frequenza d\'uso</string>
   <string name="pref_category_title_advanced">Avanzata</string>
   <string name="pref_category_title_export">Esporta</string>
@@ -306,10 +306,10 @@
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione</string>
-  <string name="pref_perform_share_title"> Condivisione di esportazioni e backups</string>
+  <string name="pref_perform_share_title">Condividi esportazioni e backup</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Creare un nuovo calendario locale di scadenze</string>
-  <string name="pref_planning_calendar_summary">Selezionare il calendario in cui sono memorizzati le scadenze per le transazioni future e ripetute</string>
+  <string name="pref_planning_calendar_create_local">Crea un nuovo calendario di pianificazione locale</string>
+  <string name="pref_planning_calendar_summary">Seleziona il calendario in cui sono memorizzati i piani per le transazioni future e ricorrenti</string>
   <string name="pref_planning_calendar_title">Calendario di pianificazione</string>
   <string name="pref_protection_delay_seconds_summary">Secondi di inattività prima che l\'app sia bloccata con password.</string>
   <string name="pref_protection_delay_seconds_title">Ritardo prima della protezione</string>
@@ -321,7 +321,7 @@
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
   <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo.</string>
-  <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
+  <string name="pref_restore_summary">Seleziona un backup per il ripristino del database e delle preferenze</string>
   <string name="pref_restore_title">Ripristina</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se hai dimenticato la password.</string>
   <string name="pref_security_question_title">Domanda di sicurezza</string>
@@ -339,7 +339,7 @@
   <string name="pref_ui_language_title">Lingua</string>
   <string name="pref_ui_theme_dark">Scuro</string>
   <string name="pref_ui_theme_light">Chiaro</string>
-  <string name="pref_ui_theme_title">Motivo</string>
+  <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
   <string name="pref_visit_website_title">Visita il sito Web</string>
   <string name="progress_dialog_deleting">Cancellazione di oggetti</string>
@@ -352,7 +352,7 @@
   <string name="reference_number">Numero di riferimento</string>
   <string name="restore_db_failure">Ripristino del database non riuscito.</string>
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
-  <string name="restore_no_backup_found">Backup non trovato.</string>
+  <string name="restore_no_backup_found">Nessun backup è stato trovato.</string>
   <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
   <string name="restore_backup_archive_not_valid">L\'archivio %1$s non è valido</string>
   <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
@@ -431,7 +431,7 @@
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti i conti%1$s verranno eliminate dal database e non potranno essere ripristinate.</string>
   <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dal database e non potranno essere ripristinate.</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup \"%1$s\". I dati attuali verranno cancellati.</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che ciò accada selezionando una cartella diversa dalla schermata impostazioni.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che questo accada selezionando una cartella diversa dalla schermata Impostazioni.</string>
   <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Si prega di impostare un numero compreso tra %1$d e %2$d</string>
   <string name="warning_change_fraction_digits_1">Gli importi nel database devono essere aggiornati al fine di corrispondere al nuovo numero di cifre frazionarie.</string>
@@ -487,9 +487,9 @@
   <string name="learn_more">Per saperne di più</string>
   <string name="import_source_file">File</string>
   <string name="restore_calendar_handling">Gestione dati di calendario</string>
-  <string name="restore_calendar_handling_configured">Ripristinare piani nel calendario attualmente configurato</string>
-  <string name="restore_calendar_handling_backup">Ripristinare nel calendario i piani di backup se disponibile</string>
-  <string name="restore_calendar_handling_ignore">Non ripristinare piani</string>
+  <string name="restore_calendar_handling_configured">Ripristina i piani nel calendario correntemente configurato</string>
+  <string name="restore_calendar_handling_backup">Ripristina nel calendario i piani dal backup, se disponibili</string>
+  <string name="restore_calendar_handling_ignore">Non ripristinare i piani</string>
   <string name="restore_not_possible_target_calendar_missing">Il calendario %s dell\'archivio di backup non esiste localmente. Il ripristino è stato interrotto.</string>
   <string name="restore_not_possible_local_calendar_missing">Il calendario di pianificazione corrente non è disponibile.</string>
   <string name="menu_view_picture">Vedere foto</string>
@@ -590,7 +590,7 @@
   <string name="menu_sync_now">Sincronizza ora</string>
   <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
   <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore)</string>
-  <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione verrà perso. Collegandoli nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito nuovamente.</string>
+  <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione verrà perso. Collegandolo nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito di nuovo.</string>
   <string name="dialog_sync_link">Un conto con uuid %sè presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
   <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>
   <string name="dialog_command_sync_link_local">Caricare da locale</string>
@@ -623,8 +623,8 @@
   <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata Home.</string>
   <string name="currency_symbol">Simbolo di valuta</string>
   <string name="number_of_fraction_digits">Numero di decimali</string>
-  <string name="warning_auto_backup_deactivated">Il backup automatico è stato disattivato. Puoi riaccenderlo nuovamente dalle impostazioni dopo aver risolto il problema (ad esempio selezionando una cartella diversa per i backup).</string>
-  <string name="pref_tracking_summary">Consenti di raccogliere dati anonimi sui modelli di utilizzo che ci aiutano a pianificare miglioramenti.</string>
+  <string name="warning_auto_backup_deactivated">Il backup automatico è stato disattivato. Puoi attivarlo nuovamente dalle impostazioni dopo aver risolto il problema (ad esempio selezionando una cartella diversa per i backup).</string>
+  <string name="pref_tracking_summary">Acconsenti alla raccolta di dati anonimi sull\'utilizzo che ci aiuteranno a progettare miglioramenti.</string>
   <string name="pref_tracking_title">Raccolta dati di utilizzo</string>
   <string name="sync_database_error">Si è verificato un errore di database durante la sincronizzazione.</string>
   <string name="sync_io_error_cannot_connect">Impossibile connettersi al back-end di sincronizzazione.</string>
@@ -656,7 +656,7 @@
   <string name="contributed_by">Contribuito da %s</string>
   <string name="pref_sync_notification_summary">Notifica sull\'avanzamento della sincronizzazione</string>
   <string name="pref_debug_logging_summary">Scrivi le informazioni di debug nel registro di sistema</string>
-  <string name="plan_custom_recurrence_info">Si prega di salvare il modello prima. Il piano verrà quindi aperto nell\'app calendario, in cui è possibile impostare una ricorrenza personalizzata.</string>
+  <string name="plan_custom_recurrence_info">Dapprima si prega di salvare il modello. Il piano verrà quindi aperto nell\'app calendario, in cui sarà possibile impostare una ricorrenza personalizzata.</string>
   <string name="storage_permission_required">La fonte che hai selezionato può essere letta solo se concedi il permesso di leggere dalla memoria esterna.</string>
   <string name="picture">Immagine</string>
   <string name="menu_create_template_for_split">Nuovo modello di divisione</string>
@@ -692,7 +692,7 @@
   <string name="auto_fill_account_from_aggregate_only">Solo se avviato da un conto aggregato.</string>
   <string name="dropbox_folder_name_prompt">Inserisci il nome di una cartella esistente al livello principale del tuo Dropbox</string>
   <string name="dropbox_folder_not_found">Cartella non trovata</string>
-  <string name="sync_auth_exception_login_again">Autorizzazione fallita. Per favore esegui l\'accesso di nuovo.</string>
+  <string name="sync_auth_exception_login_again">Autorizzazione fallita. Per favore esegui nuovamente l\'accesso.</string>
   <string name="sync_loading_accounts_from_backend">Caricamento degli conti disponibili dal back-end.</string>
   <plurals name="delete_success">
     <item quantity="one">Un oggetto è stato cancellato con successo.</item>
@@ -716,7 +716,7 @@
   <string name="grand_total">somma totale</string>
   <string name="menu_original_amount">Importo originario</string>
   <string name="menu_equivalent_amount">Importo equivalente</string>
-  <string name="home_currency_change_warning">Se cambi la valuta domestica, gli importi e i tassi di cambio equivalenti andranno persi e devono essere nuovamente definiti.</string>
+  <string name="home_currency_change_warning">Se cambi la valuta domestica, gli importi e i tassi di cambio equivalenti andranno persi e dovranno essere nuovamente definiti.</string>
   <string name="warning_split_transactions">Le operazioni selezionate saranno raggruppate in una operazione frazionata. Le loro informazioni sulla data andranno perse, cioè sostituite dalla loro media.</string>
   <string name="warning_ungroup_split_transactions">Le operazioni frazionate selezionate verranno separate, ovvero le loro parti divise diventeranno normali operazioni.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
@@ -843,7 +843,7 @@
   <string name="pref_category_exchange_rates">Tassi di cambio</string>
   <string name="pref_exchange_rate_provider_summary">Seleziona il fornitore da cui scaricare i tassi di cambio</string>
   <string name="pref_exchange_rate_provider_title">Fornitore dei Tassi di Cambio</string>
-  <string name="pref_openexchangerates_app_id_summary">Registri un account gratuito su OpenExchangeRates e riporti il suo App ID</string>
+  <string name="pref_openexchangerates_app_id_summary">Registra un account gratuito su OpenExchangeRates e riporta qui il tuo App ID</string>
   <string name="pref_plan_executor_time_title">Tempo di notifica del pianificatore</string>
   <string name="synchronization_select_folder_dialog_title">Seleziona una cartella esistente o creane una nuova</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
