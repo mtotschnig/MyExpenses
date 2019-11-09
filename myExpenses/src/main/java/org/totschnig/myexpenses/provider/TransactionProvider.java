@@ -250,6 +250,7 @@ public class TransactionProvider extends ContentProvider {
   @Inject
   CurrencyContext currencyContext;
   @Inject
+  @Deprecated
   PrefHandler prefHandler;
 
   @Override
@@ -813,9 +814,6 @@ public class TransactionProvider extends ContentProvider {
         break;
       case TEMPLATES:
         qb.setTables(VIEW_TEMPLATES_EXTENDED);
-        if (sortOrder == null) {
-          sortOrder = Utils.preferredOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.USAGES);
-        }
         if (projection == null) {
           projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
         }

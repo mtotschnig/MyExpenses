@@ -26,7 +26,6 @@ import hirondelle.date4j.DateTime;
 public class CalendarProviderProxy extends ContentProvider {
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".calendarinstances";
   public static final Uri INSTANCES_URI = Uri.parse("content://" + AUTHORITY + "/instances/when");
-  public static final Uri EVENTS_URI = Uri.parse("content://" + AUTHORITY + "/events");
   private static final String[] INSTANCE_PROJECTION = new String[]{
       CalendarContractCompat.Instances.EVENT_ID,
       CalendarContractCompat.Instances.BEGIN

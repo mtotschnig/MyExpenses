@@ -54,7 +54,9 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -131,6 +133,8 @@ public class TemplatesList extends SortableListFragment
   CurrencyFormatter currencyFormatter;
   @Inject
   CurrencyContext currencyContext;
+  @Inject
+  PrefHandler prefHandler;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -361,7 +365,7 @@ public class TemplatesList extends SortableListFragment
             null,
             KEY_PARENTID + " is null",
             null,
-            null);
+            Utils.preferredOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.USAGES));
     }
     return null;
   }
