@@ -9,24 +9,24 @@ import android.text.TextUtils;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Locale;
+
+import androidx.collection.LongSparseArray;
+import androidx.collection.SparseArrayCompat;
 
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private Context context;
-  private final HashMap<Long, String> planInfo = new HashMap<>();
-  private final HashMap<Integer, Long> nextInstance = new HashMap<>();
+  private final LongSparseArray<String> planInfo = new LongSparseArray<>();
+  private final SparseArrayCompat<Long> nextInstance = new SparseArrayCompat<>();
   private ArrayList<Integer> sortedPositions = new ArrayList<>();
-  private boolean isInitializingPlanInfo;
   private boolean shouldSortByNextInstance;
 
   public PlanInfoCursorWrapper(Context context, Cursor cursor, boolean shouldSortByNextInstance) {
@@ -36,28 +36,29 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     initializePlanInfo();
   }
 
-  public void initializePlanInfo() {
-    if (!CALENDAR.hasPermission(context)) {
+  private void initializePlanInfo() {
+    if (!(CALENDAR.hasPermission(context) || MyApplication.isInstrumentationTest())) {
       shouldSortByNextInstance = false;
       return;
     }
-    isInitializingPlanInfo = true; // without having to support Gingerbread, we would not need to switch of sort,
-                    // we would use getWrappedCursor method introduced later
-    if (moveToFirst()) {
+    Cursor wrapped = getWrappedCursor();
+    if (wrapped.moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();
       long planId;
       int columnIndexPlanId = getColumnIndex(DatabaseConstants.KEY_PLANID);
-      while (!isAfterLast()) {
+      while (!wrapped.isAfterLast()) {
+        int wrappedPos = wrapped.getPosition();
         if ((planId = getLong(columnIndexPlanId)) != 0L) {
           plans.add(planId);
-          nextInstance.put(getPosition(), getNextInstance(planId));
+          if (shouldSortByNextInstance) {
+            nextInstance.put(wrappedPos, getNextInstance(planId));
+          }
         }
-        sortedPositions.add(getPosition());
-        moveToNext();
+        sortedPositions.add(wrappedPos);
+        wrapped.moveToNext();
       }
-      Collections.sort(sortedPositions, new Comparator<Integer>() {
-        @Override
-        public int compare(Integer lhs, Integer rhs) {
+      if (shouldSortByNextInstance) {
+        Collections.sort(sortedPositions, (lhs, rhs) -> {
           Long lhNextInstance = nextInstance.get(lhs);
           Long rhNextInstance = nextInstance.get(rhs);
           if (lhNextInstance == null) {
@@ -71,8 +72,8 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
             return -1;
           }
           return lhNextInstance.compareTo(rhNextInstance);
-        }
-      });
+        });
+      }
       if (plans.size() > 0) {
         Cursor c = context.getContentResolver().query(Events.CONTENT_URI,
             new String[]{
@@ -100,7 +101,6 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
         }
       }
     }
-    isInitializingPlanInfo = false;
   }
 
   private long getNextInstance(long planId) {
@@ -108,7 +108,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     //we go in three passes in order to prevent calendar provider from having to expand too much instances
     //1) one week 2) one month 3) one year
     long now = System.currentTimeMillis();
-    long inOneWeek = now + (7 * 24 * 60 * 60 * 1000L);
+    long inOneWeek = now + (7 * 24 * 60 * 60 * 1000);
     long inOneMonth = now + (31 * 24 * 60 * 60 * 1000L);
     long inOneYear = now + (366 * 24 * 60 * 60 * 1000L);
     long[][] intervals = new long[][] {
@@ -122,9 +122,8 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
       ContentUris.appendId(eventsUriBuilder, interval[1]);
       Uri eventsUri = eventsUriBuilder.build();
       Cursor c = context.getContentResolver().query(eventsUri, null,
-          String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
-              planId),
-          null,
+          CalendarContractCompat.Instances.EVENT_ID + " = ?",
+          new String[]{String.valueOf(planId)},
           null);
       if (c != null) {
         if (c.moveToFirst()) {
@@ -167,6 +166,6 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
 
   @Override
   protected int getMappedPosition(int pos) {
-    return (!isInitializingPlanInfo && shouldSortByNextInstance) ? sortedPositions.get(pos) : pos;
+    return (shouldSortByNextInstance) ? sortedPositions.get(pos) : pos;
   }
 }

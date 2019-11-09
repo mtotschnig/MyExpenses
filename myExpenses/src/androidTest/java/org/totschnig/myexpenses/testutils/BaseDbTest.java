@@ -11,6 +11,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 
 public class BaseDbTest extends ProviderTestCase2<TransactionProvider> {
   // Contains an SQLite database, used as test data
@@ -35,5 +36,6 @@ public class BaseDbTest extends ProviderTestCase2<TransactionProvider> {
     mDb.delete(TABLE_ACCOUNTS, null, null);
     mDb.delete(TABLE_PAYEES, null, null);
     mDb.delete(TABLE_CATEGORIES, KEY_ROWID + " != ?", new String[]{String.valueOf(SPLIT_CATID)});
+    mDb.delete(TABLE_TEMPLATES, null, null);
   }
 }
