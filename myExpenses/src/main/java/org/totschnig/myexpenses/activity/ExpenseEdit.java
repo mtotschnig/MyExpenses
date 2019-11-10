@@ -571,7 +571,7 @@ public class ExpenseEdit extends AmountActivity implements
       mOperationTypeSpinner.setAdapter(mOperationTypeAdapter);
       resetOperationType();
       mOperationTypeSpinner.setOnItemSelectedListener(this);
-      Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
+      long accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
       if (!mSavedInstance && Intent.ACTION_INSERT.equals(getIntent().getAction()) && extras != null) {
         Bundle args = new Bundle(1);
         args.putBundle(KEY_EXTRAS, extras);
