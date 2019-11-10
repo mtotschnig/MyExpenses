@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import androidx.test.espresso.Espresso;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -17,6 +15,10 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.PaymentMethod;
 
 import java.util.Currency;
+
+import androidx.test.espresso.Espresso;
+import androidx.test.filters.FlakyTest;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -59,6 +61,7 @@ public class ExpenseEditFlowTest {
    * the fix for this bug.
    */
   @Test
+  @FlakyTest
   public void testScenarioForBug5b11072e6007d59fcd92c40b() {
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(10)));
     onView(withIdAndParent(R.id.TaType, R.id.Amount)).perform(click());
