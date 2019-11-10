@@ -12,6 +12,8 @@
             android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
             android:targetPackage="org.totschnig.myexpenses.fortest">
             <extra android:name="autoFillMaySetAccount" android:value="true" />
+            <extra android:name="startFromWidget" android:value="true" />
+            <extra android:name="startFromWidgetDataEntry" android:value="true" />
         </intent>
     </shortcut>
 </shortcuts>
