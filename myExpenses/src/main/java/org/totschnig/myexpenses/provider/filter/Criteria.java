@@ -69,22 +69,6 @@ public abstract class Criteria implements Parcelable {
     return operation == WhereFilter.Operation.ISNULL;
   }
 
-  public String getStringValue() {
-    return values[0];
-  }
-
-  public int getIntValue() {
-    return Integer.parseInt(values[0]);
-  }
-
-  public long getLongValue1() {
-    return Long.parseLong(values[0]);
-  }
-
-  public long getLongValue2() {
-    return Long.parseLong(values[1]);
-  }
-
   public String getSelection() {
     return getColumn() + " " + operation.getOp(values.length);
   }

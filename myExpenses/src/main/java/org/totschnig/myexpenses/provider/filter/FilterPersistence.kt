@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.os.Bundle
+import org.threeten.bp.format.DateTimeParseException
 import org.totschnig.myexpenses.preference.PrefHandler
+import timber.log.Timber
 
 const val KEY_FILTER = "filter"
 
@@ -33,7 +35,11 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
             whereFilter.put(MethodCriteria.fromStringExtra(it))
         }
         prefHandler.getString(prefNameForCriteria(DateCriteria.COLUMN), null)?.let {
-            whereFilter.put(DateCriteria.fromStringExtra(it))
+            try {
+                whereFilter.put(DateCriteria.fromStringExtra(it))
+            } catch (e: DateTimeParseException) {
+                Timber.e(e)
+            }
         }
         prefHandler.getString(prefNameForCriteria(TransferCriteria.COLUMN), null)?.let {
             whereFilter.put(TransferCriteria.fromStringExtra(it))

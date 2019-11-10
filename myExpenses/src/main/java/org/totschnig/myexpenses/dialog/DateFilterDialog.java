@@ -12,12 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.filter.DateCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-
-import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,13 +25,15 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   private DatePicker mDate1;
   private DatePicker mDate2;
   private Spinner mOperatorSpinner;
+
   public static DateFilterDialog newInstance() {
     return new DateFilterDialog();
   }
+
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    MyExpenses ctx  = (MyExpenses) getActivity();
+    MyExpenses ctx = (MyExpenses) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     View view = li.inflate(R.layout.filter_date, null);
@@ -42,7 +43,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
 
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
-          int position, long id) {
+                                 int position, long id) {
         String selectedOp = getResources().getStringArray(R.array.comparison_operator_date_values)[position];
         final int date2Visible = selectedOp.equals("BTW") ? View.VISIBLE : View.GONE;
         date2And.setVisibility(date2Visible);
@@ -62,36 +63,27 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
 
 
     return new AlertDialog.Builder(ctx)
-      .setTitle(R.string.search_date)
-      .setView(view)
-      .setPositiveButton(android.R.string.ok,this)
-      .setNegativeButton(android.R.string.cancel,null)
-      .create();
+        .setTitle(R.string.search_date)
+        .setView(view)
+        .setPositiveButton(android.R.string.ok, this)
+        .setNegativeButton(android.R.string.cancel, null)
+        .create();
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    long date1, date2;
     DateCriteria c;
-    if (ctx==null) {
+    if (ctx == null) {
       return;
     }
-    Calendar cal = Calendar.getInstance();
+    LocalDate date1, date2;
     String selectedOp = getResources().getStringArray(R.array.comparison_operator_date_values)
         [mOperatorSpinner.getSelectedItemPosition()];
-    if (selectedOp.equals("GTE")) {
-      //advance to end of day
-      cal.set(mDate1.getYear(),mDate1.getMonth(),mDate1.getDayOfMonth(),23,59,59);
-      date1 = cal.getTimeInMillis()/1000+1;
-      } else {
-      cal.set(mDate1.getYear(), mDate1.getMonth(), mDate1.getDayOfMonth(), 0, 0, 0);
-      date1 = cal.getTimeInMillis() / 1000;
-    }
+    date1 = LocalDate.of(mDate1.getYear(), mDate1.getMonth() +1, mDate1.getDayOfMonth());
     if (selectedOp.equals("BTW")) {
-      //advance to end of day
-      cal.set(mDate2.getYear(),mDate2.getMonth(),mDate2.getDayOfMonth(),23,59,59);
-      date2 = cal.getTimeInMillis()/1000+1;
-      c=new DateCriteria(date1,date2);
+      date2 = LocalDate.of(mDate2.getYear(), mDate2.getMonth() +1, mDate2.getDayOfMonth());
+      c = new DateCriteria(date1, date2);
     } else {
       c = new DateCriteria(
           WhereFilter.Operation.valueOf(selectedOp),

@@ -3,10 +3,12 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.DateCriteria
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import timber.log.Timber
 
 class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    fun upgrade(fromVersion:Int, toVersion: Int) {
+    fun upgrade(fromVersion: Int, toVersion: Int) {
         if (fromVersion < 385) {
             val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
             val hasTransferOrSplitColumn = "not(max(parent_id) is null and max(transfer_peer) is null)"
@@ -27,6 +29,22 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                             cursor.close()
                         }
                     }
+        }
+        if (fromVersion < 391) {
+            val dateFilterList = MyApplication.getInstance().settings.all.entries.map { it.key }.filter { it.startsWith("filter_date") }
+            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
+            dateFilterList.forEach { key ->
+                prefHandler.getString(key, null)?.let { legacy ->
+                    try {
+                        DateCriteria.fromLegacy(legacy).toStringExtra().also { new ->
+                            prefHandler.putString(key, new)
+                        }
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                        prefHandler.remove(key)
+                    }
+                }
+            }
         }
     }
 }
