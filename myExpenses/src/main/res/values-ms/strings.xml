@@ -637,7 +637,6 @@
   <string name="onboarding_get_started">Mari memulakan</string>
   <string name="onboarding_more_options">Lagi Pilihan</string>
   <string name="onboarding_restore_from_cloud">Pulihkan melalui penyegerakan awan</string>
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <string name="onboarding_restore_from_local">Pulih fail sandar setempat</string>
   <string name="dialog_button_add">Tambah</string>

@@ -646,10 +646,7 @@
   <string name="onboarding_get_started">Los geht\'s</string>
   <string name="onboarding_more_options">Mehr Optionen</string>
   <string name="onboarding_restore_from_cloud">Wiederherstellung von Cloud-Synchronisation</string>
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
-  <string name="onboarding_restore_from_cloud_sync_accounts">Aus Synchronisierten Konten</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">Aus dem Backup</string>
   <string name="onboarding_restore_from_local">Wiederherstellung einer lokalen Sicherungsdatei</string>
   <string name="dialog_button_add">Hinzufügen</string>
   <string name="template_create_error">Fehler beim Speichern der Vorlage</string>

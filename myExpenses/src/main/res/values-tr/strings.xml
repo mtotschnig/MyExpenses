@@ -646,10 +646,7 @@
   <string name="onboarding_get_started">Başlarken</string>
   <string name="onboarding_more_options">Daha fazla seçenek</string>
   <string name="onboarding_restore_from_cloud">Bulut eşleşmesinden geri getir</string>
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
-  <string name="onboarding_restore_from_cloud_sync_accounts">Eşleşme Hesaplarından</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">Yedeklemelerden</string>
   <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
   <string name="dialog_button_add">Ekle</string>
   <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>

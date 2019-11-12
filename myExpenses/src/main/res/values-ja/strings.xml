@@ -637,10 +637,7 @@
   <string name="onboarding_get_started">始めましょう</string>
   <string name="onboarding_more_options">他のオプション</string>
   <string name="onboarding_restore_from_cloud">クラウド同期から復元</string>
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
-  <string name="onboarding_restore_from_cloud_sync_accounts">同期アカウントから</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">バックアップから</string>
   <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
   <string name="dialog_button_add">追加</string>
   <string name="template_create_error">テンプレートの保存中にエラーが発生しました</string>

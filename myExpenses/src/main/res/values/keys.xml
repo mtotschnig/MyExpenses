@@ -211,4 +211,6 @@
     </string-array>
     <string-array name="Sub_10" tools:ignore="InconsistentArrays">
     </string-array>
+    <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->
+    <string name="onboarding_restore_from_cloud_sync_accounts">@string/pref_manage_accounts_title</string>
 </resources>

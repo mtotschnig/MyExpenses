@@ -631,7 +631,6 @@
   <string name="onboarding_get_started">Bắt đầu</string>
   <string name="onboarding_more_options">Nhiều tuỳ chọn hơn</string>
   <string name="onboarding_restore_from_cloud">Khôi phục từ bản đồng bộ trực tuyến</string>
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <string name="onboarding_restore_from_local">Khôi phục từ tập tin sao lưu trong máy</string>
   <string name="dialog_button_add">Thêm</string>

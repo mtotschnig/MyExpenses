@@ -646,10 +646,7 @@
   <string name="onboarding_get_started">தொடங்குக</string>
   <string name="onboarding_more_options">மேலும் விருப்பங்கள்</string>
   <string name="onboarding_restore_from_cloud">முகில் ஒத்திசைவிலிருந்து மீட்டமை</string>
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
-  <string name="onboarding_restore_from_cloud_sync_accounts">ஒத்திசைவு கணக்குகளிலிருந்து</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">காப்புப்பிரதியிலிருந்து</string>
   <string name="onboarding_restore_from_local">உள் காப்புப்பிரதி கோப்பை மீட்டமை</string>
   <string name="dialog_button_add">சேர்</string>
   <string name="template_create_error">வார்ப்புருவை சேமிக்கும் போது பிழை ஏற்பட்டது</string>

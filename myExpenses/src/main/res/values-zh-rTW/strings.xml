@@ -303,7 +303,6 @@
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">範本</string>
   <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
