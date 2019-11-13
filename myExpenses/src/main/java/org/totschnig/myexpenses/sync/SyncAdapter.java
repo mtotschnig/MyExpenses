@@ -106,7 +106,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
-  private SparseArray<StringBuilder> notificationContent = new SparseArray<>();
+  private SparseArray<List<StringBuilder>> notificationContent = new SparseArray<>();
   public static final String TAG = "SyncAdapter";
   private boolean shouldNotify = true;
 
@@ -158,7 +158,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     String uuidFromExtras = extras.getString(KEY_UUID);
     int notificationId = account.hashCode();
     if (notificationContent.get(notificationId) == null) {
-      notificationContent.put(notificationId, new StringBuilder());
+      notificationContent.put(notificationId, new ArrayList<>());
     }
 
     shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true);
@@ -167,7 +167,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       final String message = getContext().getString(R.string.wifi_not_connected);
       log().i(message);
       if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
-        maybeNotifyUser(getNotificationTitle(), message, account, null);
+        maybeNotifyUser(getNotificationTitle(), message, account);
       }
       return;
     }
@@ -392,7 +392,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             syncResult.databaseError = true;
             notifyDatabaseError(e, account);
           } catch (Exception e) {
-            appendToNotification("ERROR: " + e.getMessage(), account, true);
+            appendToNotification(String.format("ERROR (%s): %s ", e.getClass().getSimpleName(), e.getMessage()),
+                account, true);
             log().e(e);
           } finally {
             if (successLocal2Remote > 0 || successRemote2Local > 0) {
@@ -430,7 +431,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
           removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
           maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
-              getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null, null);
+              getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null);
         } catch (Exception e) {
           log().e(e);
           if (!handleAuthException(backend, e, account)) {
@@ -460,16 +461,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return new Intent(getContext(), ManageSyncBackends.class);
   }
 
-  private void appendToNotification(String content, @Nullable Account account, boolean newLine) {
+  private void appendToNotification(String content, Account account, boolean newLine) {
     log().i(content);
     if (shouldNotify) {
-      StringBuilder contentBuilder = notificationContent.get(account.hashCode());
+      List<StringBuilder> contentBuilders = notificationContent.get(account.hashCode());
+      final StringBuilder contentBuilder;
+      if (contentBuilders.size() == 0 || newLine) {
+        contentBuilder = new StringBuilder();
+        contentBuilders.add(0, contentBuilder);
+      } else {
+        contentBuilder = contentBuilders.get(0);
+      }
       if (contentBuilder.length() > 0) {
-        contentBuilder.append(newLine ? "\n" : " ");
+        contentBuilder.append(" ");
       }
       contentBuilder.append(content);
-      content = contentBuilder.toString();
-      notifyUser(getNotificationTitle(), content, account, null);
+      notifyUser(getNotificationTitle(),
+          Stream.of(contentBuilders).map(StringBuilder::toString).collect(Collectors.joining("\n")),
+          account, null);
     }
   }
 
@@ -477,9 +486,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return Timber.tag(TAG);
   }
 
-  private void maybeNotifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
+  private void maybeNotifyUser(String title, String content, @Nullable Account account) {
     if (shouldNotify) {
-      notifyUser(title, content, account, intent);
+      notifyUser(title, content, account, null);
     }
   }
 
@@ -1024,5 +1033,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       provider.delete(TransactionProvider.SETTINGS_URI, KEY_KEY + " = ?", new String[]{prefKey});
     } catch (RemoteException ignored) {
     }
+  }
+
+  @Override
+  public void onSyncCanceled() {
+    super.onSyncCanceled();
+    Timber.e("SyncAdapter has been canceled");
   }
 }
