@@ -182,7 +182,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } catch (Throwable throwable) {
       if (throwable instanceof SyncBackendProvider.SyncParseException || throwable instanceof SyncBackendProvider.EncryptionException) {
         syncResult.databaseError = true;
-        CrashHandler.report(throwable);
+        report(throwable);
         GenericAccountService.deactivateSync(account);
         accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1");
         notifyUser("Synchronization backend deactivated",
@@ -486,6 +486,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return Timber.tag(TAG);
   }
 
+  private void report(Throwable e) {
+    CrashHandler.report(e, TAG);
+  }
+
+  private void report(String message) {
+    CrashHandler.reportWithTag(message, TAG);
+  }
+
   private void maybeNotifyUser(String title, String content, @Nullable Account account) {
     if (shouldNotify) {
       notifyUser(title, content, account, null);
@@ -529,7 +537,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private void notifyDatabaseError(Exception e, Account account) {
-    CrashHandler.report(e);
+    report(e);
     appendToNotification(getContext().getString(R.string.sync_database_error) + " " + e.getMessage(),
         account, true);
   }
@@ -622,7 +630,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     int opsSize = ops.size();
     int resultsSize = contentProviderResults.length;
     if (opsSize != resultsSize) {
-      CrashHandler.report(String.format(Locale.ROOT, "applied %d operations, received %d results",
+      report(String.format(Locale.ROOT, "applied %d operations, received %d results",
           opsSize, resultsSize));
     }
   }
