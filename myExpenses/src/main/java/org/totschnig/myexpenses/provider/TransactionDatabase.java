@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -773,15 +774,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(BUDGETS_CATEGORY_CREATE);
 
     //Run on ForTest build type
-    //insertTestData(db);
+    //insertTestData(db, 50, 50);
   }
 
-/*  private void insertTestData(SQLiteDatabase db) {
-    for (int i = 1; i <= 50; i++) {
+/*  private void insertTestData(SQLiteDatabase db, int countGroup, int countChild) {
+    for (int i = 1; i <= countGroup; i++) {
       long payeeId = db.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo("Payee " + i).getContentValues());
       AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.CASH, 0);
       long testAccountId = db.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
-      for (int j = 1; j <= 50; j++) {
+      for (int j = 1; j <= countChild; j++) {
         TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, new Date(), 0, testAccountId, payeeId);
         db.insertOrThrow(
             DatabaseConstants.TABLE_TRANSACTIONS,
