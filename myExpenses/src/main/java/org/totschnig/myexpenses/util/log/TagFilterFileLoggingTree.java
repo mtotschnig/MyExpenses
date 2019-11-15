@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
+import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
@@ -60,9 +61,14 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
     rollingFileAppender.setRollingPolicy(rollingPolicy);
     rollingFileAppender.setEncoder(encoder);
     rollingFileAppender.start();
+
+    AsyncAppender asyncAppender = new AsyncAppender();
+    asyncAppender.setContext(loggerContext);
+    asyncAppender.addAppender(rollingFileAppender);
+    asyncAppender.start();
     
     logger.setLevel(Level.DEBUG);
-    logger.addAppender(rollingFileAppender);
+    logger.addAppender(asyncAppender);
 
     // print any status messages (warnings, etc) encountered in logback config
     StatusPrinter.print(loggerContext);
