@@ -7,10 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import org.onepf.oms.OpenIabHelper;
-import org.onepf.oms.appstore.googleUtils.IabHelper;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -21,20 +17,18 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.licence.SetupFinishedListener;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import timber.log.Timber;
-
-import static org.onepf.oms.OpenIabHelper.ITEM_TYPE_INAPP;
-import static org.onepf.oms.OpenIabHelper.ITEM_TYPE_SUBS;
 
 
 /**
@@ -46,13 +40,15 @@ import static org.onepf.oms.OpenIabHelper.ITEM_TYPE_SUBS;
  * for the premium feature directly
  */
 public class ContribInfoDialogActivity extends ProtectedFragmentActivity
-    implements MessageDialogListener {
+    implements MessageDialogListener, SetupFinishedListener {
   public final static String KEY_FEATURE = "feature";
   private final static String KEY_PACKAGE = "package";
   public static final String KEY_TAG = "tag";
   private static final String KEY_SHOULD_REPLACE_EXISTING = "shouldReplaceExisting";
-  private OpenIabHelper mHelper;
-  private boolean mSetupDone;
+
+  @Nullable
+  private BillingManager billingManager;
+
 
   public static Intent getIntentFor(Context context, @Nullable ContribFeature feature) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
@@ -75,33 +71,8 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
-    String packageFromExtra = getIntent().getStringExtra(KEY_PACKAGE);
-    mHelper = licenceHandler.getIabHelper(this);
-
-    if (mHelper != null) {
-      try {
-        mHelper.startSetup(result -> {
-          Timber.d("Setup finished.");
-
-          if (!result.isSuccess()) {
-            mSetupDone = false;
-            // Oh noes, there was a problem.
-            complain("Problem setting up in-app billing: " + result);
-            return;
-          }
-          mSetupDone = true;
-          Timber.d("Setup successful.");
-          if (packageFromExtra != null) {
-            contribBuyDo(Package.valueOf(packageFromExtra));
-          }
-        });
-      } catch (SecurityException e) {
-        CrashHandler.report(e);
-        mHelper.dispose();
-        mHelper = null;
-        complain("Problem setting up in-app billing: " + e.getMessage());
-      }
-    }
+    String packageFromExtra = packageFromExtra();
+    billingManager = licenceHandler.initBillingManager(this, false);
 
     if (savedInstanceState == null) {
       if (packageFromExtra == null) {
@@ -115,6 +86,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         }
       }
     }
+  }
+
+  private String packageFromExtra() {
+    return getIntent().getStringExtra(KEY_PACKAGE);
   }
 
   private void contribBuyGithub(Package aPackage) {
@@ -133,63 +108,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     switch (DistribHelper.getDistribution()) {
       case PLAY:
       case AMAZON:
-        if (mHelper == null) {
-          finish();
-          return;
-        }
-        if (!mSetupDone) {
-          complain("Billing setup is not completed yet");
-          finish();
-          return;
-        }
-        final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener =
-            (result, purchase) -> {
-              Timber.d("Purchase finished: %s, purchase: %s", result, purchase);
-              if (result.isFailure()) {
-                Timber.w("Purchase failed: %s, purchase: %s", result, purchase);
-                showMessage(getString(R.string.premium_failed_or_canceled));
-              } else {
-                Timber.d("Purchase successful.");
-
-                LicenceStatus licenceStatus = licenceHandler.handlePurchase(purchase.getSku(), purchase.getOrderId());
-
-                if (licenceStatus != null) {
-                  // bought the premium upgrade!
-                  Timber.d("Purchase is premium upgrade. Congratulating user.");
-                  showMessage(
-                      String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-                          getString(licenceStatus.getResId()), getString(R.string.thank_you)));
-                } else {
-                  finish();
-                }
-              }
-            };
-        String sku = licenceHandler.getSkuForPackage(aPackage);
-
-        List<String> oldSkus;
-        if (getIntent().getBooleanExtra(KEY_SHOULD_REPLACE_EXISTING, false)) {
-          String currentSubscription = licenceHandler.getCurrentSubscription();
-          if (currentSubscription == null) {
-            complain("Could not determine current subscription");
-            finish();
-            return;
-          }
-          oldSkus = Collections.singletonList(currentSubscription);
-        } else {
-          oldSkus = null;
-        }
-
         try {
-          mHelper.launchPurchaseFlow(
-              ContribInfoDialogActivity.this,
-              sku, aPackage.isProfessional() ? ITEM_TYPE_SUBS : ITEM_TYPE_INAPP,
-              oldSkus,
-              ProtectedFragmentActivity.PURCHASE_PREMIUM_REQUEST,
-              mPurchaseFinishedListener,
-              null
-          );
-        } catch (IabHelper.IabAsyncInProgressException e) {
-          complain("Another async operation in progress.");
+          licenceHandler.launchPurchase(aPackage, getIntent().getBooleanExtra(KEY_SHOULD_REPLACE_EXISTING, false), billingManager);
+        } catch (IllegalStateException e) {
+          complain(e.getMessage());
         }
         break;
       case BLACKBERRY:
@@ -201,12 +123,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   void complain(String message) {
     CrashHandler.report(String.format("**** InAppPurchase Error: %s", message));
-    ContribDialogFragment fragment = ((ContribDialogFragment) getSupportFragmentManager().findFragmentByTag("CONTRIB"));
-    if (fragment != null) {
-      fragment.showSnackbar(message, Snackbar.LENGTH_LONG, null);
-    } else {
-      showSnackbar(message, Snackbar.LENGTH_LONG);
-    }
+    showMessage(message);
   }
 
   @Override
@@ -303,30 +220,35 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     return result;
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    Timber.d("onActivityResult() requestCode: %d resultCode: %d data: %s", requestCode, resultCode, data);
+  public void onPurchaseSuccess(@NonNull LicenceStatus result) {
+    // bought the premium upgrade!
+    Timber.d("Purchase is premium upgrade. Congratulating user.");
+    showMessage(
+        String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
+            getString(result.getResId()), getString(R.string.thank_you)));
+  }
 
-    // Pass on the activity result to the helper for handling
-    if (mHelper == null || !mHelper.handleActivityResult(requestCode, resultCode, data)) {
-      // not handled, so handle it ourselves (here's where you'd
-      // perform any handling of activity results not related to in-app
-      // billing...
-      finish(false);
-    } else {
-      Timber.d("onActivityResult handled by IABUtil.");
+  public void onPurchaseCancelled() {
+    showMessage(getString(R.string.premium_failed_or_canceled));
+  }
+
+  public void onPurchaseFailed(int code) {
+    showMessage(String.format(Locale.ROOT, "%s (%d)", getString(R.string.premium_failed_or_canceled), code));
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (billingManager != null) {
+      billingManager.destroy();
     }
   }
 
-  // We're being destroyed. It's important to dispose of the helper here!
   @Override
-  public void onDestroy() {
-    super.onDestroy();
-
-    // very important:
-    Timber.d("Destroying helper.");
-    if (mHelper != null) mHelper.dispose();
-    mHelper = null;
+  public void onBillingSetupFinished() {
+    String packageFromExtra = packageFromExtra();
+    if (packageFromExtra != null) {
+      contribBuyDo(Package.valueOf(packageFromExtra));
+    }
   }
 }

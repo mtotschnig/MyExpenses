@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util.licence;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -9,9 +10,6 @@ import com.annimon.stream.Stream;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.onepf.oms.OpenIabHelper;
-import org.onepf.oms.appstore.googleUtils.Inventory;
-import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
@@ -31,7 +29,6 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -133,6 +130,10 @@ public class LicenceHandler {
     update();
   }
 
+  public static Timber.Tree log() {
+    return Timber.tag(TAG);
+  }
+
   @VisibleForTesting
   public void setLockState(boolean locked) {
     if (MyApplication.isInstrumentationTest()) {
@@ -230,83 +231,11 @@ public class LicenceHandler {
     return context.getString(R.string.extend_validity);
   }
 
-  public OpenIabHelper getIabHelper(Context context) {
-    return null;
-  }
-
   public void registerSubscription(String sku) {
   }
 
   public void registerPurchase(boolean extended) {
   }
-
-  public String getSkuForPackage(Package aPackage) {
-    return null;
-  }
-
-  public String getCurrentSubscription() {
-    return null;
-  }
-
-  public void maybeCancel() {
-  }
-
-  public void storeSkuDetails(Inventory inventory) {
-  }
-
-  @VisibleForTesting
-  public @Nullable
-  String findHighestValidSku(List<String> inventory) {
-    return Stream.of(inventory)
-        .filter(sku -> extractLicenceStatusFromSku(sku) != null)
-        .max((o, o2) -> Utils.compare(extractLicenceStatusFromSku(o), extractLicenceStatusFromSku(o2), Enum::compareTo))
-        .orElse(null);
-  }
-
-  public void registerInventory(Inventory inventory) {
-    Timber.tag(TAG);
-    Timber.i(Stream.of(inventory.getAllOwnedSkus()).collect(Collectors.joining(", ")));
-    String sku = findHighestValidSku(inventory.getAllOwnedSkus());
-    if (sku != null) {
-      Purchase purchase = inventory.getPurchase(sku);
-      handlePurchase(sku, purchase != null ? purchase.getOrderId() : null);
-    } else {
-      maybeCancel();
-    }
-  }
-
-  /**
-   * @param sku
-   * @return which LicenceStatus an sku gives access to
-   */
-  @VisibleForTesting
-  @Nullable
-  public LicenceStatus extractLicenceStatusFromSku(@NonNull String sku) {
-    if (sku.contains(LicenceStatus.PROFESSIONAL.toSkuType())) return LicenceStatus.PROFESSIONAL;
-    if (sku.contains(LicenceStatus.EXTENDED.toSkuType())) return LicenceStatus.EXTENDED;
-    if (sku.contains(LicenceStatus.CONTRIB.toSkuType())) return LicenceStatus.CONTRIB;
-    return null;
-  }
-
-  @Nullable
-  public LicenceStatus handlePurchase(@Nullable String sku, @Nullable String orderId) {
-    LicenceStatus licenceStatus = sku != null ? extractLicenceStatusFromSku(sku) : null;
-    if (licenceStatus != null) {
-      switch (licenceStatus) {
-        case CONTRIB:
-          registerPurchase(false);
-          break;
-        case EXTENDED:
-          registerPurchase(true);
-          break;
-        case PROFESSIONAL:
-          registerSubscription(sku);
-          break;
-      }
-    }
-    return licenceStatus;
-  }
-
 
   public String getPurchaseExtraInfo() {
     return null;
@@ -445,5 +374,12 @@ public class LicenceHandler {
 
   @Nullable public LicenceStatus getLicenceStatus() {
     return licenceStatus;
+  }
+
+  public BillingManager initBillingManager(Activity activity, boolean query) {
+    return null;
+  }
+
+  public void launchPurchase(Package aPackage, boolean shouldReplaceExisting, BillingManager billingManager) {
   }
 }

@@ -9,10 +9,8 @@ import android.view.Menu;
 import com.annimon.stream.function.Function;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.onepf.oms.OpenIabHelper;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.contrib.Config;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -26,7 +24,7 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
@@ -55,47 +53,24 @@ import static org.totschnig.myexpenses.preference.PrefKey.SYNC_UPSELL_NOTIFICATI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
-public abstract class LaunchActivity extends ProtectedFragmentActivity {
+public abstract class LaunchActivity extends ProtectedFragmentActivity  {
 
   public static final String TAG_VERSION_INFO = "VERSION_INFO";
-  private OpenIabHelper mHelper;
+  private BillingManager billingManager;
   private UpgradeHandlerViewModel upgradeHandlerViewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mHelper = licenceHandler.getIabHelper(this);
-    if (mHelper != null) {
-      try {
-        mHelper.startSetup(result -> {
-          Timber.d("Setup finished.");
-          if (mHelper == null) {
-            return;
-          }
-          if (result.isSuccess()) {
-            mHelper.queryInventoryAsync(true, Config.itemSkus, Config.subsSkus,
-                (result1, inventory) -> {
-                  if (mHelper == null || inventory == null) {
-                    return;
-                  }
-                  licenceHandler.registerInventory(inventory);
-                  licenceHandler.storeSkuDetails(inventory);
-                });
-          }
-        });
-      } catch (SecurityException e) {
-        CrashHandler.report(e);
-        mHelper.dispose();
-        mHelper = null;
-      }
-    }
+    billingManager = licenceHandler.initBillingManager(this, true);
+
     upgradeHandlerViewModel = ViewModelProviders.of(this).get(UpgradeHandlerViewModel.class);
   }
 
   @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-    if (mHelper == null) {
+    if (DistribHelper.isGithub()) {
       if (licenceHandler.getLicenceStatus() != null) {
         final long now = System.currentTimeMillis();
         switch (licenceHandler.getLicenceStatus()) {
@@ -305,14 +280,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     }
   }
 
-  // We're being destroyed. It's important to dispose of the helper here!
   @Override
-  public void onDestroy() {
+  protected void onDestroy() {
     super.onDestroy();
-
-    // very important:
-    Timber.d("Destroying helper.");
-    if (mHelper != null) mHelper.dispose();
-    mHelper = null;
+    billingManager.destroy();
   }
 }
