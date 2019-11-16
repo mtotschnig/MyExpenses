@@ -231,12 +231,7 @@ public class LicenceHandler {
     return context.getString(R.string.extend_validity);
   }
 
-  public void registerSubscription(String sku) {
-  }
-
-  public void registerPurchase(boolean extended) {
-  }
-
+  @Nullable
   public String getPurchaseExtraInfo() {
     return null;
   }
@@ -342,7 +337,7 @@ public class LicenceHandler {
     if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
       setLicenceStatus(LicenceStatus.EXTENDED);
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
-      licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);licenseStatusPrefs.commit();
+      licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);
       licenseStatusPrefs.commit();
     } else {
       updateLicenceStatus(null);
@@ -376,10 +371,10 @@ public class LicenceHandler {
     return licenceStatus;
   }
 
-  public BillingManager initBillingManager(Activity activity, boolean query) {
+  public BillingManager initBillingManager(@NonNull Activity activity, boolean query) {
     return null;
   }
 
-  public void launchPurchase(Package aPackage, boolean shouldReplaceExisting, BillingManager billingManager) {
+  public void launchPurchase(@NonNull Package aPackage, boolean shouldReplaceExisting, BillingManager billingManager) {
   }
 }

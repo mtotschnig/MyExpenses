@@ -101,7 +101,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     }
   }
 
-  public void contribBuyDo(Package aPackage) {
+  public void contribBuyDo(@NonNull Package aPackage) {
     Bundle bundle = new Bundle(1);
     bundle.putString(Tracker.EVENT_PARAM_PACKAGE, aPackage.name());
     logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
