@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.licence.SetupFinishedListener;
+import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
@@ -40,7 +40,7 @@ import timber.log.Timber;
  * for the premium feature directly
  */
 public class ContribInfoDialogActivity extends ProtectedFragmentActivity
-    implements MessageDialogListener, SetupFinishedListener {
+    implements MessageDialogListener, BillingListener {
   public final static String KEY_FEATURE = "feature";
   private final static String KEY_PACKAGE = "package";
   public static final String KEY_TAG = "tag";
@@ -220,12 +220,16 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     return result;
   }
 
-  public void onPurchaseSuccess(@NonNull LicenceStatus result) {
-    // bought the premium upgrade!
-    Timber.d("Purchase is premium upgrade. Congratulating user.");
-    showMessage(
-        String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-            getString(result.getResId()), getString(R.string.thank_you)));
+  @Override
+  public void onLicenceStatusSet(@Nullable LicenceStatus newStatus, @Nullable LicenceStatus oldStatus) {
+    if (newStatus != null) {
+      Timber.d("Purchase is premium upgrade. Congratulating user.");
+      showMessage(
+          String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
+              getString(newStatus.getResId()), getString(R.string.thank_you)));
+    } else {
+      complain("Validation of purchase failed");
+    }
   }
 
   public void onPurchaseCancelled() {
@@ -242,6 +246,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     if (billingManager != null) {
       billingManager.destroy();
     }
+    billingManager = null;
   }
 
   @Override

@@ -25,10 +25,11 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.licence.SetupFinishedListener;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import java.io.File;
@@ -56,7 +57,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.SYNC_UPSELL_NOTIFICATI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
-public abstract class LaunchActivity extends ProtectedFragmentActivity implements SetupFinishedListener {
+public abstract class LaunchActivity extends ProtectedFragmentActivity implements BillingListener {
 
   public static final String TAG_VERSION_INFO = "VERSION_INFO";
   private BillingManager billingManager;
@@ -294,8 +295,23 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   }
 
   @Override
+  public void onLicenceStatusSet(@Nullable LicenceStatus newStatus, @Nullable LicenceStatus oldStatus) {
+    if (newStatus != oldStatus) {
+      if (newStatus != null) {
+        showSnackbar(String.format("%s (%s)", getString(R.string.licence_validation_premium),
+            getString(newStatus.getResId())), Snackbar.LENGTH_LONG);
+      } else {
+        showSnackbar(R.string.licence_validation_failure, Snackbar.LENGTH_LONG);
+      }
+    }
+  }
+
+  @Override
   protected void onDestroy() {
     super.onDestroy();
-    billingManager.destroy();
+    if (billingManager != null) {
+      billingManager.destroy();
+    }
+    billingManager = null;
   }
 }
