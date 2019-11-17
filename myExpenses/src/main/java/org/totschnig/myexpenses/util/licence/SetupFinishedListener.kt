@@ -2,6 +2,5 @@ package org.totschnig.myexpenses.util.licence
 
 interface SetupFinishedListener {
     fun onBillingSetupFinished()
-    fun onBillingSetupFailed()
-
+    fun onBillingSetupFailed(reason: String)
 }

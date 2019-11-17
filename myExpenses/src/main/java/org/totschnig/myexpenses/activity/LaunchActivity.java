@@ -24,8 +24,11 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.BillingManager;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.licence.SetupFinishedListener;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import java.io.File;
@@ -53,7 +56,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.SYNC_UPSELL_NOTIFICATI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
-public abstract class LaunchActivity extends ProtectedFragmentActivity  {
+public abstract class LaunchActivity extends ProtectedFragmentActivity implements SetupFinishedListener {
 
   public static final String TAG_VERSION_INFO = "VERSION_INFO";
   private BillingManager billingManager;
@@ -278,6 +281,16 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity  {
         }
         break;
     }
+  }
+
+  @Override
+  public void onBillingSetupFinished() {
+
+  }
+
+  @Override
+  public void onBillingSetupFailed(@NonNull String reason) {
+    CrashHandler.reportWithTag(String.format("Billing setup failed (%s)", reason), LicenceHandler.TAG);
   }
 
   @Override

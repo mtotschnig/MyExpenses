@@ -48,7 +48,6 @@ import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
-import hugo.weaving.DebugLog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
@@ -333,7 +332,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
-  @DebugLog
   protected String[] filterSelectionArgs() {
     return filterPersistence.getWhereFilter().getSelectionArgs(true);
   }

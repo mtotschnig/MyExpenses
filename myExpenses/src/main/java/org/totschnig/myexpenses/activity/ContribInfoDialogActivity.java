@@ -253,7 +253,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public void onBillingSetupFailed() {
-
+  public void onBillingSetupFailed(@NonNull String reason) {
+    complain(String.format("Billing setup failed (%s)", reason));
   }
 }
