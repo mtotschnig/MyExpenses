@@ -77,7 +77,7 @@ public class PreferenceObfuscator {
 
     public void commit() {
         if (mEditor != null) {
-            mEditor.commit();
+            mEditor.apply();
             mEditor = null;
         }
     }
