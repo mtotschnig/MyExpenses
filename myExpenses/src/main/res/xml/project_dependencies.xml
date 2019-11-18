@@ -87,11 +87,6 @@
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>
-        <name>OpenIAB</name>
-        <url>https://github.com/onepf/OpenIAB</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
         <name>Butterknife</name>
         <url>http://jakewharton.github.io/butterknife/</url>
         <licence>Apache License, Version 2.0</licence>
