@@ -298,8 +298,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   public void onLicenceStatusSet(@Nullable LicenceStatus newStatus, @Nullable LicenceStatus oldStatus) {
     if (newStatus != oldStatus) {
       if (newStatus != null) {
-        showSnackbar(String.format("%s (%s)", getString(R.string.licence_validation_premium),
-            getString(newStatus.getResId())), Snackbar.LENGTH_LONG);
+        showMessage(String.format("%s (%s)", getString(R.string.licence_validation_premium),
+            getString(newStatus.getResId())));
       } else {
         showSnackbar(R.string.licence_validation_failure, Snackbar.LENGTH_LONG);
       }
