@@ -46,6 +46,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
   public static final String KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1";
+  public static final String KEY_ALLOW_UNVERIFIED= "allow_unverified";
   private final MediaType MIME_JSON = MediaType.parse(getMimetypeForData() + "; charset=utf-8");
   private static final String FALLBACK_LOCK_FILENAME = ".lock";
 
@@ -60,6 +61,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     String password = accountManager.getPassword(account);
 
     fallbackToClass1 = accountManager.getUserData(account, KEY_WEB_DAV_FALLBACK_TO_CLASS1) != null;
+    boolean allowUnverified = "true".equals(accountManager.getUserData(account, KEY_ALLOW_UNVERIFIED));
 
     X509Certificate certificate = null;
     if (accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE) != null) {
@@ -70,7 +72,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       }
     }
     try {
-      webDavClient = new WebDavClient(url, userName, password, certificate);
+      webDavClient = new WebDavClient(url, userName, password, certificate, allowUnverified);
     } catch (InvalidCertificateException e) {
       throw new SyncParseException(e);
     }

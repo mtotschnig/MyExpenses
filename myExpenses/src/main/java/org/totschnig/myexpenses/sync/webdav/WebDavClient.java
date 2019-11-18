@@ -65,7 +65,7 @@ public class WebDavClient {
   @Inject
   OkHttpClient.Builder builder;
 
-  public WebDavClient(@NonNull String baseUrl, String userName, String password, final X509Certificate trustedCertificate) throws InvalidCertificateException {
+  public WebDavClient(@NonNull String baseUrl, String userName, String password, final X509Certificate trustedCertificate, boolean allowUnverified) throws InvalidCertificateException {
     MyApplication.getInstance().getAppComponent().inject(this);
 
     // Base URL needs to point to a directory.
@@ -98,6 +98,8 @@ public class WebDavClient {
           return false;
         }
       });
+    } else if(allowUnverified) {
+      builder.hostnameVerifier((hostname, session) -> mBaseUri.host().equals(hostname));
     }
     builder.followRedirects(false);
 

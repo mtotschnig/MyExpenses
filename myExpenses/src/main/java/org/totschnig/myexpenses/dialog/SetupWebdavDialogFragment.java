@@ -16,8 +16,11 @@ import android.widget.TextView;
 
 import com.annimon.stream.Exceptional;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProvider;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
@@ -36,12 +39,16 @@ import java.io.FileNotFoundException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import okhttp3.HttpUrl;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
+import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 
 public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
 
@@ -52,6 +59,15 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
   private TextView mTxtTrustCertificate;
   private CheckBox mChkTrustCertificate;
   private X509Certificate mTrustCertificate;
+
+  @Inject
+  PrefHandler prefHandler;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
 
   @NonNull
   @Override
@@ -114,6 +130,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       args.putString(TestLoginTask.KEY_USERNAME, mEdtUserName.getText().toString().trim());
       args.putString(TestLoginTask.KEY_PASSWORD, mEdtPassword.getText().toString().trim());
       args.putSerializable(TestLoginTask.KEY_CERTIFICATE, mChkTrustCertificate.isChecked() ? mTrustCertificate : null);
+      args.putBoolean(KEY_ALLOW_UNVERIFIED, prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false));
       getFragmentManager()
           .beginTransaction()
           .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN), ASYNC_TAG)

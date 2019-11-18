@@ -442,12 +442,21 @@
         <org.totschnig.myexpenses.preference.TimePreference
             android:key="@string/pref_plan_executor_time_key"
             android:title="@string/pref_plan_executor_time_title"/>
+        <PreferenceScreen
+            android:key="@string/pref_webdav_key"
+            android:title="WebDAV">
+
         <LiveSeekBarPreference
             android:defaultValue="10"
             android:key="@string/pref_webdav_timeout_key"
             android:title="@string/pref_webdav_timeout_title"
             android:max="60"
             my:min="5"/>
+
+            <SwitchPreferenceCompat
+                android:key="@string/pref_webdav_allow_unverified_host_key"
+                android:summary="Allow communication with https even when certificate is issued to different host. WARNING: this is insecure, only use on private network and at your own risk. This setting is taken into account when you setup a WebDAV backend. Changing it does not affect existing backends."/>
+        </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_debug_key"
             android:title="@string/pref_debug_title">

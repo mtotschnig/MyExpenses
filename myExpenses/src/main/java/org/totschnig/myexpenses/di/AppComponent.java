@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.di;
 
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -11,6 +10,7 @@ import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromTableDialogFragment;
+import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -149,6 +149,9 @@ public interface AppComponent {
 
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
 
-  void inject(@NotNull BudgetList budgetList);
+  void inject(BudgetList budgetList);
+
+  void inject(SetupWebdavDialogFragment setupWebdavDialogFragment);
+
 
 }

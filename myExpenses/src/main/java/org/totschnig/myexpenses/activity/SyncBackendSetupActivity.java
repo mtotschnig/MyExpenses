@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
@@ -39,6 +40,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_PASSWORD_ENCRYPTION;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
+import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
@@ -103,6 +105,9 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     }
     if (data.getBoolean(KEY_WEB_DAV_FALLBACK_TO_CLASS1)) {
       bundle.putString(KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1");
+    }
+    if (getPrefHandler().getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
+      bundle.putString(KEY_ALLOW_UNVERIFIED, "true");
     }
     createAccount(accountName, password, null, bundle);
   }
