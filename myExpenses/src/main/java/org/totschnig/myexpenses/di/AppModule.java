@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefHandlerImpl;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandlerImpl;
+import org.totschnig.myexpenses.util.crashreporting.AcraCrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Named;
@@ -29,7 +29,7 @@ public class AppModule {
   @Provides
   @Singleton
   static CrashHandler providesCrashHandler() {
-    return (MyApplication.isInstrumentationTest()) ? CrashHandler.NO_OP : new CrashHandlerImpl();
+    return (MyApplication.isInstrumentationTest()) ? CrashHandler.NO_OP : new AcraCrashHandler();
   }
 
   @Provides

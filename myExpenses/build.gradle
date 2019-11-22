@@ -117,12 +117,9 @@ android {
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
-    flavorDimensions "crashreporting", "security"
+    flavorDimensions "security"
 
     productFlavors {
-        acra {
-            dimension "crashreporting"
-        }
         conscript {
             dimension "security"
         }
@@ -199,8 +196,8 @@ dependencies {
         exclude group: "com.android.support", module: "support-annotations"
     }
     implementation 'com.itextpdf:itextg:5.5.10'
-    acraImplementation "ch.acra:acra-mail:$rootProject.acraVersion"
-    acraImplementation "ch.acra:acra-dialog:$rootProject.acraVersion"
+    implementation "ch.acra:acra-mail:$rootProject.acraVersion"
+    implementation "ch.acra:acra-dialog:$rootProject.acraVersion"
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency
     implementation 'org.apache.commons:commons-lang3:3.5'

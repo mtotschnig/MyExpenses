@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import timber.log.Timber;
 
-public class CrashHandlerImpl extends CrashHandler {
+public class AcraCrashHandler extends CrashHandler {
 
   @Override
   public void onAttachBaseContext(MyApplication application) {
