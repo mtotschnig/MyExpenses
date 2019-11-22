@@ -73,7 +73,7 @@ public class WebDavClient {
       baseUrl += "/";
     }
 
-    mBaseUri = HttpUrl.parse(baseUrl);
+    mBaseUri = HttpUrl.get(baseUrl);
 
     int timeout = PrefKey.WEBDAV_TIMEOUT.getInt(10);
 
