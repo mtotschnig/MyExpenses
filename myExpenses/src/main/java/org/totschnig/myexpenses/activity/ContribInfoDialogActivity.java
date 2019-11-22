@@ -114,8 +114,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
           complain(e.getMessage());
         }
         break;
-      case BLACKBERRY:
-      case GITHUB:
+      default:
         contribBuyGithub(aPackage);
         break;
     }
