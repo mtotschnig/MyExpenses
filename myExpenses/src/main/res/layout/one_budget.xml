@@ -164,7 +164,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Default" />
+                        android:text="@string/checkbox_is_default" />
                 </LinearLayout>
             </TableRow>
 
