@@ -3,17 +3,13 @@ package org.totschnig.myexpenses.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -44,7 +40,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 import icepick.Icepick;
@@ -71,8 +66,6 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   AmountInput amountInput;
   @BindView(R.id.ColorIndicator)
   AppCompatButton colorIndicator;
-  @BindView(R.id.setup_wizard_layout)
-  SetupWizardLayout setupWizardLayout;
 
   private Spinner currencySpinner;
   private Spinner accountTypeSpinner;
@@ -114,6 +107,11 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   @Override
+  protected int getNavigationButtonId() {
+    return R.id.suw_navbar_done;
+  }
+
+  @Override
   protected void onNextButtonClicked() {
     prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code());
     ((SplashActivity) getActivity()).finishOnboarding();
@@ -151,13 +149,13 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     return true;
   }
 
-  @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                           @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.onboarding_wizzard_2, container, false);
-    ButterKnife.bind(this, view);
+  protected int getLayoutResId() {
+    return R.layout.onboarding_wizzard_data;
+  }
 
+  @Override
+  protected void configureView(@NonNull View view, Bundle savedInstanceState) {
     //label
     setDefaultLabel();
 
@@ -190,14 +188,11 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     if (moreOptionsShown) {
       showMoreOptions();
     }
+  }
 
-    //lead
-    setupWizardLayout.setHeaderText(R.string.onboarding_data_title);
-    setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
-
-    configureNavigation(view, inflater, R.id.suw_navbar_done);
-
-    return view;
+  @Override
+  protected CharSequence getTitle() {
+    return getString(R.string.onboarding_data_title);
   }
 
   public void setDefaultLabel() {

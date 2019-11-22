@@ -879,4 +879,6 @@
     <string name="dialog_title_warning_delete_budget">Delete budget?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
     <string name="menu_edit_budget">Edit budget</string>
+    <string name="onboarding_privacy_title">Your data stays in your hands.</string>
+    <string name="onboarding_privacy_intro">Your financial data is not sent to any server, neither operated by us nor by any third party.</string>
 </resources>

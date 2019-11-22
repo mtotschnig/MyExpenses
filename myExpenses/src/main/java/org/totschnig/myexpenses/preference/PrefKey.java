@@ -107,6 +107,7 @@ public enum PrefKey {
   HISTORY_INCLUDE_TRANSFERS("history_include_transfers"),
   ROADMAP_VOTE("roadmap_vote"),
   ROADMAP_VERSION("roadmap_version"),
+  CRASHREPORT_SCREEN(R.string.pref_crash_reports_key),
   CRASHREPORT_ENABLED(R.string.pref_crashreport_enabled_key),
   CRASHREPORT_USEREMAIL(R.string.pref_crashreport_useremail_key),
   HOME_CURRENCY(R.string.pref_home_currency_key),

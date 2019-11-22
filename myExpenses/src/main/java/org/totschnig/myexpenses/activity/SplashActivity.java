@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment;
+import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
@@ -88,13 +89,15 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   public void navigate_next() {
-    pager.setCurrentItem(1, true);
+    final int currentItem = pager.getCurrentItem();
+    pager.setCurrentItem(currentItem + 1, true);
   }
 
   @Override
   public void onBackPressed() {
-    if (pager != null && pager.getCurrentItem() == 1) {
-      pager.setCurrentItem(0);
+    final int currentItem = pager.getCurrentItem();
+    if (pager != null && currentItem > 0) {
+      pager.setCurrentItem(currentItem - 1);
     } else {
       super.onBackPressed();
     }
@@ -106,7 +109,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
 
   private OnboardingDataFragment getDataFragment() {
     return (OnboardingDataFragment) getSupportFragmentManager().findFragmentByTag(
-        pagerAdapter.getFragmentName(1));
+        pagerAdapter.getFragmentName(pagerAdapter.getCount()-1));
   }
 
   public void finishOnboarding() {
@@ -257,6 +260,8 @@ public class SplashActivity extends SyncBackendSetupActivity {
         case 0:
           return OnboardingUiFragment.newInstance();
         case 1:
+          if (showPrivacyPage())
+            return OnBoardingPrivacyFragment.newInstance();
         default:
           return OnboardingDataFragment.newInstance();
       }
@@ -264,7 +269,11 @@ public class SplashActivity extends SyncBackendSetupActivity {
 
     @Override
     public int getCount() {
-      return 2;
+      return showPrivacyPage() ?  3 : 2;
+    }
+
+    private boolean showPrivacyPage() {
+      return DistribHelper.getDistribution().supportsTrackingAndCrashReporting();
     }
   }
 

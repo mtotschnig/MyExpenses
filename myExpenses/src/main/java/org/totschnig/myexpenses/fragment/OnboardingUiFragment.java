@@ -2,53 +2,39 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.FragmentActivity;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class OnboardingUiFragment extends OnboardingFragment {
   @BindView(R.id.font_size_display_name)
   TextView fontSizeDisplayNameTextView;
   @BindView(R.id.font_size)
   SeekBar fontSizeSeekBar;
-  @BindView(R.id.setup_wizard_layout)
-  SetupWizardLayout setupWizardLayout;
+  @BindView(R.id.theme)
+  SwitchCompat themeSwitch;
 
   private int fontScale;
 
   public static OnboardingUiFragment newInstance() {
     return new OnboardingUiFragment();
-  }
-
-  @Override
-  protected void onNextButtonClicked() {
-    final FragmentActivity activity = getActivity();
-    if (activity != null) {
-      ((SplashActivity) activity).navigate_next();
-    }
   }
 
   @Override
@@ -85,13 +71,13 @@ public class OnboardingUiFragment extends OnboardingFragment {
     });
   }
 
-  @Nullable
   @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    View view = inflater.inflate(R.layout.onboarding_wizzard_1, container, false);
-    ButterKnife.bind(this, view);
+  protected int getLayoutResId() {
+    return R.layout.onboarding_wizzard_ui;
+  }
 
+  @Override
+  protected void configureView(@NonNull View view, Bundle savedInstanceState) {
     //fontsize
     fontScale = PrefKey.UI_FONTSIZE.getInt(0);
     fontSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -120,8 +106,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     updateFontSizeDisplayName(fontScale);
 
     //theme
-    SwitchCompat themeSwitch = view.findViewById(R.id.theme);
-    boolean isLight = ctx.getThemeType().equals(ProtectedFragmentActivity.ThemeType.light);
+    boolean isLight =  UiUtils.themeBoolAttr(getContext(), R.attr.isLightTheme);
     themeSwitch.setChecked(isLight);
     setContentDescriptonToThemeSwitch(themeSwitch, isLight);
     themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -130,14 +115,12 @@ public class OnboardingUiFragment extends OnboardingFragment {
       recreate();
     });
 
-    //lead
-    setupWizardLayout.setHeaderText(Utils.getTextWithAppName(getContext(), R.string.onboarding_ui_title));
-    setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
-
-    configureNavigation(view, inflater, R.id.suw_navbar_next);
     nextButton.setVisibility(View.VISIBLE);
+  }
 
-    return view;
+  @Override
+  protected CharSequence getTitle() {
+    return Utils.getTextWithAppName(getContext(), R.string.onboarding_ui_title);
   }
 
   private void onFontSizeSet() {

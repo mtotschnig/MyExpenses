@@ -9,7 +9,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:id="@+id/onboarding_menu"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

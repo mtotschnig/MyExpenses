@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.setupwizardlib.SetupWizardLayout
-    android:id="@+id/setup_wizard_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.setupwizardlib.SetupWizardLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setup_wizard_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout="@layout/suw_template"
     app:suwBackgroundTile="@drawable/bg_tile_teal">
 
-    <LinearLayout style="@style/SuwContentFrame"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-        >
+    <LinearLayout
+        style="@style/SuwContentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/theme"
             android:layout_marginBottom="0dp"
-            android:text="@string/pref_ui_theme_title"/>
+            android:labelFor="@+id/theme"
+            android:text="@string/pref_ui_theme_title" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/pref_ui_theme_dark"/>
+                android:text="@string/pref_ui_theme_dark" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/theme"
@@ -43,20 +42,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/pref_ui_theme_title"
-                android:minHeight="@dimen/accessibility_clickable_minimum"
                 android:minWidth="@dimen/accessibility_clickable_minimum"
+                android:minHeight="@dimen/accessibility_clickable_minimum"
                 android:switchMinWidth="0dp"
                 app:switchTextAppearance="@style/SwitchTextAppearance"
-                tools:ignore="UnusedAttribute"/>
+                tools:ignore="UnusedAttribute" />
 
             <TextView
                 style="@style/OnBoardingDisplayProperty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:text="@string/pref_ui_theme_light"/>
+                android:layout_marginLeft="10dp"
+                android:text="@string/pref_ui_theme_light" />
         </LinearLayout>
 
         <TextView
@@ -64,15 +63,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:labelFor="@+id/fontSize"
-            android:text="@string/pref_ui_fontsize_title"/>
+            android:text="@string/pref_ui_fontsize_title" />
 
         <SeekBar
             android:id="@+id/font_size"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="3"
-            />
+            android:max="3" />
 
         <TextView
             android:id="@+id/font_size_display_name"
@@ -81,6 +79,13 @@
             android:layout_height="30sp"
             android:layout_gravity="center"
             android:gravity="center"
-            tools:text="System standard"/>
+            tools:text="System standard" />
+
+        <TextView
+            style="@style/OnboardingInputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/fontSize"
+            android:text="@string/pref_ui_fontsize_title" />
     </LinearLayout>
 </com.android.setupwizardlib.SetupWizardLayout>

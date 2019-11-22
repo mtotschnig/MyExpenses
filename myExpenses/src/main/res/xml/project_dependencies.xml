@@ -183,4 +183,9 @@
         <url>https://github.com/KeepSafe/TapTargetView</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>PageIndicatorView</name>
+        <url>https://github.com/romandanylyk/PageIndicatorView</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>

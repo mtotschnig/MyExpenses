@@ -109,6 +109,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
+import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
+import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
@@ -339,10 +341,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }.execute();
 
       final PreferenceCategory privacyCategory = (PreferenceCategory) findPreference(CATEGORY_PRIVACY);
-      pref = findPreference(TRACKING);
-      try {
-        Class.forName("org.totschnig.myexpenses.util.tracking.PlatformTracker");
-      } catch (ClassNotFoundException e) {
+      if (!DistribHelper.getDistribution().supportsTrackingAndCrashReporting()) {
+        pref = findPreference(TRACKING);
+        privacyCategory.removePreference(pref);
+        pref = findPreference(CRASHREPORT_SCREEN);
         privacyCategory.removePreference(pref);
       }
       pref = findPreference(PERSONALIZED_AD_CONSENT);
@@ -459,6 +461,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (!BuildConfig.DEBUG) {
         preferenceScreen.removePreference(findPreference(DEBUG_ADS));
       }
+    } else if(rootKey.equals(CRASHREPORT_SCREEN.getKey())) {
+      findPreference(getString(R.string.pre_acra_info_key)).setSummary(Utils.getTextWithAppName(getContext(),R.string.crash_reports_user_info));
     }
   }
 

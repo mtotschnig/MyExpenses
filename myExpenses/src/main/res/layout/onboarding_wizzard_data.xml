@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.setupwizardlib.SetupWizardLayout
-    android:id="@+id/setup_wizard_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.setupwizardlib.SetupWizardLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setup_wizard_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:importantForAutofill="noExcludeDescendants"
@@ -15,8 +14,7 @@
         style="@style/SuwContentFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -39,7 +37,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:hint="@string/label"
-                        android:inputType="text"/>
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -48,21 +46,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:labelFor="@+id/Amount"
-                    android:text="@string/opening_balance"/>
+                    android:text="@string/opening_balance" />
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-4dp"
-                    android:layout_marginStart="-4dp"/>
+                    android:layout_marginStart="-4dp"
+                    android:layout_marginLeft="-4dp" />
 
                 <TextView
                     style="@style/OnboardingInputLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:labelFor="@+id/Currency"
-                    android:text="@string/currency"/>
+                    android:text="@string/currency" />
 
                 <Spinner
                     android:id="@+id/Currency"
@@ -70,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:prompt="@string/currency"/>
+                    android:prompt="@string/currency" />
 
                 <Button
                     android:id="@+id/MoreOptionsButton"
@@ -79,8 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:onClick="showMoreOptions"
-                    android:text="@string/onboarding_more_options"
-                    />
+                    android:text="@string/onboarding_more_options" />
 
                 <LinearLayout
                     android:id="@+id/MoreOptionsContainer"
@@ -100,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:hint="@string/description"
-                            android:inputType="text"/>
+                            android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -108,7 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:labelFor="@+id/AccountType"
-                        android:text="@string/type"/>
+                        android:text="@string/type" />
 
                     <Spinner
                         android:id="@+id/AccountType"
@@ -116,16 +113,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:prompt="@string/type"/>
+                        android:prompt="@string/type" />
 
                     <TextView
                         style="@style/OnboardingInputLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:labelFor="@+id/Color"
-                        android:text="@string/color"/>
+                        android:text="@string/color" />
 
-                    <include layout="@layout/color_input"/>
+                    <include layout="@layout/color_input" />
                 </LinearLayout>
 
             </LinearLayout>

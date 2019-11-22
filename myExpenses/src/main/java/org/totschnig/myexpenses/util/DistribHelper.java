@@ -27,7 +27,12 @@ public class DistribHelper {
         return "appworld://content/54472888";
       }
     },
-    GITHUB;
+    GITHUB {
+      @Override
+      public boolean supportsTrackingAndCrashReporting() {
+        return BuildConfig.DEBUG;
+      }
+    };
 
     public String getPlattform() {
       return "Android";
@@ -39,6 +44,10 @@ public class DistribHelper {
 
     public String getMarketSelfUri() {
       return getMarketPrefix() + "org.totschnig.myexpenses";
+    }
+
+    public boolean supportsTrackingAndCrashReporting() {
+      return true;
     }
   }
 
