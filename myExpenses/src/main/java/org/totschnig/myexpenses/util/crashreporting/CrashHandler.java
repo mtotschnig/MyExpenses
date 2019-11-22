@@ -91,6 +91,10 @@ public abstract class CrashHandler {
 
   abstract void setupLoggingDo(Context context);
 
+  public void setUserEmail(String value) {
+    putCustomData("UserEmail", value);
+  }
+
   public abstract void putCustomData(String key, String value);
 
   public synchronized void addBreadcrumb(String breadcrumb) {

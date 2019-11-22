@@ -881,4 +881,5 @@
     <string name="menu_edit_budget">Edit budget</string>
     <string name="onboarding_privacy_title">Your data stays in your hands.</string>
     <string name="onboarding_privacy_intro">Your financial data is not sent to any server, neither operated by us nor by any third party.</string>
+    <string name="app_restart_required">New configuration requires app restart to take effect.</string>
 </resources>

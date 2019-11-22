@@ -111,6 +111,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
@@ -176,6 +177,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   PrefHandler prefHandler;
   @Inject
   AdHandlerFactory adHandlerFactory;
+  @Inject
+  CrashHandler crashHandler;
 
   CurrencyViewModel currencyViewModel;
 
@@ -461,8 +464,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (!BuildConfig.DEBUG) {
         preferenceScreen.removePreference(findPreference(DEBUG_ADS));
       }
-    } else if(rootKey.equals(CRASHREPORT_SCREEN.getKey())) {
-      findPreference(getString(R.string.pre_acra_info_key)).setSummary(Utils.getTextWithAppName(getContext(),R.string.crash_reports_user_info));
+    } else if (rootKey.equals(CRASHREPORT_SCREEN.getKey())) {
+      findPreference(getString(R.string.pre_acra_info_key)).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
+      findPreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
+      findPreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
     }
   }
 
@@ -702,6 +707,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(pref, EXCHANGE_RATE_PROVIDER)) {
       configureOpenExchangeRatesPreference((String) value);
+    } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
+      crashHandler.setUserEmail((String) value);
+    } else if (matches(pref, CRASHREPORT_ENABLED)) {
+      activity().showSnackbar(R.string.app_restart_required, Snackbar.LENGTH_LONG);
     }
     return true;
   }
