@@ -17,10 +17,10 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
@@ -45,10 +45,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   private final static String KEY_PACKAGE = "package";
   public static final String KEY_TAG = "tag";
   private static final String KEY_SHOULD_REPLACE_EXISTING = "shouldReplaceExisting";
+  private boolean doFinishAfterMessageDismiss = true;
 
   @Nullable
   private BillingManager billingManager;
-
 
   public static Intent getIntentFor(Context context, @Nullable ContribFeature feature) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
@@ -72,7 +72,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String packageFromExtra = packageFromExtra();
-    billingManager = licenceHandler.initBillingManager(this, false);
 
     if (savedInstanceState == null) {
       if (packageFromExtra == null) {
@@ -86,6 +85,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         }
       }
     }
+    billingManager = licenceHandler.initBillingManager(this, false);
   }
 
   private String packageFromExtra() {
@@ -122,6 +122,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   void complain(String message) {
     CrashHandler.report(String.format("**** InAppPurchase Error: %s", message));
+    doFinishAfterMessageDismiss = false;
     showMessage(message);
   }
 
@@ -168,7 +169,9 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   public void onMessageDialogDismissOrCancel() {
-    finish(true);
+    if (doFinishAfterMessageDismiss) {
+      finish(true);
+    }
   }
 
   public void finish(boolean canceled) {

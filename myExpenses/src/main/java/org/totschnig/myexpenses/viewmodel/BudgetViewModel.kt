@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -86,9 +87,9 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         this.budget.postValue(budget)
     }
 
-    fun loadBudgetSpend(position: Int, budget: Budget, aggregate: Boolean, prefHandler: PrefHandler) {
+    fun loadBudgetSpend(position: Int, budget: Budget, prefHandler: PrefHandler) {
         val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-        if (aggregate) {
+        if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
                     .build()
         }

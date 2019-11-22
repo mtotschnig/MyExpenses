@@ -119,7 +119,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                 with(holder.itemView) {
                     Title.setText(budget.titleComplete(context))
                     val spent = position2Spent?.get(position) ?: run {
-                        viewModel.loadBudgetSpend(position, budget, false, prefHandler)
+                        viewModel.loadBudgetSpend(position, budget, prefHandler)
                         0L
                     }
                     budgetSummary.bind(budget, spent, currencyFormatter)
