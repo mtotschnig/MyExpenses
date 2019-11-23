@@ -88,8 +88,10 @@ public class ShareUtils {
       return complain("sending multiple file through ftp is not supported");
     } else {
       intent = new Intent(Intent.ACTION_SENDTO);
-      intent.putExtra(Intent.EXTRA_STREAM, AppDirHelper.ensureContentUri(fileUris.get(0)));
+      final Uri contentUri = AppDirHelper.ensureContentUri(fileUris.get(0));
+      intent.putExtra(Intent.EXTRA_STREAM, contentUri);
       intent.setDataAndType(Uri.parse(target), mimeType);
+      ctx.grantUriPermission("org.totschnig.sendwithftp", contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
       if (Utils.isIntentAvailable(ctx, intent)) {
         ctx.startActivity(intent);
       } else {
