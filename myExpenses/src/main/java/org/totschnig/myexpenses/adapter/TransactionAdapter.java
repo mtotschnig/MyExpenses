@@ -95,10 +95,11 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexEquivalentAmount;
 
   private CurrencyContext currencyContext;
+  private PrefHandler prefHandler;
 
   private Context context;
 
-  protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
+  protected TransactionAdapter(Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
                                PrefHandler prefHandler, CurrencyContext currencyContext) {
     super(context, layout, c, flags);
@@ -109,21 +110,19 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
     colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
     textColorSecondary = ((ProtectedFragmentActivity) context).getTextColorSecondary();
-    mAccount = account;
     mGroupingOverride = grouping;
     is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
     localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context);
     this.currencyFormatter = currencyFormatter;
+    this.prefHandler = prefHandler;
     monthStart = Integer.parseInt(prefHandler.getString(GROUP_MONTH_STARTS, "1"));
-    shouldShowTime = UiUtils.getDateMode(account, prefHandler) == UiUtils.DateMode.DATE_TIME;
-    refreshDateFormat();
     this.currencyContext = currencyContext;
   }
 
-  public TransactionAdapter(Account account, Context context, int layout, Cursor c, int flags,
+  public TransactionAdapter(Context context, int layout, Cursor c, int flags,
                             CurrencyFormatter currencyFormatter, PrefHandler prefHandler,
                             CurrencyContext currencyContext) {
-    this(account, null, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
+    this(null, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
   }
 
   @Override
@@ -317,6 +316,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   public void setAccount(Account account) {
     this.mAccount = account;
+    shouldShowTime = UiUtils.getDateMode(account, prefHandler) == UiUtils.DateMode.DATE_TIME;
+    refreshDateFormat();
   }
 
   class ViewHolder {

@@ -202,6 +202,8 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @BindView(R.id.list)
   ExpandableStickyListHeadersListView mListView;
+  @BindView(R.id.empty)
+  View emptyView;
   @BindView(R.id.filter)
   ChipGroup filterView;
   @BindView(R.id.filterCard)
@@ -264,12 +266,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
     viewModel.getAccount().observe(this, account -> {
       mAccount = account;
-      if (mAccount.isSealed()) {
-        mListView.getWrappedList().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-      } else {
-        registerForContextualActionBar(mListView.getWrappedList());
-      }
-      setAdapter();
+      mListView.getWrappedList().setChoiceMode(mAccount.isSealed() ?
+          AbsListView.CHOICE_MODE_NONE : AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+      mAdapter.setAccount(mAccount);
       setGrouping();
       Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
       Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
@@ -281,7 +280,9 @@ public class TransactionList extends ContextualActionBarFragment implements
         refresh(false);
       }
     });
-    viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
+    if (savedInstanceState == null) {
+      viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
+    }
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
     budgetsObserver = new BudgetObserver();
@@ -321,48 +322,34 @@ public class TransactionList extends ContextualActionBarFragment implements
     super.onActivityCreated(savedInstanceState);
   }
 
-  private void setAdapter() {
-    if (mAccount != null) {
-      Context ctx = getActivity();
-      if (mAdapter == null) {
-        mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
-      } else {
-        mAdapter.setAccount(mAccount);
-      }
-      if (mListView.getAdapter() == null) {
-        mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false), null, false);
-        mListView.setAdapter(mAdapter);
-      }
-    }
-  }
-
   private void setGrouping() {
     mAdapter.refreshDateFormat();
     restartGroupingLoader();
   }
 
   private void restartGroupingLoader() {
-    if (mManager == null) {
-      //can happen after an orientation change in ExportDialogFragment, when resetting multiple accounts
-      mManager = getLoaderManager();
-    }
     Utils.requireLoader(mManager, GROUPING_CURSOR, null, this);
   }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final MyExpenses ctx = (MyExpenses) getActivity();
     mManager = LoaderManager.getInstance(this);
     filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true, true);
     View v = inflater.inflate(R.layout.expenses_list, container, false);
     ButterKnife.bind(this, v);
-    setAdapter();
+    mAdapter = new MyGroupedAdapter(getActivity(), R.layout.expense_row, null, 0);
+    configureListView();
+    registerForContextualActionBar(mListView.getWrappedList());
+    return v;
+  }
+
+  private void configureListView() {
     mListView.setOnHeaderClickListener(this);
     mListView.setDrawingListUnderStickyHeader(false);
 
-    mListView.setEmptyView(v.findViewById(R.id.empty));
+    mListView.setEmptyView(emptyView);
     mListView.setOnItemClickListener((a, v1, position, id) -> {
-      FragmentManager fm = ctx.getSupportFragmentManager();
+      FragmentManager fm = getActivity().getSupportFragmentManager();
       DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
       if (f == null) {
         FragmentTransaction ft = fm.beginTransaction();
@@ -394,7 +381,8 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
       }
     });
-    return v;
+    mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false), null, false);
+    mListView.setAdapter(mAdapter);
   }
 
   protected void refresh(boolean invalidateMenu) {
@@ -842,7 +830,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     private LayoutInflater inflater;
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
-      super(mAccount, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
+      super(context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
       inflater = LayoutInflater.from(getActivity());
     }
 
@@ -1187,7 +1175,6 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   protected void refreshAfterFilterChange() {
     refresh(true);
-    setAdapter();
   }
 
   /**

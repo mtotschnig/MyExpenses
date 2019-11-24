@@ -40,7 +40,6 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -72,7 +71,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   public static final int SUM_CURSOR = 2;
   private static final String TABS = "\u0009\u0009\u0009\u0009";
   private Account mAccount;
-  private CursorAdapter mAdapter;
+  private TransactionAdapter mAdapter;
   private ListView mListView;
   private boolean isMain;
 
@@ -120,7 +119,6 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     mListView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_INSET);
 
     mAdapter = new TransactionAdapter(
-        mAccount,
         (Grouping) getArguments().getSerializable(KEY_GROUPING),
         getActivity(),
         R.layout.expense_row,
@@ -133,6 +131,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
             ((isMain && label_sub != null) ? label_sub : "");
       }
     };
+    mAdapter.setAccount(mAccount);
     mListView.setAdapter(mAdapter);
     final LoaderManager loaderManager = LoaderManager.getInstance(this);
     loaderManager.initLoader(TRANSACTION_CURSOR, null, this);
