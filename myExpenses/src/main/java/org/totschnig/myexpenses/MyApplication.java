@@ -75,8 +75,6 @@ import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
-import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
-import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 
 public class MyApplication extends MultiDexApplication implements

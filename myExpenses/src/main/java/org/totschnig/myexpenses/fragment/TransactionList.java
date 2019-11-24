@@ -45,7 +45,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -126,7 +125,8 @@ import androidx.loader.content.Loader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
+import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
@@ -201,7 +201,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private Parcelable listState;
 
   @BindView(R.id.list)
-  StickyListHeadersListView mListView;
+  ExpandableStickyListHeadersListView mListView;
   @BindView(R.id.filter)
   ChipGroup filterView;
   @BindView(R.id.filterCard)
@@ -838,7 +838,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     return mappedCategories;
   }
 
-  private class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter, SectionIndexer {
+  private class MyGroupedAdapter extends TransactionAdapter implements SectionIndexingStickyListHeadersAdapter {
     private LayoutInflater inflater;
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
@@ -1069,7 +1069,14 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
                             int itemPosition, long headerId, boolean currentlySticky) {
-    //noop
+    final HeaderViewHolder viewHolder = (HeaderViewHolder) header.getTag();
+    if (mListView.isHeaderCollapsed(headerId)) {
+      mListView.expand(headerId);
+      viewHolder.dividerBottom.setVisibility(View.VISIBLE);
+    } else {
+      mListView.collapse(headerId);
+      viewHolder.dividerBottom.setVisibility(View.GONE);
+    }
   }
 
   @Override
