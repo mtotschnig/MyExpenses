@@ -778,12 +778,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
 
 /*  private void insertTestData(SQLiteDatabase db, int countGroup, int countChild) {
+    long date = System.currentTimeMillis() / 1000;
     for (int i = 1; i <= countGroup; i++) {
       long payeeId = db.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo("Payee " + i).getContentValues());
       AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.CASH, 0);
       long testAccountId = db.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
-        TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, new Date(), 0, testAccountId, payeeId);
+        date -= 60 * 60 * 24;
+        TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, date, 0, testAccountId, payeeId);
         db.insertOrThrow(
             DatabaseConstants.TABLE_TRANSACTIONS,
             null,
