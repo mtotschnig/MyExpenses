@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
@@ -62,27 +62,27 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-      SparseBooleanArray positions,Long[]itemIds) {
-    int taskId=0, progressMessage = 0;
-    switch(command) {
+                                         SparseBooleanArray positions, Long[] itemIds) {
+    int taskId = 0, progressMessage = 0;
+    switch (command) {
       case R.id.SAVE_COMMAND:
         taskId = TaskExecutionFragment.TASK_SAVE_IMAGES;
-        progressMessage= R.string.progress_dialog_saving;
+        progressMessage = R.string.progress_dialog_saving;
         break;
       case R.id.DELETE_COMMAND:
         taskId = TaskExecutionFragment.TASK_DELETE_IMAGES;
-        progressMessage= R.string.progress_dialog_deleting;
+        progressMessage = R.string.progress_dialog_deleting;
         break;
     }
-    if (taskId==0) {
-      return super.dispatchCommandMultiple(command,positions,itemIds);
+    if (taskId == 0) {
+      return super.dispatchCommandMultiple(command, positions, itemIds);
     }
     finishActionMode();
     ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-      taskId,
-      itemIds,
-      null,
-      progressMessage);
+        taskId,
+        itemIds,
+        null,
+        progressMessage);
     return true;
   }
 
@@ -90,7 +90,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.images_list, container, false);
-    
+
     final GridView lv = (GridView) v.findViewById(R.id.grid);
 
     // Create an array to specify the fields we want to display in the list
@@ -101,7 +101,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
 
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(
-        getActivity(), 
+        getActivity(),
         R.layout.image_view,
         null,
         from,
@@ -114,7 +114,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
 
       @Override
       public void setViewImage(ImageView v, String value) {
-        if (v.getTag()!=null && v.getTag().equals(value)) {
+        if (v.getTag() != null && v.getTag().equals(value)) {
           //already dealing with value; nothing to do
           return;
         }
@@ -128,8 +128,8 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mImagesCursor.moveToPosition(position);
         imageViewIntentProvider.startViewIntent(getActivity(),
-                Uri.parse(mImagesCursor.getString(
-                    mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI))));
+            Uri.parse(mImagesCursor.getString(
+                mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI))));
       }
     });
     getLoaderManager().initLoader(0, null, this);
@@ -137,10 +137,11 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
     registerForContextualActionBar(lv);
     return v;
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.STALE_IMAGES_URI, null, null,null, null);
+        TransactionProvider.STALE_IMAGES_URI, null, null, null, null);
     return cursorLoader;
   }
 
