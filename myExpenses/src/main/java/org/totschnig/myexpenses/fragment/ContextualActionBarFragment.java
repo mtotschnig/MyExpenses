@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment;
  */
 @Deprecated
 public class ContextualActionBarFragment extends Fragment implements OnGroupClickListener, OnChildClickListener {
-  protected ActionMode mActionMode;
+  ActionMode mActionMode;
   int expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
 
   @Override
@@ -107,6 +107,10 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     configureMenuLegacy(menu, menuInfo, v.getId());
   }
 
+  protected boolean shouldStartActionMode() {
+    return true;
+  }
+
   public void registerForContextualActionBar(final AbsListView lv) {
     lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -131,6 +135,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
         //thus we default to PACKED_POSITION_TYPE_GROUP
         //this workaround works because orientation change collapses the groups
         //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
+        if (!shouldStartActionMode()) return false;
         expandableListSelectionType = (lv instanceof ExpandableListView) ?
             ExpandableListView.PACKED_POSITION_TYPE_GROUP :
             ExpandableListView.PACKED_POSITION_TYPE_NULL;

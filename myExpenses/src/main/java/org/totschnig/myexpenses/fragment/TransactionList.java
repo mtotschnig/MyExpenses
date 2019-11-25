@@ -266,8 +266,6 @@ public class TransactionList extends ContextualActionBarFragment implements
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
     viewModel.getAccount().observe(this, account -> {
       mAccount = account;
-      mListView.getWrappedList().setChoiceMode(mAccount.isSealed() ?
-          AbsListView.CHOICE_MODE_NONE : AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
       mAdapter.setAccount(mAccount);
       setGrouping();
       Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
@@ -317,11 +315,6 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
   }
 
-  @Override
-  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-  }
-
   private void setGrouping() {
     mAdapter.refreshDateFormat();
     restartGroupingLoader();
@@ -341,6 +334,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     configureListView();
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
+  }
+
+  @Override
+  protected boolean shouldStartActionMode() {
+    return mAccount == null || !mAccount.isSealed();
   }
 
   private void configureListView() {
