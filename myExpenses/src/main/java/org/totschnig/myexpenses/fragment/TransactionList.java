@@ -100,6 +100,7 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
+import org.totschnig.myexpenses.viewmodel.data.EventObserver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,13 +123,16 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -167,9 +171,10 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
+import static org.totschnig.myexpenses.viewmodel.TransactionListViewModel.TOKEN_REMAP_CATEGORY;
 
 public class TransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
@@ -277,6 +282,15 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (savedInstanceState == null) {
       viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
     }
+    viewModel.getUpdateComplete().observe(this, new EventObserver<>(result -> {
+          switch (result.getFirst()) {
+            case TOKEN_REMAP_CATEGORY: {
+              ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(getString(R.string.remapping_result, result.getSecond()), Snackbar.LENGTH_LONG);
+            }
+          }
+          return Unit.INSTANCE;
+        })
+    );
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
     budgetsObserver = new BudgetObserver();
@@ -472,6 +486,12 @@ public class TransactionList extends ContextualActionBarFragment implements
             null,
             0));
         break;
+      case R.id.REMAP_CATEGORY_COMMAND: {
+        Intent i = new Intent(getActivity(), ManageCategories.class);
+        i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
+        startActivityForResult(i, SELECT_CATEGORY_REQUEST);
+        return true;
+      }
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
@@ -1349,8 +1369,10 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST &&
-        resultCode != Activity.RESULT_CANCELED) {
+    if (resultCode == Activity.RESULT_CANCELED) {
+      return;
+    }
+    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
         long catId = intent.getLongExtra(KEY_CATID, 0);
@@ -1361,6 +1383,28 @@ public class TransactionList extends ContextualActionBarFragment implements
         addCategoryFilter(label, catIds);
       }
     }
+    if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST) {
+      Bundle b = new Bundle();
+      b.putLong(KEY_CATID, intent.getLongExtra(KEY_CATID, 0));
+      SimpleDialog.build()
+          .title(getString(R.string.dialog_title_confirm_remap, getString(R.string.category)))
+          .pos(R.string.menu_remap)
+          .neg(android.R.string.cancel)
+          .msg(getString(R.string.remap_category, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation))
+          .extra(b)
+          .show(this, "REMAP_CATEGORY");
+    }
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (which == BUTTON_POSITIVE) {
+      if (dialogTag.equals("REMAP_CATEGORY")) {
+        viewModel.remapCategory(mListView.getCheckedItemIds(), extras.getLong(KEY_CATID));
+      }
+      return true;
+    }
+    return false;
   }
 
   private void addCategoryFilter(String label, long... catIds) {

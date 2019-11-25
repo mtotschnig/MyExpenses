@@ -884,4 +884,9 @@
     <string name="app_restart_required">New configuration requires app restart to take effect.</string>
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">Default</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">Remap</string>
+    <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
+    <string name="remap_category">All selected transactions are mapped to category %s.</string>
+    <string name="remapping_result">%d transactions were remapped.</string>
 </resources>
