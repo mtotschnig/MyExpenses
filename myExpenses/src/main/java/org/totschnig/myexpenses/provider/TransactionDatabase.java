@@ -1776,7 +1776,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 74) {
+        db.execSQL("DROP TRIGGER IF EXISTS insert_change_log");
         db.execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log");
+        db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
+        db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
         db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
         db.execSQL("update transactions set transfer_peer = (select _id from transactions peer where peer.transfer_peer = transactions._id) where transfer_peer is null;");
         createOrRefreshTransactionTriggers(db);
