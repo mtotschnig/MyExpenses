@@ -44,6 +44,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
@@ -51,15 +52,17 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
+import eltos.simpledialogfragment.SimpleDialog;
 
 import static com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncBackendList extends Fragment implements
-    ExpandableListView.OnGroupExpandListener {
+    ExpandableListView.OnGroupExpandListener, SimpleDialog.OnDialogResultListener {
 
   private static final int ACCOUNT_CURSOR = -1;
+  private static final String DIALOG_INACTIVE_BACKEND = "inactive_backend";
 
   private SyncBackendAdapter syncBackendAdapter;
   private LoaderManager mManager;
@@ -198,7 +201,13 @@ public class SyncBackendList extends Fragment implements
       ContentResolver.requestSync(account,
           TransactionProvider.AUTHORITY, bundle);
     } else {
-      ((ProtectedFragmentActivity) getActivity()).showSnackbar("Backend is not ready to be synced", Snackbar.LENGTH_LONG);
+      Bundle bundle = new Bundle(1);
+      bundle.putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
+      SimpleDialog.build()
+          .msg("Backend is not ready to be synced")
+          .pos("Activate again")
+          .extra(bundle)
+          .show(this, DIALOG_INACTIVE_BACKEND);
     }
   }
 
@@ -227,6 +236,14 @@ public class SyncBackendList extends Fragment implements
 
   public void reloadLocalAccountInfo() {
     Utils.requireLoader(mManager, ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (dialogTag.equals(DIALOG_INACTIVE_BACKEND) && which == BUTTON_POSITIVE) {
+      GenericAccountService.activateSync(GenericAccountService.GetAccount(extras.getString(KEY_SYNC_ACCOUNT_NAME)));
+    }
+    return false;
   }
 
   private class LocalAccountInfoCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
