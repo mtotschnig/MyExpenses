@@ -265,7 +265,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
-    viewModel.getAccount().observe(this, account -> {
+    viewModel.account(getArguments().getLong(KEY_ACCOUNTID)).observe(this, account -> {
       mAccount = account;
       mAdapter.setAccount(mAccount);
       setGrouping();
@@ -279,9 +279,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         refresh(false);
       }
     });
-    if (savedInstanceState == null) {
-      viewModel.loadAccount(getArguments().getLong(KEY_ACCOUNTID));
-    }
     viewModel.getUpdateComplete().observe(this, new EventObserver<>(result -> {
           switch (result.getFirst()) {
             case TransactionListViewModel.TOKEN_REMAP_CATEGORY: {
