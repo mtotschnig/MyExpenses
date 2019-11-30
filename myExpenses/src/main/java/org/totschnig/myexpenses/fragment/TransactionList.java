@@ -171,13 +171,13 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
-import static org.totschnig.myexpenses.viewmodel.TransactionListViewModel.TOKEN_REMAP_CATEGORY;
 
 public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
+  public static final String REMAP_CATEGORY_DIALOG = "dialogRemapCategory";
 
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
@@ -284,7 +284,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     viewModel.getUpdateComplete().observe(this, new EventObserver<>(result -> {
           switch (result.getFirst()) {
-            case TOKEN_REMAP_CATEGORY: {
+            case TransactionListViewModel.TOKEN_REMAP_CATEGORY: {
               ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(getString(R.string.remapping_result, result.getSecond()), Snackbar.LENGTH_LONG);
             }
           }
@@ -1392,14 +1392,14 @@ public class TransactionList extends ContextualActionBarFragment implements
           .neg(android.R.string.cancel)
           .msg(getString(R.string.remap_category, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation))
           .extra(b)
-          .show(this, "REMAP_CATEGORY");
+          .show(this, REMAP_CATEGORY_DIALOG);
     }
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which == BUTTON_POSITIVE) {
-      if (dialogTag.equals("REMAP_CATEGORY")) {
+      if (dialogTag.equals(REMAP_CATEGORY_DIALOG)) {
         viewModel.remapCategory(mListView.getCheckedItemIds(), extras.getLong(KEY_CATID));
       }
       return true;
