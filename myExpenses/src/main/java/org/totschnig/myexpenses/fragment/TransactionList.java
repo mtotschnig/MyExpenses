@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectSinglePayeeDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -132,7 +133,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
 
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -151,6 +151,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_MET
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
@@ -177,7 +178,8 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
-  public static final String REMAP_CATEGORY_DIALOG = "dialogRemapCategory";
+  public static final String REMAP_DIALOG = "dialogRemap";
+  public static final String KEY_COLUMN = "column";
 
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
@@ -187,6 +189,9 @@ public class TransactionList extends ContextualActionBarFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   private static final int SECTION_CURSOR = 3;
+
+  private static final int MAP_CATEGORY_RQEUST = 0;
+  private static final int MAP_PAYEE_RQEUST = 1;
 
   public static final String KEY_FILTER = "filter";
   public static final String CATEGORY_SEPARATOR = " : ",
@@ -486,7 +491,14 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.REMAP_CATEGORY_COMMAND: {
         Intent i = new Intent(getActivity(), ManageCategories.class);
         i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
-        startActivityForResult(i, SELECT_CATEGORY_REQUEST);
+        startActivityForResult(i, MAP_CATEGORY_RQEUST);
+        return true;
+      }
+
+      case R.id.REMAP_PAYEE_COMMAND: {
+        final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap);
+        dialogFragment.setTargetFragment(this, MAP_PAYEE_RQEUST);
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_PAYEE");
         return true;
       }
       //super is handling deactivation of mActionMode
@@ -1380,24 +1392,44 @@ public class TransactionList extends ContextualActionBarFragment implements
         addCategoryFilter(label, catIds);
       }
     }
-    if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST) {
+    if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST) {
       Bundle b = new Bundle();
-      b.putLong(KEY_CATID, intent.getLongExtra(KEY_CATID, 0));
+      int columnStringResId, confirmationStringResId;
+      String column;
+      switch (requestCode) {
+        case MAP_CATEGORY_RQEUST: {
+          column = KEY_CATID;
+          columnStringResId = R.string.category;
+          confirmationStringResId = R.string.remap_category;
+          break;
+        }
+        case MAP_PAYEE_RQEUST: {
+          column = KEY_PAYEEID;
+          columnStringResId = R.string.payer_or_payee;
+          confirmationStringResId = R.string.remap_payee;
+          break;
+        }
+        default:
+          throw new IllegalStateException("Unexpected value: " + requestCode);
+      }
+      b.putString(KEY_COLUMN, column);
+      b.putLong(KEY_ROWID, intent.getLongExtra(column, 0));
+
       SimpleDialog.build()
-          .title(getString(R.string.dialog_title_confirm_remap, getString(R.string.category)))
+          .title(getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)))
           .pos(R.string.menu_remap)
           .neg(android.R.string.cancel)
-          .msg(getString(R.string.remap_category, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation))
+          .msg(getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation))
           .extra(b)
-          .show(this, REMAP_CATEGORY_DIALOG);
+          .show(this, REMAP_DIALOG);
     }
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which == BUTTON_POSITIVE) {
-      if (dialogTag.equals(REMAP_CATEGORY_DIALOG)) {
-        viewModel.remapCategory(mListView.getCheckedItemIds(), extras.getLong(KEY_CATID));
+      if (dialogTag.equals(REMAP_DIALOG)) {
+        viewModel.remap(mListView.getCheckedItemIds(), extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID));
       }
       return true;
     }

@@ -15,8 +15,4 @@ class SelectMethodsAllDialogFragment: SelectFilterDialog(true) {
     override fun getUri() = TransactionProvider.METHODS_URI
 
     override fun getColumn() = KEY_LABEL
-
-    override fun getSelectionArgs() = null
-
-    override fun getSelection() = null
 }

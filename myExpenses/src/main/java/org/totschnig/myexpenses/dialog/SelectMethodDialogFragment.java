@@ -31,7 +31,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
   }
 
   @Override
-  int getDialogTitle() {
+  protected int getDialogTitle() {
     return R.string.search_method;
   }
 

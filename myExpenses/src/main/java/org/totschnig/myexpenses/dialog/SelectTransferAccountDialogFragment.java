@@ -30,7 +30,7 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
   }
 
   @Override
-  int getDialogTitle() {
+  protected int getDialogTitle() {
     return R.string.search_transfer;
   }
 

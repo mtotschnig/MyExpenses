@@ -46,11 +46,13 @@ import androidx.appcompat.app.AlertDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
+import static android.widget.AbsListView.CHOICE_MODE_MULTIPLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
   private static final String KEY_CHECKED_POSITIONS = "checked_positions";
+  public static final String KEY_DIALOG_TITLE = "dialog_tile";
   private final boolean withNullItem;
   @Inject
   BriteContentResolver briteContentResolver;
@@ -61,7 +63,9 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     this.withNullItem = withNullItem;
   }
 
-  abstract int getDialogTitle();
+  protected int getDialogTitle() {
+    return 0;
+  }
 
   abstract Uri getUri();
 
@@ -69,9 +73,13 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
 
   abstract boolean onResult(List<String> labelList, long[] itemIds, int which);
 
-  abstract String[] getSelectionArgs();
+  protected String[] getSelectionArgs() {
+    return null;
+  }
 
-  abstract String getSelection();
+  protected String getSelection() {
+    return null;
+  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,7 +105,8 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] projection = {KEY_ROWID, getColumn()};
-    adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null,
+    final int layout = getChoiceMode() == CHOICE_MODE_MULTIPLE ? android.R.layout.simple_list_item_multiple_choice : android.R.layout.simple_list_item_single_choice;
+    adapter = new SimpleCursorAdapter(getActivity(), layout, null,
         new String[]{getColumn()}, new int[]{android.R.id.text1}, 0);
     itemDisposable = briteContentResolver.createQuery(getUri(),
         projection, getSelection(), getSelectionArgs(), null, false)
@@ -127,17 +136,23 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
         });
 
     final int neutralButton = getNeutralButton();
+    int dialogTitle = getDialogTitle();
+    if (dialogTitle == 0) {
+      dialogTitle = getArguments().getInt(KEY_DIALOG_TITLE);
+    }
     final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-        .setTitle(getDialogTitle())
         .setAdapter(adapter, null)
         .setPositiveButton(getPositiveButton(), null)
         .setNegativeButton(getNegativeButton(), null);
+    if (dialogTitle != 0) {
+      builder.setTitle(dialogTitle);
+    }
     if (neutralButton != 0) {
       builder.setNeutralButton(neutralButton, null);
     }
     final AlertDialog alertDialog = builder.create();
     alertDialog.getListView().setItemsCanFocus(false);
-    alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    alertDialog.getListView().setChoiceMode(getChoiceMode());
     //prevent automatic dismiss on button click
     alertDialog.setOnShowListener(dialog -> {
       alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
@@ -148,6 +163,10 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
       }
     });
     return alertDialog;
+  }
+
+  protected int getChoiceMode() {
+    return CHOICE_MODE_MULTIPLE;
   }
 
   protected int getNeutralButton() {

@@ -30,7 +30,7 @@ public class SelectUnSyncedAccountDialogFragment extends SelectFromTableDialogFr
   }
 
   @Override
-  int getDialogTitle() {
+  protected int getDialogTitle() {
     return R.string.select_unsynced_accounts;
   }
 
@@ -54,12 +54,7 @@ public class SelectUnSyncedAccountDialogFragment extends SelectFromTableDialogFr
   }
 
   @Override
-  String[] getSelectionArgs() {
-    return null;
-  }
-
-  @Override
-  String getSelection() {
+  protected String getSelection() {
     return KEY_SYNC_ACCOUNT_NAME + " IS NULL AND " + KEY_SEALED + " = 0";
   }
 }

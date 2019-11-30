@@ -27,7 +27,7 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
   }
 
   @Override
-  int getDialogTitle() {
+  protected int getDialogTitle() {
     return R.string.menu_hidden_accounts;
   }
 
@@ -71,12 +71,7 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
   }
 
   @Override
-  String[] getSelectionArgs() {
-    return null;
-  }
-
-  @Override
-  String getSelection() {
+  protected String getSelection() {
     return DatabaseConstants.KEY_HIDDEN + " = 1";
   }
 

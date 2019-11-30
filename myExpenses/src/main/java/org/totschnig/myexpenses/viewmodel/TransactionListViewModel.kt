@@ -61,11 +61,11 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
         budgetAmount.postValue(budget.amount)
     }
 
-    fun remapCategory(transactionIds: LongArray, catId: Long) {
+    fun remap(transactionIds: LongArray, column: String, rowId: Long) {
         asyncDatabaseHandler.startUpdate(TOKEN_REMAP_CATEGORY,
                 updateListener,
                 TransactionProvider.TRANSACTIONS_URI,
-                ContentValues().apply { put(DatabaseConstants.KEY_CATID, catId) },
+                ContentValues().apply { put(column, rowId) },
                 "%s %s".format(DatabaseConstants.KEY_ROWID, WhereFilter.Operation.IN.getOp(transactionIds.size)),
                 transactionIds.map(Long::toString).toTypedArray())
     }
