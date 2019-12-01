@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.net.Uri;
 import android.os.Bundle;

@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -33,6 +33,7 @@ import com.squareup.sqlbrite3.BriteContentResolver;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 
 import java.util.ArrayList;

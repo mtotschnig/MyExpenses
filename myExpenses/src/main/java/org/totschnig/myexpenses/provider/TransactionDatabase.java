@@ -59,6 +59,7 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
@@ -151,7 +152,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 94;
+  public static final int DATABASE_VERSION = 95;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -227,6 +228,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           .append(KEY_COLOR).append(", ")
           .append(KEY_CURRENCY).append(", ")
           .append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
+          .append(TABLE_ACCOUNTS).append(".").append(KEY_TYPE).append(" AS ").append(KEY_ACCOUNT_TYPE).append(", ")
           .append(TABLE_ACCOUNTS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_ACCOUNT_LABEL);
     }
 
@@ -2015,6 +2017,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 94) {
         createOrRefreshAccountTriggers(db);
+      }
+
+      if (oldVersion < 95) {
+        db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
+        db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       }
 
     } catch (SQLException e) {

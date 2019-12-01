@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -23,6 +23,8 @@ import android.util.SparseBooleanArray;
 import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 

@@ -26,7 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;

@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.dialog
+package org.totschnig.myexpenses.dialog.select
 
 import android.text.TextUtils
 import org.totschnig.myexpenses.R

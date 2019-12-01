@@ -67,6 +67,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -222,7 +223,7 @@ public class Transaction extends Model {
 
     //extended
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 4];
+    PROJECTION_EXTENDED = new String[baseLength + 5];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
@@ -230,14 +231,15 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS " + KEY_TRANSFER_PEER_PARENT;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
+    PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
 
     //extended for aggregate include is_same_currecny
-    int extendedLength = baseLength + 4;
+    int extendedLength = PROJECTION_EXTENDED.length;
     PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 1];
     System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
     PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
 
-    int aggregateLength = extendedLength + 1;
+    int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
     PROJECTON_EXTENDED_HOME = new String[aggregateLength + 2];
     System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTON_EXTENDED_HOME, 0, aggregateLength);
     PROJECTON_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;

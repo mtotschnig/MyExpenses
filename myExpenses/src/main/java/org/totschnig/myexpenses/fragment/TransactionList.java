@@ -68,12 +68,13 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
-import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectSinglePayeeDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
+import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectPayerDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectSinglePayeeDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -106,7 +107,9 @@ import org.totschnig.myexpenses.viewmodel.data.EventObserver;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -136,6 +139,8 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -149,6 +154,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
@@ -192,6 +198,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private static final int MAP_CATEGORY_RQEUST = 0;
   private static final int MAP_PAYEE_RQEUST = 1;
+  private static final int MAP_METHOD_RQEUST = 2;
 
   public static final String KEY_FILTER = "filter";
   public static final String CATEGORY_SEPARATOR = " : ",
@@ -488,6 +495,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             null,
             0));
         break;
+
       case R.id.REMAP_CATEGORY_COMMAND: {
         Intent i = new Intent(getActivity(), ManageCategories.class);
         i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
@@ -499,6 +507,28 @@ public class TransactionList extends ContextualActionBarFragment implements
         final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap);
         dialogFragment.setTargetFragment(this, MAP_PAYEE_RQEUST);
         dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_PAYEE");
+        return true;
+      }
+
+      case R.id.REMAP_METHOD_COMMAND: {
+        boolean hasExpense = false, hasIncome = false;
+        Set<String> accountTypes = new HashSet<>();
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            mTransactionsCursor.moveToPosition(positions.keyAt(i));
+            long amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT));
+            if (amount > 0) hasIncome = true;
+            if (amount < 0) hasExpense = true;
+            accountTypes.add(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_ACCOUNT_TYPE)));
+          }
+        }
+        int type = 0;
+        if (hasExpense && !hasIncome) type = -1;
+            else if (hasIncome && !hasExpense) type = 1;
+        final SelectSingleMethodDialogFragment dialogFragment = SelectSingleMethodDialogFragment.newInstance(
+            R.string.menu_remap, accountTypes.toArray(new String[0]), type);
+        dialogFragment.setTargetFragment(this, MAP_METHOD_RQEUST);
+        dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
         return true;
       }
       //super is handling deactivation of mActionMode
@@ -1392,13 +1422,14 @@ public class TransactionList extends ContextualActionBarFragment implements
         addCategoryFilter(label, catIds);
       }
     }
-    if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST) {
+    if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST || requestCode == MAP_METHOD_RQEUST) {
       Bundle b = new Bundle();
       int columnStringResId, confirmationStringResId;
       String column;
+      String intentKey = KEY_ROWID;
       switch (requestCode) {
         case MAP_CATEGORY_RQEUST: {
-          column = KEY_CATID;
+          column = intentKey = KEY_CATID;
           columnStringResId = R.string.category;
           confirmationStringResId = R.string.remap_category;
           break;
@@ -1409,11 +1440,17 @@ public class TransactionList extends ContextualActionBarFragment implements
           confirmationStringResId = R.string.remap_payee;
           break;
         }
+        case MAP_METHOD_RQEUST: {
+          column = KEY_METHODID;
+          columnStringResId = R.string.method;
+          confirmationStringResId = R.string.remap_method;
+          break;
+        }
         default:
           throw new IllegalStateException("Unexpected value: " + requestCode);
       }
       b.putString(KEY_COLUMN, column);
-      b.putLong(KEY_ROWID, intent.getLongExtra(column, 0));
+      b.putLong(KEY_ROWID, intent.getLongExtra(intentKey, 0));
 
       SimpleDialog.build()
           .title(getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)))

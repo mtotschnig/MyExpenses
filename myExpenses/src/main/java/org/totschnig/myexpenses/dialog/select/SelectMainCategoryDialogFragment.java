@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -27,6 +27,7 @@ import android.widget.SimpleCursorAdapter;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import androidx.appcompat.app.AlertDialog;
