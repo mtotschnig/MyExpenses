@@ -349,7 +349,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true, true);
     View v = inflater.inflate(R.layout.expenses_list, container, false);
     ButterKnife.bind(this, v);
-    mAdapter = new MyGroupedAdapter(getActivity(), R.layout.expense_row, null, 0);
+    if (mAdapter == null) {
+      mAdapter = new MyGroupedAdapter(getActivity(), R.layout.expense_row, null, 0);
+    }
     configureListView();
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
