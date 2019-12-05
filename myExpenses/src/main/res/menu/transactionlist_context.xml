@@ -56,7 +56,9 @@
             <item
                 android:id="@id/REMAP_METHOD_COMMAND"
                 android:title="@string/method" />
-
+            <item
+                android:id="@id/REMAP_ACCOUNT_COMMAND"
+                android:title="@string/account" />
         </menu>
     </item>
 </menu>

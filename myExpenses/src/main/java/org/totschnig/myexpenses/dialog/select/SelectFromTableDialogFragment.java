@@ -58,7 +58,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   @Inject
   BriteContentResolver briteContentResolver;
   private Disposable itemDisposable;
-  private SimpleCursorAdapter adapter;
+  protected SimpleCursorAdapter adapter;
 
   public SelectFromTableDialogFragment(boolean withNullItem) {
     this.withNullItem = withNullItem;

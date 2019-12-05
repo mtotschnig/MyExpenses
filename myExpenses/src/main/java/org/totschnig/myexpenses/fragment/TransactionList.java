@@ -533,6 +533,10 @@ public class TransactionList extends ContextualActionBarFragment implements
         dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
         return true;
       }
+      case R.id.REMAP_ACCOUNT_COMMAND: {
+
+        return true;
+      }
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
