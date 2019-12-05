@@ -6,6 +6,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.widget.AbsListView
+import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
@@ -14,22 +15,33 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
         if (activity == null || which != AlertDialog.BUTTON_POSITIVE) {
             return
         }
-        val listView = (dialog as AlertDialog).listView
-        val cursor = adapter.getItem(listView.checkedItemPosition) as Cursor
-        onResult(cursor.getString(cursor.getColumnIndex(column)), listView.checkedItemIds[0])
+        buildExtras()?.let {
+            targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, Intent().apply {
+                putExtras(it)
+            })
+        }
         dismiss()
     }
 
-    fun onResult(label: String, itemId: Long) {
-        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, Intent().apply {
-            putExtra(DatabaseConstants.KEY_LABEL, label)
-            putExtra(DatabaseConstants.KEY_ROWID, itemId)
-        })
+    private fun buildExtras(): Bundle? {
+        val listView = (dialog as AlertDialog).listView
+        return listView.checkedItemPosition.takeIf { it != AdapterView.INVALID_POSITION }?.let {
+            val cursor = adapter.getItem(it) as Cursor
+            Bundle().apply {
+                putString(DatabaseConstants.KEY_LABEL, cursor.getString(cursor.getColumnIndex(column)))
+                putLong(DatabaseConstants.KEY_ROWID, listView.checkedItemIds[0])
+            }
+        }
     }
 
     override fun getChoiceMode() = AbsListView.CHOICE_MODE_SINGLE
 
     companion object {
-        internal fun buildArguments(dialogTitle: Int) = Bundle().apply { putInt(KEY_DIALOG_TITLE, dialogTitle) }
+        internal fun buildArguments(dialogTitle: Int, emptyMessage: Int? = null) = Bundle().apply {
+            putInt(KEY_DIALOG_TITLE, dialogTitle)
+            if (emptyMessage != null) {
+                putInt(KEY_EMPTY_MESSAGE, emptyMessage)
+            }
+        }
     }
 }

@@ -138,6 +138,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int RESTORE_REQUEST = 17;
   public static final int CONTRIB_REQUEST = 18;
   public static final int PLAN_REQUEST = 19;
+  public static final int PAYPAL_REQUEST = 20;
+  public static final int INVOICE_REQUEST = 21;
   private static final int CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST = 20;
   protected static final int CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST = 21;
   public static final String SAVE_TAG = "SAVE_TASK";

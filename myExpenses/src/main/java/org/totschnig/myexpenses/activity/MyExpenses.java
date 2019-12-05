@@ -1346,4 +1346,8 @@ public class MyExpenses extends LaunchActivity implements
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND);
     ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "CLEAR_FILTER");
   }
+
+  public int getAccountCount() {
+    return mAccountCount;
+  }
 }

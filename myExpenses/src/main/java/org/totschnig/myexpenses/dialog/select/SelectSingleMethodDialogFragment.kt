@@ -18,8 +18,8 @@ class SelectSingleMethodDialogFragment : SelectSingleDialogFragment() {
         const val KEY_SIGNUM = "signum"
         const val KEY_ACCOUNT_TYPES = "accountTypes"
         @JvmStatic
-        fun newInstance(dialogTitle: Int, accountTypes: Array<String>, signum: Int): @NotNull SelectSingleMethodDialogFragment = SelectSingleMethodDialogFragment().apply {
-            arguments = buildArguments(dialogTitle).apply {
+        fun newInstance(dialogTitle: Int, remap_empty_list: Int, accountTypes: Array<@NotNull String>, signum: Int): @NotNull SelectSingleMethodDialogFragment = SelectSingleMethodDialogFragment().apply {
+            arguments = buildArguments(dialogTitle, remap_empty_list).apply {
                 putStringArray(KEY_ACCOUNT_TYPES, accountTypes)
                 putString(KEY_SIGNUM, signum.toString())
             }

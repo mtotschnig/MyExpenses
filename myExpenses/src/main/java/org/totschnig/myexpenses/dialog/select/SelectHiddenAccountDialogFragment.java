@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 
-public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFragment {
+public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragment {
 
   public SelectHiddenAccountDialogFragment() {
     super(false);
@@ -44,7 +44,7 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
   }
 
   @Override
-  boolean onResult(List<String> labelList, long[] itemIds, int which) {
+  protected boolean onResult(List<String> labelList, long[] itemIds, int which) {
     switch (which) {
       case DialogInterface.BUTTON_POSITIVE:
         if (itemIds.length > 0) {

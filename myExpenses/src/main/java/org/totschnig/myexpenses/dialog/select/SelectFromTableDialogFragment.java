@@ -24,9 +24,8 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
@@ -35,9 +34,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -48,12 +44,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 import static android.widget.AbsListView.CHOICE_MODE_MULTIPLE;
+import static android.widget.AbsListView.CHOICE_MODE_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
   private static final String KEY_CHECKED_POSITIONS = "checked_positions";
   public static final String KEY_DIALOG_TITLE = "dialog_tile";
+  public static final String KEY_EMPTY_MESSAGE = "empty_message";
   private final boolean withNullItem;
   @Inject
   BriteContentResolver briteContentResolver;
@@ -72,12 +70,12 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
 
   abstract String getColumn();
 
-  abstract boolean onResult(List<String> labelList, long[] itemIds, int which);
-
+  @Nullable
   protected String[] getSelectionArgs() {
     return null;
   }
 
+  @Nullable
   protected String getSelection() {
     return null;
   }
@@ -116,20 +114,40 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
           final Activity activity = getActivity();
           if (activity != null) {
             Cursor cursor = query.run();
+            final AlertDialog alertDialog = (AlertDialog) getDialog();
             if (withNullItem) {
               MatrixCursor extras = new MatrixCursor(projection);
               extras.addRow(new String[]{
                   "-1",
-                  SelectFromTableDialogFragment.this.getString(R.string.unmapped),
+                  getString(R.string.unmapped),
               });
               cursor = new MergeCursor(new Cursor[]{extras, cursor});
+            } else if (cursor == null || cursor.getCount() == 0) {
+              Button neutral = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+              if (neutral != null) {
+                neutral.setVisibility(View.GONE);
+              }
+              Button positive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+              if (positive != null) {
+                positive.setVisibility(View.GONE);
+              }
+              MatrixCursor extras = new MatrixCursor(projection);
+              String emptyMessage = getEmptyMessage();
+              if (emptyMessage == null) emptyMessage = "No data";
+              extras.addRow(new String[]{
+                  "-1",
+                  emptyMessage,
+              });
+              alertDialog.getListView().setChoiceMode(CHOICE_MODE_NONE);
+              adapter.setViewResource(android.R.layout.simple_list_item_1);
+              cursor = extras;
             }
             adapter.swapCursor(cursor);
             if (savedInstanceState != null) {
               SparseBooleanArrayParcelable checkedItemPositions = savedInstanceState.getParcelable(KEY_CHECKED_POSITIONS);
               for (int i = 0; i < checkedItemPositions.size(); i++) {
                 if (checkedItemPositions.valueAt(i)) {
-                  ((AlertDialog) getDialog()).getListView().setItemChecked(checkedItemPositions.keyAt(i), true);
+                  alertDialog.getListView().setItemChecked(checkedItemPositions.keyAt(i), true);
                 }
               }
             }
@@ -166,6 +184,12 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     return alertDialog;
   }
 
+  @Nullable
+  protected String getEmptyMessage() {
+    int resId = getArguments().getInt(KEY_EMPTY_MESSAGE);
+    return resId != 0 ? getString(resId) : null;
+  }
+
   protected int getChoiceMode() {
     return CHOICE_MODE_MULTIPLE;
   }
@@ -183,27 +207,5 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   }
 
   @Override
-  public void onClick(DialogInterface dialog, int which) {
-    if (getActivity() == null) {
-      return;
-    }
-    ListView listView = ((AlertDialog) dialog).getListView();
-    SparseBooleanArray positions = listView.getCheckedItemPositions();
-
-    long[] itemIds = listView.getCheckedItemIds();
-    boolean shouldDismiss = true;
-    if (itemIds.length > 0) {
-      ArrayList<String> labelList = new ArrayList<>();
-      for (int i = 0; i < positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          final Cursor cursor = (Cursor) adapter.getItem(positions.keyAt(i));
-          labelList.add(cursor.getString(cursor.getColumnIndex(getColumn())));
-        }
-      }
-      shouldDismiss = onResult(labelList, itemIds, which);
-    }
-    if (shouldDismiss) {
-      dismiss();
-    }
-  }
+  public abstract void onClick(DialogInterface dialog, int which);
 }
