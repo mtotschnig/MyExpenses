@@ -243,7 +243,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     //if we have no income or expense, there is no row in the cursor
     sumDisposable = briteContentResolver.createQuery(builder.build(),
         null,
-        buildFilterClause(VIEW_COMMITTED),
+        buildFilterClause(VIEW_EXTENDED),
         filterSelectionArgs(),
         null, true)
         .mapToList(cursor -> {
@@ -366,7 +366,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (!aggregateTypes) {
       catFilter += " AND " + KEY_AMOUNT + (isIncome ? ">" : "<") + "0";
     }
-    final String dateFilter = buildFilterClause(VIEW_COMMITTED);
+    final String dateFilter = buildFilterClause(table);
     if (dateFilter != null) {
       catFilter += " AND " + dateFilter;
     }

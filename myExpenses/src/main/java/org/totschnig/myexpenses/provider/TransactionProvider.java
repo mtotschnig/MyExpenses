@@ -192,9 +192,6 @@ public class TransactionProvider extends ContentProvider {
 
   public static final String KEY_RESULT = "result";
 
-  public static final String TRANSACTION_SUMS_TABLE_NAME = VIEW_COMMITTED;
-  public static final String TRANSACTION_SUMS_TABLE_NAME_HOMME_ACCOUNT = VIEW_EXTENDED;
-
   private static final UriMatcher URI_MATCHER;
   //Basic tables
   private static final int TRANSACTIONS = 1;
@@ -345,13 +342,12 @@ public class TransactionProvider extends ContentProvider {
           qb.appendWhere(" AND " + KEY_AMOUNT + " < 0");
         }
         String amountCalculation;
+        qb.setTables(VIEW_EXTENDED);
         if (accountSelector != null) {
-          qb.setTables(TRANSACTION_SUMS_TABLE_NAME);
           selectionArgs = Utils.joinArrays(new String[]{accountSelector}, selectionArgs);
           qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
-          qb.setTables(TRANSACTION_SUMS_TABLE_NAME_HOMME_ACCOUNT);
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
         }
         final String sumColumn = "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM;

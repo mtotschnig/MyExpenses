@@ -105,10 +105,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         var filterClause = buildDateFilterClause(budget)
         val selectionArgs: Array<String>?
         if (!filterPersistence.whereFilter.isEmpty) {
-            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(
-                    if (isTotalAccount) TransactionProvider.TRANSACTION_SUMS_TABLE_NAME_HOMME_ACCOUNT
-                    else TransactionProvider.TRANSACTION_SUMS_TABLE_NAME
-            )
+            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(VIEW_EXTENDED)
             selectionArgs = filterPersistence.whereFilter.getSelectionArgs(true)
         } else {
             selectionArgs = null
