@@ -633,14 +633,16 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
 
-    if (!discoveryHelper.discover(this, amountInput.findViewById(R.id.TaType),
-        String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
-        getString(R.string.discover_feature_expense_income_switch),
-        1, DiscoveryHelper.Feature.EI_SWITCH, false)) {
-      discoveryHelper.discover(this, operationTypeSpinner,
-          String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
-          ExpenseEdit.this.getString(R.string.discover_feature_operation_type_select),
-          2, DiscoveryHelper.Feature.OPERATION_TYPE_SELECT, true);
+    if (mNewInstance) {
+      if (!discoveryHelper.discover(this, amountInput.findViewById(R.id.TaType),
+          String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
+          getString(R.string.discover_feature_expense_income_switch),
+          1, DiscoveryHelper.Feature.EI_SWITCH, false)) {
+        discoveryHelper.discover(this, operationTypeSpinner,
+            String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
+            ExpenseEdit.this.getString(R.string.discover_feature_operation_type_select),
+            2, DiscoveryHelper.Feature.OPERATION_TYPE_SELECT, true);
+      }
     }
   }
 
