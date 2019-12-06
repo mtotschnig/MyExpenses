@@ -225,7 +225,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
               Timber.e(e, "Exception while starting resolution activity");
             }
           } else {
-            Timber.e(throwable);
             showSnackbar("Unable to set up account: " + throwable.getMessage());
           }
         }
