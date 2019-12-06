@@ -133,7 +133,6 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
               }
               MatrixCursor extras = new MatrixCursor(projection);
               String emptyMessage = getEmptyMessage();
-              if (emptyMessage == null) emptyMessage = "No data";
               extras.addRow(new String[]{
                   "-1",
                   emptyMessage,
@@ -184,10 +183,10 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
     return alertDialog;
   }
 
-  @Nullable
+  @NonNull
   protected String getEmptyMessage() {
     int resId = getArguments().getInt(KEY_EMPTY_MESSAGE);
-    return resId != 0 ? getString(resId) : null;
+    return resId != 0 ? getString(resId) : "No data";
   }
 
   protected int getChoiceMode() {

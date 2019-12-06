@@ -12,8 +12,8 @@ class SelectSinglePayeeDialogFragment : SelectSingleDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(dialogTitle: Int) = SelectSinglePayeeDialogFragment().apply {
-            arguments = buildArguments(dialogTitle)
+        fun newInstance(dialogTitle: Int, emptyMessage: Int) = SelectSinglePayeeDialogFragment().apply {
+            arguments = buildArguments(dialogTitle, emptyMessage)
         }
     }
 }

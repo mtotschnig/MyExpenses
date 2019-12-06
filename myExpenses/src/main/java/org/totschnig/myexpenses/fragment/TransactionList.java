@@ -363,7 +363,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   protected boolean shouldStartActionMode() {
-    return mAccount == null || !mAccount.isSealed();
+    return mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
   }
 
   private void configureListView() {
@@ -390,7 +390,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             public void run() {
               if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
             }
-          },1000);
+          }, 1000);
         }
         currentState = scrollState;
       }
@@ -503,58 +503,65 @@ public class TransactionList extends ContextualActionBarFragment implements
         break;
 
       case R.id.REMAP_CATEGORY_COMMAND: {
-        Intent i = new Intent(getActivity(), ManageCategories.class);
-        i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
-        startActivityForResult(i, MAP_CATEGORY_RQEUST);
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          Intent i = new Intent(getActivity(), ManageCategories.class);
+          i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
+          startActivityForResult(i, MAP_CATEGORY_RQEUST);
+        });
         return true;
       }
-
       case R.id.REMAP_PAYEE_COMMAND: {
-        final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap);
-        dialogFragment.setTargetFragment(this, MAP_PAYEE_RQEUST);
-        dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_PAYEE");
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap, R.string.no_parties);
+          dialogFragment.setTargetFragment(this, MAP_PAYEE_RQEUST);
+          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_PAYEE");
+        });
         return true;
       }
 
       case R.id.REMAP_METHOD_COMMAND: {
-        boolean hasExpense = false, hasIncome = false;
-        Set<String> accountTypes = new HashSet<>();
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            mTransactionsCursor.moveToPosition(positions.keyAt(i));
-            long amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT));
-            if (amount > 0) hasIncome = true;
-            if (amount < 0) hasExpense = true;
-            accountTypes.add(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_ACCOUNT_TYPE)));
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          boolean hasExpense = false, hasIncome = false;
+          Set<String> accountTypes = new HashSet<>();
+          for (int i = 0; i < positions.size(); i++) {
+            if (positions.valueAt(i)) {
+              mTransactionsCursor.moveToPosition(positions.keyAt(i));
+              long amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT));
+              if (amount > 0) hasIncome = true;
+              if (amount < 0) hasExpense = true;
+              accountTypes.add(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_ACCOUNT_TYPE)));
+            }
           }
-        }
-        int type = 0;
-        if (hasExpense && !hasIncome) type = -1;
-            else if (hasIncome && !hasExpense) type = 1;
-        final SelectSingleMethodDialogFragment dialogFragment = SelectSingleMethodDialogFragment.newInstance(
-            R.string.menu_remap, R.string.remap_empty_list, accountTypes.toArray(new String[0]), type);
-        dialogFragment.setTargetFragment(this, MAP_METHOD_RQEUST);
-        dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
+          int type = 0;
+          if (hasExpense && !hasIncome) type = -1;
+          else if (hasIncome && !hasExpense) type = 1;
+          final SelectSingleMethodDialogFragment dialogFragment = SelectSingleMethodDialogFragment.newInstance(
+              R.string.menu_remap, R.string.remap_empty_list, accountTypes.toArray(new String[0]), type);
+          dialogFragment.setTargetFragment(this, MAP_METHOD_RQEUST);
+          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
+        });
         return true;
       }
       case R.id.REMAP_ACCOUNT_COMMAND: {
-        List<Long> excludedIds = new ArrayList<>();
-        if (!mAccount.isAggregate()) {
-          excludedIds.add(mAccount.getId());
-        }
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            mTransactionsCursor.moveToPosition(positions.keyAt(i));
-              long transferaccount =  DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT);
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          List<Long> excludedIds = new ArrayList<>();
+          if (!mAccount.isAggregate()) {
+            excludedIds.add(mAccount.getId());
+          }
+          for (int i = 0; i < positions.size(); i++) {
+            if (positions.valueAt(i)) {
+              mTransactionsCursor.moveToPosition(positions.keyAt(i));
+              long transferaccount = DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT);
               if (transferaccount != 0) {
                 excludedIds.add(transferaccount);
               }
+            }
           }
-        }
-        final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
-            R.string.menu_remap, R.string.remap_empty_list, excludedIds);
-        dialogFragment.setTargetFragment(this, MAP_ACCOUNT_RQEUST);
-        dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
+          final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
+              R.string.menu_remap, R.string.remap_empty_list, excludedIds);
+          dialogFragment.setTargetFragment(this, MAP_ACCOUNT_RQEUST);
+          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
+        });
         return true;
       }
       //super is handling deactivation of mActionMode
@@ -843,7 +850,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
 
-
   private int calculateHeaderId(int year, int second, Grouping grouping) {
     if (grouping.equals(Grouping.NONE)) {
       return 1;
@@ -1049,8 +1055,8 @@ public class TransactionList extends ContextualActionBarFragment implements
           // Enter approximation in hash if a better solution doesn't exist
           int curPos = mSectionCache.get(curHeaderId, Integer.MIN_VALUE);
           if (curPos == Integer.MIN_VALUE || Math.abs(curPos) > pos) {
-          //     Negative pos indicates that it is an approximation
-               mSectionCache.put(curHeaderId, -pos);
+            //     Negative pos indicates that it is an approximation
+            mSectionCache.put(curHeaderId, -pos);
           }
           if (diff < 0) {
             start = pos + 1;
@@ -1141,42 +1147,57 @@ public class TransactionList extends ContextualActionBarFragment implements
     super.configureMenuLegacy(menu, menuInfo, listId);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     final boolean hasSplit = isSplitAtPosition(info.position);
-    configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, 1);
+    configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, isTransferAtPosition(info.position), 1);
   }
 
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
     SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
-    boolean hasSplit = false, hasVoid = false, hasNotSplit = false;
+    boolean hasSplit = false, hasVoid = false, hasNotSplit = false, hasTransfer = false;
     for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i))
+      if (checkedItemPositions.valueAt(i)) {
         if (isSplitAtPosition(checkedItemPositions.keyAt(i))) {
           hasSplit = true;
         } else {
           hasNotSplit = true;
         }
-      if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
-        hasVoid = true;
-        break;
+        if (hasSplit && hasNotSplit) {
+          break;
+        }
       }
     }
     for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i))
+      if (checkedItemPositions.valueAt(i)) {
         if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
           hasVoid = true;
           break;
         }
+      }
     }
-    configureMenuInternal(menu, hasSplit, hasVoid, hasNotSplit, count);
+    for (int i = 0; i < checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i)) {
+        if (isTransferAtPosition(checkedItemPositions.keyAt(i))) {
+          hasTransfer = true;
+          break;
+        }
+      }
+    }
+    configureMenuInternal(menu, hasSplit, hasVoid, hasNotSplit, hasTransfer, count);
+  }
+
+  private boolean isTransferAtPosition(int position) {
+    if (mTransactionsCursor != null) {
+      return mTransactionsCursor.moveToPosition(position) &&
+          DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT) != 0L;
+    }
+    return false;
   }
 
   private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
-      if (mTransactionsCursor.moveToPosition(position) &&
-          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
-        return true;
-      }
+      return mTransactionsCursor.moveToPosition(position) &&
+          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID));
     }
     return false;
   }
@@ -1198,13 +1219,16 @@ public class TransactionList extends ContextualActionBarFragment implements
     return false;
   }
 
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, boolean hasNotSplit, int count) {
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, boolean hasNotSplit, boolean hasTransfer, int count) {
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count == 1);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
     menu.findItem(R.id.UNGROUP_SPLIT_COMMAND).setVisible(!hasNotSplit && !hasVoid);
     menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !hasVoid);
     menu.findItem(R.id.REMAP_ACCOUNT_COMMAND).setVisible(((MyExpenses) getActivity()).getAccountCount() > 1);
+    menu.findItem(R.id.REMAP_PAYEE_COMMAND).setVisible(!hasTransfer);
+    menu.findItem(R.id.REMAP_CATEGORY_COMMAND).setVisible(!hasTransfer && !hasSplit);
+    menu.findItem(R.id.REMAP_METHOD_COMMAND).setVisible(!hasTransfer);
   }
 
   @SuppressLint("NewApi")
