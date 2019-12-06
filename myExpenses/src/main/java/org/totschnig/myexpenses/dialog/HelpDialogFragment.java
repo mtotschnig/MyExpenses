@@ -123,6 +123,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("hidden_accounts", R.drawable.design_ic_visibility_off);
     iconMap.put("hide", R.drawable.design_ic_visibility_off);
     iconMap.put("close.reopen", R.drawable.ic_lock);
+    iconMap.put("remap", null);
   }
 
   private LayoutInflater layoutInflater;
@@ -202,8 +203,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       // Contextual action bar
-      resId = variant != null ? resolveArray(context + "_" + variant + "_cabitems") :
-          resolveArray(context + "_cabitems");
+      if (variant != null) {
+        resId = resolveArray(context + "_" + variant + "_cabitems");
+      }
+      if (resId == 0) {
+        resId = resolveArray(context + "_cabitems");
+      }
       menuItems.clear();
       if (resId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));

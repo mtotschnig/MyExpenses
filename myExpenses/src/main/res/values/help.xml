@@ -204,4 +204,5 @@
   <string name="form_BudgetEdit_accounts_help_text">A budget is either limited to one account; it covers all accounts with the same currency; or it refers to the total aggregate across all currencies.</string>
   <string name="form_BudgetEdit_filter_help_text">Budgets can be filtered with respect to categories, parties, methods or states. Only transactions matched by these filters are taken into account.</string>
   <string name="form_BudgetEdit_type_help_text">A budget is defined as either regular (daily, monthly, weekly, annual) or one-time. For one-time budgets, you specify the beginning and the end of its duration. A regular budget (that is not filtered) can be set as default: This means that the transaction list (if it is configured to group data per day, week, month or year) will show the progress for this budget for each period.</string>
+  <string name="cab_remap_help_text">Use the commands in this submenu, if you want to change the given property (account, category, payer/payee or payment method) for all selected transactions.</string>
 </resources>
