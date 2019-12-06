@@ -63,7 +63,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   }
 
   protected int getDialogTitle() {
-    return 0;
+    return getArguments().getInt(KEY_DIALOG_TITLE);
   }
 
   abstract Uri getUri();
@@ -132,10 +132,9 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
                 positive.setVisibility(View.GONE);
               }
               MatrixCursor extras = new MatrixCursor(projection);
-              String emptyMessage = getEmptyMessage();
               extras.addRow(new String[]{
                   "-1",
-                  emptyMessage,
+                  getEmptyMessage(),
               });
               alertDialog.getListView().setChoiceMode(CHOICE_MODE_NONE);
               adapter.setViewResource(android.R.layout.simple_list_item_1);
@@ -154,14 +153,11 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
         });
 
     final int neutralButton = getNeutralButton();
-    int dialogTitle = getDialogTitle();
-    if (dialogTitle == 0) {
-      dialogTitle = getArguments().getInt(KEY_DIALOG_TITLE);
-    }
     final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
         .setAdapter(adapter, null)
         .setPositiveButton(getPositiveButton(), null)
         .setNegativeButton(getNegativeButton(), null);
+    int dialogTitle = getDialogTitle();
     if (dialogTitle != 0) {
       builder.setTitle(dialogTitle);
     }

@@ -139,6 +139,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_ACCOUNT_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -199,11 +203,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   private static final int SECTION_CURSOR = 3;
-
-  private static final int MAP_CATEGORY_RQEUST = 0;
-  private static final int MAP_PAYEE_RQEUST = 1;
-  private static final int MAP_METHOD_RQEUST = 2;
-  private static final int MAP_ACCOUNT_RQEUST = 3;
 
   public static final String KEY_FILTER = "filter";
   public static final String CATEGORY_SEPARATOR = " : ",
