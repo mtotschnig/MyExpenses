@@ -349,7 +349,9 @@ public class SyncBackendList extends Fragment implements
             })
             .getOrThrow();
       } catch (Throwable throwable) {
-        CrashHandler.report(throwable);
+        if (!(throwable instanceof IOException || throwable instanceof SyncBackendProvider.EncryptionException)) {
+          CrashHandler.report(throwable);
+        }
         return new AccountMetaDataLoaderResult(null, throwable);
       }
     }
