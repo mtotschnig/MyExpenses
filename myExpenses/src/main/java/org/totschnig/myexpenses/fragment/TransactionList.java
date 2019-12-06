@@ -88,6 +88,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CheckSealedHandler;
+import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -298,7 +299,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     viewModel.getUpdateComplete().observe(this, new EventObserver<>(result -> {
           switch (result.getFirst()) {
             case TransactionListViewModel.TOKEN_REMAP_CATEGORY: {
-              ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(getString(R.string.remapping_result, result.getSecond()), Snackbar.LENGTH_LONG);
+              final String message = result.getSecond() > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
+              ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
             }
           }
           return Unit.INSTANCE;
@@ -545,6 +547,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.REMAP_ACCOUNT_COMMAND: {
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           List<Long> excludedIds = new ArrayList<>();
+          List<Long> splitIds = new ArrayList<>();
           if (!mAccount.isAggregate()) {
             excludedIds.add(mAccount.getId());
           }
@@ -555,12 +558,18 @@ public class TransactionList extends ContextualActionBarFragment implements
               if (transferaccount != 0) {
                 excludedIds.add(transferaccount);
               }
+              if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
+                splitIds.add(DbUtils.getLongOr0L(mTransactionsCursor, KEY_ROWID));
+              }
             }
           }
-          final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
-              R.string.menu_remap, R.string.remap_empty_list, excludedIds);
-          dialogFragment.setTargetFragment(this, MAP_ACCOUNT_RQEUST);
-          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
+          new CheckTransferAccountOfSplitPartsHandler(getActivity().getContentResolver()).check(splitIds, result -> {
+            excludedIds.addAll(result);
+            final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
+                R.string.menu_remap, R.string.remap_empty_list, excludedIds);
+            dialogFragment.setTargetFragment(this, MAP_ACCOUNT_RQEUST);
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
+          });
         });
         return true;
       }

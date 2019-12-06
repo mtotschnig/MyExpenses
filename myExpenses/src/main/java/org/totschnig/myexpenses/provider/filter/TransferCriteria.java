@@ -11,10 +11,10 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ *
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
-*/
+ */
 
 package org.totschnig.myexpenses.provider.filter;
 
@@ -48,7 +48,7 @@ public class TransferCriteria extends IdCriteria {
 
   @Override
   public String[] getSelectionArgs() {
-    return Utils.joinArrays(values,values);
+    return Utils.joinArrays(values, values);
   }
 
   @Override
@@ -67,14 +67,15 @@ public class TransferCriteria extends IdCriteria {
 
   public static final Creator<TransferCriteria> CREATOR = new Creator<TransferCriteria>() {
     public TransferCriteria createFromParcel(Parcel in) {
-        return new TransferCriteria(in);
+      return new TransferCriteria(in);
     }
 
     public TransferCriteria[] newArray(int size) {
-        return new TransferCriteria[size];
+      return new TransferCriteria[size];
     }
   };
+
   public static TransferCriteria fromStringExtra(String extra) {
-    return IdCriteria.fromStringExtra(extra,TransferCriteria.class);
+    return IdCriteria.fromStringExtra(extra, TransferCriteria.class);
   }
 }

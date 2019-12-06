@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
-class CheckSealedHandler(cr: ContentResolver?) : AsyncQueryHandler(cr) {
+class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
     interface ResultListener {
         /**
          * @param result true if none of the passed in itemIds are sealed
@@ -19,7 +19,7 @@ class CheckSealedHandler(cr: ContentResolver?) : AsyncQueryHandler(cr) {
     private val TOKEN = 1
     fun check(itemIds: LongArray, listener: ResultListener?) {
         startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("MAX(" + DatabaseConstants.CHECK_SEALED(DatabaseConstants.VIEW_COMMITTED, DatabaseConstants.TABLE_TRANSACTIONS) + ")"),
-                DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(itemIds.size), itemIds.map { l -> l.toString() }.toTypedArray(), null)
+                DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(itemIds.size), itemIds.map(Long::toString).toTypedArray(), null)
     }
 
     override fun onQueryComplete(token: Int, cookie: Any?, cursor: Cursor?) {

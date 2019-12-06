@@ -62,12 +62,18 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
     }
 
     fun remap(transactionIds: LongArray, column: String, rowId: Long) {
+        var selection = "%s %s".format(DatabaseConstants.KEY_ROWID, WhereFilter.Operation.IN.getOp(transactionIds.size))
+        var selectionArgs = transactionIds.map(Long::toString).toTypedArray()
+        if (column.equals(DatabaseConstants.KEY_ACCOUNTID)) {
+            selection += " OR %s %s".format(DatabaseConstants.KEY_PARENTID, WhereFilter.Operation.IN.getOp(transactionIds.size))
+            selectionArgs = arrayOf(*selectionArgs, *selectionArgs)
+        }
         asyncDatabaseHandler.startUpdate(TOKEN_REMAP_CATEGORY,
                 updateListener,
                 TransactionProvider.TRANSACTIONS_URI,
                 ContentValues().apply { put(column, rowId) },
-                "%s %s".format(DatabaseConstants.KEY_ROWID, WhereFilter.Operation.IN.getOp(transactionIds.size)),
-                transactionIds.map(Long::toString).toTypedArray())
+                selection,
+                selectionArgs)
     }
 
     companion object {
