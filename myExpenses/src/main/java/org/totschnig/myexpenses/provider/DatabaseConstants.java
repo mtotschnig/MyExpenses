@@ -180,6 +180,7 @@ public class DatabaseConstants {
   public static final String KEY_PARENT_UUID = "parent_uuid";
   public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
   public static final String KEY_ACCOUNT_LABEL = "account_label";
+  public static final String KEY_ACCOUNT_TYPE = "account_type";
   public static final String KEY_IS_SAME_CURRENCY = "is_same_currency";
   public static final String KEY_TIMESTAMP = "timestamp";
   public static final String KEY_KEY = "key";

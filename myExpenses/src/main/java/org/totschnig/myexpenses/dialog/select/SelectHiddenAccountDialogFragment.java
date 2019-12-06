@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -9,6 +9,7 @@ import com.annimon.stream.Stream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 
-public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFragment {
+public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragment {
 
   public SelectHiddenAccountDialogFragment() {
     super(false);
@@ -27,7 +28,7 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
   }
 
   @Override
-  int getDialogTitle() {
+  protected int getDialogTitle() {
     return R.string.menu_hidden_accounts;
   }
 
@@ -43,7 +44,7 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
   }
 
   @Override
-  boolean onResult(List<String> labelList, long[] itemIds, int which) {
+  protected boolean onResult(List<String> labelList, long[] itemIds, int which) {
     switch (which) {
       case DialogInterface.BUTTON_POSITIVE:
         if (itemIds.length > 0) {
@@ -71,12 +72,7 @@ public class SelectHiddenAccountDialogFragment extends SelectFromTableDialogFrag
   }
 
   @Override
-  String[] getSelectionArgs() {
-    return null;
-  }
-
-  @Override
-  String getSelection() {
+  protected String getSelection() {
     return DatabaseConstants.KEY_HIDDEN + " = 1";
   }
 

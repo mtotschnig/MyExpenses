@@ -82,9 +82,11 @@ public abstract class BaseUiTest {
 
   protected void handleContribDialog(ContribFeature contribFeature) throws InterruptedException {
     if (!contribFeature.hasAccess()) {
+      try {
+        //without playservice a billing setup error dialog is displayed
+        onView(withText(android.R.string.ok)).perform(click());
+      } catch (Exception ignored) {}
       onView(withText(R.string.dialog_title_contrib_feature)).check(matches(isDisplayed()));
-      //OpenIAB on emulator displays a toast that is messing with our expectations, we wait for it to disappear
-      Thread.sleep(3500);
       onView(withText(R.string.dialog_contrib_no)).perform(scrollTo()).perform(click());
     }
   }

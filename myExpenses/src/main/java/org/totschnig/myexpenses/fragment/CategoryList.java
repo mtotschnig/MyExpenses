@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.preference.PrefHandler;

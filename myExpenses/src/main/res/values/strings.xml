@@ -884,4 +884,15 @@
     <string name="app_restart_required">New configuration requires app restart to take effect.</string>
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">Default</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">Remap</string>
+    <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
+    <string name="remap_category">All selected transactions will be mapped to category %s.</string>
+    <string name="remap_payee">All selected transactions will be mapped to payer/payee %s.</string>
+    <string name="remap_method">All selected transactions will be mapped to method %s.</string>
+    <string name="remap_account">All selected transactions will be mapped to account %s.</string>
+    <string name="remapping_result">The selected transactions were remapped.</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
+    <string name="remap_empty_list">No item was found, that can be mapped to all of the selected transactions.</string>
 </resources>

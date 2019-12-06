@@ -68,11 +68,14 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
-import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
+import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectPayerDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectSinglePayeeDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -85,6 +88,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CheckSealedHandler;
+import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -100,11 +104,15 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
+import org.totschnig.myexpenses.viewmodel.data.EventObserver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -122,16 +130,24 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_ACCOUNT_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -145,14 +161,17 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -169,10 +188,12 @@ import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public class TransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
+  public static final String REMAP_DIALOG = "dialogRemap";
+  public static final String KEY_COLUMN = "column";
 
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
@@ -274,6 +295,16 @@ public class TransactionList extends ContextualActionBarFragment implements
         refresh(false);
       }
     });
+    viewModel.getUpdateComplete().observe(this, new EventObserver<>(result -> {
+          switch (result.getFirst()) {
+            case TransactionListViewModel.TOKEN_REMAP_CATEGORY: {
+              final String message = result.getSecond() > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
+              ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
+            }
+          }
+          return Unit.INSTANCE;
+        })
+    );
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
     budgetsObserver = new BudgetObserver();
@@ -323,7 +354,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true, true);
     View v = inflater.inflate(R.layout.expenses_list, container, false);
     ButterKnife.bind(this, v);
-    mAdapter = new MyGroupedAdapter(getActivity(), R.layout.expense_row, null, 0);
+    if (mAdapter == null) {
+      mAdapter = new MyGroupedAdapter(getActivity(), R.layout.expense_row, null, 0);
+    }
     configureListView();
     registerForContextualActionBar(mListView.getWrappedList());
     return v;
@@ -331,7 +364,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   protected boolean shouldStartActionMode() {
-    return mAccount == null || !mAccount.isSealed();
+    return mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
   }
 
   private void configureListView() {
@@ -358,7 +391,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             public void run() {
               if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
             }
-          },1000);
+          }, 1000);
         }
         currentState = scrollState;
       }
@@ -469,6 +502,76 @@ public class TransactionList extends ContextualActionBarFragment implements
             null,
             0));
         break;
+
+      case R.id.REMAP_CATEGORY_COMMAND: {
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          Intent i = new Intent(getActivity(), ManageCategories.class);
+          i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
+          startActivityForResult(i, MAP_CATEGORY_RQEUST);
+        });
+        return true;
+      }
+      case R.id.REMAP_PAYEE_COMMAND: {
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap, R.string.no_parties);
+          dialogFragment.setTargetFragment(this, MAP_PAYEE_RQEUST);
+          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_PAYEE");
+        });
+        return true;
+      }
+
+      case R.id.REMAP_METHOD_COMMAND: {
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          boolean hasExpense = false, hasIncome = false;
+          Set<String> accountTypes = new HashSet<>();
+          for (int i = 0; i < positions.size(); i++) {
+            if (positions.valueAt(i)) {
+              mTransactionsCursor.moveToPosition(positions.keyAt(i));
+              long amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT));
+              if (amount > 0) hasIncome = true;
+              if (amount < 0) hasExpense = true;
+              accountTypes.add(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_ACCOUNT_TYPE)));
+            }
+          }
+          int type = 0;
+          if (hasExpense && !hasIncome) type = -1;
+          else if (hasIncome && !hasExpense) type = 1;
+          final SelectSingleMethodDialogFragment dialogFragment = SelectSingleMethodDialogFragment.newInstance(
+              R.string.menu_remap, R.string.remap_empty_list, accountTypes.toArray(new String[0]), type);
+          dialogFragment.setTargetFragment(this, MAP_METHOD_RQEUST);
+          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
+        });
+        return true;
+      }
+      case R.id.REMAP_ACCOUNT_COMMAND: {
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          List<Long> excludedIds = new ArrayList<>();
+          List<Long> splitIds = new ArrayList<>();
+          if (!mAccount.isAggregate()) {
+            excludedIds.add(mAccount.getId());
+          }
+          for (int i = 0; i < positions.size(); i++) {
+            if (positions.valueAt(i)) {
+              mTransactionsCursor.moveToPosition(positions.keyAt(i));
+              long transferaccount = DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT);
+              if (transferaccount != 0) {
+                excludedIds.add(transferaccount);
+              }
+              if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
+                splitIds.add(DbUtils.getLongOr0L(mTransactionsCursor, KEY_ROWID));
+              }
+            }
+          }
+          new CheckTransferAccountOfSplitPartsHandler(getActivity().getContentResolver()).check(splitIds, result -> {
+            excludedIds.addAll(result);
+            final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
+                R.string.menu_remap, R.string.remap_empty_list, excludedIds);
+            dialogFragment.setTargetFragment(this, MAP_ACCOUNT_RQEUST);
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
+          });
+        });
+        return true;
+      }
       //super is handling deactivation of mActionMode
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
@@ -755,7 +858,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
 
-
   private int calculateHeaderId(int year, int second, Grouping grouping) {
     if (grouping.equals(Grouping.NONE)) {
       return 1;
@@ -961,8 +1063,8 @@ public class TransactionList extends ContextualActionBarFragment implements
           // Enter approximation in hash if a better solution doesn't exist
           int curPos = mSectionCache.get(curHeaderId, Integer.MIN_VALUE);
           if (curPos == Integer.MIN_VALUE || Math.abs(curPos) > pos) {
-          //     Negative pos indicates that it is an approximation
-               mSectionCache.put(curHeaderId, -pos);
+            //     Negative pos indicates that it is an approximation
+            mSectionCache.put(curHeaderId, -pos);
           }
           if (diff < 0) {
             start = pos + 1;
@@ -1053,42 +1155,57 @@ public class TransactionList extends ContextualActionBarFragment implements
     super.configureMenuLegacy(menu, menuInfo, listId);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     final boolean hasSplit = isSplitAtPosition(info.position);
-    configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, 1);
+    configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, isTransferAtPosition(info.position), 1);
   }
 
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
     SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
-    boolean hasSplit = false, hasVoid = false, hasNotSplit = false;
+    boolean hasSplit = false, hasVoid = false, hasNotSplit = false, hasTransfer = false;
     for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i))
+      if (checkedItemPositions.valueAt(i)) {
         if (isSplitAtPosition(checkedItemPositions.keyAt(i))) {
           hasSplit = true;
         } else {
           hasNotSplit = true;
         }
-      if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
-        hasVoid = true;
-        break;
+        if (hasSplit && hasNotSplit) {
+          break;
+        }
       }
     }
     for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i))
+      if (checkedItemPositions.valueAt(i)) {
         if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
           hasVoid = true;
           break;
         }
+      }
     }
-    configureMenuInternal(menu, hasSplit, hasVoid, hasNotSplit, count);
+    for (int i = 0; i < checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i)) {
+        if (isTransferAtPosition(checkedItemPositions.keyAt(i))) {
+          hasTransfer = true;
+          break;
+        }
+      }
+    }
+    configureMenuInternal(menu, hasSplit, hasVoid, hasNotSplit, hasTransfer, count);
+  }
+
+  private boolean isTransferAtPosition(int position) {
+    if (mTransactionsCursor != null) {
+      return mTransactionsCursor.moveToPosition(position) &&
+          DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT) != 0L;
+    }
+    return false;
   }
 
   private boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
-      if (mTransactionsCursor.moveToPosition(position) &&
-          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
-        return true;
-      }
+      return mTransactionsCursor.moveToPosition(position) &&
+          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID));
     }
     return false;
   }
@@ -1110,12 +1227,16 @@ public class TransactionList extends ContextualActionBarFragment implements
     return false;
   }
 
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, boolean hasNotSplit, int count) {
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, boolean hasNotSplit, boolean hasTransfer, int count) {
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count == 1);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
     menu.findItem(R.id.UNGROUP_SPLIT_COMMAND).setVisible(!hasNotSplit && !hasVoid);
     menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !hasVoid);
+    menu.findItem(R.id.REMAP_ACCOUNT_COMMAND).setVisible(((MyExpenses) getActivity()).getAccountCount() > 1);
+    menu.findItem(R.id.REMAP_PAYEE_COMMAND).setVisible(!hasTransfer);
+    menu.findItem(R.id.REMAP_CATEGORY_COMMAND).setVisible(!hasTransfer && !hasSplit);
+    menu.findItem(R.id.REMAP_METHOD_COMMAND).setVisible(!hasTransfer);
   }
 
   @SuppressLint("NewApi")
@@ -1346,8 +1467,10 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST &&
-        resultCode != Activity.RESULT_CANCELED) {
+    if (resultCode == Activity.RESULT_CANCELED) {
+      return;
+    }
+    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
         long catId = intent.getLongExtra(KEY_CATID, 0);
@@ -1358,6 +1481,61 @@ public class TransactionList extends ContextualActionBarFragment implements
         addCategoryFilter(label, catIds);
       }
     }
+    if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST || requestCode == MAP_METHOD_RQEUST || requestCode == MAP_ACCOUNT_RQEUST) {
+      Bundle b = new Bundle();
+      int columnStringResId, confirmationStringResId;
+      String column;
+      String intentKey = KEY_ROWID;
+      switch (requestCode) {
+        case MAP_CATEGORY_RQEUST: {
+          column = intentKey = KEY_CATID;
+          columnStringResId = R.string.category;
+          confirmationStringResId = R.string.remap_category;
+          break;
+        }
+        case MAP_PAYEE_RQEUST: {
+          column = KEY_PAYEEID;
+          columnStringResId = R.string.payer_or_payee;
+          confirmationStringResId = R.string.remap_payee;
+          break;
+        }
+        case MAP_METHOD_RQEUST: {
+          column = KEY_METHODID;
+          columnStringResId = R.string.method;
+          confirmationStringResId = R.string.remap_method;
+          break;
+        }
+        case MAP_ACCOUNT_RQEUST: {
+          column = KEY_ACCOUNTID;
+          columnStringResId = R.string.account;
+          confirmationStringResId = R.string.remap_account;
+          break;
+        }
+        default:
+          throw new IllegalStateException("Unexpected value: " + requestCode);
+      }
+      b.putString(KEY_COLUMN, column);
+      b.putLong(KEY_ROWID, intent.getLongExtra(intentKey, 0));
+
+      SimpleDialog.build()
+          .title(getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)))
+          .pos(R.string.menu_remap)
+          .neg(android.R.string.cancel)
+          .msg(getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation))
+          .extra(b)
+          .show(this, REMAP_DIALOG);
+    }
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (which == BUTTON_POSITIVE) {
+      if (dialogTag.equals(REMAP_DIALOG)) {
+        viewModel.remap(mListView.getCheckedItemIds(), extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID));
+      }
+      return true;
+    }
+    return false;
   }
 
   private void addCategoryFilter(String label, long... catIds) {

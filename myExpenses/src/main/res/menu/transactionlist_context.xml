@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,38 +14,51 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_TEMPLATE_COMMAND"
             android:icon="@drawable/ic_action_template_add"
             android:showAsAction="always"
-            android:title="@string/menu_create_template_from_transaction">
-        </item>
+            android:title="@string/menu_create_template_from_transaction" />
         <item
             android:id="@id/CLONE_TRANSACTION_COMMAND"
             android:icon="@drawable/ic_menu_copy"
             android:showAsAction="always"
-            android:title="@string/menu_clone_transaction">
-        </item>
+            android:title="@string/menu_clone_transaction" />
     </group>
     <item
         android:id="@id/SPLIT_TRANSACTION_COMMAND"
         android:icon="@drawable/ic_menu_split_transaction"
         android:showAsAction="always"
-        android:title="@string/menu_split_transaction">
-    </item>
+        android:title="@string/menu_split_transaction" />
     <item
         android:id="@id/UNGROUP_SPLIT_COMMAND"
         android:icon="@drawable/ic_menu_split"
         android:showAsAction="always"
-        android:title="@string/menu_ungroup_split_transaction">
-    </item>
+        android:title="@string/menu_ungroup_split_transaction" />
     <item
         android:id="@id/UNDELETE_COMMAND"
         android:icon="@drawable/ic_menu_undelete"
         android:showAsAction="always"
-        android:title="@string/menu_undelete_transaction">
+        android:title="@string/menu_undelete_transaction" />
+    <item
+        android:showAsAction="never"
+        android:title="@string/menu_remap">
+        <menu>
+            <item
+                android:id="@id/REMAP_CATEGORY_COMMAND"
+                android:title="@string/category" />
+            <item
+                android:id="@id/REMAP_PAYEE_COMMAND"
+                android:title="@string/payer_or_payee" />
+            <item
+                android:id="@id/REMAP_METHOD_COMMAND"
+                android:title="@string/method" />
+            <item
+                android:id="@id/REMAP_ACCOUNT_COMMAND"
+                android:title="@string/account" />
+        </menu>
     </item>
 </menu>

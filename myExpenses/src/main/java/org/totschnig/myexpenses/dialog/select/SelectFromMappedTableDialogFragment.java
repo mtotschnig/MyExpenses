@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.os.Bundle;
 
@@ -39,7 +39,7 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
   }
 
   @Override
-  String getSelection() {
+  protected String getSelection() {
     final long rowId = getArguments().getLong(KEY_ROWID);
     if (rowId > 0) {
       return KEY_ACCOUNTID + " = ?";
@@ -52,7 +52,7 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
   }
 
   @Override
-  String[] getSelectionArgs() {
+  protected String[] getSelectionArgs() {
     final long rowId = getArguments().getLong(KEY_ROWID);
     return rowId == AggregateAccount.HOME_AGGREGATE_ID ? null : new String[]{String.valueOf(Math.abs(rowId))};
   }

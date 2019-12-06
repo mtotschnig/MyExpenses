@@ -154,6 +154,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       @Override
       public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         int itemId = item.getItemId();
+        //this allows us to have main menu entries without id that just open the submenu
+        if (itemId == 0) return false;
         SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
         int checkedItemCount = checkedItemPositions.size();
         boolean result = false;

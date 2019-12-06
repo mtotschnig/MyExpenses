@@ -15,10 +15,10 @@ import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment
-import org.totschnig.myexpenses.dialog.SelectFilterDialog
-import org.totschnig.myexpenses.dialog.SelectMethodsAllDialogFragment
-import org.totschnig.myexpenses.dialog.SelectPayeeAllDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
+import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectPayeeFilterDialog
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -96,7 +96,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 }
             }
             R.id.FILTER_PAYEE_COMMAND -> {
-                SelectPayeeAllDialogFragment()
+                SelectPayeeFilterDialog()
                         .show(supportFragmentManager, "PAYER_FILTER")
             }
             R.id.FILTER_METHOD_COMMAND -> {

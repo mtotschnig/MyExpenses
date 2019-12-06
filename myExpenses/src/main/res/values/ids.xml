@@ -181,4 +181,8 @@
     <item name="REOPEN_ACCOUNT_COMMAND" type="id"/>
     <item name="HIDDEN_ACCOUNTS_COMMAND" type="id"/>
     <item name="BUDGET_ALLOCATED_ONLY" type="id"/>
+    <item name="REMAP_CATEGORY_COMMAND" type="id" />
+    <item name="REMAP_PAYEE_COMMAND" type="id" />
+    <item name="REMAP_METHOD_COMMAND" type="id" />
+    <item name="REMAP_ACCOUNT_COMMAND" type="id" />
 </resources>

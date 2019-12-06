@@ -1,6 +1,7 @@
-package org.totschnig.myexpenses.dialog
+package org.totschnig.myexpenses.dialog.select
 
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
@@ -15,8 +16,4 @@ class SelectMethodsAllDialogFragment: SelectFilterDialog(true) {
     override fun getUri() = TransactionProvider.METHODS_URI
 
     override fun getColumn() = KEY_LABEL
-
-    override fun getSelectionArgs() = null
-
-    override fun getSelection() = null
 }

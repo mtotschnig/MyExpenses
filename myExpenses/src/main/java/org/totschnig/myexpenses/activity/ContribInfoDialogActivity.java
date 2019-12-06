@@ -140,7 +140,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse(licenceHandler.getPaypalUri(aPackage)));
         try {
-          startActivityForResult(intent, 0);
+          startActivityForResult(intent, PAYPAL_REQUEST);
         } catch (ActivityNotFoundException e) {
           complain("No activity found for opening Paypal");
         }
@@ -161,7 +161,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         if (!Utils.isIntentAvailable(this, intent)) {
           complain(getString(R.string.no_app_handling_email_available));
         } else {
-          startActivityForResult(intent, 0);
+          startActivityForResult(intent, INVOICE_REQUEST);
         }
       }
     }
@@ -262,5 +262,13 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   @Override
   public void onBillingSetupFailed(@NonNull String reason) {
     complain(String.format("Billing setup failed (%s)", reason));
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == PAYPAL_REQUEST || requestCode == INVOICE_REQUEST) {
+      finish(false);
+    }
   }
 }

@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.myexpenses.dialog.select;
 
 import android.net.Uri;
 
@@ -32,7 +32,7 @@ public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragme
   }
 
   @Override
-  int getDialogTitle() {
+  protected int getDialogTitle() {
     return R.string.search_payee;
   }
 

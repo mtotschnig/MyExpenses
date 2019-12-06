@@ -154,6 +154,7 @@ public class WhereFilter {
       this.op = op;
     }
 
+    @NonNull
     public String getOp(int length) {
       if (this == Operation.IN) {
         StringBuilder sb = new StringBuilder();
