@@ -1046,6 +1046,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onSyncCanceled() {
     super.onSyncCanceled();
-    Timber.e("SyncAdapter has been canceled");
+    log().e("SyncAdapter has been canceled");
   }
 }
