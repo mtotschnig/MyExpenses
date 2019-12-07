@@ -1913,7 +1913,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         } catch (SQLException e) {
           // We got one report where this failed, because there were already multiple budgets for
           // account /grouping pairs. At the moment, we silently live without the index.
-          // TODO cleanup that deletes one of these, if unused.
           Timber.e(e);
         }
       }
