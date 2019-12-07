@@ -960,28 +960,10 @@ public class Transaction extends Model {
     setPictureUri(homeUri);
   }
 
-  public Uri saveAsNew() {
-    Long oldId = getId();
+  public void saveAsNew() {
     setId(0L);
     uuid = null;
-    Uri result = save();
-    if (isSplit()) {
-      Cursor c = cr().query(getContentUri(), new String[]{KEY_ROWID},
-          KEY_PARENTID + " = ?", new String[]{String.valueOf(oldId)}, null);
-      if (c != null) {
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-          Transaction part = getSplitPart(c.getLong(c.getColumnIndex(KEY_ROWID)));
-          if (part != null) {
-            part.setParentId(getId());
-            part.saveAsNew();
-          }
-          c.moveToNext();
-        }
-        c.close();
-      }
-    }
-    return result;
+    save();
   }
 
   /**
