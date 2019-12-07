@@ -1628,14 +1628,13 @@ public class TransactionProvider extends ContentProvider {
       final int numOperations = operations.size();
       final ContentProviderResult[] results = new ContentProviderResult[numOperations];
       for (int i = 0; i < numOperations; i++) {
+        final ContentProviderOperation contentProviderOperation = operations.get(i);
         try {
-          results[i] = operations.get(i).apply(this, results, i);
+          results[i] = contentProviderOperation.apply(this, results, i);
         } catch (Exception e) {
           Map<String, String> customData = new HashMap<>();
           customData.put("i", String.valueOf(i));
-          for (int j = 0; j < numOperations; j++) {
-            customData.put("operation" + j, operations.get(j).toString());
-          }
+          customData.put("operation", contentProviderOperation.toString());
           CrashHandler.report(e, customData);
           throw e;
         }
