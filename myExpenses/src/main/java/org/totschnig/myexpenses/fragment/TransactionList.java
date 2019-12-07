@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -25,6 +26,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,6 +85,8 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SortDirection;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -1532,6 +1536,21 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (which == BUTTON_POSITIVE) {
       if (dialogTag.equals(REMAP_DIALOG)) {
         viewModel.remap(mListView.getCheckedItemIds(), extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID));
+      }
+      if (NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
+        MyExpenses ctx = (MyExpenses) getActivity();
+        String label = extras.getString(SimpleInputDialog.TEXT);
+        final Transaction transaction = Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID));
+        Uri uri = transaction == null ? null : new Template(transaction, label).save();
+        if (uri == null) {
+          ctx.showSnackbar(R.string.template_create_error, Snackbar.LENGTH_LONG);
+        } else {
+          // show template edit activity
+          Intent i = new Intent(ctx, ExpenseEdit.class);
+          i.putExtra(DatabaseConstants.KEY_TEMPLATEID, ContentUris.parseId(uri));
+          startActivity(i);
+        }
+        finishActionMode();
       }
       return true;
     }

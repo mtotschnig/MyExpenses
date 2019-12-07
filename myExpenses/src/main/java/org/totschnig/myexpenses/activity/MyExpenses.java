@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -53,10 +52,10 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
-import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
+import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
+import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -69,10 +68,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
@@ -985,22 +981,6 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which != BUTTON_POSITIVE) return false;
-    if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
-      String label = extras.getString(SimpleInputDialog.TEXT);
-      final Transaction transaction = Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID));
-      Uri uri = transaction == null ? null : new Template(transaction, label).save();
-      if (uri == null) {
-        showSnackbar(R.string.template_create_error, Snackbar.LENGTH_LONG);
-      } else {
-        // show template edit activity
-        Intent i = new Intent(this, ExpenseEdit.class);
-        i.putExtra(DatabaseConstants.KEY_TEMPLATEID, ContentUris.parseId(uri));
-        startActivity(i);
-      }
-
-      finishActionMode();
-      return true;
-    }
     if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
       final String textResult = extras.getString(SimpleInputDialog.TEXT);
       if (textResult != null) {
