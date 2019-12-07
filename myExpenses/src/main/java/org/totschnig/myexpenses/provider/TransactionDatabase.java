@@ -706,6 +706,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     //to take care of ensuring consistency during upgrades
     if (!db.isReadOnly()) {
       db.execSQL("PRAGMA foreign_keys=ON;");
+      db.execSQL("PRAGMA legacy_alter_table=ON;");
     }
     try {
       String uncommitedSelect = String.format(Locale.ROOT, "(SELECT %s from %s where %s = %d)",
