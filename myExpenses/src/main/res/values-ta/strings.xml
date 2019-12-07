@@ -53,13 +53,13 @@
   <string name="decimal_separator">பதின்மம் பிரிப்பான்</string>
   <string name="default_account_name">வரவு செலவுத் திட்ட புத்தகம்</string>
   <string name="description">விளக்கம்</string>
-  <string name="dialog_balance_delete">சரிசெய்யப்பட்ட பரிவர்த்தனைகளை நீக்குக</string>
-  <string name="dialog_confirm_discard_changes">மாற்றங்களை நீக்கவா?</string>
-  <string name="dialog_confirm_discard_new_transaction">புதிய பரிவர்த்தனையை நீக்கவா?</string>
-  <string name="dialog_confirm_discard_new_template">புதிய வார்ப்புருவை நீக்கவா?</string>
-  <string name="dialog_confirm_discard_new_account">புதிய கணக்கை நீக்கவா?</string>
-  <string name="dialog_confirm_discard_new_method">புதிய கட்டண முறையை நீக்கவா?</string>
-  <string name="dialog_command_disabled_balance">ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் எதுவும் சரிசெய்யப்பட வேண்டியதில்லை.</string>
+  <string name="dialog_balance_delete">நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளை நீக்குக</string>
+  <string name="dialog_confirm_discard_changes">மாற்றங்களை கைவிடவா?</string>
+  <string name="dialog_confirm_discard_new_transaction">புதிய பரிவர்த்தனையை கைவிடவா?</string>
+  <string name="dialog_confirm_discard_new_template">புதிய வார்ப்புருவை கைவிடவா?</string>
+  <string name="dialog_confirm_discard_new_account">புதிய கணக்கை கைவிடவா?</string>
+  <string name="dialog_confirm_discard_new_method">புதிய கட்டண முறையை கைவிடவா?</string>
+  <string name="dialog_command_disabled_balance">ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் எதுவும் நல்லிணக்கம் செய்யப்பட வேண்டியதில்லை.</string>
   <string name="dialog_command_disabled_insert_transfer">பரிமாற்ற பரிவர்த்தனைக்கு இரண்டாவது கணக்கு தேவை.</string>
   <string name="dialog_command_disabled_reset_account">ஏற்றுமதி செய்ய பரிவர்த்தனைகள் ஏதும் இல்லை.</string>
   <string name="dialog_command_disabled_distribution">இந்த கணக்கில் எந்தவொரு பரிவர்த்தனையும் வகைப்படுத்தப்படவில்லை.</string>
@@ -87,7 +87,7 @@
   <string name="dialog_remind_no">இல்லை, நன்றி</string>
   <string name="dialog_remind_rate_how_many_stars">{app_name} செயலிக்கு நீங்கள் எத்தனை நட்சத்திரங்கள் கொடுப்பீற்கள்?</string>
   <string name="dialog_remind_rate_1">{app_name} மதிப்பிடவும், மதிப்பாய்வு செய்யவும் ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
-  <string name="dialog_remind_rate_2">உங்கள் கருத்துகள், தொடர்ந்து மேம்படுத்தல்களையும் விரிவாக்கங்களையும் சேர்க்க எங்களை அனுமதிக்கிறது.</string>
+  <string name="dialog_remind_rate_2">உங்கள் கருத்துகள், மேம்படுத்தல்களையும் விரிவாக்கங்களையும் தொடர்ந்து சேர்க்க எங்களை அனுமதிக்கிறது.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">முன்னேற்றங்களுக்கான உங்கள் பரிந்துரைகளை அனுப்ப தயவு செய்து ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
   <string name="dialog_remind_rate_yes">இப்போது மதிப்பிடு</string>
   <string name="dialog_security_answer">பதில்</string>
@@ -149,7 +149,7 @@
   <string name="menu_clone_transaction">நகல் எடு</string>
   <string name="menu_contrib">பங்களி</string>
   <string name="menu_create_account">புதிய கணக்கு</string>
-  <string name="menu_create_instance_edit">பயன்படுத்து மற்றும் தொகு</string>
+  <string name="menu_create_instance_edit">பயன்படுத்து மற்றும் திருத்து</string>
   <string name="menu_create_instance_save">பயன்படுத்து மற்றும் சேமி</string>
   <string name="menu_create_main_cat">புதிய முக்கிய வகை</string>
   <string name="menu_create_method">புதிய கட்டண முறை</string>
@@ -166,18 +166,18 @@
   <string name="menu_create_transfer">புதிய பரிமாற்றம்</string>
   <string name="menu_delete">நீக்கு</string>
   <string name="menu_distribution">பரிமாற்றம்</string>
-  <string name="menu_edit">தொகு</string>
-  <string name="menu_edit_account">கணக்கைத் தொகு</string>
-  <string name="menu_edit_cat">வகையை தொகு</string>
-  <string name="menu_edit_method">கட்டண முறையை தொகு</string>
-  <string name="menu_edit_party">தரப்பை தொகு</string>
-  <string name="menu_edit_plan_instance">ஒற்றைத் திட்டத்தின் நிகழ்வை தொகு</string>
-  <string name="menu_edit_split">பிரிவை தொகு</string>
-  <string name="menu_edit_split_part_category"> வகை பிரிவு பகுதியை தொகு</string>
-  <string name="menu_edit_split_part_transfer">பரிமாற்ற பிரிவு பகுதியை திருத்து</string>
-  <string name="menu_edit_template">வார்ப்புருவை தொகு</string>
-  <string name="menu_edit_transaction">பரிவர்த்தனையை தொகு</string>
-  <string name="menu_edit_transfer">பரிமாற்றத்தை தொகு</string>
+  <string name="menu_edit">திருத்து</string>
+  <string name="menu_edit_account">கணக்கைத் திருத்து</string>
+  <string name="menu_edit_cat">வகையைத் திருத்து</string>
+  <string name="menu_edit_method">கட்டண முறையைத் திருத்து</string>
+  <string name="menu_edit_party">தரப்பைத் திருத்து</string>
+  <string name="menu_edit_plan_instance">ஒற்றைத் திட்டத்தின் நிகழ்வை திருத்து</string>
+  <string name="menu_edit_split">பிரிவைத் திருத்து</string>
+  <string name="menu_edit_split_part_category"> வகை பிரிவு பகுதியைத் திருத்து</string>
+  <string name="menu_edit_split_part_transfer">பரிமாற்ற பிரிவு பகுதியைத் திருத்து</string>
+  <string name="menu_edit_template">வார்ப்புருவைத் திருத்து</string>
+  <string name="menu_edit_transaction">பரிவர்த்தனையைத் திருத்து</string>
+  <string name="menu_edit_transfer">பரிமாற்றத்தைத் திருத்து</string>
   <string name="menu_exclude_from_totals">மொத்தத்திலிருந்து விலக்கு</string>
   <string name="menu_forward">முன் செல்</string>
   <string name="menu_grouping">குழுக்கள்</string>
@@ -331,7 +331,7 @@
   <string name="pref_shortcut_added">முகப்பு திரைக்கு குறுக்குவழி சேர்க்கப்பட்டது</string>
   <string name="pref_shortcut_not_added">குறுக்குவழிகளை ஏற்றுக்கொள்வதற்கான எந்த முகப்பு திரைகளும் கிடைக்கவில்லை.</string>
   <string name="pref_shortcut_summary">முகப்பு திரைக்கு குறுக்குவழியைச் சேர்க்கவும்.</string>
-  <string name="pref_template_click_default_summary">வார்ப்புரு பட்டியலில் ஒரு வார்ப்புரு மீது சுருக்கமாக தட்டுவதன் மூலம்</string>
+  <string name="pref_template_click_default_summary">வார்ப்புரு பட்டியலில் ஒரு உள்ளீட்டின் மீது சுருக்கமாக தட்டுவதன் மூலம்</string>
   <string name="pref_ui_fontsize_title">எழுத்துரு அளவு</string>
   <string name="pref_ui_home_screen_shortcuts">முகப்பு திரை குறுக்குவழிகள்</string>
   <string name="pref_ui_language_default">கருவி இயல்புநிலை</string>
@@ -375,8 +375,8 @@
   <string name="split_transaction">பிரிவு பரிவர்த்தனை</string>
   <string name="status">நிலை</string>
   <string name="status_cleared">ஒப்புக்கொள்ளப்பட்டது</string>
-  <string name="status_reconciled">சரிசெய்யப்பட்டது</string>
-  <string name="status_uncreconciled">சரிசெய்யப்படாதது</string>
+  <string name="status_reconciled">நல்லிணக்கம் செய்யப்பட்டது</string>
+  <string name="status_uncreconciled">நல்லிணக்கம் செய்யப்படாதது</string>
   <string name="status_void">வெற்று</string>
   <string name="subcategory">துணை வகை</string>
   <string name="sum_expenses">செலவுகள்</string>
@@ -388,7 +388,7 @@
   <string name="time">நேரம்</string>
   <string name="title">தலைப்பு</string>
   <string name="total_cleared">ஒப்புக்கொள்ளப்பட்ட மொத்தம்</string>
-  <string name="total_reconciled">சரிசெய்யப்பட்ட மொத்தம்</string>
+  <string name="total_reconciled">நல்லிணக்கம் செய்யப்பட்ட மொத்தம்</string>
   <string name="transaction">பரிவர்த்தனை</string>
   <string name="transfer">பரிமாற்றம்</string>
   <string name="transfer_from_account">இதிலிருந்து</string>
@@ -420,8 +420,8 @@
     <item quantity="one">ஒரு வகை நகர்த்தப்படவில்லை, ஏனெனில் அதே லேபிள் ஏற்கனவே இலக்கில் உள்ளது.</item>
     <item quantity="other">%d பிரிவுகள் நகர்த்தப்படவில்லை, ஏனெனில் அதே விவரத்துணுக்கு ஏற்கனவே இலக்கில் உள்ளது.</item>
   </plurals>
-  <string name="warning_delete_reconciled">சரிசெய்யப்பட்ட பரிவர்த்தனைகளை நீக்குவதால் உங்கள் பதிவுகள் வங்கி அறிக்கையிலிருந்து மாறுபடும்.</string>
-  <string name="warning_balance_account">ஒப்புக்கொள்ளப்பட்ட மொத்தத்தை உங்கள் வங்கிக் அறிக்கையிலிருக்கும் முடிவு இருப்புடன் ஒப்பிடவும். நீங்கள் தொடர்ந்தால், ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் சரிசெய்யப்பட்டது என குறிக்கப்படும்.</string>
+  <string name="warning_delete_reconciled">நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளை நீக்குவதால் உங்கள் பதிவுகள் வங்கி அறிக்கையிலிருந்து மாறுபடும்.</string>
+  <string name="warning_balance_account">ஒப்புக்கொள்ளப்பட்ட மொத்தத்தை உங்கள் வங்கிக் அறிக்கையிலிருக்கும் முடிவு இருப்புடன் ஒப்பிடவும். நீங்கள் தொடர்ந்தால், ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் நல்லிணக்கம் செய்யப்பட்டது என குறிக்கப்படும்.</string>
   <string name="warning_password_protected">செயலி கடவுச்சொல்லால் பாதுகாக்கப்படுகிறது.</string>
   <string name="warning_widget_disabled">நீங்கள் இந்த நிரல் பலகையை செயலியின் அமைப்புகளில் இயலச்செய்ய வேண்டும்</string>
   <string name="warning_instantiate_template_from_widget_password_protected">நீங்கள் செயலியின் அமைப்புகளில் கடவுச்சொல் இல்லாமலே நிரல் பலகையிலிருந்து தரவு உள்ளீடுகளை அனுமதித்தால் மட்டுமே இந்த நிரல் பலகையிலிருந்து வார்ப்புருகளின் விரைவான  செயலாக்கம் வேலை செய்யும்.</string>
@@ -524,7 +524,7 @@
   <string name="cvs_import_set_first_line_as_header">முதல் வரி ஒரு தலைப்பு வரியாக கருதப்பட வேண்டுமா?</string>
   <string name="csv_import_delimiter_comma">காற்புள்ளி</string>
   <string name="csv_import_delimiter_semicolon">அரைப்புள்ளி</string>
-  <string name="csv_import_delimiter_tab">டாபு (tab)</string>
+  <string name="csv_import_delimiter_tab">Tab</string>
   <string name="csv_import_no_mapping_found_for_amount">ஒரு வரிசையை தயவுசெய்து தொகை, வருமானம் அல்லது செலவுடன் தொடற்பு படுத்தவும்.</string>
   <string name="menu_show_transactions">பரிவர்த்தனைகளைக் காட்டு</string>
   <string name="pref_custom_decimal_format_title">எண் வடிவம் </string>
@@ -536,7 +536,7 @@
   <string name="calendar_permission_required"><i> {app_name} </i> -க்கு எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் உருவாக்க, உங்களுடைய நாட்காட்டியை அணுக அனுமதி தேவை.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">அனுமதி வழங்கு</string>
   <string name="switch_on_text">இயக்கு</string>
-  <string name="switch_off_text">அணை</string>
+  <string name="switch_off_text">அணைக்கப்பட்டுள்ளது</string>
   <string name="menu_move">நகர்த்து</string>
   <string name="dialog_title_select_target">இலக்கைத் தேர்ந்தெடுக்கவும்</string>
   <string name="transform_subcategory_to_main">முக்கிய வகையாக மாற்றவும்</string>
@@ -610,7 +610,7 @@
   <string name="link_account_failure_3">இந்த முரண்பாட்டை உள்ளீட்டின் சூழல் பட்டியலில் இருந்து கைமுறையாக தீர்க்க முடியும்.</string>
   <string name="progress_dialog_checking_sync_backend">பின்தளத்தை உறுதிப்படுத்துகிறது</string>
   <string name="template">வார்ப்புரு</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">முகில் ஒத்திசைவு</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">மேகக்கணினி ஒத்திசைவு</string>
   <string name="all_contrib_key_features">பங்களிப்பு திறவுகோலின் அனைத்து அம்சங்கள்</string>
   <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோலின் அனைத்து அம்சங்கள்</string>
   <!--button leading user to purchase flow for licence keys-->
@@ -645,8 +645,9 @@
   <string name="onboarding_data_title">உங்கள் முதல் கணக்கை அமைப்போம்</string>
   <string name="onboarding_get_started">தொடங்குக</string>
   <string name="onboarding_more_options">மேலும் விருப்பங்கள்</string>
-  <string name="onboarding_restore_from_cloud">முகில் ஒத்திசைவிலிருந்து மீட்டமை</string>
+  <string name="onboarding_restore_from_cloud">மேகக்கணினி ஒத்திசைவிலிருந்து மீட்டமை</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">காப்புப்பிரதிகள்</string>
   <string name="onboarding_restore_from_local">உள் காப்புப்பிரதி கோப்பை மீட்டமை</string>
   <string name="dialog_button_add">சேர்</string>
   <string name="template_create_error">வார்ப்புருவை சேமிக்கும் போது பிழை ஏற்பட்டது</string>
@@ -684,9 +685,9 @@
   <string name="menu_sort_direction">வரிசைப்படுத்தும் திசை</string>
   <string name="sort_direction_ascending">ஏறு வரிசை</string>
   <string name="sort_direction_descending">இறங்கு வரிசை</string>
-  <string name="never">ஒருபோதும் இல்லை</string>
+  <string name="never">எப்போதும் இல்லை</string>
   <string name="always">எப்பொழுதும்</string>
-  <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டும்.</string>
+  <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>
   <string name="dropbox_folder_name_prompt">உங்கள் டிராப்பாக்ஸின் மூல மட்டத்தில் இருக்கும் கோப்புறையின் பெயரை உள்ளிடவும்</string>
   <string name="dropbox_folder_not_found">கோப்புறை இல்லை</string>
   <string name="sync_auth_exception_login_again">அதிகாரமளிப்பு தோல்வியடைந்தது. தயவு செய்து மீண்டும் புகுபதிகை செய்க.</string>
@@ -863,4 +864,8 @@
   <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
   <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
   <string name="menu_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>
+  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
 </resources>

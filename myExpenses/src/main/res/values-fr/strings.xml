@@ -529,7 +529,7 @@
   <string name="menu_show_transactions">Voir les opérations</string>
   <string name="pref_custom_decimal_format_title">Format de nombre</string>
   <string name="pref_custom_decimal_format_summary">Si vous n\'êtes pas satisfait du format par défaut de votre langue, vous pouvez l\'adapter selon vos besoins. Laissez vide pour rétablir le format par défaut.</string>
-  <string name="pref_auto_backup_title">Activer auto-backup</string>
+  <string name="pref_auto_backup_title">Sauvegarde automatique</string>
   <string name="pref_auto_backup_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée (seulement si les données ont changé)</string>
   <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
@@ -647,6 +647,7 @@
   <string name="onboarding_more_options">Plus d\'options</string>
   <string name="onboarding_restore_from_cloud">Restaurer à partir de la synchronisation distante</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Sauvegardes</string>
   <string name="onboarding_restore_from_local">Restaurer le fichier de sauvegarde local</string>
   <string name="dialog_button_add">Ajouter</string>
   <string name="template_create_error">Erreur lors de la sauvegarde du modèle</string>
@@ -863,4 +864,8 @@
   <string name="dialog_title_warning_delete_budget">Supprimer le budget?</string>
   <string name="warning_delete_budget">Le budget \"%1$s\" sera supprimé.</string>
   <string name="menu_edit_budget">Modifier le budget</string>
+  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
 </resources>

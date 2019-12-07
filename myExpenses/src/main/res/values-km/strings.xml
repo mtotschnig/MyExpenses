@@ -397,4 +397,8 @@
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
 </resources>

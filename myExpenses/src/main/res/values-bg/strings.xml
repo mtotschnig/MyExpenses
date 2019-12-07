@@ -647,6 +647,7 @@
   <string name="onboarding_more_options">Още опции</string>
   <string name="onboarding_restore_from_cloud">Възстановяване от облачната синхронизация</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Архиви</string>
   <string name="onboarding_restore_from_local">Възстановяване от локален архивен файл</string>
   <string name="dialog_button_add">Добави</string>
   <string name="template_create_error">Грешка при запазването на шаблона</string>
@@ -863,4 +864,8 @@
   <string name="dialog_title_warning_delete_budget">Да се изтрие ли бюджетът?</string>
   <string name="warning_delete_budget">Бюджетът „%1$s“ ще бъде изтрит.</string>
   <string name="menu_edit_budget">Редактиране на бюджет</string>
+  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
 </resources>

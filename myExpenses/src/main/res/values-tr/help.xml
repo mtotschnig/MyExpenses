@@ -174,4 +174,5 @@
   <string name="form_BudgetEdit_accounts_help_text">Bir bütçe ya bir hesapla sınırlı olur; aynı para birimindeki tüm hesapları kapsar; ya da tüm para birimlerindeki genel toplamı ifade eder.</string>
   <string name="form_BudgetEdit_filter_help_text">Bütçeler, kategorilere, taraflara, metotlara veya durumlara göre filtrelenebilir. Sadece bu filtrelerle eşleşen muameleler dikkate alınacaktır.</string>
   <string name="form_BudgetEdit_type_help_text">Bir bütçe ya düzenli (günlük, aylık, haftalık, senelik) olarak ya da bir kerelik olarak tanımlanır. Bir kerelik bütçeler için süresinin başlangıcını ve sonunu belirtirsiniz. (Filtrelenmemiş) düzenli bir bütçe varsayılan bütçe olarak tanımlanabilir: bu, muamele listesinin (gün, hafta, ay veya sene için verileri gruplandırmak üzere yapılandırılmışsa) her bir dönem için bu bütçenin ilerlemesini göstereceği anlamına gelir.</string>
+  <string name="cab_remap_help_text">Tüm seçili muameleler için belli bir özelliği (hesap, kategori, borçlu/alacaklı veya ödeme metodu) değiştirmek istiyorsanız bu alt menüdeki komutları kullanın.</string>
 </resources>

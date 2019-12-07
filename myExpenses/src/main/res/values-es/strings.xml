@@ -647,6 +647,7 @@
   <string name="onboarding_more_options">Más opciones</string>
   <string name="onboarding_restore_from_cloud">Restaurar desde la sincronización en la nube</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Copias de seguridad</string>
   <string name="onboarding_restore_from_local">Restaurar desde copia de seguridad local</string>
   <string name="dialog_button_add">Añadir</string>
   <string name="template_create_error">Error al salvar la plantilla</string>
@@ -863,4 +864,8 @@
   <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
   <string name="warning_delete_budget">El presupuesto \"%1$s\" será eliminado.</string>
   <string name="menu_edit_budget">Editar presupuesto</string>
+  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
 </resources>

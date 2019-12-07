@@ -647,6 +647,7 @@
   <string name="onboarding_more_options">Daha fazla seçenek</string>
   <string name="onboarding_restore_from_cloud">Bulut eşleşmesinden geri getir</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Yedeklemeler</string>
   <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
   <string name="dialog_button_add">Ekle</string>
   <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
@@ -863,4 +864,20 @@
   <string name="dialog_title_warning_delete_budget">Bütçe silinsin mi?</string>
   <string name="warning_delete_budget">\"%1$s\" bütçesi silinecek.</string>
   <string name="menu_edit_budget">Bütçeyi düzenle</string>
+  <string name="onboarding_privacy_title">Verlileriniz sizin ellerinizde kalacaktır</string>
+  <string name="onboarding_privacy_intro">Finansal verileriniz ne biz, ne de üçüncü bir taraf tarafından yönetilen hiçbir sunucuya gönderilmez.</string>
+  <string name="app_restart_required">Yeni yapılandırmanın uygulanması için uygulamanın yeniden başlatılması gerekir.</string>
+  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">Varsayılan</string>
+  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">Yeniden eşleme</string>
+  <string name="dialog_title_confirm_remap">Eşleme değiştirilsin mi (%s)?</string>
+  <string name="remap_category">Tüm seçili muameleler %s kategorisine eşlenecektir.</string>
+  <string name="remap_payee">Tüm seçili muameleler %s borçlu/alacaklı unsuruna eşlenecektir.</string>
+  <string name="remap_method">Tüm seçili muameleler %s metoduna eşlenecektir.</string>
+  <string name="remap_account">Tüm seçili muameleler %s hesabına eşlenecektir.</string>
+  <string name="remapping_result">Seçili muameleler tekrar eşlenmiştir.</string>
+  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">Seçili muamelelerin tümüne eşlenecek bir unsur bulunamadı.</string>
 </resources>
