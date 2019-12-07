@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
   compileSdkVersion project.compileSdkVersion
   defaultConfig {
-    minSdkVersion 3
+    minSdkVersion project.minSdkVersion
     targetSdkVersion project.targetSdkVersion
   }
   sourceSets {
