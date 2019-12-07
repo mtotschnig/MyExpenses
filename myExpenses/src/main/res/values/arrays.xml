@@ -113,6 +113,15 @@
         <item>ungroup_split_transaction</item>
         <item>remap</item>
     </string-array>
+    <string-array name="MyExpenses_crStatus_cabitems" tools:ignore="UnusedResources">
+        <item>edit</item>
+        <item>delete</item>
+        <item>create_template_from_transaction</item>
+        <item>clone_transaction</item>
+        <item>split_transaction</item>
+        <item>ungroup_split_transaction</item>
+        <item>remap</item>
+    </string-array>
 
     <string-array name="NavigationDrawer_menuitems" tools:ignore="UnusedResources">
         <item>create_account</item>
