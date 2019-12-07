@@ -6,8 +6,8 @@
 * if applicable publish announcement on Google+ and Facebook and add links
 * Test and assemble
   * ./gradlew check
-  * ./gradlew clean connectedAcraConscriptForTestAndroidTest
-  * ./gradlew clean assembleAcraConscriptRelease
+  * ./gradlew clean connectedConscriptForTestAndroidTest
+  * ./gradlew clean assembleConscriptRelease
 * test upgrade mechanism
 * Create release tag in GIT (git tag r39; git push origin r39)
 * update _config.yml and push gh-pages
