@@ -394,7 +394,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           } catch (Exception e) {
             appendToNotification(String.format("ERROR (%s): %s ", e.getClass().getSimpleName(), e.getMessage()),
                 account, true);
-            log().e(e);
+            report(e);
           } finally {
             if (successLocal2Remote > 0 || successRemote2Local > 0) {
               appendToNotification(getContext().getString(R.string.synchronization_end_success, successRemote2Local, successLocal2Remote), account, false);
@@ -433,7 +433,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           maybeNotifyUser(getContext().getString(R.string.pref_auto_backup_title),
               getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null);
         } catch (Exception e) {
-          log().e(e);
+          report(e);
           if (!handleAuthException(backend, e, account)) {
             notifyUser(getContext().getString(R.string.pref_auto_backup_title),
                 getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
@@ -1046,6 +1046,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onSyncCanceled() {
     super.onSyncCanceled();
-    log().e("SyncAdapter has been canceled");
+    report("SyncAdapter has been canceled");
   }
 }
