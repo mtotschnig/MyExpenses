@@ -30,17 +30,14 @@ open class CurrencyViewModel(application: Application) : ContentResolvingAndroid
             CrashHandler.report(e)
             null
         }
-        disposable = briteContentResolver.createQuery(TransactionProvider.CURRENCIES_URI, null, null, null, KEY_CODE, true)
+        disposable = briteContentResolver.createQuery(TransactionProvider.CURRENCIES_URI, null, null, null,
+                if (collator == null) KEY_CODE else null, true)
                 .mapToList { Currency.create(it) }
                 .subscribe { currencies ->
                     if (collator != null) {
-                        Collections.sort(currencies) { lhs, rhs ->
-                            val classCompare = Utils.compare(lhs.sortClass(), rhs.sortClass())
-                            if (classCompare == 0)
-                                collator.compare(lhs.toString(), rhs.toString())
-                            else
-                                classCompare
-                        }
+                        currencies.sortWith(Comparator { lhs, rhs ->
+                            Utils.compare(lhs.sortClass(), rhs.sortClass()).takeIf { it != 0 } ?: collator.compare(lhs.toString(), rhs.toString())
+                        })
                     }
                     this.currencies.postValue(currencies)
                 }
