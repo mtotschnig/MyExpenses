@@ -97,6 +97,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
+import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -1551,6 +1552,14 @@ public class TransactionList extends ContextualActionBarFragment implements
           startActivity(i);
         }
         finishActionMode();
+      }
+      if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
+        final String textResult = extras.getString(SimpleInputDialog.TEXT);
+        if (textResult != null) {
+          addFilterCriteria(
+              new CommentCriteria(textResult.trim()));
+        }
+        return true;
       }
       return true;
     }

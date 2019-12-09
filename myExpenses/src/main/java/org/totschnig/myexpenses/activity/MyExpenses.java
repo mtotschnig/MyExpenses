@@ -70,7 +70,6 @@ import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
@@ -112,7 +111,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
-import eltos.simpledialogfragment.input.SimpleInputDialog;
 import eltos.simpledialogfragment.list.MenuDialog;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -981,14 +979,6 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which != BUTTON_POSITIVE) return false;
-    if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
-      final String textResult = extras.getString(SimpleInputDialog.TEXT);
-      if (textResult != null) {
-        addFilterCriteria(
-            new CommentCriteria(textResult.trim()));
-      }
-      return true;
-    }
     if (DIALOG_TAG_SORTING.equals(dialogTag)) {
       return handleSortOption((int) extras.getLong(SELECTED_SINGLE_ID));
     }
