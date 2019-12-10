@@ -864,8 +864,14 @@
   <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
   <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
   <string name="menu_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>
+  <string name="onboarding_privacy_title">உங்கள் தரவு உங்கள் கைகளிலேயே இருக்கும்</string>
+  <string name="onboarding_privacy_intro">உங்கள் நிதி தரவு எந்தவொரு சேவையகத்திற்கும் அனுப்பப்படவில்லை, எங்களாலோ அல்லது எந்த மூன்றாம் தரப்பினராலோ இயக்கப்படவில்லை.</string>
+  <string name="app_restart_required">புதிய விருப்பமைவுக்கு செயலியை மறுதொடக்கம் செய்ய வேண்டும்.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">இயல்புநிலை</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">மறு தொடற்புப்படுத்து</string>
+  <string name="dialog_title_confirm_remap">தொடற்பை மாற்றவா (%s)?</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
 </resources>

@@ -864,8 +864,20 @@
   <string name="dialog_title_warning_delete_budget">Supprimer le budget?</string>
   <string name="warning_delete_budget">Le budget \"%1$s\" sera supprimé.</string>
   <string name="menu_edit_budget">Modifier le budget</string>
+  <string name="onboarding_privacy_title">Vos données restent entre vos mains</string>
+  <string name="onboarding_privacy_intro">Vos données financières ne sont envoyées à aucun serveur, ni géré par nous ni par aucun tiers.</string>
+  <string name="app_restart_required">La nouvelle configuration nécessite le redémarrage de l\'application pour prendre effet.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">Défaut</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">Remapper</string>
+  <string name="dialog_title_confirm_remap">Modifier (%s)?</string>
+  <string name="remap_category">Toutes les opérations sélectionnées seront mises en correspondance avec la catégorie %s.</string>
+  <string name="remap_payee">Toutes les opérations sélectionnées seront mises en correspondance avec le tiers %s.</string>
+  <string name="remap_method">Toutes les opérations sélectionnées seront mises en correspondance avec la méthode %s.</string>
+  <string name="remap_account">Toutes les opérations sélectionnées seront mises en correspondance avec le compte %s.</string>
+  <string name="remapping_result">Les transactions sélectionnées ont été remappées.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">Aucun élément n\';a été trouvé, qui peut être mis en correspondance avec toutes les opérations sélectionnées.</string>
 </resources>

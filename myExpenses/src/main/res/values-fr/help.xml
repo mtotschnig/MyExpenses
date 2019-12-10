@@ -175,4 +175,5 @@
   <string name="form_BudgetEdit_accounts_help_text">Un budget est soit limité à un seul compte; soit il couvre tous les comptes avec la même devise; ou il fait référence à l\'agrégat total dans toutes les devises.</string>
   <string name="form_BudgetEdit_filter_help_text">Les budgets peuvent être filtrés par catégories, parties, méthodes ou états. Seules les opérations correspondant à ces filtres sont prises en compte.</string>
   <string name="form_BudgetEdit_type_help_text">Un budget est défini comme étant régulier (quotidien, mensuel, hebdomadaire, annuel) ou ponctuel. Pour les budgets uniques, vous spécifiez le début et la fin de sa durée. Un budget normal (non filtré) peut être défini en tant que défaut: cela signifie que la liste des transactions (si elle est configurée pour regrouper des données par jour, semaine, mois ou année) indiquera l\'avancement de ce budget pour chaque période.</string>
+  <string name="cab_remap_help_text">Utilisez les commandes de ce sous-menu si vous souhaitez modifier la propriété donnée (compte, catégorie, tiers ou mode de paiement) pour toutes les opérations sélectionnées.</string>
 </resources>

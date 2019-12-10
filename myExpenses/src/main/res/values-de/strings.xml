@@ -647,6 +647,7 @@
   <string name="onboarding_more_options">Mehr Optionen</string>
   <string name="onboarding_restore_from_cloud">Wiederherstellung von Cloud-Synchronisation</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Backups</string>
   <string name="onboarding_restore_from_local">Wiederherstellung einer lokalen Sicherungsdatei</string>
   <string name="dialog_button_add">Hinzufügen</string>
   <string name="template_create_error">Fehler beim Speichern der Vorlage</string>
@@ -863,8 +864,20 @@
   <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
   <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>
   <string name="menu_edit_budget">Budget bearbeiten</string>
+  <string name="onboarding_privacy_title">Ihre Daten bleiben in Ihren Händen</string>
+  <string name="onboarding_privacy_intro">Ihre Finanzdaten werden an keine Server gesendet, weder von uns noch von Dritten betrieben.</string>
+  <string name="app_restart_required">Die neue Konfiguration erfordert einen Neustart der App, um wirksam zu werden.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">Standard</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">Neu zuordnen</string>
+  <string name="dialog_title_confirm_remap">Zuordnung ändern (%s)?</string>
+  <string name="remap_category">Alle ausgewählten Buchungen werden der Kategorie %s zugeordnet.</string>
+  <string name="remap_payee">Alle ausgewählten Buchungen werden dem Zahler / Empfänger %s zugeordnet.</string>
+  <string name="remap_method">Alle ausgewählten Buchungen werden der Methode %s zugeordnet.</string>
+  <string name="remap_account">Alle ausgewählten Buchungen werden dem Konto %s zugeordnet.</string>
+  <string name="remapping_result">Die ausgewählten Buchungen wurden neu zugeordnet.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">Es wurde kein Eintrag gefunden, der allen ausgewählten Buchungen zugeordnet werden kann.</string>
 </resources>
