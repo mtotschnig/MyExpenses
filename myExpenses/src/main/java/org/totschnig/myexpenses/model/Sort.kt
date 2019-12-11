@@ -26,7 +26,8 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
 
     companion object {
         private val categorySort = arrayOf(LABEL, USAGES, LAST_USED)
-        private val templateSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT, NEXT_INSTANCE)
+        private val templateSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT)
+        private val templateWithPlansSort = arrayOf(TITLE, USAGES, LAST_USED, AMOUNT, NEXT_INSTANCE)
         private val budgetSort = arrayOf(LABEL, ALLOCATED, SPENT)
         private val accountSort = arrayOf(LABEL, USAGES, LAST_USED, CUSTOM)
 
@@ -49,6 +50,10 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
         @JvmStatic
         fun preferredOrderByForTemplates(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, templateSort)
+
+        @JvmStatic
+        fun preferredOrderByForTemplatesWithPlans(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
+                preferredOrderByRestricted(prefKey, prefHandler, defaultSort, templateWithPlansSort)
 
         @JvmStatic
         fun preferredOrderByForAccounts(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =

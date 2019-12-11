@@ -123,7 +123,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
         TransactionProvider.TEMPLATES_URI, null,
         String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
             KEY_PLANID, KEY_PARENTID, KEY_SEALED),
-        null, Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, getPrefHandler(), Sort.USAGES));
+        null, Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, getPrefHandler(), Sort.TITLE));
   }
 
   @Override
