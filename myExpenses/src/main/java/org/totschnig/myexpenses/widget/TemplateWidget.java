@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -122,7 +123,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
         TransactionProvider.TEMPLATES_URI, null,
         String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
             KEY_PLANID, KEY_PARENTID, KEY_SEALED),
-        null, null);
+        null, Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, getPrefHandler(), Sort.USAGES));
   }
 
   @Override

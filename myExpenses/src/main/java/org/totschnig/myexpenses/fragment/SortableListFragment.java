@@ -15,7 +15,7 @@ public abstract class SortableListFragment extends ContextualActionBarFragment {
   public void onPrepareOptionsMenu(Menu menu) {
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
     if (menuItem != null) {
-      final MenuItem currentItem = menuItem.getSubMenu().findItem(getCurrentSortOrder().commandId);
+      final MenuItem currentItem = menuItem.getSubMenu().findItem(getCurrentSortOrder().getCommandId());
       if (currentItem != null) {
         currentItem.setChecked(true);
       }

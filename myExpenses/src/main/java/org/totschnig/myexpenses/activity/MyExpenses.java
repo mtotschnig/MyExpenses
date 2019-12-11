@@ -687,7 +687,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.SORT_COMMAND: {
         MenuDialog.build()
             .menu(this, R.menu.accounts_sort)
-            .choiceIdPreset(currentSort().commandId)
+            .choiceIdPreset(currentSort().getCommandId())
             .title(R.string.menu_sort)
             .show(this, DIALOG_TAG_SORTING);
         return true;

@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
@@ -53,7 +52,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
@@ -85,7 +83,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   @Override
   protected Object getSecondarySort() {
-    return Utils.preferredOrderBy(KEY_LABEL, getSortOrderPrefKey(), prefHandler, Sort.TITLE);
+    return Sort.preferredOrderByForBudgets(getSortOrderPrefKey(), prefHandler, getDefaultSortOrder());
   }
 
   @Override

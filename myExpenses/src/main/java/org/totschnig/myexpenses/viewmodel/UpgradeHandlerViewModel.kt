@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.DateCriteria
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -43,6 +45,14 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                         Timber.e(e)
                         prefHandler.remove(key)
                     }
+                }
+            }
+        }
+        if (fromVersion < 393) {
+            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
+            arrayOf(PrefKey.SORT_ORDER_ACCOUNTS, PrefKey.SORT_ORDER_CATEGORIES, PrefKey.SORT_ORDER_BUDGET_CATEGORIES).forEach {
+                if (Sort.TITLE.name.equals(prefHandler.getString(it, null))) {
+                    prefHandler.putString(it, Sort.LABEL.name)
                 }
             }
         }

@@ -222,7 +222,7 @@ public class CategoryList extends SortableListFragment {
   }
 
   protected Object getSecondarySort() {
-    return Utils.preferredOrderBy(KEY_LABEL, getSortOrderPrefKey(), prefHandler, Sort.USAGES);
+    return Sort.preferredOrderByForCategories(getSortOrderPrefKey(), prefHandler, getDefaultSortOrder());
   }
 
   private void disposeCategory() {

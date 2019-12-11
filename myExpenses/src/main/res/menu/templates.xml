@@ -11,10 +11,9 @@
                 <item android:id="@id/SORT_TITLE_COMMAND" android:title="@string/title"/>
                 <item android:id="@id/SORT_USAGES_COMMAND" android:title="@string/pref_sort_order_usages"/>
                 <item android:id="@id/SORT_LAST_USED_COMMAND" android:title="@string/pref_sort_order_last_used"/>
-                <item android:id="@id/SORT_AMOUNT_COMMAND" android:visible="false" android:title="@string/amount" />
-                <item android:id="@id/SORT_NEXT_INSTANCE_COMMAND" android:visible="false" android:title="@string/pref_sort_order_next_instance" />
+                <item android:id="@id/SORT_AMOUNT_COMMAND" android:title="@string/amount" />
+                <item android:id="@id/SORT_NEXT_INSTANCE_COMMAND"  android:title="@string/pref_sort_order_next_instance" />
             </group>
         </menu>
-
     </item>
 </menu>

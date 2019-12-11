@@ -31,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -365,7 +364,7 @@ public class TemplatesList extends SortableListFragment
             null,
             KEY_PARENTID + " is null",
             null,
-            Utils.preferredOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.USAGES));
+            Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.USAGES));
     }
     return null;
   }
@@ -658,10 +657,7 @@ public class TemplatesList extends SortableListFragment
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.sort, menu);
-    SubMenu subMenu = menu.findItem(R.id.SORT_COMMAND).getSubMenu();
-    subMenu.findItem(R.id.SORT_AMOUNT_COMMAND).setVisible(true);
-    subMenu.findItem(R.id.SORT_NEXT_INSTANCE_COMMAND).setVisible(true);
+    inflater.inflate(R.menu.templates, menu);
   }
 
   @Override

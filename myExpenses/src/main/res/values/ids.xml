@@ -102,6 +102,7 @@
     <item name="MOVE_COMMAND" type="id"/>
     <item name="SORT_COMMAND" type="id"/>
     <item name="SORT_TITLE_COMMAND" type="id"/>
+    <item name="SORT_LABEL_COMMAND" type="id"/>
     <item name="SORT_USAGES_COMMAND" type="id"/>
     <item name="SORT_LAST_USED_COMMAND" type="id"/>
     <item name="SORT_AMOUNT_COMMAND" type="id"/>

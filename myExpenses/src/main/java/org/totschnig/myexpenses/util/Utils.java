@@ -51,9 +51,7 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -94,12 +92,6 @@ import androidx.loader.app.LoaderManager;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 
 /**
  * Util class with helper methods
@@ -201,42 +193,6 @@ public class Utils {
       sep = symbols.getDecimalSeparator();
     }
     return sep;
-  }
-
-  public static String preferredOrderBy(String textColumn, PrefKey prefKey, PrefHandler prefHandler, Sort defaultOrderBy) {
-    Sort sort;
-    try {
-      sort = Sort.valueOf(prefHandler.getString(prefKey, defaultOrderBy.name()));
-    } catch (IllegalArgumentException e) {
-      sort = defaultOrderBy;
-    }
-
-    String sortOrder = textColumn + " COLLATE LOCALIZED";
-    switch (sort) {
-      case USAGES:
-        sortOrder = KEY_USAGES + " DESC, " + sortOrder;
-        break;
-      case LAST_USED:
-        sortOrder = KEY_LAST_USED + " DESC, " + sortOrder;
-        break;
-      case CUSTOM:
-        sortOrder = KEY_SORT_KEY + " ASC, " + sortOrder;
-        break;
-      case AMOUNT:
-        sortOrder = "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
-        break;
-      case NEXT_INSTANCE:
-        sortOrder = null; //handled by PlanInfoCursorWrapper
-        break;
-      case ALLOCATED:
-        sortOrder = KEY_BUDGET + " DESC, " + sortOrder;
-        break;
-      case SPENT:
-        sortOrder = KEY_SUM + " DESC, " + sortOrder;
-        break;
-        //default is textColumn
-    }
-    return sortOrder;
   }
 
   /**

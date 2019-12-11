@@ -14,7 +14,7 @@
         app:showAsAction="ifRoom">
         <menu>
             <group android:checkableBehavior="single">
-                <item android:id="@id/SORT_TITLE_COMMAND" android:title="@string/title"/>
+                <item android:id="@id/SORT_LABEL_COMMAND" android:title="@string/label"/>
                 <item android:id="@id/SORT_ALLOCATED_COMMAND" android:title="@string/budget_table_header_allocated" />
                 <item android:id="@id/SORT_SPENT_COMMAND" android:title="@string/budget_table_header_spent" />
             </group>

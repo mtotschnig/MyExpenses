@@ -14,23 +14,46 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
         android:icon="@drawable/ic_menu_add_list"
         android:title="@string/menu_categories_setup_default"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:icon="@drawable/ic_menu_download"
         android:title="@string/menu_categories_export"
         app:showAsAction="never">
         <menu>
-            <item android:id="@id/EXPORT_CATEGORIES_COMMAND_UTF8" android:title="UTF-8"
-                  tools:ignore="HardcodedText"/>
-            <item android:id="@id/EXPORT_CATEGORIES_COMMAND_ISO88591" android:title="ISO-8859-1"
-                  tools:ignore="HardcodedText"/>
+            <item
+                android:id="@id/EXPORT_CATEGORIES_COMMAND_UTF8"
+                android:title="UTF-8"
+                tools:ignore="HardcodedText" />
+            <item
+                android:id="@id/EXPORT_CATEGORIES_COMMAND_ISO88591"
+                android:title="ISO-8859-1"
+                tools:ignore="HardcodedText" />
         </menu>
-        </item>
+    </item>
+    <item
+        android:id="@id/SORT_COMMAND"
+        android:icon="@drawable/ic_menu_sort"
+        android:title="@string/menu_sort"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@id/SORT_LABEL_COMMAND"
+                    android:title="@string/label" />
+                <item
+                    android:id="@id/SORT_USAGES_COMMAND"
+                    android:title="@string/pref_sort_order_usages" />
+                <item
+                    android:id="@id/SORT_LAST_USED_COMMAND"
+                    android:title="@string/pref_sort_order_last_used" />
+            </group>
+        </menu>
+    </item>
 </menu>

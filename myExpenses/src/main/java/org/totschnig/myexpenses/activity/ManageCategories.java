@@ -121,7 +121,6 @@ public class ManageCategories extends CategoryActivity implements
     MenuInflater inflater = getMenuInflater();
     String action = getAction();
     if (!action.equals(ACTION_SELECT_FILTER)) {
-      inflater.inflate(R.menu.sort, menu);
       inflater.inflate(R.menu.categories, menu);
     }
     super.onCreateOptionsMenu(menu);

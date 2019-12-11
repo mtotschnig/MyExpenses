@@ -475,7 +475,7 @@ public class TransactionProvider extends ContentProvider {
         boolean mergeCurrencyAggregates = minimal ||
             uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
         if (sortOrder == null) {
-          sortOrder = minimal ? KEY_LABEL : Utils.preferredOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.USAGES);
+          sortOrder = minimal ? KEY_LABEL : Sort.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
         }
         if (mergeCurrencyAggregates) {
           if (projection != null) {
