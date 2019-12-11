@@ -490,10 +490,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     CrashHandler.report(e, TAG);
   }
 
-  private void report(String message) {
-    CrashHandler.reportWithTag(message, TAG);
-  }
-
   private void maybeNotifyUser(String title, String content, @Nullable Account account) {
     if (shouldNotify) {
       notifyUser(title, content, account, null);
@@ -630,8 +626,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     int opsSize = ops.size();
     int resultsSize = contentProviderResults.length;
     if (opsSize != resultsSize) {
-      report(String.format(Locale.ROOT, "applied %d operations, received %d results",
-          opsSize, resultsSize));
+      CrashHandler.reportWithTag(String.format(Locale.ROOT, "applied %d operations, received %d results",
+          opsSize, resultsSize), TAG);
     }
   }
 
@@ -1046,6 +1042,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onSyncCanceled() {
     super.onSyncCanceled();
-    report("SyncAdapter has been canceled");
+    CrashHandler.reportWithTag("SyncAdapter has been canceled", TAG);
   }
 }
