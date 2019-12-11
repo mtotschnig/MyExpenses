@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 class DatabaseHandler extends AsyncQueryHandler {
   interface UpdateListener {
-    void onUpdateComplete(int token, int result);
+    void onUpdateComplete(int token, int resultCount);
   }
 
   interface InsertListener {

@@ -42,8 +42,8 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
             }, TransactionProvider.BUDGETS_URI, contentValues)
         } else {
             databaseHandler.startUpdate(TOKEN, object : DatabaseHandler.UpdateListener {
-                override fun onUpdateComplete(token: Int, result: Int) {
-                    val result = if (result == 1) budget.id else -1
+                override fun onUpdateComplete(token: Int, resultCount: Int) {
+                    val result = if (resultCount == 1) budget.id else -1
                     if (result > -1) persistPreferences(result, whereFilter, budget)
                     databaseResult.postValue(result)
                 }

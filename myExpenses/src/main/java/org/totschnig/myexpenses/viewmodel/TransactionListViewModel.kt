@@ -25,8 +25,8 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
     }
 
     private val updateListener = object : DatabaseHandler.UpdateListener {
-        override fun onUpdateComplete(token: Int, result: Int) {
-            updateComplete.value = Event(Pair(token, result))
+        override fun onUpdateComplete(token: Int, resultCount: Int) {
+            updateComplete.value = Event(Pair(token, resultCount))
         }
     }
 

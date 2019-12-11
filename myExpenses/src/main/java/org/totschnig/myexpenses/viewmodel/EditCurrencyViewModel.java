@@ -60,10 +60,10 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
   }
 
   public void save(String currency, String symbol, int fractionDigits, String label, boolean withUpdate) {
-    DatabaseHandler.UpdateListener updateListener = (token, result) -> {
+    DatabaseHandler.UpdateListener updateListener = (token, resultCount) -> {
       updateOperationsCount--;
       if (token == TOKEN_UPDATE_FRACTION_DIGITS) {
-        updatedAccountsCount = result;
+        updatedAccountsCount = resultCount;
       }
       if (updateOperationsCount == 0) {
         updateComplete.postValue(updatedAccountsCount);
