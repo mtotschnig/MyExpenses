@@ -54,8 +54,11 @@ public class PdfHelper {
         File[] files = dir.listFiles((dir1, filename) -> {
           return filename.endsWith("ttf") //NotoSans*-Regular.otf files found not to work:
               //BaseFont.charExists finds chars that are not visible in PDF
-              && !filename.contains("ColorEmoji");//NotoColorEmoji.ttf and SamsungColorEmoji.ttf
-          //are known not to work
+              //NotoColorEmoji.ttf and SamsungColorEmoji.ttf are known not to work
+              && !filename.contains("ColorEmoji")
+              //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
+              && !filename.equals("Kindle_Symbol.ttf")
+              ;
 
         });
         Arrays.sort(files, (f1, f2) -> {
