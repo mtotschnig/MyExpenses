@@ -11,12 +11,15 @@ import org.totschnig.myexpenses.preference.PrefKey
 
 class SortTest {
 
+    /**
+     * NEXT_INSTANCE needs special treatment, because it is handled in TransactionProvider
+     */
     @Test
-    fun nextInstanceIsNull() {
+    fun nextInstanceReturnsNull() {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.NEXT_INSTANCE.name)
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isNull()
+                Sort.preferredOrderByForTemplatesWithPlans(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isNull()
     }
 
     @Test
