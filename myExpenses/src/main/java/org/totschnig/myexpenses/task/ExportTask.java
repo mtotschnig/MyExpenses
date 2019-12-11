@@ -41,7 +41,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   public static final String KEY_DELIMITER = "export_delimiter";
   private final TaskExecutionFragment taskExecutionFragment;
   //we store the label of the account as progress
-  private String progress ="";
+  private String progress = "";
   private final ArrayList<Uri> result = new ArrayList<>();
   private ExportFormat format;
   private boolean deleteP;
@@ -57,7 +57,6 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   private char delimiter;
 
   /**
-   *
    * @param taskExecutionFragment
    * @param extras
    */
@@ -82,11 +81,13 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     }
     accountId = extras.getLong(KEY_ROWID);
     filter = new WhereFilter(extras.getParcelableArrayList(TransactionList.KEY_FILTER));
-    
+
   }
+
   String getProgress() {
     return progress;
   }
+
   void appendToProgress(String progress) {
     this.progress += "\n" + progress;
   }
@@ -98,13 +99,14 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   @Override
   protected void onProgressUpdate(String... values) {
     if (this.taskExecutionFragment.mCallbacks != null) {
-      for (String progress: values) {
+      for (String progress : values) {
         this.taskExecutionFragment.mCallbacks.onProgressUpdate(progress);
       }
     }
   }
+
   @Override
-  protected void onPostExecute(ArrayList<Uri>  result) {
+  protected void onPostExecute(ArrayList<Uri> result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_EXPORT, result);
@@ -122,7 +124,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     Long[] accountIds;
     MyApplication application = MyApplication.getInstance();
     if (accountId > 0L) {
-        accountIds = new Long[] {accountId};
+      accountIds = new Long[]{accountId};
     } else {
       String selection = null;
       String[] selectionArgs = null;
@@ -131,7 +133,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
         selectionArgs = new String[]{currency};
       }
       Cursor c = application.getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
-          new String[] {KEY_ROWID}, selection, selectionArgs, null);
+          new String[]{KEY_ROWID}, selection, selectionArgs, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
       if (c != null) {
         c.close();
@@ -142,7 +144,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     DocumentFile appDir = AppDirHelper.getAppDir(application);
     if (appDir == null) {
       publishProgress(application.getString(R.string.external_storage_unavailable));
-      return(null);
+      return (null);
     }
     if (accountIds.length > 1) {
       destDir = AppDirHelper.newDirectory(appDir, fileName);
@@ -159,7 +161,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
             Utils.escapeForFileName(account.getLabel()) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                 .format(new Date()) :
             fileName;
-        Result<Uri> result = new Exporter(account,filter, destDir, fileNameForAccount, format,
+        Result<Uri> result = new Exporter(account, filter, destDir, fileNameForAccount, format,
             notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter).export();
         publishProgress("... " + result.print(application));
         if (result.isSuccess()) {
@@ -180,18 +182,19 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
         if (a.isSealed()) {
           CrashHandler.report("Trying to reset account that is sealed");
         } else {
-          a.reset(filter,handleDelete, fileName);
+          a.reset(filter, handleDelete, fileName);
         }
-      }
-      else {
+      } else {
         a.markAsExported(filter);
       }
     }
     return getResult();
   }
+
   public ArrayList<Uri> getResult() {
     return result;
   }
+
   public void addResult(Uri fileUri) {
     result.add(fileUri);
   }
