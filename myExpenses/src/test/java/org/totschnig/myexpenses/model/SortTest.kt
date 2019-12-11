@@ -12,17 +12,49 @@ import org.totschnig.myexpenses.preference.PrefKey
 class SortTest {
 
     @Test
-    fun sortForNextInstanceIsNull() {
+    fun nextInstanceIsNull() {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.NEXT_INSTANCE.name)
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.LABEL)).isNull()
+                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isNull()
     }
+
     @Test
-    fun sortReturnsDefault() {
+    fun configuredWithUnsupportedFallsBackToDefault() {
+        val prefHandler = mock(PrefHandler::class.java)
+        `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.LABEL.name)
+        assertThat(
+                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
+    }
+
+    @Test
+    fun configuredWithDefault() {
+        val prefHandler = mock(PrefHandler::class.java)
+        `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.TITLE.name)
+        assertThat(
+                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
+    }
+
+    @Test
+    fun returnsConfiguredWithSecondary() {
+        val prefHandler = mock(PrefHandler::class.java)
+        `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.USAGES.name)
+        assertThat(
+                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(
+                "%s, %s".format(Sort.USAGES.toOrderBy(), Sort.TITLE.toOrderBy()))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun calledWithUnsupportedThrowsException() {
+        val prefHandler = mock(PrefHandler::class.java)
+        Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.LABEL)
+    }
+
+    @Test
+    fun returnsDefault() {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenAnswer { i -> i.getArguments()[1] }
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.LABEL)).isEqualTo(Sort.LABEL.toDatabaseColumn())
+                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
     }
 }
