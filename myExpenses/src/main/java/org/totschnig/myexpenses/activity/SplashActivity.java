@@ -95,12 +95,14 @@ public class SplashActivity extends SyncBackendSetupActivity {
 
   @Override
   public void onBackPressed() {
-    final int currentItem = pager.getCurrentItem();
-    if (pager != null && currentItem > 0) {
-      pager.setCurrentItem(currentItem - 1);
-    } else {
-      super.onBackPressed();
+    if (pager != null) {
+      final int currentItem = pager.getCurrentItem();
+      if (currentItem > 0) {
+        pager.setCurrentItem(currentItem - 1);
+        return;
+      }
     }
+    super.onBackPressed();
   }
 
   public void showMoreOptions(View view) {
