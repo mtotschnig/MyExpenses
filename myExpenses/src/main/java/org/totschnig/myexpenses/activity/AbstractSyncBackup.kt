@@ -102,8 +102,12 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
             dialogTag.equals(DIALOG_TAG_FOLDER_SELECT) -> {
                 when (which) {
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
-                        success(Pair(idList.get(extras.getLong(CustomListDialog.SELECTED_SINGLE_ID).toInt()),
-                                extras.getString(SimpleListDialog.SELECTED_SINGLE_LABEL)))
+                        extras.getString(SimpleListDialog.SELECTED_SINGLE_LABEL)?.let {
+                            success(Pair(idList.get(extras.getLong(CustomListDialog.SELECTED_SINGLE_ID).toInt()),
+                                    it))
+                        } ?: run {
+                            Toast.makeText(this, "Could not find folder label in result", Toast.LENGTH_LONG).show()
+                        }
                     }
                     SimpleDialog.OnDialogResultListener.BUTTON_NEUTRAL -> showCreateFolderDialog()
                     SimpleDialog.OnDialogResultListener.BUTTON_NEGATIVE -> abort()
