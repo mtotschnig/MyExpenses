@@ -15,9 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.model.ContribFeature;
+
 import java.io.Serializable;
 
-import org.totschnig.myexpenses.model.ContribFeature;
+import androidx.annotation.Nullable;
 
 public interface ContribIFace {
 
@@ -26,7 +28,7 @@ public interface ContribIFace {
    * called when the user clicks on "not yet", and calls the requested feature
    * @param tag TODO
    */
-  void contribFeatureCalled(ContribFeature feature, Serializable tag);
+  void contribFeatureCalled(ContribFeature feature, @Nullable Serializable tag);
 
   /**
    * the user can either click on "Buy" or cancel the dialog

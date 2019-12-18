@@ -520,7 +520,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return false;
   }
 
-  public void showContribDialog(@Nullable ContribFeature feature, Serializable tag) {
+  public void showContribDialog(@Nullable ContribFeature feature, @Nullable Serializable tag) {
     Intent i = ContribInfoDialogActivity.getIntentFor(this, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
     startActivityForResult(i, ProtectedFragmentActivity.CONTRIB_REQUEST);
@@ -576,7 +576,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
-  public void onPostExecute(int taskId, Object o) {
+  public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
@@ -793,7 +793,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  public void contribFeatureRequested(@NonNull ContribFeature feature, Serializable tag) {
+  public void contribFeatureRequested(@NonNull ContribFeature feature, @Nullable Serializable tag) {
     if (feature.hasAccess()) {
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
     } else {

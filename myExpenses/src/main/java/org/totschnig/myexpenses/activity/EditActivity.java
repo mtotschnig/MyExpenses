@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.ui.AmountInput;
 
 import java.math.BigDecimal;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher {
@@ -147,7 +148,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(@Nullable Object result) {
     mIsSaving = false;
     super.onPostExecute(result);
   }

@@ -47,7 +47,8 @@ abstract class AmountActivity : EditActivity() {
     }
 
     protected open fun configureType() {}
-    protected fun validateAmountInput(showToUser: Boolean): BigDecimal {
+
+    protected fun validateAmountInput(showToUser: Boolean): BigDecimal? {
         return validateAmountInput(amountInput, showToUser)
     }
 

@@ -34,6 +34,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.util.Pair
@@ -87,7 +88,6 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.widget.AbstractWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import timber.log.Timber
-import java.io.File
 import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
@@ -211,13 +211,13 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         mManager = LoaderManager.getInstance(this)
         viewModel = ViewModelProviders.of(this).get(ExpenseEditViewModel::class.java)
         viewModel!!.getMethods().observe(this, Observer<List<PaymentMethod?>> { paymentMethods: List<PaymentMethod?>? ->
-            if (mMethodsAdapter == null || paymentMethods == null || paymentMethods.isEmpty()) {
+            if (paymentMethods == null || paymentMethods.isEmpty()) {
                 rootBinding.MethodRow.visibility = View.GONE
                 mMethodId = null
             } else {
                 rootBinding.MethodRow.visibility = View.VISIBLE
-                mMethodsAdapter!!.clear()
-                mMethodsAdapter!!.addAll(paymentMethods)
+                mMethodsAdapter.clear()
+                mMethodsAdapter.addAll(paymentMethods)
                 setMethodSelection()
             }
         })
@@ -255,7 +255,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         }
         mPayeeAdapter.stringConversionColumn = 1
         val supportFragmentManager = supportFragmentManager
-        rootBinding.Payee.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+        rootBinding.Payee.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
             val c = mPayeeAdapter.getItem(position) as Cursor
             if (c.moveToPosition(position)) {
                 val payeeId = c.getLong(0)
@@ -517,7 +517,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         if (mOperationType == Transactions.TYPE_TRANSFER) {
             amountInput.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
             rootBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
-            exchangeRateEdit.setExchangeRateWatcher(LinkedExchangeRateTextWatchter())
+            exchangeRateEdit.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
         }
 
         if (isSplitPart) {
@@ -546,7 +546,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                         if (DistribHelper.shouldUseAndroidPlatformCalendar()) null else Recurrence.CUSTOM)
                 mRecurrenceSpinner.adapter = recurrenceAdapter
                 mRecurrenceSpinner.setOnItemSelectedListener(this)
-                planButton.setOnClickListener { view: View? ->
+                planButton.setOnClickListener {
                     if (mPlan == null) {
                         planButton.showDialog()
                     } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
@@ -556,8 +556,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
             }
             rootBinding.AttachImage.visibility = View.GONE
             if (mTransaction!!.id != 0L) {
-                val typeResId: Int
-                typeResId = when (mOperationType) {
+                val typeResId = when (mOperationType) {
                     Transactions.TYPE_TRANSFER -> R.string.transfer
                     Transactions.TYPE_SPLIT -> R.string.split_transaction
                     else -> R.string.transaction
@@ -589,10 +588,10 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                 val recurrenceAdapter = RecurrenceAdapter(this,
                         Recurrence.ONETIME, Recurrence.CUSTOM)
                 mRecurrenceSpinner.adapter = recurrenceAdapter
-                val cachedRecurrence = intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as Recurrence
+                val cachedRecurrence = intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence
                 if (cachedRecurrence != null) {
                     mRecurrenceSpinner.setSelection(
-                            (mRecurrenceSpinner.adapter as ArrayAdapter<*>).getPosition(cachedRecurrence))
+                            (mRecurrenceSpinner.adapter as RecurrenceAdapter).getPosition(cachedRecurrence))
                 }
                 mRecurrenceSpinner.setOnItemSelectedListener(this)
                 setPlannerRowVisibility(View.VISIBLE)
@@ -601,7 +600,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                     planButton.visibility = View.VISIBLE
                     planButton.text = Plan.prettyTimeInfo(this,
                             mTransaction!!.originTemplate.plan.rrule, mTransaction!!.originTemplate.plan.dtstart)
-                    planButton.setOnClickListener { view: View? ->
+                    planButton.setOnClickListener {
                         val currentAccount = currentAccount
                         if (currentAccount != null) {
                             PlanMonthFragment.newInstance(
@@ -614,21 +613,25 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                     }
                 }
             }
-            if (mTransaction is Transfer) {
-                if (mTransaction.getId() != 0L) {
-                    setTitle(R.string.menu_edit_transfer)
+            when (mTransaction) {
+                is Transfer -> {
+                    if (mTransaction.getId() != 0L) {
+                        setTitle(R.string.menu_edit_transfer)
+                    }
+                    setHelpVariant(HelpVariant.transfer)
                 }
-                setHelpVariant(HelpVariant.transfer)
-            } else if (mTransaction is SplitTransaction) {
-                if (!mNewInstance) {
-                    setTitle(R.string.menu_edit_split)
+                is SplitTransaction -> {
+                    if (!mNewInstance) {
+                        setTitle(R.string.menu_edit_split)
+                    }
+                    setHelpVariant(HelpVariant.split)
                 }
-                setHelpVariant(HelpVariant.split)
-            } else {
-                if (mTransaction!!.id != 0L) {
-                    setTitle(R.string.menu_edit_transaction)
+                else -> {
+                    if (mTransaction!!.id != 0L) {
+                        setTitle(R.string.menu_edit_transaction)
+                    }
+                    setHelpVariant(HelpVariant.transaction)
                 }
-                setHelpVariant(HelpVariant.transaction)
             }
         }
         if (mOperationType == Transactions.TYPE_SPLIT) {
@@ -662,7 +665,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         configurePlan()
         setCategoryButton()
         if (mOperationType != Transactions.TYPE_TRANSFER) {
-            rootBinding.Category.setOnClickListener { view: View? -> startSelectCategory() }
+            rootBinding.Category.setOnClickListener { startSelectCategory() }
         }
         if (originalAmountVisible) {
             showOriginalAmount()
@@ -750,8 +753,8 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                 if (isIncome) rootBinding.AccountLabel else rootBinding.TransferAccountLabel)
     }
 
-    override fun onTypeChanged(isClicked: Boolean) {
-        super.onTypeChanged(isClicked)
+    override fun onTypeChanged(isChecked: Boolean) {
+        super.onTypeChanged(isChecked)
         if (mTransaction != null && mIsMainTransactionOrTemplate) {
             mMethodId = null
             loadMethods(currentAccount)
@@ -773,7 +776,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         return super.onPrepareOptionsMenu(menu)
     }
 
-    protected fun hasHomeCurrency(account: Account): Boolean {
+    private fun hasHomeCurrency(account: Account): Boolean {
         return account.currencyUnit == Utils.getHomeCurrency()
     }
 
@@ -834,7 +837,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
             }
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
                 originalAmountVisible = !originalAmountVisible
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
                 showOriginalAmount()
                 if (originalAmountVisible) {
                     rootBinding.OriginalAmount.requestFocus()
@@ -845,7 +848,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
             }
             R.id.EQUIVALENT_AMOUNT_COMMAND -> {
                 equivalentAmountVisible = !equivalentAmountVisible
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
                 showEquivalentAmount()
                 if (equivalentAmountVisible) {
                     val currentAccount = currentAccount
@@ -901,7 +904,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         startActivityForResult(i, ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST)
     }
 
-    override fun onCreateDialog(id: Int): Dialog {
+    override fun onCreateDialog(id: Int): Dialog? {
         hideKeyboard()
         return try {
             (findViewById<View>(id) as ButtonWithDialog).onCreateDialog()
@@ -915,7 +918,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
      * populates the input fields with a transaction from the database or a new one
      */
     private fun populateFields() { //processing data from user switching operation type
-        val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as Transaction
+        val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
         val cachedOrSelf = cached ?: mTransaction!!
         isProcessingLinkedAmountInputs = true
         mStatusSpinner.setSelection(cachedOrSelf.crStatus.ordinal, false)
@@ -968,7 +971,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         }
     }
 
-    protected fun fillAmount(amount: BigDecimal) {
+    private fun fillAmount(amount: BigDecimal) {
         if (amount.signum() != 0) {
             amountInput.setAmount(amount)
         }
@@ -998,9 +1001,9 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     /**
      * sets the state of the UI on mTransaction
      *
-     * @return false if any data is not valid, also informs user through snackbar
+     * @return false if any data is not valid, also informs user through snackBar
      */
-    protected fun syncStateAndValidate(forSave: Boolean): Boolean {
+    private fun syncStateAndValidate(forSave: Boolean): Boolean {
         var validP = true
         val title: String
         val account = currentAccount ?: return false
@@ -1142,10 +1145,10 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     }
 
     private val isSplitPart: Boolean
-        private get() = mTransaction!!.isSplitpart
+        get() = mTransaction!!.isSplitpart
 
     private val isNoMainTransaction: Boolean
-        private get() = isSplitPart || mTransaction is Template
+        get() = isSplitPart || mTransaction is Template
 
     /* (non-Javadoc)
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -1162,15 +1165,19 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val uri: Uri?
             val errorMsg: String
-            if (intent == null) {
-                uri = mPictureUriTemp
-                Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", mPictureUriTemp)
-            } else if (intent.data != null) {
-                uri = intent.data
-                Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
-            } else {
-                Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", mPictureUriTemp)
-                uri = mPictureUriTemp
+            when {
+                intent == null -> {
+                    uri = mPictureUriTemp
+                    Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", mPictureUriTemp)
+                }
+                intent.data != null -> {
+                    uri = intent.data
+                    Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
+                }
+                else -> {
+                    Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", mPictureUriTemp)
+                    uri = mPictureUriTemp
+                }
             }
             if (uri != null) {
                 mPictureUri = uri
@@ -1192,7 +1199,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         }
     }
 
-    protected fun setPicture() {
+    private fun setPicture() {
         if (mPictureUri != null) {
             rootBinding.PictureContainer.root.visibility = View.VISIBLE
             Picasso.get().load(mPictureUri).fit().into(rootBinding.PictureContainer.picture)
@@ -1205,7 +1212,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         super.onBackPressed()
     }
 
-    protected fun cleanup() {
+    private fun cleanup() {
         if (mTransaction != null) {
             mTransaction!!.cleanupCanceledEdit()
         }
@@ -1276,7 +1283,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
      * set label on category button
      */
     private fun setCategoryButton() {
-        if (mLabel != null && mLabel!!.length != 0) {
+        if (mLabel != null && mLabel!!.isNotEmpty()) {
             rootBinding.Category.text = mLabel
             rootBinding.ClearCategory.visibility = View.VISIBLE
             UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(rootBinding.Category,
@@ -1309,7 +1316,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         if (originalInputSelectedCurrency != null) {
             originalCurrencyCode = originalInputSelectedCurrency.code()
         }
-        Icepick.saveInstanceState<TransactionEdit>(this, outState)
+        Icepick.saveInstanceState(this, outState)
     }
 
     private fun switchAccountViews() {
@@ -1352,75 +1359,17 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     /*
    * callback of TaskExecutionFragment
    */
-    override fun onPostExecute(taskId: Int, o: Any) {
+    override fun onPostExecute(taskId: Int, o: Any?) {
         super.onPostExecute(taskId, o)
         val success: Boolean
         when (taskId) {
-            TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE -> {
+            TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE, TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION, TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE, TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> {
                 if (o == null) {
-                    abortWithMessage(getString(R.string.save_transaction_template_deleted))
-                    return
-                }
-                if (o == null) {
-                    abortWithMessage(if (taskId == TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS) "Unable to build transaction from extras" else "Object has been deleted from db")
-                    return
-                }
-                mTransaction = o as Transaction
-                if (mTransaction!!.isSealed) {
-                    abortWithMessage("This transaction refers to a closed account and can no longer be edited")
-                }
-                if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
-                    if (mPlanInstanceId > 0L) {
-                        mTransaction!!.originPlanInstanceId = mPlanInstanceId
-                    }
-                    if (mPlanInstanceDate != 0L) {
-                        mTransaction!!.setDate(Date(mPlanInstanceDate))
-                    }
-                }
-                if (mTransaction is Template) {
-                    mPlan = (mTransaction as Template).plan
-                }
-                mOperationType = mTransaction!!.operationType()
-                if (mPictureUri == null) { // we might have received a picture in onActivityResult before
-// arriving here, in this case it takes precedence
-                    mPictureUri = mTransaction!!.pictureUri
-                    if (mPictureUri != null) {
-                        if (PictureDirHelper.doesPictureExist(mTransaction!!.pictureUri)) {
-                            setPicture()
-                        } else {
-                            unsetPicture()
-                            showSnackbar(R.string.image_deleted, Snackbar.LENGTH_SHORT)
-                        }
-                    }
-                }
-                //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
-                if (mCatId == null) {
-                    mCatId = mTransaction!!.catId
-                    mLabel = mTransaction!!.label
-                    categoryIcon = mTransaction!!.categoryIcon
-                }
-                if (mMethodId == null) {
-                    mMethodId = mTransaction!!.methodId
-                }
-                if (intent.getBooleanExtra(KEY_CLONE, false)) {
-                    if (mTransaction is SplitTransaction) {
-                        mRowId = mTransaction.getId()
-                    } else {
-                        mTransaction!!.id = 0L
-                        mRowId = 0L
-                    }
-                    mTransaction!!.crStatus = CrStatus.UNRECONCILED
-                    mTransaction!!.status = DatabaseConstants.STATUS_NONE
-                    mTransaction!!.setDate(ZonedDateTime.now())
-                    mTransaction!!.uuid = Model.generateUuid()
-                    mClone = true
-                }
-                setup()
-                supportInvalidateOptionsMenu()
-            }
-            TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION, TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE, TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> {
-                if (o == null) {
-                    abortWithMessage(if (taskId == TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS) "Unable to build transaction from extras" else "Object has been deleted from db")
+                    abortWithMessage(when(taskId) {
+                        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
+                        TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
+                        else -> "Object has been deleted from db"
+                    })
                     return
                 }
                 mTransaction = o as Transaction
@@ -1472,7 +1421,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                     mClone = true
                 }
                 setup()
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
             }
             TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS -> {
                 success = o as Boolean
@@ -1503,12 +1452,6 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         mPictureUri = null
         rootBinding.AttachImage.visibility = View.VISIBLE
         rootBinding.PictureContainer.root.visibility = View.GONE
-    }
-
-    private fun isFileAndNotExists(uri: Uri): Boolean {
-        return if (uri.scheme == "file" && !File(uri.path).exists()) {
-            true
-        } else false
     }
 
     @get:VisibleForTesting
@@ -1586,7 +1529,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                                 TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(mTransaction!!.id),
                                 account!!.id,
                                 R.string.progress_dialog_updating_split_parts)
-                        break
+                        return
                     }
                 }
                 updateAccount(account)
@@ -1737,7 +1680,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     /*
    * callback of DbWriteFragment
    */
-    override fun onPostExecute(result: Any) {
+    override fun onPostExecute(result: Any?) {
         if (result == null) {
             showSnackbar("Unknown error while saving transaction", Snackbar.LENGTH_SHORT)
         } else {
@@ -1866,7 +1809,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         //ignore first row "select" merged in
         val position = mMethodSpinner.selectedItemPosition
         if (position > 0) {
-            val pm = mMethodsAdapter!!.getItem(position - 1)
+            val pm = mMethodsAdapter.getItem(position - 1)
             rootBinding.Number.visibility = if (pm != null && pm.isNumbered) View.VISIBLE else View.INVISIBLE
         } else {
             rootBinding.Number.visibility = View.GONE
@@ -1876,8 +1819,8 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     private fun setMethodSelection() {
         if (mMethodId != null) {
             var found = false
-            for (i in 0 until mMethodsAdapter!!.count) {
-                val pm = mMethodsAdapter!!.getItem(i)
+            for (i in 0 until mMethodsAdapter.count) {
+                val pm = mMethodsAdapter.getItem(i)
                 if (pm != null) {
                     if (pm.id() == mMethodId) {
                         mMethodSpinner.setSelection(i + 1)
@@ -1901,8 +1844,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         if (data == null || isFinishing) {
             return
         }
-        val id = loader.id
-        when (id) {
+        when (loader.id) {
             ACCOUNTS_CURSOR -> {
                 if (data.count == 0) {
                     abortWithMessage(getString(R.string.warning_no_account))
@@ -2048,8 +1990,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     }
 
     override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autocompletetextview
-        val id = loader.id
-        when (id) {
+        when (loader.id) {
             ACCOUNTS_CURSOR -> mAccountsAdapter.swapCursor(null)
         }
     }
@@ -2058,7 +1999,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         (mTransaction as Template?)!!.isPlanExecutionAutomatic = (view as ToggleButton).isChecked
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature === ContribFeature.ATTACH_PICTURE) {
             startMediaChooserDo()
         } else if (feature === ContribFeature.SPLIT_TRANSACTION) {
@@ -2072,7 +2013,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         }
     }
 
-    fun disableAccountSpinner() {
+    private fun disableAccountSpinner() {
         mAccountSpinner.isEnabled = false
     }
 
@@ -2142,12 +2083,12 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         contribFeatureRequested(ContribFeature.ATTACH_PICTURE, null)
     }
 
-    override fun contribFeatureRequested(feature: ContribFeature, tag: Serializable) {
+    override fun contribFeatureRequested(feature: ContribFeature, @Nullable tag: Serializable?) {
         hideKeyboard()
         super.contribFeatureRequested(feature, tag)
     }
 
-    fun startMediaChooserDo() {
+    private fun startMediaChooserDo() {
         val outputMediaUri = cameraUri
         val gallIntent = Intent(PictureDirHelper.getContentIntentAction())
         gallIntent.type = "image/*"
@@ -2163,7 +2104,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
     }
 
     private val cameraUri: Uri?
-        private get() {
+        get() {
             if (mPictureUriTemp == null) {
                 mPictureUriTemp = PictureDirHelper.getOutputMediaUri(true)
             }
@@ -2214,7 +2155,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
         exchangeRateEdit.calculateAndSetRate(amount, transferAmount)
     }
 
-    private inner open class MyTextWatcher : TextWatcher {
+    private open inner class MyTextWatcher : TextWatcher {
         override fun afterTextChanged(s: Editable) {}
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -2230,7 +2171,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
             if (isProcessingLinkedAmountInputs) return
             isProcessingLinkedAmountInputs = true
             if (mTransaction is Template) {
-                (if (isMain) rootBinding.TransferAmount else amountInput)!!.clear()
+                (if (isMain) rootBinding.TransferAmount else amountInput).clear()
             } else if (exchangeRateRow.visibility == View.VISIBLE) {
                 val currentFocus = if (isMain) INPUT_AMOUNT else INPUT_TRANSFER_AMOUNT
                 if (lastExchangeRateRelevantInputs[0] != currentFocus) {
@@ -2238,7 +2179,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                     lastExchangeRateRelevantInputs[0] = currentFocus
                 }
                 if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
-                    applyExchangRate(if (isMain) amountInput else rootBinding.TransferAmount,
+                    applyExchangeRate(if (isMain) amountInput else rootBinding.TransferAmount,
                             if (isMain) rootBinding.TransferAmount else amountInput,
                             exchangeRateEdit.getRate(!isMain))
                 } else {
@@ -2250,7 +2191,7 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
 
     }
 
-    private inner class LinkedExchangeRateTextWatchter : ExchangeRateWatcher {
+    private inner class LinkedExchangeRateTextWatcher : ExchangeRateWatcher {
         override fun afterExchangeRateChanged(rate: BigDecimal, inverse: BigDecimal) {
             if (isProcessingLinkedAmountInputs) return
             isProcessingLinkedAmountInputs = true
@@ -2270,12 +2211,12 @@ class TransactionEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Lo
                 variable = amountInput
                 exchangeFactor = inverse
             }
-            applyExchangRate(constant, variable, exchangeFactor)
+            applyExchangeRate(constant, variable, exchangeFactor)
             isProcessingLinkedAmountInputs = false
         }
     }
 
-    private fun applyExchangRate(from: AmountInput?, to: AmountInput?, rate: BigDecimal?) {
+    private fun applyExchangeRate(from: AmountInput?, to: AmountInput?, rate: BigDecimal?) {
         val input = validateAmountInput(from, false)
         to!!.setAmount(if (rate != null && input != null) input.multiply(rate) else BigDecimal(0), false)
     }
