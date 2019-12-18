@@ -289,11 +289,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return resId;
   }
 
-  @Override
-  public void setContentView(int layoutResID) {
-    super.setContentView(layoutResID);
-  }
-
   protected void configureFloatingActionButton(int fabDescription) {
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, UiUtils.themeIntAttr(this, R.attr.colorControlActivated));

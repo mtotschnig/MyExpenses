@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 
 public class AmountInput extends ConstraintLayout {
   @BindView(R.id.TaType)
-  CompoundButton typeButton;
+  public CompoundButton typeButton;
   @BindView(R.id.AmountEditText)
   AmountEditText amountEditText;
   @BindView(R.id.Calculator)
