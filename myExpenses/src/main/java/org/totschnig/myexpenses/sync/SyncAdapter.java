@@ -146,9 +146,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     log().i("onPerformSync %s", extras);
     if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED)) {
       notificationContent.remove(account.hashCode());
-      if (ContentResolver.isSyncPending(account, authority)) {
-        ContentResolver.cancelSync(account, authority);
-      }
       return;
     }
     categoryToId = new HashMap<>();
