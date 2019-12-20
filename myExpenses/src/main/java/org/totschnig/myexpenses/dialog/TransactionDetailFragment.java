@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.dialog;
 
@@ -390,7 +390,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
     UiUtils.DateMode dateMode = UiUtils.getDateMode(account, prefHandler);
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL),
-      timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+        timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
     if (dateMode == UiUtils.DateMode.BOOKING_VALUE) {
       dateLabel.setText(R.string.booking_date);
       date2Row.setVisibility(View.VISIBLE);

@@ -193,7 +193,7 @@ public class ManageCategories extends CategoryActivity implements
           extras.getLong(KEY_ROWID),
           extras.getString(KEY_LABEL),
           parentId, extras.getInt(KEY_COLOR), extras.getString(KEY_ICON));
-      startDbWriteTask(false);
+      startDbWriteTask();
       finishActionMode();
       return true;
     }
@@ -212,7 +212,7 @@ public class ManageCategories extends CategoryActivity implements
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     if (result == null) {
       showSnackbar(getString(R.string.already_defined,
           mCategory != null ? mCategory.getLabel() : ""),

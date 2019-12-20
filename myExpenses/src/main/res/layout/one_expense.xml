@@ -109,7 +109,7 @@
                     android:contentDescription="@string/amount"/>
             </TableRow>
 
-            <include android:id="@+id/ExchangeRateRow" layout="@layout/exchange_rate_row"/>
+            <include android:id="@+id/ERR" layout="@layout/exchange_rate_row"/>
 
             <TableRow
                 android:id="@+id/EquivalentAmountRow"
@@ -325,11 +325,11 @@
                 <TextView
                     android:id="@+id/PlanLabel"
                     style="@style/FormLabel"
-                    android:labelFor="@+id/Plan"
+                    android:labelFor="@+id/PB"
                     android:text="@string/plan"/>
 
                 <include
-                    android:id="@+id/RecurrenceRow"
+                    android:id="@+id/RR"
                     style="@style/FormField"
                     layout="@layout/recurrence_row"/>
             </TableRow>

@@ -10,10 +10,10 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -56,7 +56,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class})
 public interface AppComponent {
-  @Singleton DiscoveryHelper discoveryHelper();
+  @Singleton
+  DiscoveryHelper discoveryHelper();
 
   String USER_COUNTRY = "userCountry";
 
@@ -64,7 +65,9 @@ public interface AppComponent {
   interface Builder {
     @BindsInstance
     Builder applicationContext(MyApplication applicationContext);
+
     Builder licenceModule(LicenceModule licenceModule);
+
     AppComponent build();
   }
 
@@ -115,7 +118,8 @@ public interface AppComponent {
   @VisibleForTesting
   LicenceHandler licenceHandler();
 
-  @Named(USER_COUNTRY) String userCountry();
+  @Named(USER_COUNTRY)
+  String userCountry();
 
   CurrencyContext currencyContext();
 

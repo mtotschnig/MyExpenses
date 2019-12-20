@@ -1,117 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:orientation="vertical"
-              tools:showIn="@layout/budget_list">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/budget_list">
 
     <LinearLayout
-        android:layout_width="@dimen/budget_container_width_landscape"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="@dimen/budget_table_padding"
-        android:layout_marginRight="@dimen/budget_table_padding"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="@dimen/budget_container_cell_width_landscape"
+            android:layout_width="@dimen/budget_container_width_landscape"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/budget_table_padding"
+            android:layout_marginRight="@dimen/budget_table_padding"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/budget_container_cell_width_landscape"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/budget_table_header_budgeted" />
+
+                <TextView
+                    android:id="@+id/allocatedLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/budget_table_header_allocated" />
+
+            </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/budget_container_cell_width_landscape"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:gravity="end"
-                android:text="@string/budget_table_header_budgeted"/>
+                android:text="@string/budget_table_header_spent" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/allocatedLabel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="@string/budget_table_header_allocated"/>
+                android:layout_gravity="center_vertical"
+                android:text="@string/budget_table_header_remainder" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="@dimen/budget_container_cell_width_landscape"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="end"
-            android:text="@string/budget_table_header_spent"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/budget_table_header_remainder"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/budgetContainer"
-        android:layout_width="@dimen/budget_container_width_landscape"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:orientation="horizontal"
-        tools:showIn="@layout/budget_row">
-
         <LinearLayout
-            android:layout_width="@dimen/budget_container_cell_width_landscape"
+            android:id="@+id/budgetContainer"
+            android:layout_width="@dimen/budget_container_width_landscape"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="end"
+            android:orientation="horizontal"
+            tools:showIn="@layout/budget_row">
+
+            <LinearLayout
+                android:layout_width="@dimen/budget_container_cell_width_landscape"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalBudget"
+                    style="@style/BudgetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    tools:text="1000000" />
+
+                <TextView
+                    android:id="@+id/totalAllocated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/budget_table_padding"
+                    android:layout_marginRight="@dimen/budget_table_padding"
+                    tools:text="1000000" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/totalBudget"
-                style="@style/BudgetButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/totalAmount"
+                android:layout_width="@dimen/budget_container_cell_width_landscape"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                tools:text="1000000"/>
+                android:layout_gravity="center_vertical"
+                android:gravity="end" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/totalAllocated"
+                android:id="@+id/totalAvailable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/budget_table_padding"
-                android:layout_marginRight="@dimen/budget_table_padding"
-                tools:text="1000000"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="end"
+                android:padding="6dp"
+                android:textColor="?android:textColorPrimaryInverse"
+                tools:background="@drawable/round_background_income_dark"
+                tools:text="10000" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/totalAmount"
-            android:layout_width="@dimen/budget_container_cell_width_landscape"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="end"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/totalAvailable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:gravity="end"
-            android:padding="6dp"
-            android:textColor="?android:textColorPrimaryInverse"
-            tools:background="@drawable/round_background_income_dark"
-            tools:text="10000"/>
-
     </LinearLayout>
-
-</LinearLayout>
+</merge>

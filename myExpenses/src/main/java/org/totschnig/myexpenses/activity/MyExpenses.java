@@ -51,7 +51,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
@@ -155,8 +154,6 @@ public class MyExpenses extends LaunchActivity implements
     ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener,
     SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
-  public static final long THRESHOLD_REMIND_RATE = 47L;
-
   public static final int ACCOUNTS_CURSOR = -1;
   public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
@@ -188,12 +185,6 @@ public class MyExpenses extends LaunchActivity implements
         null : HelpVariant.crStatus);
   }
 
-  /**
-   * stores the number of transactions that have been
-   * created in the db, updated after each creation of
-   * a new transaction
-   */
-  private long sequenceCount = 0;
   @BindView(R.id.left_drawer)
   ExpandableStickyListHeadersListView mDrawerList;
   @Nullable
@@ -438,18 +429,6 @@ public class MyExpenses extends LaunchActivity implements
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-      long nextReminder;
-      sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
-      if (!DistribHelper.isGithub()) {
-        nextReminder =
-            PrefKey.NEXT_REMINDER_RATE.getLong(THRESHOLD_REMIND_RATE);
-        if (nextReminder != -1 && sequenceCount >= nextReminder) {
-          RemindRateDialogFragment f = new RemindRateDialogFragment();
-          f.setCancelable(false);
-          f.show(getSupportFragmentManager(), "REMIND_RATE");
-          return;
-        }
-      }
       adHandler.onEditTransactionResult();
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
@@ -571,7 +550,8 @@ public class MyExpenses extends LaunchActivity implements
         PrefKey.NEXT_REMINDER_RATE.putLong(-1);
         return true;
       case R.id.REMIND_LATER_RATE_COMMAND:
-        PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + THRESHOLD_REMIND_RATE);
+        //TODO
+        //PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + THRESHOLD_REMIND_RATE);
         return true;
       case R.id.HELP_COMMAND_DRAWER:
         i = new Intent(this, Help.class);

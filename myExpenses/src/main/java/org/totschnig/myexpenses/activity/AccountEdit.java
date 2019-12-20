@@ -87,7 +87,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   protected TextView amountLabel;
   @BindView(R.id.AmountRow)
   ViewGroup amountRow;
-  @BindView(R.id.ExchangeRateRow)
+  @BindView(R.id.ERR)
   ViewGroup exchangeRateRow;
   @BindView(R.id.Amount)
   AmountInput amountInput;
@@ -334,13 +334,13 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
    * callback of DbWriteFragment
    */
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     if (result == null) {
       complain();
       super.onPostExecute(result);
     } else {
       Intent intent = new Intent();
-      long id = ContentUris.parseId((Uri) result);
+      long id = ContentUris.parseId(result);
       mAccount.requestSync();
       intent.putExtra(DatabaseConstants.KEY_ROWID, id);
       setResult(RESULT_OK, intent);

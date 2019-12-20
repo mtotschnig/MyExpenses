@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.accounts.AccountManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -185,7 +186,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   }
 
   @Override //DbWriteFragment
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     super.onPostExecute(result);
     if (result == null) {
       showSnackbar(String.format("There was an error saving account %s", newAccount.getLabel()));
@@ -265,7 +266,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         if (PrefKey.NEW_ACCOUNT_ENABLED.getBoolean(true)) {
           newAccount = getListFragment().getAccountForSync(
               ((ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition);
-          startDbWriteTask(false);
+          startDbWriteTask();
         } else {
           contribFeatureRequested(ContribFeature.ACCOUNTS_UNLIMITED, null);
         }

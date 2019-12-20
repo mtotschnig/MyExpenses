@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <include android:id="@+id/PlanButton" layout="@layout/plan_button"/>
+        <include android:id="@+id/PB" layout="@layout/plan_button"/>
 
-        <include android:id="@+id/ToggleButton" layout="@layout/toggle_button"/>
+        <include android:id="@+id/TB" layout="@layout/toggle_button"/>
     </LinearLayout>
 </LinearLayout>

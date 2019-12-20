@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -121,7 +122,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   @Override
-  public boolean dispatchCommand(int command, Object tag) {
+  public boolean dispatchCommand(int command, @Nullable Object tag) {
     if (super.dispatchCommand(command, tag)) {
       return true;
     }
@@ -144,11 +145,11 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   protected void saveState() {
     mIsSaving = true;
-    startDbWriteTask(false);
+    startDbWriteTask();
   }
 
   @Override
-  public void onPostExecute(@Nullable Object result) {
+  public void onPostExecute(@Nullable Uri result) {
     mIsSaving = false;
     super.onPostExecute(result);
   }

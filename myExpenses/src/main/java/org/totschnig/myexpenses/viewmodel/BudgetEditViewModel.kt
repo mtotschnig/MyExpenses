@@ -35,7 +35,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
         if (budget.id == 0L) {
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
                 override fun onInsertComplete(token: Int, uri: Uri?) {
-                    val result = uri?.let { ContentUris.parseId(uri) } ?: -1
+                    val result = uri?.let { ContentUris.parseId(it) } ?: -1
                     if (result > -1) persistPreferences(result, whereFilter, budget)
                     databaseResult.postValue(result)
                 }

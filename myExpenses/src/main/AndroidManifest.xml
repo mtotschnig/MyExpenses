@@ -105,7 +105,7 @@
         </activity>
 
         <activity
-            android:name=".activity.TransactionEdit"
+            android:name=".activity.ExpenseEdit"
             android:parentActivityName=".activity.MyExpenses"
             android:theme="@style/ThemeLight.EditDialog"
             android:exported="true"

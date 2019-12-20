@@ -87,7 +87,7 @@ public class PlanExecutor extends JobIntentService {
       final long beginningOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MIN), ZoneId.systemDefault()).toEpochSecond() * 1000;
       final long endOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MAX), ZoneId.systemDefault()).toEpochSecond() * 1000;
       long now = nowZDT.toEpochSecond() * 1000;
-      final long lastExecution = prefHandler.getLong(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP,now - H24);
+      final long lastExecution = prefHandler.getLong(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP, now - H24);
       log("now %d compared to System.currentTimeMillis %d", now, System.currentTimeMillis());
       if (!PermissionHelper.hasCalendarPermission(this)) {
         log("Calendar permission not granted");

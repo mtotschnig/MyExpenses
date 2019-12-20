@@ -22,11 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-
-import java.util.HashMap;
 
 import androidx.fragment.app.Fragment;
 
@@ -36,20 +32,12 @@ import androidx.fragment.app.Fragment;
  * It handles saving model objects to the database
  * It calls getObject on its callback to retrieve the object
  * and calls save on the Object
- * it can return either the uri for the new object (null on failure)
- * or the number of stored objects in the db for the Model (error code < 0 on failure)
- * the later is only implemented for transactions
+ * it returns  the uri for the new object (null on failure)
  */
 @Deprecated
 public class DbWriteFragment extends Fragment {
 
   private static final String KEY_RUNNING = "running";
-  public static final int ERROR_UNKNOWN = -1;
-  public static final int ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2;
-  public static final int ERROR_PICTURE_SAVE_UNKNOWN = -3;
-  public static final int ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4;
-
-
   /**
    * Callback interface through which the fragment will report the
    * task's progress and results back to the Activity.
@@ -61,21 +49,15 @@ public class DbWriteFragment extends Fragment {
     Model getObject();
     void onCancelled();
     /**
-     * @param result normally the URI is returned to the calling activity,
-     * optionally, when DbWriteFragment is created with returnSequenceCount true,
-     * the sequence count from the table is returned instead
+     * @param result URI
      */
-    void onPostExecute(Object result);
+    void onPostExecute(Uri result);
   }
  
   private TaskCallbacks mCallbacks;
-  private GenericWriteTask mTask;
-  public static DbWriteFragment newInstance(boolean returnSequenceCount) {
-    DbWriteFragment f = new DbWriteFragment();
-    Bundle bundle = new Bundle();
-    bundle.putBoolean("returnSequenceCount", returnSequenceCount);
-    f.setArguments(bundle);
-    return f;
+
+  public static DbWriteFragment newInstance() {
+    return new DbWriteFragment();
   }
 
   /**
@@ -106,8 +88,7 @@ public class DbWriteFragment extends Fragment {
     setRetainInstance(true);
  
     // Create and execute the background task.
-    Bundle args = getArguments();
-    mTask = new GenericWriteTask(args.getBoolean("returnSequenceCount", false));
+    GenericWriteTask mTask = new GenericWriteTask();
     mTask.execute(mCallbacks.getObject());
   }
  
@@ -133,12 +114,7 @@ public class DbWriteFragment extends Fragment {
    * method in case they are invoked after the Activity's and
    * Fragment's onDestroy() method have been called.
    */
-  private class GenericWriteTask extends AsyncTask<Model, Void, Object> {
-    boolean returnSequenceCount;
-    public GenericWriteTask(boolean returnSequenceCount) {
-      this.returnSequenceCount = returnSequenceCount;
-    }
-
+  private class GenericWriteTask extends AsyncTask<Model, Void, Uri> {
     @Override
     protected void onPreExecute() {
     }
@@ -149,33 +125,12 @@ public class DbWriteFragment extends Fragment {
      * in a race condition.
      */
     @Override
-    protected Object doInBackground(Model... object) {
-      long error = ERROR_UNKNOWN;
+    protected Uri doInBackground(Model... object) {
       if (object[0] == null) {
         CrashHandler.report("DbWriteFragment called from an activity that did not provide an object");
         return null;
       }
-      Uri uri = null;
-
-      try {
-        uri = object[0].save();
-      } catch (Transaction.ExternalStorageNotAvailableException e) {
-        error = ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE;
-      } catch (Transaction.UnknownPictureSaveException e) {
-        HashMap<String, String> customData = new HashMap<>();
-        customData.put("pictureUri", e.pictureUri.toString());
-        customData.put("homeUri", e.homeUri.toString());
-        CrashHandler.report(e, customData);
-        error = ERROR_PICTURE_SAVE_UNKNOWN;
-      } catch (Plan.CalendarIntegrationNotAvailableException e) {
-        error = ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE;
-      } catch (Exception e) {
-        CrashHandler.report(e);
-      }
-      if (returnSequenceCount && object[0] instanceof Transaction)
-        return uri == null ? error : Transaction.getSequenceCount();
-      else
-        return uri;
+      return object[0].save();
     }
     @Override
     protected void onProgressUpdate(Void... ignore) {
@@ -193,7 +148,7 @@ public class DbWriteFragment extends Fragment {
 
     //TODO refactor so that result is stored if onPostExecute is called while callbacks are detached
     @Override
-    protected void onPostExecute(Object result) {
+    protected void onPostExecute(Uri result) {
       if (mCallbacks != null) {
         mCallbacks.onPostExecute(result);
       }

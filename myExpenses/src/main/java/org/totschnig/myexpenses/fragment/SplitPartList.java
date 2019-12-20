@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
@@ -83,7 +83,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   CurrencyFormatter currencyFormatter;
 
   public static SplitPartList newInstance(Transaction transaction) {
-    SplitPartList f = new SplitPartList(); 
+    SplitPartList f = new SplitPartList();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_PARENTID, transaction.getId());
     bundle.putLong(KEY_ACCOUNTID, transaction.getAccountId());
@@ -91,6 +91,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     f.setArguments(bundle);
     return f;
   }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -117,13 +118,13 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
     balanceTv = (TextView) v.findViewById(R.id.end);
-    
+
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_LABEL_MAIN,KEY_AMOUNT};
+    String[] from = new String[]{KEY_LABEL_MAIN, KEY_AMOUNT};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category,R.id.amount};
+    int[] to = new int[]{R.id.category, R.id.amount};
 
     requireLoaders();
     // Now create a simple cursor adapter and set it to display
@@ -146,44 +147,46 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   public void updateFabColor(int color) {
-    UiUtils.setBackgroundTintListOnFab(fab,color);
+    UiUtils.setBackgroundTintListOnFab(fab, color);
   }
 
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
+                                  ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
   }
+
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-          parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-          new Long[] {info.id},
-          Boolean.FALSE,
-          0);
-      return true;
+    switch (item.getItemId()) {
+      case R.id.DELETE_COMMAND:
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+            new Long[]{info.id},
+            Boolean.FALSE,
+            0);
+        return true;
     }
     return super.onContextItemSelected(item);
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    String[] selectionArgs = new String[] {String.valueOf(parentId)};
+    String[] selectionArgs = new String[]{String.valueOf(parentId)};
     CursorLoader cursorLoader = null;
     Uri uri = parentIsTemplate() ?
         TransactionProvider.TEMPLATES_UNCOMMITTED_URI : TransactionProvider.UNCOMMITTED_URI;
-    switch(id) {
-    case ExpenseEdit.TRANSACTION_CURSOR:
-      cursorLoader = new CursorLoader(getActivity(), uri, null, "parent_id = ?",
-          selectionArgs, null);
-      return cursorLoader;
-    case ExpenseEdit.SUM_CURSOR:
-      cursorLoader = new CursorLoader(getActivity(),uri,
-          new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
-          selectionArgs, null);
+    switch (id) {
+      case ExpenseEdit.TRANSACTION_CURSOR:
+        cursorLoader = new CursorLoader(getActivity(), uri, null, "parent_id = ?",
+            selectionArgs, null);
+        return cursorLoader;
+      case ExpenseEdit.SUM_CURSOR:
+        cursorLoader = new CursorLoader(getActivity(), uri,
+            new String[]{"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
+            selectionArgs, null);
     }
     return cursorLoader;
   }
@@ -194,25 +197,26 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-    switch(arg0.getId()) {
-    case ExpenseEdit.TRANSACTION_CURSOR:
-      mAdapter.swapCursor(c);
-      break;
-    case ExpenseEdit.SUM_CURSOR:
-      c.moveToFirst();
-      transactionSum = c.getLong(0);
-      updateBalance();
+    switch (arg0.getId()) {
+      case ExpenseEdit.TRANSACTION_CURSOR:
+        mAdapter.swapCursor(c);
+        break;
+      case ExpenseEdit.SUM_CURSOR:
+        c.moveToFirst();
+        transactionSum = c.getLong(0);
+        updateBalance();
     }
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    switch(arg0.getId()) {
-    case ExpenseEdit.TRANSACTION_CURSOR:
-      mAdapter.swapCursor(null);
-      break;
+    switch (arg0.getId()) {
+      case ExpenseEdit.TRANSACTION_CURSOR:
+        mAdapter.swapCursor(null);
+        break;
     }
   }
+
   public void updateBalance() {
     ExpenseEdit ctx = (ExpenseEdit) getActivity();
     if (ctx == null)
@@ -221,7 +225,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     //when we are called before transaction is loaded in parent activity
     if (unsplitAmount == null)
       return;
-    unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor()-transactionSum);
+    unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor() - transactionSum);
     if (balanceTv != null)
       balanceTv.setText(currencyFormatter.formatCurrency(unsplitAmount));
   }
@@ -229,6 +233,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   public boolean splitComplete() {
     return unsplitAmount != null && unsplitAmount.getAmountMinor() == 0L;
   }
+
   public int getSplitCount() {
     return mAdapter.getCount();
   }

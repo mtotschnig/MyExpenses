@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.viewmodel.data.Event
 class TransactionListViewModel(application: Application) : BudgetViewModel(application) {
     val budgetAmount = MutableLiveData<Money>()
     val updateComplete = MutableLiveData<Event<Pair<Int, Int>>>()
-    var accuntDisposable: Disposable? = null
+    private var accuntDisposable: Disposable? = null
     private val asyncDatabaseHandler: DatabaseHandler
 
     init {
@@ -79,14 +79,6 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
     companion object {
         const val TOKEN_REMAP_CATEGORY = 1
 
-        fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {
-            val map = mutableMapOf<K, V>()
-            return map.withDefault { key ->
-                val newValue = initializer(key)
-                map[key] = newValue
-                return@withDefault newValue
-            }
-        }
     }
 }
 

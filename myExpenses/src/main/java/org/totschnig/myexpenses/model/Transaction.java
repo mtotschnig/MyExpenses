@@ -625,7 +625,7 @@ public class Transaction extends Model {
     cr().update(uri, null, null, null);
   }
 
-  protected Transaction() {
+  public Transaction() {
     setDate(ZonedDateTime.now());
     setValueDate(ZonedDateTime.now());
   }

@@ -70,6 +70,10 @@ public class Transfer extends Transaction {
     this.transferAccountId = transferAccountId;
   }
 
+  public Transfer() {
+    super();
+  }
+
   public Transfer(long accountId, Money amount) {
     this(accountId, amount, null);
   }

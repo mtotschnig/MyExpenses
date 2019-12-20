@@ -61,6 +61,10 @@ public class SplitTransaction extends Transaction {
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
 
+  public SplitTransaction() {
+    super();
+    setCatId(DatabaseConstants.SPLIT_CATID);
+  }
 
   public SplitTransaction(long accountId, Money amount) {
     super(accountId, amount);

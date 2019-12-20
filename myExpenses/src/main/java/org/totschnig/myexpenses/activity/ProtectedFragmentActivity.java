@@ -419,7 +419,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   @CallSuper
-  public boolean dispatchCommand(int command, Object tag) {
+  public boolean dispatchCommand(int command, @Nullable Object tag) {
     Bundle bundle = new Bundle();
     String fullResourceName = getResources().getResourceName(command);
     bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
@@ -627,7 +627,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag(SAVE_TAG));
@@ -711,9 +711,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     m.executePendingTransactions();
   }
 
-  public void startDbWriteTask(boolean returnSequenceCount) {
+  public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
+        .add(DbWriteFragment.newInstance(), SAVE_TAG)
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),
             PROGRESS_TAG)
         .commitAllowingStateLoss();

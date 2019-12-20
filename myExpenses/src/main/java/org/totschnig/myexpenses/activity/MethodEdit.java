@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -156,7 +157,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     return mMethod;
   }
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     setResult(RESULT_OK);
     finish();
     //no need to call super after finish
