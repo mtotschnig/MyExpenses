@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
@@ -311,6 +312,7 @@ public class Transaction extends Model {
   /**
    * stores a short label of the category or the account the transaction is linked to
    */
+  @Nullable
   public String getLabel() {
     return label;
   }
@@ -1267,7 +1269,7 @@ public class Transaction extends Model {
     return operationType() == TYPE_SPLIT;
   }
 
-  public boolean isSplitpart() {
+  public boolean isSplitPart() {
     return !(parentId == null || parentId == 0);
   }
 

@@ -54,15 +54,12 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.OperationTypeAdapter
-import org.totschnig.myexpenses.adapter.RecurrenceAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
-import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
-import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Plan.Recurrence
@@ -81,6 +78,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.viewholder.TransactionViewHolder
 import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -116,16 +114,10 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
     override val exchangeRateEdit: ExchangeRateEdit
         get() = rootBinding.ERR.ExchangeRate
 
-    private lateinit var mMethodSpinner: SpinnerHelper
-    private lateinit var mAccountSpinner: SpinnerHelper
-    private lateinit var mTransferAccountSpinner: SpinnerHelper
-    private lateinit var mStatusSpinner: SpinnerHelper
-    private lateinit var mOperationTypeSpinner: SpinnerHelper
-    private lateinit var mRecurrenceSpinner: SpinnerHelper
     private lateinit var mAccountsAdapter: SimpleCursorAdapter
     private lateinit var mTransferAccountsAdapter: SimpleCursorAdapter
     private lateinit var mPayeeAdapter: SimpleCursorAdapter
-    private lateinit var mMethodsAdapter: ArrayAdapter<PaymentMethod?>
+    private lateinit var mMethodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var mOperationTypeAdapter: OperationTypeAdapter
     private lateinit var mTransferAccountCursor: FilterCursorWrapper
     @JvmField
@@ -163,15 +155,6 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
     var mPictureUriTemp: Uri? = null
     @JvmField
     @State
-    var originalAmountVisible = false
-    @JvmField
-    @State
-    var equivalentAmountVisible = false
-    @JvmField
-    @State
-    var originalCurrencyCode: String? = null
-    @JvmField
-    @State
     var crStatus: CrStatus? = null
 
     private var mAccounts = mutableListOf<Account>()
@@ -182,7 +165,7 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
      * transaction, transfer or split
      */
     private var mOperationType = 0
-    private var mManager: LoaderManager? = null
+    private lateinit var mManager: LoaderManager
     private var mClone = false
     private var mCreateNew = false
     private var mIsMainTransactionOrTemplate = false
@@ -211,6 +194,8 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
     lateinit var currencyFormatter: CurrencyFormatter
     @Inject
     lateinit var discoveryHelper: DiscoveryHelper
+
+    lateinit var viewholder: TransactionViewHolder<*>
 
     public override fun getDiscardNewMessage(): Int {
         return /*if (mTransaction is Template) R.string.dialog_confirm_discard_new_template else*/ R.string.dialog_confirm_discard_new_transaction
@@ -241,8 +226,7 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
         })
         currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel::class.java)
         currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
-            rootBinding.OriginalAmount.setCurrencies(currencies, currencyContext)
-            populateOriginalCurrency()
+            viewholder.setCurrencies(currencies, currencyContext)
         })
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
@@ -301,10 +285,9 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
 
             }
         }
-        mMethodSpinner = SpinnerHelper(rootBinding.Method)
-        mMethodsAdapter = object : ArrayAdapter<PaymentMethod?>(this, android.R.layout.simple_spinner_item) {
+        mMethodsAdapter = object : ArrayAdapter<PaymentMethod>(this, android.R.layout.simple_spinner_item) {
             override fun getItemId(position: Int): Long {
-                return getItem(position)!!.id()
+                return getItem(position)?.id() ?: 0L
             }
         }
         mMethodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
@@ -312,17 +295,13 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
                 mMethodsAdapter,
                 android.R.layout.simple_spinner_item,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                 this)
-        mAccountSpinner = SpinnerHelper(rootBinding.Account)
         mAccountsAdapter = SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null, arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0)
         mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         mAccountSpinner.adapter = mAccountsAdapter
-        mTransferAccountSpinner = SpinnerHelper(rootBinding.TransferAccount)
         mTransferAccountsAdapter = SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null, arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0)
         mTransferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         mTransferAccountSpinner.adapter = mTransferAccountsAdapter
         mTransferAccountSpinner.setOnItemSelectedListener(this)
-        mStatusSpinner = SpinnerHelper(rootBinding.Status)
-        mRecurrenceSpinner = SpinnerHelper(rootBinding.RR.Recurrence.Recurrence)
         currencyViewModel.loadCurrencies()
         val paint = planExecutionButton.paint
         val automatic = paint.measureText(getString(R.string.plan_automatic)).toInt()
@@ -501,7 +480,13 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
             abortWithMessage(errMsg)
             return
         }
-        if (!mSavedInstance) { //processing data from user switching operation type
+        viewholder = TransactionViewHolder.createAndBind(transaction, rootBinding, isCalendarPermissionPermanentlyDeclined(), prefHandler)
+        viewholder.setAdapters(mAccountsAdapter, mMethodsAdapter, mPayeeAdapter, mOperationTypeAdapter, mTransferAccountsAdapter)
+        linkInputsWithLabels()
+        mManager.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
+        //setHelpVariant()
+        //setTitle()
+/*        if (!mSavedInstance) { //processing data from user switching operation type
             val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
             if (cached != null) {
                 transaction.accountId = cached.accountId
@@ -510,180 +495,7 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
                 setPicture()
                 mMethodId = cached.methodId
             }
-        }
-        amountInput.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
-        linkInputsWithLabels()
-        if (mOperationType == Transactions.TYPE_SPLIT) {
-            amountInput.addTextChangedListener(object : MyTextWatcher() {
-                override fun afterTextChanged(s: Editable) {
-                    updateSplitBalance()
-                }
-            })
-        }
-        if (mOperationType == Transactions.TYPE_TRANSFER) {
-            amountInput.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
-            rootBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
-            exchangeRateEdit.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
-        }
-
-        if (isSplitPart) {
-            disableAccountSpinner()
-        }
-        mIsMainTransactionOrTemplate = mOperationType != Transactions.TYPE_TRANSFER && !transaction.isSplitpart
-        mIsMainTransaction = mIsMainTransactionOrTemplate && transaction !is Template
-        mIsMainTemplate = transaction is Template && !transaction.isSplitpart()
-        if (!mIsMainTransactionOrTemplate) {
-            rootBinding.PayeeRow.visibility = View.GONE
-            rootBinding.MethodRow.visibility = View.GONE
-        }
-        if (mOperationType == Transactions.TYPE_TRANSFER) {
-            amountInput.hideTypeButton()
-            rootBinding.CategoryRow.visibility = View.GONE
-            rootBinding.TransferAccountRow.visibility = View.VISIBLE
-            rootBinding.AccountLabel.setText(R.string.transfer_from_account)
-        }
-        mManager!!.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
-        if (mIsMainTemplate) {
-            rootBinding.TitleRow.visibility = View.VISIBLE
-            if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
-//bother him with a button that is not working
-                setPlannerRowVisibility(View.VISIBLE)
-                val recurrenceAdapter = RecurrenceAdapter(this,
-                        if (DistribHelper.shouldUseAndroidPlatformCalendar()) null else Recurrence.CUSTOM)
-                mRecurrenceSpinner.adapter = recurrenceAdapter
-                mRecurrenceSpinner.setOnItemSelectedListener(this)
-                planButton.setOnClickListener {
-                    if (mPlan == null) {
-                        planButton.showDialog()
-                    } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
-                        launchPlanView(false)
-                    }
-                }
-            }
-            rootBinding.AttachImage.visibility = View.GONE
-            if (transaction.id != 0L) {
-                val typeResId = when (mOperationType) {
-                    Transactions.TYPE_TRANSFER -> R.string.transfer
-                    Transactions.TYPE_SPLIT -> R.string.split_transaction
-                    else -> R.string.transaction
-                }
-                title = getString(R.string.menu_edit_template) + " (" + getString(typeResId) + ")"
-            }
-            when (mOperationType) {
-                Transactions.TYPE_TRANSFER -> setHelpVariant(HelpVariant.templateTransfer)
-                Transactions.TYPE_SPLIT -> setHelpVariant(HelpVariant.templateSplit)
-                else -> setHelpVariant(HelpVariant.templateCategory)
-            }
-        } else if (isSplitPart) {
-            if (mOperationType == Transactions.TYPE_TRANSACTION) {
-                if (transaction.id != 0L) {
-                    setTitle(R.string.menu_edit_split_part_category)
-                }
-                setHelpVariant(HelpVariant.splitPartCategory)
-                transaction.status = DatabaseConstants.STATUS_UNCOMMITTED
-            } else { //Transfer
-                if (transaction.id != 0L) {
-                    setTitle(R.string.menu_edit_split_part_transfer)
-                }
-                setHelpVariant(HelpVariant.splitPartTransfer)
-                transaction.status = DatabaseConstants.STATUS_UNCOMMITTED
-            }
-        } else { //Transfer or Transaction, we can suggest to create a plan
-            if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
-//after SAVE_AND_NEW action
-                val recurrenceAdapter = RecurrenceAdapter(this,
-                        Recurrence.ONETIME, Recurrence.CUSTOM)
-                mRecurrenceSpinner.adapter = recurrenceAdapter
-                val cachedRecurrence = intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence
-                if (cachedRecurrence != null) {
-                    mRecurrenceSpinner.setSelection(
-                            (mRecurrenceSpinner.adapter as RecurrenceAdapter).getPosition(cachedRecurrence))
-                }
-                mRecurrenceSpinner.setOnItemSelectedListener(this)
-                setPlannerRowVisibility(View.VISIBLE)
-                if (transaction.originTemplate != null && transaction.originTemplate.plan != null) {
-                    mRecurrenceSpinner.spinner.visibility = View.GONE
-                    planButton.visibility = View.VISIBLE
-                    planButton.text = Plan.prettyTimeInfo(this,
-                            transaction.originTemplate.plan.rrule, transaction.originTemplate.plan.dtstart)
-                    planButton.setOnClickListener {
-                        val currentAccount = currentAccount
-                        if (currentAccount != null) {
-                            PlanMonthFragment.newInstance(
-                                    transaction.originTemplate.title,
-                                    transaction.originTemplate.id,
-                                    transaction.originTemplate.planId,
-                                    currentAccount.color, true, themeType).show(supportFragmentManager,
-                                    TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
-                        }
-                    }
-                }
-            }
-            when (transaction) {
-                is Transfer -> {
-                    if (transaction.getId() != 0L) {
-                        setTitle(R.string.menu_edit_transfer)
-                    }
-                    setHelpVariant(HelpVariant.transfer)
-                }
-                is SplitTransaction -> {
-                    if (!mNewInstance) {
-                        setTitle(R.string.menu_edit_split)
-                    }
-                    setHelpVariant(HelpVariant.split)
-                }
-                else -> {
-                    if (transaction.id != 0L) {
-                        setTitle(R.string.menu_edit_transaction)
-                    }
-                    setHelpVariant(HelpVariant.transaction)
-                }
-            }
-        }
-        if (mOperationType == Transactions.TYPE_SPLIT) {
-            rootBinding.CategoryRow.visibility = View.GONE
-            //add split list
-            val fm = supportFragmentManager
-            if (findSplitPartList() == null && !fm.isStateSaved) {
-                fm.beginTransaction()
-                        .add(R.id.edit_container, SplitPartList.newInstance(transaction), SPLIT_PART_LIST)
-                        .commit()
-                fm.executePendingTransactions()
-            }
-        }
-        if (mClone) {
-            setTitle(R.string.menu_clone_transaction)
-        }
-        if (isNoMainTransaction) {
-            rootBinding.DateTimeRow.visibility = View.GONE
-        }
-        //when we have a savedInstance, fields have already been populated
-        if (!mSavedInstance) {
-            populateFields(transaction)
-            if (!isSplitPart) {
-                setLocalDateTime(transaction)
-            }
-        }
-        if (transaction.id != 0L) {
-            configureTransferDirection()
-        }
-        //after setLocalDateTime, so that the plan info can override the date
-        configurePlan()
-        setCategoryButton()
-        if (mOperationType != Transactions.TYPE_TRANSFER) {
-            rootBinding.Category.setOnClickListener { startSelectCategory() }
-        }
-        if (originalAmountVisible) {
-            showOriginalAmount()
-        }
-        if (equivalentAmountVisible) {
-            showEquivalentAmount()
-        }
-        if (mIsMainTransaction) {
-            val homeCurrency = Utils.getHomeCurrency()
-            addCurrencyToInput(rootBinding.EquivalentAmountLabel, rootBinding.EquivalentAmount, homeCurrency.symbol(), R.string.menu_equivalent_amount)
-            rootBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits())
-        }
+        }*/
         // Spinner for methods
     }
 
@@ -771,13 +583,13 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val oaMenuItem = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)
         if (oaMenuItem != null) {
-            oaMenuItem.isChecked = originalAmountVisible
+            oaMenuItem.isChecked = viewholder.originalAmountVisible
         }
         val currentAccount = currentAccount
         val eaMenuItem = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)
         if (eaMenuItem != null) {
             Utils.menuItemSetEnabledAndVisible(eaMenuItem, !(currentAccount == null || hasHomeCurrency(currentAccount)))
-            eaMenuItem.isChecked = equivalentAmountVisible
+            eaMenuItem.isChecked = viewholder.equivalentAmountVisible
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -842,30 +654,13 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
                 return true
             }
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
-                originalAmountVisible = !originalAmountVisible
+                viewholder.toggleOriginalAmount()
                 invalidateOptionsMenu()
-                showOriginalAmount()
-                if (originalAmountVisible) {
-                    rootBinding.OriginalAmount.requestFocus()
-                } else {
-                    rootBinding.OriginalAmount.clear()
-                }
                 return true
             }
             R.id.EQUIVALENT_AMOUNT_COMMAND -> {
-                equivalentAmountVisible = !equivalentAmountVisible
+                viewholder.toggleEquivalentAmount(currentAccount)
                 invalidateOptionsMenu()
-                showEquivalentAmount()
-                if (equivalentAmountVisible) {
-                    val currentAccount = currentAccount
-                    if (validateAmountInput(rootBinding.EquivalentAmount, false) == null && currentAccount != null) {
-                        val rate = BigDecimal(currentAccount.exchangeRate)
-                        rootBinding.EquivalentAmount.setExchangeRate(rate)
-                    }
-                    rootBinding.EquivalentAmount.requestFocus()
-                } else {
-                    rootBinding.EquivalentAmount.clear()
-                }
                 return true
             }
         }
@@ -918,71 +713,6 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
             Timber.e(e)
             null
         }
-    }
-
-    /**
-     * populates the input fields with a transaction from the database or a new one
-     */
-    private fun populateFields(transaction: Transaction) { //processing data from user switching operation type
-        val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
-        val cachedOrSelf = cached ?: transaction
-        isProcessingLinkedAmountInputs = true
-        mStatusSpinner.setSelection(cachedOrSelf.crStatus.ordinal, false)
-        rootBinding.Comment.setText(cachedOrSelf.comment)
-        if (mIsMainTransactionOrTemplate) {
-            rootBinding.Payee.setText(cachedOrSelf.payee)
-        }
-        if (mIsMainTemplate) {
-            rootBinding.Title.setText((cachedOrSelf as Template).title)
-            planExecutionButton.isChecked = (transaction as Template).isPlanExecutionAutomatic
-        } else {
-            rootBinding.Number.setText(cachedOrSelf.referenceNumber)
-        }
-        fillAmount(cachedOrSelf.amount.amountMajor)
-        if (cachedOrSelf.originalAmount != null) {
-            originalAmountVisible = true
-            showOriginalAmount()
-            rootBinding.OriginalAmount.setAmount(cachedOrSelf.originalAmount.amountMajor)
-            originalCurrencyCode = cachedOrSelf.originalAmount.currencyUnit.code()
-        } else {
-            originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
-        }
-        populateOriginalCurrency()
-        if (cachedOrSelf.equivalentAmount != null) {
-            equivalentAmountVisible = true
-            rootBinding.EquivalentAmount.setAmount(cachedOrSelf.equivalentAmount.amountMajor.abs())
-        }
-        if (mNewInstance) {
-            if (mIsMainTemplate) {
-                rootBinding.Title.requestFocus()
-            } else if (mIsMainTransactionOrTemplate && PreferenceUtils.shouldStartAutoFill()) {
-                rootBinding.Payee.requestFocus()
-            }
-        }
-        isProcessingLinkedAmountInputs = false
-    }
-
-    private fun showEquivalentAmount() {
-        setVisibility(rootBinding.EquivalentAmountRow, equivalentAmountVisible)
-        rootBinding.EquivalentAmount.setCompoundResultInput(if (equivalentAmountVisible) amountInput.validate(false) else null)
-    }
-
-    private fun showOriginalAmount() {
-        setVisibility(rootBinding.OriginalAmountRow, originalAmountVisible)
-    }
-
-    private fun populateOriginalCurrency() {
-        if (originalCurrencyCode != null) {
-            rootBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode)
-        }
-    }
-
-    private fun fillAmount(amount: BigDecimal) {
-        if (amount.signum() != 0) {
-            amountInput.setAmount(amount)
-        }
-        amountInput.requestFocus()
-        amountInput.selectAll()
     }
 
     override fun saveState() {
@@ -1175,7 +905,7 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
             mCatId = intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
             mLabel = intent.getStringExtra(DatabaseConstants.KEY_LABEL)
             categoryIcon = intent.getStringExtra(DatabaseConstants.KEY_ICON)
-            setCategoryButton()
+            viewholder.setCategoryButton(mLabel, categoryIcon)
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -1242,7 +972,7 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
         if (mOperationType == Transactions.TYPE_SPLIT) {
             updateSplitBalance()
         }
-        setCategoryButton()
+        //setCategoryButton()
     }
 
     private fun configurePlan() {
@@ -1290,25 +1020,6 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
         val a = currentAccount
         setVisibility(mStatusSpinner.spinner,
                 !isNoMainTransaction && a != null && a.type != AccountType.CASH)
-    }
-
-    private fun setVisibility(view: View?, visible: Boolean) {
-        view!!.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
-    /**
-     * set label on category button
-     */
-    private fun setCategoryButton() {
-        if (mLabel != null && mLabel!!.isNotEmpty()) {
-            rootBinding.Category.text = mLabel
-            rootBinding.ClearCategory.visibility = View.VISIBLE
-            UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(rootBinding.Category,
-                    if (categoryIcon != null) UiUtils.resolveIcon(this, categoryIcon) else 0, 0, 0, 0)
-        } else {
-            rootBinding.Category.setText(R.string.select)
-            rootBinding.ClearCategory.visibility = View.GONE
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -1483,15 +1194,12 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
         get() = getAccountFromSpinner(mTransferAccountSpinner)
 
     private fun getAccountFromSpinner(spinner: SpinnerHelper?): Account? {
-        if (mAccounts == null) {
-            return null
-        }
         val selected = spinner!!.selectedItemPosition
         if (selected == AdapterView.INVALID_POSITION) {
             return null
         }
         val selectedID = spinner.selectedItemId
-        for (account in mAccounts!!) {
+        for (account in mAccounts) {
             if (account.id == selectedID) {
                 return account
             }
@@ -1649,30 +1357,6 @@ class ExpenseEdit : AmountActivity(), AdapterView.OnItemSelectedListener, Loader
             }
         }
         rootBinding.DateTimeLabel.text = dateLabel
-    }
-
-    private fun configureTransferInput() {
-        val transferAccount = transferAccount
-        val currentAccount = currentAccount
-        if (transferAccount == null || currentAccount == null) {
-            return
-        }
-        val currency = currentAccount.currencyUnit
-        val transferAccountCurrencyUnit = transferAccount.currencyUnit
-        val isSame = currency == transferAccountCurrencyUnit
-        setVisibility(rootBinding.TransferAmountRow, !isSame)
-        setVisibility(exchangeRateRow, !isSame /*&& mTransaction !is Template*/)
-        addCurrencyToInput(rootBinding.TransferAmountLabel, rootBinding.TransferAmount, transferAccountCurrencyUnit.symbol(), R.string.amount)
-        rootBinding.TransferAmount.setFractionDigits(transferAccountCurrencyUnit.fractionDigits())
-        exchangeRateEdit.setCurrencies(currency, transferAccountCurrencyUnit)
-        val bundle = Bundle(2)
-        bundle.putStringArray(DatabaseConstants.KEY_CURRENCY, arrayOf(currency.code(), transferAccountCurrencyUnit.code()))
-    }
-
-    private fun addCurrencyToInput(label: TextView?, amountInput: AmountInput?, symbol: String, textResId: Int) {
-        val text = org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol(this, textResId, symbol)
-        label!!.text = text
-        amountInput!!.contentDescription = text
     }
 
     private fun resetOperationType() {
