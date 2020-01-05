@@ -123,7 +123,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             Grouping.YEAR -> year
             Grouping.DAY -> "$year AND $DAY = $THIS_DAY"
             Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + getThisWeek()
-            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfWeekStart() + " AND " + getMonth() + " = " + getThisMonth()
+            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfMonthStart() + " AND " + getMonth() + " = " + getThisMonth()
             else -> budget.durationAsSqlFilter()
         }
     }

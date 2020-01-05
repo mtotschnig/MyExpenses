@@ -98,6 +98,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONTH_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
@@ -126,6 +127,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekEnd;
@@ -214,6 +216,7 @@ public class Transaction extends Model {
         getWeek() + " AS " + KEY_WEEK,
         DAY + " AS " + KEY_DAY,
         getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+        getThisYearOfMonthStart() + " AS " + KEY_THIS_YEAR_OF_MONTH_START,
         THIS_YEAR + " AS " + KEY_THIS_YEAR,
         getThisWeek() + " AS " + KEY_THIS_WEEK,
         THIS_DAY + " AS " + KEY_THIS_DAY,

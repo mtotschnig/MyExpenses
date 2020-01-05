@@ -36,6 +36,7 @@ public class DatabaseConstants {
   private static String WEEK;
   private static String MONTH;
   private static String THIS_YEAR_OF_WEEK_START;
+  private static String THIS_YEAR_OF_MONTH_START;
   private static String THIS_WEEK;
   private static String THIS_MONTH;
   private static String WEEK_START;
@@ -73,6 +74,7 @@ public class DatabaseConstants {
     MONTH = "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer) - 1"; //convert to 0 based
     THIS_WEEK = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
     THIS_MONTH = "CAST(strftime('%m','now','localtime','-" + monthDelta + " day') AS integer) - 1";
+    THIS_YEAR_OF_MONTH_START =  "CAST(strftime('%Y','now','localtime','-" + monthDelta + " day') AS integer)";
     COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1','weekday " + nextWeekStartsSqlite + "', '" +
         "-7 day" +
         "' ,'+%d day','utc')";
@@ -145,6 +147,7 @@ public class DatabaseConstants {
   public static final String KEY_THIS_MONTH = "this_month";
   public static final String KEY_THIS_YEAR = "this_year";
   public static final String KEY_THIS_YEAR_OF_WEEK_START = "this_year_of_week_start";
+  public static final String KEY_THIS_YEAR_OF_MONTH_START = "this_year_of_month_start";
   public static final String KEY_MAX_VALUE = "max_value";
   public static final String KEY_MIN_VALUE = "min_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
@@ -471,6 +474,12 @@ public class DatabaseConstants {
   public static String getThisYearOfWeekStart() {
     ensureLocalized();
     return THIS_YEAR_OF_WEEK_START;
+  }
+
+
+  public static String getThisYearOfMonthStart() {
+    ensureLocalized();
+    return THIS_YEAR_OF_MONTH_START;
   }
 
   public static String getWeekStartJulian() {
