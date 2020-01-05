@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.viewholder
+package org.totschnig.myexpenses.delegate
 
 import android.content.Context
 import android.database.Cursor
@@ -46,7 +46,7 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.math.BigDecimal
 import java.util.*
 
-open class TransactionViewHolder<T : Transaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler) : AdapterView.OnItemSelectedListener {
+open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler) : AdapterView.OnItemSelectedListener {
     private lateinit var methodSpinner: SpinnerHelper
     private lateinit var accountSpinner: SpinnerHelper
     private lateinit var transferAccountSpinner: SpinnerHelper
@@ -95,11 +95,6 @@ open class TransactionViewHolder<T : Transaction>(val viewBinding: OneExpenseBin
                     updateSplitBalance()
                 }
             })
-        }*/
-/*        if (mOperationType == TransactionsContract.Transactions.TYPE_TRANSFER) {
-            amountInput.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
-            rootBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
-            exchangeRateEdit.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
         }*/
 
 /*        if (isSplitPart) {
@@ -1134,10 +1129,11 @@ open class TransactionViewHolder<T : Transaction>(val viewBinding: OneExpenseBin
     companion object {
         fun <T : Transaction> createAndBind(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, isCalendarPermissionPermanentlyDeclined: Boolean, prefHandler: PrefHandler, newInstance: Boolean) =
                 when (transaction) {
-                    is Transfer -> TransferViewHolder(viewBinding, dateEditBinding, prefHandler)
-                    else -> TransactionViewHolder<Transaction>(viewBinding, dateEditBinding, prefHandler)
+                    is Transfer -> TransferDelegate(viewBinding, dateEditBinding, prefHandler)
+                    is SplitTransaction -> SplitDelegate(viewBinding, dateEditBinding, prefHandler)
+                    else -> TransactionDelegate(viewBinding, dateEditBinding, prefHandler)
                 }.apply {
-                    (this as TransactionViewHolder<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance)
+                    (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance)
                 }
     }
 }

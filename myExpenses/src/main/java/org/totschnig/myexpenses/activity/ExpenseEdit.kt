@@ -31,7 +31,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
@@ -44,12 +47,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
-import org.threeten.bp.*
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.fragment.SplitPartList
@@ -64,12 +71,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.BuildTransactionTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.*
-import org.totschnig.myexpenses.ui.ExchangeRateEdit.ExchangeRateWatcher
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
+import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewholder.TransactionViewHolder
 import org.totschnig.myexpenses.viewmodel.*
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -180,7 +188,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     @Inject
     lateinit var discoveryHelper: DiscoveryHelper
 
-    lateinit var viewHolder: TransactionViewHolder<*>
+    lateinit var delegate: TransactionDelegate<*>
 
     public override fun getDiscardNewMessage(): Int {
         return /*if (mTransaction is Template) R.string.dialog_confirm_discard_new_template else*/ R.string.dialog_confirm_discard_new_transaction
@@ -203,12 +211,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 rootBinding.MethodRow.visibility = View.GONE
                 mMethodId = null
             } else {
-                viewHolder.setMethods(paymentMethods, mMethodId ?: 0L)
+                delegate.setMethods(paymentMethods, mMethodId ?: 0L)
             }
         })
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
         currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
-            viewHolder.setCurrencies(currencies, currencyContext)
+            delegate.setCurrencies(currencies, currencyContext)
         })
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
@@ -376,7 +384,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             abortWithMessage(errMsg)
             return
         }
-        viewHolder = TransactionViewHolder.createAndBind(transaction, rootBinding, dateEditBinding, isCalendarPermissionPermanentlyDeclined(), prefHandler, mNewInstance)
+        delegate = TransactionDelegate.createAndBind(transaction, rootBinding, dateEditBinding, isCalendarPermissionPermanentlyDeclined(), prefHandler, mNewInstance)
         linkInputsWithLabels()
         mManager.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
         //setHelpVariant()
@@ -427,16 +435,16 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun setupListeners() {
         super.setupListeners()
-        viewHolder.setupListeners(this)
+        delegate.setupListeners(this)
     }
 
     override fun linkInputsWithLabels() {
         super.linkInputsWithLabels()
-        viewHolder.linkInputsWithLabels()
+        delegate.linkInputsWithLabels()
     }
 
     val currentAccount: Account?
-        get() = viewHolder.currentAccount()
+        get() = delegate.currentAccount()
 
     override fun onTypeChanged(isChecked: Boolean) {
         super.onTypeChanged(isChecked)
@@ -450,13 +458,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val oaMenuItem = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)
         if (oaMenuItem != null) {
-            oaMenuItem.isChecked = viewHolder.originalAmountVisible
+            oaMenuItem.isChecked = delegate.originalAmountVisible
         }
         val currentAccount = currentAccount
         val eaMenuItem = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)
         if (eaMenuItem != null) {
             Utils.menuItemSetEnabledAndVisible(eaMenuItem, !(currentAccount == null || hasHomeCurrency(currentAccount)))
-            eaMenuItem.isChecked = viewHolder.equivalentAmountVisible
+            eaMenuItem.isChecked = delegate.equivalentAmountVisible
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -517,16 +525,16 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             R.id.INVERT_TRANSFER_COMMAND -> {
                 amountInput.toggle()
-                viewHolder.switchAccountViews()
+                delegate.switchAccountViews()
                 return true
             }
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
-                viewHolder.toggleOriginalAmount()
+                delegate.toggleOriginalAmount()
                 invalidateOptionsMenu()
                 return true
             }
             R.id.EQUIVALENT_AMOUNT_COMMAND -> {
-                viewHolder.toggleEquivalentAmount(currentAccount)
+                delegate.toggleEquivalentAmount(currentAccount)
                 invalidateOptionsMenu()
                 return true
             }
@@ -574,7 +582,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun saveState() {
-        viewHolder.syncStateAndValidate(true, mRowId, mCatId, mMethodId, currencyContext, mPictureUri)?.let {
+        delegate.syncStateAndValidate(true, mRowId, mCatId, mMethodId, currencyContext, mPictureUri)?.let {
             mIsSaving = true
             viewModel.save(it).observe(this, Observer {
                 onSaved(it)
@@ -624,7 +632,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             mCatId = intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
             mLabel = intent.getStringExtra(DatabaseConstants.KEY_LABEL)
             categoryIcon = intent.getStringExtra(DatabaseConstants.KEY_ICON)
-            viewHolder.setCategoryButton(mLabel, categoryIcon)
+            delegate.setCategoryButton(mLabel, categoryIcon)
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -687,7 +695,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
      * updates interface based on type (EXPENSE or INCOME)
      */
     override fun configureType() {
-        viewHolder.configureType()
+        delegate.configureType()
     }
 
     private inner class PlanObserver : ContentObserver(Handler()) {
@@ -718,7 +726,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewHolder.onSaveInstanceState(outState)
+        delegate.onSaveInstanceState(outState)
     }
 
     val amount: Money?
@@ -847,13 +855,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         cleanup()
         val restartIntent = intent
         restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
-        viewHolder.syncStateAndValidate(false, mRowId, mCatId, mMethodId, currencyContext, mPictureUri)?.let {
+        delegate.syncStateAndValidate(false, mRowId, mCatId, mMethodId, currencyContext, mPictureUri)?.let {
             restartIntent.putExtra(KEY_CACHED_DATA, it)
             if (it.pictureUri != null) {
                 restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
             }
         }
-        restartIntent.putExtra(KEY_CACHED_RECURRENCE, viewHolder.recurrenceSpinner.selectedItem as Recurrence)
+        restartIntent.putExtra(KEY_CACHED_RECURRENCE, delegate.recurrenceSpinner.selectedItem as Recurrence)
         finish()
         startActivity(restartIntent)
 
@@ -866,7 +874,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> errorMsg = getString(R.string.external_storage_unavailable)
                 ERROR_PICTURE_SAVE_UNKNOWN -> errorMsg = "Error while saving picture"
                 ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
-                    viewHolder.recurrenceSpinner.setSelection(0)
+                    delegate.recurrenceSpinner.setSelection(0)
                     //mTransaction!!.originTemplate = null
                     errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device."
                 }
@@ -898,8 +906,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     splitPartList?.updateParent(mRowId)
                 } else {
                     mRowId = 0L
-                    viewHolder.recurrenceSpinner.spinner.visibility = View.VISIBLE
-                    viewHolder.recurrenceSpinner.setSelection(0)
+                    delegate.recurrenceSpinner.spinner.visibility = View.VISIBLE
+                    delegate.recurrenceSpinner.setSelection(0)
                     planButton.visibility = View.GONE
                 }
                 //while saving the picture might have been moved from temp to permanent
@@ -912,7 +920,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 isProcessingLinkedAmountInputs = false
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
-                if (viewHolder.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
+                if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
                     launchPlanView(true)
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
@@ -981,7 +989,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
                     return
                 }
-                viewHolder.setAccounts(data, if (didUserSetAccount) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY), mAccountId)
+                delegate.setAccounts(data, if (didUserSetAccount) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY), mAccountId)
                 if (mOperationType != Transactions.TYPE_TRANSFER) {//the methods cursor is based on the current account,
 //hence it is loaded only after the accounts cursor is loaded
                     if (!isSplitPart) {
@@ -992,7 +1000,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 if (mIsResumed) setupListeners()
             }
             AUTOFILL_CURSOR ->
-                viewHolder.autoFill(data, currencyContext)
+                delegate.autoFill(data, currencyContext)
         }
     }
 
@@ -1015,7 +1023,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autocompletetextview
         when (loader.id) {
-            ACCOUNTS_CURSOR -> viewHolder.accountsAdapter.swapCursor(null)
+            ACCOUNTS_CURSOR -> delegate.accountsAdapter.swapCursor(null)
         }
     }
 
@@ -1033,7 +1041,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun contribFeatureNotCalled(feature: ContribFeature) {
         if (feature === ContribFeature.SPLIT_TRANSACTION) {
-            viewHolder.resetOperationType()
+            delegate.resetOperationType()
         }
     }
 
@@ -1181,61 +1189,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     }
 
-    private inner class LinkedTransferAmountTextWatcher(
-            /**
-             * true if we are linked to from amount
-             */
-            var isMain: Boolean) : MyTextWatcher() {
-
-        override fun afterTextChanged(s: Editable) {
-            if (isProcessingLinkedAmountInputs) return
-            isProcessingLinkedAmountInputs = true
-/*            if (mTransaction is Template) {
-                (if (isMain) rootBinding.TransferAmount else amountInput).clear()
-            } else */if (exchangeRateRow.visibility == View.VISIBLE) {
-                val currentFocus = if (isMain) INPUT_AMOUNT else INPUT_TRANSFER_AMOUNT
-                if (lastExchangeRateRelevantInputs[0] != currentFocus) {
-                    lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0]
-                    lastExchangeRateRelevantInputs[0] = currentFocus
-                }
-                if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
-                    applyExchangeRate(if (isMain) amountInput else rootBinding.TransferAmount,
-                            if (isMain) rootBinding.TransferAmount else amountInput,
-                            exchangeRateEdit.getRate(!isMain))
-                } else {
-                    updateExchangeRates(rootBinding.TransferAmount)
-                }
-            }
-            isProcessingLinkedAmountInputs = false
-        }
-
-    }
-
-    private inner class LinkedExchangeRateTextWatcher : ExchangeRateWatcher {
-        override fun afterExchangeRateChanged(rate: BigDecimal, inverse: BigDecimal) {
-            if (isProcessingLinkedAmountInputs) return
-            isProcessingLinkedAmountInputs = true
-            val constant: AmountInput?
-            val variable: AmountInput?
-            val exchangeFactor: BigDecimal
-            if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
-                lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0]
-                lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE
-            }
-            if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
-                constant = amountInput
-                variable = rootBinding.TransferAmount
-                exchangeFactor = rate
-            } else {
-                constant = rootBinding.TransferAmount
-                variable = amountInput
-                exchangeFactor = inverse
-            }
-            applyExchangeRate(constant, variable, exchangeFactor)
-            isProcessingLinkedAmountInputs = false
-        }
-    }
-
     private fun applyExchangeRate(from: AmountInput?, to: AmountInput?, rate: BigDecimal?) {
         val input = validateAmountInput(from, false)
         to!!.setAmount(if (rate != null && input != null) input.multiply(rate) else BigDecimal(0), false)
@@ -1248,17 +1201,17 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         exchangeRateEdit.setBlockWatcher(false)
         isProcessingLinkedAmountInputs = false
         if (mRowId == 0L/* && mTemplateId == 0L*/) {
-            viewHolder.configureTransferDirection()
+            delegate.configureTransferDirection()
         }
     }
 
     fun clearMethodSelection(view: View) {
         mMethodId = null
-        viewHolder.setMethodSelection(0L)
+        delegate.setMethodSelection(0L)
     }
 
     fun clearCategorySelection(view: View) {
-        viewHolder.setCategoryButton(null, null)
+        delegate.setCategoryButton(null, null)
         mCatId = null
         mLabel = null
     }
