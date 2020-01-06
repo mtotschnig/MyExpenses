@@ -320,6 +320,7 @@ public class DistributionFragment extends DistributionBaseFragment {
         mGroupingSecond = thisWeek;
         break;
       case MONTH:
+        mGroupingYear = thisYearOfMonthStart;
         mGroupingSecond = thisMonth;
         break;
       case YEAR:

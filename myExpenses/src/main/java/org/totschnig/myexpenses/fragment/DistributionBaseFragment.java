@@ -48,6 +48,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONTH_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
@@ -60,6 +61,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
@@ -72,6 +74,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   int mGroupingSecond;
   int thisYear;
   int thisYearOfWeekStart;
+  int thisYearOfMonthStart;
   int thisMonth;
   int thisWeek;
   int thisDay;
@@ -108,6 +111,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     disposeDateInfo();
     ArrayList<String> projectionList = new ArrayList<>(Arrays.asList(
         getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+        getThisYearOfMonthStart() + " AS " + KEY_THIS_YEAR_OF_MONTH_START,
         THIS_YEAR + " AS " + KEY_THIS_YEAR,
         getThisMonth() + " AS " + KEY_THIS_MONTH,
         getThisWeek() + " AS " + KEY_THIS_WEEK,
@@ -150,6 +154,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
                   cursor.moveToFirst();
                   thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
                   thisYearOfWeekStart = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
+                  thisYearOfMonthStart = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR_OF_MONTH_START));
                   thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
                   thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
                   thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));

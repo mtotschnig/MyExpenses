@@ -309,6 +309,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
           mGroupingSecond = thisWeek;
           break;
         case MONTH:
+          mGroupingYear = thisYearOfMonthStart;
           mGroupingSecond = thisMonth;
           break;
       }
