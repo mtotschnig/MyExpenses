@@ -44,26 +44,25 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.android.calendar.CalendarContractCompat
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
-import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
+import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Plan.Recurrence
-import org.totschnig.myexpenses.model.Transaction.CrStatus
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -95,7 +94,6 @@ import javax.inject.Inject
  * @author Michael Totschnig
  */
 class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
-    private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private val planButton: DateButton
@@ -121,34 +119,16 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var mCatId: Long? = null
     @JvmField
     @State
-    var mMethodId: Long? = null
-    @JvmField
-    @State
-    var payeeId: Long? = null
-    @JvmField
-    @State
-    var mAccountId = 0L
-    @JvmField
-    @State
     var parentId = 0L
-    @JvmField
-    @State
-    var mTransferAccountId = 0L
-    @JvmField
-    @State
-    var mLabel: String? = null
-    @JvmField
-    @State
-    var categoryIcon: String? = null
     @JvmField
     @State
     var mPictureUri: Uri? = null
     @JvmField
     @State
     var mPictureUriTemp: Uri? = null
-    @JvmField
-    @State
-    var crStatus: CrStatus? = null
+
+    val accountId: Long
+        get() = currentAccount?.id ?: 0L
 
     private var mPlan: Plan? = null
     private var mPlanInstanceId: Long = 0
@@ -207,12 +187,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         mManager = LoaderManager.getInstance(this)
         viewModel = ViewModelProvider(this).get(TransactionEditViewModel::class.java)
         viewModel.getMethods().observe(this, Observer<List<PaymentMethod>> { paymentMethods ->
-            if (paymentMethods == null || paymentMethods.isEmpty()) {
-                rootBinding.MethodRow.visibility = View.GONE
-                mMethodId = null
-            } else {
-                delegate.setMethods(paymentMethods, mMethodId ?: 0L)
-            }
+            delegate.setMethods(paymentMethods)
         })
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
         currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
@@ -226,7 +201,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
         })
         rootBinding.OriginalAmount.setCompoundResultOutListener { amount: BigDecimal? -> amountInput.setAmount(amount!!, false) }
-        currencyViewModel.loadCurrencies()
         val paint = planExecutionButton.paint
         val automatic = paint.measureText(getString(R.string.plan_automatic)).toInt()
         val manual = paint.measureText(getString(R.string.plan_manual)).toInt()
@@ -241,8 +215,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         if (savedInstanceState != null) {
             mSavedInstance = true
             Icepick.restoreInstanceState(this, savedInstanceState)
-            setPicture()
-            if (mAccountId != 0L) {
+            if (accountId != 0L) {
                 didUserSetAccount = true
             }
         }
@@ -252,7 +225,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId)
         }
         //1. fetch the transaction or create a new instance
-        if (mRowId != 0L) {
+        if (mRowId != 0L) { //or template
             mNewInstance = false
             if (mRowId != 0L) {
                 viewModel.transaction(mRowId).observe(this, Observer {
@@ -384,22 +357,43 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             abortWithMessage(errMsg)
             return
         }
-        delegate = TransactionDelegate.createAndBind(transaction, rootBinding, dateEditBinding, isCalendarPermissionPermanentlyDeclined(), prefHandler, mNewInstance)
-        linkInputsWithLabels()
-        mManager.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
-        //setHelpVariant()
-        //setTitle()
-/*        if (!mSavedInstance) { //processing data from user switching operation type
+        if (!mSavedInstance) { //processing data from user switching operation type
             val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
             if (cached != null) {
                 transaction.accountId = cached.accountId
-                setLocalDateTime(cached)
-                mPictureUri = intent.getParcelableExtra(KEY_CACHED_PICTURE_URI)
-                setPicture()
-                mMethodId = cached.methodId
+                transaction.methodId = cached.methodId
+                transaction.date = cached.date
+                transaction.valueDate = cached.valueDate
+                transaction.crStatus = cached.crStatus
+                transaction.comment = cached.comment
+                transaction.payee = cached.payee
+                (transaction as? Template)?.let {
+                    it.title = (cached as? Template)?.title
+                    it.isPlanExecutionAutomatic = (cached as? Template)?.isPlanExecutionAutomatic == true
+                }
+                transaction.referenceNumber = cached.referenceNumber
+                transaction.amount = cached.amount
+                transaction.originalAmount = cached.originalAmount
+                transaction.equivalentAmount = cached.equivalentAmount
+                intent.getParcelableExtra<Uri>(KEY_CACHED_PICTURE_URI).let {
+                    mPictureUri = it
+                    transaction.pictureUri = it
+                }
             }
-        }*/
-        // Spinner for methods
+        }
+        delegate = TransactionDelegate.createAndBind(transaction, rootBinding, dateEditBinding,
+                isCalendarPermissionPermanentlyDeclined(), prefHandler,
+                mNewInstance,
+                intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence)
+        currencyViewModel.loadCurrencies()
+        linkInputsWithLabels()
+        mManager.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
+        setHelpVariant(delegate.helpVariant)
+        if (!mNewInstance) {
+            setTitle(delegate.title)
+        } else if (mClone) {
+            setTitle(R.string.menu_clone_transaction)
+        }
     }
 
     override fun hideKeyBoardAndShowDialog(id: Int) {
@@ -430,7 +424,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     private fun setPlannerRowVisibility(visibility: Int) {
-        rootBinding.PlanRow.visibility = visibility
+        delegate.setPlannerRowVisibility(visibility)
     }
 
     override fun setupListeners() {
@@ -444,12 +438,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     val currentAccount: Account?
-        get() = delegate.currentAccount()
+        get() = if (::delegate.isInitialized) delegate.currentAccount() else null
 
     override fun onTypeChanged(isChecked: Boolean) {
         super.onTypeChanged(isChecked)
         if (mIsMainTransactionOrTemplate) {
-            mMethodId = null
             loadMethods(currentAccount)
         }
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.EI_SWITCH)
@@ -525,7 +518,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             R.id.INVERT_TRANSFER_COMMAND -> {
                 amountInput.toggle()
-                delegate.switchAccountViews()
+                (delegate as? TransferDelegate)?.switchAccountViews()
                 return true
             }
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
@@ -560,7 +553,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     /**
      * calls the activity for selecting (and managing) categories
      */
-    private fun startSelectCategory() {
+    fun startSelectCategory() {
         val i = Intent(this, ManageCategories::class.java)
         i.action = ManageCategories.ACTION_SELECT_MAPPING
         forwardDataEntryFromWidget(i)
@@ -582,38 +575,26 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun saveState() {
-        delegate.syncStateAndValidate(true, mRowId, mCatId, mMethodId, currencyContext, mPictureUri)?.let {
+        delegate.syncStateAndValidate(true, currencyContext, mPictureUri)?.let {
             mIsSaving = true
             viewModel.save(it).observe(this, Observer {
                 onSaved(it)
             })
             if (intent.getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
                 when (mOperationType) {
-                    Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mAccountId)
+                    Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, accountId)
                     Transactions.TYPE_TRANSFER -> {
-                        prefHandler.putLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mAccountId)
-                        prefHandler.putLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransferAccountId)
+                        prefHandler.putLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                        (delegate as? TransferDelegate)?.mTransferAccountId?.let {
+                            prefHandler.putLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, it)
+                        }
                     }
-                    Transactions.TYPE_SPLIT -> prefHandler.putLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, mAccountId)
+                    Transactions.TYPE_SPLIT -> prefHandler.putLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, accountId)
                 }
             }
         } ?: kotlin.run {
             //prevent this flag from being sticky if form was not valid
             mCreateNew = false
-        }
-    }
-
-    private fun setLocalDateTime(transaction: Transaction?) {
-        val zonedDateTime = ZonedDateTime.ofInstant(
-                Instant.ofEpochSecond(transaction!!.date), ZoneId.systemDefault())
-        val localDate = zonedDateTime.toLocalDate()
-        if (transaction is Template) {
-            planButton.setDate(localDate)
-        } else {
-            dateEditBinding.DateButton.setDate(localDate)
-            dateEditBinding.DateButton.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
-                    ZoneId.systemDefault()).toLocalDate())
-            dateEditBinding.TimeButton.time = zonedDateTime.toLocalTime()
         }
     }
 
@@ -630,9 +611,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST && intent != null) {
             mCatId = intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
-            mLabel = intent.getStringExtra(DatabaseConstants.KEY_LABEL)
-            categoryIcon = intent.getStringExtra(DatabaseConstants.KEY_ICON)
-            delegate.setCategoryButton(mLabel, categoryIcon)
+            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL), intent.getStringExtra(DatabaseConstants.KEY_ICON))
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -669,14 +648,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
         if (requestCode == ProtectedFragmentActivity.PLAN_REQUEST) {
             finish()
-        }
-    }
-
-    private fun setPicture() {
-        if (mPictureUri != null) {
-            rootBinding.PictureContainer.root.visibility = View.VISIBLE
-            Picasso.get().load(mPictureUri).fit().into(rootBinding.PictureContainer.picture)
-            rootBinding.AttachImage.visibility = View.GONE
         }
     }
 
@@ -834,8 +805,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     private fun unsetPicture() {
         mPictureUri = null
-        rootBinding.AttachImage.visibility = View.VISIBLE
-        rootBinding.PictureContainer.root.visibility = View.GONE
+        setPicture()
+    }
+
+    private fun setPicture() {
+        delegate.setPicture(mPictureUri)
     }
 
     fun isValidType(type: Int): Boolean {
@@ -855,13 +829,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         cleanup()
         val restartIntent = intent
         restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
-        delegate.syncStateAndValidate(false, mRowId, mCatId, mMethodId, currencyContext, mPictureUri)?.let {
+        delegate.syncStateAndValidate(false, currencyContext, mPictureUri)?.let {
             restartIntent.putExtra(KEY_CACHED_DATA, it)
             if (it.pictureUri != null) {
                 restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
             }
         }
-        restartIntent.putExtra(KEY_CACHED_RECURRENCE, delegate.recurrenceSpinner.selectedItem as Recurrence)
+        restartIntent.putExtra(KEY_CACHED_RECURRENCE, delegate.recurrenceSpinner.selectedItem as? Recurrence)
         finish()
         startActivity(restartIntent)
 
@@ -901,7 +875,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             if (mCreateNew) {
                 mCreateNew = false
                 if (mOperationType == Transactions.TYPE_SPLIT) {
-                    mRowId =  SplitTransaction.getNewInstance(mAccountId).id
+                    mRowId =  SplitTransaction.getNewInstance(accountId).id
                     val splitPartList = findSplitPartList()
                     splitPartList?.updateParent(mRowId)
                 } else {
@@ -957,6 +931,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_CATEGORY, false)) {
                     dataToLoad.add(DatabaseConstants.KEY_CATID)
                     dataToLoad.add(DatabaseConstants.CAT_AS_LABEL)
+                    dataToLoad.add(DatabaseConstants.CATEGORY_ICON)
                 }
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_COMMENT, false)) {
                     dataToLoad.add(DatabaseConstants.KEY_COMMENT)
@@ -989,7 +964,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
                     return
                 }
-                delegate.setAccounts(data, if (didUserSetAccount) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY), mAccountId)
+                delegate.setAccounts(data, if (didUserSetAccount) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
                 if (mOperationType != Transactions.TYPE_TRANSFER) {//the methods cursor is based on the current account,
 //hence it is loaded only after the accounts cursor is loaded
                     if (!isSplitPart) {
@@ -1000,7 +975,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 if (mIsResumed) setupListeners()
             }
             AUTOFILL_CURSOR ->
-                delegate.autoFill(data, currencyContext)
+                (delegate as? CategoryDelegate)?.autoFill(data, currencyContext)
         }
     }
 
@@ -1177,21 +1152,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    private fun updateExchangeRates(other: AmountInput?) {
-        val amount = validateAmountInput(amountInput, false)
-        val transferAmount = validateAmountInput(other, false)
-        exchangeRateEdit.calculateAndSetRate(amount, transferAmount)
-    }
-
     private open inner class MyTextWatcher : TextWatcher {
         override fun afterTextChanged(s: Editable) {}
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    }
-
-    private fun applyExchangeRate(from: AmountInput?, to: AmountInput?, rate: BigDecimal?) {
-        val input = validateAmountInput(from, false)
-        to!!.setAmount(if (rate != null && input != null) input.multiply(rate) else BigDecimal(0), false)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -1201,19 +1165,25 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         exchangeRateEdit.setBlockWatcher(false)
         isProcessingLinkedAmountInputs = false
         if (mRowId == 0L/* && mTemplateId == 0L*/) {
-            delegate.configureTransferDirection()
+            (delegate as? TransferDelegate)?.configureTransferDirection()
         }
     }
 
     fun clearMethodSelection(view: View) {
-        mMethodId = null
         delegate.setMethodSelection(0L)
     }
 
     fun clearCategorySelection(view: View) {
-        delegate.setCategoryButton(null, null)
-        mCatId = null
-        mLabel = null
+        (delegate as? CategoryDelegate)?.setCategory(null, null)
+    }
+
+    fun showPlanMonthFragment(originTemplate: Template, color: Int) {
+        PlanMonthFragment.newInstance(
+                originTemplate.title,
+                originTemplate.id,
+                originTemplate.planId,
+                color, true, themeType).show(supportFragmentManager,
+                TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
     }
 
     companion object {
@@ -1225,9 +1195,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
-        private const val INPUT_EXCHANGE_RATE = 1
-        private const val INPUT_AMOUNT = 2
-        private const val INPUT_TRANSFER_AMOUNT = 3
         const val ACCOUNTS_CURSOR = 3
         const val TRANSACTION_CURSOR = 5
         const val SUM_CURSOR = 6

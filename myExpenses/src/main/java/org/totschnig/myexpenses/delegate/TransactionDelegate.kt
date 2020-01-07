@@ -4,16 +4,15 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
-import android.view.View.OnFocusChangeListener
-import android.view.ViewGroup
 import android.widget.*
 import androidx.core.util.Pair
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import icepick.Icepick
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
@@ -22,6 +21,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
 import org.totschnig.myexpenses.adapter.OperationTypeAdapter
+import org.totschnig.myexpenses.adapter.RecurrenceAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
@@ -31,13 +31,11 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.FilterCursorWrapper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
@@ -46,44 +44,46 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.math.BigDecimal
 import java.util.*
 
-open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler) : AdapterView.OnItemSelectedListener {
+abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler) : AdapterView.OnItemSelectedListener {
     private lateinit var methodSpinner: SpinnerHelper
-    private lateinit var accountSpinner: SpinnerHelper
-    private lateinit var transferAccountSpinner: SpinnerHelper
+    lateinit var accountSpinner: SpinnerHelper
     private lateinit var statusSpinner: SpinnerHelper
     private lateinit var operationTypeSpinner: SpinnerHelper
     lateinit var recurrenceSpinner: SpinnerHelper
     lateinit var accountsAdapter: SimpleCursorAdapter
-    private lateinit var transferAccountsAdapter: SimpleCursorAdapter
     private lateinit var payeeAdapter: SimpleCursorAdapter
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var operationTypeAdapter: OperationTypeAdapter
+
+    open val helpVariant: ExpenseEdit.HelpVariant
+        get() = if (parentId == null) ExpenseEdit.HelpVariant.transaction else ExpenseEdit.HelpVariant.splitPartCategory
+    open val title
+        get() = if (parentId == null) R.string.menu_edit_transaction else R.string.menu_edit_split_part_category
 
     var isProcessingLinkedAmountInputs = false
     var originalAmountVisible = false
     var equivalentAmountVisible = false
     var originalCurrencyCode: String? = null
-    var mCatId: Long? = null
-    var mAccountId: Long? = null
-    var mTransferAccountId: Long? = null
-    var mMethodId: Long? = null
+    var catId: Long? = null
+    var accountId: Long? = null
+    var methodId: Long? = null
+    var parentId: Long? = null
+    var rowId: Long? = null
     private var mPlan: Plan? = null
 
-    private val primaryColor = 0
-    private val accentColor = 0
-
-    private var mAccounts = mutableListOf<Account>()
-    private lateinit var mTransferAccountCursor: FilterCursorWrapper
+    protected var mAccounts = mutableListOf<Account>()
 
     private val planButton: DateButton
         get() = viewBinding.RR.PB.root as DateButton
     private val planExecutionButton: ToggleButton
         get() = viewBinding.RR.TB.root as ToggleButton
 
-    open fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean) {
+    open fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
+        rowId = transaction.id
+        parentId = transaction.parentId
+        accountId = transaction.accountId
         methodSpinner = SpinnerHelper(viewBinding.Method)
         accountSpinner = SpinnerHelper(viewBinding.Account)
-        transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
         statusSpinner = SpinnerHelper(viewBinding.Status)
         recurrenceSpinner = SpinnerHelper(viewBinding.RR.Recurrence.Recurrence)
         operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
@@ -103,16 +103,7 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         val mIsMainTransactionOrTemplate = /*mOperationType != TransactionsContract.Transactions.TYPE_TRANSFER &&*/ !transaction.isSplitPart
         val mIsMainTransaction = mIsMainTransactionOrTemplate && transaction !is Template
         val mIsMainTemplate = transaction is Template && !transaction.isSplitPart()
-        if (!mIsMainTransactionOrTemplate) {
-            viewBinding.PayeeRow.visibility = View.GONE
-            viewBinding.MethodRow.visibility = View.GONE
-        }
-/*        if (mOperationType == TransactionsContract.Transactions.TYPE_TRANSFER) {
-            amountInput.hideTypeButton()
-            rootBinding.CategoryRow.visibility = View.GONE
-            rootBinding.TransferAccountRow.visibility = View.VISIBLE
-            rootBinding.AccountLabel.setText(R.string.transfer_from_account)
-        }*/
+
 /*        if (mIsMainTemplate) {
             rootBinding.TitleRow.visibility = View.VISIBLE
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
@@ -146,69 +137,34 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
             }
         } else */if (transaction.isSplitPart) {
 /*            if (mOperationType == TransactionsContract.Transactions.TYPE_TRANSACTION) {
-                if (transaction.id != 0L) {
-                    setTitle(R.string.menu_edit_split_part_category)
-                }
-                setHelpVariant(ExpenseEdit.HelpVariant.splitPartCategory)
                 transaction.status = DatabaseConstants.STATUS_UNCOMMITTED
             } else { //Transfer
-                if (transaction.id != 0L) {
-                    setTitle(R.string.menu_edit_split_part_transfer)
-                }
-                setHelpVariant(ExpenseEdit.HelpVariant.splitPartTransfer)
                 transaction.status = DatabaseConstants.STATUS_UNCOMMITTED
             }*/
         } else { //Transfer or Transaction, we can suggest to create a plan
             if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
 //after SAVE_AND_NEW action
-/*                val recurrenceAdapter = RecurrenceAdapter(this,
+                val recurrenceAdapter = RecurrenceAdapter(context,
                         Plan.Recurrence.ONETIME, Plan.Recurrence.CUSTOM)
-                mRecurrenceSpinner.adapter = recurrenceAdapter
-                val cachedRecurrence = intent.getSerializableExtra(ExpenseEdit.KEY_CACHED_RECURRENCE) as? Plan.Recurrence
-                if (cachedRecurrence != null) {
-                    mRecurrenceSpinner.setSelection(
-                            (mRecurrenceSpinner.adapter as RecurrenceAdapter).getPosition(cachedRecurrence))
+                recurrenceSpinner.adapter = recurrenceAdapter
+                recurrence?.let {
+                    recurrenceSpinner.setSelection(
+                            recurrenceAdapter.getPosition(it))
                 }
-                mRecurrenceSpinner.setOnItemSelectedListener(this)
+                recurrenceSpinner.setOnItemSelectedListener(this)
                 setPlannerRowVisibility(View.VISIBLE)
                 if (transaction.originTemplate != null && transaction.originTemplate.plan != null) {
-                    mRecurrenceSpinner.spinner.visibility = View.GONE
+                    recurrenceSpinner.spinner.visibility = View.GONE
                     planButton.visibility = View.VISIBLE
-                    planButton.text = Plan.prettyTimeInfo(this,
+                    planButton.text = Plan.prettyTimeInfo(context,
                             transaction.originTemplate.plan.rrule, transaction.originTemplate.plan.dtstart)
                     planButton.setOnClickListener {
-                        val currentAccount = currentAccount
-                        if (currentAccount != null) {
-                            PlanMonthFragment.newInstance(
-                                    transaction.originTemplate.title,
-                                    transaction.originTemplate.id,
-                                    transaction.originTemplate.planId,
-                                    currentAccount.color, true, themeType).show(supportFragmentManager,
-                                    TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
+                        currentAccount()?.let {
+                            (context as ExpenseEdit).showPlanMonthFragment(transaction.originTemplate, it.color)
                         }
                     }
-                }*/
+                }
             }
-/*            when (transaction) {
-                is Transfer -> {
-                    if (transaction.getId() != 0L) {
-                        setTitle(R.string.menu_edit_transfer)
-                    }
-                    setHelpVariant(ExpenseEdit.HelpVariant.transfer)
-                }
-                is SplitTransaction -> {
-                    if (!mNewInstance) {
-                        setTitle(R.string.menu_edit_split)
-                    }
-                    setHelpVariant(ExpenseEdit.HelpVariant.split)
-                }
-                else -> {
-                    if (transaction.id != 0L) {
-                        setTitle(R.string.menu_edit_transaction)
-                    }
-                    setHelpVariant(ExpenseEdit.HelpVariant.transaction)
-                }
-            }*/
         }
 /*        if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
             rootBinding.CategoryRow.visibility = View.GONE
@@ -221,40 +177,48 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
                 fm.executePendingTransactions()
             }
         }*/
-/*        if (mClone) {
-            setTitle(R.string.menu_clone_transaction)
-        }*/
 /*        if (isNoMainTransaction) {
             rootBinding.DateTimeRow.visibility = View.GONE
         }*/
         //when we have a savedInstance, fields have already been populated
         //if (!mSavedInstance) {
         populateFields(transaction, prefHandler)
-        /*if (!isSplitPart) {
+        if (true /*!isSplitPart*/) {
             setLocalDateTime(transaction)
-        }*/
-        //}
-        if (transaction.id != 0L) {
-            //configureTransferDirection()
         }
-        //after setLocalDateTime, so that the plan info can override the date
-        //configurePlan()
-        setCategoryButton(transaction.label, transaction.categoryIcon)
-        //if (mOperationType != TransactionsContract.Transactions.TYPE_TRANSFER) {
-        viewBinding.Category.setOnClickListener { /*startSelectCategory()*/ }
         //}
+        //after setLocalDateTime, so that the plan info can override the date
+        configurePlan()
         if (originalAmountVisible) {
             showOriginalAmount()
         }
         if (equivalentAmountVisible) {
             showEquivalentAmount()
         }
-        if (mIsMainTransaction) {
-            val homeCurrency = Utils.getHomeCurrency()
-            addCurrencyToInput(viewBinding.EquivalentAmountLabel, viewBinding.EquivalentAmount, homeCurrency.symbol(), R.string.menu_equivalent_amount)
-            viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits())
-        }
         createAdapters(newInstance, transaction)
+    }
+
+    protected fun hideRowsSpecificToMain() {
+        viewBinding.PayeeRow.visibility = View.GONE
+        viewBinding.MethodRow.visibility = View.GONE
+    }
+
+    private fun setLocalDateTime(transaction: Transaction) {
+        val zonedDateTime = ZonedDateTime.ofInstant(
+                Instant.ofEpochSecond(transaction.date), ZoneId.systemDefault())
+        val localDate = zonedDateTime.toLocalDate()
+        if (transaction is Template) {
+            planButton.setDate(localDate)
+        } else {
+            dateEditBinding.DateButton.setDate(localDate)
+            dateEditBinding.DateButton.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
+                    ZoneId.systemDefault()).toLocalDate())
+            dateEditBinding.TimeButton.time = zonedDateTime.toLocalTime()
+        }
+    }
+
+    fun setPlannerRowVisibility(visibility: Int) {
+        viewBinding.PlanRow.visibility = visibility
     }
 
     /**
@@ -299,7 +263,7 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         isProcessingLinkedAmountInputs = false
     }
 
-    private fun fillAmount(amount: BigDecimal) {
+    fun fillAmount(amount: BigDecimal) {
         with(viewBinding.Amount) {
             if (amount.signum() != 0) {
                 setAmount(amount)
@@ -324,45 +288,11 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         }
     }
 
-    private fun setVisibility(view: View, visible: Boolean) {
+    protected fun setVisibility(view: View, visible: Boolean) {
         view.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-    /**
-     * set label on category button
-     */
-    fun setCategoryButton(label: String?, categoryIcon: String?) {
-        if (!label.isNullOrEmpty()) {
-            viewBinding.Category.text = label
-            viewBinding.ClearCategory.visibility = View.VISIBLE
-            UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(viewBinding.Category,
-                    if (categoryIcon != null) UiUtils.resolveIcon(viewBinding.root.context, categoryIcon) else 0, 0, 0, 0)
-        } else {
-            viewBinding.Category.setText(R.string.select)
-            viewBinding.ClearCategory.visibility = View.GONE
-        }
-    }
-
-    private fun configureTransferInput() {
-        val transferAccount = transferAccount()
-        val currentAccount = currentAccount()
-        if (transferAccount == null || currentAccount == null) {
-            return
-        }
-        val currency = currentAccount.currencyUnit
-        val transferAccountCurrencyUnit = transferAccount.currencyUnit
-        val isSame = currency == transferAccountCurrencyUnit
-        setVisibility(viewBinding.TransferAmountRow, !isSame)
-        setVisibility(viewBinding.ERR.root as ViewGroup, !isSame /*&& mTransaction !is Template*/)
-        addCurrencyToInput(viewBinding.TransferAmountLabel, viewBinding.TransferAmount, transferAccountCurrencyUnit.symbol(), R.string.amount)
-        viewBinding.TransferAmount.setFractionDigits(transferAccountCurrencyUnit.fractionDigits())
-        viewBinding.ERR.ExchangeRate.setCurrencies(currency, transferAccountCurrencyUnit)
-        //TODO check history of this dead code
-        val bundle = Bundle(2)
-        bundle.putStringArray(DatabaseConstants.KEY_CURRENCY, arrayOf(currency.code(), transferAccountCurrencyUnit.code()))
-    }
-
-    private fun addCurrencyToInput(label: TextView, amountInput: AmountInput, symbol: String, textResId: Int) {
+    protected fun addCurrencyToInput(label: TextView, amountInput: AmountInput, symbol: String, textResId: Int) {
         val text = org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol(label.context, textResId, symbol)
         label.text = text
         amountInput.contentDescription = text
@@ -398,17 +328,17 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
     }
 
     fun setMethodSelection(methodId: Long) {
-        mMethodId = methodId
+        this.methodId = methodId
         setMethodSelection()
     }
 
-    private fun setMethodSelection() {
-        if (mMethodId != 0L) {
+    fun setMethodSelection() {
+        if (methodId != 0L) {
             var found = false
             for (i in 0 until methodsAdapter.count) {
                 val pm = methodsAdapter.getItem(i)
                 if (pm != null) {
-                    if (pm.id() == mMethodId) {
+                    if (pm.id() == methodId) {
                         methodSpinner.setSelection(i + 1)
                         found = true
                         break
@@ -421,7 +351,7 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         } else {
             methodSpinner.setSelection(0)
         }
-        setVisibility(viewBinding.ClearMethod, mMethodId != 0L)
+        setVisibility(viewBinding.ClearMethod, methodId != 0L)
         setReferenceNumberVisibility()
     }
 
@@ -442,8 +372,61 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
     val context: Context
         get() = viewBinding.root.context
 
+    val host: ExpenseEdit
+        get() = context as ExpenseEdit
 
-    fun createAdapters(newInstance: Boolean, transaction: Transaction) {
+    open fun createAdapters(newInstance: Boolean, transaction: Transaction) {
+        createPayeeAdapter(newInstance)
+        createMethodAdapter()
+        createAccountAdapter()
+        createStatusAdapter(transaction)
+        createOperationTypeAdapter()
+    }
+
+    protected fun createOperationTypeAdapter() {
+        val allowedOperationTypes: MutableList<Int> = ArrayList()
+        allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_TRANSACTION)
+        allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_TRANSFER)
+        if (parentId == null) {
+            allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_SPLIT)
+        }
+        operationTypeAdapter = OperationTypeAdapter(context, allowedOperationTypes,
+                false /*TODO isNewTemplate*/, parentId != null)
+        operationTypeSpinner.adapter = operationTypeAdapter
+        resetOperationType()
+        operationTypeSpinner.setOnItemSelectedListener(this)
+    }
+
+    protected fun createStatusAdapter(transaction: Transaction) {
+        val sAdapter: CrStatusAdapter = object : CrStatusAdapter(context) {
+            override fun isEnabled(position: Int): Boolean { //if the transaction is reconciled, the status can not be changed
+    //otherwise only unreconciled and cleared can be set
+                return transaction.crStatus != Transaction.CrStatus.RECONCILED && position != Transaction.CrStatus.RECONCILED.ordinal
+            }
+        }
+        statusSpinner.adapter = sAdapter
+    }
+
+    protected fun createAccountAdapter() {
+        accountsAdapter = SimpleCursorAdapter(context, android.R.layout.simple_spinner_item, null, arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0)
+        accountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        accountSpinner.adapter = accountsAdapter
+    }
+
+    private fun createMethodAdapter() {
+        methodsAdapter = object : ArrayAdapter<PaymentMethod>(context, android.R.layout.simple_spinner_item) {
+            override fun getItemId(position: Int): Long {
+                return getItem(position)?.id() ?: 0L
+            }
+        }
+        methodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        methodSpinner.adapter = NothingSelectedSpinnerAdapter(
+                methodsAdapter,
+                android.R.layout.simple_spinner_item,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                context)
+    }
+
+    private fun createPayeeAdapter(newInstance: Boolean) {
         payeeAdapter = SimpleCursorAdapter(context, R.layout.support_simple_spinner_dropdown_item, null, arrayOf(DatabaseConstants.KEY_PAYEE_NAME), intArrayOf(android.R.id.text1),
                 0)
         viewBinding.Payee.setAdapter(payeeAdapter)
@@ -469,7 +452,7 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
                 val payeeId = c.getLong(0)
                 payeeId.let {
                     if (newInstance /*&& mOperationType != TransactionsContract.Transactions.TYPE_SPLIT*/) { //moveToPosition should not be necessary,
-//but has been reported to not be positioned correctly on samsung GT-I8190N
+    //but has been reported to not be positioned correctly on samsung GT-I8190N
                         if (prefHandler.getBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, false)) {
                             if (PreferenceUtils.shouldStartAutoFill()) {
                                 //TODO//startAutoFill(it, false)
@@ -492,54 +475,21 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
 
             }
         }
-        methodsAdapter = object : ArrayAdapter<PaymentMethod>(context, android.R.layout.simple_spinner_item) {
-            override fun getItemId(position: Int): Long {
-                return getItem(position)?.id() ?: 0L
-            }
-        }
-        methodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        methodSpinner.adapter = NothingSelectedSpinnerAdapter(
-                methodsAdapter,
-                android.R.layout.simple_spinner_item,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                context)
-        accountsAdapter = SimpleCursorAdapter(context, android.R.layout.simple_spinner_item, null, arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0)
-        accountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        accountSpinner.adapter = accountsAdapter
-        transferAccountsAdapter = SimpleCursorAdapter(context, android.R.layout.simple_spinner_item, null, arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0)
-        transferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        transferAccountSpinner.adapter = transferAccountsAdapter
-        transferAccountSpinner.setOnItemSelectedListener(this)
-
-        val sAdapter: CrStatusAdapter = object : CrStatusAdapter(context) {
-            override fun isEnabled(position: Int): Boolean { //if the transaction is reconciled, the status can not be changed
-//otherwise only unreconciled and cleared can be set
-                return transaction.crStatus != Transaction.CrStatus.RECONCILED && position != Transaction.CrStatus.RECONCILED.ordinal
-            }
-        }
-        statusSpinner.adapter = sAdapter
-
-        val allowedOperationTypes: MutableList<Int> = ArrayList()
-        allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_TRANSACTION)
-        allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_TRANSFER)
-        if (transaction.parentId == 0L) {
-            allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_SPLIT)
-        }
-        operationTypeAdapter = OperationTypeAdapter(context, allowedOperationTypes,
-                false /*TODO isNewTemplate*/, transaction.parentId != 0L)
-        operationTypeSpinner.adapter = operationTypeAdapter
-        resetOperationType()
-        operationTypeSpinner.setOnItemSelectedListener(this)
     }
 
     fun resetOperationType() {
-        operationTypeSpinner.setSelection(operationTypeAdapter.getPosition(TransactionsContract.Transactions.TYPE_TRANSACTION))
+        operationTypeSpinner.setSelection(operationTypeAdapter.getPosition(operationType))
     }
 
-    fun setMethods(paymentMethods: List<PaymentMethod>, methodId: Long) {
-        viewBinding.MethodRow.visibility = View.VISIBLE
-        methodsAdapter.clear()
-        methodsAdapter.addAll(paymentMethods)
-        setMethodSelection()
+    fun setMethods(paymentMethods: List<PaymentMethod>?) {
+        if (paymentMethods == null || paymentMethods.isEmpty()) {
+            viewBinding.MethodRow.visibility = View.GONE
+        } else {
+            viewBinding.MethodRow.visibility = View.VISIBLE
+            methodsAdapter.clear()
+            methodsAdapter.addAll(paymentMethods)
+            setMethodSelection()
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -576,12 +526,12 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
             R.id.Method -> {
                 val hasSelection = position > 0
                 if (hasSelection) {
-                    mMethodId = parent.selectedItemId
-                    if (mMethodId!! <= 0) {
-                        mMethodId = null
+                    methodId = parent.selectedItemId
+                    if (methodId!! <= 0) {
+                        methodId = null
                     }
                 } else {
-                    mMethodId = null
+                    methodId = null
                 }
                 setVisibility(viewBinding.ClearMethod, hasSelection)
                 setReferenceNumberVisibility()
@@ -622,10 +572,6 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
                     }
                 }
             }
-            R.id.TransferAccount -> {
-                mTransferAccountId = transferAccountSpinner.selectedItemId
-                configureTransferInput()
-            }
         }
     }
 
@@ -654,41 +600,28 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         statusSpinner.setOnItemSelectedListener(this)
     }
 
-    protected open fun linkInputWithLabel(input: View, label: View) {
-        setOnFocusChangeListenerRecursive(input, OnFocusChangeListener { v: View?, hasFocus: Boolean -> (label as TextView).setTextColor(if (hasFocus) accentColor else primaryColor) })
-    }
-
-    private fun setOnFocusChangeListenerRecursive(view: View, listener: OnFocusChangeListener) {
-        if (view is ViewGroup && !view.isFocusable()) {
-            val group = view
-            for (i in 0 until group.childCount) {
-                setOnFocusChangeListenerRecursive(group.getChildAt(i), listener)
-            }
-        } else {
-            view.onFocusChangeListener = listener
-        }
-    }
-
     fun linkInputsWithLabels() {
         linkAccountLabels()
-        linkInputWithLabel(viewBinding.Title, viewBinding.TitleLabel)
-        linkInputWithLabel(dateEditBinding.DateButton, viewBinding.DateTimeLabel)
-        linkInputWithLabel(viewBinding.Payee, viewBinding.PayeeLabel)
-        with(viewBinding.CommentLabel) {
-            linkInputWithLabel(statusSpinner.spinner, this)
-            linkInputWithLabel(viewBinding.AttachImage, this)
-            linkInputWithLabel(viewBinding.PictureContainer.root, this)
-            linkInputWithLabel(viewBinding.Comment, this)
+        with(host) {
+            linkInputWithLabel(viewBinding.Title, viewBinding.TitleLabel)
+            linkInputWithLabel(dateEditBinding.DateButton, viewBinding.DateTimeLabel)
+            linkInputWithLabel(viewBinding.Payee, viewBinding.PayeeLabel)
+            with(viewBinding.CommentLabel) {
+                linkInputWithLabel(statusSpinner.spinner, this)
+                linkInputWithLabel(viewBinding.AttachImage, this)
+                linkInputWithLabel(viewBinding.PictureContainer.root, this)
+                linkInputWithLabel(viewBinding.Comment, this)
+            }
+            linkInputWithLabel(viewBinding.Category, viewBinding.CategoryLabel)
+            linkInputWithLabel(methodSpinner.spinner, viewBinding.MethodLabel)
+            linkInputWithLabel(viewBinding.Number, viewBinding.MethodLabel)
+            linkInputWithLabel(viewBinding.RR.PB.root, viewBinding.PlanLabel)
+            linkInputWithLabel(recurrenceSpinner.spinner, viewBinding.PlanLabel)
+            linkInputWithLabel(viewBinding.RR.TB.root, viewBinding.PlanLabel)
+            linkInputWithLabel(viewBinding.TransferAmount, viewBinding.TransferAmountLabel)
+            linkInputWithLabel(viewBinding.OriginalAmount, viewBinding.OriginalAmountLabel)
+            linkInputWithLabel(viewBinding.EquivalentAmount, viewBinding.EquivalentAmountLabel)
         }
-        linkInputWithLabel(viewBinding.Category, viewBinding.CategoryLabel)
-        linkInputWithLabel(methodSpinner.spinner, viewBinding.MethodLabel)
-        linkInputWithLabel(viewBinding.Number, viewBinding.MethodLabel)
-        linkInputWithLabel(viewBinding.RR.PB.root, viewBinding.PlanLabel)
-        linkInputWithLabel(recurrenceSpinner.spinner, viewBinding.PlanLabel)
-        linkInputWithLabel(viewBinding.RR.TB.root, viewBinding.PlanLabel)
-        linkInputWithLabel(viewBinding.TransferAmount, viewBinding.TransferAmountLabel)
-        linkInputWithLabel(viewBinding.OriginalAmount, viewBinding.OriginalAmountLabel)
-        linkInputWithLabel(viewBinding.EquivalentAmount, viewBinding.EquivalentAmountLabel)
     }
 
     /**
@@ -697,11 +630,10 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
     protected val isIncome: Boolean
         get() = viewBinding.Amount.type
 
-    private fun linkAccountLabels() {
-        linkInputWithLabel(accountSpinner.spinner,
-                if (isIncome) viewBinding.TransferAccountLabel else viewBinding.AccountLabel)
-        linkInputWithLabel(transferAccountSpinner.spinner,
-                if (isIncome) viewBinding.AccountLabel else viewBinding.TransferAccountLabel)
+    open fun linkAccountLabels() {
+        with(host) {
+            linkInputWithLabel(accountSpinner.spinner, viewBinding.AccountLabel)
+        }
     }
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
@@ -712,9 +644,7 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
 
     fun currentAccount() = getAccountFromSpinner(accountSpinner)
 
-    private fun transferAccount() = getAccountFromSpinner(transferAccountSpinner)
-
-    private fun getAccountFromSpinner(spinner: SpinnerHelper): Account? {
+    protected fun getAccountFromSpinner(spinner: SpinnerHelper): Account? {
         val selected = spinner.selectedItemPosition
         if (selected == AdapterView.INVALID_POSITION) {
             return null
@@ -728,21 +658,13 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         return null
     }
 
-    fun syncStateAndValidate(forSave: Boolean, rowId: Long, catId: Long?, methodId: Long?, currencyContext: CurrencyContext, pictureUri: Uri?): Transaction? {
-        var validP = true
+    abstract fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext): T?
+    abstract val operationType: Int
+
+    open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext, pictureUri: Uri?): Transaction? {
         val title: String
-        val amount = validateAmountInput(forSave)
-        if (amount == null) { //Snackbar is shown in validateAmountInput
-            validP = false
-            return null
-        }
-        //TODO
-        val operationType: Int = TransactionsContract.Transactions.TYPE_TRANSACTION
-        return when (operationType) {
-            TransactionsContract.Transactions.TYPE_TRANSFER -> Transfer()
-            TransactionsContract.Transactions.TYPE_SPLIT -> SplitTransaction()
-            else -> Transaction()
-        }.apply {
+
+       return buildTransaction(forSave, currencyContext)?.apply {
             val currentAccount = currentAccount()!!
             id = rowId
             accountId = currentAccount.id
@@ -753,72 +675,6 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
                 setDate(transactionDate)
                 if (dateEditBinding.Date2Button.visibility == View.VISIBLE) {
                     setValueDate(if (dateEditBinding.Date2Button.visibility == View.VISIBLE) readZonedDateTime(dateEditBinding.Date2Button) else transactionDate)
-                }
-            }
-            if (operationType == TransactionsContract.Transactions.TYPE_TRANSACTION) {
-                this.catId = catId
-            }
-            //TODO
-            if (true/*mIsMainTransactionOrTemplate*/) {
-                payee = viewBinding.Payee.text.toString()
-                this.methodId = methodId
-            }
-            if (operationType == TransactionsContract.Transactions.TYPE_TRANSFER) {
-                transferAccountId = transferAccountSpinner.selectedItemId
-                val isSame = true /*account.currencyUnit == transferAccount.currencyUnit*/
-                if (this is Template) {
-/*                if (amount != null) {
-                    mTransaction.setAmount(Money(account.currencyUnit, amount))
-                } else if (!isSame) {
-                    var transferAmount = validateAmountInput(rootBinding.TransferAmount, forSave)
-                    if (transferAmount != null) {
-                        mTransaction.setAccountId(transferAccount.id)
-                        mTransaction.setTransferAccountId(account.id)
-                        if (isIncome) {
-                            transferAmount = transferAmount.negate()
-                        }
-                        mTransaction.setAmount(Money(transferAccount.currencyUnit, transferAmount!!))
-                        amountInput.setError(null)
-                        validP = true //we only need either amount or transfer amount
-                    }
-                }*/
-                } else {
-                    var transferAmount: BigDecimal?
-                    if (isSame) {
-                        transferAmount = amount.negate()
-                    } else {
-                        transferAmount = validateAmountInput(viewBinding.TransferAmount, forSave)
-                        if (transferAmount == null) { //Snackbar is shown in validateAmountInput
-                            return null
-                        } else {
-                            if (isIncome) {
-                                transferAmount = transferAmount.negate()
-                            }
-                        }
-                    }
-                    if (validP) {
-                        (this as? Transfer)?.setAmountAndTransferAmount(
-                                Money(currentAccount.currencyUnit, amount),
-                                Money(transferAccount()!!.currencyUnit, transferAmount!!))
-                    }
-                }
-            } else {
-                if (validP) {
-                    this.amount = Money(currentAccount.currencyUnit, amount)
-                }
-                //TODO
-                if (true /*mIsMainTransaction*/) {
-                    val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false)
-                    val selectedItem = viewBinding.OriginalAmount.selectedCurrency
-                    if (selectedItem != null && originalAmount != null) {
-                        val currency = selectedItem.code()
-                        PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency)
-                        this.originalAmount = Money(currencyContext[currency], originalAmount)
-                    } else {
-                        this.originalAmount = null
-                    }
-                    val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, false)
-                    this.equivalentAmount = if (equivalentAmount == null) null else Money(Utils.getHomeCurrency(), if (isIncome) equivalentAmount else equivalentAmount.negate())
                 }
             }
             if (false /*mIsMainTemplate*/) {
@@ -900,7 +756,7 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         viewBinding.DateTimeLabel.text = dateLabel
     }
 
-    fun setAccounts(data: Cursor, currencyExtra: String?, accountId: Long) {
+    open fun setAccounts(data: Cursor, currencyExtra: String?) {
         accountsAdapter.swapCursor(data)
 /*                if (didUserSetAccount) {
                     mTransaction!!.accountId = mAccountId
@@ -926,23 +782,8 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         //if the accountId we have been passed does not exist, we select the first entry
         if (accountSpinner.selectedItemPosition == AdapterView.INVALID_POSITION) {
             accountSpinner.setSelection(0)
-            mAccountId = mAccounts[0].id
+            accountId = mAccounts[0].id
             configureAccountDependent(mAccounts[0])
-        }
-        if (false/*mOperationType == TransactionsContract.Transactions.TYPE_TRANSFER*/) {
-            mTransferAccountCursor = FilterCursorWrapper(data)
-            val selectedPosition = setTransferAccountFilterMap()
-            transferAccountsAdapter.swapCursor(mTransferAccountCursor)
-            transferAccountSpinner.setSelection(selectedPosition)
-            mTransferAccountId = transferAccountSpinner.selectedItemId
-            configureTransferInput()
-            if (false/*&& mNewInstance mTransaction !is Template*/) {
-                //TODO
-                /* isProcessingLinkedAmountInputs = true
-                 rootBinding.TransferAmount.setAmount(mTransaction!!.transferAmount.amountMajor.abs())
-                 updateExchangeRates(rootBinding.TransferAmount)
-                 isProcessingLinkedAmountInputs = false*/
-            }
         }
         viewBinding.Amount.setTypeEnabled(true)
         configureType()
@@ -955,92 +796,15 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
                 /*TODO !isNoMainTransaction && */ a != null && a.type != AccountType.CASH)
     }
 
-    private fun setTransferAccountFilterMap(): Int {
-        val fromAccount = mAccounts[accountSpinner.selectedItemPosition]
-        val list = ArrayList<Int>()
-        var position = 0
-        var selectedPosition = 0
-        for (i in mAccounts.indices) {
-            if (fromAccount.id != mAccounts[i].id) {
-                list.add(i)
-                if (mTransferAccountId != null && mTransferAccountId == mAccounts[i].id) {
-                    selectedPosition = position
-                }
-                position++
-            }
-        }
-        mTransferAccountCursor.setFilterMap(list)
-        transferAccountsAdapter.notifyDataSetChanged()
-        return selectedPosition
-    }
-
-    fun autoFill(data: Cursor, currencyContext: CurrencyContext) {
-        if (data.moveToFirst()) {
-            var typeHasChanged = false
-            val columnIndexCatId = data.getColumnIndex(DatabaseConstants.KEY_CATID)
-            val columnIndexLabel = data.getColumnIndex(DatabaseConstants.KEY_LABEL)
-            if (mCatId == null && columnIndexCatId != -1 && columnIndexLabel != -1) {
-                mCatId = DbUtils.getLongOrNull(data, columnIndexCatId)
-                setCategoryButton(data.getString(columnIndexLabel), null)
-            }
-            val columnIndexComment = data.getColumnIndex(DatabaseConstants.KEY_COMMENT)
-            if (TextUtils.isEmpty(viewBinding.Comment.text.toString()) && columnIndexComment != -1) {
-                viewBinding.Comment.setText(data.getString(columnIndexComment))
-            }
-            val columnIndexAmount = data.getColumnIndex(DatabaseConstants.KEY_AMOUNT)
-            val columnIndexCurrency = data.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
-            if (validateAmountInput(viewBinding.Amount, false) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
-                val beforeType = isIncome
-                fillAmount(Money(currencyContext[data.getString(columnIndexCurrency)], data.getLong(columnIndexAmount)).amountMajor)
-                configureType()
-                typeHasChanged = beforeType != isIncome
-            }
-            val columnIndexMethodId = data.getColumnIndex(DatabaseConstants.KEY_METHODID)
-            if (mMethodId == null && columnIndexMethodId != -1) {
-                mMethodId = DbUtils.getLongOrNull(data, columnIndexMethodId)
-                if (!typeHasChanged) { //if type has changed, we need to wait for methods to be reloaded, method is then selected in onLoadFinished
-                    setMethodSelection()
-                }
-            }
-            val columnIndexAccountId = data.getColumnIndex(DatabaseConstants.KEY_ACCOUNTID)
-            if (/*TODO !didUserSetAccount && */columnIndexAccountId != -1) {
-                val accountId = data.getLong(columnIndexAccountId)
-                var i = 0
-                while (i < mAccounts.size) {
-                    if (mAccounts[i].id == accountId) {
-                        accountSpinner.setSelection(i)
-                        updateAccount(mAccounts[i])
-                        break
-                    }
-                    i++
-                }
-            }
-        }
-    }
-
-    private fun updateAccount(account: Account) {
+    open fun updateAccount(account: Account) {
         //didUserSetAccount = true
-        mAccountId = account.id
+        accountId = account.id
         configureAccountDependent(account)
-        if (false/*mOperationType == TransactionsContract.Transactions.TYPE_TRANSFER*/) {
-            transferAccountSpinner.setSelection(setTransferAccountFilterMap())
-            mTransferAccountId = transferAccountSpinner.selectedItemId
-            configureTransferInput()
-        } else {
-            //TODO
-            /* if (!isSplitPart) {
-                 loadMethods(account)
-             }
-             if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
-                 val splitPartList = findSplitPartList()
-                 splitPartList?.updateAccount(account)
-             }*/
-        }
         configureStatusSpinner()
         viewBinding.Amount.setFractionDigits(account.currencyUnit.fractionDigits())
     }
 
-    fun configureType() {
+    open fun configureType() {
         viewBinding.PayeeLabel.setText(if (viewBinding.Amount.type) R.string.payer else R.string.payee)
         /*  if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
               updateSplitBalance()
@@ -1062,21 +826,15 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         }
     }
 
-    fun onSaveInstanceState(outState: Bundle) {
+    open fun onSaveInstanceState(outState: Bundle) {
         val methodId = methodSpinner.selectedItemId
         if (methodId > 0) {
-            mMethodId = methodId
+            this.methodId = methodId
         }
 /*        if (didUserSetAccount) {
             val accountId = accountSpinner.selectedItemId
             if (accountId != AdapterView.INVALID_ROW_ID) {
                 mAccountId = accountId
-            }
-        }*/
-/*        if (mOperationType == TransactionsContract.Transactions.TYPE_TRANSFER) {
-            val transferAccountId = mTransferAccountSpinner.selectedItemId
-            if (transferAccountId != AdapterView.INVALID_ROW_ID) {
-                mTransferAccountId = transferAccountId
             }
         }*/
         val originalInputSelectedCurrency = viewBinding.OriginalAmount.selectedCurrency
@@ -1086,54 +844,29 @@ open class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBindi
         Icepick.saveInstanceState(this, outState)
     }
 
-    fun configureTransferDirection() {
-        if (isIncome /*&& mOperationType == TransactionsContract.Transactions.TYPE_TRANSFER*/) {
-            switchAccountViews()
-        }
-    }
-
-    fun switchAccountViews() {
-        val accountSpinner = accountSpinner.spinner
-        val transferAccountSpinner = transferAccountSpinner.spinner
-        with(viewBinding.Table) {
-            removeView(viewBinding.AmountRow)
-            removeView(viewBinding.TransferAmountRow)
-            if (isIncome) {
-                if (accountSpinner.parent === viewBinding.AccountRow && transferAccountSpinner.parent === viewBinding.TransferAccountRow) {
-                    viewBinding.AccountRow.removeView(accountSpinner)
-                    viewBinding.TransferAccountRow.removeView(transferAccountSpinner)
-                    viewBinding.AccountRow.addView(transferAccountSpinner)
-                    viewBinding.TransferAccountRow.addView(accountSpinner)
-                }
-                addView(viewBinding.TransferAmountRow, 2)
-                addView(viewBinding.AmountRow, 4)
-            } else {
-                if (accountSpinner.parent === viewBinding.TransferAccountRow && transferAccountSpinner.parent === viewBinding.AccountRow) {
-                    viewBinding.AccountRow.removeView(transferAccountSpinner)
-                    viewBinding.TransferAccountRow.removeView(accountSpinner)
-                    viewBinding.AccountRow.addView(accountSpinner)
-                    viewBinding.TransferAccountRow.addView(transferAccountSpinner)
-                }
-                addView(viewBinding.AmountRow, 2)
-                addView(viewBinding.TransferAmountRow, 4)
-            }
-        }
-
-        linkAccountLabels()
-    }
-
     private fun disableAccountSpinner() {
         accountSpinner.isEnabled = false
     }
 
+    fun setPicture(pictureUri: Uri?) {
+        if (pictureUri != null) {
+            viewBinding.PictureContainer.root.visibility = View.VISIBLE
+            Picasso.get().load(pictureUri).fit().into(viewBinding.PictureContainer.picture)
+            viewBinding.AttachImage.visibility = View.GONE
+        } else {
+            viewBinding.AttachImage.visibility = View.VISIBLE
+            viewBinding.PictureContainer.root.visibility = View.GONE
+        }
+    }
+
     companion object {
-        fun <T : Transaction> createAndBind(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, isCalendarPermissionPermanentlyDeclined: Boolean, prefHandler: PrefHandler, newInstance: Boolean) =
+        fun <T : Transaction> createAndBind(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, isCalendarPermissionPermanentlyDeclined: Boolean, prefHandler: PrefHandler, newInstance: Boolean, recurrence: Plan.Recurrence?) =
                 when (transaction) {
                     is Transfer -> TransferDelegate(viewBinding, dateEditBinding, prefHandler)
                     is SplitTransaction -> SplitDelegate(viewBinding, dateEditBinding, prefHandler)
-                    else -> TransactionDelegate(viewBinding, dateEditBinding, prefHandler)
+                    else -> CategoryDelegate(viewBinding, dateEditBinding, prefHandler)
                 }.apply {
-                    (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance)
+                    (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
                 }
     }
 }

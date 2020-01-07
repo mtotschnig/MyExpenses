@@ -43,8 +43,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   protected boolean mIsSaving = false;
   private boolean mIsDirty = false;
   protected boolean mNewInstance = true;
-  private int primaryColor;
-  private int accentColor;
+  public int primaryColor;
+  public int accentColor;
 
   abstract int getDiscardNewMessage();
 
@@ -163,7 +163,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     }
   }
 
-  protected void linkInputWithLabel(final View input, final View label) {
+  public void linkInputWithLabel(final View input, final View label) {
     setOnFocusChangeListenerRecursive(input, (v, hasFocus) ->
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));
   }
