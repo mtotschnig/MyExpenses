@@ -93,16 +93,9 @@ public class SplitTransaction extends Transaction {
     if (forEdit) {
       t.status = STATUS_UNCOMMITTED;
       //TODO: Strict mode
-      t.persistForEdit();
+      t.save();
     }
     return t;
-  }
-
-  @Override
-  public Uri save() {
-    Uri uri = super.save();
-    inEditState = false;
-    return uri;
   }
 
   public void persistForEdit() {
@@ -111,12 +104,12 @@ public class SplitTransaction extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
-    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset, callerIsSyncAdapter);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
+    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset, callerIsSyncAdapter, withCommit);
     Uri uri = getUriForSave(callerIsSyncAdapter);
     if (getId() != 0) {
       String idStr = String.valueOf(getId());
-      if (inEditState) {
+      if (withCommit) {
         addCommitOperations(uri, ops);
       }
       //make sure that parts have the same date as their parent,
@@ -198,7 +191,7 @@ public class SplitTransaction extends Transaction {
     parent.setDate(date);
     parent.setPayeeId(payeeId);
     parent.setCrStatus(crStatus);
-    final ArrayList<ContentProviderOperation> operations = parent.buildSaveOperations();
+    final ArrayList<ContentProviderOperation> operations = parent.buildSaveOperations(false);
     ContentValues values = new ContentValues();
     values.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
     values.put(KEY_DATE, date);

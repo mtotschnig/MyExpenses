@@ -130,7 +130,7 @@ public class Transfer extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.getAmount().getAmountMinor();

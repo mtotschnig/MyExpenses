@@ -1,25 +1,54 @@
 package org.totschnig.myexpenses.delegate
 
+import android.text.Editable
+import android.view.View
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.ui.MyTextWatcher
 
 class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) : MainDelegate<SplitTransaction>(viewBinding, dateEditBinding, prefHandler) {
     override val operationType = TransactionsContract.Transactions.TYPE_SPLIT
 
     override val helpVariant: ExpenseEdit.HelpVariant
-        get() = ExpenseEdit.HelpVariant.split
-    override val title = R.string.menu_edit_split
+        get() = if  (isTemplate) ExpenseEdit.HelpVariant.templateSplit else ExpenseEdit.HelpVariant.split
+    override val title = context.getString(R.string.menu_edit_split)
+    override val typeResId = R.string.split_transaction
+    override val shouldAutoFill = false
 
     override fun bind(transaction: SplitTransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
         super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
+            override fun afterTextChanged(s: Editable) {
+                host.updateSplitBalance()
+            }
+        })
+        viewBinding.CategoryRow.visibility = View.GONE
+        host.addSplitPartList(transaction)
     }
 
     override fun buildMainTransaction() = SplitTransaction()
+
+    override fun prepareForNew() {
+        rowId =  SplitTransaction.getNewInstance(accountId!!).id
+        val splitPartList = host.findSplitPartList()
+        splitPartList?.updateParent(rowId!!)
+        resetAmounts()
+    }
+
+    override fun configureType() {
+        super.configureType()
+        host.updateSplitBalance()
+    }
+
+    override fun updateAccount(account: Account) {
+        super.updateAccount(account)
+        host.updateSplitPartList(account)
+    }
 }

@@ -34,9 +34,15 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     private lateinit var mTransferAccountCursor: FilterCursorWrapper
 
     override val helpVariant: ExpenseEdit.HelpVariant
-        get() = if (parentId == null) ExpenseEdit.HelpVariant.transfer else ExpenseEdit.HelpVariant.splitPartTransfer
+        get() = when  {
+            isTemplate -> ExpenseEdit.HelpVariant.templateTransfer
+            isSplitPart -> ExpenseEdit.HelpVariant.transfer
+            else -> ExpenseEdit.HelpVariant.splitPartTransfer
+        }
     override val title
-        get() = if (parentId == null) R.string.menu_edit_transfer else R.string.menu_edit_split_part_transfer
+        get() = context.getString(if (parentId == null) R.string.menu_edit_transfer else R.string.menu_edit_split_part_transfer)
+    override val typeResId = R.string.split_transaction
+
 
     override fun bind(transaction: Transfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
         mTransferAccountId = transaction.transferAccountId

@@ -143,7 +143,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  * @author Michael Totschnig
  */
 public class Transaction extends Model {
-  protected boolean inEditState = false;
+  public boolean inEditState = false;
   private String comment = "";
   private String payee = "";
   private String referenceNumber = "";
@@ -571,7 +571,7 @@ public class Transaction extends Model {
     tr.setLabel(te.getLabel());
     tr.originTemplate = te;
     if (tr instanceof SplitTransaction) {
-      ((SplitTransaction) tr).persistForEdit();
+      tr.save();
       Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
           KEY_PARENTID + " = ?", new String[]{String.valueOf(te.getId())}, null);
       if (c != null) {
@@ -710,10 +710,14 @@ public class Transaction extends Model {
 
   @Override
   public Uri save() {
+    return save(false);
+  }
+
+  public Uri save(boolean withCommit) {
     Uri uri;
     try {
       ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY,
-          buildSaveOperations());
+          buildSaveOperations(withCommit));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -810,7 +814,6 @@ public class Transaction extends Model {
         }
         c.close();
       }
-      inEditState = true;
     }
   }
 
@@ -826,8 +829,8 @@ public class Transaction extends Model {
     return VIEW_UNCOMMITTED;
   }
 
-  public ArrayList<ContentProviderOperation> buildSaveOperations() {
-    return buildSaveOperations(0, -1, false);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(boolean withCommit) {
+    return buildSaveOperations(0, -1, false, withCommit);
   }
 
   /**
@@ -839,9 +842,10 @@ public class Transaction extends Model {
    * @param parentOffset        if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
    *                            Is used from SyncAdapter for creating split transactions
    * @param callerIsSyncAdapter
+   * @param withCommit change state from uncommitted to committed
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
@@ -1270,10 +1274,6 @@ public class Transaction extends Model {
 
   public boolean isSplit() {
     return operationType() == TYPE_SPLIT;
-  }
-
-  public boolean isSplitPart() {
-    return !(parentId == null || parentId == 0);
   }
 
   public int operationType() {

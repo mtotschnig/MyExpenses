@@ -339,11 +339,7 @@ public class Template extends Transaction {
 
   private boolean persistForEdit() {
     status = STATUS_UNCOMMITTED;
-    if (save() == null) {
-      return false;
-    }
-    inEditState = true;
-    return true;
+    return save() != null;
   }
 
   /**

@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 
+//Transaction or Split
 abstract class MainDelegate<T : Transaction>(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) : TransactionDelegate<T>(viewBinding, dateEditBinding, prefHandler) {
 
     override fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
@@ -22,36 +23,27 @@ abstract class MainDelegate<T : Transaction>(viewBinding: OneExpenseBinding, dat
         }
         return buildMainTransaction().apply {
             this.amount = Money(currentAccount()!!.currencyUnit, amount)
-            this.catId = this@MainDelegate.catId
             payee = viewBinding.Payee.text.toString()
             this.methodId = this@MainDelegate.methodId
-            //TODO
-            if (true /*mIsMainTransaction*/) {
-                val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false)
-                val selectedItem = viewBinding.OriginalAmount.selectedCurrency
-                if (selectedItem != null && originalAmount != null) {
-                    val currency = selectedItem.code()
-                    PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency)
-                    this.originalAmount = Money(currencyContext[currency], originalAmount)
-                } else {
-                    this.originalAmount = null
-                }
-                val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, false)
-                this.equivalentAmount = if (equivalentAmount == null) null else Money(Utils.getHomeCurrency(), if (isIncome) equivalentAmount else equivalentAmount.negate())
+            val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false)
+            val selectedItem = viewBinding.OriginalAmount.selectedCurrency
+            if (selectedItem != null && originalAmount != null) {
+                val currency = selectedItem.code()
+                PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency)
+                this.originalAmount = Money(currencyContext[currency], originalAmount)
+            } else {
+                this.originalAmount = null
             }
+            val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, false)
+            this.equivalentAmount = if (equivalentAmount == null) null else Money(Utils.getHomeCurrency(), if (isIncome) equivalentAmount else equivalentAmount.negate())
         }
     }
 
     override fun updateAccount(account: Account) {
         super.updateAccount(account)
-        //TODO
-        /* if (!isSplitPart) {
-             loadMethods(account)
+         if (!isSplitPart) {
+             host.loadMethods(account)
          }
-         if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
-             val splitPartList = findSplitPartList()
-             splitPartList?.updateAccount(account)
-         }*/
     }
 
     abstract fun buildMainTransaction(): T

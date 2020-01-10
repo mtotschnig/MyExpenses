@@ -47,7 +47,7 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
     fun save(transaction: Transaction): LiveData<Long> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(
                 try {
-                    transaction.save()?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
+                    transaction.save(true)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
                 } catch (e: ExternalStorageNotAvailableException) {
                     ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
                 } catch (e: UnknownPictureSaveException) {

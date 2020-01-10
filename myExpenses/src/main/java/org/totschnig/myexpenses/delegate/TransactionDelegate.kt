@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
@@ -32,13 +33,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.ui.AmountInput
-import org.totschnig.myexpenses.ui.DateButton
-import org.totschnig.myexpenses.ui.DiscoveryHelper
-import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.ui.*
+import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.math.BigDecimal
@@ -56,15 +52,33 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
     private lateinit var operationTypeAdapter: OperationTypeAdapter
 
     open val helpVariant: ExpenseEdit.HelpVariant
-        get() = if (parentId == null) ExpenseEdit.HelpVariant.transaction else ExpenseEdit.HelpVariant.splitPartCategory
+        get() = when {
+            isTemplate -> ExpenseEdit.HelpVariant.templateCategory
+            isSplitPart -> ExpenseEdit.HelpVariant.splitPartCategory
+            else -> ExpenseEdit.HelpVariant.transaction
+        }
     open val title
-        get() = if (parentId == null) R.string.menu_edit_transaction else R.string.menu_edit_split_part_category
+        get() = with(context) {
+            when {
+                isTemplate -> getString(R.string.menu_edit_template) + " (" + getString(typeResId) + ")"
+                isSplitPart -> getString(R.string.menu_edit_split_part_category)
+                else -> getString(R.string.menu_edit_transaction)
+            }
+        }
+    open val typeResId = R.string.transaction
+    var isTemplate: Boolean = false
+    val isMainTransaction: Boolean
+        get() = !isSplitPart && !isTemplate
+    open val shouldAutoFill
+        get() = !isTemplate
+
+    val isSplitPart
+        get() = parentId != null
 
     var isProcessingLinkedAmountInputs = false
     var originalAmountVisible = false
     var equivalentAmountVisible = false
     var originalCurrencyCode: String? = null
-    var catId: Long? = null
     var accountId: Long? = null
     var methodId: Long? = null
     var parentId: Long? = null
@@ -89,58 +103,33 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
         viewBinding.toolbar.OperationType.visibility = View.VISIBLE
         viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
-/*        if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
-            amountInput.addTextChangedListener(object : MyTextWatcher() {
-                override fun afterTextChanged(s: Editable) {
-                    updateSplitBalance()
-                }
-            })
-        }*/
 
-/*        if (isSplitPart) {
+        if (isSplitPart) {
             disableAccountSpinner()
-        }*/
-        val mIsMainTransactionOrTemplate = /*mOperationType != TransactionsContract.Transactions.TYPE_TRANSFER &&*/ !transaction.isSplitPart
-        val mIsMainTransaction = mIsMainTransactionOrTemplate && transaction !is Template
-        val mIsMainTemplate = transaction is Template && !transaction.isSplitPart()
+        }
+        //val mIsMainTransactionOrTemplate = /*mOperationType != TransactionsContract.Transactions.TYPE_TRANSFER &&*/ !transaction.isSplitPart
+        //val mIsMainTransaction = mIsMainTransactionOrTemplate && transaction !is Template
+        isTemplate = transaction is Template
+        val mIsMainTemplate = isTemplate && !isSplitPart
 
-/*        if (mIsMainTemplate) {
-            rootBinding.TitleRow.visibility = View.VISIBLE
+        if (mIsMainTemplate) {
+            viewBinding.TitleRow.visibility = View.VISIBLE
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
                 setPlannerRowVisibility(View.VISIBLE)
-                val recurrenceAdapter = RecurrenceAdapter(this,
+                val recurrenceAdapter = RecurrenceAdapter(context,
                         if (DistribHelper.shouldUseAndroidPlatformCalendar()) null else Plan.Recurrence.CUSTOM)
-                mRecurrenceSpinner.adapter = recurrenceAdapter
-                mRecurrenceSpinner.setOnItemSelectedListener(this)
+                recurrenceSpinner.adapter = recurrenceAdapter
+                recurrenceSpinner.setOnItemSelectedListener(this)
                 planButton.setOnClickListener {
                     if (mPlan == null) {
                         planButton.showDialog()
                     } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
-                        launchPlanView(false)
+                        host.launchPlanView(false)
                     }
                 }
             }
-            rootBinding.AttachImage.visibility = View.GONE
-            if (transaction.id != 0L) {
-                val typeResId = when (mOperationType) {
-                    TransactionsContract.Transactions.TYPE_TRANSFER -> R.string.transfer
-                    TransactionsContract.Transactions.TYPE_SPLIT -> R.string.split_transaction
-                    else -> R.string.transaction
-                }
-                title = getString(R.string.menu_edit_template) + " (" + getString(typeResId) + ")"
-            }
-            when (mOperationType) {
-                TransactionsContract.Transactions.TYPE_TRANSFER -> setHelpVariant(ExpenseEdit.HelpVariant.templateTransfer)
-                TransactionsContract.Transactions.TYPE_SPLIT -> setHelpVariant(ExpenseEdit.HelpVariant.templateSplit)
-                else -> setHelpVariant(ExpenseEdit.HelpVariant.templateCategory)
-            }
-        } else */if (transaction.isSplitPart) {
-/*            if (mOperationType == TransactionsContract.Transactions.TYPE_TRANSACTION) {
-                transaction.status = DatabaseConstants.STATUS_UNCOMMITTED
-            } else { //Transfer
-                transaction.status = DatabaseConstants.STATUS_UNCOMMITTED
-            }*/
+            viewBinding.AttachImage.visibility = View.GONE
         } else { //Transfer or Transaction, we can suggest to create a plan
             if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
 //after SAVE_AND_NEW action
@@ -166,29 +155,27 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
                 }
             }
         }
-/*        if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
-            rootBinding.CategoryRow.visibility = View.GONE
-            //add split list
-            val fm = supportFragmentManager
-            if (findSplitPartList() == null && !fm.isStateSaved) {
-                fm.beginTransaction()
-                        .add(R.id.edit_container, SplitPartList.newInstance(transaction), ExpenseEdit.SPLIT_PART_LIST)
-                        .commit()
-                fm.executePendingTransactions()
-            }
-        }*/
-/*        if (isNoMainTransaction) {
-            rootBinding.DateTimeRow.visibility = View.GONE
-        }*/
+        if (isSplitPart || isTemplate) {
+            viewBinding.DateTimeRow.visibility = View.GONE
+        }
         //when we have a savedInstance, fields have already been populated
         //if (!mSavedInstance) {
         populateFields(transaction, prefHandler)
-        if (true /*!isSplitPart*/) {
+        if (!isSplitPart) {
             setLocalDateTime(transaction)
         }
         //}
         //after setLocalDateTime, so that the plan info can override the date
         configurePlan()
+        configurePlanExecutionButton()
+
+        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
+            override fun afterTextChanged(s: Editable) {
+                viewBinding.EquivalentAmount.setCompoundResultInput(viewBinding.Amount.validate(false))
+            }
+        })
+        viewBinding.OriginalAmount.setCompoundResultOutListener { amount: BigDecimal -> viewBinding.Amount.setAmount(amount, false) }
+
         if (originalAmountVisible) {
             showOriginalAmount()
         }
@@ -196,6 +183,15 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
             showEquivalentAmount()
         }
         createAdapters(newInstance, transaction)
+    }
+
+    private fun configurePlanExecutionButton() {
+        with(planExecutionButton) {
+            val automatic = paint.measureText(context.getString(R.string.plan_automatic)).toInt()
+            val manual = paint.measureText(context.getString(R.string.plan_manual)).toInt()
+            width = ((if (automatic > manual) automatic else manual) +
+                    +paddingLeft + paddingRight)
+        }
     }
 
     protected fun hideRowsSpecificToMain() {
@@ -400,7 +396,7 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
     protected fun createStatusAdapter(transaction: Transaction) {
         val sAdapter: CrStatusAdapter = object : CrStatusAdapter(context) {
             override fun isEnabled(position: Int): Boolean { //if the transaction is reconciled, the status can not be changed
-    //otherwise only unreconciled and cleared can be set
+                //otherwise only unreconciled and cleared can be set
                 return transaction.crStatus != Transaction.CrStatus.RECONCILED && position != Transaction.CrStatus.RECONCILED.ordinal
             }
         }
@@ -449,13 +445,11 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         viewBinding.Payee.onItemClickListener = AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
             val c = payeeAdapter.getItem(position) as Cursor
             if (c.moveToPosition(position)) {
-                val payeeId = c.getLong(0)
-                payeeId.let {
-                    if (newInstance /*&& mOperationType != TransactionsContract.Transactions.TYPE_SPLIT*/) { //moveToPosition should not be necessary,
-    //but has been reported to not be positioned correctly on samsung GT-I8190N
+                c.getLong(0).let {
+                    if (newInstance && shouldAutoFill) {
                         if (prefHandler.getBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, false)) {
                             if (PreferenceUtils.shouldStartAutoFill()) {
-                                //TODO//startAutoFill(it, false)
+                                host.startAutoFill(it, false)
                             }
                         } else {
                             val b = Bundle()
@@ -501,13 +495,13 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         }
         when (parent.id) {
             R.id.Recurrence -> {
-                var visibility = View.GONE
+                var planVisibilty = View.GONE
                 if (id > 0) {
                     if (PermissionHelper.PermissionGroup.CALENDAR.hasPermission(context)) {
                         val newSplitTemplateEnabled = prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
                         val newPlanEnabled = prefHandler.getBoolean(PrefKey.NEW_PLAN_ENABLED, true)
                         if (newPlanEnabled && (newSplitTemplateEnabled /*|| mOperationType != TransactionsContract.Transactions.TYPE_SPLIT || mTransaction is Template*/)) {
-                            visibility = View.VISIBLE
+                            planVisibilty = View.VISIBLE
                             showCustomRecurrenceInfo()
                         } else {
                             recurrenceSpinner.setSelection(0)
@@ -518,10 +512,10 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
                         host.requestPermission(PermissionHelper.PermissionGroup.CALENDAR)
                     }
                 }
-/*                if (mTransaction is Template) {
-                    planButton.visibility = visibility
-                    planExecutionButton.visibility = visibility
-                }*/
+                if (isTemplate) {
+                    planButton.visibility = planVisibilty
+                    planExecutionButton.visibility = planVisibilty
+                }
             }
             R.id.Method -> {
                 val hasSelection = position > 0
@@ -538,16 +532,6 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
             }
             R.id.Account -> {
                 val account = mAccounts[position]
-/*                if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
-                    val splitPartList = findSplitPartList()
-                    if (splitPartList != null && splitPartList.splitCount > 0) { //call background task for moving parts to new account
-                        startTaskExecution(
-                                TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(mRowId),
-                                account.id,
-                                R.string.progress_dialog_updating_split_parts)
-                        return
-                    }
-                }*/
                 updateAccount(account)
             }
             R.id.OperationType -> {
@@ -662,45 +646,49 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
     abstract val operationType: Int
 
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext, pictureUri: Uri?): Transaction? {
-        val title: String
-
-       return buildTransaction(forSave, currencyContext)?.apply {
+        return buildTransaction(forSave, currencyContext)?.apply {
             val currentAccount = currentAccount()!!
             id = rowId
             accountId = currentAccount.id
+            parentId = this@TransactionDelegate.parentId
+            if (isSplitPart) {
+                status =  DatabaseConstants.STATUS_UNCOMMITTED
+            }
             comment = viewBinding.Comment.text.toString()
-            //TODO
-            if (true/*!isNoMainTransaction*/) {
+            if (isMainTransaction) {
                 val transactionDate = readZonedDateTime(dateEditBinding.DateButton)
                 setDate(transactionDate)
                 if (dateEditBinding.Date2Button.visibility == View.VISIBLE) {
                     setValueDate(if (dateEditBinding.Date2Button.visibility == View.VISIBLE) readZonedDateTime(dateEditBinding.Date2Button) else transactionDate)
                 }
             }
-            if (false /*mIsMainTemplate*/) {
-                /*title = rootBinding.Title.text.toString()
-                if (title == "") {
-                    if (forSave) {
-                        rootBinding.Title.error = getString(R.string.no_title_given)
+            if (isTemplate && !isSplitPart) {
+                (this as Template).apply {
+                    viewBinding.Title.text.toString().let {
+                        if (it == "") {
+                            if (forSave) {
+                                viewBinding.Title.error = context.getString(R.string.no_title_given)
+                                return null
+                            }
+                        }
+                        this.title = it
                     }
-                    validP = false
+                    val description = compileDescription(context, CurrencyFormatter.instance())
+                    mPlan?.let {
+                        it.description = description
+                        it.title = title
+                        plan = it
+                    } ?: kotlin.run {
+                        if (recurrenceSpinner.selectedItemPosition > 0) {
+                            mPlan = Plan(
+                                    planButton.date,
+                                    recurrenceSpinner.selectedItem as Plan.Recurrence,
+                                    title,
+                                    description)
+                            plan = mPlan
+                        }
+                    }
                 }
-                (mTransaction as Template?)!!.title = title
-                val description = mTransaction!!.compileDescription(this@TransactionEdit, currencyFormatter)
-                if (mPlan == null) {
-                    if (mRecurrenceSpinner.selectedItemPosition > 0) {
-                        mPlan = Plan(
-                                planButton.date,
-                                mRecurrenceSpinner.selectedItem as Recurrence,
-                                (mTransaction as Template?)!!.title,
-                                description)
-                        (mTransaction as Template?)!!.plan = mPlan
-                    }
-                } else {
-                    mPlan!!.description = description
-                    mPlan!!.title = title
-                    (mTransaction as Template?)!!.plan = mPlan
-                }*/
             } else {
                 referenceNumber = viewBinding.Number.text.toString()
                 if (forSave && !isSplitPart) {
@@ -806,10 +794,6 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
 
     open fun configureType() {
         viewBinding.PayeeLabel.setText(if (viewBinding.Amount.type) R.string.payer else R.string.payee)
-        /*  if (mOperationType == TransactionsContract.Transactions.TYPE_SPLIT) {
-              updateSplitBalance()
-          }*/
-        //setCategoryButton()
     }
 
     private fun configurePlan() {
@@ -857,6 +841,25 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
             viewBinding.AttachImage.visibility = View.VISIBLE
             viewBinding.PictureContainer.root.visibility = View.GONE
         }
+    }
+
+    open fun resetRecurrence() {
+        recurrenceSpinner.spinner.visibility = View.VISIBLE
+        recurrenceSpinner.setSelection(0)
+        planButton.visibility = View.GONE
+    }
+
+    fun resetAmounts() {
+        isProcessingLinkedAmountInputs = true
+        viewBinding.Amount.clear()
+        viewBinding.TransferAmount.clear()
+        isProcessingLinkedAmountInputs = false
+    }
+
+    open fun prepareForNew() {
+        rowId = 0L
+        resetRecurrence()
+        resetAmounts()
     }
 
     companion object {

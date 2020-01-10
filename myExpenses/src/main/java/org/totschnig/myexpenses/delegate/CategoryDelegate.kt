@@ -29,6 +29,7 @@ class CategoryDelegate (viewBinding: OneExpenseBinding, dateEditBinding: DateEdi
     @JvmField
     @State
     var categoryIcon: String? = null
+    var catId: Long? = null
 
     override fun bind(transaction: Transaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
         super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
@@ -43,17 +44,23 @@ class CategoryDelegate (viewBinding: OneExpenseBinding, dateEditBinding: DateEdi
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits())
     }
 
-    override fun buildMainTransaction() = Transaction()
+    override fun buildMainTransaction() = Transaction().apply {
+        this.catId = this@CategoryDelegate.catId
+    }
 
     override fun configureType() {
         super.configureType()
         setCategoryButton()
     }
 
+    fun resetCategory() {
+        setCategory(null, null, null)
+    }
+
     /**
      * set label on category button
      */
-    open fun setCategoryButton() {
+    fun setCategoryButton() {
         if (!label.isNullOrEmpty()) {
             viewBinding.Category.text = label
             viewBinding.ClearCategory.visibility = View.VISIBLE
@@ -111,9 +118,10 @@ class CategoryDelegate (viewBinding: OneExpenseBinding, dateEditBinding: DateEdi
         }
     }
 
-    fun setCategory(label: String?, categoryIcon: String?) {
+    fun setCategory(label: String?, categoryIcon: String?, catId: Long?) {
         this.label = label
         this.categoryIcon = categoryIcon
+        this.catId = catId
         setCategoryButton()
     }
 }

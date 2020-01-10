@@ -776,7 +776,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
     }
 
-    return t.buildSaveOperations(offset, parentOffset, true);
+    return t.buildSaveOperations(offset, parentOffset, true, false);
   }
 
   private ContentValues toContentValues(TransactionChange change) {

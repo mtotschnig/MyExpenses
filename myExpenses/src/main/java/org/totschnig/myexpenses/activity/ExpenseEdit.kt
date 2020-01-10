@@ -27,14 +27,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.ToggleButton
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
@@ -84,7 +81,6 @@ import org.totschnig.myexpenses.widget.AbstractWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import timber.log.Timber
 import java.io.Serializable
-import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
 
@@ -96,10 +92,6 @@ import javax.inject.Inject
 class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
-    private val planButton: DateButton
-        get() = rootBinding.RR.PB.root as DateButton
-    private val planExecutionButton: ToggleButton
-        get() = rootBinding.RR.TB.root as ToggleButton
     override val amountLabel: TextView
         get() = rootBinding.AmountLabel
     override val amountRow: ViewGroup
@@ -195,19 +187,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         })
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
-        amountInput.addTextChangedListener(object : MyTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                rootBinding.EquivalentAmount.setCompoundResultInput(amountInput.validate(false))
-            }
-        })
-        rootBinding.OriginalAmount.setCompoundResultOutListener { amount: BigDecimal? -> amountInput.setAmount(amount!!, false) }
-        val paint = planExecutionButton.paint
-        val automatic = paint.measureText(getString(R.string.plan_automatic)).toInt()
-        val manual = paint.measureText(getString(R.string.plan_manual)).toInt()
-        with(planExecutionButton) {
-            width = ((if (automatic > manual) automatic else manual) +
-                    +paddingLeft + paddingRight)
-        }
+
         val extras = intent.extras
         mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0)
         //mTemplateId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0)
@@ -314,7 +294,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                             getString(R.string.discover_feature_expense_income_switch),
                             1, DiscoveryHelper.Feature.EI_SWITCH, false)) {
                 discoveryHelper.discover(this, rootBinding.toolbar.OperationType, String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
-                        this@ExpenseEdit.getString(R.string.discover_feature_operation_type_select),
+                        getString(R.string.discover_feature_operation_type_select),
                         2, DiscoveryHelper.Feature.OPERATION_TYPE_SELECT, true)
             }
         }
@@ -346,7 +326,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }*/
     }
 
-    private fun updateSplitBalance() {
+    fun updateSplitBalance() {
         val splitPartList = findSplitPartList()
         splitPartList?.updateBalance()
     }
@@ -468,8 +448,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (!(isNoMainTransaction ||
-                        mOperationType == Transactions.TYPE_SPLIT &&
+        if (!isNoMainTransaction && !(mOperationType == Transactions.TYPE_SPLIT &&
                         !MyApplication.getInstance().licenceHandler.isContribEnabled)) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                     .setIcon(R.drawable.ic_action_save_new)
@@ -611,7 +590,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST && intent != null) {
             mCatId = intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
-            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL), intent.getStringExtra(DatabaseConstants.KEY_ICON))
+            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL), intent.getStringExtra(DatabaseConstants.KEY_ICON), mCatId)
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -816,7 +795,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         return type == Transactions.TYPE_SPLIT || type == Transactions.TYPE_TRANSACTION || type == Transactions.TYPE_TRANSFER
     }
 
-    private fun loadMethods(account: Account?) {
+    fun loadMethods(account: Account?) {
         if (account != null) {
             viewModel.loadMethods(isIncome, account.type)
         }
@@ -853,9 +832,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device."
                 }
                 else -> {
-                    //possibly the selected category has been deleted
+                    (delegate as? CategoryDelegate)?.resetCategory()
                     mCatId = null
-                    rootBinding.Category.setText(R.string.select)
                     errorMsg = "Error while saving transaction"
                 }
             }
@@ -874,24 +852,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             if (mCreateNew) {
                 mCreateNew = false
-                if (mOperationType == Transactions.TYPE_SPLIT) {
-                    mRowId =  SplitTransaction.getNewInstance(accountId).id
-                    val splitPartList = findSplitPartList()
-                    splitPartList?.updateParent(mRowId)
-                } else {
-                    mRowId = 0L
-                    delegate.recurrenceSpinner.spinner.visibility = View.VISIBLE
-                    delegate.recurrenceSpinner.setSelection(0)
-                    planButton.visibility = View.GONE
-                }
+                delegate.prepareForNew()
                 //while saving the picture might have been moved from temp to permanent
                 //mPictureUri = mTransaction!!.pictureUri
                 mNewInstance = true
                 mClone = false
-                isProcessingLinkedAmountInputs = true
-                amountInput.clear()
-                rootBinding.TransferAmount.clear()
-                isProcessingLinkedAmountInputs = false
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
@@ -979,7 +944,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    private fun launchPlanView(forResult: Boolean) {
+    fun launchPlanView(forResult: Boolean) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, mPlan!!.id)
         //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
@@ -1034,7 +999,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
      * @param id                  id of Payee/Payer for whom data should be loaded
      * @param overridePreferences if true data is loaded irrespective of what is set in preferences
      */
-    private fun startAutoFill(id: Long, overridePreferences: Boolean) {
+    fun startAutoFill(id: Long, overridePreferences: Boolean) {
         val extras = Bundle(2)
         extras.putLong(DatabaseConstants.KEY_ROWID, id)
         extras.putBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES, overridePreferences)
@@ -1054,7 +1019,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         super.onPause()
     }
 
-    private fun findSplitPartList(): SplitPartList? {
+    fun findSplitPartList(): SplitPartList? {
         return supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
     }
 
@@ -1152,12 +1117,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    private open inner class MyTextWatcher : TextWatcher {
-        override fun afterTextChanged(s: Editable) {}
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    }
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         isProcessingLinkedAmountInputs = true
         exchangeRateEdit.setBlockWatcher(true)
@@ -1174,7 +1133,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     fun clearCategorySelection(view: View) {
-        (delegate as? CategoryDelegate)?.setCategory(null, null)
+        (delegate as? CategoryDelegate)?.setCategory(null, null, null)
     }
 
     fun showPlanMonthFragment(originTemplate: Template, color: Int) {
@@ -1185,6 +1144,29 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 color, true, themeType).show(supportFragmentManager,
                 TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
     }
+
+    fun addSplitPartList(transaction: Transaction) {
+        val fm = supportFragmentManager
+        if (findSplitPartList() == null && !fm.isStateSaved) {
+            fm.beginTransaction()
+                    .add(R.id.edit_container, SplitPartList.newInstance(transaction), SPLIT_PART_LIST)
+                    .commit()
+            fm.executePendingTransactions()
+        }
+    }
+
+    fun updateSplitPartList(account: Account) {
+        findSplitPartList()?.let {
+            it.updateAccount(account)
+            if (it.splitCount > 0) { //call background task for moving parts to new account
+                startTaskExecution(
+                        TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(mRowId),
+                        account.id,
+                        R.string.progress_dialog_updating_split_parts)
+                return
+            }
+        }
+   }
 
     companion object {
         private const val SPLIT_PART_LIST = "SPLIT_PART_LIST"

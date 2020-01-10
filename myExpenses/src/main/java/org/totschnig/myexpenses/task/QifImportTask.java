@@ -409,7 +409,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       findToAccount(transaction, t);
 
       if (transaction.splits != null) {
-        ((SplitTransaction) t).persistForEdit();
+        ((SplitTransaction) t).save();
         for (QifTransaction split : transaction.splits) {
           Transaction s = split.toTransaction(a);
           s.setParentId(t.getId());
@@ -421,7 +421,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       } else {
         findCategory(transaction, t);
       }
-      if (t.save() != null)
+      if (t.save(true) != null)
         count++;
     }
     return count;
