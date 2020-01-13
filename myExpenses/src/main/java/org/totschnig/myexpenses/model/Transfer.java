@@ -82,6 +82,12 @@ public class Transfer extends Transaction {
     this(accountId, amount, transferAccountId, null);
   }
 
+
+  public Transfer(long accountId, Long transferAccountId, Long parentId) {
+    super(accountId, parentId);
+    setTransferAccountId(transferAccountId);
+  }
+
   public Transfer(long accountId, Money amount, Long transferAccountId, Long parentId) {
     super(accountId, amount);
     setTransferAccountId(transferAccountId);

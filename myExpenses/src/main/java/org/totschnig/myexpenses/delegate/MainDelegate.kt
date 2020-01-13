@@ -9,19 +9,19 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 
 //Transaction or Split
-abstract class MainDelegate<T : Transaction>(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) : TransactionDelegate<T>(viewBinding, dateEditBinding, prefHandler) {
+abstract class MainDelegate<T : Transaction>(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) : TransactionDelegate<T>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
 
     override fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
         super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
         viewBinding.Category.setOnClickListener { (context as ExpenseEdit).startSelectCategory() }
     }
 
-    override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext): T? {
+    override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): Transaction? {
         val amount = validateAmountInput(forSave)
         if (amount == null) { //Snackbar is shown in validateAmountInput
             return null
         }
-        return buildMainTransaction().apply {
+        return buildMainTransaction(accountId).apply {
             this.amount = Money(currentAccount()!!.currencyUnit, amount)
             payee = viewBinding.Payee.text.toString()
             this.methodId = this@MainDelegate.methodId
@@ -46,5 +46,5 @@ abstract class MainDelegate<T : Transaction>(viewBinding: OneExpenseBinding, dat
          }
     }
 
-    abstract fun buildMainTransaction(): T
+    abstract fun buildMainTransaction(accountId: Long): Transaction
 }

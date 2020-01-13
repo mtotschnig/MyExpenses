@@ -24,7 +24,8 @@ import org.totschnig.myexpenses.util.FilterCursorWrapper
 import java.math.BigDecimal
 import java.util.*
 
-class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) : TransactionDelegate<Transfer>(viewBinding, dateEditBinding, prefHandler) {
+class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
+        TransactionDelegate<Transfer>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
     override val operationType = TransactionsContract.Transactions.TYPE_TRANSFER
 
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
@@ -34,7 +35,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     private lateinit var mTransferAccountCursor: FilterCursorWrapper
 
     override val helpVariant: ExpenseEdit.HelpVariant
-        get() = when  {
+        get() = when {
             isTemplate -> ExpenseEdit.HelpVariant.templateTransfer
             isSplitPart -> ExpenseEdit.HelpVariant.transfer
             else -> ExpenseEdit.HelpVariant.splitPartTransfer
@@ -64,7 +65,9 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override fun createAdapters(newInstance: Boolean, transaction: Transaction) {
         createAccountAdapter()
         createStatusAdapter(transaction)
-        createOperationTypeAdapter()
+        if (newInstance) {
+            createOperationTypeAdapter()
+        }
         createTransferAccountAdapter()
     }
 
@@ -227,43 +230,41 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         viewBinding.ERR.root.ExchangeRate.calculateAndSetRate(amount, transferAmount)
     }
 
-    override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext): Transfer? {
+    override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): Transaction? {
         val amount = validateAmountInput(forSave)
-        if (amount == null) { //Snackbar is shown in validateAmountInput
-            return null
-        }
         val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
         val isSame = currentAccount.currencyUnit == transferAccount.currencyUnit
         val transferAmount: BigDecimal?
-        if (isSame) {
+        if (isSame && amount != null) {
             transferAmount = amount.negate()
         } else {
             transferAmount = validateAmountInput(viewBinding.TransferAmount, forSave)?.let {
                 if (isIncome) it.negate() else it
-            } ?: kotlin.run { return null }
+            }
         }
-        return Transfer().apply {
-            transferAccountId = transferAccountSpinner.selectedItemId
-            setAmountAndTransferAmount(
-                    Money(currentAccount.currencyUnit, amount),
-                    Money(transferAccount.currencyUnit, transferAmount!!))
-            if (false /*this is Template*/) {
-/*                if (amount != null) {
-                    mTransaction.setAmount(Money(account.currencyUnit, amount))
-                } else if (!isSame) {
-                    var transferAmount = validateAmountInput(rootBinding.TransferAmount, forSave)
-                    if (transferAmount != null) {
-                        mTransaction.setAccountId(transferAccount.id)
-                        mTransaction.setTransferAccountId(account.id)
-                        if (isIncome) {
-                            transferAmount = transferAmount.negate()
-                        }
-                        mTransaction.setAmount(Money(transferAccount.currencyUnit, transferAmount!!))
-                        amountInput.setError(null)
-                        validP = true //we only need either amount or transfer amount
-                    }
-                }*/
+        return if (isTemplate) {
+            if (amount == null && transferAmount == null) {
+                return null
+            }
+            buildTemplate(accountId).apply {
+                if (amount != null) {
+                    setAmount(Money(currentAccount.currencyUnit, amount))
+                } else if (!isSame && transferAmount != null) {
+                    setAccountId(transferAccount.id)
+                    setTransferAccountId(currentAccount.id)
+                    setAmount(Money(transferAccount.currencyUnit, transferAmount))
+                    viewBinding.Amount.setError(null)
+                }
+            }
+        } else {
+            if (amount == null || transferAmount == null) {
+                return null
+            }
+            Transfer(accountId, transferAccount.id, parentId).apply {
+                setAmountAndTransferAmount(
+                        Money(currentAccount.currencyUnit, amount),
+                        Money(transferAccount.currencyUnit, transferAmount))
             }
         }
     }
@@ -279,7 +280,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         val transferAccountId = transferAccountSpinner.selectedItemId
         if (transferAccountId != AdapterView.INVALID_ROW_ID) {
             mTransferAccountId = transferAccountId
-        super.onSaveInstanceState(outState)
+            super.onSaveInstanceState(outState)
         }
     }
 

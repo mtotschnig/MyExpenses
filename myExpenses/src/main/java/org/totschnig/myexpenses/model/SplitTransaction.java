@@ -66,6 +66,13 @@ public class SplitTransaction extends Transaction {
     setCatId(DatabaseConstants.SPLIT_CATID);
   }
 
+
+
+  public SplitTransaction(long accountId) {
+    super(accountId, (Long) null);
+    setCatId(DatabaseConstants.SPLIT_CATID);
+  }
+
   public SplitTransaction(long accountId, Money amount) {
     super(accountId, amount);
     setCatId(DatabaseConstants.SPLIT_CATID);

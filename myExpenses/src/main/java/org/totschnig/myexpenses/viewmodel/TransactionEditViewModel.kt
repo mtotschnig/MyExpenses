@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transaction.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.model.Transaction.UnknownPictureSaveException
@@ -30,8 +31,12 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
         return methods
     }
 
-    fun transaction(transactionId: Long): LiveData<Transaction> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    fun transaction(transactionId: Long): LiveData<Transaction?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(Transaction.getInstanceFromDb(transactionId))
+    }
+
+    fun template(transactionId: Long): LiveData<Template?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(Template.getInstanceFromDb(transactionId))
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {

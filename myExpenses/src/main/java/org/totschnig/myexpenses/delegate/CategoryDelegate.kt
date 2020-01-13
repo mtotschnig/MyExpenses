@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import icepick.State
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -19,9 +19,10 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 
-class CategoryDelegate (viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) : MainDelegate<Transaction>(viewBinding, dateEditBinding, prefHandler) {
+class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean)
+    : MainDelegate<Transaction>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
 
-    override val operationType = TransactionsContract.Transactions.TYPE_TRANSACTION
+    override val operationType = TYPE_TRANSACTION
 
     @JvmField
     @State
@@ -35,6 +36,7 @@ class CategoryDelegate (viewBinding: OneExpenseBinding, dateEditBinding: DateEdi
         super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
         label = transaction.label
         categoryIcon = transaction.categoryIcon
+        catId = transaction.catId
         if (parentId != null) {
             hideRowsSpecificToMain()
         }
@@ -44,9 +46,10 @@ class CategoryDelegate (viewBinding: OneExpenseBinding, dateEditBinding: DateEdi
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits())
     }
 
-    override fun buildMainTransaction() = Transaction().apply {
-        this.catId = this@CategoryDelegate.catId
-    }
+    override fun buildMainTransaction(accountId: Long) =
+            (if (isTemplate) buildTemplate(accountId) else Transaction(accountId, parentId)).apply {
+                this.catId = this@CategoryDelegate.catId
+            }
 
     override fun configureType() {
         super.configureType()

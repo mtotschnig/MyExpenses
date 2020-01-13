@@ -40,7 +40,7 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.math.BigDecimal
 import java.util.*
 
-abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler) : AdapterView.OnItemSelectedListener {
+abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler, val isTemplate: Boolean) : AdapterView.OnItemSelectedListener {
     private lateinit var methodSpinner: SpinnerHelper
     lateinit var accountSpinner: SpinnerHelper
     private lateinit var statusSpinner: SpinnerHelper
@@ -66,7 +66,6 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
             }
         }
     open val typeResId = R.string.transaction
-    var isTemplate: Boolean = false
     val isMainTransaction: Boolean
         get() = !isSplitPart && !isTemplate
     open val shouldAutoFill
@@ -101,7 +100,7 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         statusSpinner = SpinnerHelper(viewBinding.Status)
         recurrenceSpinner = SpinnerHelper(viewBinding.RR.Recurrence.Recurrence)
         operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
-        viewBinding.toolbar.OperationType.visibility = View.VISIBLE
+        setVisibility(viewBinding.toolbar.OperationType, newInstance)
         viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
 
         if (isSplitPart) {
@@ -109,7 +108,6 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         }
         //val mIsMainTransactionOrTemplate = /*mOperationType != TransactionsContract.Transactions.TYPE_TRANSFER &&*/ !transaction.isSplitPart
         //val mIsMainTransaction = mIsMainTransactionOrTemplate && transaction !is Template
-        isTemplate = transaction is Template
         val mIsMainTemplate = isTemplate && !isSplitPart
 
         if (mIsMainTemplate) {
@@ -207,7 +205,7 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
             planButton.setDate(localDate)
         } else {
             dateEditBinding.DateButton.setDate(localDate)
-            dateEditBinding.DateButton.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
+            dateEditBinding.Date2Button.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
                     ZoneId.systemDefault()).toLocalDate())
             dateEditBinding.TimeButton.time = zonedDateTime.toLocalTime()
         }
@@ -376,7 +374,9 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         createMethodAdapter()
         createAccountAdapter()
         createStatusAdapter(transaction)
-        createOperationTypeAdapter()
+        if (newInstance) {
+            createOperationTypeAdapter()
+        }
     }
 
     protected fun createOperationTypeAdapter() {
@@ -386,8 +386,7 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         if (parentId == null) {
             allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_SPLIT)
         }
-        operationTypeAdapter = OperationTypeAdapter(context, allowedOperationTypes,
-                false /*TODO isNewTemplate*/, parentId != null)
+        operationTypeAdapter = OperationTypeAdapter(context, allowedOperationTypes, isTemplate, parentId != null)
         operationTypeSpinner.adapter = operationTypeAdapter
         resetOperationType()
         operationTypeSpinner.setOnItemSelectedListener(this)
@@ -642,17 +641,16 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
         return null
     }
 
-    abstract fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext): T?
+    protected fun buildTemplate(accountId: Long) = Template.getTypedNewInstance(operationType, accountId, false, parentId)
+
+    abstract fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): Transaction?
     abstract val operationType: Int
 
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext, pictureUri: Uri?): Transaction? {
-        return buildTransaction(forSave, currencyContext)?.apply {
-            val currentAccount = currentAccount()!!
+        return buildTransaction(forSave, currencyContext, currentAccount()!!.id)?.apply {
             id = rowId
-            accountId = currentAccount.id
-            parentId = this@TransactionDelegate.parentId
             if (isSplitPart) {
-                status =  DatabaseConstants.STATUS_UNCOMMITTED
+                status = DatabaseConstants.STATUS_UNCOMMITTED
             }
             comment = viewBinding.Comment.text.toString()
             if (isMainTransaction) {
@@ -864,12 +862,14 @@ abstract class TransactionDelegate<T : Transaction>(val viewBinding: OneExpenseB
 
     companion object {
         fun <T : Transaction> createAndBind(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, isCalendarPermissionPermanentlyDeclined: Boolean, prefHandler: PrefHandler, newInstance: Boolean, recurrence: Plan.Recurrence?) =
-                when (transaction) {
-                    is Transfer -> TransferDelegate(viewBinding, dateEditBinding, prefHandler)
-                    is SplitTransaction -> SplitDelegate(viewBinding, dateEditBinding, prefHandler)
-                    else -> CategoryDelegate(viewBinding, dateEditBinding, prefHandler)
-                }.apply {
-                    (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
+                (transaction is Template).let { isTemplate ->
+                    when ((transaction as? Template)?.template ?: transaction) {
+                        is Transfer -> TransferDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
+                        is SplitTransaction -> SplitDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
+                        else -> CategoryDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
+                    }.apply {
+                        (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
+                    }
                 }
     }
 }

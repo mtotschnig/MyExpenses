@@ -108,6 +108,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var mRowId = 0L
     @JvmField
     @State
+    var mTemplateId = 0L
+    @JvmField
+    @State
     var mCatId: Long? = null
     @JvmField
     @State
@@ -190,7 +193,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
         val extras = intent.extras
         mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0)
-        //mTemplateId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0)
+        mTemplateId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0)
         //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
         if (savedInstanceState != null) {
             mSavedInstance = true
@@ -207,25 +210,14 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         //1. fetch the transaction or create a new instance
         if (mRowId != 0L) { //or template
             mNewInstance = false
-            if (mRowId != 0L) {
-                viewModel.transaction(mRowId).observe(this, Observer {
-                    populate(it)
-                })
-                //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
-                //extra = intent.getBooleanExtra(KEY_CLONE, false) && savedInstanceState == null
-                //objectId = mRowId
-            } else {
-//                objectId = mTemplateId!!
-//                //are we editing the template or instantiating a new transaction from the template
-//                if (intent.getLongExtra(DatabaseConstants.KEY_INSTANCEID, 0).also { mPlanInstanceId = it } != 0L) {
-//                    taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE
-//                    mPlanInstanceDate = intent.getLongExtra(DatabaseConstants.KEY_DATE, 0)
-//                    mRecordTemplateWidget = intent.getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
-//                            !ContribFeature.TEMPLATE_WIDGET.hasAccess()
-//                } else {
-//                    taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE
-//                }
-            }
+            viewModel.transaction(mRowId).observe(this, Observer {
+                populate(it)
+            })
+        } else if (mTemplateId != 0L) {
+            mNewInstance = false
+            viewModel.template(mTemplateId).observe(this, Observer {
+                populate(it)
+            })
         } else {
             mOperationType = intent.getIntExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             if (!isValidType(mOperationType)) {
@@ -256,11 +248,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 startTaskExecution(TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS, args,
                         R.string.progress_dialog_loading)
             } else {
-                if (false) {
-//                    mTransaction = Template.getTypedNewInstance(mOperationType, accountId, true, if (parentId != 0L) parentId else null)
-////                    if (mOperationType == Transactions.TYPE_SPLIT && mTransaction != null) {
-////                        mTemplateId = mTransaction.getId()
-////                    }
+                if (isNewTemplate) {
+                    populate(Template.getTypedNewInstance(mOperationType, accountId, true, if (parentId != 0L) parentId else null).also { mTemplateId = it.id })
                 } else {
                     when (mOperationType) {
                         Transactions.TYPE_TRANSACTION -> {
@@ -331,7 +320,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         splitPartList?.updateBalance()
     }
 
-    private fun populate(transaction: Transaction) {
+    private fun populate(transaction: Transaction?) {
         if (transaction == null) {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)

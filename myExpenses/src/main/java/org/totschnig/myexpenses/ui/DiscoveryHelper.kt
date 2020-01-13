@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.UiUtils
@@ -21,7 +22,7 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
 
     fun discover(context: Activity, target: View, title: CharSequence, description: CharSequence,
                  daysSinceInstall: Int, feature: Feature, measureTarget: Boolean) =
-            Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true).also {
+            !MyApplication.isInstrumentationTest() && Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true).also {
                 if (it) {
                     if (measureTarget) {
                         target.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

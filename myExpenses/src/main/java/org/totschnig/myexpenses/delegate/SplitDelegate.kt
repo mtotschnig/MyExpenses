@@ -13,7 +13,8 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.MyTextWatcher
 
-class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) : MainDelegate<SplitTransaction>(viewBinding, dateEditBinding, prefHandler) {
+class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
+        MainDelegate<SplitTransaction>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
     override val operationType = TransactionsContract.Transactions.TYPE_SPLIT
 
     override val helpVariant: ExpenseEdit.HelpVariant
@@ -33,7 +34,7 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
         host.addSplitPartList(transaction)
     }
 
-    override fun buildMainTransaction() = SplitTransaction()
+    override fun buildMainTransaction(accountId: Long) = if (isTemplate) buildTemplate(accountId) else SplitTransaction(accountId)
 
     override fun prepareForNew() {
         rowId =  SplitTransaction.getNewInstance(accountId!!).id

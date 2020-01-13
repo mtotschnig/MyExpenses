@@ -641,6 +641,11 @@ public class Transaction extends Model {
     this.setAmount(amount);
   }
 
+  public Transaction(long accountId, Long parentId) {
+    this.setAccountId(accountId);
+    setParentId(parentId);
+  }
+
   public Transaction(long accountId, Money amount, Long parentId) {
     this(accountId, amount);
     setParentId(parentId);

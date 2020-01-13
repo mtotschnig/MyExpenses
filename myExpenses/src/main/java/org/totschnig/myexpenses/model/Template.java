@@ -77,6 +77,11 @@ public class Template extends Transaction {
   private String title;
   public Long planId;
   private boolean planExecutionAutomatic = false;
+
+  public Transaction getTemplate() {
+    return template;
+  }
+
   private final Transaction template;
 
   public Plan getPlan() {
@@ -389,7 +394,7 @@ public class Template extends Transaction {
   }
 
   @Override
-  public Uri save() {
+  public Uri save(boolean withCommit) {
     return save(null);
   }
 
