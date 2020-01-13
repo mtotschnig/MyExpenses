@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DbUtils
@@ -32,8 +33,8 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     var categoryIcon: String? = null
     var catId: Long? = null
 
-    override fun bind(transaction: Transaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
+    override fun bind(transaction: Transaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, plan)
         label = transaction.label
         categoryIcon = transaction.categoryIcon
         catId = transaction.catId
@@ -72,6 +73,13 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         } else {
             viewBinding.Category.setText(R.string.select)
             viewBinding.ClearCategory.visibility = View.GONE
+        }
+    }
+
+    override fun populateFields(transaction: Transaction, prefHandler: PrefHandler, newInstance: Boolean) {
+        super.populateFields(transaction, prefHandler, newInstance)
+        if (newInstance && !isTemplate && !isSplitPart && PreferenceUtils.shouldStartAutoFill()) {
+            viewBinding.Payee.requestFocus()
         }
     }
 

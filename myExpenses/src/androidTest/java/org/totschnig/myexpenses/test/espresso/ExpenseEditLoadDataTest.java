@@ -121,7 +121,7 @@ public class ExpenseEditLoadDataTest {
     i.putExtra(KEY_TEMPLATEID, template.getId());
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow,  R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-        R.id.PayeeRow, R.id.AccountRow, R.id.Plan);
+        R.id.PayeeRow, R.id.AccountRow, R.id.PB);
     checkEffectiveGone(R.id.Recurrence);
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("7")));
     onView(withId(R.id.Title)).check(matches(withText("Daily plan")));

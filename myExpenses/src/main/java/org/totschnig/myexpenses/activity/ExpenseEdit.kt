@@ -144,7 +144,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private var accountsLoaded = false
     var isProcessingLinkedAmountInputs = false
     private var pObserver: ContentObserver? = null
-    private var mPlanUpdateNeeded = false
     private var didUserSetAccount = false
     private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
@@ -302,10 +301,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onDestroy() {
         super.onDestroy()
-        if (pObserver != null) {
+        pObserver?.let {
             try {
                 val cr = contentResolver
-                cr.unregisterContentObserver(pObserver!!)
+                cr.unregisterContentObserver(it)
             } catch (ise: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
             }
         }
@@ -639,28 +638,14 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     private inner class PlanObserver : ContentObserver(Handler()) {
         override fun onChange(selfChange: Boolean) {
-            if (mIsResumed) {
-                refreshPlanData()
-            } else {
-                mPlanUpdateNeeded = true
-            }
-        }
-    }
-
-    override fun onPostResume() {
-        super.onPostResume()
-        if (mPlanUpdateNeeded) {
             refreshPlanData()
-            mPlanUpdateNeeded = false
         }
     }
 
     private fun refreshPlanData() {
-        if (mPlan != null) {
-            startTaskExecution(TaskExecutionFragment.TASK_INSTANTIATE_PLAN, arrayOf(mPlan!!.id), null, 0)
-        } else { //seen in report 96a04ce6a647555356751634fee9fc73, need to investigate how this can happen
-            CrashHandler.report("Received onChange on ContentOberver for plan, but mPlan is null")
-        }
+        delegate.planId?.let { viewModel.plan(it).observe(this, Observer {
+           delegate.configurePlan(it)
+        }) }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -763,10 +748,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                             Snackbar.LENGTH_LONG)
                 }
             }
-            TaskExecutionFragment.TASK_INSTANTIATE_PLAN -> {
-                mPlan = o as Plan
-                configurePlan()
-            }
         }
     }
 */
@@ -849,7 +830,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    launchPlanView(true)
+                    viewModel.template(result).observe(this, Observer {
+                        it?.let { launchPlanView(true, it.planId) }
+                    })
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     val intent = Intent()
@@ -933,12 +916,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    fun launchPlanView(forResult: Boolean) {
+    fun launchPlanView(forResult: Boolean, planId: Long) {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, mPlan!!.id)
         //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
-        intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan!!.dtstart)
-        intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
+        //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan!!.dtstart)
+        //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
+        intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId)
         if (Utils.isIntentAvailable(this, intent)) {
             if (forResult) {
                 startActivityForResult(intent, ProtectedFragmentActivity.PLAN_REQUEST)
@@ -1156,6 +1139,14 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
         }
    }
+
+    fun observePlan(planId: Long) {
+        pObserver = PlanObserver().also {
+            contentResolver.registerContentObserver(
+                    ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
+                    false, it)
+        }
+    }
 
     companion object {
         private const val SPLIT_PART_LIST = "SPLIT_PART_LIST"

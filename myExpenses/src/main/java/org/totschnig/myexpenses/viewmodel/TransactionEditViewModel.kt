@@ -8,6 +8,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
@@ -37,6 +38,10 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
 
     fun template(transactionId: Long): LiveData<Template?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(Template.getInstanceFromDb(transactionId))
+    }
+
+    fun plan(planId: Long): LiveData<Plan?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(Plan.getInstanceFromDb(planId))
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {

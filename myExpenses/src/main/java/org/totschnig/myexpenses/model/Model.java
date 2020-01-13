@@ -35,7 +35,7 @@ public abstract class Model implements Serializable {
   }
 
   public void setId(Long id) {
-    this.id = id;
+    this.id = id == null ? 0L : id;
   }
 
   public static ContentResolver cr() {

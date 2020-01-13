@@ -11,8 +11,8 @@ import org.totschnig.myexpenses.util.Utils
 //Transaction or Split
 abstract class MainDelegate<T : Transaction>(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) : TransactionDelegate<T>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
 
-    override fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
+    override fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, plan)
         viewBinding.Category.setOnClickListener { (context as ExpenseEdit).startSelectCategory() }
     }
 

@@ -45,7 +45,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override val typeResId = R.string.split_transaction
 
 
-    override fun bind(transaction: Transfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?) {
+    override fun bind(transaction: Transfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
         mTransferAccountId = transaction.transferAccountId
         transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
         viewBinding.Amount.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
@@ -58,7 +58,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         if (transaction.id != 0L) {
             configureTransferDirection()
         }
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence)
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, plan)
         hideRowsSpecificToMain()
     }
 
