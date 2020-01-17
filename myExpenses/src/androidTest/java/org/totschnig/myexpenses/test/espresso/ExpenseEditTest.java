@@ -103,7 +103,7 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
-    checkEffectiveGone(R.id.Plan);
+    checkEffectiveGone(R.id.PB);
   }
 
 

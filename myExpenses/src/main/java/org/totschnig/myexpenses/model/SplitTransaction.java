@@ -54,7 +54,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
-public class SplitTransaction extends Transaction {
+public class SplitTransaction extends Transaction implements ISplit {
   public static final String CSV_INDICATOR = "*";
   public static final String CSV_PART_INDICATOR = "-";
   private String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
@@ -98,7 +98,7 @@ public class SplitTransaction extends Transaction {
   static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.getCurrencyUnit(), 0L));
     if (forEdit) {
-      t.status = STATUS_UNCOMMITTED;
+      t.setStatus(STATUS_UNCOMMITTED);
       //TODO: Strict mode
       t.save();
     }

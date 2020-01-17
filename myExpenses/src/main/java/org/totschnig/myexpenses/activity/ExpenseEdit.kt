@@ -44,6 +44,7 @@ import com.google.android.material.snackbar.Snackbar
 import icepick.Icepick
 import icepick.State
 import org.threeten.bp.LocalDate
+import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -133,7 +134,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
      */
     private var mOperationType = 0
     private lateinit var mManager: LoaderManager
-    private var mClone = false
     private var mCreateNew = false
     private var mIsMainTransactionOrTemplate = false
     private var mIsMainTemplate = false
@@ -325,6 +325,19 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             abortWithMessage(errMsg)
             return
         }
+        if (intent.getBooleanExtra(KEY_CLONE, false)) {
+            if (transaction is SplitTransaction) {
+                mRowId = transaction.id
+            } else {
+                transaction.id = 0L
+                mRowId = 0L
+            }
+            transaction.crStatus = Transaction.CrStatus.UNRECONCILED
+            transaction.status = DatabaseConstants.STATUS_NONE
+            transaction.setDate(ZonedDateTime.now())
+            transaction.uuid = Model.generateUuid()
+            mNewInstance = true
+        }
         if (!mSavedInstance) { //processing data from user switching operation type
             val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
             if (cached != null) {
@@ -359,8 +372,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         setHelpVariant(delegate.helpVariant)
         if (!mNewInstance) {
             setTitle(delegate.title)
-        } else if (mClone) {
-            setTitle(R.string.menu_clone_transaction)
         }
     }
 
@@ -826,7 +837,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 //while saving the picture might have been moved from temp to permanent
                 //mPictureUri = mTransaction!!.pictureUri
                 mNewInstance = true
-                mClone = false
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
@@ -843,6 +853,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
             }
         }
+        mIsSaving = false
     }
 
     private fun hideKeyboard() {
@@ -1117,7 +1128,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
     }
 
-    fun addSplitPartList(transaction: Transaction) {
+    fun addSplitPartList(transaction: ISplit) {
         val fm = supportFragmentManager
         if (findSplitPartList() == null && !fm.isStateSaved) {
             fm.beginTransaction()

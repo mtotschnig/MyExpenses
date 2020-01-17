@@ -7,11 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transaction.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.model.Transaction.UnknownPictureSaveException
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -54,7 +51,7 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
                 .subscribe { methods.postValue(it) }
     }
 
-    fun save(transaction: Transaction): LiveData<Long> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    fun save(transaction: ITransaction): LiveData<Long> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(
                 try {
                     transaction.save(true)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN

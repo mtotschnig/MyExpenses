@@ -25,6 +25,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
+import org.jetbrains.annotations.Nullable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
@@ -72,7 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 
-public class Template extends Transaction {
+public class Template extends Transaction implements ITransfer, ISplit {
   private String PART_SELECT = "(" + KEY_PARENTID + "= ?)";
   private String title;
   public Long planId;
@@ -160,7 +161,7 @@ public class Template extends Transaction {
           Transaction splitPart = t.getSplitPart(c.getLong(0));
           if (splitPart != null) {
             Template part = new Template(splitPart, title);
-            part.status = STATUS_UNCOMMITTED;
+            part.setStatus(STATUS_UNCOMMITTED);
             part.setParentId(getId());
             part.save();
           }
@@ -252,7 +253,7 @@ public class Template extends Transaction {
   }
 
   @Override
-  public Long getAccountId() {
+  public long getAccountId() {
     return template.getAccountId();
   }
 
@@ -343,7 +344,7 @@ public class Template extends Transaction {
   }
 
   private boolean persistForEdit() {
-    status = STATUS_UNCOMMITTED;
+    setStatus(STATUS_UNCOMMITTED);
     return save() != null;
   }
 
@@ -429,7 +430,7 @@ public class Template extends Transaction {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     if (getId() == 0) {
       initialValues.put(KEY_UUID, requireUuid());
-      initialValues.put(KEY_STATUS, status);
+      initialValues.put(KEY_STATUS, getStatus());
       initialValues.put(KEY_PARENTID, getParentId());
       try {
         ops.add(ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues).build());
@@ -636,5 +637,16 @@ public class Template extends Transaction {
   @Override
   protected Transaction getSplitPart(long partId) {
     return Template.getInstanceFromDb(partId);
+  }
+
+  @Nullable
+  @Override
+  public Long getTransferPeer() {
+    return null;
+  }
+
+  @Override
+  public void setTransferPeer(@Nullable Long transferPeer) {
+    throw new IllegalStateException("Transfer templates have no transferPeer");
   }
 }

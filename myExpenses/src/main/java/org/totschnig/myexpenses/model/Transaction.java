@@ -142,7 +142,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  *
  * @author Michael Totschnig
  */
-public class Transaction extends Model {
+public class Transaction extends Model implements ITransaction {
   public boolean inEditState = false;
   private String comment = "";
   private String payee = "";
@@ -185,7 +185,7 @@ public class Transaction extends Model {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
-  public int status = 0;
+  private int status = 0;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTON_EXTENDED_HOME;
 
   static {
@@ -328,7 +328,7 @@ public class Transaction extends Model {
     this.transferAmount = transferAmount;
   }
 
-  public Long getAccountId() {
+  public long getAccountId() {
     return accountId;
   }
 
@@ -391,6 +391,32 @@ public class Transaction extends Model {
 
   public void setSealed(boolean sealed) {
     isSealed = sealed;
+  }
+
+  @Override
+  public int getStatus() {
+    return status;
+  }
+
+  @Override
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
+  @NonNull
+  @Override
+  public Template getOriginTemplate() {
+    return originTemplate;
+  }
+
+  @Override
+  public void setOriginTemplate(@NonNull Template originTemplate) {
+    this.originTemplate = originTemplate;
+  }
+
+  @Override
+  public void setAccountId(long accountId) {
+    this.accountId = accountId;
   }
 
   public enum CrStatus {
@@ -684,6 +710,7 @@ public class Transaction extends Model {
   public void setValueDate(long unixEpoch) {
     this.valueDate = unixEpoch;
   }
+
 
   public long getValueDate() {
     return valueDate;
@@ -1128,15 +1155,9 @@ public class Transaction extends Model {
     if (getClass() != obj.getClass())
       return false;
     Transaction other = (Transaction) obj;
-    if (getAccountId() == null) {
-      if (other.getAccountId() != null)
-        return false;
-    } else if (!getAccountId().equals(other.getAccountId()))
+    if (getAccountId() != other.getAccountId())
       return false;
-    if (getAmount() == null) {
-      if (other.getAmount() != null)
-        return false;
-    } else if (!getAmount().equals(other.getAmount()))
+    if (!getAmount().equals(other.getAmount()))
       return false;
     if (getCatId() == null) {
       if (other.getCatId() != null)
@@ -1150,10 +1171,7 @@ public class Transaction extends Model {
       return false;
     if (getDate() != other.getDate())
       return false;
-    if (getId() == null) {
-      if (other.getId() != null)
-        return false;
-    } else if (!getId().equals(other.getId()))
+    if (getId() != other.getId())
       return false;
     //label is constructed on hoc by database as a consquence of transfer_account and category
     //and is not yet set when transaction is not saved, hence we do not consider it relevant
@@ -1188,10 +1206,10 @@ public class Transaction extends Model {
     result = 31 * result + (this.getReferenceNumber() != null ? this.getReferenceNumber().hashCode() : 0);
     result = 31 * result + (this.getLabel() != null ? this.getLabel().hashCode() : 0);
     result = 31 * result + Long.valueOf(getDate()).hashCode();
-    result = 31 * result + (this.getAmount() != null ? this.getAmount().hashCode() : 0);
+    result = 31 * result + this.getAmount().hashCode();
     result = 31 * result + (this.getTransferAmount() != null ? this.getTransferAmount().hashCode() : 0);
     result = 31 * result + (this.catId != null ? this.catId.hashCode() : 0);
-    result = 31 * result + (this.getAccountId() != null ? this.getAccountId().hashCode() : 0);
+    result = 31 * result + Long.valueOf(getAccountId()).hashCode();
     result = 31 * result + (this.getMethodId() != null ? this.getMethodId().hashCode() : 0);
     result = 31 * result + (this.getMethodLabel() != null ? this.getMethodLabel().hashCode() : 0);
     result = 31 * result + (this.getParentId() != null ? this.getParentId().hashCode() : 0);
@@ -1199,7 +1217,7 @@ public class Transaction extends Model {
     result = 31 * result + (this.originTemplate != null ? this.originTemplate.hashCode() : 0);
     result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
     result = 31 * result + this.status;
-    result = 31 * result + (this.crStatus != null ? this.crStatus.hashCode() : 0);
+    result = 31 * result + this.crStatus.hashCode();
     result = 31 * result + (this.pictureUri != null ? this.pictureUri.hashCode() : 0);
     return result;
   }

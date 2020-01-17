@@ -32,6 +32,8 @@ import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 /**
  * copy of {@link TransactionTest} which runs under the assumption that changes triggers fire
  */
@@ -109,9 +111,9 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assertEquals(op, restored);
     peer = (Transfer) Transaction.getInstanceFromDb(op.getTransferPeer());
     assert peer != null;
-    assertEquals(peer.getId(), op.getTransferPeer());
-    assertEquals(op.getId(), peer.getTransferPeer());
-    assertEquals(op.getTransferAccountId(), peer.getAccountId());
+    assertEquals(peer.getId(), op.getTransferPeer().longValue());
+    assertEquals(op.getId(), peer.getTransferPeer().longValue());
+    assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
     Transaction.delete(op.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(op.getId()));
     assertNull("Transfer delete should delete peer, but peer can still be retrieved", Transaction.getInstanceFromDb(peer.getId()));
@@ -128,11 +130,11 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assertNotNull(op.save());
     Transaction restored = Transaction.getInstanceFromDb(op.getId());
     assertEquals(restored.getAccountId(), mAccount2.getId());
-    assertEquals(restored.getTransferAccountId(), mAccount3.getId());
+    assertEquals(restored.getTransferAccountId().longValue(), mAccount3.getId());
     assertEquals(restored.uuid, op.uuid);
     Transaction peer = Transaction.getInstanceFromDb(op.getTransferPeer());
     assertEquals(peer.getAccountId(), mAccount3.getId());
-    assertEquals(peer.getTransferAccountId(), mAccount2.getId());
+    assertEquals(peer.getTransferAccountId().longValue(), mAccount2.getId());
     assertEquals(peer.uuid, op.uuid);
   }
 
@@ -151,15 +153,15 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), op1.getId());
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
-    assertEquals(split1.getParentId(), op1.getId());
-    split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    assertEquals(split1.getParentId().longValue(), op1.getId());
+    split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
     assertTrue(split1.getId() > 0);
     Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), op1.getId());
     assert split2 != null;
     split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
-    assertEquals(split2.getParentId(), op1.getId());
-    split2.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    assertEquals(split2.getParentId().longValue(), op1.getId());
+    split2.setStatus(STATUS_UNCOMMITTED);
     split2.save();
     assertTrue(split2.getId() > 0);
     op1.save();
@@ -255,12 +257,12 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), op3.getId());
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
-    split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
     Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), op3.getId());
     assert split2 != null;
     split2.setAmount(new Money(mAccount1.getCurrencyUnit(), 50L));
-    split2.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    split2.setStatus(STATUS_UNCOMMITTED);
     split2.save();
     op3.save();
     assertEquals(3, getAccountUsage(mAccount1.getId()));

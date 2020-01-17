@@ -96,7 +96,7 @@ public class Plan extends Model implements Serializable {
     }
   }
 
-  private Plan(Long id, long dtstart, String rrule, String title, String description) {
+  private Plan(long id, long dtstart, String rrule, String title, String description) {
     this.setId(id);
     this.dtstart = dtstart;
     this.rrule = rrule;
@@ -104,7 +104,7 @@ public class Plan extends Model implements Serializable {
     this.description = description;
   }
 
-  private Plan(Long id, LocalDate localDate, String rrule, String title, String description) {
+  private Plan(long id, LocalDate localDate, String rrule, String title, String description) {
     this(id, ZonedDateTime.of(localDate, LocalTime.of(12, 0), ZoneId.systemDefault()).toEpochSecond() * 1000, rrule, title, description);
   }
 
@@ -112,7 +112,7 @@ public class Plan extends Model implements Serializable {
     this(0L, localDate, rrule, title, description);
   }
 
-  public Plan(Long id, LocalDate localDate, Recurrence recurrence, String title, String description) {
+  public Plan(long id, LocalDate localDate, Recurrence recurrence, String title, String description) {
     this(id, localDate, recurrence.toRrule(localDate), title, description);
   }
 

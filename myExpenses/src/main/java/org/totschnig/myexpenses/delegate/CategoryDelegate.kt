@@ -8,10 +8,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -21,7 +18,7 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 
 class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean)
-    : MainDelegate<Transaction>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
+    : MainDelegate<ITransaction>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
 
     override val operationType = TYPE_TRANSACTION
 
@@ -33,7 +30,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     var categoryIcon: String? = null
     var catId: Long? = null
 
-    override fun bind(transaction: Transaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+    override fun bind(transaction: ITransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
         super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, plan)
         label = transaction.label
         categoryIcon = transaction.categoryIcon
@@ -47,7 +44,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits())
     }
 
-    override fun buildMainTransaction(accountId: Long) =
+    override fun buildMainTransaction(accountId: Long): ITransaction =
             (if (isTemplate) buildTemplate(accountId) else Transaction(accountId, parentId)).apply {
                 this.catId = this@CategoryDelegate.catId
             }
@@ -76,7 +73,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
     }
 
-    override fun populateFields(transaction: Transaction, prefHandler: PrefHandler, newInstance: Boolean) {
+    override fun populateFields(transaction: ITransaction, prefHandler: PrefHandler, newInstance: Boolean) {
         super.populateFields(transaction, prefHandler, newInstance)
         if (newInstance && !isTemplate && !isSplitPart && PreferenceUtils.shouldStartAutoFill()) {
             viewBinding.Payee.requestFocus()

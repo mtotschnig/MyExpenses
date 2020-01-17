@@ -43,7 +43,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
  *
  * @author Michael Totschnig
  */
-public class Transfer extends Transaction {
+public class Transfer extends Transaction implements ITransfer {
 
   public static final String RIGHT_ARROW = "▶";
   public static final String LEFT_ARROW = "◀";
@@ -51,7 +51,6 @@ public class Transfer extends Transaction {
 
   private Long transferPeer;
   private Long transferAccountId;
-
 
   public Long getTransferPeer() {
     return transferPeer;
@@ -156,7 +155,7 @@ public class Transfer extends Transaction {
       //both parts of the transfer share uuid
       initialValues.put(KEY_UUID, requireUuid());
       initialValues.put(KEY_PARENTID, getParentId());
-      initialValues.put(KEY_STATUS, status);
+      initialValues.put(KEY_STATUS, getStatus());
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
