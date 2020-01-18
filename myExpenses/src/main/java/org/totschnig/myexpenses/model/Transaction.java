@@ -784,9 +784,10 @@ public class Transaction extends Model implements ITransaction {
       String idStr = String.valueOf(getId());
       ContentValues statusValues = new ContentValues();
       String statusUncommited = String.valueOf(STATUS_UNCOMMITTED);
-      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(statusUncommited);
+      final String partOrPeerSelect = getPartOrPeerSelect();
+      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(partOrPeerSelect, statusUncommited, idStr);
       ops.add(ContentProviderOperation.newDelete(uri).withSelection(
-          getPartOrPeerSelect() + "  AND " + KEY_STATUS + " != ?", uncommitedPartOrPeerSelectArgs).build());
+          partOrPeerSelect + "  AND " + KEY_STATUS + " != ?", uncommitedPartOrPeerSelectArgs).build());
       statusValues.put(KEY_STATUS, STATUS_NONE);
       //for a new split, both the parent and the parts are in state uncommitted
       //when we edit a split only the parts are in state uncommitted,
@@ -796,7 +797,7 @@ public class Transaction extends Model implements ITransaction {
           KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
           new String[]{statusUncommited, idStr}).build());
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
-          getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
+          partOrPeerSelect + "  AND " + KEY_STATUS + " = ?",
           uncommitedPartOrPeerSelectArgs).build());
     }
   }
@@ -805,9 +806,9 @@ public class Transaction extends Model implements ITransaction {
     return null;
   }
 
-  private String[] getPartOrPeerSelectArgs(String extra) {
-    int count = StringUtils.countMatches(getPartOrPeerSelect(), '?');
-    List<String> args = new ArrayList<>(Collections.nCopies(count, String.valueOf(getId())));
+  static String[] getPartOrPeerSelectArgs(String partOrPeerSelect, String extra, String id) {
+    int count = StringUtils.countMatches(partOrPeerSelect, '?');
+    List<String> args = new ArrayList<>(Collections.nCopies(count, id));
     if (extra != null) {
       args.add(extra);
     }
@@ -1271,23 +1272,21 @@ public class Transaction extends Model implements ITransaction {
       return result;
     }
   }
-
-  public void cleanupCanceledEdit() {
-    if (isSplit()) {
-      String idStr = String.valueOf(getId());
-      String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
-      ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-      ops.add(ContentProviderOperation.newDelete(getContentUri())
-          .withSelection(getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?", getPartOrPeerSelectArgs(statusUncommitted))
-          .build());
-      ops.add(ContentProviderOperation.newDelete(getContentUri())
-          .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
-          .build());
-      try {
-        cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-      } catch (OperationApplicationException | RemoteException e) {
-        CrashHandler.report(e);
-      }
+  static void cleanupCanceledEdit(Long id, Uri contentUri, String partOrPeerSelect) {
+    String idStr = String.valueOf(id);
+    String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    String[] partOrPeerSelectArgs = getPartOrPeerSelectArgs(partOrPeerSelect, statusUncommitted, idStr);
+    ops.add(ContentProviderOperation.newDelete(contentUri)
+        .withSelection(partOrPeerSelect + "  AND " + KEY_STATUS + " = ?", partOrPeerSelectArgs)
+        .build());
+    ops.add(ContentProviderOperation.newDelete(contentUri)
+        .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
+        .build());
+    try {
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+    } catch (OperationApplicationException | RemoteException e) {
+      CrashHandler.report(e);
     }
   }
 

@@ -30,8 +30,8 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     var categoryIcon: String? = null
     var catId: Long? = null
 
-    override fun bind(transaction: ITransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, plan)
+    override fun bind(transaction: ITransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstance, recurrence, plan)
         label = transaction.label
         categoryIcon = transaction.categoryIcon
         catId = transaction.catId

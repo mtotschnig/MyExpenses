@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import icepick.Icepick
+import icepick.State
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
@@ -32,6 +33,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.*
 import org.totschnig.myexpenses.util.*
@@ -77,10 +79,18 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         get() = isTemplate && !isSplitPart
 
     var isProcessingLinkedAmountInputs = false
+    @JvmField
+    @State
     var originalAmountVisible = false
+    @JvmField
+    @State
     var equivalentAmountVisible = false
+    @JvmField
+    @State
     var originalCurrencyCode: String? = null
     var accountId: Long? = null
+    @JvmField
+    @State
     var methodId: Long? = null
     var parentId: Long? = null
     var rowId: Long? = null
@@ -93,7 +103,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     private val planExecutionButton: ToggleButton
         get() = viewBinding.RR.TB.root as ToggleButton
 
-    open fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+    open fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
         rowId = transaction.id
         parentId = transaction.parentId
         accountId = transaction.accountId
@@ -159,10 +169,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             viewBinding.DateTimeRow.visibility = View.GONE
         }
         //when we have a savedInstance, fields have already been populated
-        //if (!mSavedInstance) {
-        populateFields(transaction, prefHandler, newInstance)
-        if (!isSplitPart) {
-            setLocalDateTime(transaction)
+        if (!savedInstance) {
+            populateFields(transaction, prefHandler, newInstance)
+            if (!isSplitPart) {
+                setLocalDateTime(transaction)
+            }
         }
         //}
         //after setLocalDateTime, so that the plan info can override the date
@@ -221,6 +232,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
      * populates the input fields with a transaction from the database or a new one
      */
     open fun populateFields(transaction: T, prefHandler: PrefHandler, newInstance: Boolean) {
+        methodId = transaction.methodId
         isProcessingLinkedAmountInputs = true
         //mStatusSpinner.setSelection(cachedOrSelf.crStatus.ordinal, false)
         viewBinding.Comment.setText(transaction.comment)
@@ -324,7 +336,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     }
 
     fun setMethodSelection() {
-        if (methodId != 0L) {
+        if (methodId != null) {
             var found = false
             for (i in 0 until methodsAdapter.count) {
                 val pm = methodsAdapter.getItem(i)
@@ -342,7 +354,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         } else {
             methodSpinner.setSelection(0)
         }
-        setVisibility(viewBinding.ClearMethod, methodId != 0L)
+        setVisibility(viewBinding.ClearMethod, methodId != null)
         setReferenceNumberVisibility()
     }
 
@@ -536,15 +548,15 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                         resetOperationType()
                     } else if (newType == TransactionsContract.Transactions.TYPE_SPLIT) {
                         resetOperationType()
-/*                        if (mTransaction is Template) {
+                        if (isTemplate) {
                             if (PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true)) {
-                                restartWithType(Transactions.TYPE_SPLIT)
+                                host.restartWithType(newType)
                             } else {
-                                showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
+                                host.contribFeatureRequested(ContribFeature.SPLIT_TEMPLATE, null)
                             }
-                        } else {*/
+                        } else {
                         host.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null)
-                        //}
+                        }
                     } else {
                         host.restartWithType(newType)
                     }
@@ -799,6 +811,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         if (methodId > 0) {
             this.methodId = methodId
         }
+        outState.putLong(KEY_METHODID, methodId)
 /*        if (didUserSetAccount) {
             val accountId = accountSpinner.selectedItemId
             if (accountId != AdapterView.INVALID_ROW_ID) {
@@ -847,7 +860,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     }
 
     companion object {
-        fun <T : ITransaction> createAndBind(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, isCalendarPermissionPermanentlyDeclined: Boolean, prefHandler: PrefHandler, newInstance: Boolean, recurrence: Plan.Recurrence?) =
+        fun <T : ITransaction> createAndBind(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, isCalendarPermissionPermanentlyDeclined: Boolean, prefHandler: PrefHandler, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?) =
                 (transaction is Template).let { isTemplate ->
                     with(transaction) {
                         when {
@@ -855,7 +868,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                             isSplit -> SplitDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
                             else -> CategoryDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
                         }.apply {
-                            (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, (transaction as? Template)?.plan)
+                            (this as TransactionDelegate<T>).bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstance, recurrence, (transaction as? Template)?.plan)
                         }
                     }
                 }

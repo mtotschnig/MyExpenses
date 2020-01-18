@@ -48,6 +48,7 @@ import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.delegate.CategoryDelegate
@@ -109,9 +110,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var mRowId = 0L
     @JvmField
     @State
-    var mTemplateId = 0L
-    @JvmField
-    @State
     var mCatId: Long? = null
     @JvmField
     @State
@@ -135,9 +133,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private var mOperationType = 0
     private lateinit var mManager: LoaderManager
     private var mCreateNew = false
-    private var mIsMainTransactionOrTemplate = false
-    private var mIsMainTemplate = false
-    private var mIsMainTransaction = false
+    private var isTemplate = false
     private var mSavedInstance = false
     private var mRecordTemplateWidget = false
     private var mIsResumed = false
@@ -164,8 +160,23 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     lateinit var delegate: TransactionDelegate<*>
 
+    private val isSplitPart: Boolean
+        get() = parentId != 0L
+
+    private val isNoMainTransaction: Boolean
+        get() = isSplitPart || isTemplate
+
+    private val isMainTemplate: Boolean
+        get() = isTemplate && !isSplitPart
+
+    private val shouldLoadMethods: Boolean
+        get() = mOperationType != TYPE_TRANSFER && !isSplitPart
+
+    private val isMainTransactione: Boolean
+        get() = mOperationType != TYPE_TRANSFER && !isSplitPart && !isTemplate
+
     public override fun getDiscardNewMessage(): Int {
-        return /*if (mTransaction is Template) R.string.dialog_confirm_discard_new_template else*/ R.string.dialog_confirm_discard_new_transaction
+        return if (isTemplate) R.string.dialog_confirm_discard_new_template else R.string.dialog_confirm_discard_new_transaction
     }
 
     override fun injectDependencies() {
@@ -180,19 +191,19 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         setupToolbar()
         mManager = LoaderManager.getInstance(this)
         viewModel = ViewModelProvider(this).get(TransactionEditViewModel::class.java)
-        viewModel.getMethods().observe(this, Observer<List<PaymentMethod>> { paymentMethods ->
-            delegate.setMethods(paymentMethods)
-        })
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
-        currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
-            delegate.setCurrencies(currencies, currencyContext)
-        })
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
         val extras = intent.extras
-        mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0)
-        mTemplateId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0)
+        mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
+        if (mRowId == 0L) {
+            mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
+            if (mRowId != 0L) {
+                isTemplate = true
+            }
+        }
+
         //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
         if (savedInstanceState != null) {
             mSavedInstance = true
@@ -207,15 +218,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId)
         }
         //1. fetch the transaction or create a new instance
-        if (mRowId != 0L) { //or template
+        if (mRowId != 0L) {
             mNewInstance = false
-            viewModel.transaction(mRowId).observe(this, Observer {
-                populate(it)
-            })
-        } else if (mTemplateId != 0L) {
-            mNewInstance = false
-            viewModel.template(mTemplateId).observe(this, Observer {
-                populate(it)
+            //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
+            viewModel.transaction(mRowId, isTemplate, intent.getBooleanExtra(KEY_CLONE, false) && savedInstanceState == null).observe(this, Observer {
+                populate(it, savedInstanceState)
             })
         } else {
             mOperationType = intent.getIntExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
@@ -248,16 +255,17 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                         R.string.progress_dialog_loading)
             } else {
                 if (isNewTemplate) {
-                    populate(Template.getTypedNewInstance(mOperationType, accountId, true, if (parentId != 0L) parentId else null).also { mTemplateId = it.id })
+                    populate(Template.getTypedNewInstance(mOperationType, accountId, true, if (parentId != 0L) parentId else null).also { mRowId = it.id }, savedInstanceState)
+                    isTemplate = true
                 } else {
                     when (mOperationType) {
                         Transactions.TYPE_TRANSACTION -> {
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populate(Transaction.getNewInstance(accountId, if (parentId != 0L) parentId else null))
+                            populate(Transaction.getNewInstance(accountId, if (parentId != 0L) parentId else null), savedInstanceState)
                         }
-                        Transactions.TYPE_TRANSFER -> {
+                        TYPE_TRANSFER -> {
                             var transferAccountId = 0L
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L)
@@ -265,13 +273,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                             }
                             populate(Transfer.getNewInstance(accountId,
                                     if (transferAccountId != 0L) transferAccountId else null,
-                                    if (parentId != 0L) parentId else null))
+                                    if (parentId != 0L) parentId else null), savedInstanceState)
                         }
                         Transactions.TYPE_SPLIT -> {
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populate(SplitTransaction.getNewInstance(accountId).also { mRowId = it.id })
+                            populate(SplitTransaction.getNewInstance(accountId)?.also { mRowId = it.id }, savedInstanceState)
                         }
                     }
                 }
@@ -319,7 +327,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         splitPartList?.updateBalance()
     }
 
-    private fun populate(transaction: Transaction?) {
+    private fun populate(transaction: Transaction?, savedInstanceState: Bundle?) {
         if (transaction == null) {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
@@ -364,8 +372,15 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
         delegate = TransactionDelegate.createAndBind(transaction, rootBinding, dateEditBinding,
                 isCalendarPermissionPermanentlyDeclined(), prefHandler,
-                mNewInstance,
+                mNewInstance, mSavedInstance,
                 intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence)
+        Icepick.restoreInstanceState(delegate, savedInstanceState)
+        viewModel.getMethods().observe(this, Observer<List<PaymentMethod>> { paymentMethods ->
+            delegate.setMethods(paymentMethods)
+        })
+        currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
+            delegate.setCurrencies(currencies, currencyContext)
+        })
         currencyViewModel.loadCurrencies()
         linkInputsWithLabels()
         mManager.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
@@ -373,6 +388,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         if (!mNewInstance) {
             setTitle(delegate.title)
         }
+        mOperationType = transaction.operationType()
+        invalidateOptionsMenu()
     }
 
     override fun hideKeyBoardAndShowDialog(id: Int) {
@@ -421,22 +438,24 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onTypeChanged(isChecked: Boolean) {
         super.onTypeChanged(isChecked)
-        if (mIsMainTransactionOrTemplate) {
+        if (shouldLoadMethods) {
             loadMethods(currentAccount)
         }
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.EI_SWITCH)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val oaMenuItem = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)
-        if (oaMenuItem != null) {
-            oaMenuItem.isChecked = delegate.originalAmountVisible
-        }
-        val currentAccount = currentAccount
-        val eaMenuItem = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)
-        if (eaMenuItem != null) {
-            Utils.menuItemSetEnabledAndVisible(eaMenuItem, !(currentAccount == null || hasHomeCurrency(currentAccount)))
-            eaMenuItem.isChecked = delegate.equivalentAmountVisible
+        if (::delegate.isInitialized) {
+            val oaMenuItem = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)
+            if (oaMenuItem != null) {
+                oaMenuItem.isChecked = delegate.originalAmountVisible
+            }
+            val currentAccount = currentAccount
+            val eaMenuItem = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)
+            if (eaMenuItem != null) {
+                Utils.menuItemSetEnabledAndVisible(eaMenuItem, !(currentAccount == null || hasHomeCurrency(currentAccount)))
+                eaMenuItem.isChecked = delegate.equivalentAmountVisible
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -453,11 +472,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     .setIcon(R.drawable.ic_action_save_new)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
-        if (mOperationType == Transactions.TYPE_TRANSFER) {
+        if (mOperationType == TYPE_TRANSFER) {
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
                     .setIcon(R.drawable.ic_menu_move)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        } else if (mIsMainTransaction) {
+        } else if (isMainTransactione) {
             menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
                     .setCheckable(true)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
@@ -481,8 +500,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun doHome() {
-        cleanup()
-        finish()
+        cleanup({ finish() })
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
@@ -495,8 +513,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 return true
             }
             R.id.INVERT_TRANSFER_COMMAND -> {
-                amountInput.toggle()
-                (delegate as? TransferDelegate)?.switchAccountViews()
+                (delegate as? TransferDelegate)?.invert()
                 return true
             }
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
@@ -524,7 +541,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         i.putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.id)
         i.putExtra(DatabaseConstants.KEY_PARENTID, mRowId)
-        //i.putExtra(KEY_NEW_TEMPLATE, mTransaction is Template)
+        i.putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
         startActivityForResult(i, ProtectedFragmentActivity.EDIT_SPLIT_REQUEST)
     }
 
@@ -561,7 +578,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             if (intent.getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
                 when (mOperationType) {
                     Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, accountId)
-                    Transactions.TYPE_TRANSFER -> {
+                    TYPE_TRANSFER -> {
                         prefHandler.putLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, accountId)
                         (delegate as? TransferDelegate)?.mTransferAccountId?.let {
                             prefHandler.putLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, it)
@@ -575,12 +592,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             mCreateNew = false
         }
     }
-
-    private val isSplitPart: Boolean
-        get() = parentId != 0L
-
-    private val isNoMainTransaction: Boolean
-        get() = isSplitPart /*|| mTransaction is Template*/
 
     /* (non-Javadoc)
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -630,14 +641,19 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun onBackPressed() {
-        cleanup()
-        super.onBackPressed()
+        cleanup({ super.onBackPressed() })
     }
 
-    private fun cleanup() {
-        /*if (mTransaction != null) {
-            mTransaction!!.cleanupCanceledEdit()
-        }*/
+    private fun cleanup(onComplete: () -> Unit) {
+        if (mOperationType == Transactions.TYPE_SPLIT) {
+            if (mRowId != 0L) {
+                viewModel.cleanupSplit(mRowId, isTemplate).observe(this, Observer {
+                    onComplete()
+                })
+            }
+        } else {
+            onComplete()
+        }
     }
 
     /**
@@ -654,13 +670,16 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     private fun refreshPlanData() {
-        delegate.planId?.let { viewModel.plan(it).observe(this, Observer {
-           delegate.configurePlan(it)
-        }) }
+        delegate.planId?.let {
+            viewModel.plan(it).observe(this, Observer {
+                delegate.configurePlan(it)
+            })
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
         delegate.onSaveInstanceState(outState)
     }
 
@@ -773,7 +792,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     fun isValidType(type: Int): Boolean {
-        return type == Transactions.TYPE_SPLIT || type == Transactions.TYPE_TRANSACTION || type == Transactions.TYPE_TRANSFER
+        return type == Transactions.TYPE_SPLIT || type == Transactions.TYPE_TRANSACTION || type == TYPE_TRANSFER
     }
 
     fun loadMethods(account: Account?) {
@@ -786,19 +805,19 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         val bundle = Bundle()
         bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
         logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle)
-        cleanup()
-        val restartIntent = intent
-        restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
-        delegate.syncStateAndValidate(false, currencyContext, mPictureUri)?.let {
-            restartIntent.putExtra(KEY_CACHED_DATA, it)
-            if (it.pictureUri != null) {
-                restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
+        cleanup({
+            val restartIntent = intent
+            restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
+            delegate.syncStateAndValidate(false, currencyContext, mPictureUri)?.let {
+                restartIntent.putExtra(KEY_CACHED_DATA, it)
+                if (it.pictureUri != null) {
+                    restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
+                }
             }
-        }
-        restartIntent.putExtra(KEY_CACHED_RECURRENCE, delegate.recurrenceSpinner.selectedItem as? Recurrence)
-        finish()
-        startActivity(restartIntent)
-
+            restartIntent.putExtra(KEY_CACHED_RECURRENCE, delegate.recurrenceSpinner.selectedItem as? Recurrence)
+            finish()
+            startActivity(restartIntent)
+        })
     }
 
     fun onSaved(result: Long) {
@@ -840,8 +859,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    viewModel.template(result).observe(this, Observer {
-                        it?.let { launchPlanView(true, it.planId) }
+                    viewModel.transaction(result, true, false).observe(this, Observer {
+                        it?.let { launchPlanView(true, (it as Template).planId) }
                     })
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
@@ -908,12 +927,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     abortWithMessage(getString(R.string.warning_no_account))
                     return
                 }
-                if (data.count == 1 && mOperationType == Transactions.TYPE_TRANSFER) {
+                if (data.count == 1 && mOperationType == TYPE_TRANSFER) {
                     abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
                     return
                 }
                 delegate.setAccounts(data, if (didUserSetAccount) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
-                if (mOperationType != Transactions.TYPE_TRANSFER) {//the methods cursor is based on the current account,
+                if (mOperationType != TYPE_TRANSFER) {//the methods cursor is based on the current account,
 //hence it is loaded only after the accounts cursor is loaded
                     if (!isSplitPart) {
                         loadMethods(currentAccount)
@@ -1149,7 +1168,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 return
             }
         }
-   }
+    }
 
     fun observePlan(planId: Long) {
         pObserver = PlanObserver().also {

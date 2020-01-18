@@ -106,7 +106,6 @@ public class ExpenseEditTest {
     checkEffectiveGone(R.id.PB);
   }
 
-
   @Test
   public void accountIdInExtraShouldPopulateSpinner() {
     Account[] allAccounts = {account1, account2};

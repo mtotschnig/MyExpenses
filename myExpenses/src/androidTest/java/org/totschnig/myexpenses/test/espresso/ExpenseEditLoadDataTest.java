@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import android.view.ViewGroup;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +24,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import java.util.Currency;
@@ -35,6 +37,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -103,6 +106,26 @@ public class ExpenseEditLoadDataTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
         R.id.TransferAccountRow, R.id.Recurrence);
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("6")));
+  }
+
+  @Test
+  public void shouldSwitchAccountViewsForReceivingTransferPart() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_ROWID, transfer.getId());
+    mActivityRule.launchActivity(i);
+    assertThat(((AmountInput) mActivityRule.getActivity().findViewById(R.id.Amount)).getType()).isTrue();
+    assertThat(((ViewGroup) mActivityRule.getActivity().findViewById(R.id.AccountRow)).getChildAt(1).getId()).isEqualTo(R.id.TransferAccount);
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("6")));
+  }
+
+  @Test
+  public void shouldKeepAccountViewsForGivingTransferPart() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_ROWID, transfer.getTransferPeer());
+    mActivityRule.launchActivity(i);
+    assertThat(((AmountInput) mActivityRule.getActivity().findViewById(R.id.Amount)).getType()).isFalse();
+    assertThat(((ViewGroup) mActivityRule.getActivity().findViewById(R.id.AccountRow)).getChildAt(1).getId()).isEqualTo(R.id.Account);
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("6")));
   }
 

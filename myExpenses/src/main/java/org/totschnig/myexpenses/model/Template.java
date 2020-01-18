@@ -74,7 +74,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 
 public class Template extends Transaction implements ITransfer, ISplit {
-  private String PART_SELECT = "(" + KEY_PARENTID + "= ?)";
+  private static String PART_SELECT = "(" + KEY_PARENTID + "= ?)";
   private String title;
   public Long planId;
   private boolean planExecutionAutomatic = false;
@@ -648,5 +648,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
   @Override
   public void setTransferPeer(@Nullable Long transferPeer) {
     throw new IllegalStateException("Transfer templates have no transferPeer");
+  }
+
+  public static void cleanupCanceledEdit(Long id) {
+    cleanupCanceledEdit(id, CONTENT_URI, PART_SELECT);
   }
 }

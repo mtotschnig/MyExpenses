@@ -34,5 +34,5 @@ interface ITransaction: Serializable {
     fun setDate(zonedDateTime: ZonedDateTime)
     fun setValueDate(zonedDateTime: ZonedDateTime)
     fun setInitialPlan(initialPlan: Pair<Recurrence?, LocalDate?>)
-    fun save(withCommit: Boolean): Uri
+    fun save(withCommit: Boolean): Uri?
 }

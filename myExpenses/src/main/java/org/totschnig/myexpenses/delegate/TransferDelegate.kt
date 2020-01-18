@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SimpleCursorAdapter
+import icepick.State
 import kotlinx.android.synthetic.main.exchange_rate_row.view.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -31,6 +32,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
     private lateinit var transferAccountSpinner: SpinnerHelper
     private lateinit var transferAccountsAdapter: SimpleCursorAdapter
+    @JvmField
+    @State
     var mTransferAccountId: Long? = null
     var transferPeer: Long? = null
     private lateinit var mTransferAccountCursor: FilterCursorWrapper
@@ -46,7 +49,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override val typeResId = R.string.split_transaction
 
 
-    override fun bind(transaction: ITransfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+    override fun bind(transaction: ITransfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
         mTransferAccountId = transaction.transferAccountId
         transferPeer = transaction.transferPeer
         transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
@@ -57,16 +60,19 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.TransferAccountRow.visibility = View.VISIBLE
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstance, recurrence, plan)
+        hideRowsSpecificToMain()
         if (transaction.id != 0L) {
             configureTransferDirection()
         }
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, recurrence, plan)
-        hideRowsSpecificToMain()
     }
 
     override fun populateFields(transaction: ITransfer, prefHandler: PrefHandler, newInstance: Boolean) {
         super.populateFields(transaction, prefHandler, newInstance)
-        viewBinding.TransferAmount.setAmount(transaction.transferAmount.amountMajor.abs())
+        transaction.transferAmount?.let {
+            viewBinding.TransferAmount.setAmount(it.amountMajor.abs())
+        }
+
     }
 
     override fun createAdapters(newInstance: Boolean, transaction: ITransaction) {
@@ -288,6 +294,11 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             mTransferAccountId = transferAccountId
             super.onSaveInstanceState(outState)
         }
+    }
+
+    fun invert() {
+        viewBinding.Amount.toggle()
+        switchAccountViews()
     }
 
     private inner class LinkedExchangeRateTextWatcher : ExchangeRateEdit.ExchangeRateWatcher {

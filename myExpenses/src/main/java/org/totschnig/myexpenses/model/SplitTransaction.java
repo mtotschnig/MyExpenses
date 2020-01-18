@@ -57,7 +57,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 public class SplitTransaction extends Transaction implements ISplit {
   public static final String CSV_INDICATOR = "*";
   public static final String CSV_PART_INDICATOR = "-";
-  private String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
+  private static String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
 
@@ -229,5 +229,9 @@ public class SplitTransaction extends Transaction implements ISplit {
             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT)
             .build(),
         values, null, null) == 1;
+  }
+
+  public static void cleanupCanceledEdit(Long id) {
+    cleanupCanceledEdit(id, CONTENT_URI, PART_OR_PEER_SELECT);
   }
 }

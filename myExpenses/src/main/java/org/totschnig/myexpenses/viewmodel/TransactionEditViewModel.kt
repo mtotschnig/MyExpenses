@@ -29,15 +29,13 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
         return methods
     }
 
-    fun transaction(transactionId: Long): LiveData<Transaction?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(Transaction.getInstanceFromDb(transactionId))
+    fun transaction(transactionId: Long, isTemplate: Boolean, clone: Boolean): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+        emit((if (isTemplate) Template.getInstanceFromDb(transactionId) else Transaction.getInstanceFromDb(transactionId)).also {
+            it.prepareForEdit(clone)
+        })
     }
 
-    fun template(transactionId: Long): LiveData<Template?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(Template.getInstanceFromDb(transactionId))
-    }
-
-    fun plan(planId: Long): LiveData<Plan?> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))
     }
 
@@ -51,7 +49,7 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
                 .subscribe { methods.postValue(it) }
     }
 
-    fun save(transaction: ITransaction): LiveData<Long> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    fun save(transaction: ITransaction): LiveData<Long> = liveData(context = coroutineContext()) {
         emit(
                 try {
                     transaction.save(true)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
@@ -70,4 +68,12 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
                     ERROR_UNKNOWN
                 })
     }
+
+    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> = liveData(context = coroutineContext()) {
+        emit(
+                if (isTemplate) Template.cleanupCanceledEdit(id) else SplitTransaction.cleanupCanceledEdit(id)
+        )
+    }
+
+    private fun coroutineContext() = viewModelScope.coroutineContext + Dispatchers.IO
 }
