@@ -639,7 +639,7 @@ public class Transaction extends Model implements ITransaction {
     if (account == null) {
       return null;
     }
-    return new Transaction(accountId, new Money(account.getCurrencyUnit(), 0L), parentId);
+    return new Transaction(account.getId(), new Money(account.getCurrencyUnit(), 0L), parentId);
   }
 
   public static void delete(long id, boolean markAsVoid) {

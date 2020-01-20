@@ -27,7 +27,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -59,16 +63,27 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
-import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ISplit
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.BuildTransactionTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.ui.*
+import org.totschnig.myexpenses.ui.AmountInput
+import org.totschnig.myexpenses.ui.ButtonWithDialog
+import org.totschnig.myexpenses.ui.DateButton
+import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -76,7 +91,12 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
+import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
+import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.widget.AbstractWidget
@@ -110,9 +130,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var mRowId = 0L
     @JvmField
     @State
-    var mCatId: Long? = null
-    @JvmField
-    @State
     var parentId = 0L
     @JvmField
     @State
@@ -134,13 +151,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private lateinit var mManager: LoaderManager
     private var mCreateNew = false
     private var isTemplate = false
-    private var mSavedInstance = false
     private var mRecordTemplateWidget = false
     private var mIsResumed = false
     private var accountsLoaded = false
     var isProcessingLinkedAmountInputs = false
     private var pObserver: ContentObserver? = null
-    private var didUserSetAccount = false
     private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
     override fun getDate(): LocalDate {
@@ -206,11 +221,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
         //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
         if (savedInstanceState != null) {
-            mSavedInstance = true
             Icepick.restoreInstanceState(this, savedInstanceState)
-            if (accountId != 0L) {
-                didUserSetAccount = true
-            }
         }
         //were we called from a notification
         val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
@@ -248,7 +259,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
             supportActionBar!!.setDisplayShowTitleEnabled(false)
             var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
-            if (!mSavedInstance && Intent.ACTION_INSERT == intent.action && extras != null) {
+            if (savedInstanceState == null && Intent.ACTION_INSERT == intent.action && extras != null) {
                 val args = Bundle(1)
                 args.putBundle(BuildTransactionTask.KEY_EXTRAS, extras)
                 startTaskExecution(TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS, args,
@@ -346,7 +357,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             transaction.uuid = Model.generateUuid()
             mNewInstance = true
         }
-        if (!mSavedInstance) { //processing data from user switching operation type
+        if (savedInstanceState == null) { //processing data from user switching operation type
             val cached = intent.getSerializableExtra(KEY_CACHED_DATA) as? Transaction
             if (cached != null) {
                 transaction.accountId = cached.accountId
@@ -370,20 +381,39 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
             }
         }
-        delegate = TransactionDelegate.createAndBind(transaction, rootBinding, dateEditBinding,
-                isCalendarPermissionPermanentlyDeclined(), prefHandler,
-                mNewInstance, mSavedInstance,
-                intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence)
-        Icepick.restoreInstanceState(delegate, savedInstanceState)
+        delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding,
+                prefHandler)
+
         viewModel.getMethods().observe(this, Observer<List<PaymentMethod>> { paymentMethods ->
             delegate.setMethods(paymentMethods)
         })
         currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
             delegate.setCurrencies(currencies, currencyContext)
         })
-        currencyViewModel.loadCurrencies()
-        linkInputsWithLabels()
-        mManager.initLoader<Cursor>(ACCOUNTS_CURSOR, null, this)
+        viewModel.getAccounts().observe(this, Observer<List<Account>> { accounts ->
+            if (accounts.size == 0) {
+                abortWithMessage(getString(R.string.warning_no_account))
+            } else if (accounts.size == 1 && mOperationType == TYPE_TRANSFER) {
+                abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
+            } else {
+                delegate.setAccounts(accounts)
+                delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,  intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
+
+                linkInputsWithLabels()
+                if (mOperationType != TYPE_TRANSFER) {//the methods cursor is based on the current account,
+                    //hence it is loaded only after the accounts cursor is loaded
+                    if (!isSplitPart) {
+                        loadMethods(currentAccount)
+                    }
+                }
+                accountsLoaded = true
+                if (mIsResumed) setupListeners()
+            }
+        })
+        if (savedInstanceState == null) {
+            currencyViewModel.loadCurrencies()
+            viewModel.loadAccounts(currencyContext)
+        }
         setHelpVariant(delegate.helpVariant)
         if (!mNewInstance) {
             setTitle(delegate.title)
@@ -461,7 +491,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {
-        return account.currencyUnit == Utils.getHomeCurrency()
+        return account.currency == Utils.getHomeCurrency()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -555,7 +585,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         //we pass the currently selected category in to prevent
 //it from being deleted, which can theoretically lead
 //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
-        i.putExtra(DatabaseConstants.KEY_ROWID, mCatId)
+        i.putExtra(DatabaseConstants.KEY_ROWID, (delegate as? CategoryDelegate)?.catId)
         startActivityForResult(i, ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST)
     }
 
@@ -599,8 +629,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST && intent != null) {
-            mCatId = intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
-            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL), intent.getStringExtra(DatabaseConstants.KEY_ICON), mCatId)
+            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
+                    intent.getStringExtra(DatabaseConstants.KEY_ICON),
+                    intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -687,7 +718,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         get() {
             val a = currentAccount ?: return null
             val amount = validateAmountInput(false)
-            return if (amount == null) Money(a.currencyUnit, 0L) else Money(a.currencyUnit, amount)
+            return if (amount == null) Money(a.currency, 0L) else Money(a.currency, amount)
         }
 /*
 
@@ -833,7 +864,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
                 else -> {
                     (delegate as? CategoryDelegate)?.resetCategory()
-                    mCatId = null
                     errorMsg = "Error while saving transaction"
                 }
             }
@@ -882,8 +912,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {
         when (id) {
-            ACCOUNTS_CURSOR -> return CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
-                    null, DatabaseConstants.KEY_SEALED + " = 0", null, null)
             AUTOFILL_CURSOR -> {
                 val dataToLoad: MutableList<String> = ArrayList()
                 val autoFillAccountFromPreference = prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "never")
@@ -922,25 +950,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             return
         }
         when (loader.id) {
-            ACCOUNTS_CURSOR -> {
-                if (data.count == 0) {
-                    abortWithMessage(getString(R.string.warning_no_account))
-                    return
-                }
-                if (data.count == 1 && mOperationType == TYPE_TRANSFER) {
-                    abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
-                    return
-                }
-                delegate.setAccounts(data, if (didUserSetAccount) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
-                if (mOperationType != TYPE_TRANSFER) {//the methods cursor is based on the current account,
-//hence it is loaded only after the accounts cursor is loaded
-                    if (!isSplitPart) {
-                        loadMethods(currentAccount)
-                    }
-                }
-                accountsLoaded = true
-                if (mIsResumed) setupListeners()
-            }
             AUTOFILL_CURSOR ->
                 (delegate as? CategoryDelegate)?.autoFill(data, currencyContext)
         }
@@ -964,9 +973,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autocompletetextview
-        when (loader.id) {
-            ACCOUNTS_CURSOR -> delegate.accountsAdapter.swapCursor(null)
-        }
     }
 
     fun onToggleClicked(view: View) {
@@ -1125,13 +1131,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         super.onRestoreInstanceState(savedInstanceState)
         exchangeRateEdit.setBlockWatcher(false)
         isProcessingLinkedAmountInputs = false
-        if (mRowId == 0L/* && mTemplateId == 0L*/) {
+        if (mRowId == 0L) {
             (delegate as? TransferDelegate)?.configureTransferDirection()
         }
     }
 
     fun clearMethodSelection(view: View) {
-        delegate.setMethodSelection(0L)
+        delegate.setMethodSelection(null)
     }
 
     fun clearCategorySelection(view: View) {
@@ -1151,7 +1157,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         val fm = supportFragmentManager
         if (findSplitPartList() == null && !fm.isStateSaved) {
             fm.beginTransaction()
-                    .add(R.id.edit_container, SplitPartList.newInstance(transaction), SPLIT_PART_LIST)
+                    .add(R.id.edit_container, SplitPartList.newInstance(transaction, currentAccount!!), SPLIT_PART_LIST)
                     .commit()
             fm.executePendingTransactions()
         }
@@ -1187,7 +1193,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
-        const val ACCOUNTS_CURSOR = 3
         const val TRANSACTION_CURSOR = 5
         const val SUM_CURSOR = 6
         const val AUTOFILL_CURSOR = 8

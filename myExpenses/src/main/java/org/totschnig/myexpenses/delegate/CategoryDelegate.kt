@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.delegate
 
 import android.database.Cursor
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import icepick.State
@@ -8,7 +9,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -30,8 +35,8 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     var categoryIcon: String? = null
     var catId: Long? = null
 
-    override fun bind(transaction: ITransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstance, recurrence, plan)
+    override fun bind(transaction: ITransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
         label = transaction.label
         categoryIcon = transaction.categoryIcon
         catId = transaction.catId
@@ -111,10 +116,10 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
                 }
             }
             val columnIndexAccountId = data.getColumnIndex(DatabaseConstants.KEY_ACCOUNTID)
-            if (/*TODO !didUserSetAccount && */columnIndexAccountId != -1) {
+            if (columnIndexAccountId != -1) {
                 val accountId = data.getLong(columnIndexAccountId)
                 var i = 0
-                while (i < mAccounts.size) {
+                while (i < accountsAdapter.count) {
                     if (mAccounts[i].id == accountId) {
                         accountSpinner.setSelection(i)
                         updateAccount(mAccounts[i])

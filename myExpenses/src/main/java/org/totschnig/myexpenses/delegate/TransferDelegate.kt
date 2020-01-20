@@ -1,42 +1,48 @@
 package org.totschnig.myexpenses.delegate
 
-import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.SimpleCursorAdapter
 import icepick.State
-import kotlinx.android.synthetic.main.exchange_rate_row.view.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.ITransfer
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.FilterCursorWrapper
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 import java.math.BigDecimal
-import java.util.*
 
 class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
         TransactionDelegate<ITransfer>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
+
+    private  var transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
+
+    init {
+        createTransferAccountAdapter()
+    }
     override val operationType = TransactionsContract.Transactions.TYPE_TRANSFER
 
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
-    private lateinit var transferAccountSpinner: SpinnerHelper
-    private lateinit var transferAccountsAdapter: SimpleCursorAdapter
+    private lateinit var transferAccountsAdapter: AccountAdapter
     @JvmField
     @State
     var mTransferAccountId: Long? = null
     var transferPeer: Long? = null
-    private lateinit var mTransferAccountCursor: FilterCursorWrapper
 
     override val helpVariant: ExpenseEdit.HelpVariant
         get() = when {
@@ -49,10 +55,9 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override val typeResId = R.string.split_transaction
 
 
-    override fun bind(transaction: ITransfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
+    override fun bind(transaction: ITransfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
         mTransferAccountId = transaction.transferAccountId
         transferPeer = transaction.transferPeer
-        transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
         viewBinding.Amount.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
         viewBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
         viewBinding.ERR.ExchangeRate.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
@@ -60,7 +65,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.TransferAccountRow.visibility = View.VISIBLE
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstance, recurrence, plan)
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
         hideRowsSpecificToMain()
         if (transaction.id != 0L) {
             configureTransferDirection()
@@ -76,12 +81,10 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     }
 
     override fun createAdapters(newInstance: Boolean, transaction: ITransaction) {
-        createAccountAdapter()
         createStatusAdapter(transaction)
         if (newInstance) {
             createOperationTypeAdapter()
         }
-        createTransferAccountAdapter()
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -94,37 +97,36 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
     }
 
-    override fun setAccounts(data: Cursor, currencyExtra: String?) {
-        super.setAccounts(data, currencyExtra)
-        mTransferAccountCursor = FilterCursorWrapper(data)
+    override fun setAccount(currencyExtra: String?) {
+        super.setAccount(currencyExtra)
         val selectedPosition = setTransferAccountFilterMap()
-        transferAccountsAdapter.swapCursor(mTransferAccountCursor)
         transferAccountSpinner.setSelection(selectedPosition)
         mTransferAccountId = transferAccountSpinner.selectedItemId
         configureTransferInput()
         if (!isTemplate) {
-             isProcessingLinkedAmountInputs = true
-             updateExchangeRates(viewBinding.TransferAmount)
-             isProcessingLinkedAmountInputs = false
+            isProcessingLinkedAmountInputs = true
+            updateExchangeRates(viewBinding.TransferAmount)
+            isProcessingLinkedAmountInputs = false
         }
     }
 
     private fun setTransferAccountFilterMap(): Int {
         val fromAccount = mAccounts[accountSpinner.selectedItemPosition]
-        val list = ArrayList<Int>()
+        val list = mutableListOf<Account>()
         var position = 0
         var selectedPosition = 0
         for (i in mAccounts.indices) {
-            if (fromAccount.id != mAccounts[i].id) {
-                list.add(i)
-                if (mTransferAccountId != null && mTransferAccountId == mAccounts[i].id) {
+            val account = mAccounts[i]
+            if (fromAccount.id != account.id) {
+                list.add(account)
+                if (mTransferAccountId != null && mTransferAccountId == account.id) {
                     selectedPosition = position
                 }
                 position++
             }
         }
-        mTransferAccountCursor.setFilterMap(list)
-        transferAccountsAdapter.notifyDataSetChanged()
+        transferAccountsAdapter.clear()
+        transferAccountsAdapter.addAll(list)
         return selectedPosition
     }
 
@@ -136,8 +138,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         if (transferAccount == null || currentAccount == null) {
             return
         }
-        val currency = currentAccount.currencyUnit
-        val transferAccountCurrencyUnit = transferAccount.currencyUnit
+        val currency = currentAccount.currency
+        val transferAccountCurrencyUnit = transferAccount.currency
         val isSame = currency == transferAccountCurrencyUnit
         setVisibility(viewBinding.TransferAmountRow, !isSame)
         setVisibility(viewBinding.ERR.root as ViewGroup, !isSame /*&& mTransaction !is Template*/)
@@ -150,7 +152,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     }
 
     private fun createTransferAccountAdapter() {
-        transferAccountsAdapter = SimpleCursorAdapter(context, android.R.layout.simple_spinner_item, null, arrayOf(DatabaseConstants.KEY_LABEL), intArrayOf(android.R.id.text1), 0)
+        transferAccountsAdapter = AccountAdapter(context)
         transferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         transferAccountSpinner.adapter = transferAccountsAdapter
         transferAccountSpinner.setOnItemSelectedListener(this)
@@ -221,7 +223,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
                 if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
                     applyExchangeRate(if (isMain) viewBinding.Amount else viewBinding.TransferAmount,
                             if (isMain) viewBinding.TransferAmount else viewBinding.Amount,
-                            viewBinding.ERR.root.ExchangeRate.getRate(!isMain))
+                            viewBinding.ERR.ExchangeRate.getRate(!isMain))
                 } else {
                     updateExchangeRates(viewBinding.TransferAmount)
                 }
@@ -238,14 +240,14 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     private fun updateExchangeRates(other: AmountInput) {
         val amount = validateAmountInput(viewBinding.Amount, false)
         val transferAmount = validateAmountInput(other, false)
-        viewBinding.ERR.root.ExchangeRate.calculateAndSetRate(amount, transferAmount)
+        viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount)
     }
 
     override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): ITransfer? {
         val amount = validateAmountInput(forSave)
         val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
-        val isSame = currentAccount.currencyUnit == transferAccount.currencyUnit
+        val isSame = currentAccount.currency == transferAccount.currency
         val transferAmount: BigDecimal?
         if (isSame && amount != null) {
             transferAmount = amount.negate()
@@ -260,11 +262,11 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             }
             buildTemplate(accountId).apply {
                 if (amount != null) {
-                    this.amount = Money(currentAccount.currencyUnit, amount)
+                    this.amount = Money(currentAccount.currency, amount)
                 } else if (!isSame && transferAmount != null) {
                     this.accountId = transferAccount.id
                     setTransferAccountId(currentAccount.id)
-                    this.amount = Money(transferAccount.currencyUnit, transferAmount)
+                    this.amount = Money(transferAccount.currency, transferAmount)
                     viewBinding.Amount.setError(null)
                 }
             }
@@ -275,8 +277,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             Transfer(accountId, transferAccount.id, parentId).apply {
                 transferPeer = this@TransferDelegate.transferPeer
                 setAmountAndTransferAmount(
-                        Money(currentAccount.currencyUnit, amount),
-                        Money(transferAccount.currencyUnit, transferAmount))
+                        Money(currentAccount.currency, amount),
+                        Money(transferAccount.currency, transferAmount))
             }
         }
     }

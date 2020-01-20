@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.delegate
 
+import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import org.totschnig.myexpenses.R
@@ -7,12 +8,12 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ISplit
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.MyTextWatcher
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 
 class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
         MainDelegate<ISplit>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
@@ -24,8 +25,8 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     override val typeResId = R.string.split_transaction
     override val shouldAutoFill = false
 
-    override fun bind(transaction: ISplit, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstance: Boolean, recurrence: Plan.Recurrence?, plan: Plan?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstance, recurrence, plan)
+    override fun bind(transaction: ISplit, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 host.updateSplitBalance()

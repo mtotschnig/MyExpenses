@@ -388,7 +388,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       equivalentAmountView.setText(formatCurrencyAbs(equivalentAmount));
     }
 
-    UiUtils.DateMode dateMode = UiUtils.getDateMode(account, prefHandler);
+    UiUtils.DateMode dateMode = UiUtils.getDateMode(account.getType(), prefHandler);
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL),
         timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
     if (dateMode == UiUtils.DateMode.BOOKING_VALUE) {

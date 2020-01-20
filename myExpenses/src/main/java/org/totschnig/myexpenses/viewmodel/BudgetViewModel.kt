@@ -30,7 +30,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
      */
     val databaseResult = MutableLiveData<Long>()
     val spent = MutableLiveData<Pair<Int, Long>>()
-    var spentDisposables = CompositeDisposable()
+    private var spentDisposables = CompositeDisposable()
     @Inject
     lateinit var currencyContext: CurrencyContext
     @Inject

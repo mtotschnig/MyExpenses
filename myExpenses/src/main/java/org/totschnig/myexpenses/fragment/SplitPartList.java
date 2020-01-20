@@ -36,8 +36,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.ISplit;
+import org.totschnig.myexpenses.model.ITransaction;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -46,9 +45,11 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -66,6 +67,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 //TODO: consider moving to ListFragment
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_PARENT_IS_TEMPLATE = "parentIsTemplate";
+  private static final String KEY_ACCOUNT = "account";
   //
   SplitPartAdapter mAdapter;
   private TextView balanceTv;
@@ -82,11 +84,12 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   @Inject
   CurrencyFormatter currencyFormatter;
 
-  public static SplitPartList newInstance(ISplit transaction) {
+  public static @NonNull
+  SplitPartList newInstance(ITransaction transaction, Account account) {
     SplitPartList f = new SplitPartList();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_PARENTID, transaction.getId());
-    bundle.putLong(KEY_ACCOUNTID, transaction.getAccountId());
+    bundle.putSerializable(KEY_ACCOUNT, account);
     bundle.putBoolean(KEY_PARENT_IS_TEMPLATE, transaction instanceof Template);
     f.setArguments(bundle);
     return f;
@@ -117,9 +120,9 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
-    balanceTv = (TextView) v.findViewById(R.id.end);
+    balanceTv = v.findViewById(R.id.end);
 
-    ListView lv = (ListView) v.findViewById(R.id.list);
+    ListView lv = v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN, KEY_AMOUNT};
 
@@ -128,9 +131,9 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
     requireLoaders();
     // Now create a simple cursor adapter and set it to display
-    final Account account = Account.getInstanceFromDb(accountId);
+    final Account account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-        account.getCurrencyUnit(), currencyFormatter);
+        account.getCurrency(), currencyFormatter);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
     lv.setOnItemClickListener((a, v1, position, id) -> {
@@ -142,7 +145,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     fab = v.findViewById(R.id.CREATE_COMMAND);
     fab.setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
-    updateFabColor(account.color);
+    updateFabColor(account.getColor());
     return v;
   }
 
@@ -240,10 +243,10 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   public void updateAccount(Account account) {
     accountId = account.getId();
-    mAdapter.setCurrency(account.getCurrencyUnit());
+    mAdapter.setCurrency(account.getCurrency());
     mAdapter.notifyDataSetChanged();
     updateBalance();
-    updateFabColor(account.color);
+    updateFabColor(account.getColor());
   }
 
   public void updateParent(long parentId) {
