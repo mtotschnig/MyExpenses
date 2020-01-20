@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 
 import androidx.appcompat.app.AlertDialog;
+import timber.log.Timber;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     implements DialogUtils.CalendarRestoreStrategyChangedListener {
@@ -47,9 +48,15 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   }
 
   @Override
-  public boolean checkTypeParts(String[] typeParts) {
-    return typeParts[0].equals("application") && 
-        (typeParts[1].equals("zip") || typeParts[1].equals("octet-stream"));
+  public boolean checkTypeParts(String[] typeParts, String extension) {
+    if (typeParts[0].equals("application") &&
+        (typeParts[1].equals("zip") || typeParts[1].equals("octet-stream")))
+      return true;
+    if (extension.equals("zip") || extension.equals("enc")) {
+      Timber.e("Found resource with extension %s and unexpeceted mime type %s/%s", extension, typeParts[0], typeParts[1]);
+      return true;
+    }
+    return false;
   }
 
   @Override

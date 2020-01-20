@@ -188,7 +188,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   @Override
-  public boolean checkTypeParts(String[] typeParts) {
+  public boolean checkTypeParts(String[] typeParts, String extension) {
     return ImportFileResultHandler.checkTypePartsDefault(typeParts);
   }
 

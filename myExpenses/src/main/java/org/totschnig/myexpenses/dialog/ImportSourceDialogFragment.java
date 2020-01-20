@@ -47,7 +47,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   abstract int getLayoutId();
   abstract String getLayoutTitle();
-  public boolean checkTypeParts(String[] typeParts) {
+  public boolean checkTypeParts(String[] typeParts, String extension) {
    return ImportFileResultHandler.checkTypePartsDefault(typeParts);
   }
 

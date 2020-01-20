@@ -39,7 +39,7 @@ public class ImportFileResultHandler {
           if (type != null) {
             String[] typeParts = type.split("/");
             if (typeParts.length == 0 ||
-                !hostFragment.checkTypeParts(typeParts)) {
+                !hostFragment.checkTypeParts(typeParts, FileUtils.getExtension(displayName))) {
               errorMsg = context.getString(R.string.import_source_select_error, hostFragment.getTypeName());
               handleError(errorMsg, context, fileNameEditText);
             }
@@ -108,7 +108,7 @@ public class ImportFileResultHandler {
 
     EditText getFilenameEditText();
 
-    boolean checkTypeParts(String[] typeParts);
+    boolean checkTypeParts(String[] typeParts, String extension);
 
     String getTypeName();
 
