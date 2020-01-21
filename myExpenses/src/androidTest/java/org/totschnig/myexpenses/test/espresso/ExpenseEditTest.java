@@ -128,7 +128,7 @@ public class ExpenseEditTest {
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.code());
       mActivityRule.launchActivity(i);
-      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrencyUnit());
+      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrency());
       mActivityRule.getActivity().finish();
     }
   }

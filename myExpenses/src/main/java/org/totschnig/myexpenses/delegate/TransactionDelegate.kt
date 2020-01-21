@@ -830,10 +830,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     }
 
     open fun onSaveInstanceState(outState: Bundle) {
-        val methodId = methodSpinner.selectedItemId
-        if (methodId > 0) {
-            this.methodId = methodId
-        }
         val originalInputSelectedCurrency = viewBinding.OriginalAmount.selectedCurrency
         if (originalInputSelectedCurrency != null) {
             originalCurrencyCode = originalInputSelectedCurrency.code()
