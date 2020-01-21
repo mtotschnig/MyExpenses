@@ -198,7 +198,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             viewBinding.DateTimeRow.visibility = View.GONE
         }
         //when we have a savedInstance, fields have already been populated
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
             populateFields(transaction, prefHandler, newInstance)
             if (!isSplitPart) {
                 setLocalDateTime(transaction)
