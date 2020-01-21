@@ -48,7 +48,7 @@ class OrientationChangeTest {
     private val accountLabel2 = "Test label 2"
     private var account2: Account? = null
     private var currency2: CurrencyUnit? = null
-    
+
     @Before
     fun fixture() {
         currency1 = CurrencyUnit.create(Currency.getInstance("USD"))

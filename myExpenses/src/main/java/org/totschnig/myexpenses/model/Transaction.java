@@ -937,7 +937,6 @@ public class Transaction extends Model implements ITransaction {
     initialValues.put(KEY_METHODID, getMethodId());
     initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
-    initialValues.put(KEY_UUID, requireUuid());
 
     initialValues.put(KEY_ORIGINAL_AMOUNT, originalAmount == null ? null : originalAmount.getAmountMinor());
     initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().code());
@@ -947,6 +946,7 @@ public class Transaction extends Model implements ITransaction {
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
+      initialValues.put(KEY_UUID, requireUuid());
     }
     return initialValues;
   }

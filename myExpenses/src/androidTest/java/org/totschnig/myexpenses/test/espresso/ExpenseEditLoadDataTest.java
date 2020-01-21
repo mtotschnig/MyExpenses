@@ -34,6 +34,7 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -96,7 +97,19 @@ public class ExpenseEditLoadDataTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("5")));
+  }
 
+  @Test
+  public void shouldKeepStatusAndUuidAfterSave() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_ROWID, transaction.getId());
+    String uuid = transaction.uuid;
+    int status = transaction.getStatus();
+    mActivityRule.launchActivity(i);
+    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    Transaction t = Transaction.getInstanceFromDb(transaction.getId());
+    assertThat(t.getStatus()).isEqualTo(status);
+    assertThat(t.uuid).isEqualTo(uuid);
   }
 
   @Test
