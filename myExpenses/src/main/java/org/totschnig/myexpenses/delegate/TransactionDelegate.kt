@@ -123,6 +123,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     @JvmField
     @State
     var pictureUri: Uri? = null
+    @JvmField
+    @State
+    var crStatus: Transaction.CrStatus = Transaction.CrStatus.UNRECONCILED
     var parentId: Long? = null
     var rowId: Long? = null
     var planId: Long? = null
@@ -146,6 +149,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         methodId = transaction.methodId
         setPicture(transaction.pictureUri)
         planId = plan?.id
+        crStatus = transaction.crStatus
         setVisibility(viewBinding.toolbar.OperationType, newInstance)
         viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
 
@@ -201,6 +205,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         if (isSplitPart || isTemplate) {
             viewBinding.DateTimeRow.visibility = View.GONE
         }
+
+        createAdapters(newInstance, transaction)
+
         //when we have a savedInstance, fields have already been populated
         if (savedInstanceState == null) {
             populateFields(transaction, prefHandler, newInstance)
@@ -210,6 +217,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
             configurePicture()
+            populateStatusSpinner()
         }
         //}
         //after setLocalDateTime, so that the plan info can override the date
@@ -229,10 +237,10 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         if (equivalentAmountVisible) {
             showEquivalentAmount()
         }
-        createAdapters(newInstance, transaction)
 
         setAccount(currencyExtra)
         setMethodSelection()
+        configureStatusSpinner()
     }
 
     private fun configurePlanExecutionButton() {
@@ -272,11 +280,8 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
      */
     open fun populateFields(transaction: T, prefHandler: PrefHandler, newInstance: Boolean) {
         isProcessingLinkedAmountInputs = true
-        //mStatusSpinner.setSelection(cachedOrSelf.crStatus.ordinal, false)
+        populateStatusSpinner()
         viewBinding.Comment.setText(transaction.comment)
-        //if (mIsMainTransactionOrTemplate) {
-        viewBinding.Payee.setText(transaction.payee)
-        //}
         if (isMainTemplate) {
             viewBinding.Title.setText((transaction as Template).title)
             planExecutionButton.isChecked = (transaction as Template).isPlanExecutionAutomatic
@@ -303,6 +308,10 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             viewBinding.Title.requestFocus()
         }
         isProcessingLinkedAmountInputs = false
+    }
+
+    private fun populateStatusSpinner() {
+        statusSpinner.setSelection(crStatus.ordinal, false)
     }
 
     fun fillAmount(amount: BigDecimal) {
@@ -599,6 +608,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                     }
                 }
             }
+            R.id.Status -> {
+                crStatus = parent.selectedItem as Transaction.CrStatus
+            }
         }
     }
 
@@ -805,13 +817,12 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
         viewBinding.Amount.setTypeEnabled(true)
         configureType()
-        configureStatusSpinner()
     }
 
     private fun configureStatusSpinner() {
-        val a = currentAccount()
-        setVisibility(statusSpinner.spinner,
-                /*TODO !isNoMainTransaction && */ a != null && a.type != AccountType.CASH)
+        currentAccount()?.let {
+            setVisibility(statusSpinner.spinner, !isSplitPart && !isTemplate && it.type != AccountType.CASH)
+        }
     }
 
     open fun updateAccount(account: Account) {

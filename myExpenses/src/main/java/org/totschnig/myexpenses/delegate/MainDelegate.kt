@@ -50,5 +50,11 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
         }
     }
 
+    override fun populateFields(transaction: T, prefHandler: PrefHandler, newInstance: Boolean) {
+        super.populateFields(transaction, prefHandler, newInstance)
+        if (!isSplitPart)
+            viewBinding.Payee.setText(transaction.payee)
+    }
+
     abstract fun buildMainTransaction(accountId: Long): T
 }

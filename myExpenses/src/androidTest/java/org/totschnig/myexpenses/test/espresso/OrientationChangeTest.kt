@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
@@ -93,11 +94,31 @@ class OrientationChangeTest {
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         mActivityRule.launchActivity(i)
         onView(withId(R.id.Method)).perform(click())
-        val string = mActivityRule.activity.getString(PaymentMethod.PreDefined.CREDITCARD.resId)
+        val string = getString(PaymentMethod.PreDefined.CREDITCARD.resId)
         onData(allOf(instanceOf(org.totschnig.myexpenses.viewmodel.data.PaymentMethod::class.java), withMethod(string))).perform(click())
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
         mActivityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
+    }
+
+    private fun getString(resid: Int) = mActivityRule.activity.getString(resid)
+
+    @Test
+    fun shouldKeepStatusAfterOrientationChange() {
+        val transaction = Transaction.getNewInstance(account1!!.id)
+        transaction.amount = Money(currency1, -500L)
+        transaction.crStatus = Transaction.CrStatus.UNRECONCILED
+        transaction.save()
+        val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
+        i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
+        mActivityRule.launchActivity(i)
+        onView(withId(R.id.Status)).perform(click())
+        onData(allOf(instanceOf(Transaction.CrStatus::class.java), withStatus(Transaction.CrStatus.CLEARED))).perform(click())
+        //withSpinnerText matches toString of object
+        val string = Transaction.CrStatus.CLEARED.toString()
+        onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
+        mActivityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
     }
 
     fun withMethod(label: String): Matcher<Any> =
@@ -108,6 +129,17 @@ class OrientationChangeTest {
 
                 override fun describeTo(description: Description) {
                     description.appendText("with label '${label}'")
+                }
+            }
+
+    fun withStatus(status: Transaction.CrStatus): Matcher<Any> =
+            object : BoundedMatcher<Any, Transaction.CrStatus>(Transaction.CrStatus::class.java) {
+                override fun matchesSafely(myObj: Transaction.CrStatus): Boolean {
+                    return myObj.equals(status)
+                }
+
+                override fun describeTo(description: Description) {
+                    description.appendText("with label '${status.name}'")
                 }
             }
 
