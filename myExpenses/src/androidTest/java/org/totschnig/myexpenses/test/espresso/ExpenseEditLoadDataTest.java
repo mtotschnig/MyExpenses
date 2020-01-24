@@ -7,8 +7,8 @@ import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.view.ViewGroup;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.threeten.bp.LocalDate;
@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
+import java.text.DecimalFormat;
 import java.util.Currency;
 
 import androidx.test.InstrumentationRegistry;
@@ -44,10 +45,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
+import static org.totschnig.myexpenses.testutils.Espresso.withIdAndAncestor;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
 public class ExpenseEditLoadDataTest {
-  private static CurrencyUnit currency;
+  private static CurrencyUnit currency, foreignCurrency;
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
       new ActivityTestRule<>(ExpenseEdit.class, false, false);
@@ -56,24 +58,31 @@ public class ExpenseEditLoadDataTest {
       Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR);
   private static Account account1;
   private static Account account2;
+  private static Account foreignAccount;
   private static Transaction transaction;
-  private static Transfer transfer;
+  private static Transfer transfer, foreignTransfer;
   private static SplitTransaction splitTransaction;
   private static Template template;
 
-  @Before
-  public void fixture()  {
+  @BeforeClass
+  public static void fixture()  {
     currency = CurrencyUnit.create(Currency.getInstance("EUR"));
+    foreignCurrency = CurrencyUnit.create(Currency.getInstance("USD"));
     account1 = new Account("Test account 1", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
     account2 = new Account("Test account 2", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
+    foreignAccount = new Account("Test account 2", foreignCurrency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
+    foreignAccount.save();
     transaction = Transaction.getNewInstance(account1.getId());
     transaction.setAmount(new Money(currency, 500L));
     transaction.save();
     transfer = Transfer.getNewInstance(account1.getId(), account2.getId());
     transfer.setAmount(new Money(currency, 600L));
     transfer.save();
+    foreignTransfer = Transfer.getNewInstance(account1.getId(), foreignAccount.getId());
+    foreignTransfer.setAmountAndTransferAmount(new Money(currency, 100L), new Money(foreignCurrency, 200L));
+    foreignTransfer.save();
     splitTransaction = SplitTransaction.getNewInstance(account1.getId());
     splitTransaction.save();
     template = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
@@ -83,10 +92,11 @@ public class ExpenseEditLoadDataTest {
     template.save();
   }
 
-  @After
-  public void tearDown() throws RemoteException, OperationApplicationException {
+  @AfterClass
+  public static void tearDown() throws RemoteException, OperationApplicationException {
     Account.delete(account1.getId());
     Account.delete(account2.getId());
+    Account.delete(foreignAccount.getId());
   }
 
   @Test
@@ -110,6 +120,17 @@ public class ExpenseEditLoadDataTest {
     Transaction t = Transaction.getInstanceFromDb(transaction.getId());
     assertThat(t.getStatus()).isEqualTo(status);
     assertThat(t.uuid).isEqualTo(uuid);
+  }
+
+  @Test
+  public void shouldPopulateWithForeignExchangeTransfer() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_ROWID, foreignTransfer.getId());
+    mActivityRule.launchActivity(i);
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("1")));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.TransferAmount)).check(matches(withText("2")));
+    onView(withIdAndAncestor(R.id.ExchangeRateEdit1, R.id.ExchangeRate)).check(matches(withText("2")));
+    onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.ExchangeRate)).check(matches(withText(new DecimalFormat("0.#").format(0.5f))));
   }
 
   @Test

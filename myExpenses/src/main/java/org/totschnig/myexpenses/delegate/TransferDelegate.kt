@@ -76,6 +76,11 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         super.populateFields(transaction, prefHandler, newInstance)
         transaction.transferAmount?.let {
             viewBinding.TransferAmount.setAmount(it.amountMajor.abs())
+            if (!isTemplate) {
+                isProcessingLinkedAmountInputs = true
+                updateExchangeRates()
+                isProcessingLinkedAmountInputs = false
+            }
         }
 
     }
@@ -103,11 +108,6 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         transferAccountSpinner.setSelection(selectedPosition)
         mTransferAccountId = transferAccountSpinner.selectedItemId
         configureTransferInput()
-        if (!isTemplate) {
-            isProcessingLinkedAmountInputs = true
-            updateExchangeRates(viewBinding.TransferAmount)
-            isProcessingLinkedAmountInputs = false
-        }
     }
 
     private fun setTransferAccountFilterMap(): Int {
@@ -225,7 +225,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
                             if (isMain) viewBinding.TransferAmount else viewBinding.Amount,
                             viewBinding.ERR.ExchangeRate.getRate(!isMain))
                 } else {
-                    updateExchangeRates(viewBinding.TransferAmount)
+                    updateExchangeRates()
                 }
             }
             isProcessingLinkedAmountInputs = false
@@ -237,9 +237,9 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         to.setAmount(if (rate != null && input != null) input.multiply(rate) else BigDecimal(0), false)
     }
 
-    private fun updateExchangeRates(other: AmountInput) {
+    private fun updateExchangeRates() {
         val amount = validateAmountInput(viewBinding.Amount, false)
-        val transferAmount = validateAmountInput(other, false)
+        val transferAmount = validateAmountInput(viewBinding.TransferAmount, false)
         viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount)
     }
 

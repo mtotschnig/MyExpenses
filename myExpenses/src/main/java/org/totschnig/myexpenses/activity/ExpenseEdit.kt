@@ -325,10 +325,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             } catch (ise: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
             }
         }
-/*        val oldCursor = mPayeeAdapter.cursor
-        if (oldCursor != null && !oldCursor.isClosed) {
-            oldCursor.close()
-        }*/
+        delegate.onDestroy()
     }
 
     fun updateSplitBalance() {

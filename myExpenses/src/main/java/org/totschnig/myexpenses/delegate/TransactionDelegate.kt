@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.delegate
 
 import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -9,12 +8,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.FilterQueryProvider
-import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.util.Pair
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import icepick.Icepick
@@ -33,7 +29,6 @@ import org.totschnig.myexpenses.adapter.RecurrenceAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -43,9 +38,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -70,7 +63,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     private val operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
     val recurrenceSpinner = SpinnerHelper(viewBinding.RR.Recurrence.Recurrence)
     lateinit var accountsAdapter: AccountAdapter
-    private lateinit var payeeAdapter: SimpleCursorAdapter
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var operationTypeAdapter: OperationTypeAdapter
 
@@ -208,9 +200,13 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
         createAdapters(newInstance, transaction)
 
+        setAccount(currencyExtra)
+
         //when we have a savedInstance, fields have already been populated
         if (savedInstanceState == null) {
+            isProcessingLinkedAmountInputs = true
             populateFields(transaction, prefHandler, newInstance)
+            isProcessingLinkedAmountInputs = false
             if (!isSplitPart) {
                 setLocalDateTime(transaction)
             }
@@ -238,7 +234,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             showEquivalentAmount()
         }
 
-        setAccount(currencyExtra)
         setMethodSelection()
         configureStatusSpinner()
     }
@@ -279,7 +274,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
      * populates the input fields with a transaction from the database or a new one
      */
     open fun populateFields(transaction: T, prefHandler: PrefHandler, newInstance: Boolean) {
-        isProcessingLinkedAmountInputs = true
         populateStatusSpinner()
         viewBinding.Comment.setText(transaction.comment)
         if (isMainTemplate) {
@@ -307,7 +301,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         if (newInstance && isMainTemplate) {
             viewBinding.Title.requestFocus()
         }
-        isProcessingLinkedAmountInputs = false
     }
 
     private fun populateStatusSpinner() {
@@ -424,13 +417,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     val host: ExpenseEdit
         get() = context as ExpenseEdit
 
-    open fun createAdapters(newInstance: Boolean, transaction: ITransaction) {
-        createPayeeAdapter(newInstance)
-        createStatusAdapter(transaction)
-        if (newInstance) {
-            createOperationTypeAdapter()
-        }
-    }
+    abstract fun createAdapters(newInstance: Boolean, transaction: ITransaction)
 
     protected fun createOperationTypeAdapter() {
         val allowedOperationTypes: MutableList<Int> = ArrayList()
@@ -472,55 +459,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 methodsAdapter,
                 android.R.layout.simple_spinner_item,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                 context)
-    }
-
-    private fun createPayeeAdapter(newInstance: Boolean) {
-        payeeAdapter = SimpleCursorAdapter(context, R.layout.support_simple_spinner_dropdown_item, null, arrayOf(DatabaseConstants.KEY_PAYEE_NAME), intArrayOf(android.R.id.text1),
-                0)
-        viewBinding.Payee.setAdapter(payeeAdapter)
-        payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
-            var selection: String? = null
-            var selectArgs = arrayOfNulls<String>(0)
-            if (constraint != null) {
-                val search = Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString()))
-                //we accept the string at the beginning of a word
-                selection = DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-                        DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-                        DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ?"
-                selectArgs = arrayOf("$search%", "% $search%", "%.$search%")
-            }
-            context.contentResolver.query(
-                    TransactionProvider.PAYEES_URI, arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
-                    selection, selectArgs, null)
-        }
-        payeeAdapter.stringConversionColumn = 1
-        viewBinding.Payee.onItemClickListener = AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-            val c = payeeAdapter.getItem(position) as Cursor
-            if (c.moveToPosition(position)) {
-                c.getLong(0).let {
-                    if (newInstance && shouldAutoFill) {
-                        if (prefHandler.getBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, false)) {
-                            if (PreferenceUtils.shouldStartAutoFill()) {
-                                host.startAutoFill(it, false)
-                            }
-                        } else {
-                            val b = Bundle()
-                            b.putLong(DatabaseConstants.KEY_ROWID, it)
-                            b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information)
-                            b.putString(ConfirmationDialogFragment.KEY_MESSAGE, context.getString(R.string.hint_auto_fill))
-                            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
-                            b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-                                    prefHandler.getKey(PrefKey.AUTO_FILL_HINT_SHOWN))
-                            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes)
-                            b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no)
-                            ConfirmationDialogFragment.newInstance(b).show((context as FragmentActivity).supportFragmentManager,
-                                    "AUTO_FILL_HINT")
-                        }
-                    }
-                }
-
-            }
-        }
     }
 
     fun resetOperationType() {
@@ -892,6 +830,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         rowId = 0L
         resetRecurrence()
         resetAmounts()
+    }
+
+    open fun onDestroy() {
     }
 
     companion object {
