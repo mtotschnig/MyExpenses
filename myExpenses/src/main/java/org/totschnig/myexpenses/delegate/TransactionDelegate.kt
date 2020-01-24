@@ -120,6 +120,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     @JvmField
     @State
     var methodId: Long? = null
+    @JvmField
+    @State
+    var pictureUri: Uri? = null
     var parentId: Long? = null
     var rowId: Long? = null
     var planId: Long? = null
@@ -141,6 +144,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         parentId = transaction.parentId
         accountId = transaction.accountId
         methodId = transaction.methodId
+        setPicture(transaction.pictureUri)
         planId = plan?.id
         setVisibility(viewBinding.toolbar.OperationType, newInstance)
         viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
@@ -203,6 +207,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             if (!isSplitPart) {
                 setLocalDateTime(transaction)
             }
+        } else {
+            Icepick.restoreInstanceState(this, savedInstanceState)
+            configurePicture()
         }
         //}
         //after setLocalDateTime, so that the plan info can override the date
@@ -223,7 +230,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             showEquivalentAmount()
         }
         createAdapters(newInstance, transaction)
-        Icepick.restoreInstanceState(this, savedInstanceState)
+
         setAccount(currencyExtra)
         setMethodSelection()
     }
@@ -683,7 +690,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     abstract fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): T?
     abstract val operationType: Int
 
-    open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext, pictureUri: Uri?): T? {
+    open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
         return buildTransaction(forSave, currencyContext, currentAccount()!!.id)?.apply {
             id = rowId ?: 0L
             if (isSplitPart) {
@@ -727,7 +734,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
             }
             crStatus = (statusSpinner.selectedItem as Transaction.CrStatus)
-            this.pictureUri = pictureUri
+            this.pictureUri = this@TransactionDelegate.pictureUri
         }
     }
 
@@ -842,6 +849,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     }
 
     fun setPicture(pictureUri: Uri?) {
+        this.pictureUri = pictureUri
+        configurePicture()
+    }
+
+    fun configurePicture() {
         if (pictureUri != null) {
             viewBinding.PictureContainer.root.visibility = View.VISIBLE
             Picasso.get().load(pictureUri).fit().into(viewBinding.PictureContainer.picture)

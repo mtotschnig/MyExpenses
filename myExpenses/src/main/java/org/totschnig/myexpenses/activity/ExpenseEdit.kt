@@ -133,9 +133,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var parentId = 0L
     @JvmField
     @State
-    var mPictureUri: Uri? = null
-    @JvmField
-    @State
     var mPictureUriTemp: Uri? = null
 
     val accountId: Long
@@ -155,6 +152,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private var mIsResumed = false
     private var accountsLoaded = false
     var isProcessingLinkedAmountInputs = false
+    private var shouldRecordAttachPictureFeature = false
     private var pObserver: ContentObserver? = null
     private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
@@ -376,7 +374,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 transaction.originalAmount = cached.originalAmount
                 transaction.equivalentAmount = cached.equivalentAmount
                 intent.getParcelableExtra<Uri>(KEY_CACHED_PICTURE_URI).let {
-                    mPictureUri = it
                     transaction.pictureUri = it
                 }
             }
@@ -600,7 +597,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun saveState() {
-        delegate.syncStateAndValidate(true, currencyContext, mPictureUri)?.let {
+        delegate.syncStateAndValidate(true, currencyContext)?.let {
             mIsSaving = true
             viewModel.save(it).observe(this, Observer {
                 onSaved(it)
@@ -652,11 +649,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
             }
             if (uri != null) {
-                mPictureUri = uri
                 if (PermissionHelper.canReadUri(uri, this)) {
-                    setPicture()
+                    setPicture(uri)
                     setDirty()
                 } else {
+                    mPictureUriTemp = uri
                     requestStoragePermission()
                 }
                 return
@@ -814,12 +811,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 */
 
     private fun unsetPicture() {
-        mPictureUri = null
-        setPicture()
+        setPicture(null)
     }
 
-    private fun setPicture() {
-        delegate.setPicture(mPictureUri)
+    private fun setPicture(pictureUri: Uri?) {
+        shouldRecordAttachPictureFeature = true
+        delegate.setPicture(pictureUri)
     }
 
     fun isValidType(type: Int): Boolean {
@@ -839,7 +836,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         cleanup({
             val restartIntent = intent
             restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
-            delegate.syncStateAndValidate(false, currencyContext, mPictureUri)?.let {
+            delegate.syncStateAndValidate(false, currencyContext)?.let {
                 restartIntent.putExtra(KEY_CACHED_DATA, it)
                 if (it.pictureUri != null) {
                     restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
@@ -877,7 +874,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             if (mOperationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
             }
-            if (mPictureUri != null) {
+            if (shouldRecordAttachPictureFeature) {
                 recordUsage(ContribFeature.ATTACH_PICTURE)
             }
             if (mCreateNew) {
@@ -1050,7 +1047,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private fun handlePicturePopupMenuClick(command: Int) {
         when (command) {
             R.id.DELETE_COMMAND -> unsetPicture()
-            R.id.VIEW_COMMAND -> imageViewIntentProvider.startViewIntent(this, mPictureUri)
+            R.id.VIEW_COMMAND -> imageViewIntentProvider.startViewIntent(this, delegate.pictureUri)
             R.id.CHANGE_COMMAND -> startMediaChooserDo()
         }
     }
@@ -1093,31 +1090,22 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         val granted = PermissionHelper.allGranted(grantResults)
         when (requestCode) {
             PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR -> {
-                run {
-                    if (granted) {
-                        /*if (mTransaction is Template) {
-                            planButton.visibility = View.VISIBLE
-                            planExecutionButton.visibility = View.VISIBLE
-                            showCustomRecurrenceInfo()
-                        }*/
-                    } else {
-                        //mRecurrenceSpinner.setSelection(0)
-                        if (!PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(this)) {
-                            setPlannerRowVisibility(View.GONE)
-                        }
-                    }
-                }
-                run {
-                    if (granted) {
-                        setPicture()
-                    } else {
-                        unsetPicture()
+                if (granted) {
+                    /*if (mTransaction is Template) {
+                        planButton.visibility = View.VISIBLE
+                        planExecutionButton.visibility = View.VISIBLE
+                        showCustomRecurrenceInfo()
+                    }*/
+                } else {
+                    //mRecurrenceSpinner.setSelection(0)
+                    if (!PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(this)) {
+                        setPlannerRowVisibility(View.GONE)
                     }
                 }
             }
             PermissionHelper.PERMISSIONS_REQUEST_STORAGE -> {
                 if (granted) {
-                    setPicture()
+                    setPicture(mPictureUriTemp)
                 } else {
                     unsetPicture()
                 }
