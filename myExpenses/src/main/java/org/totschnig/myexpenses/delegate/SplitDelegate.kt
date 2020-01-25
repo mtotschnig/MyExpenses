@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.delegate
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
@@ -51,7 +52,22 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     }
 
     override fun updateAccount(account: Account) {
-        super.updateAccount(account)
         host.updateSplitPartList(account)
+    }
+
+    fun onUncommitedSplitPartsMoved(success: Boolean) {
+        val account = mAccounts[accountSpinner.selectedItemPosition]
+        if (success) {
+            super.updateAccount(account)
+        } else {
+            for ((index, a) in mAccounts.withIndex()) {
+                if (a.id == accountId) {
+                    accountSpinner.setSelection(index)
+                    break
+                }
+            }
+            host.showSnackbar(host.getString(R.string.warning_cannot_move_split_transaction, account.label),
+                    Snackbar.LENGTH_LONG)
+        }
     }
 }

@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.delegate.CategoryDelegate
+import org.totschnig.myexpenses.delegate.SplitDelegate
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -86,7 +87,6 @@ import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -391,7 +391,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
             } else {
                 delegate.setAccounts(accounts)
-                delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,  intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
+                delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence, intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
 
                 linkInputsWithLabels()
                 if (mOperationType != TYPE_TRANSFER) {//the methods cursor is based on the current account,
@@ -719,13 +719,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     */
 /*
    * callback of TaskExecutionFragment
-   *//*
+   */
 
     override fun onPostExecute(taskId: Int, o: Any?) {
         super.onPostExecute(taskId, o)
         val success: Boolean
         when (taskId) {
-            TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE, TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION, TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE, TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> {
+            /*TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE, TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION, TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE, TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> {
                 if (o == null) {
                     abortWithMessage(when(taskId) {
                         TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
@@ -784,28 +784,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
                 setup()
                 invalidateOptionsMenu()
-            }
+            }*/
             TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS -> {
-                success = o as Boolean
-                val account = mAccounts!![mAccountSpinner.selectedItemPosition]
-                if (success) {
-                    updateAccount(account)
-                } else {
-                    var i = 0
-                    while (i < mAccounts!!.size) {
-                        if (mAccounts!![i]!!.id == mTransaction!!.accountId) {
-                            mAccountSpinner.setSelection(i)
-                            break
-                        }
-                        i++
-                    }
-                    showSnackbar(getString(R.string.warning_cannot_move_split_transaction, account!!.label),
-                            Snackbar.LENGTH_LONG)
-                }
+                (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(o as Boolean)
             }
         }
     }
-*/
 
     private fun unsetPicture() {
         setPicture(null)
@@ -1087,18 +1071,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         val granted = PermissionHelper.allGranted(grantResults)
         when (requestCode) {
             PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR -> {
-                if (granted) {
-                    /*if (mTransaction is Template) {
-                        planButton.visibility = View.VISIBLE
-                        planExecutionButton.visibility = View.VISIBLE
-                        showCustomRecurrenceInfo()
-                    }*/
-                } else {
-                    //mRecurrenceSpinner.setSelection(0)
-                    if (!PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(this)) {
-                        setPlannerRowVisibility(View.GONE)
-                    }
-                }
+                delegate.onCalendarPermissionsResult(granted)
             }
             PermissionHelper.PERMISSIONS_REQUEST_STORAGE -> {
                 if (granted) {

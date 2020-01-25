@@ -835,6 +835,21 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     open fun onDestroy() {
     }
 
+    fun onCalendarPermissionsResult(granted: Boolean) {
+        if (granted) {
+            if (isTemplate) {
+                planButton.visibility = View.VISIBLE
+                planExecutionButton.visibility = View.VISIBLE
+                showCustomRecurrenceInfo()
+            }
+        } else {
+            recurrenceSpinner.setSelection(0)
+            if (!PermissionHelper.PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(host)) {
+                setPlannerRowVisibility(View.GONE)
+            }
+        }
+    }
+
     companion object {
         fun <T : ITransaction> create(transaction: T, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) =
                 (transaction is Template).let { isTemplate ->
