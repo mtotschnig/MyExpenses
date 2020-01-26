@@ -121,6 +121,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     var parentId: Long? = null
     var rowId: Long? = null
     var planId: Long? = null
+    var originTemplate: Template? = null
 
     protected var mAccounts = mutableListOf<Account>()
 
@@ -142,6 +143,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         setPicture(transaction.pictureUri)
         planId = plan?.id
         crStatus = transaction.crStatus
+        originTemplate = transaction.originTemplate
         setVisibility(viewBinding.toolbar.OperationType, newInstance)
         viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
 
@@ -179,7 +181,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 setPlannerRowVisibility(View.VISIBLE)
-                transaction.originTemplate?.let { template ->
+                originTemplate?.let { template ->
                     template.plan?.let { plan ->
                         recurrenceSpinner.spinner.visibility = View.GONE
                         planButton.visibility = View.VISIBLE
@@ -642,6 +644,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
         return buildTransaction(forSave, currencyContext, currentAccount()!!.id)?.apply {
+            originTemplate = this@TransactionDelegate.originTemplate
             id = rowId ?: 0L
             if (isSplitPart) {
                 status = DatabaseConstants.STATUS_UNCOMMITTED

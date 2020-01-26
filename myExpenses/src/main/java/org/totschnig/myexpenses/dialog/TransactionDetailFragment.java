@@ -437,12 +437,12 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       statusView.setText(mTransaction.getCrStatus().toStringRes());
     }
 
-    if (mTransaction.originTemplate == null) {
+    if (mTransaction.getOriginTemplate() == null) {
       planRow.setVisibility(View.GONE);
     } else {
-      planView.setText(mTransaction.originTemplate.getPlan() == null ?
+      planView.setText(mTransaction.getOriginTemplate().getPlan() == null ?
           getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
-          mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
+          mTransaction.getOriginTemplate().getPlan().rrule, mTransaction.getOriginTemplate().getPlan().dtstart));
     }
 
     dlg.setTitle(title);

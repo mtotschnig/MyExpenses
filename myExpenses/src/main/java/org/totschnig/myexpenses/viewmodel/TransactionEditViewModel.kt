@@ -42,6 +42,8 @@ const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 
 class TransactionEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+    enum class INSTANTIATION_TASK { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE }
+
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
     private val accounts = MutableLiveData<List<Account>>()
@@ -54,9 +56,13 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
         return accounts
     }
 
-    fun transaction(transactionId: Long, isTemplate: Boolean, clone: Boolean): LiveData<Transaction?> = liveData(context = coroutineContext()) {
-        emit((if (isTemplate) Template.getInstanceFromDb(transactionId) else Transaction.getInstanceFromDb(transactionId)).also {
-            it.prepareForEdit(clone)
+    fun transaction(transactionId: Long, task: INSTANTIATION_TASK, clone: Boolean): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+        emit(when (task) {
+            INSTANTIATION_TASK.TEMPLATE -> Template.getInstanceFromDb(transactionId)
+            INSTANTIATION_TASK.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplate(transactionId)
+            INSTANTIATION_TASK.TRANSACTION -> Transaction.getInstanceFromDb(transactionId).also {
+                it.prepareForEdit(clone)
+            }
         })
     }
 
@@ -125,7 +131,7 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
 
     private fun coroutineContext() = viewModelScope.coroutineContext + Dispatchers.IO
 
-    data class Account(override val id: Long, val label: String, val currency: CurrencyUnit, val color: Int, val type: AccountType, val exchangeRate: Double): IAccount, Serializable {
+    data class Account(override val id: Long, val label: String, val currency: CurrencyUnit, val color: Int, val type: AccountType, val exchangeRate: Double) : IAccount, Serializable {
         override fun toString(): String {
             return label
         }

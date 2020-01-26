@@ -37,6 +37,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.Nullable
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -68,7 +69,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ISplit
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
@@ -77,6 +77,8 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.BuildTransactionTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -97,6 +99,9 @@ import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.INSTANTIATION_TASK.TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.INSTANTIATION_TASK.TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.INSTANTIATION_TASK.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.widget.AbstractWidget
@@ -133,22 +138,24 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var parentId = 0L
     @JvmField
     @State
-    var mPictureUriTemp: Uri? = null
+    var pictureUriTemp: Uri? = null
 
     val accountId: Long
         get() = currentAccount?.id ?: 0L
 
-    private var mPlan: Plan? = null
-    private var mPlanInstanceId: Long = 0
-    private var mPlanInstanceDate: Long = 0
+    private var planInstanceId: Long = 0
     /**
      * transaction, transfer or split
      */
     private var mOperationType = 0
     private lateinit var mManager: LoaderManager
     private var mCreateNew = false
-    private var isTemplate = false
-    private var mRecordTemplateWidget = false
+    @VisibleForTesting
+    var isTemplate = false
+        private set
+    private val recordTemplateWidget
+        get() = intent.getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
+                !ContribFeature.TEMPLATE_WIDGET.hasAccess()
     private var mIsResumed = false
     private var accountsLoaded = false
     var isProcessingLinkedAmountInputs = false
@@ -209,12 +216,21 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         amountInput.setTypeEnabled(false)
 
         val extras = intent.extras
+        var task: TransactionEditViewModel.INSTANTIATION_TASK? = null
         mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
         if (mRowId == 0L) {
             mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
             if (mRowId != 0L) {
-                isTemplate = true
+                planInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)
+                if (planInstanceId != 0L) {
+                    task = TRANSACTION_FROM_TEMPLATE
+                } else {
+                    isTemplate = true
+                    task = TEMPLATE
+                }
             }
+        } else {
+            task = TRANSACTION
         }
 
         //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
@@ -230,7 +246,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         if (mRowId != 0L) {
             mNewInstance = false
             //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
-            viewModel.transaction(mRowId, isTemplate, intent.getBooleanExtra(KEY_CLONE, false) && savedInstanceState == null).observe(this, Observer {
+            viewModel.transaction(mRowId, task!!, intent.getBooleanExtra(KEY_CLONE, false) && savedInstanceState == null).observe(this, Observer {
                 populate(it, savedInstanceState)
             })
         } else {
@@ -372,6 +388,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 transaction.equivalentAmount = cached.equivalentAmount
                 intent.getParcelableExtra<Uri>(KEY_CACHED_PICTURE_URI).let {
                     transaction.pictureUri = it
+                }
+            } else {
+                getIntent().getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
+                    transaction.date = it / 1000
                 }
             }
         }
@@ -596,6 +616,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     override fun saveState() {
         delegate.syncStateAndValidate(true, currencyContext)?.let {
             mIsSaving = true
+            if (planInstanceId > 0L) {
+                it.originPlanInstanceId = planInstanceId
+            }
             viewModel.save(it).observe(this, Observer {
                 onSaved(it)
             })
@@ -633,16 +656,16 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             val errorMsg: String
             when {
                 intent == null -> {
-                    uri = mPictureUriTemp
-                    Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", mPictureUriTemp)
+                    uri = pictureUriTemp
+                    Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", pictureUriTemp)
                 }
                 intent.data != null -> {
                     uri = intent.data
                     Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
                 }
                 else -> {
-                    Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", mPictureUriTemp)
-                    uri = mPictureUriTemp
+                    Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", pictureUriTemp)
+                    uri = pictureUriTemp
                 }
             }
             if (uri != null) {
@@ -650,7 +673,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     setPicture(uri)
                     setDirty()
                 } else {
-                    mPictureUriTemp = uri
+                    pictureUriTemp = uri
                     requestStoragePermission()
                 }
                 return
@@ -848,7 +871,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
             mCreateNew = false
         } else {
-            if (mRecordTemplateWidget) {
+            if (recordTemplateWidget) {
                 recordUsage(ContribFeature.TEMPLATE_WIDGET)
                 TemplateWidget.showContribMessage(this)
             }
@@ -867,7 +890,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    viewModel.transaction(result, true, false).observe(this, Observer {
+                    viewModel.transaction(result, TEMPLATE, false).observe(this, Observer {
                         it?.let { launchPlanView(true, (it as Template).planId) }
                     })
                 } else { //make sure soft keyboard is closed
@@ -1059,10 +1082,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     private val cameraUri: Uri?
         get() {
-            if (mPictureUriTemp == null) {
-                mPictureUriTemp = PictureDirHelper.getOutputMediaUri(true)
+            if (pictureUriTemp == null) {
+                pictureUriTemp = PictureDirHelper.getOutputMediaUri(true)
             }
-            return mPictureUriTemp
+            return pictureUriTemp
         }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -1075,7 +1098,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             PermissionHelper.PERMISSIONS_REQUEST_STORAGE -> {
                 if (granted) {
-                    setPicture(mPictureUriTemp)
+                    setPicture(pictureUriTemp)
                 } else {
                     unsetPicture()
                 }

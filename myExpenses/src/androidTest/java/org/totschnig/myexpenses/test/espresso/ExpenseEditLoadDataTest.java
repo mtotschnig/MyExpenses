@@ -41,6 +41,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
@@ -62,7 +63,7 @@ public class ExpenseEditLoadDataTest {
   private static Transaction transaction;
   private static Transfer transfer, foreignTransfer;
   private static SplitTransaction splitTransaction;
-  private static Template template;
+  private static Template plan, template;
 
   @BeforeClass
   public static void fixture()  {
@@ -85,10 +86,14 @@ public class ExpenseEditLoadDataTest {
     foreignTransfer.save();
     splitTransaction = SplitTransaction.getNewInstance(account1.getId());
     splitTransaction.save();
+    plan = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
+    plan.setTitle("Daily plan");
+    plan.setAmount(new Money(currency, 700L));
+    plan.setPlan(new Plan(LocalDate.now(), Plan.Recurrence.DAILY, "Daily", plan.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance())));
+    plan.save();
     template = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
-    template.setTitle("Daily plan");
-    template.setAmount(new Money(currency, 700L));
-    template.setPlan(new Plan(LocalDate.now(), Plan.Recurrence.DAILY, "Daily", template.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance())));
+    template.setTitle("Nothing but a plan");
+    template.setAmount(new Money(currency, 800L));
     template.save();
   }
 
@@ -173,14 +178,28 @@ public class ExpenseEditLoadDataTest {
   }
 
   @Test
-  public void shouldPopulateWithTemplateAndPrepareForm() {
+  public void shouldPopulateWithPlanAndPrepareForm() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-    i.putExtra(KEY_TEMPLATEID, template.getId());
+    i.putExtra(KEY_TEMPLATEID, plan.getId());
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow,  R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.PB);
     checkEffectiveGone(R.id.Recurrence);
+    assertThat(mActivityRule.getActivity().isTemplate()).isTrue();
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("7")));
     onView(withId(R.id.Title)).check(matches(withText("Daily plan")));
+  }
+
+  @Test
+  public void shouldInstantiateFromTemplateAndPrepareForm() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_TEMPLATEID, template.getId());
+    i.putExtra(KEY_INSTANCEID, -1L);
+    mActivityRule.launchActivity(i);
+    checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+    checkEffectiveGone(R.id.PB, R.id.TitleRow);
+    assertThat(mActivityRule.getActivity().isTemplate()).isFalse();
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("8")));
   }
 }

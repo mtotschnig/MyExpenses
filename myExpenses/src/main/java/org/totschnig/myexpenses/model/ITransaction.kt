@@ -27,6 +27,7 @@ interface ITransaction: Serializable {
     var parentId: Long?
     var id: Long
     var pictureUri: Uri?
+    var originPlanInstanceId: Long?
 
     val isTransfer: Boolean
     val isSplit: Boolean

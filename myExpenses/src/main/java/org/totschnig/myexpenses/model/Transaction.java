@@ -175,7 +175,7 @@ public class Transaction extends Model implements ITransaction {
   /**
    * template which defines the plan for which this transaction has been created
    */
-  public Template originTemplate = null;
+  private Template originTemplate = null;
   /**
    * id of an instance of the event (plan) for which this transaction has been created
    */
@@ -403,20 +403,31 @@ public class Transaction extends Model implements ITransaction {
     this.status = status;
   }
 
-  @NonNull
+  @Nullable
   @Override
   public Template getOriginTemplate() {
     return originTemplate;
   }
 
   @Override
-  public void setOriginTemplate(@NonNull Template originTemplate) {
+  public void setOriginTemplate(@Nullable Template originTemplate) {
     this.originTemplate = originTemplate;
   }
 
   @Override
   public void setAccountId(long accountId) {
     this.accountId = accountId;
+  }
+
+  @Nullable
+  @Override
+  public Long getOriginPlanInstanceId() {
+    return originPlanInstanceId;
+  }
+
+  @Override
+  public void setOriginPlanInstanceId(@Nullable Long originPlanInstanceId) {
+    this.originPlanInstanceId = originPlanInstanceId;
   }
 
   public enum CrStatus {
