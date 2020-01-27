@@ -9,7 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -37,6 +38,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.io.Serializable
 import java.util.*
+import javax.inject.Inject
 
 const val ERROR_UNKNOWN = -1L
 const val ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2L
@@ -44,7 +46,15 @@ const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 
 class TransactionEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+
+    init {
+        (application as MyApplication).appComponent.inject(this)
+    }
+
     enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
+
+    @Inject
+    lateinit var coroutineDispatcher: CoroutineDispatcher
 
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
@@ -132,7 +142,7 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
         )
     }
 
-    private fun coroutineContext() = viewModelScope.coroutineContext + Dispatchers.IO
+    private fun coroutineContext() = viewModelScope.coroutineContext + coroutineDispatcher
 
     data class Account(override val id: Long, val label: String, val currency: CurrencyUnit, val color: Int, val type: AccountType, val exchangeRate: Double) : IAccount, Serializable {
         override fun toString(): String {

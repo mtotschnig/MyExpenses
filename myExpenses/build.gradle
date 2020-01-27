@@ -269,6 +269,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion") {
         exclude module: 'accessibility-test-framework'
     }
+    androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
     androidTestImplementation 'org.mockito:mockito-android:2.19.0'
 
     testImplementation 'junit:junit:4.12'

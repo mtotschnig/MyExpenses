@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -54,7 +55,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class})
+@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class})
 public interface AppComponent {
   @Singleton
   DiscoveryHelper discoveryHelper();
@@ -67,6 +68,8 @@ public interface AppComponent {
     Builder applicationContext(MyApplication applicationContext);
 
     Builder licenceModule(LicenceModule licenceModule);
+
+    Builder coroutineModule(CoroutineModule coroutineModule);
 
     AppComponent build();
   }
@@ -108,6 +111,8 @@ public interface AppComponent {
   void inject(RoadmapViewModel roadmapViewModel);
 
   void inject(HistoryChart historyChart);
+
+  void inject(TransactionEditViewModel transactionEditViewModel);
 
   CrashHandler crashHandler();
 

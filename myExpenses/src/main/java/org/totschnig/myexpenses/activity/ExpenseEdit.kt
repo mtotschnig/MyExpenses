@@ -346,7 +346,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     private fun populateFromTask(transaction: Transaction?, savedInstanceState: Bundle?, task: TransactionEditViewModel.InstantiationTask) {
-        transaction?.let { populate(it, savedInstanceState) } ?: run {
+        transaction?.let {
+            if (transaction.isSealed) {
+                abortWithMessage("This transaction refers to a closed account and can no longer be edited")
+            } else {
+                populate(it, savedInstanceState)
+            }
+        } ?: run {
             abortWithMessage(when(task) {
                 TRANSACTION, TEMPLATE -> "Object has been deleted from db"
                 TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
