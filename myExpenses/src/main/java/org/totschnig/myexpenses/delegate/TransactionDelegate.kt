@@ -202,10 +202,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
         createAdapters(newInstance, transaction)
 
-        setAccount(currencyExtra)
-
         //when we have a savedInstance, fields have already been populated
         if (savedInstanceState == null) {
+            setAccount(currencyExtra)
             isProcessingLinkedAmountInputs = true
             populateFields(transaction, prefHandler, newInstance)
             isProcessingLinkedAmountInputs = false
@@ -214,6 +213,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             }
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
+            setAccount(null)
             configurePicture()
             populateStatusSpinner()
         }

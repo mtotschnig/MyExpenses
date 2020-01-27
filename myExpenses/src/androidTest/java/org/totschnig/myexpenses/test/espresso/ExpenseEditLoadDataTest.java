@@ -38,8 +38,14 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.AMOUNT_MICROS;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.CATEGORY_LABEL;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.COMMENT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.PAYEE_NAME;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -135,7 +141,11 @@ public class ExpenseEditLoadDataTest {
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("1")));
     onView(withIdAndParent(R.id.AmountEditText, R.id.TransferAmount)).check(matches(withText("2")));
     onView(withIdAndAncestor(R.id.ExchangeRateEdit1, R.id.ExchangeRate)).check(matches(withText("2")));
-    onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.ExchangeRate)).check(matches(withText(new DecimalFormat("0.#").format(0.5f))));
+    onView(withIdAndAncestor(R.id.ExchangeRateEdit2, R.id.ExchangeRate)).check(matches(withText(formatAmount(0.5f))));
+  }
+
+  private String formatAmount(float amount) {
+    return new DecimalFormat("0.##").format(amount);
   }
 
   @Test
@@ -201,5 +211,22 @@ public class ExpenseEditLoadDataTest {
     checkEffectiveGone(R.id.PB, R.id.TitleRow);
     assertThat(mActivityRule.getActivity().isTemplate()).isFalse();
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("8")));
+  }
+
+  @Test
+  public void shouldPopulateFromIntent() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.setAction(Intent.ACTION_INSERT);
+    i.putExtra(ACCOUNT_LABEL, account1.getLabel());
+    i.putExtra(AMOUNT_MICROS, 1230000L);
+    i.putExtra(PAYEE_NAME, "John Doe");
+    i.putExtra(CATEGORY_LABEL, "A");
+    i.putExtra(COMMENT, "A note");
+    mActivityRule.launchActivity(i);
+    onView(withId(R.id.Account)).check(matches(withSpinnerText(account1.getLabel())));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText(formatAmount(1.23F))));
+    onView(withId(R.id.Payee)).check(matches(withText("John Doe")));
+    onView(withId(R.id.Comment)).check(matches(withText("A note")));
+    onView(withId(R.id.Category)).check(matches(withText("A")));
   }
 }

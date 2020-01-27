@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.database.Cursor
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -28,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -42,7 +44,7 @@ const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 
 class TransactionEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    enum class INSTANTIATION_TASK { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE }
+    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
 
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
@@ -56,13 +58,14 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
         return accounts
     }
 
-    fun transaction(transactionId: Long, task: INSTANTIATION_TASK, clone: Boolean): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+    fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         emit(when (task) {
-            INSTANTIATION_TASK.TEMPLATE -> Template.getInstanceFromDb(transactionId)
-            INSTANTIATION_TASK.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplate(transactionId)
-            INSTANTIATION_TASK.TRANSACTION -> Transaction.getInstanceFromDb(transactionId).also {
+            InstantiationTask.TEMPLATE -> Template.getInstanceFromDb(transactionId)
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplate(transactionId)
+            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDb(transactionId)?.also {
                 it.prepareForEdit(clone)
             }
+            InstantiationTask.FROM_INTENT_EXTRAS -> ProviderUtils.buildFromExtras(extras)
         })
     }
 

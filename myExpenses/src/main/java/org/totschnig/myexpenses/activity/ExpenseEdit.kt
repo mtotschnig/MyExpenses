@@ -80,7 +80,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.task.BuildTransactionTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ButtonWithDialog
@@ -99,9 +98,10 @@ import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.INSTANTIATION_TASK.TEMPLATE
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.INSTANTIATION_TASK.TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.INSTANTIATION_TASK.TRANSACTION_FROM_TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.FROM_INTENT_EXTRAS
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.widget.AbstractWidget
@@ -216,7 +216,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         amountInput.setTypeEnabled(false)
 
         val extras = intent.extras
-        var task: TransactionEditViewModel.INSTANTIATION_TASK? = null
+        var task: TransactionEditViewModel.InstantiationTask? = null
         mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
         if (mRowId == 0L) {
             mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
@@ -242,12 +242,15 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         if (notificationId > 0) {
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId)
         }
+        if (savedInstanceState == null && Intent.ACTION_INSERT == intent.action && extras != null) {
+            task = FROM_INTENT_EXTRAS
+        }
         //1. fetch the transaction or create a new instance
-        if (mRowId != 0L) {
+        if (task != null) {
             mNewInstance = false
             //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
-            viewModel.transaction(mRowId, task!!, intent.getBooleanExtra(KEY_CLONE, false) && savedInstanceState == null).observe(this, Observer {
-                populate(it, savedInstanceState)
+            viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false) && savedInstanceState == null, extras).observe(this, Observer {
+                populateFromTask(it, savedInstanceState, task)
             })
         } else {
             mOperationType = intent.getIntExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
@@ -272,15 +275,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
             supportActionBar!!.setDisplayShowTitleEnabled(false)
-            var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
-            if (savedInstanceState == null && Intent.ACTION_INSERT == intent.action && extras != null) {
-                val args = Bundle(1)
-                args.putBundle(BuildTransactionTask.KEY_EXTRAS, extras)
-                startTaskExecution(TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS, args,
-                        R.string.progress_dialog_loading)
-            } else {
+                var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
-                    populate(Template.getTypedNewInstance(mOperationType, accountId, true, if (parentId != 0L) parentId else null).also { mRowId = it.id }, savedInstanceState)
+                    populateWithNewInstance(Template.getTypedNewInstance(mOperationType, accountId, true, if (parentId != 0L) parentId else null).also { mRowId = it.id }, savedInstanceState)
                     isTemplate = true
                 } else {
                     when (mOperationType) {
@@ -288,7 +285,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populate(Transaction.getNewInstance(accountId, if (parentId != 0L) parentId else null), savedInstanceState)
+                            populateWithNewInstance(Transaction.getNewInstance(accountId, if (parentId != 0L) parentId else null), savedInstanceState)
                         }
                         TYPE_TRANSFER -> {
                             var transferAccountId = 0L
@@ -296,7 +293,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                                 accountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L)
                                 transferAccountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populate(Transfer.getNewInstance(accountId,
+                            populateWithNewInstance(Transfer.getNewInstance(accountId,
                                     if (transferAccountId != 0L) transferAccountId else null,
                                     if (parentId != 0L) parentId else null), savedInstanceState)
                         }
@@ -304,12 +301,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populate(SplitTransaction.getNewInstance(accountId)?.also { mRowId = it.id }, savedInstanceState)
+                            populateWithNewInstance(SplitTransaction.getNewInstance(accountId)?.also { mRowId = it.id }, savedInstanceState)
                         }
                     }
                 }
             }
-        }
         if (mNewInstance) {
             if (!discoveryHelper.discover(this, amountInput.typeButton, String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
                             getString(R.string.discover_feature_expense_income_switch),
@@ -341,7 +337,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             } catch (ise: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
             }
         }
-        delegate.onDestroy()
+        if (::delegate.isInitialized) delegate.onDestroy()
     }
 
     fun updateSplitBalance() {
@@ -349,12 +345,24 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         splitPartList?.updateBalance()
     }
 
-    private fun populate(transaction: Transaction?, savedInstanceState: Bundle?) {
-        if (transaction == null) {
+    private fun populateFromTask(transaction: Transaction?, savedInstanceState: Bundle?, task: TransactionEditViewModel.InstantiationTask) {
+        transaction?.let { populate(it, savedInstanceState) } ?: run {
+            abortWithMessage(when(task) {
+                TRANSACTION, TEMPLATE -> "Object has been deleted from db"
+                TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
+                FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
+            })
+        }
+    }
+
+    private fun populateWithNewInstance(transaction: Transaction?, savedInstanceState: Bundle?) {
+        transaction?.let { populate(it, savedInstanceState) } ?: run {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
-            return
         }
+    }
+
+    private fun populate(transaction: Transaction, savedInstanceState: Bundle?) {
         if (intent.getBooleanExtra(KEY_CLONE, false)) {
             if (transaction is SplitTransaction) {
                 mRowId = transaction.id
@@ -890,7 +898,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    viewModel.transaction(result, TEMPLATE, false).observe(this, Observer {
+                    viewModel.transaction(result, TEMPLATE, false, null).observe(this, Observer {
                         it?.let { launchPlanView(true, (it as Template).planId) }
                     })
                 } else { //make sure soft keyboard is closed
