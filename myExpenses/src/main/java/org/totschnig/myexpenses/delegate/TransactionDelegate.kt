@@ -653,9 +653,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             if (isMainTransaction) {
                 val transactionDate = readZonedDateTime(dateEditBinding.DateButton)
                 setDate(transactionDate)
-                if (dateEditBinding.Date2Button.visibility == View.VISIBLE) {
-                    setValueDate(if (dateEditBinding.Date2Button.visibility == View.VISIBLE) readZonedDateTime(dateEditBinding.Date2Button) else transactionDate)
-                }
+                setValueDate(if (dateEditBinding.Date2Button.visibility == View.VISIBLE) readZonedDateTime(dateEditBinding.Date2Button) else transactionDate)
             }
             if (isTemplate && !isSplitPart) {
                 (this as Template).apply {

@@ -378,7 +378,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             transaction.crStatus = Transaction.CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE
-            transaction.setDate(ZonedDateTime.now())
+            ZonedDateTime.now().let {
+                transaction.setDate(it)
+                transaction.setValueDate(it)
+            }
             transaction.uuid = Model.generateUuid()
             mNewInstance = true
         }
@@ -760,68 +763,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onPostExecute(taskId: Int, o: Any?) {
         super.onPostExecute(taskId, o)
-        val success: Boolean
         when (taskId) {
-            /*TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE, TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION, TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE, TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> {
-                if (o == null) {
-                    abortWithMessage(when(taskId) {
-                        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
-                        TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
-                        else -> "Object has been deleted from db"
-                    })
-                    return
-                }
-                mTransaction = o as Transaction
-                if (mTransaction!!.isSealed) {
-                    abortWithMessage("This transaction refers to a closed account and can no longer be edited")
-                }
-                if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
-                    if (mPlanInstanceId > 0L) {
-                        mTransaction!!.originPlanInstanceId = mPlanInstanceId
-                    }
-                    if (mPlanInstanceDate != 0L) {
-                        mTransaction!!.setDate(Date(mPlanInstanceDate))
-                    }
-                }
-                if (mTransaction is Template) {
-                    mPlan = (mTransaction as Template).plan
-                }
-                mOperationType = mTransaction!!.operationType()
-                if (mPictureUri == null) {
-                    mPictureUri = mTransaction!!.pictureUri
-                    if (mPictureUri != null) {
-                        if (PictureDirHelper.doesPictureExist(mTransaction!!.pictureUri)) {
-                            setPicture()
-                        } else {
-                            unsetPicture()
-                            showSnackbar(R.string.image_deleted, Snackbar.LENGTH_SHORT)
-                        }
-                    }
-                }
-                if (mCatId == null) {
-                    mCatId = mTransaction!!.catId
-                    mLabel = mTransaction!!.label
-                    categoryIcon = mTransaction!!.categoryIcon
-                }
-                if (mMethodId == null) {
-                    mMethodId = mTransaction!!.methodId
-                }
-                if (intent.getBooleanExtra(KEY_CLONE, false)) {
-                    if (mTransaction is SplitTransaction) {
-                        mRowId = mTransaction.getId()
-                    } else {
-                        mTransaction!!.id = 0L
-                        mRowId = 0L
-                    }
-                    mTransaction!!.crStatus = CrStatus.UNRECONCILED
-                    mTransaction!!.status = DatabaseConstants.STATUS_NONE
-                    mTransaction!!.setDate(ZonedDateTime.now())
-                    mTransaction!!.uuid = Model.generateUuid()
-                    mClone = true
-                }
-                setup()
-                invalidateOptionsMenu()
-            }*/
             TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS -> {
                 (delegate as? SplitDelegate)?.onUncommitedSplitPartsMoved(o as Boolean)
             }
