@@ -311,6 +311,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     fun fillAmount(amount: BigDecimal) {
         with(viewBinding.Amount) {
+            visibility = View.VISIBLE
             if (amount.signum() != 0) {
                 setAmount(amount)
             }

@@ -106,6 +106,8 @@
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Amount"
                     style="@style/FormField"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:contentDescription="@string/amount"/>
             </TableRow>
 
