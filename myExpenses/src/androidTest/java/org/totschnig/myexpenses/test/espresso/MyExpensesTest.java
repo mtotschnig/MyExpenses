@@ -1,19 +1,14 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
-import android.os.Bundle;
 import android.os.RemoteException;
 import android.widget.AdapterView;
 import android.widget.Button;
 
 import org.junit.After;
-import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,11 +22,9 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.Currency;
 
@@ -50,7 +43,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -69,7 +61,6 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
-import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
@@ -112,17 +103,6 @@ public final class MyExpensesTest extends BaseUiTest {
   public void floatingActionButtonOpensForm() {
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     intended(hasComponent(ExpenseEdit.class.getName()));
-  }
-
-  @Test
-  @Ignore("TODO")
-  public void ratingDialogIsShown() {
-    Assume.assumeTrue(!DistribHelper.isGithub());
-    PrefKey.NEXT_REMINDER_RATE.remove();
-    //stubExpenseEditIntentWithSequenceCount(MyExpenses.THRESHOLD_REMIND_RATE + 1);
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
-    onView(withId(R.id.rating_how_many))
-        .check(matches(isDisplayed()));
   }
 
   @Test
@@ -279,19 +259,6 @@ public final class MyExpensesTest extends BaseUiTest {
   public void templateScreenIsOpened() {
     clickMenuItem(R.id.MANAGE_PLANS_COMMAND, R.string.menu_manage_plans);
     intended(hasComponent(ManageTemplates.class.getName()));
-  }
-
-  private void stubExpenseEditIntentWithSequenceCount(long count) {
-    Bundle bundle = new Bundle();
-    bundle.putLong(KEY_SEQUENCE_COUNT, count);
-    Intent resultData = new Intent();
-    resultData.putExtras(bundle);
-
-    Instrumentation.ActivityResult result =
-        new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-
-    // Stub the Intent.
-    intending(hasComponent(ExpenseEdit.class.getName())).respondWith(result);
   }
 
   @Override

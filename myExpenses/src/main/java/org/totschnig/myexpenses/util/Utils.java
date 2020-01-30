@@ -116,7 +116,8 @@ public class Utils {
           userCountry = telephonyManager.getSimCountryIso();
         }
         return userCountry;
-      } catch (Exception ignore) {}
+      } catch (Exception ignore) {
+      }
     }
     return null;
   }
@@ -135,7 +136,8 @@ public class Utils {
     if (!TextUtils.isEmpty(userCountry)) {
       try {
         result = Currency.getInstance(new Locale("", userCountry));
-      } catch (Exception ignore) {}
+      } catch (Exception ignore) {
+      }
     }
     if (result == null) {
       result = getSaveDefault();
@@ -317,15 +319,17 @@ public class Utils {
   }
 
   public static long getDaysSinceInstall(Context context) {
+    return (System.currentTimeMillis() - getInstallTime(context)) / DAY_IN_MILLIS;
+  }
+
+  public static long getInstallTime(Context context) {
     try {
-      return (System.currentTimeMillis() -
-          context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
-              .firstInstallTime) / DAY_IN_MILLIS;
+      return context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
+          .firstInstallTime;
     } catch (NameNotFoundException e) {
       return 0;
     }
   }
-
 
   public static long getDaysSinceUpdate(Context context) {
     try {

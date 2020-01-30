@@ -42,12 +42,6 @@
     <item name="NO_COMMAND" type="id"/>
     <item name="PASSWORD_WARNING_DIALOG" type="id"/>
     <item name="RATE_COMMAND" type="id"/>
-    <item name="REMIND_LATER_RATE_COMMAND" type="id"/>
-    <item name="REMIND_LATER_CONTRIB_COMMAND" type="id"/>
-    <item name="REMIND_NO_RATE_COMMAND" type="id"/>
-    <item name="REMIND_NO_CONTRIB_COMMAND" type="id"/>
-    <item name="REMIND_YES_COMMAND" type="id"/>
-    <item name="RESET_ACCOUNT_ALL_COMMAND" type="id"/>
     <item name="RESET_COMMAND" type="id"/>
     <item name="RESTORE_COMMAND" type="id"/>
     <item name="SAVE_AND_NEW_COMMAND" type="id"/>

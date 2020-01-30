@@ -27,19 +27,40 @@ import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 
+import javax.inject.Inject;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
+import static android.text.format.DateUtils.DAY_IN_MILLIS;
+import static org.totschnig.myexpenses.util.tracking.Tracker.EVENT_RATING_DIALOG;
 
 public class RemindRateDialogFragment extends CommitSafeDialogFragment implements OnClickListener, OnRatingBarChangeListener {
 
   private RatingBar mRating;
   private TextView mRatingRemind;
   private int POSITIVE_RATING = 5;
+
+  @Inject
+  PrefHandler prefHandler;
+
+  @Inject
+  protected Tracker tracker;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -76,17 +97,17 @@ public class RemindRateDialogFragment extends CommitSafeDialogFragment implement
     if (getActivity() == null) {
       return;
     }
+    Bundle bundle = new Bundle();
+    bundle.putInt(Tracker.EVENT_PARAM_BUTTON_ID, which);
+    tracker.logEvent(EVENT_RATING_DIALOG, bundle);
+    long nextReminderRate = -1;
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      PrefKey.NEXT_REMINDER_RATE.putLong(-1);
       ((MessageDialogListener) getActivity())
           .dispatchCommand(mRating.getRating() >= POSITIVE_RATING ? R.id.RATE_COMMAND : R.id.FEEDBACK_COMMAND, null);
     } else if (which == AlertDialog.BUTTON_NEUTRAL) {
-      ((MessageDialogListener) getActivity())
-          .dispatchCommand(R.id.REMIND_LATER_RATE_COMMAND, null);
-    } else {
-      ((MessageDialogListener) getActivity())
-          .dispatchCommand(R.id.REMIND_NO_RATE_COMMAND, null);
+       nextReminderRate = System.currentTimeMillis() + DAY_IN_MILLIS * 30;
     }
+    prefHandler.putLong(PrefKey.NEXT_REMINDER_RATE, nextReminderRate);
   }
 
   @Override

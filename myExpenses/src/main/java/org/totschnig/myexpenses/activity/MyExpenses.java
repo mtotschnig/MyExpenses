@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
@@ -115,6 +116,7 @@ import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import timber.log.Timber;
 
+import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -155,7 +157,6 @@ public class MyExpenses extends LaunchActivity implements
     SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   public static final int ACCOUNTS_CURSOR = -1;
-  public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
   private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
@@ -429,6 +430,15 @@ public class MyExpenses extends LaunchActivity implements
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
+      if (!DistribHelper.isGithub()) {
+        long nextReminder = getPrefHandler().getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
+        if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
+          RemindRateDialogFragment f = new RemindRateDialogFragment();
+          f.setCancelable(false);
+          f.show(getSupportFragmentManager(), "REMIND_RATE");
+          return;
+        }
+      }
       adHandler.onEditTransactionResult();
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
@@ -545,13 +555,6 @@ public class MyExpenses extends LaunchActivity implements
         } else {
           showExportDisabledCommand();
         }
-        return true;
-      case R.id.REMIND_NO_RATE_COMMAND:
-        PrefKey.NEXT_REMINDER_RATE.putLong(-1);
-        return true;
-      case R.id.REMIND_LATER_RATE_COMMAND:
-        //TODO
-        //PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + THRESHOLD_REMIND_RATE);
         return true;
       case R.id.HELP_COMMAND_DRAWER:
         i = new Intent(this, Help.class);
