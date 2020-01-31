@@ -217,6 +217,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             configurePicture()
             populateStatusSpinner()
         }
+        viewBinding.Amount.visibility = View.VISIBLE
         //}
         //after setLocalDateTime, so that the plan info can override the date
         configurePlan(plan)
@@ -311,7 +312,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     fun fillAmount(amount: BigDecimal) {
         with(viewBinding.Amount) {
-            visibility = View.VISIBLE
             if (amount.signum() != 0) {
                 setAmount(amount)
             }
@@ -667,6 +667,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                         }
                         this.title = it
                     }
+                    this.isPlanExecutionAutomatic = planExecutionButton.isChecked
                     val description = compileDescription(context, CurrencyFormatter.instance())
                     if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                         plan = Plan(

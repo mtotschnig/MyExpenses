@@ -68,6 +68,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_PARENT_IS_TEMPLATE = "parentIsTemplate";
   private static final String KEY_ACCOUNT = "account";
+  private static final int TRANSACTION_CURSOR = 5;
+  private static final int SUM_CURSOR = 6;
   //
   SplitPartAdapter mAdapter;
   private TextView balanceTv;
@@ -182,11 +184,11 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     Uri uri = parentIsTemplate() ?
         TransactionProvider.TEMPLATES_UNCOMMITTED_URI : TransactionProvider.UNCOMMITTED_URI;
     switch (id) {
-      case ExpenseEdit.TRANSACTION_CURSOR:
+      case TRANSACTION_CURSOR:
         cursorLoader = new CursorLoader(getActivity(), uri, null, "parent_id = ?",
             selectionArgs, null);
         return cursorLoader;
-      case ExpenseEdit.SUM_CURSOR:
+      case SUM_CURSOR:
         cursorLoader = new CursorLoader(getActivity(), uri,
             new String[]{"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
             selectionArgs, null);
@@ -201,10 +203,10 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     switch (arg0.getId()) {
-      case ExpenseEdit.TRANSACTION_CURSOR:
+      case TRANSACTION_CURSOR:
         mAdapter.swapCursor(c);
         break;
-      case ExpenseEdit.SUM_CURSOR:
+      case SUM_CURSOR:
         c.moveToFirst();
         transactionSum = c.getLong(0);
         updateBalance();
@@ -214,7 +216,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     switch (arg0.getId()) {
-      case ExpenseEdit.TRANSACTION_CURSOR:
+      case TRANSACTION_CURSOR:
         mAdapter.swapCursor(null);
         break;
     }
@@ -255,7 +257,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   private void requireLoaders() {
-    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.TRANSACTION_CURSOR, null, this);
-    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.SUM_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), TRANSACTION_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), SUM_CURSOR, null, this);
   }
 }

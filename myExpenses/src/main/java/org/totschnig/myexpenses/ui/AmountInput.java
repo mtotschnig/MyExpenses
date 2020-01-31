@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 
 public class AmountInput extends ConstraintLayout {
   @BindView(R.id.TaType)
-  public CompoundButton typeButton;
+  CompoundButton typeButton;
   @BindView(R.id.AmountEditText)
   AmountEditText amountEditText;
   @BindView(R.id.Calculator)
@@ -369,6 +369,10 @@ public class AmountInput extends ConstraintLayout {
   @Override
   protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
     super.dispatchThawSelfOnly(container);
+  }
+
+  public CompoundButton getTypeButton() {
+    return typeButton;
   }
 
   static class SavedState extends BaseSavedState {

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:layout_weight="1"
-    android:onClick="onToggleClicked"
     android:textOff="@string/plan_manual"
     android:textOn="@string/plan_automatic"
     android:visibility="gone"

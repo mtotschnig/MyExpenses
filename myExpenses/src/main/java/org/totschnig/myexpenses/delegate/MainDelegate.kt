@@ -113,6 +113,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
                             b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information)
                             b.putString(ConfirmationDialogFragment.KEY_MESSAGE, context.getString(R.string.hint_auto_fill))
                             b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
+                            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
                             b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
                                     prefHandler.getKey(PrefKey.AUTO_FILL_HINT_SHOWN))
                             b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes)

@@ -43,8 +43,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   protected boolean mIsSaving = false;
   private boolean mIsDirty = false;
   protected boolean mNewInstance = true;
-  public int primaryColor;
-  public int accentColor;
+  private int primaryColor;
+  private int accentColor;
 
   abstract int getDiscardNewMessage();
 
