@@ -71,13 +71,13 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                 addItemDecoration(DividerItemDecoration(activity, it.orientation))
             }
         }
-        viewModel.data.observe(this, Observer {
+        viewModel.data.observe(viewLifecycleOwner, Observer {
             position2Spent = arrayOfNulls(it.size)
             adapter.submitList(it)
             empty.isVisible = it.size == 0
             recycler_view.isVisible = it.size > 0
         })
-        viewModel.spent.observe(this, Observer {
+        viewModel.spent.observe(viewLifecycleOwner, Observer {
             position2Spent?.set(it.first, it.second)
             adapter.notifyItemChanged(it.first)
         })

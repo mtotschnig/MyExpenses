@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
 
@@ -28,6 +27,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static org.totschnig.myexpenses.activity.ExpenseEdit.KEY_NEW_TEMPLATE;
@@ -103,9 +103,8 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
-    checkEffectiveGone(R.id.Plan);
+    checkEffectiveGone(R.id.PB);
   }
-
 
   @Test
   public void accountIdInExtraShouldPopulateSpinner() {
@@ -115,7 +114,7 @@ public class ExpenseEditTest {
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
-      onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.getLabel())));
+      onView(withId(R.id.Account)).check(matches(withSpinnerText(a.getLabel())));
       mActivityRule.getActivity().finish();
     }
   }
@@ -129,7 +128,7 @@ public class ExpenseEditTest {
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.code());
       mActivityRule.launchActivity(i);
-      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrencyUnit());
+      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrency());
       mActivityRule.getActivity().finish();
     }
   }

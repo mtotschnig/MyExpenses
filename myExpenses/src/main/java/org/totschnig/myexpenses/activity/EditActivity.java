@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,7 @@ import org.totschnig.myexpenses.ui.AmountInput;
 
 import java.math.BigDecimal;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher {
@@ -120,7 +122,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   @Override
-  public boolean dispatchCommand(int command, Object tag) {
+  public boolean dispatchCommand(int command, @Nullable Object tag) {
     if (super.dispatchCommand(command, tag)) {
       return true;
     }
@@ -143,11 +145,11 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   protected void saveState() {
     mIsSaving = true;
-    startDbWriteTask(false);
+    startDbWriteTask();
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(@Nullable Uri result) {
     mIsSaving = false;
     super.onPostExecute(result);
   }
@@ -161,7 +163,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     }
   }
 
-  protected void linkInputWithLabel(final View input, final View label) {
+  public void linkInputWithLabel(final View input, final View label) {
     setOnFocusChangeListenerRecursive(input, (v, hasFocus) ->
         ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));
   }

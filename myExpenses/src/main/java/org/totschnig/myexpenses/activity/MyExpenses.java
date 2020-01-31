@@ -116,6 +116,7 @@ import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import timber.log.Timber;
 
+import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -155,10 +156,7 @@ public class MyExpenses extends LaunchActivity implements
     ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener,
     SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
-  public static final long THRESHOLD_REMIND_RATE = 47L;
-
   public static final int ACCOUNTS_CURSOR = -1;
-  public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
   private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
@@ -188,12 +186,6 @@ public class MyExpenses extends LaunchActivity implements
         null : HelpVariant.crStatus);
   }
 
-  /**
-   * stores the number of transactions that have been
-   * created in the db, updated after each creation of
-   * a new transaction
-   */
-  private long sequenceCount = 0;
   @BindView(R.id.left_drawer)
   ExpandableStickyListHeadersListView mDrawerList;
   @Nullable
@@ -438,12 +430,9 @@ public class MyExpenses extends LaunchActivity implements
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-      long nextReminder;
-      sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
       if (!DistribHelper.isGithub()) {
-        nextReminder =
-            PrefKey.NEXT_REMINDER_RATE.getLong(THRESHOLD_REMIND_RATE);
-        if (nextReminder != -1 && sequenceCount >= nextReminder) {
+        long nextReminder = getPrefHandler().getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
+        if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
           RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "REMIND_RATE");
@@ -566,12 +555,6 @@ public class MyExpenses extends LaunchActivity implements
         } else {
           showExportDisabledCommand();
         }
-        return true;
-      case R.id.REMIND_NO_RATE_COMMAND:
-        PrefKey.NEXT_REMINDER_RATE.putLong(-1);
-        return true;
-      case R.id.REMIND_LATER_RATE_COMMAND:
-        PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + THRESHOLD_REMIND_RATE);
         return true;
       case R.id.HELP_COMMAND_DRAWER:
         i = new Intent(this, Help.class);

@@ -24,6 +24,7 @@ import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -35,6 +36,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
@@ -81,6 +83,16 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLI
 public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host,
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
+  @BindView(R.id.AmountLabel)
+  protected TextView amountLabel;
+  @BindView(R.id.AmountRow)
+  ViewGroup amountRow;
+  @BindView(R.id.ERR)
+  ViewGroup exchangeRateRow;
+  @BindView(R.id.Amount)
+  AmountInput amountInput;
+  @BindView(R.id.ExchangeRate)
+  ExchangeRateEdit exchangeRateEdit;
   @BindView(R.id.Label)
   EditText mLabelText;
   @BindView(R.id.Description)
@@ -244,8 +256,8 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     final boolean isHomeAccount = currencyUnit.code().equals(homeCurrencyPref);
     exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
-      mExchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
-      mExchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
+      exchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
+      exchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
           mAccount.getExchangeRate() : 1), true);
     }
   }
@@ -277,7 +289,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }
     if (!PrefKey.HOME_CURRENCY.getString(currency).equals(currency)) {
-      final BigDecimal rate = mExchangeRateEdit.getRate(false);
+      final BigDecimal rate = exchangeRateEdit.getRate(false);
       if (rate != null) {
         mAccount.setExchangeRate(rate.doubleValue());
       }
@@ -322,13 +334,13 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
    * callback of DbWriteFragment
    */
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     if (result == null) {
       complain();
       super.onPostExecute(result);
     } else {
       Intent intent = new Intent();
-      long id = ContentUris.parseId((Uri) result);
+      long id = ContentUris.parseId(result);
       mAccount.requestSync();
       intent.putExtra(DatabaseConstants.KEY_ROWID, id);
       setResult(RESULT_OK, intent);
@@ -511,5 +523,35 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   @Override
   public LocalDate getDate() {
     return LocalDate.now();
+  }
+
+  @NotNull
+  @Override
+  public TextView getAmountLabel() {
+    return amountLabel;
+  }
+
+  @NotNull
+  @Override
+  public ViewGroup getAmountRow() {
+    return amountRow;
+  }
+
+  @NotNull
+  @Override
+  public ViewGroup getExchangeRateRow() {
+    return exchangeRateRow;
+  }
+
+  @NotNull
+  @Override
+  public AmountInput getAmountInput() {
+    return amountInput;
+  }
+
+  @NotNull
+  @Override
+  public ExchangeRateEdit getExchangeRateEdit() {
+    return exchangeRateEdit;
   }
 }

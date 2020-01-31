@@ -109,8 +109,8 @@ public class UiUtils {
     DATE, DATE_TIME, BOOKING_VALUE;
   }
 
-  public static DateMode getDateMode(Account account, PrefHandler prefHandler) {
-    if (!(account.getType() == AccountType.CASH)) {
+  public static DateMode getDateMode(AccountType accountType, PrefHandler prefHandler) {
+    if (!(accountType == AccountType.CASH)) {
       if (prefHandler.getBoolean(TRANSACTION_WITH_VALUE_DATE, false)) {
         return DateMode.BOOKING_VALUE;
       }

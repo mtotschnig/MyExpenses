@@ -110,8 +110,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     viewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
-    viewModel.getBudget().observe(this, this::setBudget);
-    viewModel.getDatabaseResult().observe(this, success -> {
+    viewModel.getBudget().observe(getViewLifecycleOwner(), this::setBudget);
+    viewModel.getDatabaseResult().observe(getViewLifecycleOwner(), success -> {
       Activity activity = getActivity();
       if (activity != null) {
         if (success > -1) {

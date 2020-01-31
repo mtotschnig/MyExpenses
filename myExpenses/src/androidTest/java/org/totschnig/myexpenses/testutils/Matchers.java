@@ -1,43 +1,22 @@
 package org.totschnig.myexpenses.testutils;
 
-import android.database.Cursor;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import androidx.test.espresso.matcher.BoundedMatcher;
-import androidx.test.espresso.matcher.CursorMatchers;
 
 import static org.hamcrest.Matchers.is;
 
 public class Matchers {
   private Matchers() {
-  }
-
-  public static Matcher<View> withSpinnerText(final String string) {
-    final CursorMatchers.CursorMatcher cursorMatcher =
-        CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL, string);
-    return new BoundedMatcher<View, Spinner>(Spinner.class) {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("with text: " + string);
-        cursorMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(Spinner spinner) {
-        return cursorMatcher.matchesSafely(((Cursor) spinner.getSelectedItem()));
-      }
-    };
   }
 
   // Credits: http://stackoverflow.com/a/30361345/1199911

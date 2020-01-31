@@ -517,7 +517,7 @@ public class Account extends Model {
     } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
       Transaction helper = new Transaction(getId(), new Money(currencyUnit, getTransactionSum(filter)));
       helper.setComment(helperComment);
-      helper.status = STATUS_HELPER;
+      helper.setStatus(STATUS_HELPER);
       handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
           .withValues(helper.buildInitialValues()).build();
     }
@@ -720,7 +720,7 @@ public class Account extends Model {
         return false;
     } else if (!description.equals(other.description))
       return false;
-    if (!getId().equals(other.getId()))
+    if (getId() != other.getId())
       return false;
     if (getLabel() == null) {
       if (other.getLabel() != null)

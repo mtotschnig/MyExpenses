@@ -153,7 +153,13 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   }
 
   private ListView findListView(LinearLayout parent) {
-    return (ListView) parent.findViewById(R.id.list);
+    for (int i = 0; i < parent.getChildCount(); i++) {
+      View child = parent.getChildAt(i);
+      if (child instanceof ListView) {
+        return ((ListView) child);
+      }
+    }
+    return null;
   }
 
   private void configureSubmit() {

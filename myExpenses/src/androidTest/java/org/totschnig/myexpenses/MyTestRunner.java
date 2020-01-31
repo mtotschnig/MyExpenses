@@ -2,6 +2,8 @@ package org.totschnig.myexpenses;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +19,11 @@ public final class MyTestRunner extends AndroidJUnitRunner {
     // Inform the app we are an instrumentation test before the object graph is initialized.
     Log.d("instrumentationTest", "now setting instrumentationTest to true");
     MyApplication.setInstrumentationTest(true);
+  }
+
+  @Override
+  public Application newApplication(ClassLoader cl, String className, Context context) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    return super.newApplication(cl, TestApp.class.getName(), context);
   }
 
   @Override

@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 
@@ -71,7 +72,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
       mParty = new Payee(
           extras.getLong(DatabaseConstants.KEY_ROWID),
           extras.getString(SimpleInputDialog.TEXT));
-      startDbWriteTask(false);
+      startDbWriteTask();
       finishActionMode();
       return true;
     }
@@ -85,7 +86,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     if (result == null) {
       showSnackbar(getString(R.string.already_defined,
               mParty != null ? mParty.getName() : ""),

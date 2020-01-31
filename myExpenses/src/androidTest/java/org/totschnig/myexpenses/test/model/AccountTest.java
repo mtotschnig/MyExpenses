@@ -59,10 +59,10 @@ public class AccountTest extends ModelTest {
   @Override
   protected void tearDown() throws Exception {
     super.tearDown();
-    if (account1 != null && account1.getId() != null) {
+    if (account1 != null) {
       Account.delete(account1.getId());
     }
-    if (account2 != null && account2.getId() != null) {
+    if (account2 != null) {
       Account.delete(account2.getId());
     }
     Category.delete(catId);

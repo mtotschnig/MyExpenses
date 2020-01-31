@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
@@ -141,8 +142,8 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  *
  * @author Michael Totschnig
  */
-public class Transaction extends Model {
-  protected boolean inEditState = false;
+public class Transaction extends Model implements ITransaction {
+  public boolean inEditState = false;
   private String comment = "";
   private String payee = "";
   private String referenceNumber = "";
@@ -174,7 +175,7 @@ public class Transaction extends Model {
   /**
    * template which defines the plan for which this transaction has been created
    */
-  public Template originTemplate = null;
+  private Template originTemplate = null;
   /**
    * id of an instance of the event (plan) for which this transaction has been created
    */
@@ -184,7 +185,7 @@ public class Transaction extends Model {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
-  public int status = 0;
+  private int status = 0;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTON_EXTENDED_HOME;
 
   static {
@@ -314,6 +315,7 @@ public class Transaction extends Model {
   /**
    * stores a short label of the category or the account the transaction is linked to
    */
+  @Nullable
   public String getLabel() {
     return label;
   }
@@ -326,7 +328,7 @@ public class Transaction extends Model {
     this.transferAmount = transferAmount;
   }
 
-  public Long getAccountId() {
+  public long getAccountId() {
     return accountId;
   }
 
@@ -389,6 +391,43 @@ public class Transaction extends Model {
 
   public void setSealed(boolean sealed) {
     isSealed = sealed;
+  }
+
+  @Override
+  public int getStatus() {
+    return status;
+  }
+
+  @Override
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
+  @Nullable
+  @Override
+  public Template getOriginTemplate() {
+    return originTemplate;
+  }
+
+  @Override
+  public void setOriginTemplate(@Nullable Template originTemplate) {
+    this.originTemplate = originTemplate;
+  }
+
+  @Override
+  public void setAccountId(long accountId) {
+    this.accountId = accountId;
+  }
+
+  @Nullable
+  @Override
+  public Long getOriginPlanInstanceId() {
+    return originPlanInstanceId;
+  }
+
+  @Override
+  public void setOriginPlanInstanceId(@Nullable Long originPlanInstanceId) {
+    this.originPlanInstanceId = originPlanInstanceId;
   }
 
   public enum CrStatus {
@@ -569,7 +608,7 @@ public class Transaction extends Model {
     tr.setLabel(te.getLabel());
     tr.originTemplate = te;
     if (tr instanceof SplitTransaction) {
-      ((SplitTransaction) tr).persistForEdit();
+      tr.save();
       Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
           KEY_PARENTID + " = ?", new String[]{String.valueOf(te.getId())}, null);
       if (c != null) {
@@ -611,7 +650,7 @@ public class Transaction extends Model {
     if (account == null) {
       return null;
     }
-    return new Transaction(accountId, new Money(account.getCurrencyUnit(), 0L), parentId);
+    return new Transaction(account.getId(), new Money(account.getCurrencyUnit(), 0L), parentId);
   }
 
   public static void delete(long id, boolean markAsVoid) {
@@ -628,7 +667,7 @@ public class Transaction extends Model {
     cr().update(uri, null, null, null);
   }
 
-  protected Transaction() {
+  public Transaction() {
     setDate(ZonedDateTime.now());
     setValueDate(ZonedDateTime.now());
   }
@@ -637,6 +676,11 @@ public class Transaction extends Model {
     this();
     this.setAccountId(accountId);
     this.setAmount(amount);
+  }
+
+  public Transaction(long accountId, Long parentId) {
+    this.setAccountId(accountId);
+    setParentId(parentId);
   }
 
   public Transaction(long accountId, Money amount, Long parentId) {
@@ -678,6 +722,7 @@ public class Transaction extends Model {
     this.valueDate = unixEpoch;
   }
 
+
   public long getValueDate() {
     return valueDate;
   }
@@ -708,10 +753,14 @@ public class Transaction extends Model {
 
   @Override
   public Uri save() {
+    return save(false);
+  }
+
+  public Uri save(boolean withCommit) {
     Uri uri;
     try {
       ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY,
-          buildSaveOperations());
+          buildSaveOperations(withCommit));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -746,9 +795,10 @@ public class Transaction extends Model {
       String idStr = String.valueOf(getId());
       ContentValues statusValues = new ContentValues();
       String statusUncommited = String.valueOf(STATUS_UNCOMMITTED);
-      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(statusUncommited);
+      final String partOrPeerSelect = getPartOrPeerSelect();
+      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(partOrPeerSelect, statusUncommited, idStr);
       ops.add(ContentProviderOperation.newDelete(uri).withSelection(
-          getPartOrPeerSelect() + "  AND " + KEY_STATUS + " != ?", uncommitedPartOrPeerSelectArgs).build());
+          partOrPeerSelect + "  AND " + KEY_STATUS + " != ?", uncommitedPartOrPeerSelectArgs).build());
       statusValues.put(KEY_STATUS, STATUS_NONE);
       //for a new split, both the parent and the parts are in state uncommitted
       //when we edit a split only the parts are in state uncommitted,
@@ -758,7 +808,7 @@ public class Transaction extends Model {
           KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
           new String[]{statusUncommited, idStr}).build());
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
-          getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
+          partOrPeerSelect + "  AND " + KEY_STATUS + " = ?",
           uncommitedPartOrPeerSelectArgs).build());
     }
   }
@@ -767,9 +817,9 @@ public class Transaction extends Model {
     return null;
   }
 
-  private String[] getPartOrPeerSelectArgs(String extra) {
-    int count = StringUtils.countMatches(getPartOrPeerSelect(), '?');
-    List<String> args = new ArrayList<>(Collections.nCopies(count, String.valueOf(getId())));
+  static String[] getPartOrPeerSelectArgs(String partOrPeerSelect, String extra, String id) {
+    int count = StringUtils.countMatches(partOrPeerSelect, '?');
+    List<String> args = new ArrayList<>(Collections.nCopies(count, id));
     if (extra != null) {
       args.add(extra);
     }
@@ -808,7 +858,6 @@ public class Transaction extends Model {
         }
         c.close();
       }
-      inEditState = true;
     }
   }
 
@@ -824,8 +873,8 @@ public class Transaction extends Model {
     return VIEW_UNCOMMITTED;
   }
 
-  public ArrayList<ContentProviderOperation> buildSaveOperations() {
-    return buildSaveOperations(0, -1, false);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(boolean withCommit) {
+    return buildSaveOperations(0, -1, false, withCommit);
   }
 
   /**
@@ -837,9 +886,10 @@ public class Transaction extends Model {
    * @param parentOffset        if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
    *                            Is used from SyncAdapter for creating split transactions
    * @param callerIsSyncAdapter
+   * @param withCommit change state from uncommitted to committed
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
@@ -898,7 +948,6 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, getMethodId());
     initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
-    initialValues.put(KEY_UUID, requireUuid());
 
     initialValues.put(KEY_ORIGINAL_AMOUNT, originalAmount == null ? null : originalAmount.getAmountMinor());
     initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().code());
@@ -908,6 +957,7 @@ public class Transaction extends Model {
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
+      initialValues.put(KEY_UUID, requireUuid());
     }
     return initialValues;
   }
@@ -1117,15 +1167,9 @@ public class Transaction extends Model {
     if (getClass() != obj.getClass())
       return false;
     Transaction other = (Transaction) obj;
-    if (getAccountId() == null) {
-      if (other.getAccountId() != null)
-        return false;
-    } else if (!getAccountId().equals(other.getAccountId()))
+    if (getAccountId() != other.getAccountId())
       return false;
-    if (getAmount() == null) {
-      if (other.getAmount() != null)
-        return false;
-    } else if (!getAmount().equals(other.getAmount()))
+    if (!getAmount().equals(other.getAmount()))
       return false;
     if (getCatId() == null) {
       if (other.getCatId() != null)
@@ -1139,10 +1183,7 @@ public class Transaction extends Model {
       return false;
     if (getDate() != other.getDate())
       return false;
-    if (getId() == null) {
-      if (other.getId() != null)
-        return false;
-    } else if (!getId().equals(other.getId()))
+    if (getId() != other.getId())
       return false;
     //label is constructed on hoc by database as a consquence of transfer_account and category
     //and is not yet set when transaction is not saved, hence we do not consider it relevant
@@ -1177,10 +1218,10 @@ public class Transaction extends Model {
     result = 31 * result + (this.getReferenceNumber() != null ? this.getReferenceNumber().hashCode() : 0);
     result = 31 * result + (this.getLabel() != null ? this.getLabel().hashCode() : 0);
     result = 31 * result + Long.valueOf(getDate()).hashCode();
-    result = 31 * result + (this.getAmount() != null ? this.getAmount().hashCode() : 0);
+    result = 31 * result + this.getAmount().hashCode();
     result = 31 * result + (this.getTransferAmount() != null ? this.getTransferAmount().hashCode() : 0);
     result = 31 * result + (this.catId != null ? this.catId.hashCode() : 0);
-    result = 31 * result + (this.getAccountId() != null ? this.getAccountId().hashCode() : 0);
+    result = 31 * result + Long.valueOf(getAccountId()).hashCode();
     result = 31 * result + (this.getMethodId() != null ? this.getMethodId().hashCode() : 0);
     result = 31 * result + (this.getMethodLabel() != null ? this.getMethodLabel().hashCode() : 0);
     result = 31 * result + (this.getParentId() != null ? this.getParentId().hashCode() : 0);
@@ -1188,7 +1229,7 @@ public class Transaction extends Model {
     result = 31 * result + (this.originTemplate != null ? this.originTemplate.hashCode() : 0);
     result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
     result = 31 * result + this.status;
-    result = 31 * result + (this.crStatus != null ? this.crStatus.hashCode() : 0);
+    result = 31 * result + this.crStatus.hashCode();
     result = 31 * result + (this.pictureUri != null ? this.pictureUri.hashCode() : 0);
     return result;
   }
@@ -1242,23 +1283,21 @@ public class Transaction extends Model {
       return result;
     }
   }
-
-  public void cleanupCanceledEdit() {
-    if (isSplit()) {
-      String idStr = String.valueOf(getId());
-      String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
-      ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-      ops.add(ContentProviderOperation.newDelete(getContentUri())
-          .withSelection(getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?", getPartOrPeerSelectArgs(statusUncommitted))
-          .build());
-      ops.add(ContentProviderOperation.newDelete(getContentUri())
-          .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
-          .build());
-      try {
-        cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-      } catch (OperationApplicationException | RemoteException e) {
-        CrashHandler.report(e);
-      }
+  static void cleanupCanceledEdit(Long id, Uri contentUri, String partOrPeerSelect) {
+    String idStr = String.valueOf(id);
+    String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    String[] partOrPeerSelectArgs = getPartOrPeerSelectArgs(partOrPeerSelect, statusUncommitted, idStr);
+    ops.add(ContentProviderOperation.newDelete(contentUri)
+        .withSelection(partOrPeerSelect + "  AND " + KEY_STATUS + " = ?", partOrPeerSelectArgs)
+        .build());
+    ops.add(ContentProviderOperation.newDelete(contentUri)
+        .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
+        .build());
+    try {
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+    } catch (OperationApplicationException | RemoteException e) {
+      CrashHandler.report(e);
     }
   }
 
@@ -1268,10 +1307,6 @@ public class Transaction extends Model {
 
   public boolean isSplit() {
     return operationType() == TYPE_SPLIT;
-  }
-
-  public boolean isSplitpart() {
-    return !(parentId == null || parentId == 0);
   }
 
   public int operationType() {

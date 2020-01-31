@@ -54,13 +54,24 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
-public class SplitTransaction extends Transaction {
+public class SplitTransaction extends Transaction implements ISplit {
   public static final String CSV_INDICATOR = "*";
   public static final String CSV_PART_INDICATOR = "-";
-  private String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
+  private static String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
 
+  public SplitTransaction() {
+    super();
+    setCatId(DatabaseConstants.SPLIT_CATID);
+  }
+
+
+
+  public SplitTransaction(long accountId) {
+    super(accountId, (Long) null);
+    setCatId(DatabaseConstants.SPLIT_CATID);
+  }
 
   public SplitTransaction(long accountId, Money amount) {
     super(accountId, amount);
@@ -87,18 +98,11 @@ public class SplitTransaction extends Transaction {
   static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.getCurrencyUnit(), 0L));
     if (forEdit) {
-      t.status = STATUS_UNCOMMITTED;
+      t.setStatus(STATUS_UNCOMMITTED);
       //TODO: Strict mode
-      t.persistForEdit();
+      t.save();
     }
     return t;
-  }
-
-  @Override
-  public Uri save() {
-    Uri uri = super.save();
-    inEditState = false;
-    return uri;
   }
 
   public void persistForEdit() {
@@ -107,12 +111,12 @@ public class SplitTransaction extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
-    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset, callerIsSyncAdapter);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
+    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset, callerIsSyncAdapter, withCommit);
     Uri uri = getUriForSave(callerIsSyncAdapter);
     if (getId() != 0) {
       String idStr = String.valueOf(getId());
-      if (inEditState) {
+      if (withCommit) {
         addCommitOperations(uri, ops);
       }
       //make sure that parts have the same date as their parent,
@@ -194,7 +198,7 @@ public class SplitTransaction extends Transaction {
     parent.setDate(date);
     parent.setPayeeId(payeeId);
     parent.setCrStatus(crStatus);
-    final ArrayList<ContentProviderOperation> operations = parent.buildSaveOperations();
+    final ArrayList<ContentProviderOperation> operations = parent.buildSaveOperations(false);
     ContentValues values = new ContentValues();
     values.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
     values.put(KEY_DATE, date);
@@ -225,5 +229,9 @@ public class SplitTransaction extends Transaction {
             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT)
             .build(),
         values, null, null) == 1;
+  }
+
+  public static void cleanupCanceledEdit(Long id) {
+    cleanupCanceledEdit(id, CONTENT_URI, PART_OR_PEER_SELECT);
   }
 }

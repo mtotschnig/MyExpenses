@@ -57,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+
 public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
   private QifDateFormat dateFormat;
@@ -409,11 +411,11 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       findToAccount(transaction, t);
 
       if (transaction.splits != null) {
-        ((SplitTransaction) t).persistForEdit();
+        ((SplitTransaction) t).save();
         for (QifTransaction split : transaction.splits) {
           Transaction s = split.toTransaction(a);
           s.setParentId(t.getId());
-          s.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+          s.setStatus(STATUS_UNCOMMITTED);
           findToAccount(split, s);
           findCategory(split, s);
           s.save();
@@ -421,8 +423,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       } else {
         findCategory(transaction, t);
       }
-      if (t.save() != null)
-        count++;
+      t.save(true);
+      count++;
     }
     return count;
   }

@@ -117,7 +117,7 @@ public class TestMain extends BaseUiTest {
         onView(first(withText(containsString(InstrumentationRegistry.getInstrumentation().getContext().getString(org.totschnig.myexpenses.fortest.test.R.string.testData_transaction1SubCat))))).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.pressBack();//close keyboard
-        onView(withId(R.id.picture_container)).perform(click());
+        onView(withId(R.id.PictureContainer)).perform(click());
         takeScreenshot("edit");
         break;
       }

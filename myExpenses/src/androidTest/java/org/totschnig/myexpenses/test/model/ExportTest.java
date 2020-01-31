@@ -46,6 +46,7 @@ import java.util.Locale;
 import androidx.documentfile.provider.DocumentFile;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 
 public class ExportTest extends ModelTest {
@@ -84,10 +85,10 @@ public class ExportTest extends ModelTest {
       //noinspection ResultOfMethodCallIgnored
       new File(export.getPath()).delete();
     }
-    if (account1 != null && account1.getId() != null) {
+    if (account1 != null) {
       Account.delete(account1.getId());
     }
-    if (account2 != null && account2.getId() != null) {
+    if (account2 != null) {
       Account.delete(account2.getId());
     }
     if (cat1Id != null) Category.delete(cat1Id);
@@ -168,7 +169,7 @@ public class ExportTest extends ModelTest {
     }
     part.setAmount(new Money(account1.getCurrencyUnit(), part1));
     part.setCatId(cat1Id);
-    part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+    part.setStatus(STATUS_UNCOMMITTED);
     part.save();
     part.setAmount(new Money(account1.getCurrencyUnit(), part2));
     part.setCatId(cat2Id);

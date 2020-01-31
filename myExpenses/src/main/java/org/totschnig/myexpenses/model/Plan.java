@@ -64,6 +64,7 @@ public class Plan extends Model implements Serializable {
           return null;
       }
     }
+
     private String calendarDay2String(int calendarDay) {
       return EventRecurrence.day2String(EventRecurrence.dayOfWeek2Day(DayOfWeek.of(calendarDay)));
     }
@@ -89,13 +90,13 @@ public class Plan extends Model implements Serializable {
     }
 
     public static Plan.Recurrence[] valuesWithoutOneTime() {
-      return new Plan.Recurrence[] {
-        NONE, DAILY, WEEKLY, MONTHLY, YEARLY
+      return new Plan.Recurrence[]{
+          NONE, DAILY, WEEKLY, MONTHLY, YEARLY
       };
     }
   }
 
-  private Plan(Long id, long dtstart, String rrule, String title, String description) {
+  private Plan(long id, long dtstart, String rrule, String title, String description) {
     this.setId(id);
     this.dtstart = dtstart;
     this.rrule = rrule;
@@ -103,15 +104,20 @@ public class Plan extends Model implements Serializable {
     this.description = description;
   }
 
+  private Plan(long id, LocalDate localDate, String rrule, String title, String description) {
+    this(id, ZonedDateTime.of(localDate, LocalTime.of(12, 0), ZoneId.systemDefault()).toEpochSecond() * 1000, rrule, title, description);
+  }
+
   public Plan(LocalDate localDate, String rrule, String title, String description) {
-    this.dtstart = ZonedDateTime.of(localDate, LocalTime.of(12,0), ZoneId.systemDefault()).toEpochSecond() * 1000;
-    this.rrule = rrule;
-    this.title = title;
-    this.description = description;
+    this(0L, localDate, rrule, title, description);
+  }
+
+  public Plan(long id, LocalDate localDate, Recurrence recurrence, String title, String description) {
+    this(id, localDate, recurrence.toRrule(localDate), title, description);
   }
 
   public Plan(LocalDate localDate, Recurrence recurrence, String title, String description) {
-    this(localDate, recurrence.toRrule(localDate), title, description);
+    this(0L, localDate, recurrence, title, description);
   }
 
   public static Plan getInstanceFromDb(long planId) {
@@ -149,6 +155,7 @@ public class Plan extends Model implements Serializable {
 
   /**
    * insert a new planing event into the calendar
+   *
    * @return the id of the created object
    */
   @Override
@@ -157,12 +164,12 @@ public class Plan extends Model implements Serializable {
     ContentValues values = new ContentValues();
     values.put(Events.TITLE, title);
     values.put(Events.DESCRIPTION, description);
-    boolean isOneTimeEvent = TextUtils.isEmpty(rrule);
-    if (!isOneTimeEvent) {
-      values.put(Events.RRULE, rrule);
-    }
-    values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
     if (getId() == 0) {
+      boolean isOneTimeEvent = TextUtils.isEmpty(rrule);
+      if (!isOneTimeEvent) {
+        values.put(Events.RRULE, rrule);
+      }
+      values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
       String calendarId = MyApplication.getInstance().checkPlanner();
       if (MyApplication.INVALID_CALENDAR_ID.equals(calendarId)) {
         calendarId = MyApplication.getInstance().createPlanner(true);
@@ -195,16 +202,16 @@ public class Plan extends Model implements Serializable {
         eventUri,
         new String[]{"1 as ignore"},
         Events.CALENDAR_ID + " = ?",
-        new String[] {calendarId},
+        new String[]{calendarId},
         null);
-    if (eventCursor != null && eventCursor.getCount()>0) {
+    if (eventCursor != null && eventCursor.getCount() > 0) {
       cr().delete(
           eventUri,
           null,
           null);
     } else {
       Timber.w("Attempt to delete event %d, which does not exist in calendar %s, has been blocked",
-              id, calendarId);
+          id, calendarId);
     }
     eventCursor.close();
   }
@@ -215,13 +222,13 @@ public class Plan extends Model implements Serializable {
       try {
         eventRecurrence.parse(rRule);
       } catch (EventRecurrence.InvalidFormatException e) {
-        CrashHandler.report(e,"rRule",rRule);
+        CrashHandler.report(e, "rRule", rRule);
         return e.getMessage();
       }
       Time date = new Time();
       date.set(start);
       eventRecurrence.setStartDate(date);
-      return EventRecurrenceFormatter.getRepeatString(ctx,ctx.getResources(), eventRecurrence, true);
+      return EventRecurrenceFormatter.getRepeatString(ctx, ctx.getResources(), eventRecurrence, true);
     } else {
       return java.text.DateFormat
           .getDateInstance(java.text.DateFormat.FULL)
@@ -230,7 +237,7 @@ public class Plan extends Model implements Serializable {
   }
 
   public void updateCustomAppUri(String customAppUri) {
-    if (getId()==0) {
+    if (getId() == 0) {
       throw new IllegalStateException("Can not set custom app uri on unsaved plan");
     }
     updateCustomAppUri(getId(), customAppUri);

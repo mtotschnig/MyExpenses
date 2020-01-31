@@ -371,6 +371,10 @@ public class AmountInput extends ConstraintLayout {
     super.dispatchThawSelfOnly(container);
   }
 
+  public CompoundButton getTypeButton() {
+    return typeButton;
+  }
+
   static class SavedState extends BaseSavedState {
     private Parcelable typeButtonState;
     private Parcelable amountEditTextState;

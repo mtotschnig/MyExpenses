@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.R;
 import java.io.Serializable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
@@ -191,7 +192,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
   }
 
   public interface MessageDialogListener {
-    boolean dispatchCommand(int command, Object tag);
+    boolean dispatchCommand(int command, @Nullable Object tag);
 
     void onMessageDialogDismissOrCancel();
   }

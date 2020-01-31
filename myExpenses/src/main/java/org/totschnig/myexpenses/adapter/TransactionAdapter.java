@@ -316,7 +316,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   public void setAccount(Account account) {
     this.mAccount = account;
-    shouldShowTime = UiUtils.getDateMode(account, prefHandler) == UiUtils.DateMode.DATE_TIME;
+    shouldShowTime = UiUtils.getDateMode(account.getType(), prefHandler) == UiUtils.DateMode.DATE_TIME;
     refreshDateFormat();
   }
 

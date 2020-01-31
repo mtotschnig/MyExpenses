@@ -45,8 +45,8 @@ public class UiUtilsDateModeTest {
     mockPref(TRANSACTION_WITH_TIME, true);
     mockPref(TRANSACTION_WITH_VALUE_DATE, true);
 
-    Assert.assertEquals(DATE_TIME, UiUtils.getDateMode(cashAccount, prefHandler));
-    Assert.assertEquals(BOOKING_VALUE, UiUtils.getDateMode(bankAcount, prefHandler));
+    Assert.assertEquals(DATE_TIME, dateMode(cashAccount));
+    Assert.assertEquals(BOOKING_VALUE, dateMode(bankAcount));
   }
 
   @Test
@@ -54,8 +54,8 @@ public class UiUtilsDateModeTest {
     mockPref(TRANSACTION_WITH_TIME, true);
     mockPref(TRANSACTION_WITH_VALUE_DATE, false);
 
-    Assert.assertEquals(DATE_TIME, UiUtils.getDateMode(cashAccount, prefHandler));
-    Assert.assertEquals(DATE_TIME, UiUtils.getDateMode(bankAcount, prefHandler));
+    Assert.assertEquals(DATE_TIME, dateMode(cashAccount));
+    Assert.assertEquals(DATE_TIME, dateMode(bankAcount));
   }
 
 
@@ -64,8 +64,8 @@ public class UiUtilsDateModeTest {
     mockPref(TRANSACTION_WITH_TIME, false);
     mockPref(TRANSACTION_WITH_VALUE_DATE, true);
 
-    Assert.assertEquals(DATE, UiUtils.getDateMode(cashAccount, prefHandler));
-    Assert.assertEquals(BOOKING_VALUE, UiUtils.getDateMode(bankAcount, prefHandler));
+    Assert.assertEquals(DATE, dateMode(cashAccount));
+    Assert.assertEquals(BOOKING_VALUE, dateMode(bankAcount));
   }
 
   @Test
@@ -73,8 +73,11 @@ public class UiUtilsDateModeTest {
     mockPref(TRANSACTION_WITH_TIME, false);
     mockPref(TRANSACTION_WITH_VALUE_DATE, false);
 
-    Assert.assertEquals(DATE, UiUtils.getDateMode(cashAccount, prefHandler));
-    Assert.assertEquals(DATE, UiUtils.getDateMode(bankAcount, prefHandler));
+    Assert.assertEquals(DATE, dateMode(cashAccount));
+    Assert.assertEquals(DATE, dateMode(bankAcount));
   }
 
+  private UiUtils.DateMode dateMode(Account account) {
+    return  UiUtils.getDateMode(account.getType(), prefHandler);
+  }
 }

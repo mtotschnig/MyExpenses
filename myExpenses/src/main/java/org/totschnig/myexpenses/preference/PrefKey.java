@@ -67,7 +67,6 @@ public enum PrefKey {
   TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
   TEMPLATE_CLICK_HINT_SHOWN("template_click_hint_shown"),
   NEXT_REMINDER_RATE("nextReminderRate"),
-  NEXT_REMINDER_CONTRIB("nextReminderContrib"),
   DISTRIBUTION_SHOW_CHART("distributionShowChart"),
   DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
   BUDGET_AGGREGATE_TYPES("budgetAggregateTypes"),

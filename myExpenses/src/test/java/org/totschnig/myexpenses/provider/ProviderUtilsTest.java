@@ -162,7 +162,7 @@ public class ProviderUtilsTest {
     extras.putString(TRANSFER_ACCOUNT_LABEL, "USD-Account");
     Transaction transaction = ProviderUtils.buildFromExtras(extras);
     Assert.assertTrue(transaction instanceof Transfer);
-    Assert.assertEquals(dollarAccount.getId(), transaction.getTransferAccountId());
+    Assert.assertEquals(dollarAccount.getId(), transaction.getTransferAccountId().longValue());
     Assert.assertEquals("USD-Account", transaction.getLabel());
   }
 }

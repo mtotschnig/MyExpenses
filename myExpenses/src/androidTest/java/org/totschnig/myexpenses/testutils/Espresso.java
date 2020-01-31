@@ -20,6 +20,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressMenuKey;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -153,6 +154,10 @@ public class Espresso {
 
   public static Matcher<View> withIdAndParent(final int id, final int parentId) {
     return allOf(withId(id), withParent(withId(parentId)));
+  }
+
+  public static Matcher<View> withIdAndAncestor(final int id, final int parentId) {
+    return allOf(withId(id), isDescendantOfA(withId(parentId)));
   }
 
 }

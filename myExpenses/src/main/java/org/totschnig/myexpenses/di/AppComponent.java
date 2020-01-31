@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.di;
 
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -10,10 +9,11 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
+import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -54,9 +55,10 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class})
+@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class})
 public interface AppComponent {
-  @Singleton DiscoveryHelper discoveryHelper();
+  @Singleton
+  DiscoveryHelper discoveryHelper();
 
   String USER_COUNTRY = "userCountry";
 
@@ -64,7 +66,11 @@ public interface AppComponent {
   interface Builder {
     @BindsInstance
     Builder applicationContext(MyApplication applicationContext);
+
     Builder licenceModule(LicenceModule licenceModule);
+
+    Builder coroutineModule(CoroutineModule coroutineModule);
+
     AppComponent build();
   }
 
@@ -106,6 +112,8 @@ public interface AppComponent {
 
   void inject(HistoryChart historyChart);
 
+  void inject(TransactionEditViewModel transactionEditViewModel);
+
   CrashHandler crashHandler();
 
   Tracker tracker();
@@ -115,7 +123,8 @@ public interface AppComponent {
   @VisibleForTesting
   LicenceHandler licenceHandler();
 
-  @Named(USER_COUNTRY) String userCountry();
+  @Named(USER_COUNTRY)
+  String userCountry();
 
   CurrencyContext currencyContext();
 
@@ -155,6 +164,8 @@ public interface AppComponent {
 
   void inject(SetupWebdavDialogFragment setupWebdavDialogFragment);
 
-  void inject(@NotNull OnBoardingPrivacyFragment onBoardingPrivacyFragment);
+  void inject(OnBoardingPrivacyFragment onBoardingPrivacyFragment);
+
+  void inject(RemindRateDialogFragment remindRateDialogFragment);
 
 }

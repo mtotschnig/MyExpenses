@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -115,7 +116,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   public void finishOnboarding() {
-    startDbWriteTask(false);
+    startDbWriteTask();
   }
 
   @Override
@@ -124,7 +125,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     super.onPostExecute(result);
     if (result != null) {
       getStarted();

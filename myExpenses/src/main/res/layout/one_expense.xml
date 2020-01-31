@@ -25,7 +25,7 @@
     android:orientation="vertical"
     tools:targetApi="o">
 
-    <include layout="@layout/toolbar_expense_edit"/>
+    <include android:id="@+id/toolbar" layout="@layout/toolbar_expense_edit"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -106,10 +106,12 @@
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Amount"
                     style="@style/FormField"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:contentDescription="@string/amount"/>
             </TableRow>
 
-            <include layout="@layout/exchange_rate_row"/>
+            <include android:id="@+id/ERR" layout="@layout/exchange_rate_row"/>
 
             <TableRow
                 android:id="@+id/EquivalentAmountRow"
@@ -267,7 +269,7 @@
                         android:onClick="startMediaChooser"
                         app:srcCompat="@drawable/ic_menu_camera"/>
 
-                    <include layout="@layout/picture_view"/>
+                    <include layout="@layout/picture_view" android:id="@+id/PictureContainer"/>
                 </LinearLayout>
             </TableRow>
 
@@ -325,10 +327,11 @@
                 <TextView
                     android:id="@+id/PlanLabel"
                     style="@style/FormLabel"
-                    android:labelFor="@+id/Plan"
+                    android:labelFor="@+id/PB"
                     android:text="@string/plan"/>
 
                 <include
+                    android:id="@+id/RR"
                     style="@style/FormField"
                     layout="@layout/recurrence_row"/>
             </TableRow>

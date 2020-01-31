@@ -27,14 +27,14 @@ import androidx.annotation.VisibleForTesting;
 
 public abstract class Model implements Serializable {
   public String uuid;
-  private Long id = 0L;
+  private long id = 0L;
   private static ContentResolver cr;
 
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(long id) {
     this.id = id;
   }
 

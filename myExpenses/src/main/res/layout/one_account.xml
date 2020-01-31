@@ -176,7 +176,7 @@
                 </LinearLayout>
             </TableRow>
 
-            <include layout="@layout/exchange_rate_row"/>
+            <include android:id="@+id/ERR" layout="@layout/exchange_rate_row"/>
 
             <TableRow>
 

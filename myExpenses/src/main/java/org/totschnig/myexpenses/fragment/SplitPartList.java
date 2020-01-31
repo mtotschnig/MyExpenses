@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
@@ -36,19 +36,20 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ITransaction;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -66,6 +67,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 //TODO: consider moving to ListFragment
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_PARENT_IS_TEMPLATE = "parentIsTemplate";
+  private static final String KEY_ACCOUNT = "account";
+  private static final int TRANSACTION_CURSOR = 5;
+  private static final int SUM_CURSOR = 6;
   //
   SplitPartAdapter mAdapter;
   private TextView balanceTv;
@@ -82,15 +86,17 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   @Inject
   CurrencyFormatter currencyFormatter;
 
-  public static SplitPartList newInstance(Transaction transaction) {
-    SplitPartList f = new SplitPartList(); 
+  public static @NonNull
+  SplitPartList newInstance(ITransaction transaction, Account account) {
+    SplitPartList f = new SplitPartList();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_PARENTID, transaction.getId());
-    bundle.putLong(KEY_ACCOUNTID, transaction.getAccountId());
+    bundle.putSerializable(KEY_ACCOUNT, account);
     bundle.putBoolean(KEY_PARENT_IS_TEMPLATE, transaction instanceof Template);
     f.setArguments(bundle);
     return f;
   }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -116,20 +122,20 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
-    balanceTv = (TextView) v.findViewById(R.id.end);
-    
-    ListView lv = (ListView) v.findViewById(R.id.list);
+    balanceTv = v.findViewById(R.id.end);
+
+    ListView lv = v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_LABEL_MAIN,KEY_AMOUNT};
+    String[] from = new String[]{KEY_LABEL_MAIN, KEY_AMOUNT};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category,R.id.amount};
+    int[] to = new int[]{R.id.category, R.id.amount};
 
     requireLoaders();
     // Now create a simple cursor adapter and set it to display
-    final Account account = Account.getInstanceFromDb(accountId);
+    final Account account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-        account.getCurrencyUnit(), currencyFormatter);
+        account.getCurrency(), currencyFormatter);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
     lv.setOnItemClickListener((a, v1, position, id) -> {
@@ -141,49 +147,51 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     fab = v.findViewById(R.id.CREATE_COMMAND);
     fab.setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
-    updateFabColor(account.color);
+    updateFabColor(account.getColor());
     return v;
   }
 
   public void updateFabColor(int color) {
-    UiUtils.setBackgroundTintListOnFab(fab,color);
+    UiUtils.setBackgroundTintListOnFab(fab, color);
   }
 
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
+                                  ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
   }
+
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-          parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-          new Long[] {info.id},
-          Boolean.FALSE,
-          0);
-      return true;
+    switch (item.getItemId()) {
+      case R.id.DELETE_COMMAND:
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+            new Long[]{info.id},
+            Boolean.FALSE,
+            0);
+        return true;
     }
     return super.onContextItemSelected(item);
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    String[] selectionArgs = new String[] {String.valueOf(parentId)};
+    String[] selectionArgs = new String[]{String.valueOf(parentId)};
     CursorLoader cursorLoader = null;
     Uri uri = parentIsTemplate() ?
         TransactionProvider.TEMPLATES_UNCOMMITTED_URI : TransactionProvider.UNCOMMITTED_URI;
-    switch(id) {
-    case ExpenseEdit.TRANSACTION_CURSOR:
-      cursorLoader = new CursorLoader(getActivity(), uri, null, "parent_id = ?",
-          selectionArgs, null);
-      return cursorLoader;
-    case ExpenseEdit.SUM_CURSOR:
-      cursorLoader = new CursorLoader(getActivity(),uri,
-          new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
-          selectionArgs, null);
+    switch (id) {
+      case TRANSACTION_CURSOR:
+        cursorLoader = new CursorLoader(getActivity(), uri, null, "parent_id = ?",
+            selectionArgs, null);
+        return cursorLoader;
+      case SUM_CURSOR:
+        cursorLoader = new CursorLoader(getActivity(), uri,
+            new String[]{"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
+            selectionArgs, null);
     }
     return cursorLoader;
   }
@@ -194,25 +202,26 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-    switch(arg0.getId()) {
-    case ExpenseEdit.TRANSACTION_CURSOR:
-      mAdapter.swapCursor(c);
-      break;
-    case ExpenseEdit.SUM_CURSOR:
-      c.moveToFirst();
-      transactionSum = c.getLong(0);
-      updateBalance();
+    switch (arg0.getId()) {
+      case TRANSACTION_CURSOR:
+        mAdapter.swapCursor(c);
+        break;
+      case SUM_CURSOR:
+        c.moveToFirst();
+        transactionSum = c.getLong(0);
+        updateBalance();
     }
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    switch(arg0.getId()) {
-    case ExpenseEdit.TRANSACTION_CURSOR:
-      mAdapter.swapCursor(null);
-      break;
+    switch (arg0.getId()) {
+      case TRANSACTION_CURSOR:
+        mAdapter.swapCursor(null);
+        break;
     }
   }
+
   public void updateBalance() {
     ExpenseEdit ctx = (ExpenseEdit) getActivity();
     if (ctx == null)
@@ -221,7 +230,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     //when we are called before transaction is loaded in parent activity
     if (unsplitAmount == null)
       return;
-    unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor()-transactionSum);
+    unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor() - transactionSum);
     if (balanceTv != null)
       balanceTv.setText(currencyFormatter.formatCurrency(unsplitAmount));
   }
@@ -229,16 +238,17 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   public boolean splitComplete() {
     return unsplitAmount != null && unsplitAmount.getAmountMinor() == 0L;
   }
+
   public int getSplitCount() {
     return mAdapter.getCount();
   }
 
   public void updateAccount(Account account) {
     accountId = account.getId();
-    mAdapter.setCurrency(account.getCurrencyUnit());
+    mAdapter.setCurrency(account.getCurrency());
     mAdapter.notifyDataSetChanged();
     updateBalance();
-    updateFabColor(account.color);
+    updateFabColor(account.getColor());
   }
 
   public void updateParent(long parentId) {
@@ -247,7 +257,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   private void requireLoaders() {
-    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.TRANSACTION_CURSOR, null, this);
-    Utils.requireLoader(LoaderManager.getInstance(getActivity()), ExpenseEdit.SUM_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), TRANSACTION_CURSOR, null, this);
+    Utils.requireLoader(LoaderManager.getInstance(getActivity()), SUM_CURSOR, null, this);
   }
 }

@@ -14,6 +14,7 @@ public interface Tracker {
   String EVENT_AD_FAILED = "ad_failed";
   String EVENT_AD_CUSTOM = "ad_custom";
   String EVENT_PREFERENCE_CLICK = "preference_click";
+  String EVENT_RATING_DIALOG = "rating_dialog";
   //only used for interstitial
   String EVENT_AD_SHOWN = "ad_shown";
   String EVENT_PARAM_AD_PROVIDER = "provider";
@@ -22,6 +23,7 @@ public interface Tracker {
   String EVENT_PARAM_PACKAGE = "package";
   String EVENT_PARAM_OPERATION_TYPE = "operation_type";
   String EVENT_PARAM_ITEM_ID = "item_id";
+  String EVENT_PARAM_BUTTON_ID = "button_id";
 
 
   void init(Context context);

@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -35,7 +36,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
         if (budget.id == 0L) {
             databaseHandler.startInsert(TOKEN, object : DatabaseHandler.InsertListener {
                 override fun onInsertComplete(token: Int, uri: Uri?) {
-                    val result = uri?.let { ContentUris.parseId(uri) } ?: -1
+                    val result = uri?.let { ContentUris.parseId(it) } ?: -1
                     if (result > -1) persistPreferences(result, whereFilter, budget)
                     databaseResult.postValue(result)
                 }
@@ -73,7 +74,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     }
 }
 
-data class Account(val id: Long, val label: String, val currency: String) {
+data class Account(override val id: Long, val label: String, val currency: String): IAccount {
     override fun toString(): String {
         return label
     }

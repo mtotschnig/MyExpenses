@@ -6,7 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.DatePicker
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +19,7 @@ import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
@@ -22,7 +27,9 @@ import org.totschnig.myexpenses.dialog.select.SelectPayeeFilterDialog
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria
 import org.totschnig.myexpenses.provider.filter.Criteria
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -331,18 +338,6 @@ class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, androi
 
     private fun setText(position: Int, row: View) {
         (row.findViewById<View>(android.R.id.text1) as TextView).setText(getItem(position)!!.getLabelForBudgetType())
-    }
-}
-
-class AccountAdapter(context: Context, accounts: List<Account>) : ArrayAdapter<Account>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1, accounts) {
-    override fun hasStableIds(): Boolean = true
-    override fun getItemId(position: Int): Long = getItem(position)!!.id
-    fun getPosition(accountId: Long): Int {
-        for (i in 0 until count) {
-            if (getItem(i)!!.id == accountId) return i
-        }
-        return -1
     }
 }
 

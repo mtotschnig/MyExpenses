@@ -289,11 +289,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return resId;
   }
 
-  @Override
-  public void setContentView(int layoutResID) {
-    super.setContentView(layoutResID);
-  }
-
   protected void configureFloatingActionButton(int fabDescription) {
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, UiUtils.themeIntAttr(this, R.attr.colorControlActivated));
@@ -424,7 +419,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   @CallSuper
-  public boolean dispatchCommand(int command, Object tag) {
+  public boolean dispatchCommand(int command, @Nullable Object tag) {
     Bundle bundle = new Bundle();
     String fullResourceName = getResources().getResourceName(command);
     bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
@@ -525,7 +520,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return false;
   }
 
-  public void showContribDialog(@Nullable ContribFeature feature, Serializable tag) {
+  public void showContribDialog(@Nullable ContribFeature feature, @Nullable Serializable tag) {
     Intent i = ContribInfoDialogActivity.getIntentFor(this, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
     startActivityForResult(i, ProtectedFragmentActivity.CONTRIB_REQUEST);
@@ -581,7 +576,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
-  public void onPostExecute(int taskId, Object o) {
+  public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
@@ -632,7 +627,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
-  public void onPostExecute(Object result) {
+  public void onPostExecute(Uri result) {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag(SAVE_TAG));
@@ -716,9 +711,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     m.executePendingTransactions();
   }
 
-  public void startDbWriteTask(boolean returnSequenceCount) {
+  public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
+        .add(DbWriteFragment.newInstance(), SAVE_TAG)
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),
             PROGRESS_TAG)
         .commitAllowingStateLoss();
@@ -798,7 +793,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  public void contribFeatureRequested(@NonNull ContribFeature feature, Serializable tag) {
+  public void contribFeatureRequested(@NonNull ContribFeature feature, @Nullable Serializable tag) {
     if (feature.hasAccess()) {
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
     } else {

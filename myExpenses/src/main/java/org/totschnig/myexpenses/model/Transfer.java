@@ -43,7 +43,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
  *
  * @author Michael Totschnig
  */
-public class Transfer extends Transaction {
+public class Transfer extends Transaction implements ITransfer {
 
   public static final String RIGHT_ARROW = "▶";
   public static final String LEFT_ARROW = "◀";
@@ -51,7 +51,6 @@ public class Transfer extends Transaction {
 
   private Long transferPeer;
   private Long transferAccountId;
-
 
   public Long getTransferPeer() {
     return transferPeer;
@@ -70,12 +69,22 @@ public class Transfer extends Transaction {
     this.transferAccountId = transferAccountId;
   }
 
+  public Transfer() {
+    super();
+  }
+
   public Transfer(long accountId, Money amount) {
     this(accountId, amount, null);
   }
 
   public Transfer(long accountId, Money amount, Long transferAccountId) {
     this(accountId, amount, transferAccountId, null);
+  }
+
+
+  public Transfer(long accountId, Long transferAccountId, Long parentId) {
+    super(accountId, parentId);
+    setTransferAccountId(transferAccountId);
   }
 
   public Transfer(long accountId, Money amount, Long transferAccountId, Long parentId) {
@@ -126,7 +135,7 @@ public class Transfer extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.getAmount().getAmountMinor();
@@ -146,7 +155,7 @@ public class Transfer extends Transaction {
       //both parts of the transfer share uuid
       initialValues.put(KEY_UUID, requireUuid());
       initialValues.put(KEY_PARENTID, getParentId());
-      initialValues.put(KEY_STATUS, status);
+      initialValues.put(KEY_STATUS, getStatus());
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);

@@ -8,10 +8,10 @@
     tools:showIn="@layout/one_expense"
     android:baselineAligned="false">
 
-    <include
+    <include android:id="@+id/Recurrence"
         layout="@layout/recurrence_spinner"/>
 
-    <include layout="@layout/plan_button"
+    <include android:id="@+id/PB" layout="@layout/plan_button"
              android:layout_marginLeft="12dp"
              android:layout_marginStart="12dp"
              android:layout_height="wrap_content"
@@ -19,5 +19,5 @@
              android:layout_width="0dp"/>
 
 
-    <include layout="@layout/toggle_button"/>
+    <include android:id="@+id/TB" layout="@layout/toggle_button"/>
 </LinearLayout>

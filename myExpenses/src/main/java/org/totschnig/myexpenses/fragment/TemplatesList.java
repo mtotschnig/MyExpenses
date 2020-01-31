@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
@@ -143,7 +143,8 @@ public class TemplatesList extends SortableListFragment
     MyApplication.getInstance().getAppComponent().inject(this);
   }
 
-  @Override public void onSaveInstanceState(Bundle outState) {
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     Icepick.saveInstanceState(this, outState);
   }
@@ -161,7 +162,7 @@ public class TemplatesList extends SortableListFragment
     // and an array of the fields we want to bind those fields to
     int[] to = new int[]{R.id.title, R.id.category, R.id.amount};
     mAdapter = new MyAdapter(
-       ctx,
+        ctx,
         R.layout.template_row,
         null,
         from,
@@ -331,6 +332,7 @@ public class TemplatesList extends SortableListFragment
   /**
    * calls {@link ProtectedFragmentActivity#contribFeatureRequested(ContribFeature, Serializable)}
    * for feature {@link ContribFeature#SPLIT_TRANSACTION}
+   *
    * @param tag if tag holds a single long the new instance will be edited, if tag holds an array of longs
    *            new instances will be immediately saved for each
    */
@@ -675,6 +677,7 @@ public class TemplatesList extends SortableListFragment
         getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }
   }
+
   public void loadData() {
     Utils.requireLoader(mManager, SORTABLE_CURSOR, null, this);
   }
