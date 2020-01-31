@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
@@ -244,6 +245,7 @@ public class ExpenseEditLoadDataTest {
     onView(withId(R.id.Payee)).check(matches(withText("John Doe")));
     onView(withId(R.id.Comment)).check(matches(withText("A note")));
     onView(withId(R.id.Category)).check(matches(withText("A")));
+    Category.delete(Category.find("A", null));
   }
 
   @Test
