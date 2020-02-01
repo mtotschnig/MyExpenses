@@ -65,6 +65,8 @@ public class Exporter {
   private final String dateFormat;
   private final char decimalSeparator;
   private final String encoding;
+  private final boolean append;
+  private final boolean withAccountColumn;
 
   /**
    * @param account          Account to print
@@ -77,10 +79,13 @@ public class Exporter {
    * @param decimalSeparator , or .
    * @param encoding         the string describing the desired character encoding.
    * @param delimiter   , or ; or \t
+   * @param append          append to file
+   * @param withAccountColumn put account in column
    */
   public Exporter(Account account, WhereFilter filter, DocumentFile destDir, String fileName,
                   ExportFormat format, boolean notYetExportedP, String dateFormat,
-                  char decimalSeparator, String encoding, char delimiter) {
+                  char decimalSeparator, String encoding, char delimiter, boolean append,
+                  boolean withAccountColumn) {
     this.account = account;
     this.destDir = destDir;
     this.filter = filter;
@@ -91,6 +96,8 @@ public class Exporter {
     this.decimalSeparator = decimalSeparator;
     this.encoding = encoding;
     this.delimiter = delimiter;
+    this.append = append;
+    this.withAccountColumn = withAccountColumn;
   }
 
   public Result<Uri> export() throws IOException {
@@ -114,10 +121,12 @@ public class Exporter {
       return Result.ofFailure(R.string.no_exportable_expenses);
     }
     //then we check if the destDir is writable
-    DocumentFile outputFile = AppDirHelper.newFile(
+    DocumentFile outputFile = AppDirHelper.buildFile(
         destDir,
         fileName,
-        format.getMimeType(), format.getMimeType().split("/")[1]);
+        format.getMimeType(),
+        format.getMimeType().split("/")[1],
+        append);
     if (outputFile == null) {
       c.close();
       return Result.ofFailure(
@@ -128,14 +137,20 @@ public class Exporter {
     StringBuilderWrapper sb = new StringBuilderWrapper();
     SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
-        Model.cr().openOutputStream(outputFile.getUri()),
+        Model.cr().openOutputStream(outputFile.getUri(), append ? "wa" : "w"),
         encoding);
     switch (format) {
       case CSV:
-        int[] columns = {R.string.split_transaction, R.string.date, R.string.payer_or_payee, R.string.income, R.string.expense,
-            R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture};
-        for (int column : columns) {
-          sb.appendQ(ctx.getString(column)).append(delimiter);
+        if (!append) {
+          int[] columns = {R.string.split_transaction, R.string.date, R.string.payer_or_payee, R.string.income, R.string.expense,
+              R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture};
+          if (withAccountColumn) {
+            sb.appendQ(ctx.getString(R.string.account)).append(delimiter);
+          }
+          for (int column : columns) {
+            sb.appendQ(ctx.getString(column)).append(delimiter);
+          }
+          sb.append("\n");
         }
         break;
       //QIF
@@ -145,9 +160,9 @@ public class Exporter {
             .append("\nT")
             .append(account.getType().toQifName())
             .append("\n^\n!Type:")
-            .append(account.getType().toQifName());
+            .append(account.getType().toQifName())
+            .append("\n");
     }
-    sb.append("\n");
     //Write header
     out.write(sb.toString());
     while (c.getPosition() < c.getCount()) {
@@ -200,6 +215,9 @@ public class Exporter {
         case CSV:
           Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
           PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
+          if (withAccountColumn) {
+            sb.appendQ(account.getLabel()).append(delimiter);
+          }
           sb.appendQ(splitIndicator)
               .append(delimiter)
               .appendQ(dateStr)

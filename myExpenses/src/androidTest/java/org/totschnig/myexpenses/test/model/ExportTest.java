@@ -306,7 +306,7 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8", ',')
+      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8", ',', false, false)
           .export();
       assertTrue(result.isSuccess());
       export = result.getExtra();
@@ -382,7 +382,7 @@ public class ExportTest extends ModelTest {
 
   private Result<Uri> exportAll(Account account, ExportFormat format, boolean notYetExportedP)
       throws IOException {
-    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", ';')
+    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", ';', false, false)
         .export();
   }
 }
