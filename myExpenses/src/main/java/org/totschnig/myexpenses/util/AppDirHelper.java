@@ -78,11 +78,11 @@ public class AppDirHelper {
                                              String mimeType, String addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    return newFile(parentDir, prefix + "-" + now, mimeType, addExtension);
+    return buildFile(parentDir, prefix + "-" + now, mimeType, addExtension, false);
   }
 
-  public static DocumentFile newFile(DocumentFile parentDir, String base,
-                                     String mimeType, String addExtension) {
+  public static DocumentFile buildFile(DocumentFile parentDir, String base,
+                                       String mimeType, String addExtension, boolean allowExisting) {
     int postfix = 0;
     do {
       String name = base;
@@ -92,7 +92,8 @@ public class AppDirHelper {
       if (addExtension != null) {
         name += "." + addExtension;
       }
-      if (parentDir.findFile(name) == null) {
+      final DocumentFile existingFile = parentDir.findFile(name);
+      if (existingFile == null) {
         DocumentFile result = null;
         try {
           result = parentDir.createFile(mimeType, name);
@@ -108,6 +109,8 @@ public class AppDirHelper {
           CrashHandler.report(e);
         }
         return result;
+      } else if (allowExisting) {
+        return existingFile;
       }
       postfix++;
     } while (true);

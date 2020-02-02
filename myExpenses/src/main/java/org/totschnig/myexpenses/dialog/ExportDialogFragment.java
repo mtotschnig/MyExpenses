@@ -105,6 +105,10 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
   TextView errorView;
   @BindView(R.id.Table)
   ViewGroup tableView;
+  @BindView(R.id.file_name_label)
+  TextView fileNameLabel;
+  @BindView(R.id.merge_accounts)
+  CheckBox mergeAccountsCB;
 
   @Inject
   PrefHandler prefHandler;
@@ -256,7 +260,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
 
       formatGroup.setOnCheckedChangeListener((group, checkedId) ->
           delimiterRow.setVisibility(checkedId == R.id.csv ? View.VISIBLE : View.GONE));
-      String format = PrefKey.EXPORT_FORMAT.getString("QIF");
+      String format = prefHandler.getString(PrefKey.EXPORT_FORMAT, "QIF");
       formatGroup.check(format.equals("CSV") ? R.id.csv : R.id.qif);
 
       char delimiter = (char) prefHandler.getInt(ExportTask.KEY_DELIMITER, ',');
@@ -316,7 +320,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
 
       warningTV.setText(warningText);
       if (allP) {
-        ((TextView) dialogView.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
+        boolean mergeAccounts = prefHandler.getBoolean(ExportTask.KEY_MERGE_P, false);
+        setFileNameLabel(false);
+        mergeAccountsCB.setVisibility(View.VISIBLE);
+        mergeAccountsCB.setOnCheckedChangeListener((buttonView, isChecked) -> setFileNameLabel(isChecked));
+        mergeAccountsCB.setChecked(mergeAccounts);
       }
 
       final View helpIcon = dialogView.findViewById(R.id.date_format_help);
@@ -350,6 +358,10 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
 
     mDialog = builder.create();
     return mDialog;
+  }
+
+  private void setFileNameLabel(boolean oneFile) {
+    fileNameLabel.setText(oneFile ? R.string.file_name : R.string.folder_name);
   }
 
   /* adapted from android.widget.Editor */
@@ -386,11 +398,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
   @Override
   public void onClick(DialogInterface dialog, int which) {
     Activity ctx = getActivity();
-    if (ctx == null) {
-      return;
-    }
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong(KEY_ACCOUNTID) : null;
+    if (ctx == null || accountId == null || accountId == 0) {
+      return;
+    }
     String format = formatGroup.getCheckedRadioButtonId() == R.id.csv ? "CSV" : "QIF";
     String dateFormat = dateFormatET.getText().toString();
     char decimalSeparator = separatorGroup.getCheckedRadioButtonId() == R.id.dot ? '.' : ',';
@@ -436,11 +448,13 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       Bundle b = new Bundle();
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
           R.id.START_EXPORT_COMMAND);
-      if (accountId == null) {
-      } else if (accountId > 0) {
+      if (accountId > 0) {
         b.putLong(KEY_ROWID, accountId);
       } else {
         b.putString(KEY_CURRENCY, currency);
+        final boolean mergeAccounts = mergeAccountsCB.isChecked();
+        b.putBoolean(ExportTask.KEY_MERGE_P, mergeAccounts);
+        prefHandler.putBoolean(ExportTask.KEY_MERGE_P, mergeAccounts);
       }
       b.putString(TaskExecutionFragment.KEY_FORMAT, format);
       b.putBoolean(ExportTask.KEY_DELETE_P, deleteP);

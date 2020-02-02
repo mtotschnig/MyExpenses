@@ -39,6 +39,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   public static final String KEY_EXPORT_HANDLE_DELETED = "export_handle_deleted";
   public static final String KEY_FILE_NAME = "file_name";
   public static final String KEY_DELIMITER = "export_delimiter";
+  public static final String KEY_MERGE_P = "export_merge_accounts";
   private final TaskExecutionFragment taskExecutionFragment;
   //we store the label of the account as progress
   private String progress = "";
@@ -46,6 +47,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   private ExportFormat format;
   private boolean deleteP;
   private boolean notYetExportedP;
+  private boolean mergeP;
   private String dateFormat;
   private char decimalSeparator;
   private long accountId;
@@ -71,6 +73,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     fileName = extras.getString(KEY_FILE_NAME);
     handleDelete = extras.getInt(KEY_EXPORT_HANDLE_DELETED);
     delimiter = extras.getChar(KEY_DELIMITER);
+    mergeP = extras.getBoolean(KEY_MERGE_P);
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");
@@ -135,9 +138,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       Cursor c = application.getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[]{KEY_ROWID}, selection, selectionArgs, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
-      if (c != null) {
-        c.close();
-      }
+      c.close();
     }
     Account account;
     DocumentFile destDir;
@@ -146,23 +147,24 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       publishProgress(application.getString(R.string.external_storage_unavailable));
       return (null);
     }
-    if (accountIds.length > 1) {
-      destDir = AppDirHelper.newDirectory(appDir, fileName);
-    } else {
+    boolean oneFile = accountIds.length == 1 || mergeP;
+    if (oneFile) {
       destDir = appDir;
+    } else {
+      destDir = AppDirHelper.newDirectory(appDir, fileName);
     }
     ArrayList<Account> successfullyExported = new ArrayList<>();
-    for (Long id : accountIds) {
-      account = Account.getInstanceFromDb(id);
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US);
+    for (int i = 0; i < accountIds.length; i++) {
+      account = Account.getInstanceFromDb(accountIds[i]);
       if (account == null) continue;
       publishProgress(account.getLabel() + " ...");
       try {
-        String fileNameForAccount = accountIds.length > 1 ?
-            Utils.escapeForFileName(account.getLabel()) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
-                .format(new Date()) :
-            fileName;
+        String fileNameForAccount = oneFile ? fileName :
+            String.format(("%s-%s"), Utils.escapeForFileName(account.getLabel()),
+                simpleDateFormat.format(new Date()));
         Result<Uri> result = new Exporter(account, filter, destDir, fileNameForAccount, format,
-            notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter).export();
+            notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter, mergeP && i > 0, mergeP).export();
         publishProgress("... " + result.print(application));
         if (result.isSuccess()) {
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {

@@ -942,8 +942,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
-        final Long expensesSum = -data[1];
-        holder.sumExpense.setText("- " + currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
+        final Long expensesSum = data[1];
+        holder.sumExpense.setText(currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.getCurrencyUnit()));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
@@ -956,7 +956,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                 formattedDelta);
         if (holder.budgetProgress != null && budget != null) {
           long budgetAmountMinor = budget.getAmountMinor();
-          int progress = budgetAmountMinor == 0 ? 100 : Math.round(expensesSum * 100F / budgetAmountMinor);
+          int progress = budgetAmountMinor == 0 ? 100 : Math.round(-expensesSum * 100F / budgetAmountMinor);
           UiUtils.configureProgress(holder.budgetProgress, progress);
           holder.budgetProgress.setFinishedStrokeColor(mAccount.color);
           holder.budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,14 +14,15 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:importantForAutofill="noExcludeDescendants"
-            tools:layout_height="wrap_content"
-            tools:targetApi="o">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:importantForAutofill="noExcludeDescendants"
+    tools:background="@android:color/background_dark"
+    tools:layout_height="wrap_content"
+    tools:targetApi="o">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TableLayout
             android:id="@+id/Table"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_export_applied_to_filter"
                 android:visibility="gone"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <TableRow android:gravity="center_vertical">
 
@@ -59,12 +59,27 @@
                     android:id="@+id/file_name_label"
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
-                    android:text="@string/file_name"/>
+                    android:text="@string/file_name" />
 
-                <EditText
-                    android:id="@+id/file_name"
+                <LinearLayout
                     style="@style/FormField.Dialog"
-                    android:inputType="text"/>
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/merge_accounts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Merge Accounts"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/file_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </LinearLayout>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
@@ -72,7 +87,7 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
-                    android:text="@string/pref_export_format_title"/>
+                    android:text="@string/pref_export_format_title" />
 
                 <RadioGroup
                     android:id="@+id/format"
@@ -86,7 +101,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="QIF"
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/csv"
@@ -94,20 +109,19 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="CSV"
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
                 </RadioGroup>
             </TableRow>
 
             <TableRow
                 android:id="@+id/DelimiterRow"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
-                    android:text="@string/pref_csv_import_delimiter"/>
+                    android:text="@string/pref_csv_import_delimiter" />
 
                 <RadioGroup
                     android:id="@+id/Delimiter"
@@ -121,7 +135,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text=","
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/delimiter_semicolon"
@@ -129,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=";"
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/delimiter_tab"
@@ -137,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/csv_import_delimiter_tab"
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
                 </RadioGroup>
             </TableRow>
 
@@ -146,10 +160,9 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
-                    android:text="@string/date_format"/>
+                    android:text="@string/date_format" />
 
-                <LinearLayout
-                    style="@style/FormField.Dialog">
+                <LinearLayout style="@style/FormField.Dialog">
 
                     <EditText
                         android:id="@+id/date_format"
@@ -157,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="text"
-                        tools:ignore="TextFields"/>
+                        tools:ignore="TextFields" />
 
                     <ImageView
                         android:id="@+id/date_format_help"
@@ -168,7 +181,7 @@
                         android:contentDescription="@string/menu_help"
                         android:scaleType="centerCrop"
                         app:srcCompat="@drawable/ic_menu_help"
-                        tools:ignore="MissingPrefix"/>
+                        tools:ignore="MissingPrefix" />
                 </LinearLayout>
             </TableRow>
 
@@ -177,7 +190,7 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
-                    android:text="@string/decimal_separator"/>
+                    android:text="@string/decimal_separator" />
 
                 <RadioGroup
                     android:id="@+id/separator"
@@ -191,7 +204,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="."
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/comma"
@@ -199,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=","
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
                 </RadioGroup>
             </TableRow>
 
@@ -208,13 +221,13 @@
                 <TextView
                     style="@style/FormLabel.Condensed"
                     android:gravity="center_vertical"
-                    android:text="@string/pref_qif_export_file_encoding_title"/>
+                    android:text="@string/pref_qif_export_file_encoding_title" />
 
                 <Spinner
                     android:id="@+id/Encoding"
                     style="@style/FormField.Dialog"
                     android:entries="@array/pref_qif_export_file_encoding"
-                    android:entryValues="@array/pref_qif_export_file_encoding"/>
+                    android:entryValues="@array/pref_qif_export_file_encoding" />
             </TableRow>
         </TableLayout>
 
@@ -223,14 +236,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:text="@string/dialog_export_delete"/>
+            android:text="@string/dialog_export_delete" />
 
         <RadioGroup
             android:id="@+id/handle_deleted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -238,13 +251,13 @@
                 android:id="@+id/create_helper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/export_handle_deleted_create_helper"/>
+                android:text="@string/export_handle_deleted_create_helper" />
 
             <RadioButton
                 android:id="@+id/update_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/export_handle_deleted_update_balance"/>
+                android:text="@string/export_handle_deleted_update_balance" />
         </RadioGroup>
 
         <CheckBox
@@ -254,7 +267,7 @@
             android:checked="false"
             android:text="@string/dialog_export_not_yet_exported"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/warning_reset"
@@ -263,7 +276,7 @@
             android:layout_height="wrap_content"
             android:text="@string/warning_reset_account"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
     </LinearLayout>
 
 </ScrollView>

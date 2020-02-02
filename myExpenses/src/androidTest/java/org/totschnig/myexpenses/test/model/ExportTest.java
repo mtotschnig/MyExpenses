@@ -199,6 +199,40 @@ public class ExportTest extends ModelTest {
     op.saveAsNew();
   }
 
+  private void insertData3() {
+    Transaction op;
+    account1 = new Account("Account 1", openingBalance, "Account 1");
+    account1.setType(AccountType.BANK);
+    account1.save();
+    account2 = new Account("Account 2", openingBalance, "Account 2");
+    account2.save();
+    cat1Id = Category.write(0, "Main", null);
+    cat2Id = Category.write(0, "Sub", cat1Id);
+    op = Transaction.getNewInstance(account1.getId());
+    if (op == null) {
+      fail();
+      return;
+    }
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
+    op.setMethodId(PaymentMethod.find("CHEQUE"));
+    op.setCrStatus(Transaction.CrStatus.CLEARED);
+    op.setReferenceNumber("1");
+    op.setDate(new Date(baseSinceEpoch));
+    op.save();
+
+    op = Transaction.getNewInstance(account2.getId());
+    if (op == null) {
+      fail();
+      return;
+    }
+    op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
+    op.setMethodId(PaymentMethod.find("CHEQUE"));
+    op.setCrStatus(Transaction.CrStatus.CLEARED);
+    op.setReferenceNumber("1");
+    op.setDate(new Date(baseSinceEpoch));
+    op.save();
+  }
+
   public void testExportQIF() {
     String[] linesQIF = new String[]{
         "!Account",
@@ -246,7 +280,7 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result<Uri> result = exportAll(account1, ExportFormat.QIF, false);
+      Result<Uri> result = exportAll(account1, ExportFormat.QIF, false, false, false);
       assertTrue(result.isSuccess());
       export = result.getExtra();
       compare(new File(export.getPath()), linesQIF);
@@ -258,7 +292,7 @@ public class ExportTest extends ModelTest {
   //TODO: add split lines
   public void testExportCSV() {
     String[] linesCSV = new String[]{
-        csvHeader(';'),
+        csvHeader(';', false),
         "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
             + "\";\"*\";\"1\";\"\"",
         "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
@@ -276,7 +310,7 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result<Uri> result = exportAll(account1, ExportFormat.CSV, false);
+      Result<Uri> result = exportAll(account1, ExportFormat.CSV, false, false, false);
       assertTrue(result.isSuccess());
       export = result.getExtra();
       compare(new File(export.getPath()), linesCSV);
@@ -288,7 +322,7 @@ public class ExportTest extends ModelTest {
   public void testExportCSVCustomFormat() {
     String date = new SimpleDateFormat("M/d/yyyy", Locale.US).format(base);
     String[] linesCSV = new String[]{
-        csvHeader(','),
+        csvHeader(',', false),
         "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"\",\"" + getContext().getString(R.string.pm_cheque)
             + "\",\"*\",\"1\",\"\"",
         "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"\",\"" + getContext().getString(R.string.pm_cheque)
@@ -306,7 +340,7 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8", ',')
+      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8", ',', false, false)
           .export();
       assertTrue(result.isSuccess());
       export = result.getExtra();
@@ -318,7 +352,7 @@ public class ExportTest extends ModelTest {
 
   public void testExportNotYetExported() {
     String[] linesCSV = new String[]{
-        csvHeader(';'),
+        csvHeader(';', false),
         "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"\";\"Expense inserted after first export\";\""
             + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\"",
         "\"\";\"" + date + "\";\"N.N.\";\"1.00\";\"0\";\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\"",
@@ -326,20 +360,66 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result<Uri> result = exportAll(account1, ExportFormat.CSV, false);
+      Result<Uri> result = exportAll(account1, ExportFormat.CSV, false, false, false);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.isSuccess());
       account1.markAsExported(null);
       export = result.getExtra();
       //noinspection ResultOfMethodCallIgnored
       new File(export.getPath()).delete();
       insertData2();
-      result = exportAll(account1, ExportFormat.CSV, true);
+      result = exportAll(account1, ExportFormat.CSV, true, false, false);
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.isSuccess());
       export = result.getExtra();
       compare(new File(export.getPath()), linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
+  }
+
+  public void testExportMultipleAccountsToOneFileCSV() throws IOException {
+    insertData3();
+    String[] linesCSV = new String[]{
+        csvHeader(';', true),
+        "\"" + account1.getLabel() +  "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+            + "\";\"*\";\"1\";\"\"",
+        "\"" + account2.getLabel() +  "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+            + "\";\"*\";\"1\";\"\"",
+        ""
+    };
+    exportAll(account1, ExportFormat.CSV, false, false, true);
+    Result<Uri> result =exportAll(account2, ExportFormat.CSV, false, true, true);
+    export = result.getExtra();
+    compare(new File(export.getPath()), linesCSV);
+  }
+
+  public void testExportMultipleAccountsToOneFileQIF() throws IOException {
+    insertData3();
+    String[] linesQIF = new String[]{
+        "!Account",
+        "NAccount 1",
+        "TBank",
+        "^",
+        "!Type:Bank",
+        "D" + date,
+        "T-0.10",
+        "C*",
+        "N1",
+        "^",
+        "!Account",
+        "NAccount 2",
+        "TCash",
+        "^",
+        "!Type:Cash",
+        "D" + date,
+        "T-0.10",
+        "C*",
+        "N1",
+        "^",
+    };
+    exportAll(account1, ExportFormat.QIF, false, false, true);
+    Result<Uri> result =exportAll(account2, ExportFormat.QIF, false, true, true);
+    export = result.getExtra();
+    compare(new File(export.getPath()), linesQIF);
   }
 
   private void compare(File file, String[] lines) {
@@ -360,7 +440,7 @@ public class ExportTest extends ModelTest {
     }
   }
 
-  private String csvHeader(char separator) {
+  private String csvHeader(char separator, boolean withAccountColumn) {
     StringBuilder sb = new StringBuilder();
     int[] resArray = {
         R.string.split_transaction,
@@ -374,15 +454,18 @@ public class ExportTest extends ModelTest {
         R.string.status,
         R.string.reference_number,
         R.string.picture};
+    if (withAccountColumn) {
+      sb.append('"').append(getContext().getString(R.string.account)).append('"').append(separator);
+    }
     for (int res : resArray) {
       sb.append('"').append(getContext().getString(res)).append('"').append(separator);
     }
     return sb.toString();
   }
 
-  private Result<Uri> exportAll(Account account, ExportFormat format, boolean notYetExportedP)
+  private Result<Uri> exportAll(Account account, ExportFormat format, boolean notYetExportedP, boolean append, boolean withAccountColumn)
       throws IOException {
-    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", ';')
+    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", ';', append, withAccountColumn)
         .export();
   }
 }
