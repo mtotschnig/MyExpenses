@@ -36,9 +36,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
-import org.totschnig.myexpenses.model.ITransaction;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -87,12 +85,12 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   CurrencyFormatter currencyFormatter;
 
   public static @NonNull
-  SplitPartList newInstance(ITransaction transaction, Account account) {
+  SplitPartList newInstance(Long transactionId, boolean isTemplate, Account account) {
     SplitPartList f = new SplitPartList();
     Bundle bundle = new Bundle();
-    bundle.putLong(KEY_PARENTID, transaction.getId());
+    bundle.putLong(KEY_PARENTID, transactionId);
     bundle.putSerializable(KEY_ACCOUNT, account);
-    bundle.putBoolean(KEY_PARENT_IS_TEMPLATE, transaction instanceof Template);
+    bundle.putBoolean(KEY_PARENT_IS_TEMPLATE, isTemplate);
     f.setArguments(bundle);
     return f;
   }

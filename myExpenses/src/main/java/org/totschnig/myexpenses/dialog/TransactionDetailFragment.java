@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -437,13 +436,14 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       statusView.setText(mTransaction.getCrStatus().toStringRes());
     }
 
-    if (mTransaction.getOriginTemplate() == null) {
+    //TODO
+/*    if (mTransaction.getOriginTemplate() == null) {
       planRow.setVisibility(View.GONE);
     } else {
       planView.setText(mTransaction.getOriginTemplate().getPlan() == null ?
           getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
           mTransaction.getOriginTemplate().getPlan().rrule, mTransaction.getOriginTemplate().getPlan().dtstart));
-    }
+    }*/
 
     dlg.setTitle(title);
     if (doShowPicture) {

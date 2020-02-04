@@ -175,7 +175,7 @@ public class Transaction extends Model implements ITransaction {
   /**
    * template which defines the plan for which this transaction has been created
    */
-  private Template originTemplate = null;
+  private Long originTemplateId = null;
   /**
    * id of an instance of the event (plan) for which this transaction has been created
    */
@@ -405,13 +405,13 @@ public class Transaction extends Model implements ITransaction {
 
   @Nullable
   @Override
-  public Template getOriginTemplate() {
-    return originTemplate;
+  public Long getOriginTemplateId() {
+    return originTemplateId;
   }
 
   @Override
-  public void setOriginTemplate(@Nullable Template originTemplate) {
-    this.originTemplate = originTemplate;
+  public void setOriginTemplateId(Long originTemplateId) {
+    this.originTemplateId = originTemplateId;
   }
 
   @Override
@@ -566,8 +566,7 @@ public class Transaction extends Model implements ITransaction {
     }
 
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
-    Long originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
-    t.originTemplate = originTemplateId == null ? null : Template.getInstanceFromDb(originTemplateId);
+    t.originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
     t.uuid = DbUtils.getString(c, KEY_UUID);
     t.setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
     c.close();
@@ -606,7 +605,7 @@ public class Transaction extends Model implements ITransaction {
     tr.setPayee(te.getPayee());
     tr.setPayeeId(te.getPayeeId());
     tr.setLabel(te.getLabel());
-    tr.originTemplate = te;
+    tr.originTemplateId = te.getId();
     if (tr instanceof SplitTransaction) {
       tr.save();
       Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
@@ -777,11 +776,12 @@ public class Transaction extends Model implements ITransaction {
               (isEmpty(getComment()) ?
                   MyApplication.getInstance().getString(R.string.menu_create_template) :
                   getComment()) : getLabel()) : getPayee();
-      originTemplate = new Template(this, title);
+      Template originTemplate = new Template(this, title);
       String description = originTemplate.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance());
       originTemplate.setPlanExecutionAutomatic(true);
       originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first, title, description));
       originTemplate.save(getId());
+      originTemplateId = originTemplate.getId();
     }
     return uri;
   }
@@ -915,7 +915,7 @@ public class Transaction extends Model implements ITransaction {
   protected void addOriginPlanInstance(ArrayList<ContentProviderOperation> ops) {
     if (originPlanInstanceId != null) {
       ContentValues values = new ContentValues();
-      values.put(KEY_TEMPLATEID, originTemplate.getId());
+      values.put(KEY_TEMPLATEID, originTemplateId);
       values.put(KEY_INSTANCEID, originPlanInstanceId);
       final ContentProviderOperation.Builder builder =
           ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI);
@@ -1226,7 +1226,7 @@ public class Transaction extends Model implements ITransaction {
     result = 31 * result + (this.getMethodLabel() != null ? this.getMethodLabel().hashCode() : 0);
     result = 31 * result + (this.getParentId() != null ? this.getParentId().hashCode() : 0);
     result = 31 * result + (this.getPayeeId() != null ? this.getPayeeId().hashCode() : 0);
-    result = 31 * result + (this.originTemplate != null ? this.originTemplate.hashCode() : 0);
+    result = 31 * result + (this.getOriginTemplateId() != null ? this.getOriginTemplateId().hashCode() : 0);
     result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
     result = 31 * result + this.status;
     result = 31 * result + this.crStatus.hashCode();

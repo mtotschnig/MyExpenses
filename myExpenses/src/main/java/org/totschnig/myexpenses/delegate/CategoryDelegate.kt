@@ -33,13 +33,18 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     @JvmField
     @State
     var categoryIcon: String? = null
+    @JvmField
+    @State
     var catId: Long? = null
 
-    override fun bind(transaction: ITransaction, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
-        label = transaction.label
-        categoryIcon = transaction.categoryIcon
-        catId = transaction.catId
+    override fun bind(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
+        viewBinding.Category.setOnClickListener { host.startSelectCategory() }
+        if (transaction != null) {
+            label = transaction.label
+            categoryIcon = transaction.categoryIcon
+            catId = transaction.catId
+        }
         if (parentId != null) {
             hideRowsSpecificToMain()
         }
