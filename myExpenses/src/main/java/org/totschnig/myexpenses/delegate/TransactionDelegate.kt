@@ -157,6 +157,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
         }
+        originTemplateId?.let { host.loadOriginTemplate(it) }
         if (isSplitPart) {
             disableAccountSpinner()
         }
@@ -193,20 +194,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 setPlannerRowVisibility(View.VISIBLE)
-                //TODO
-/*                originTemplate?.let { template ->
-                    template.plan?.let { plan ->
-                        recurrenceSpinner.spinner.visibility = View.GONE
-                        planButton.visibility = View.VISIBLE
-                        planButton.text = Plan.prettyTimeInfo(context,
-                                plan.rrule, plan.dtstart)
-                        planButton.setOnClickListener {
-                            currentAccount()?.let {
-                                (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
-                            }
-                        }
-                    }
-                }*/
             }
         }
         if (isSplitPart || isTemplate) {
@@ -861,6 +848,20 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             recurrenceSpinner.setSelection(0)
             if (!PermissionHelper.PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(host)) {
                 setPlannerRowVisibility(View.GONE)
+            }
+        }
+    }
+
+    fun originTemplateLoaded(template: Template) {
+        template.plan?.let { plan ->
+            recurrenceSpinner.spinner.visibility = View.GONE
+            planButton.visibility = View.VISIBLE
+            planButton.text = Plan.prettyTimeInfo(context,
+                    plan.rrule, plan.dtstart)
+            planButton.setOnClickListener {
+                currentAccount()?.let {
+                    (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
+                }
             }
         }
     }

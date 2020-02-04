@@ -1122,6 +1122,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
+    fun loadOriginTemplate(templateId: Long) {
+        viewModel.transaction(templateId, TEMPLATE, false, null).observe(this, Observer {
+            (it as? Template)?.let { delegate.originTemplateLoaded(it) }
+        })
+    }
+
     companion object {
         private const val SPLIT_PART_LIST = "SPLIT_PART_LIST"
         const val KEY_NEW_TEMPLATE = "newTemplate"
