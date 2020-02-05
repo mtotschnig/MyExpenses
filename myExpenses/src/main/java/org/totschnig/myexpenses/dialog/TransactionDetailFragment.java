@@ -447,15 +447,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
           });
     }
 
-    //TODO
-/*    if (mTransaction.getOriginTemplate() == null) {
-      planRow.setVisibility(View.GONE);
-    } else {
-      planView.setText(mTransaction.getOriginTemplate().getPlan() == null ?
-          getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
-          mTransaction.getOriginTemplate().getPlan().rrule, mTransaction.getOriginTemplate().getPlan().dtstart));
-    }*/
-
     dlg.setTitle(title);
     if (doShowPicture) {
       ImageView image = dlg.getWindow().findViewById(android.R.id.icon);

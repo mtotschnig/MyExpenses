@@ -215,7 +215,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
-        //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
         if (savedInstanceState != null) {
             Icepick.restoreInstanceState(this, savedInstanceState)
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler);
@@ -1061,17 +1060,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        if (::delegate.isInitialized) {
-            delegate.isProcessingLinkedAmountInputs = true
-        }
+        delegate.isProcessingLinkedAmountInputs = true
         exchangeRateEdit.setBlockWatcher(true)
         super.onRestoreInstanceState(savedInstanceState)
         exchangeRateEdit.setBlockWatcher(false)
-        if (::delegate.isInitialized) {
-            delegate.isProcessingLinkedAmountInputs = false
-            if (mRowId == 0L) {
-                (delegate as? TransferDelegate)?.configureTransferDirection()
-            }
+        delegate.isProcessingLinkedAmountInputs = false
+        if (mRowId == 0L) {
+            (delegate as? TransferDelegate)?.configureTransferDirection()
         }
     }
 
