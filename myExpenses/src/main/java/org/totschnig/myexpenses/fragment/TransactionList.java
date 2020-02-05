@@ -129,6 +129,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -285,7 +286,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    viewModel = ViewModelProviders.of(this).get(TransactionListViewModel.class);
+    viewModel = new ViewModelProvider(this).get(TransactionListViewModel.class);
     viewModel.account(getArguments().getLong(KEY_ACCOUNTID)).observe(this, account -> {
       mAccount = account;
       mAdapter.setAccount(mAccount);

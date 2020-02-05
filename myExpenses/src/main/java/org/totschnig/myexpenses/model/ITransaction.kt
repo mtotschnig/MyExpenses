@@ -21,7 +21,7 @@ interface ITransaction: Serializable {
     var comment: String?
     var valueDate: Long
     var date: Long
-    var originTemplate: Template?
+    var originTemplateId: Long?
     var amount: Money
     var accountId: Long
     var parentId: Long?

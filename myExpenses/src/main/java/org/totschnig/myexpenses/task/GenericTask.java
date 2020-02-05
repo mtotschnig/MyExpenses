@@ -117,24 +117,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Cursor c;
     int successCount = 0, failureCount = 0;
     switch (mTaskId) {
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
-        t = Transaction.getInstanceFromDb((Long) ids[0]);
-        if (t != null)
-          t.prepareForEdit((Boolean) mExtra);
-        return t;
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
-        return Transaction.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
-        Template template = Template.getInstanceFromDb((Long) ids[0]);
-        if (template != null) {
-          template.prepareForEdit(false);
-        }
-        return template;
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
-        // when we are called from a notification,
-        // the template could have been deleted in the meantime
-        // getInstanceFromTemplate should return null in that case
-        return Transaction.getInstanceFromTemplate((Long) ids[0]);
       case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
         for (int i = 0; i < ids.length; i++) {
           t = Transaction.getInstanceFromTemplate((Long) ids[i]);

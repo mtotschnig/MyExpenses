@@ -61,9 +61,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_FORMAT = "format";
   public static final String KEY_DELIMITER = "delimiter";
 
-  public static final int TASK_INSTANTIATE_TRANSACTION = 2;
-  public static final int TASK_INSTANTIATE_TEMPLATE = 3;
-  public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
@@ -83,13 +80,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_RESTORE = 23;
   public static final int TASK_BALANCE = 24;
   public static final int TASK_PRINT = 25;
-  /**
-   * same as {@link TaskExecutionFragment#TASK_INSTANTIATE_TRANSACTION}
-   * but
-   * * does not prepare split transactions for edit
-   * * allows Activity to define a second callback
-   */
-  public static final int TASK_INSTANTIATE_TRANSACTION_2 = 26;
   public static final int TASK_UPDATE_SORT_KEY = 27;
   public static final int TASK_SET_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;

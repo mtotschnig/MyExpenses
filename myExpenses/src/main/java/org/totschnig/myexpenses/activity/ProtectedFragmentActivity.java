@@ -593,14 +593,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         }
         break;
       }
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2: {
-        TransactionDetailFragment tdf = (TransactionDetailFragment)
-            getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
-        if (tdf != null) {
-          tdf.fillData((Transaction) o);
-        }
-        break;
-      }
       case TASK_RESTORE: {
         onPostRestoreTask(((Result) o));
         break;

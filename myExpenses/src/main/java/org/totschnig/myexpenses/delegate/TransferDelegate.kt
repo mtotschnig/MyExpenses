@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.ITransfer
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
@@ -42,6 +41,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     @JvmField
     @State
     var mTransferAccountId: Long? = null
+    @JvmField
+    @State
     var transferPeer: Long? = null
 
     override val helpVariant: ExpenseEdit.HelpVariant
@@ -55,9 +56,11 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override val typeResId = R.string.split_transaction
 
 
-    override fun bind(transaction: ITransfer, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
-        mTransferAccountId = transaction.transferAccountId
-        transferPeer = transaction.transferPeer
+    override fun bind(transaction: ITransfer?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
+        if (transaction != null) {
+            mTransferAccountId = transaction.transferAccountId
+            transferPeer = transaction.transferPeer
+        }
         viewBinding.Amount.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
         viewBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
         viewBinding.ERR.ExchangeRate.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
@@ -65,9 +68,9 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.TransferAccountRow.visibility = View.VISIBLE
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
         hideRowsSpecificToMain()
-        if (transaction.id != 0L) {
+        if (rowId != 0L) {
             configureTransferDirection()
         }
     }
@@ -85,8 +88,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
 
     }
 
-    override fun createAdapters(newInstance: Boolean, transaction: ITransaction) {
-        createStatusAdapter(transaction)
+    override fun createAdapters(newInstance: Boolean) {
+        createStatusAdapter()
         if (newInstance) {
             createOperationTypeAdapter()
         }

@@ -208,7 +208,7 @@ public class ExpenseEditLoadDataTest {
     checkEffectiveVisible(R.id.TitleRow,  R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.PB);
     checkEffectiveGone(R.id.Recurrence);
-    assertThat(mActivityRule.getActivity().isTemplate()).isTrue();
+    assertThat(mActivityRule.getActivity().isTemplate).isTrue();
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("7")));
     onView(withId(R.id.Title)).check(matches(withText("Daily plan")));
   }
@@ -226,7 +226,7 @@ public class ExpenseEditLoadDataTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
     checkEffectiveGone(R.id.PB, R.id.TitleRow);
-    assertThat(mActivityRule.getActivity().isTemplate()).isFalse();
+    assertThat(mActivityRule.getActivity().isTemplate).isFalse();
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("8")));
   }
 

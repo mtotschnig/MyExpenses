@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
@@ -26,11 +25,6 @@ import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 //Transaction or Split
 abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) : TransactionDelegate<T>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
     private lateinit var payeeAdapter: SimpleCursorAdapter
-
-    override fun bind(transaction: T, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
-        viewBinding.Category.setOnClickListener { host.startSelectCategory() }
-    }
 
     override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): T? {
         val amount = validateAmountInput(forSave)
@@ -62,9 +56,9 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
         }
     }
 
-    override fun createAdapters(newInstance: Boolean, transaction: ITransaction) {
+    override fun createAdapters(newInstance: Boolean) {
         createPayeeAdapter(newInstance)
-        createStatusAdapter(transaction)
+        createStatusAdapter()
         if (newInstance) {
             createOperationTypeAdapter()
         }

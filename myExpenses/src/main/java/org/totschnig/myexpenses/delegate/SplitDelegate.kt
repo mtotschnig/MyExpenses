@@ -26,15 +26,14 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     override val typeResId = R.string.split_transaction
     override val shouldAutoFill = false
 
-    override fun bind(transaction: ISplit, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, currencyExtra: String?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, currencyExtra)
+    override fun bind(transaction: ISplit?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 host.updateSplitBalance()
             }
         })
         viewBinding.CategoryRow.visibility = View.GONE
-        host.addSplitPartList(transaction)
     }
 
     override fun buildMainTransaction(accountId: Long): ISplit = if (isTemplate) buildTemplate(accountId) else SplitTransaction(accountId)
@@ -49,6 +48,11 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     override fun configureType() {
         super.configureType()
         host.updateSplitBalance()
+    }
+
+    override fun setAccounts(data: List<Account>, currencyExtra: String?) {
+        super.setAccounts(data, currencyExtra)
+        host.addSplitPartList()
     }
 
     override fun updateAccount(account: Account) {

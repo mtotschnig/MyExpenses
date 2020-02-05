@@ -45,7 +45,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -112,7 +112,7 @@ public interface AppComponent {
 
   void inject(HistoryChart historyChart);
 
-  void inject(TransactionEditViewModel transactionEditViewModel);
+  void inject(TransactionViewModel transactionEditViewModel);
 
   CrashHandler crashHandler();
 

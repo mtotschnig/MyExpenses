@@ -3,14 +3,10 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.database.Cursor
-import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.CoroutineDispatcher
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -20,7 +16,6 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transaction.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.model.Transaction.UnknownPictureSaveException
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -30,7 +25,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -38,23 +32,13 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.io.Serializable
 import java.util.*
-import javax.inject.Inject
 
 const val ERROR_UNKNOWN = -1L
 const val ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2L
 const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 
-class TransactionEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
-
-    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
-
-    @Inject
-    lateinit var coroutineDispatcher: CoroutineDispatcher
+class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
@@ -66,17 +50,6 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
 
     fun getAccounts(): LiveData<List<Account>> {
         return accounts
-    }
-
-    fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
-        emit(when (task) {
-            InstantiationTask.TEMPLATE -> Template.getInstanceFromDb(transactionId)
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplate(transactionId)
-            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDb(transactionId)?.also {
-                it.prepareForEdit(clone)
-            }
-            InstantiationTask.FROM_INTENT_EXTRAS -> ProviderUtils.buildFromExtras(extras)
-        })
     }
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
@@ -141,8 +114,6 @@ class TransactionEditViewModel(application: Application) : ContentResolvingAndro
                 if (isTemplate) Template.cleanupCanceledEdit(id) else SplitTransaction.cleanupCanceledEdit(id)
         )
     }
-
-    private fun coroutineContext() = viewModelScope.coroutineContext + coroutineDispatcher
 
     data class Account(override val id: Long, val label: String, val currency: CurrencyUnit, val color: Int, val type: AccountType, val exchangeRate: Double) : IAccount, Serializable {
         override fun toString(): String {
