@@ -96,10 +96,11 @@ import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.FROM_INTENT_EXTRAS
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TEMPLATE
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.FROM_INTENT_EXTRAS
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.widget.AbstractWidget
@@ -222,7 +223,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null);
         } else {
             val extras = intent.extras
-            var task: TransactionEditViewModel.InstantiationTask? = null
+            var task: TransactionViewModel.InstantiationTask? = null
             mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
@@ -251,7 +252,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             if (task != null) {
                 mNewInstance = task == FROM_INTENT_EXTRAS
                 //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
-                viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false), extras).observe(this, Observer {
+                viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false), true, extras).observe(this, Observer {
                     populateFromTask(it, task)
                 })
             } else {
@@ -386,7 +387,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         splitPartList?.updateBalance()
     }
 
-    private fun populateFromTask(transaction: Transaction?, task: TransactionEditViewModel.InstantiationTask) {
+    private fun populateFromTask(transaction: Transaction?, task: TransactionViewModel.InstantiationTask) {
         transaction?.let {
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
@@ -849,7 +850,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    viewModel.transaction(result, TEMPLATE, false, null).observe(this, Observer {
+                    viewModel.transaction(result, TEMPLATE, false, false, null).observe(this, Observer {
                         it?.let { launchPlanView(true, (it as Template).planId) }
                     })
                 } else { //make sure soft keyboard is closed
@@ -1123,7 +1124,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     fun loadOriginTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, false, null).observe(this, Observer {
+        viewModel.transaction(templateId, TEMPLATE, false, false, null).observe(this, Observer {
             (it as? Template)?.let { delegate.originTemplateLoaded(it) }
         })
     }

@@ -50,17 +50,19 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
 
 import java.math.BigDecimal;
 
@@ -69,6 +71,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -83,6 +86,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   public static final int SPLIT_PART_CURSOR = 3;
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
+
+  private TransactionViewModel viewModel;
 
   @Inject
   ImageViewIntentProvider imageViewIntentProvider;
@@ -172,14 +177,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
-    final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
-    if (activity != null && !activity.hasPendingTask(false)) {
-      activity.startTaskExecution(
-          TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
-          new Long[]{getArguments().getLong(KEY_ROWID)},
-          null,
-          0);
-    }
+    viewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+    viewModel.transaction(getArguments().getLong(KEY_ROWID), TransactionViewModel.InstantiationTask.TRANSACTION, false, false, null)
+        .observe(this, this::fillData);
   }
 
   @Override
@@ -434,6 +434,17 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     } else {
       statusView.setBackgroundColor(mTransaction.getCrStatus().color);
       statusView.setText(mTransaction.getCrStatus().toStringRes());
+    }
+    if (mTransaction.getOriginTemplateId() == null) {
+      planRow.setVisibility(View.GONE);
+    } else {
+      viewModel.transaction(mTransaction.getOriginTemplateId(), TransactionViewModel.InstantiationTask.TEMPLATE, false, false, null).observe(this,
+          transaction -> {
+            Template template = ((Template) transaction);
+            planView.setText(template.getPlan() == null ?
+                getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
+                template.getPlan().rrule, template.getPlan().dtstart));
+          });
     }
 
     //TODO
