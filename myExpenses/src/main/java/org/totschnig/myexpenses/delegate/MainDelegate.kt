@@ -35,7 +35,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             this.amount = Money(currentAccount()!!.currency, amount)
             payee = viewBinding.Payee.text.toString()
             this.methodId = this@MainDelegate.methodId
-            val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false)
+            val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false, true)
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null && originalAmount != null) {
                 val currency = selectedItem.code()
@@ -44,7 +44,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             } else {
                 this.originalAmount = null
             }
-            val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, false)
+            val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, false, true)
             this.equivalentAmount = if (equivalentAmount == null) null else Money(Utils.getHomeCurrency(), if (isIncome) equivalentAmount else equivalentAmount.negate())
         }
     }

@@ -236,13 +236,13 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     }
 
     private fun applyExchangeRate(from: AmountInput, to: AmountInput, rate: BigDecimal?) {
-        val input = validateAmountInput(from, false)
+        val input = validateAmountInput(from, false, true)
         to.setAmount(if (rate != null && input != null) input.multiply(rate) else BigDecimal(0), false)
     }
 
     private fun updateExchangeRates() {
-        val amount = validateAmountInput(viewBinding.Amount, false)
-        val transferAmount = validateAmountInput(viewBinding.TransferAmount, false)
+        val amount = validateAmountInput(viewBinding.Amount, false, true)
+        val transferAmount = validateAmountInput(viewBinding.TransferAmount, false, true)
         viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount)
     }
 
@@ -255,7 +255,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         if (isSame && amount != null) {
             transferAmount = amount.negate()
         } else {
-            transferAmount = validateAmountInput(viewBinding.TransferAmount, forSave)?.let {
+            transferAmount = validateAmountInput(viewBinding.TransferAmount, forSave, true)?.let {
                 if (isIncome) it.negate() else it
             }
         }

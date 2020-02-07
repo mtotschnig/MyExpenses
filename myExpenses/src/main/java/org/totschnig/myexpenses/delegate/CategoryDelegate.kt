@@ -107,7 +107,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             }
             val columnIndexAmount = data.getColumnIndex(DatabaseConstants.KEY_AMOUNT)
             val columnIndexCurrency = data.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
-            if (validateAmountInput(viewBinding.Amount, false) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
+            if (validateAmountInput(viewBinding.Amount, false, true) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
                 val beforeType = isIncome
                 fillAmount(Money(currencyContext[data.getString(columnIndexCurrency)], data.getLong(columnIndexAmount)).amountMajor)
                 configureType()

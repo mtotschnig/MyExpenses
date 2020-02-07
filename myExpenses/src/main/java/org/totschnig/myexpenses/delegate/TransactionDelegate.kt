@@ -362,7 +362,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         equivalentAmountVisible = !equivalentAmountVisible
         showEquivalentAmount()
         if (equivalentAmountVisible) {
-            if (validateAmountInput(viewBinding.EquivalentAmount, false) == null && currentAccount != null) {
+            if (validateAmountInput(viewBinding.EquivalentAmount, false, true) == null && currentAccount != null) {
                 val rate = BigDecimal(currentAccount.exchangeRate)
                 viewBinding.EquivalentAmount.setExchangeRate(rate)
             }
@@ -689,12 +689,12 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         }
     }
 
-    protected fun validateAmountInput(showToUser: Boolean): BigDecimal? {
-        return validateAmountInput(viewBinding.Amount, showToUser)
+    protected fun validateAmountInput(forSave: Boolean): BigDecimal? {
+        return validateAmountInput(viewBinding.Amount, forSave, forSave)
     }
 
-    protected open fun validateAmountInput(input: AmountInput, showToUser: Boolean): BigDecimal? {
-        return input.getTypedValue(true, showToUser)
+    protected open fun validateAmountInput(input: AmountInput, showToUser: Boolean, ifPresent: Boolean): BigDecimal? {
+        return input.getTypedValue(ifPresent, showToUser)
     }
 
     private fun configureAccountDependent(account: Account?) {
