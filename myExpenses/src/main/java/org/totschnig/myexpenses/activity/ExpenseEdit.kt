@@ -447,6 +447,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             intent.getParcelableExtra<Uri>(KEY_CACHED_PICTURE_URI).let {
                 transaction.pictureUri = it
             }
+            setDirty()
         } else {
             getIntent().getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
                 transaction.date = it / 1000
