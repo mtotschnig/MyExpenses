@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -130,7 +129,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int PREFERENCES_REQUEST = 3;
   public static final int CREATE_ACCOUNT_REQUEST = 4;
   public static final int FILTER_CATEGORY_REQUEST = 5;
-  public static final int EDIT_SPLIT_REQUEST = 6;
   public static final int SELECT_CATEGORY_REQUEST = 7;
   public static final int PICTURE_REQUEST_CODE = 8;
   public static final int IMPORT_FILENAME_REQUESTCODE = 9;

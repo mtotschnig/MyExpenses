@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.activity
 
-import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,11 +28,6 @@ abstract class AmountActivity : EditActivity() {
     abstract val exchangeRateRow: ViewGroup
     abstract val amountInput: AmountInput
     abstract val exchangeRateEdit: ExchangeRateEdit
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int,
-                                  intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-    }
 
     /**
      * @return true for income, false for expense
