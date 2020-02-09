@@ -1066,6 +1066,11 @@ public class MyExpenses extends LaunchActivity implements
     boolean isHome  = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
     mCurrentBalance = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.formatCurrency(new Money(currencyContext.get(currentCurrency), balance)));
+    TransactionList currentFragment = getCurrentFragment();
+    Context currentContext = null;
+    if (currentFragment != null)
+      currentContext = currentFragment.getContext();
+    mToolbar.setTitle(Account.getInstanceFromDb(mAccountId).getLabelForScreenTitle(currentContext));
     mToolbar.setSubtitle(mCurrentBalance);
     mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
   }
