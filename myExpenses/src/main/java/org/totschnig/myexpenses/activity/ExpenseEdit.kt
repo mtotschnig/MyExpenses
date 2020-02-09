@@ -708,7 +708,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    override fun onBackPressed() {
+    override fun dispatchOnBackPressed() {
         cleanup({ super.onBackPressed() })
     }
 
