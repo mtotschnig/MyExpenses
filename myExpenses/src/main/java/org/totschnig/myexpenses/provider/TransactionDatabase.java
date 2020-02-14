@@ -675,6 +675,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID + " = old." + KEY_ROWID + "; "
       + "END;";
 
+  private static final String UPDATE_ACCOUNT_METADATA_TRIGGER = String.format(
+      "CREATE TRIGGER update_account_metadata AFTER UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s ON %9$s "
+          + " WHEN new.%10$s IS NOT NULL AND new.%16$s > 0 AND NOT EXISTS (SELECT 1 FROM %11$s)"
+          + " BEGIN INSERT INTO %12$s (%13$s, %14$s, %15$s, %16$s) VALUES ('metadata', '_ignored_', new.%17$s, new.%16$s); END;",
+      KEY_LABEL, KEY_OPENING_BALANCE, KEY_DESCRIPTION, KEY_CURRENCY, KEY_TYPE, KEY_COLOR, KEY_EXCLUDE_FROM_TOTALS, KEY_CRITERION,
+      TABLE_ACCOUNTS, KEY_SYNC_ACCOUNT_NAME, TABLE_SYNC_STATE,
+      TABLE_CHANGES, KEY_TYPE, KEY_UUID, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_ROWID);
+
+  private static final String UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER = String.format(
+      "CREATE TRIGGER update_account_exchange_rate AFTER UPDATE ON %1$s "
+          + " WHEN %2$s"
+          + " BEGIN INSERT INTO %3$s (%4$s, %5$s, %6$s, %7$s) VALUES ('metadata', '_ignored_', new.%6$s, %8$s); END;",
+      TABLE_ACCOUNT_EXCHANGE_RATES,
+      String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "new"),
+      TABLE_CHANGES, KEY_TYPE, KEY_UUID, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, String.format(SELECT_SEQUCENE_NUMBER_TEMLATE, "old"));
+
   private static final String SETTINGS_CREATE =
       "CREATE TABLE " + TABLE_SETTINGS + " ("
           + KEY_KEY + " text unique not null, "
@@ -773,6 +789,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   SELECT RAISE (FAIL, 'split category can not be deleted'); " +
         "   END;");
     db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
+    createOrRefreshAccountMetadataTrigger(db);
     db.execSQL(BUDGETS_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
 
@@ -2045,6 +2062,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private void createOrRefreshAccountSealedTrigger(SQLiteDatabase db) {
     db.execSQL("DROP TRIGGER IF EXISTS sealed_account_update");
     db.execSQL(ACCOUNTS_SEALED_TRIGGER_CREATE);
+  }
+
+  private void createOrRefreshAccountMetadataTrigger(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS update_account_metadata");
+    db.execSQL("DROP TRIGGER IF EXISTS update_account_exchange_rate");
+    db.execSQL(UPDATE_ACCOUNT_METADATA_TRIGGER);
+    db.execSQL(UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER);
   }
 
   private void createOrRefreshTransactionTriggers(SQLiteDatabase db) {

@@ -170,7 +170,7 @@ public abstract class TransactionChange {
   }
 
   public enum Type {
-    created, updated, deleted, unsplit;
+    created, updated, deleted, unsplit, metadata;
 
     public static final String JOIN;
 

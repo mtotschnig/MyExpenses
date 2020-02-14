@@ -695,7 +695,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         t.remove(f);
       }
     }
-    t.remove(m.findFragmentByTag(ASYNC_TAG));
+    final Fragment asyncFragment = m.findFragmentByTag(ASYNC_TAG);
+    if (asyncFragment != null) {
+      t.remove(asyncFragment);
+    }
     t.commitAllowingStateLoss();
     //we might want to call a new task immediately after executing the last one
     m.executePendingTransactions();

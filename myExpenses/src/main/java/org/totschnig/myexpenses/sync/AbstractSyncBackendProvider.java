@@ -383,6 +383,13 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract void writeLockToken(String lockToken) throws IOException;
 
   @Override
+  public void updateAccount(Account account) throws IOException {
+    writeAccount(account, true);
+  }
+
+  protected abstract void writeAccount(Account account, boolean update) throws IOException;
+
+  @Override
   public void lock() throws IOException {
     String existingLockTocken = getExistingLockToken();
     log().i("ExistingLockTocken: %s", existingLockTocken);

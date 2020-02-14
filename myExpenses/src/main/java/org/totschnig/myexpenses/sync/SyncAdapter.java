@@ -10,6 +10,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
@@ -73,12 +75,20 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -88,6 +98,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 
@@ -348,6 +359,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (localChanges.size() > 0 || remoteChanges.size() > 0) {
 
+              Optional<TransactionChange> localMetadataChange = Stream.of(localChanges).filter(value -> value.type() == TransactionChange.Type.metadata).findLast();
+              Optional<TransactionChange> remoteMetadataChange = Stream.of(remoteChanges).filter(value -> value.type() == TransactionChange.Type.metadata).findLast();
+              if (remoteMetadataChange.isPresent()) {
+                remoteChanges = Stream.of(remoteChanges).filter(value -> value.type() != TransactionChange.Type.metadata).collect(Collectors.toList());
+              }
+
+              if (localMetadataChange.isPresent() && remoteMetadataChange.isPresent()) {
+                if (localMetadataChange.get().timeStamp() > remoteMetadataChange.get().timeStamp()) {
+                  remoteMetadataChange = Optional.empty();
+                } else {
+                  localMetadataChange = Optional.empty();
+                  localChanges = Stream.of(localChanges).filter(value -> value.type() != TransactionChange.Type.metadata).collect(Collectors.toList());
+                }
+              }
+
+              if (localMetadataChange.isPresent()) {
+                backend.updateAccount(instanceFromDb);
+              } else if (remoteMetadataChange.isPresent()) {
+                final Optional<AccountMetaData> accountMetaDataOptional = backend.readAccountMetaData();
+                if (accountMetaDataOptional.isPresent()) {
+                  if (updateAccountFromMetadata(provider, accountMetaDataOptional.get())) {
+                    successRemote2Local += 1;
+                  } else {
+                    appendToNotification("Error while writing account metadata to database", account, false);
+                  }
+                }
+              }
+
               if (localChanges.size() > 0) {
                 localChanges = collectSplits(localChanges);
               }
@@ -360,7 +399,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               if (remoteChanges.size() > 0) {
                 writeRemoteChangesToDb(provider, remoteChanges, accountId);
                 accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-                successRemote2Local = remoteChanges.size();
+                successRemote2Local += remoteChanges.size();
               }
 
               if (localChanges.size() > 0) {
@@ -414,6 +453,44 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       cursor.close();
     }
     backend.tearDown();
+  }
+
+  private boolean updateAccountFromMetadata(ContentProviderClient provider, AccountMetaData accountMetaData) throws RemoteException, OperationApplicationException {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ops.add(TransactionProvider.pauseChangeTrigger());
+    ContentValues values = new ContentValues();
+    values.put(KEY_LABEL, accountMetaData.label());
+    values.put(KEY_OPENING_BALANCE, accountMetaData.openingBalance());
+    values.put(KEY_DESCRIPTION, accountMetaData.description());
+    final String currency = accountMetaData.currency();
+    values.put(KEY_CURRENCY, currency);
+    values.put(KEY_TYPE, accountMetaData.type());
+    values.put(KEY_COLOR, accountMetaData.color());
+    values.put(KEY_EXCLUDE_FROM_TOTALS, accountMetaData.excludeFromTotals());
+    if (accountMetaData.criterion() != 0L) {
+      values.put(KEY_CRITERION, accountMetaData.criterion());
+    }
+    final long id = dbAccount.get().getId();
+    ops.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, id)).withValues(values).build());
+    String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+    final Double exchangeRate = accountMetaData.exchangeRate();
+    if (exchangeRate != null && homeCurrency != null && homeCurrency.equals(accountMetaData.exchangeRateOtherCurrency())) {
+      Uri  uri = ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
+          .appendEncodedPath(currency)
+          .appendEncodedPath(homeCurrency).build();
+      int minorUnitDelta = Utils.getHomeCurrency().fractionDigits() - MyApplication.getInstance().getAppComponent().currencyContext().get(currency).fractionDigits();
+      ops.add(ContentProviderOperation.newInsert(uri).withValue(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta)).build());
+    }
+    ops.add(TransactionProvider.resumeChangeTrigger());
+    ContentProviderResult[] contentProviderResults = provider.applyBatch(ops);
+    int opsSize = ops.size();
+    int resultsSize = contentProviderResults.length;
+    if (opsSize != resultsSize) {
+      CrashHandler.reportWithTag(String.format(Locale.ROOT, "applied %d operations, received %d results",
+          opsSize, resultsSize), TAG);
+      return false;
+    }
+    return true;
   }
 
   private void handleAutoBackupSync(Account account, ContentProviderClient provider, SyncBackendProvider backend) {

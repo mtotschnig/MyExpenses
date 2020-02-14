@@ -82,12 +82,24 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     webDavClient.mkCol(accountUuid);
+    writeAccount(account, false);
+  }
+
+  @Override
+  protected void writeAccount(Account account, boolean update) throws IOException {
     final String accountMetadataFilename = getAccountMetadataFilename();
     LockableDavResource metaData = webDavClient.getResource(accountMetadataFilename, accountUuid);
-    if (!metaData.exists()) {
+    if (update || !metaData.exists()) {
       saveFileContentsToAccountDir(null, accountMetadataFilename, buildMetadata(account), getMimetypeForData(), true);
-      createWarningFile();
+      if (!update) {
+        createWarningFile();
+      }
     }
+  }
+
+  @Override
+  public Optional<AccountMetaData> readAccountMetaData() {
+    return getAccountMetaDataFromDavResource(webDavClient.getResource(getAccountMetadataFilename(), accountUuid));
   }
 
   @Override
