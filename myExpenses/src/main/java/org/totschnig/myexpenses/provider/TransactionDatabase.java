@@ -152,7 +152,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 97;
+  public static final int DATABASE_VERSION = 98;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -2049,6 +2049,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //This index has been lost after a table rename
         db.execSQL("CREATE INDEX IF NOT EXISTS templates_cat_id_index on templates(cat_id)");
         db.execSQL("CREATE INDEX IF NOT EXISTS budget_categories_cat_id_index on budget_categories(cat_id);");
+      }
+      if (oldVersion < 98) {
+        createOrRefreshAccountMetadataTrigger(db);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
