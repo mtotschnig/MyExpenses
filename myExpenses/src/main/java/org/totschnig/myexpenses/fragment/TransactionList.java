@@ -130,7 +130,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -584,8 +583,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   private void checkSealed(long[] itemIds, Runnable onChecked) {
-    Bundle extras = new Bundle();
-    extras.putLongArray(KEY_LONG_IDS, itemIds);
     new CheckSealedHandler(getActivity().getContentResolver()).check(itemIds, result -> {
       if (result) {
         onChecked.run();
