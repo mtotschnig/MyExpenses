@@ -247,6 +247,9 @@ public class ManageCategories extends CategoryActivity implements
         case TaskExecutionFragment.TASK_MOVE_CATEGORY:
           mListFragment.reset();
           break;
+        case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
+          showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
+        }
       }
     }
 

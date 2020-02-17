@@ -10,21 +10,17 @@ public class Category {
   public final String label;
   public final Long budget;
   public final Long sum;
-  public final Boolean hasMappedTemplates;
-  public final Boolean hasMappedTransactions;
   public final Boolean hasMappedBudgets;
   private final List<Category> children = new ArrayList<>();
   public final int color;
   public final String icon;
 
-  public Category(long id, Long parentId, String label, Long sum, Boolean hasMappedTemplates,
-                  Boolean hasMappedTransactions, Boolean hasMappedBudgets, int color, Long budget, String icon) {
+  public Category(long id, Long parentId, String label, Long sum,
+                  Boolean hasMappedBudgets, int color, Long budget, String icon) {
     this.id = id;
     this.parentId = parentId;
     this.label = label;
     this.sum = sum;
-    this.hasMappedTemplates = hasMappedTemplates;
-    this.hasMappedTransactions = hasMappedTransactions;
     this.hasMappedBudgets = hasMappedBudgets;
     this.color = color;
     this.budget = budget;
