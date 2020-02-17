@@ -152,7 +152,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 96;
+  public static final int DATABASE_VERSION = 97;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -792,6 +792,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     createOrRefreshAccountMetadataTrigger(db);
     db.execSQL(BUDGETS_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
+    db.execSQL("CREATE INDEX budget_categories_cat_id_index on " + TABLE_BUDGET_CATEGORIES + "(" + KEY_CATID + ")");
 
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
@@ -2043,6 +2044,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 96) {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+      }
+      if (oldVersion < 97) {
+        //This index has been lost after a table rename
+        db.execSQL("CREATE INDEX IF NOT EXISTS templates_cat_id_index on templates(cat_id)");
+        db.execSQL("CREATE INDEX IF NOT EXISTS budget_categories_cat_id_index on budget_categories(cat_id);");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

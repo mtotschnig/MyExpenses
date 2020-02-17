@@ -56,6 +56,7 @@ class SplitEditTest {
         Espresso.closeSoftKeyboard()
         Espresso.pressBackUnconditionally()
         assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
+        assertThat(mActivityRule.activity.isFinishing).isTrue()
     }
 
     @Test

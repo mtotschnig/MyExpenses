@@ -122,11 +122,11 @@ public class Result<T> {
   @NonNull
   public String print(Context ctx) {
     return message == 0 ? (messageString == null ? "" : messageString) :
-        (ctx.getString(message, (Object[]) messageArguments));
+        (ctx.getString(message, messageArguments));
   }
 
   public String print0(Context ctx) {
     return message == 0 ? messageString :
-        (ctx.getString(message, (Object[]) messageArguments));
+        (ctx.getString(message, messageArguments));
   }
 }

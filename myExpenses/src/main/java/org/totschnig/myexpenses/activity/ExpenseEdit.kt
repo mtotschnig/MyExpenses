@@ -712,7 +712,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun dispatchOnBackPressed() {
-        cleanup({ super.onBackPressed() })
+        cleanup({ super.dispatchOnBackPressed() })
     }
 
     private fun cleanup(onComplete: () -> Unit) {

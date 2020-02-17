@@ -25,6 +25,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
@@ -55,6 +56,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +76,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.util.TextUtils.formatQifCategory;
 
@@ -182,15 +186,54 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-        try {
-          for (long id : (Long[]) ids) {
-            Category.delete(id);
+        try (Cursor cursor = cr.query(TransactionProvider.CATEGORIES_URI,
+            new String[]{KEY_ROWID,
+                "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + CategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+                "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + CategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+            }, DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(ids.length), Stream.of(((Long[]) ids)).map(String::valueOf).toArray(String[]::new), null)) {
+          if (cursor == null) return Result.ofFailure("Cursor is null");
+          int deleted = 0, mappedToTransaction = 0, mappedToTemplate = 0;
+          if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+              boolean deletable = true;
+              if (cursor.getInt(1) > 0) {
+                deletable = false;
+                mappedToTransaction++;
+              }
+              if (cursor.getInt(2) > 0) {
+                deletable = false;
+                mappedToTemplate++;
+              }
+              if (deletable) {
+                Category.delete(cursor.getLong(0));
+                deleted++;
+              }
+              cursor.moveToNext();
+            }
+            List<String> messages = new ArrayList<>();
+            if (deleted > 0) {
+              messages.add(application.getResources().getQuantityString(R.plurals.delete_success, deleted, deleted));
+            }
+            if (mappedToTransaction > 0) {
+              messages.add(application.getResources().getQuantityString(
+                  R.plurals.not_deletable_mapped_transactions,
+                  mappedToTransaction,
+                  mappedToTransaction));
+            }
+            if (mappedToTemplate > 0) {
+              messages.add(application.getResources().getQuantityString(
+                  R.plurals.not_deletable_mapped_templates,
+                  mappedToTemplate,
+                  mappedToTemplate));
+            }
+            return Result.ofSuccess(Stream.of(messages).collect(Collectors.joining(" ")));
+          } else {
+            return Result.ofFailure("Cursor is empty");
           }
         } catch (SQLiteConstraintException e) {
           CrashHandler.reportWithDbSchema(e);
           return Result.ofFailure(e.getMessage());
         }
-        return Result.ofSuccess(application.getResources().getQuantityString(R.plurals.delete_success, ids.length, ids.length));
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
         try {
           for (long id : (Long[]) ids) {

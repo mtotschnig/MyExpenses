@@ -88,14 +88,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 public class CategoryList extends SortableListFragment {
 
   public static final String KEY_FILTER = "filter";
   private Disposable categoryDisposable;
-  protected static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
+  public static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
       TABLE_CATEGORIES + "." + KEY_ROWID +
       " UNION SELECT " + KEY_ROWID + " FROM "
       + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
@@ -199,8 +197,6 @@ public class CategoryList extends SortableListFragment {
         KEY_COLOR,
         KEY_ICON,
         //here we do not filter out void transactions since they need to be considered as mapped
-        "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-        "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES,
         "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
@@ -238,12 +234,11 @@ public class CategoryList extends SortableListFragment {
     ArrayList<Long> idList;
     switch (command) {
       case R.id.DELETE_COMMAND: {
-        int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0, mappedBudgetsCount = 0;
+        int hasChildrenCount = 0, mappedBudgetsCount = 0;
         idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           Category c;
           if (positions.valueAt(i)) {
-            boolean deletable = true;
             int position = positions.keyAt(i);
             long pos = mListView.getExpandableListPosition(position);
             int type = ExpandableListView.getPackedPositionType(pos);
@@ -255,14 +250,7 @@ public class CategoryList extends SortableListFragment {
               c = mAdapter.getGroup(group);
             }
             Bundle extras = ctx.getIntent().getExtras();
-            if ((extras != null && extras.getLong(KEY_ROWID) == c.id) || c.hasMappedTransactions) {
-              mappedTransactionsCount++;
-              deletable = false;
-            } else if (c.hasMappedTemplates) {
-              mappedTemplatesCount++;
-              deletable = false;
-            }
-            if (deletable) {
+            if ((extras == null || extras.getLong(KEY_ROWID) != c.id)) {
               if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
                 hasChildrenCount++;
               }
@@ -270,6 +258,9 @@ public class CategoryList extends SortableListFragment {
                 mappedBudgetsCount++;
               }
               idList.add(c.id);
+            } else {
+              ctx.showSnackbar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
+                  1, 1), Snackbar.LENGTH_LONG);
             }
           }
         }
@@ -294,22 +285,6 @@ public class CategoryList extends SortableListFragment {
           } else {
             ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
           }
-        }
-        if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
-          String message = "";
-          if (mappedTransactionsCount > 0) {
-            message += getResources().getQuantityString(
-                R.plurals.not_deletable_mapped_transactions,
-                mappedTransactionsCount,
-                mappedTransactionsCount);
-          }
-          if (mappedTemplatesCount > 0) {
-            message += getResources().getQuantityString(
-                R.plurals.not_deletable_mapped_templates,
-                mappedTemplatesCount,
-                mappedTemplatesCount);
-          }
-          ctx.showSnackbar(message, Snackbar.LENGTH_LONG);
         }
         return true;
       }
