@@ -2031,7 +2031,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 97) {
         //This index has been lost after a table rename
         db.execSQL("CREATE INDEX IF NOT EXISTS templates_cat_id_index on templates(cat_id)");
-        db.execSQL("CREATE INDEX budget_categories_cat_id_index on budget_categories(cat_id);");
+        db.execSQL("CREATE INDEX IF NOT EXISTS budget_categories_cat_id_index on budget_categories(cat_id);");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
