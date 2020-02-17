@@ -91,6 +91,22 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
+  @Override
+  protected void writeAccount(Account account, boolean update) throws IOException {
+    String metadataPath = getResourcePath(getAccountMetadataFilename());
+    if (update || !exists(metadataPath)) {
+      saveFileContentsToAccountDir(null, getAccountMetadataFilename(), buildMetadata(account), getMimetypeForData(), true);
+      if (!update) {
+        createWarningFile();
+      }
+    }
+  }
+
+  @Override
+  public Optional<AccountMetaData> readAccountMetaData() {
+    return getAccountMetaDataFromPath(getResourcePath(getAccountMetadataFilename()));
+  }
+
   private boolean exists(String path) throws IOException {
     try {
       return exists(mDbxClient, path);

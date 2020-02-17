@@ -49,14 +49,26 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     //noinspection ResultOfMethodCallIgnored
     accountDir.mkdir();
     if (accountDir.isDirectory()) {
-      File metaData = new File(accountDir, getAccountMetadataFilename());
-      if (!metaData.exists()) {
-          saveFileContents(metaData, buildMetadata(account), true);
-          createWarningFile();
-      }
+      writeAccount(account, false);
     } else {
       throw new IOException("Cannot create account dir");
     }
+  }
+
+  @Override
+  protected void writeAccount(Account account, boolean update) throws IOException {
+    File metaData = new File(accountDir, getAccountMetadataFilename());
+    if (update || !metaData.exists()) {
+      saveFileContents(metaData, buildMetadata(account), true);
+      if (!update) {
+        createWarningFile();
+      }
+    }
+  }
+
+  @Override
+  public Optional<AccountMetaData> readAccountMetaData() {
+    return getAccountMetaDataFromFile(new File(accountDir, getAccountMetadataFilename()));
   }
 
   @Override

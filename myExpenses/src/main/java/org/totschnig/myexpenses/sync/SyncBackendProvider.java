@@ -60,6 +60,10 @@ public interface SyncBackendProvider {
 
   void initEncryption() throws GeneralSecurityException, IOException;
 
+  void updateAccount(Account account) throws IOException;
+
+  Optional<AccountMetaData> readAccountMetaData();
+
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {
       super(e.getMessage(), e);

@@ -9,12 +9,14 @@ import com.google.gson.TypeAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 import androidx.annotation.Nullable;
 
 @AutoValue
-public abstract class AccountMetaData implements Parcelable {
+public abstract class  AccountMetaData implements Parcelable {
   public static TypeAdapter<AccountMetaData> typeAdapter(Gson gson) {
     return new AutoValue_AccountMetaData.GsonTypeAdapter(gson);
   }
@@ -43,6 +45,10 @@ public abstract class AccountMetaData implements Parcelable {
   @Nullable
   public abstract String exchangeRateOtherCurrency();
 
+  public abstract boolean excludeFromTotals();
+
+  public abstract long criterion();
+
   @Override
   public String toString() {
     return label() + " (" + currency() + ")";
@@ -55,10 +61,13 @@ public abstract class AccountMetaData implements Parcelable {
     } catch (IllegalArgumentException e) {
       accountType = AccountType.CASH;
     }
-    Account account = new Account(label(),
-        currencyContext.get(currency()),
-        openingBalance(), description(), accountType, color());
+    final CurrencyUnit currency = currencyContext.get(currency());
+    Account account = new Account(label(), currency, openingBalance(), description(), accountType, color());
     account.uuid = uuid();
+    if (criterion() != 0) {
+      account.setCriterion(new Money(currency, criterion()));
+    }
+    account.excludeFromTotals = excludeFromTotals();
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
     final Double exchangeRate = exchangeRate();
     if (exchangeRate != null && homeCurrency != null && homeCurrency.equals(exchangeRateOtherCurrency())) {
@@ -77,7 +86,9 @@ public abstract class AccountMetaData implements Parcelable {
         .setDescription(account.description)
         .setLabel(account.getLabel())
         .setOpeningBalance(account.openingBalance.getAmountMinor())
-        .setType(account.getType().name());
+        .setType(account.getType().name())
+        .setExcludeFromTotals(account.excludeFromTotals)
+        .setCriterion(account.getCriterion() != null ? account.getCriterion().getAmountMinor() : 0);
     if (homeCurrency != null && !homeCurrency.equals(accountCurrency)) {
       builder.setExchangeRate(account.getExchangeRate()).setExchangeRateOtherCurrency(homeCurrency);
     }
@@ -95,6 +106,8 @@ public abstract class AccountMetaData implements Parcelable {
     public abstract Builder setType(String type);
     public abstract Builder setExchangeRate(Double exchangeRate);
     public abstract Builder setExchangeRateOtherCurrency(String otherCurrency);
+    public abstract Builder setExcludeFromTotals(boolean excludeFromTotals);
+    public abstract Builder setCriterion(long criterion);
 
     public abstract AccountMetaData build();
   }
