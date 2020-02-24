@@ -222,7 +222,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
         ContribFeature.TEMPLATE_WIDGET.buildUsagesLefString(context, getPrefHandler());
     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     if (ContribFeature.TEMPLATE_WIDGET.usagesLeft(getPrefHandler()) == 0) {
-      updateWidgets(context, TemplateWidget.class);
+      updateWidgets(context, TemplateWidget.class, WIDGET_LIST_DATA_CHANGED);
     }
   }
 

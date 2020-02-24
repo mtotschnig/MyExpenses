@@ -50,14 +50,19 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   protected static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
   protected static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
+  protected static final String WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK";
+  public static final String KEY_CLICK_ACTION = "clickAction";
+  public static final String WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED";
+  public static final String WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED";
   public static final String EXTRA_START_FROM_WIDGET = "startFromWidget";
   public static final String EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry";
   protected static final String WIDGET_ID = "widgetId";
   protected static final String PREF_PREFIX_KEY = "prefix_";
+  public static final String KEY_WIDTH = "orientation";
 
-  public static void updateWidgets(Context context, Class<? extends AbstractWidget<?>> provider) {
+  public static void updateWidgets(Context context, Class<? extends AppWidgetProvider> provider, String action) {
     Intent i = new Intent(context, provider);
-    i.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+    i.setAction(action);
     int[] widgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, provider));
     i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
     context.sendBroadcast(i);

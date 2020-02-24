@@ -303,7 +303,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   }
 
   private void updateWidgets(Class<? extends AbstractWidget<?>> provider) {
-    AbstractWidget.updateWidgets(this, provider);
+    AbstractWidget.updateWidgets(this, provider, AbstractWidget.WIDGET_LIST_DATA_CHANGED);
   }
 
   public void validateLicence() {

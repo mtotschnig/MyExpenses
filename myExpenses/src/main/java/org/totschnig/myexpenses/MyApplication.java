@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import android.app.ActivityManager;
+import android.appwidget.AppWidgetProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -58,6 +59,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.AccountWidget2;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.File;
@@ -232,7 +234,7 @@ public class MyApplication extends MultiDexApplication implements
     for (Uri uri : TemplateWidget.OBSERVED_URIS) {
       r.registerContentObserver(uri, true, mTemplateObserver);
     }
-    WidgetObserver mAccountObserver = new WidgetObserver(AccountWidget.class);
+    WidgetObserver mAccountObserver = new WidgetObserver(AccountWidget2.class);
     for (Uri uri : AccountWidget.OBSERVED_URIS) {
       r.registerContentObserver(uri, true, mAccountObserver);
     }
@@ -276,6 +278,7 @@ public class MyApplication extends MultiDexApplication implements
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     systemLocale = newConfig.locale;
+    AbstractWidget.updateWidgets(mSelf, AccountWidget2.class, AbstractWidget.WIDGET_CONTEXT_CHANGED);
   }
 
   public static Locale getUserPreferedLocale() {
@@ -653,16 +656,16 @@ public class MyApplication extends MultiDexApplication implements
     /**
      *
      */
-    private Class<? extends AbstractWidget<?>> mProvider;
+    private Class<? extends AppWidgetProvider> mProvider;
 
-    WidgetObserver(Class<? extends AbstractWidget<?>> provider) {
+    WidgetObserver(Class<? extends AppWidgetProvider> provider) {
       super(null);
       mProvider = provider;
     }
 
     @Override
     public void onChange(boolean selfChange) {
-      AbstractWidget.updateWidgets(mSelf, mProvider);
+      AbstractWidget.updateWidgets(mSelf, mProvider, AbstractWidget.WIDGET_LIST_DATA_CHANGED);
     }
   }
 
