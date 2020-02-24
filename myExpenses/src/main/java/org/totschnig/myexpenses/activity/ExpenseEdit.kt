@@ -308,7 +308,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
             }
             if (mNewInstance) {
-                if (!discoveryHelper.discover(this, amountInput.typeButton, String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
+                if (operationType == TYPE_TRANSFER || !discoveryHelper.discover(this, amountInput.typeButton, String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
                                 getString(R.string.discover_feature_expense_income_switch),
                                 1, DiscoveryHelper.Feature.EI_SWITCH, false)) {
                     discoveryHelper.discover(this, rootBinding.toolbar.OperationType, String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
