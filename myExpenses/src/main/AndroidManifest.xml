@@ -379,11 +379,11 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_accounts" />
+                android:resource="@xml/widget_info_generic" />
         </receiver>
 
         <receiver
-            android:name="org.totschnig.myexpenses.widget.TemplateWidget"
+            android:name="org.totschnig.myexpenses.widget.TemplateWidget2"
             android:label="@string/widget_title_templates">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -391,11 +391,16 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_templates" />
+                android:resource="@xml/widget_info_generic" />
         </receiver>
 
         <service
-            android:name="MyWidgetService"
+            android:name=".widget.AccountWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name=".widget.TemplateWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
