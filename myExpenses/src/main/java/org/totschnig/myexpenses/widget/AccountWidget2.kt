@@ -6,16 +6,16 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 
 const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
 const val CLICK_ACTION_NEW_SPLIT = "newSplit"
 
-
 class AccountWidget2 : AbstractWidget2(AccountWidgetService::class.java) {
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val accountId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        val clickAction = intent.getStringExtra(AbstractWidget.KEY_CLICK_ACTION)
+        val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)
         when (clickAction) {
             null -> {
                 context.startActivity(Intent(context, MyExpenses::class.java).apply {
@@ -30,8 +30,8 @@ class AccountWidget2 : AbstractWidget2(AccountWidgetService::class.java) {
                 } else {
                     putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
                 }
-                putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true)
-                putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
+                putExtra(EXTRA_START_FROM_WIDGET, true)
+                putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
                 putExtra(TransactionsContract.Transactions.OPERATION_TYPE, when(clickAction) {
                     CLICK_ACTION_NEW_TRANSACTION ->  TransactionsContract.Transactions.TYPE_TRANSACTION
                     CLICK_ACTION_NEW_TRANSFER -> TransactionsContract.Transactions.TYPE_TRANSFER
@@ -40,5 +40,11 @@ class AccountWidget2 : AbstractWidget2(AccountWidgetService::class.java) {
                 })
             })
         }
+    }
+    companion object {
+        val OBSERVED_URIS = arrayOf(
+                TransactionProvider.ACCOUNTS_URI, //if color changes
+                TransactionProvider.TRANSACTIONS_URI
+        )
     }
 }

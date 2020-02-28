@@ -57,10 +57,9 @@ import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
-import org.totschnig.myexpenses.widget.AbstractWidget;
-import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.AbstractWidget2Kt;
 import org.totschnig.myexpenses.widget.AccountWidget2;
-import org.totschnig.myexpenses.widget.TemplateWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget2;
 
 import java.io.File;
 import java.io.IOException;
@@ -230,12 +229,12 @@ public class MyApplication extends MultiDexApplication implements
 
   private void registerWidgetObservers() {
     final ContentResolver r = getContentResolver();
-    WidgetObserver mTemplateObserver = new WidgetObserver(TemplateWidget.class);
-    for (Uri uri : TemplateWidget.OBSERVED_URIS) {
+    WidgetObserver mTemplateObserver = new WidgetObserver(TemplateWidget2.class);
+    for (Uri uri : TemplateWidget2.Companion.getOBSERVED_URIS()) {
       r.registerContentObserver(uri, true, mTemplateObserver);
     }
     WidgetObserver mAccountObserver = new WidgetObserver(AccountWidget2.class);
-    for (Uri uri : AccountWidget.OBSERVED_URIS) {
+    for (Uri uri : AccountWidget2.Companion.getOBSERVED_URIS()) {
       r.registerContentObserver(uri, true, mAccountObserver);
     }
   }
@@ -278,7 +277,7 @@ public class MyApplication extends MultiDexApplication implements
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     systemLocale = newConfig.locale;
-    AbstractWidget.updateWidgets(mSelf, AccountWidget2.class, AbstractWidget.WIDGET_CONTEXT_CHANGED);
+    AbstractWidget2Kt.updateWidgets(mSelf, AccountWidget2.class, AbstractWidget2Kt.WIDGET_CONTEXT_CHANGED);
   }
 
   public static Locale getUserPreferedLocale() {
@@ -311,7 +310,7 @@ public class MyApplication extends MultiDexApplication implements
       boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET
           .getBoolean(false);
       boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(
-          AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+          AbstractWidget2Kt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
       if (!isDataEntryEnabled || !isStartFromWidget) {
         this.mLastPause = System.nanoTime();
       }
@@ -335,7 +334,7 @@ public class MyApplication extends MultiDexApplication implements
     if (ctx instanceof SplashActivity) return false;
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(
-        AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+        AbstractWidget2Kt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
     boolean isProtected = isProtected();
     long lastPause = getLastPause();
     Timber.i("reading last pause : %d", lastPause);
@@ -665,7 +664,7 @@ public class MyApplication extends MultiDexApplication implements
 
     @Override
     public void onChange(boolean selfChange) {
-      AbstractWidget.updateWidgets(mSelf, mProvider, AbstractWidget.WIDGET_LIST_DATA_CHANGED);
+      AbstractWidget2Kt.updateWidgets(mSelf, mProvider, AbstractWidget2Kt.WIDGET_LIST_DATA_CHANGED);
     }
   }
 

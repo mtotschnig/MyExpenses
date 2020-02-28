@@ -25,8 +25,6 @@ import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.widget.AbstractWidget;
-import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.util.Date;
 import java.util.Locale;
@@ -98,7 +96,6 @@ public class LicenceHandler {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
       ShortcutHelper.configureSplitShortcut(context, isContribEnabled());
     }
-    AbstractWidget.updateWidgets(context, TemplateWidget.class, AbstractWidget.WIDGET_LIST_DATA_CHANGED);
   }
 
   public void updateLicenceStatus(Licence licence) {

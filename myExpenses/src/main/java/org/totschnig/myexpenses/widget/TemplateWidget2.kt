@@ -5,22 +5,25 @@ import android.content.Intent
 import android.widget.Toast
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 
 const val CLICK_ACTION_SAVE = "save"
 const val CLICK_ACTION_EDIT = "edit"
 
 class TemplateWidget2: AbstractWidget2(TemplateWidgetService::class.java) {
+
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val templateId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        val clickAction = intent.getStringExtra(AbstractWidget.KEY_CLICK_ACTION)
+        val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)
         when (clickAction) {
             null -> {
                 context.startActivity(Intent(context, ManageTemplates::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, true)
+                    putExtra(EXTRA_START_FROM_WIDGET, true)
                 })
             }
             CLICK_ACTION_SAVE -> {
@@ -37,9 +40,20 @@ class TemplateWidget2: AbstractWidget2(TemplateWidgetService::class.java) {
                     }
                 }
             }
-            CLICK_ACTION_EDIT -> {
-                TODO()
-            }
+            CLICK_ACTION_EDIT -> context.startActivity(Intent(context, ExpenseEdit::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
+                putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
+                putExtra(EXTRA_START_FROM_WIDGET, true)
+                putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
+            })
         }
+    }
+    companion object {
+        val OBSERVED_URIS = arrayOf(
+                TransactionProvider.TEMPLATES_URI,
+                TransactionProvider.ACCOUNTS_URI //if color changes
+        )
+
     }
 }

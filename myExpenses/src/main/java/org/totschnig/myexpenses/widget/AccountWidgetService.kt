@@ -66,7 +66,7 @@ class AccountRemoteViewsFactory(
             setOnClickFillInIntent(buttonId, Intent().apply {
                 putExtra(KEY_ROWID, account.id)
                 putExtra(KEY_CURRENCY, account.getCurrencyUnit().code())
-                putExtra(AbstractWidget.KEY_CLICK_ACTION, action)
+                putExtra(KEY_CLICK_ACTION, action)
             })
         }
     }
