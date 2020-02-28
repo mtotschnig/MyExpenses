@@ -12,7 +12,7 @@ const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
 const val CLICK_ACTION_NEW_SPLIT = "newSplit"
 
-class AccountWidget2 : AbstractWidget2(AccountWidgetService::class.java) {
+class AccountWidget : AbstractWidget(AccountWidgetService::class.java) {
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val accountId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)

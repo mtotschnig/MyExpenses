@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 const val CLICK_ACTION_SAVE = "save"
 const val CLICK_ACTION_EDIT = "edit"
 
-class TemplateWidget2: AbstractWidget2(TemplateWidgetService::class.java) {
+class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java) {
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val templateId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)

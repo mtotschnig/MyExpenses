@@ -55,9 +55,9 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.AbstractWidget2Kt;
-import org.totschnig.myexpenses.widget.AccountWidget2;
-import org.totschnig.myexpenses.widget.TemplateWidget2;
+import org.totschnig.myexpenses.widget.AbstractWidgetKt;
+import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -280,10 +280,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       restart();
     } else if (key.equals(PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
-      updateWidgets(AccountWidget2.class);
+      updateWidgets(AccountWidget.class);
     } else if (key.equals(PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
       //Log.d("DEBUG","shared preference changed: Template Widget");
-      updateWidgets(TemplateWidget2.class);
+      updateWidgets(TemplateWidget.class);
     } else if (key.equals(AUTO_BACKUP.getKey()) || key.equals(AUTO_BACKUP_TIME.getKey())) {
       DailyScheduler.updateAutoBackupAlarms(this);
     } else if (key.equals(SYNC_FREQUCENCY.getKey())) {
@@ -299,12 +299,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   }
 
   private void updateAllWidgets() {
-    updateWidgets(AccountWidget2.class);
-    updateWidgets(TemplateWidget2.class);
+    updateWidgets(AccountWidget.class);
+    updateWidgets(TemplateWidget.class);
   }
 
   private void updateWidgets(Class<? extends AppWidgetProvider> provider) {
-    AbstractWidget2Kt.updateWidgets(this, provider, AbstractWidget2Kt.WIDGET_LIST_DATA_CHANGED);
+    AbstractWidgetKt.updateWidgets(this, provider, AbstractWidgetKt.WIDGET_LIST_DATA_CHANGED);
   }
 
   public void validateLicence() {

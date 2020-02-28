@@ -371,7 +371,7 @@
         <receiver android:name=".service.ScheduleReceiver" />
 
         <receiver
-            android:name="org.totschnig.myexpenses.widget.AccountWidget2"
+            android:name="org.totschnig.myexpenses.widget.AccountWidget"
             android:label="@string/widget_title_accounts">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -383,7 +383,7 @@
         </receiver>
 
         <receiver
-            android:name="org.totschnig.myexpenses.widget.TemplateWidget2"
+            android:name="org.totschnig.myexpenses.widget.TemplateWidget"
             android:label="@string/widget_title_templates">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

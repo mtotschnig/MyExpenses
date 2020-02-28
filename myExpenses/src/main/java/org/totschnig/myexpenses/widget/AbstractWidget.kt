@@ -31,7 +31,7 @@ fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, act
                     AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider)))
         })
 
-abstract class AbstractWidget2(val clazz: Class<out RemoteViewsService>) : AppWidgetProvider() {
+abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>) : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         val instance = AppWidgetManager.getInstance(context)
         when (intent.action) {

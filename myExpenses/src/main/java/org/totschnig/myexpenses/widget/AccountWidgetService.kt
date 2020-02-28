@@ -32,7 +32,7 @@ class AccountRemoteViewsFactory(
     override fun buildCursor(): Cursor? {
         val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1")
-        return context.getContentResolver().query( //TODO find out if we should implement an optimized provider method that only returns current balance
+        return context.getContentResolver().query(
                 builder.build(), null, null, null, null)
     }
 
