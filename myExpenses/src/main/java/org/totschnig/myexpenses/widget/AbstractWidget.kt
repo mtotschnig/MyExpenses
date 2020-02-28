@@ -14,7 +14,12 @@ import android.view.Surface.ROTATION_180
 import android.view.WindowManager
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
+import javax.inject.Inject
+
 
 const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val KEY_CLICK_ACTION = "clickAction"
@@ -31,8 +36,12 @@ fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, act
                     AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider)))
         })
 
-abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>) : AppWidgetProvider() {
+abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val emptyTextResourceId: Int, val protectionKey: PrefKey) : AppWidgetProvider() {
+    @Inject
+    lateinit  var prefHandler: PrefHandler
+
     override fun onReceive(context: Context, intent: Intent) {
+        MyApplication.getInstance().appComponent.inject(this)
         val instance = AppWidgetManager.getInstance(context)
         when (intent.action) {
             WIDGET_LIST_DATA_CHANGED -> {
@@ -53,28 +62,34 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>) : AppWid
     abstract fun handleWidgetClick(context: Context, intent: Intent)
 
     protected fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        val svcIntent = Intent(context, clazz)
-        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-            svcIntent.putExtra(KEY_WIDTH, when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).getDefaultDisplay().rotation) {
-                ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-                else -> /*ORIENTATION_LANDSCAPE*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
-            })
-        }
-        // When intents are compared, the extras are ignored, so we need to embed the extras
-        // into the data so that the extras will not be ignored.
-        // When intents are compared, the extras are ignored, so we need to embed the extras
-        // into the data so that the extras will not be ignored.
-        svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)))
         val widget = RemoteViews(context.getPackageName(), R.layout.widget_list)
-        widget.setRemoteAdapter(R.id.list, svcIntent)
         widget.setEmptyView(R.id.list, R.id.emptyView);
-        val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
-        clickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
-        widget.setPendingIntentTemplate(R.id.list, clickPI)
+        if (isProtected()) {
+            widget.setTextViewText(R.id.emptyView, context.getString(R.string.warning_password_protected) + " " +
+                    context.getString(R.string.warning_widget_disabled))
+        } else {
+            val svcIntent = Intent(context, clazz)
+            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+                svcIntent.putExtra(KEY_WIDTH, when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).getDefaultDisplay().rotation) {
+                    ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+                    else -> /*ORIENTATION_LANDSCAPE*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+                })
+            }
+            // When intents are compared, the extras are ignored, so we need to embed the extras
+            // into the data so that the extras will not be ignored.
+            // When intents are compared, the extras are ignored, so we need to embed the extras
+            // into the data so that the extras will not be ignored.
+            svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)))
+            widget.setRemoteAdapter(R.id.list, svcIntent)
+            widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId))
+            val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
+            clickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
+            widget.setPendingIntentTemplate(R.id.list, clickPI)
+        }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
 
@@ -86,5 +101,9 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>) : AppWid
         appWidgetIds.forEach { appWidgetId ->
             updateWidget(context, appWidgetManager, appWidgetId)
         }
+    }
+    protected open fun isProtected(): Boolean {
+        return MyApplication.getInstance().isProtected &&
+                !prefHandler.getBoolean(protectionKey, false)
     }
 }

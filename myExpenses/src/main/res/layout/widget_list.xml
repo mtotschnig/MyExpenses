@@ -28,10 +28,9 @@
         android:layout_height="match_parent"
         android:ellipsize="end"
         android:gravity="center_vertical|center_horizontal"
-        android:text="No data"
+        tools:text="No data"
         android:textColor="#ffffff"
         android:textSize="12sp"
-        android:textStyle="bold"
-        tools:ignore="HardcodedText"/>
+        android:textStyle="bold"/>
 
 </FrameLayout>

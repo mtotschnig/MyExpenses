@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses;
 
 import android.app.ActivityManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -57,6 +56,7 @@ import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
+import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -655,9 +655,9 @@ public class MyApplication extends MultiDexApplication implements
     /**
      *
      */
-    private Class<? extends AppWidgetProvider> mProvider;
+    private Class<? extends AbstractWidget> mProvider;
 
-    WidgetObserver(Class<? extends AppWidgetProvider> provider) {
+    WidgetObserver(Class<? extends AbstractWidget> provider) {
       super(null);
       mProvider = provider;
     }

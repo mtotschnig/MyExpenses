@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
+import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplatetRemoteViewsFactory;
 
 import javax.inject.Named;
@@ -170,4 +171,6 @@ public interface AppComponent {
   void inject(RemindRateDialogFragment remindRateDialogFragment);
 
   void inject(TemplatetRemoteViewsFactory templatetRemoteViewsFactory);
+
+  void inject(AbstractWidget abstractWidget);
 }

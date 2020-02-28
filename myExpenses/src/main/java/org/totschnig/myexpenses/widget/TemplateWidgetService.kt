@@ -51,6 +51,7 @@ class TemplatetRemoteViewsFactory(
     init {
         (context.applicationContext as MyApplication).appComponent.inject(this)
     }
+
     override fun buildCursor(): Cursor? {
         return context.getContentResolver().query(
                 TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",

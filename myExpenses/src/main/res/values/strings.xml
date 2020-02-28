@@ -231,6 +231,7 @@
     <string name="no_parties">No parties.</string>
     <string name="no_split_parts">No split parts.</string>
     <string name="no_templates">No templates.</string>
+    <string name="no_accounts">No accounts.</string>
     <string name="no_title_given">You did not enter any title.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">The selected object is mapped to a transaction and cannot be deleted.</item>

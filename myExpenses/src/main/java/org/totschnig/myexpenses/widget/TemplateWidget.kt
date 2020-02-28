@@ -8,13 +8,14 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 const val CLICK_ACTION_SAVE = "save"
 const val CLICK_ACTION_EDIT = "edit"
 
-class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java) {
+class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, R.string.no_templates, PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) {
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val templateId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
@@ -49,6 +50,7 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java) {
             })
         }
     }
+
     companion object {
         val OBSERVED_URIS = arrayOf(
                 TransactionProvider.TEMPLATES_URI,

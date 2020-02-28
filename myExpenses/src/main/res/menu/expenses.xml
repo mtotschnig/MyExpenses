@@ -123,16 +123,4 @@
         android:orderInCategory="30"
         android:title="@string/menu_print"
         app:showAsAction="never"/>
-    <item
-        android:id="@id/SHARE_COMMAND"
-        android:orderInCategory="30"
-        android:title="@string/menu_share"
-        app:showAsAction="never">
-    </item>
-    <item
-        android:id="@id/SETTINGS_COMMAND"
-        android:orderInCategory="30"
-        app:showAsAction="never"
-        android:title="@string/menu_settings">
-    </item>
 </menu>

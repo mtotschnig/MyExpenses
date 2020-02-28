@@ -304,7 +304,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   }
 
   private void updateWidgets(Class<? extends AppWidgetProvider> provider) {
-    AbstractWidgetKt.updateWidgets(this, provider, AbstractWidgetKt.WIDGET_LIST_DATA_CHANGED);
+    AbstractWidgetKt.updateWidgets(this, provider, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
   }
 
   public void validateLicence() {

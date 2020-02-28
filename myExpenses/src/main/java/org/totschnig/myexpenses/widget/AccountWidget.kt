@@ -2,9 +2,11 @@ package org.totschnig.myexpenses.widget
 
 import android.content.Context
 import android.content.Intent
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 
@@ -12,7 +14,7 @@ const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
 const val CLICK_ACTION_NEW_SPLIT = "newSplit"
 
-class AccountWidget : AbstractWidget(AccountWidgetService::class.java) {
+class AccountWidget : AbstractWidget(AccountWidgetService::class.java, R.string.no_accounts, PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) {
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val accountId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)
@@ -41,6 +43,7 @@ class AccountWidget : AbstractWidget(AccountWidgetService::class.java) {
             })
         }
     }
+    
     companion object {
         val OBSERVED_URIS = arrayOf(
                 TransactionProvider.ACCOUNTS_URI, //if color changes
