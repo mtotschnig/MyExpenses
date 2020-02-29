@@ -43,7 +43,7 @@ class AccountWidget : AbstractWidget(AccountWidgetService::class.java, R.string.
             })
         }
     }
-    
+
     companion object {
         val OBSERVED_URIS = arrayOf(
                 TransactionProvider.ACCOUNTS_URI, //if color changes

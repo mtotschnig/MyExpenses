@@ -61,6 +61,13 @@ abstract class AbstractRemoteViewsFactory(
 
     abstract fun buildCursor(): Cursor?
 
+    override fun getViewAt(position: Int) = RemoteViews(context.getPackageName(), R.layout.widget_row).apply {
+        cursor?.let {
+            it.moveToPosition(position)
+            populate(it)
+        }
+    }
+
     protected fun RemoteViews.setBackgroundColorSave(res: Int, color: Int) {
         setInt(res, "setBackgroundColor", color)
     }
@@ -70,4 +77,6 @@ abstract class AbstractRemoteViewsFactory(
         setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
                 R.style.ThemeDark))
     }
+
+    abstract fun RemoteViews.populate(cursor: Cursor)
 }

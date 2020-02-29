@@ -59,48 +59,44 @@ class TemplatetRemoteViewsFactory(
                 null, preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE))
     }
 
-
-    override fun getViewAt(position: Int) = RemoteViews(context.getPackageName(), R.layout.account_row_widget).apply {
-        cursor?.let {
-            it.moveToPosition(position)
-            setBackgroundColorSave(R.id.divider3, it.getInt(it.getColumnIndex(KEY_COLOR)))
-            val title = DbUtils.getString(it, DatabaseConstants.KEY_TITLE)
-            val currencyContext = MyApplication.getInstance().getAppComponent().currencyContext()
-            val currency = currencyContext.get(DbUtils.getString(it, KEY_CURRENCY))
-            val amount = Money(currency, DbUtils.getLongOr0L(it, DatabaseConstants.KEY_AMOUNT))
-            val isTransfer = !(it.isNull(it.getColumnIndexOrThrow(DatabaseConstants.KEY_TRANSFER_ACCOUNT)))
-            val label = DbUtils.getString(it, DatabaseConstants.KEY_LABEL)
-            val comment = DbUtils.getString(it, DatabaseConstants.KEY_COMMENT)
-            val payee = DbUtils.getString(it, DatabaseConstants.KEY_PAYEE_NAME)
-            setTextViewText(R.id.line1,
-                    title + " : " + CurrencyFormatter.instance().formatCurrency(amount))
-            val commentSeparator = " / "
-            val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.getAmountMinor()) + label else label)
-            if (!TextUtils.isEmpty(comment)) {
-                if (description.length != 0) {
-                    description.append(commentSeparator)
-                }
-                description.append(comment)
-                val before = description.length
-                description.setSpan(StyleSpan(Typeface.ITALIC), before, description.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    override fun RemoteViews.populate(cursor: Cursor) {
+        setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndex(KEY_COLOR)))
+        val title = DbUtils.getString(cursor, DatabaseConstants.KEY_TITLE)
+        val currencyContext = MyApplication.getInstance().getAppComponent().currencyContext()
+        val currency = currencyContext.get(DbUtils.getString(cursor, KEY_CURRENCY))
+        val amount = Money(currency, DbUtils.getLongOr0L(cursor, DatabaseConstants.KEY_AMOUNT))
+        val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_TRANSFER_ACCOUNT)))
+        val label = DbUtils.getString(cursor, DatabaseConstants.KEY_LABEL)
+        val comment = DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT)
+        val payee = DbUtils.getString(cursor, DatabaseConstants.KEY_PAYEE_NAME)
+        setTextViewText(R.id.line1,
+                title + " : " + CurrencyFormatter.instance().formatCurrency(amount))
+        val commentSeparator = " / "
+        val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.getAmountMinor()) + label else label)
+        if (!TextUtils.isEmpty(comment)) {
+            if (description.length != 0) {
+                description.append(commentSeparator)
             }
-            if (!TextUtils.isEmpty(payee)) {
-                if (description.length != 0) {
-                    description.append(commentSeparator)
-                }
-                description.append(payee)
-                val before = description.length
-                description.setSpan(UnderlineSpan(), before, description.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            setTextViewText(R.id.note, description)
-            setOnClickFillInIntent(R.id.object_info, Intent())
-            val templateId = it.getLong(it.getColumnIndexOrThrow(KEY_ROWID))
-            configureButton(R.id.command1, R.drawable.ic_action_apply_save, CLICK_ACTION_SAVE, R.string.menu_create_instance_save, templateId, 175)
-            configureButton(R.id.command2, R.drawable.ic_action_apply_edit, CLICK_ACTION_EDIT, R.string.menu_create_instance_edit, templateId, 223)
-            setViewVisibility(R.id.command3, View.GONE)
+            description.append(comment)
+            val before = description.length
+            description.setSpan(StyleSpan(Typeface.ITALIC), before, description.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+        if (!TextUtils.isEmpty(payee)) {
+            if (description.length != 0) {
+                description.append(commentSeparator)
+            }
+            description.append(payee)
+            val before = description.length
+            description.setSpan(UnderlineSpan(), before, description.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        setTextViewText(R.id.note, description)
+        setOnClickFillInIntent(R.id.object_info, Intent())
+        val templateId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+        configureButton(R.id.command1, R.drawable.ic_action_apply_save, CLICK_ACTION_SAVE, R.string.menu_create_instance_save, templateId, 175)
+        configureButton(R.id.command2, R.drawable.ic_action_apply_edit, CLICK_ACTION_EDIT, R.string.menu_create_instance_edit, templateId, 223)
+        setViewVisibility(R.id.command3, View.GONE)
     }
 
     protected fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, templateId: Long, minimumWidth: Int) {

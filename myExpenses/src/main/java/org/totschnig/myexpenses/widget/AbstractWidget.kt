@@ -63,7 +63,12 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val empt
 
     protected fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val widget = RemoteViews(context.getPackageName(), R.layout.widget_list)
-        widget.setEmptyView(R.id.list, R.id.emptyView);
+        widget.setEmptyView(R.id.list, R.id.emptyView)
+        val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
+        clickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+        widget.setOnClickPendingIntent(R.id.emptyView, clickPI)
         if (isProtected()) {
             widget.setTextViewText(R.id.emptyView, context.getString(R.string.warning_password_protected) + " " +
                     context.getString(R.string.warning_widget_disabled))
@@ -84,10 +89,6 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val empt
             svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)))
             widget.setRemoteAdapter(R.id.list, svcIntent)
             widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId))
-            val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
-            clickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT)
             widget.setPendingIntentTemplate(R.id.list, clickPI)
         }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
