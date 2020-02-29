@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import java.util.Currency;
 
 import androidx.annotation.NonNull;
+import androidx.test.filters.FlakyTest;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
@@ -117,6 +118,7 @@ public final class MyExpensesTest extends BaseUiTest {
         .check(matches(isDisplayed()));
   }
 
+  @FlakyTest
   @Test
   public void settingsScreenIsOpened() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
