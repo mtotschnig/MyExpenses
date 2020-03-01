@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.SimpleToastActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
 import java.util.Collections;
 
@@ -43,8 +43,8 @@ public class ShortcutHelper {
     intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
     Bundle extras = new Bundle();
-    extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-    extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+    extras.putBoolean(AbstractWidgetKt.EXTRA_START_FROM_WIDGET, true);
+    extras.putBoolean(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     extras.putInt(OPERATION_TYPE, operationType);
     extras.putBoolean(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
     intent.putExtras(extras);

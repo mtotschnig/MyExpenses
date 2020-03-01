@@ -2,7 +2,7 @@
 <credits>
     <project>
         <name>Financisto</name>
-        <extra_info>CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService</extra_info>
+        <extra_info>CalculatorInput, QifParser, FolderBrowser, WhereFilter and AutoBackupService</extra_info>
         <url>https://launchpad.net/financisto</url>
         <licence>GPL v2.0</licence>
     </project>

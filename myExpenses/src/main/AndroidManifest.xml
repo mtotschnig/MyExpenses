@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses. My Expenses is free software: you 
 	can redistribute it and/or modify it under the terms of the GNU General Public 
 	License as published by the Free Software Foundation, either version 3 of 
@@ -10,44 +9,47 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>.
 -->
-<manifest package="org.totschnig.myexpenses"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:installLocation="internalOnly">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.totschnig.myexpenses"
+    android:installLocation="internalOnly">
 
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
         android:xlargeScreens="true"
-        tools:ignore="UnusedAttribute"/>
+        tools:ignore="UnusedAttribute" />
 
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
-        android:maxSdkVersion="22"/>
+        android:maxSdkVersion="22" />
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
-        android:maxSdkVersion="22"/>
+        android:maxSdkVersion="22" />
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
-        android:maxSdkVersion="22"/>
+        android:maxSdkVersion="22" />
     <uses-permission
         android:name="android.permission.USE_CREDENTIALS"
-        android:maxSdkVersion="22"/>
+        android:maxSdkVersion="22" />
     <uses-permission
         android:name="android.permission.WAKE_LOCK"
-        android:maxSdkVersion="25"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
-    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+        android:maxSdkVersion="25" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
 
     <application
         android:name="org.totschnig.myexpenses.MyApplication"
@@ -63,22 +65,21 @@
             android:name=".activity.SplashActivity"
             android:theme="@style/SuwThemeMaterial">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
             android:name=".activity.MyExpenses"
             android:label="${appName}"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
 
         <activity
             android:name=".activity.DeepLinkActivity"
@@ -87,53 +88,57 @@
             <intent-filter
                 android:autoVerify="true"
                 tools:ignore="UnusedAttribute">
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="www.myexpenses.mobi"
                     android:path="/callback2.html"
-                    android:scheme="https"/>
+                    android:scheme="https" />
 
                 <data
                     android:host="www.myexpenses.mobi"
                     android:path="/callback.html"
-                    android:scheme="https"/>
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.ExpenseEdit"
+            android:exported="true"
             android:parentActivityName=".activity.MyExpenses"
             android:theme="@style/ThemeLight.EditDialog"
-            android:exported="true"
             tools:ignore="UnusedAttribute">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="content" android:host="${applicationId}" android:path="/transactions" />
+                <data
+                    android:host="${applicationId}"
+                    android:path="/transactions"
+                    android:scheme="content" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses"/>
+                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
 
         <activity
             android:name=".activity.AccountEdit"
-            android:theme="@style/ThemeLight.EditDialog"/>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name=".activity.MethodEdit"
-            android:theme="@style/ThemeLight.EditDialog"/>
+            android:theme="@style/ThemeLight.EditDialog" />
         <activity
             android:name=".activity.BudgetEdit"
-            android:theme="@style/ThemeLight.EditDialog"/>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name=".activity.ManageCategories"
@@ -141,41 +146,38 @@
             android:theme="@style/ThemeLight.EditDialog">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
+                android:resource="@xml/searchable"></meta-data>
         </activity>
 
-        <activity android:name=".activity.Distribution"
-                  android:exported="false"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.Distribution"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
 
         <activity
             android:name=".activity.GrisbiImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
 
         <activity
             android:name=".activity.QifImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
 
         <activity
             android:name=".activity.CsvImportActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".activity.MyPreferenceActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
@@ -183,25 +185,21 @@
             android:name=".activity.Help"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.ManageParties"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
-        </activity>
+            android:theme="@style/ThemeLight.EditDialog"></activity>
 
-        <activity
-            android:name=".activity.ManageBudgets">
-        </activity>
+        <activity android:name=".activity.ManageBudgets"></activity>
 
         <activity
             android:name=".activity.ManageStaleImages"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
-        </activity>
+            android:theme="@style/ThemeLight.EditDialog"></activity>
 
         <activity
             android:name=".activity.ManageTemplates"
@@ -209,37 +207,35 @@
             android:theme="@style/ThemeLight.EditDialog"
             tools:ignore="UnusedAttribute">
             <intent-filter>
-                <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT"/>
+                <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/event"/>
+                <data android:mimeType="vnd.android.cursor.item/event" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses"/>
+                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
 
         <activity
             android:name=".activity.ManageMethods"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
-        </activity>
+            android:theme="@style/ThemeLight.EditDialog"></activity>
 
         <activity
             android:name=".activity.FolderBrowser"
-            android:theme="@style/ThemeLight.EditDialog">
-        </activity>
+            android:theme="@style/ThemeLight.EditDialog"></activity>
 
         <activity
             android:name=".activity.CalculatorInput"
             android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
@@ -247,51 +243,48 @@
             android:name=".activity.ContribInfoDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.ManageCurrencies"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
-        </activity>
+            android:theme="@style/ThemeLight.EditDialog"></activity>
 
         <activity
             android:name=".activity.ManageSyncBackends"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
-        </activity>
+            android:theme="@style/ThemeLight.EditDialog"></activity>
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask">
             <intent-filter>
-                <data android:scheme="db-09ctg08r5gnsh5c"/>
-                <action android:name="android.intent.action.VIEW"/>
+                <data android:scheme="db-09ctg08r5gnsh5c" />
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity android:name=".activity.RoadmapVoteActivity">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
+                android:resource="@xml/searchable"></meta-data>
         </activity>
 
         <activity android:name=".activity.HistoryActivity" />
 
-        <activity android:name=".activity.DropboxSetup"/>
+        <activity android:name=".activity.DropboxSetup" />
 
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"
             android:exported="false"
-            android:syncable="true"/>
+            android:syncable="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -300,47 +293,47 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/image_path"/>
+                android:resource="@xml/image_path" />
         </provider>
 
         <provider
             android:name=".provider.CalendarProviderProxy"
             android:authorities="${applicationId}.calendarinstances"
-            android:exported="false"/>
+            android:exported="false" />
 
         <service
             android:name=".service.PlanExecutor"
             android:exported="${debug}"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
-                <action android:name="${applicationId}.ACTION_SCHEDULE_EXECUTE_PLANS"/>
-                <action android:name="${applicationId}.ACTION_EXECUTE_PLANS"/>
+                <action android:name="${applicationId}.ACTION_SCHEDULE_EXECUTE_PLANS" />
+                <action android:name="${applicationId}.ACTION_EXECUTE_PLANS" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.PlanNotificationClickHandler"/>
+        <service android:name=".service.PlanNotificationClickHandler" />
 
-        <service android:name=".service.SyncNotificationDismissHandler"/>
+        <service android:name=".service.SyncNotificationDismissHandler" />
 
         <activity android:name=".activity.SimpleToastActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.SimpleImageActivity"
-            android:theme="@style/Launch"/>
+            android:theme="@style/Launch" />
 
-        <activity android:name=".activity.BudgetActivity"/>
+        <activity android:name=".activity.BudgetActivity" />
 
         <service
             android:name=".service.AutoBackupService"
             android:exported="${debug}"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
-                <action android:name="${applicationId}.ACTION_SCHEDULE_AUTO_BACKUP"/>
-                <action android:name="${applicationId}.ACTION_AUTO_BACKUP"/>
+                <action android:name="${applicationId}.ACTION_SCHEDULE_AUTO_BACKUP" />
+                <action android:name="${applicationId}.ACTION_AUTO_BACKUP" />
             </intent-filter>
         </service>
 
@@ -348,11 +341,11 @@
             android:name=".sync.GenericAccountService"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
+                android:resource="@xml/authenticator" />
         </service>
 
         <service
@@ -361,17 +354,17 @@
             android:process=":sync"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/sync_adapter"/>
+                android:resource="@xml/sync_adapter" />
         </service>
 
         <receiver android:name=".service.GenericAlarmReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
             </intent-filter>
         </receiver>
 
@@ -381,32 +374,42 @@
             android:name="org.totschnig.myexpenses.widget.AccountWidget"
             android:label="@string/widget_title_accounts">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_accounts"/>
+                android:resource="@xml/widget_info_generic" />
         </receiver>
 
         <receiver
             android:name="org.totschnig.myexpenses.widget.TemplateWidget"
             android:label="@string/widget_title_templates">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_templates"/>
+                android:resource="@xml/widget_info_generic" />
         </receiver>
+
+        <service
+            android:name=".widget.AccountWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name=".widget.TemplateWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <meta-data
             android:name="com.samsung.android.sdk.multiwindow.enable"
-            android:value="true"/>
+            android:value="true" />
         <meta-data
             android:name="com.sec.android.support.multiwindow"
-            android:value="true"/>
+            android:value="true" />
         <!-- <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/> -->
         <!-- <uses-library android:name="com.sec.android.app.multiwindow" android:required="false" /> -->
     </application>

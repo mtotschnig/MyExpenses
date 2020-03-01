@@ -64,7 +64,7 @@ import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
-import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
 import java.net.URI;
 import java.text.DateFormatSymbols;
@@ -196,8 +196,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       preference -> {
         trackPreferenceClick(preference);
         Bundle extras = new Bundle();
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-        extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+        extras.putBoolean(AbstractWidgetKt.EXTRA_START_FROM_WIDGET, true);
+        extras.putBoolean(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
         int nameId = 0, operationType = 0;
         Bitmap bitmap = null;
         if (matches(preference, SHORTCUT_CREATE_TRANSACTION)) {

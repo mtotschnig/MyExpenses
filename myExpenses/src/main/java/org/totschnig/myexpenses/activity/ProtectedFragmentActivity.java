@@ -78,7 +78,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.tracking.Tracker;
-import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -724,7 +724,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
    * @see <a href="http://stackoverflow.com/a/20643984/1199911">http://stackoverflow.com/a/20643984/1199911</a>
    */
   protected final boolean shouldUpRecreateTask(Activity from) {
-    return from.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
+    return from.getIntent().getBooleanExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET, false);
   }
 
   /*
@@ -1023,8 +1023,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void forwardDataEntryFromWidget(Intent intent) {
-    intent.putExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
-        getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
+    intent.putExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
+        getIntent().getBooleanExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
   }
 
   public enum ThemeType {

@@ -102,8 +102,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import org.totschnig.myexpenses.widget.AbstractWidget
-import org.totschnig.myexpenses.widget.TemplateWidget
+import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
 import java.io.Serializable
 import java.util.*
@@ -153,9 +152,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     @JvmField
     @State
     var isTemplate = false
-    private val recordTemplateWidget
-        get() = intent.getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false) &&
-                !ContribFeature.TEMPLATE_WIDGET.hasAccess()
     private var mIsResumed = false
     private var accountsLoaded = false
     private var shouldRecordAttachPictureFeature = false
@@ -308,7 +304,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
             }
             if (mNewInstance) {
-                if (!discoveryHelper.discover(this, amountInput.typeButton, String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
+                if (operationType == TYPE_TRANSFER || !discoveryHelper.discover(this, amountInput.typeButton, String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
                                 getString(R.string.discover_feature_expense_income_switch),
                                 1, DiscoveryHelper.Feature.EI_SWITCH, false)) {
                     discoveryHelper.discover(this, rootBinding.toolbar.OperationType, String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
@@ -645,7 +641,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             viewModel.save(it).observe(this, Observer {
                 onSaved(it)
             })
-            if (intent.getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
+            if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
                 when (operationType) {
                     Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, accountId)
                     TYPE_TRANSFER -> {
@@ -835,10 +831,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
             createNew = false
         } else {
-            if (recordTemplateWidget) {
-                recordUsage(ContribFeature.TEMPLATE_WIDGET)
-                TemplateWidget.showContribMessage(this)
-            }
             if (operationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
             }

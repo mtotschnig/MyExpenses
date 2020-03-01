@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This file is part of My Expenses. My Expenses is free software: you 
+<?xml version="1.0" encoding="utf-8"?><!-- This file is part of My Expenses. My Expenses is free software: you
   can redistribute it and/or modify it under the terms of the GNU General Public 
   License as published by the Free Software Foundation, either version 3 of 
   the License, or (at your option) any later version. My Expenses is distributed 
@@ -10,9 +9,10 @@
   see <http://www.gnu.org/licenses/>. -->
 <!-- inspired by Financisto -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget_list"
     android:minWidth="250dp"
     android:minHeight="40dp"
-    android:updatePeriodMillis="0"
-    android:initialLayout="@layout/widget_generic"
-    />
+    android:minResizeWidth="125dp"
+    android:resizeMode="vertical|horizontal"
+    android:updatePeriodMillis="0" />
 

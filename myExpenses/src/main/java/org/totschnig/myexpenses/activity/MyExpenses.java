@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.util.TypedValue;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -842,6 +843,14 @@ public class MyExpenses extends LaunchActivity implements
     if (!DistribHelper.isGithub() && feature == ContribFeature.AD_FREE) {
       finish();
     }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.main, menu);
+    return true;
   }
 
   @NonNull

@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.accounts.Account;
 import android.app.Dialog;
+import android.appwidget.AppWidgetProvider;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,7 +55,7 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
@@ -302,8 +303,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     updateWidgets(TemplateWidget.class);
   }
 
-  private void updateWidgets(Class<? extends AbstractWidget<?>> provider) {
-    AbstractWidget.updateWidgets(this, provider);
+  private void updateWidgets(Class<? extends AppWidgetProvider> provider) {
+    AbstractWidgetKt.updateWidgets(this, provider, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
   }
 
   public void validateLicence() {
