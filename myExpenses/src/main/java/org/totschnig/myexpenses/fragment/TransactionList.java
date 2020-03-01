@@ -1324,7 +1324,6 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (!getFilter().isEmpty()) {
         addChipsBulk(filterView, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()));
       }
-      getActivity().setTitle(mAccount.getLabelForScreenTitle(getContext()));
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
         MenuItem filterItem = filterMenu.getItem(i);

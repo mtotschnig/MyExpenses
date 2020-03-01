@@ -1072,9 +1072,11 @@ public class MyExpenses extends LaunchActivity implements
 
   private void setBalance() {
     long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE));
+    String label = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_LABEL));
     boolean isHome  = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
     mCurrentBalance = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.formatCurrency(new Money(currencyContext.get(currentCurrency), balance)));
+    mToolbar.setTitle(isHome ? getString(R.string.grand_total) : label);
     mToolbar.setSubtitle(mCurrentBalance);
     mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
   }
