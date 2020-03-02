@@ -291,7 +291,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   //from Guava
-  String getFileExtension(String fullName) {
+  private String getFileExtension(String fullName) {
     Preconditions.checkNotNull(fullName);
     String fileName = new File(fullName).getName();
     int dotIndex = fileName.lastIndexOf('.');
@@ -357,7 +357,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return result != null ? result : MIMETYPE_OCTET_STREAM;
   }
 
-  protected String getLastFileNamePart(String fileName) {
+  String getLastFileNamePart(String fileName) {
     return fileName.contains("/") ?
         StringUtils.substringAfterLast(fileName, "/") : fileName;
   }

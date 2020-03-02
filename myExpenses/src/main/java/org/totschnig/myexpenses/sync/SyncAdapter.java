@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -500,6 +501,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       if (autoBackupCloud != null && autoBackupCloud.equals(account.name)) {
         String fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME);
         try {
+          if (fileName == null) {
+            CrashHandler.report("KEY_UPLOAD_AUTO_BACKUP_NAME empty");
+            fileName = "backup-" + new SimpleDateFormat("yyyMMdd", Locale.US).format(new Date());
+          }
           log().i("Storing backup %s (%s)", fileName, autoBackupFileUri);
           backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
           removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI);
