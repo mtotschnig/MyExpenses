@@ -174,4 +174,5 @@
   <string name="form_BudgetEdit_accounts_help_text">Un propuesto está limitado a una cuenta, cubriendo todas las cuentas con la misma divisa, o se refiere al conjunto total de todas las divisas.</string>
   <string name="form_BudgetEdit_filter_help_text">Se pueden filtrar los presupuestos con respecto a las categorías, grupos, métodos o estados. Sólo se tienen en cuenta las transacciones emparejadas con estos filtros.</string>
   <string name="form_BudgetEdit_type_help_text">Un presupuesto se define como regular (diario, mensual, semanal, anual) o puntual. Para los presupuestos puntuales, especifique el comienzo y fin de su duración. Por otro lado, un presupuesto regular (no filtrado) puede configurarse por defecto: cada lista de transacción (si está configurada en grupo de datos por días, semanas, meses o años) mostrará el progreso de ese presupuesto para cada periodo.</string>
+  <string name="cab_remap_help_text">Utilice los comandos de este submenú si quiere cambiar el atributo asignado (cuenta, categoría, ordenante/acreedor o método de pago) para todas las transacciones seleccionadas.</string>
 </resources>

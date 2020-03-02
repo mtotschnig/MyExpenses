@@ -15,8 +15,97 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_307">
+        <item>تحرير بالجملة</item>
+    </string-array>
+    <string-array name="whats_new_306">
+        <item>الميزانية 2.0</item>
+    </string-array>
+    <string-array name="whats_new_305">
+        <item>تطبيق جديد للمزامنة عبر Dropbox و Drive</item>
+    </string-array>
+    <string-array name="whats_new_304">
+        <item>تحميل التغيرات علي سعر الصرف</item>
+    </string-array>
+    <string-array name="whats_new_303">
+        <item>الترجمة للتاميل</item>
+        <item>زر مزامنة الآن في القائمة الرئيسية</item>
+        <item>يمكن تعطيل المزامنة الفورية بعد التغييرات</item>
+    </string-array>
+    <string-array name="whats_new_302">
+        <item>ايقونات الفئات</item>
+    </string-array>
+    <string-array name="whats_new_301">
+        <item>يمكن أن تكون الحسابات مغلقة أو مخفية</item>
+    </string-array>
+    <string-array name="whats_new_300">
+        <item>الترجمة للأوكرانية</item>
+        <item>البيانات المملوءة مسبقا أصبحت قابلة للتعديل</item>
+    </string-array>
+    <string-array name="whats_new_299">
+        <item>تشفير للنسخ الاحتياطي وبيانات التزامن</item>
+    </string-array>
+    <string-array name="whats_new_298">
+        <item>تصفية للمعاملات دون تعيين إلى فئات أو المستفيدين أو أساليب</item>
+        <item>التخزين الأمثل للبيانات المتزامنة</item>
+    </string-array>
+    <string-array name="whats_new_297">
+        <item>تخصيص العملات</item>
+    </string-array>
+    <string-array name="whats_new_295">
+        <item>امكانية اختيار ألوان الفئات الأساسية</item>
+    </string-array>
+    <string-array name="whats_new_293">
+        <item>المبالغ المستهدفة للادخار و حدود الائتمان</item>
+        <item>يمكن طي مجموعات الحسابات (حسب النوع أو العملة)</item>
+    </string-array>
+    <string-array name="whats_new_292">
+        <item>اعاده تصميم قائمة الحسابات</item>
+        <item>امكانية المزامنة باستخدام Wi-Fi حصراً</item>
+    </string-array>
+    <string-array name="whats_new_291">
+        <item>تحديد وقت المعاملات اصبح اختياري</item>
+        <item>التمييز اختياريا بين تاريخ الحجز وتاريخ القيمة</item>
+    </string-array>
+    <string-array name="whats_new_290">
+        <item>يمكن تجميع المعاملات المتعددة في عملية واحدة مقسمة</item>
+        <item>إلغاء تصنيف المعاملات المنقسمة في مجموعات</item>
+    </string-array>
+    <string-array name="whats_new_289">
+        <item>التحويل بين عملات أجنبية والعملة المحلية</item>
+    </string-array>
+    <string-array name="whats_new_288">
+        <item>مخطط زمني (التدفق النقدي)</item>
+    </string-array>
+    <string-array name="whats_new_287">
+        <item>الحماية بواسطة شاشة قفل الجهاز</item>
+    </string-array>
+    <string-array name="whats_new_286">
+        <item>يمكن مشاركة تصدير ( طباعة ) PDF</item>
+    </string-array>
+    <string-array name="whats_new_285">
+        <item>المزامنة باستخدام Dropbox</item>
+    </string-array>
+    <string-array name="whats_new_284">
+        <item>البيانات المملوءة مسبقا أصبحت قابلة للتعديل</item>
+    </string-array>
+    <string-array name="whats_new_283">
+        <item>اتجاه الفرز التصاعدي (أقدم المعاملات في الأعلى)</item>
+    </string-array>
+    <string-array name="whats_new_282">
+        <item>قوالب وخطط للمعاملات المقسمة</item>
+        <item>إدخال مفتاح الترخيص</item>
+        <item>أدوات الشاشة الرئيسية تتكيف مع حجم الخط المفضل للمستخدم</item>
+    </string-array>
     <string-array name="whats_new_281">
         <item>خيارات لخطط مخصصة</item>
-        <item>إصلاح تخزين سحابة من النسخ الاحتياطية الكبيرة</item>
+        <item>إصلاح التخزين السحابي للنسخ الاحتياطية الكبيرة</item>
     </string-array>
-    </resources>
+    <string-array name="whats_new_280">
+        <item>الترجمة للعبرية</item>
+        <item>امكانيه تحديد لون مخصص لكل حساب</item>
+    </string-array>
+    <string name="bug_fixes">إصلاح الأخطاء</string>
+    <string name="performance_enhancement">تحسينات علي الأداء</string>
+    <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
+</resources>

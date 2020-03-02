@@ -864,8 +864,20 @@
   <string name="dialog_title_warning_delete_budget">Да се изтрие ли бюджетът?</string>
   <string name="warning_delete_budget">Бюджетът „%1$s“ ще бъде изтрит.</string>
   <string name="menu_edit_budget">Редактиране на бюджет</string>
+  <string name="onboarding_privacy_title">Данните ви остават във вашите ръце</string>
+  <string name="onboarding_privacy_intro">Вашите финансови данни не се изпращат до никой сървър, те не се обработват от нас, нито от трета страна.</string>
+  <string name="app_restart_required">За да влезе в сила новата конфигурация се изисква рестартиране на приложението.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">Подразбиращ се</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">Групово редаактиране</string>
+  <string name="dialog_title_confirm_remap">Да запиша ли \'%s\'?</string>
+  <string name="remap_category">Избраните транзакции ще бъдат записани в категория %s.</string>
+  <string name="remap_payee">Избраните транзакции ще бъдат записани с платец / получател %s.</string>
+  <string name="remap_method">Избраните транзакции ще бъдат записани с метод %s.</string>
+  <string name="remap_account">Избраните транзакции ще бъдат записани в сметка %s.</string>
+  <string name="remapping_result">Избраните транзакции бяха презаписани.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">Не бе намерен общ елемент, който може да бъде редактиран във всички избрани транзакции.</string>
 </resources>

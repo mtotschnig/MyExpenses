@@ -2,43 +2,69 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Účet</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Typy účtů</string>
   <string name="account_type_asset">Účet aktiv</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_bank">Bankovní účet</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">Bankovní účty</string>
   <string name="account_type_cash">Peněžní účet</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">Peněžní účty</string>
   <string name="account_type_ccard">Kreditní karta</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_ccard_plural">Kreditní karty</string>
   <string name="account_type_liability">Účet závazků</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_liability_plural">Účty závazků</string>
   <string name="already_defined">%1$s již definován.</string>
   <string name="amount">Částka</string>
   <string name="app_name">Moje výdaje</string>
-  <string name="backup_failure">Zálohování na paměťovou kartu se nezdařilo (%1$s).</string>
-  <string name="backup_success">Databáze a preference byly úspěšně zapsány na paměťovou kartu (%1$s).</string>
+  <string name="backup_failure">Záloha na \"%1$s\" se nezdařila.</string>
+  <string name="backup_success">Databáze a předvolby úspěšně zapsány do \"%1$s\".</string>
   <string name="category">Kategorie</string>
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
+  <string name="confirmation_dialog_dont_show_again">Znovu již nezobrazit</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Bez reklam</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Připojte obrázek k transakci</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export seznamu transakcí do PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV souboru</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů</string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graf historie (Hotovost)</string>
+  <string name="licence_status_free">Zdarma</string>
   <string name="contrib_key">Klíč Contrib</string>
+  <string name="extended_key">Rozšířený klíč</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Vyžaduje %s.</string>
+  <string name="contrib_key_requires">Vyžaduje %1$s.</string>
   <string name="currency">Měna</string>
   <string name="current_balance">Aktuální zůstatek</string>
   <string name="date">Datum</string>
-  <string name="date_format">Formát data</string>
+  <string name="date_format">Formát datumu</string>
   <string name="date_format_illegal">Neplatný formát data</string>
+  <string name="number_format_illegal">Neplatný formát čísla</string>
+  <string name="decimal_separator">Oddělovač čísel</string>
+  <string name="default_account_name">Kniha rozpočtu</string>
   <string name="description">Popis</string>
-  <string name="dialog_command_disabled_reset_account">Žádné transakce pro export.</string>
-  <string name="dialog_command_disabled_distribution">Žádné transakce nebyly namapovány do kategorií v tomto účtu.</string>
+  <string name="dialog_confirm_discard_changes">Zrušit změny?</string>
+  <string name="dialog_confirm_discard_new_transaction">Zrušit novou transakci?</string>
+  <string name="dialog_confirm_discard_new_template">Zrušit novou šablonu?</string>
+  <string name="dialog_confirm_discard_new_account">Zrušit nový účet?</string>
+  <string name="dialog_confirm_discard_new_method">Zrušit novou platební metodu?</string>
+  <string name="dialog_command_disabled_insert_transfer">Odeslání transakce vyžaduje druhý účet.</string>
+  <string name="dialog_command_disabled_reset_account">Žádné transakce k export.</string>
+  <string name="dialog_command_disabled_distribution">Transakce na tomto účtu nebyly přiřazené do kategorií.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Vyzkoušet</string>
   <string name="dialog_contrib_no_usages_left">Nezbývá žádné použití zdarma.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce  (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> nenabízí reklamu a mají otevřený vývoj.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> je nabízena jako open source software.</string>
+  <string name="dialog_contrib_text_2">Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:</string>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
   <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
   <string name="dialog_password_activate_protection">Aktivovat ochranu heslem</string>

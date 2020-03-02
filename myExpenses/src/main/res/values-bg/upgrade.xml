@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_307">
+        <item>Групово редактиране</item>
+    </string-array>
     <string-array name="whats_new_306">
         <item>Бюджетиране 2.0</item>
     </string-array>

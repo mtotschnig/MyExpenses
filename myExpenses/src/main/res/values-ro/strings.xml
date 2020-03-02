@@ -34,6 +34,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+  <string name="licence_status_free">Gratuit</string>
   <string name="contrib_key">Cheie Contrib</string>
   <string name="extended_key">Cheie Extinse</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -48,14 +49,17 @@
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
   <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
+  <string name="dialog_confirm_discard_changes">Renunțați la modificări?</string>
   <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
   <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
   <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Încearcă</string>
   <string name="dialog_contrib_no_usages_left">Nu mai aveţi utilizare gratuită</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit fără publicitate şi open source.</string>
+  <string name="dialog_contrib_usage_count">Utilizări gratuite rămase.</string>
   <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
   <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>
   <string name="dialog_password_activate_protection">Activare protecţie prin parolă</string>
@@ -77,6 +81,11 @@
   <string name="dialog_title_balance_account">Sold  %1$s</string>
   <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
   <string name="dialog_title_template_title">Setează titlul</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Șterge cont?</item>
+    <item quantity="few">Ștergeți conturile %1$d?</item>
+    <item quantity="other">Ștergeți conturile %1$d?</item>
+  </plurals>
   <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
   <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
   <string name="expense">Cheltuială</string>
@@ -172,6 +181,7 @@
   <string name="menu_search">Căutare</string>
   <string name="menu_settings">Setări</string>
   <string name="menu_share">Recomandă</string>
+  <string name="button_label_close">Închide</string>
   <string name="menu_split_transaction">Transformă in repartizare</string>
   <string name="method">Modalitate de plată</string>
   <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
@@ -250,6 +260,7 @@
   <string name="pref_checkbox_disabled">Dezactivat</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Cumpăraţi Cheie</string>
+  <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
   <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
@@ -273,6 +284,7 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
   <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
+  <string name="pref_perform_protection_title">Protecţie</string>
   <string name="pref_perform_share_title">Partajaţi exporturile şi backup-urile</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>
@@ -394,6 +406,7 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>
@@ -410,12 +423,14 @@
   <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Sus</string>
   <!--This is used as content description for the navigation control in the widgets-->
+  <string name="menu_sort_down">Jos</string>
   <string name="create_new_folder_fail">Eşec la crearea folderului</string>
   <string name="widget_title_accounts">Conturile mele</string>
   <string name="widget_title_templates">Şabloanele mele</string>
   <string name="search_amount">Caută o valoare</string>
   <string name="search_category">Caută o categorie</string>
   <string name="search_comment">Caută o notă</string>
+  <string name="search_date">Căutați data</string>
   <string name="search_status">Caută un status</string>
   <string name="search_payee">Caută un terţ</string>
   <string name="search_method">Caută o metodă</string>
@@ -444,8 +459,13 @@
   <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
   <string name="menu_view_picture">Vezi imagine</string>
   <string name="menu_delete_picture">Şterge imagine</string>
+  <string name="menu_change_picture">Atașați o imagine diferită</string>
   <string name="menu_distribution_show_pie_char">Afiseaza grafic pie</string>
+  <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
   <string name="menu_select_categories">Selectează categoriile bifate</string>
+  <string name="image_deleted">Poza a fost ștearsă</string>
+  <string name="transaction_deleted">Tranzacția a fost ștearsă</string>
+  <string name="export_handle_deleted_update_balance">Actualizați soldul de deschidere</string>
   <string name="file_name">Nume fişier</string>
   <string name="folder_name">Numele folder</string>
   <string name="menu_categories_export">Export ca QIF</string>
@@ -453,6 +473,7 @@
   <string name="csv_import_preview">Preview</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Inlatura</string>
+  <string name="csv_import_field_mapped_more_than_once">%s este mapat de mai multe ori.</string>
   <string name="csv_import_delimiter_comma">Virgula</string>
   <string name="csv_import_delimiter_semicolon">Punct si virgula</string>
   <string name="csv_import_delimiter_tab">Tab</string>
@@ -486,9 +507,14 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">aplicat</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Instanță următoare</string>
+  <string name="synchronization">Sincronizare</string>
+  <string name="synchronization_none">Fără sincronizare</string>
+  <string name="hint_url">URL</string>
   <string name="template">Şablon</string>
   <!--button leading user to purchase flow for licence keys-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="professional_key">Cheie profesională</string>
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
@@ -507,6 +533,7 @@
     but we warn the user if he includes this special item in the selection.-->
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
+  <string name="menu_close">Închide</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->

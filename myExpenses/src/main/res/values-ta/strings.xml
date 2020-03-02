@@ -698,7 +698,7 @@
   </plurals>
   <string name="feature_deprecated">கைவிடப்பட்டது</string>
   <string name="pref_protection_device_lock_screen_title">கருவியின் பூட்டு திரை</string>
-  <string name="pref_warning_only_one_protection">நீங்கள் %1$s மூலம் பாதுகாப்பைப் பயன்படுத்தும் முன், %2$s மூலம் பாதுகாப்பை நிறுத்த வேண்டும்.</string>
+  <string name="pref_warning_only_one_protection">நீங்கள் %1$s மூலம் பாதுகாப்பைப் பயன்படுத்தும் முன், நீங்கள் %2$s மூலம் பாதுகாப்பை நிறுத்த வேண்டும்.</string>
   <string name="warning_device_lock_screen_not_set_up_1">பாதுகாப்பான சாதன பூட்டு திரை அமைக்கப்படவில்லை.</string>
   <string name="warning_device_lock_screen_not_set_up_2">\'அமைப்புகள் -&gt; பாதுகாப்பு -&gt; திரைப்பூட்டு\';-க்கு சென்று ஒரு பூட்டு திரையை அமைக்கவும்.</string>
   <string name="snackbar_dismiss">அகற்று</string>
@@ -715,7 +715,7 @@
   <string name="menu_original_amount">அசல் தொகை</string>
   <string name="menu_equivalent_amount">நிகரான தொகை</string>
   <string name="home_currency_change_warning">நீங்கள் உங்கள் வீட்டு நாணயத்தை மாற்றினால், நிகரான தொகை மற்றும் மாற்று விகிதங்கள் இழக்கப்படும், மேலும் அவை மீண்டும் வரையறுக்கப்பட வேண்டும்.</string>
-  <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கலாம். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியால் மாற்றி வைக்கப்படும்</string>
+  <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கப்படும். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியால் மாற்றி வைக்கப்படும்</string>
   <string name="warning_ungroup_split_transactions">தேர்ந்தெடுக்கப்பட்ட பிளவு பரிவர்த்தனைகள் கலைக்கப்படும், அதாவது அவற்றின் பிளவுப் பகுதிகள் சாதாரண பரிவர்த்தனைகளாக மாற்றப்படும்.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">பிளவை கலை</string>
@@ -727,8 +727,8 @@
   <string name="split_transaction_one_success">பரிவர்த்தனை வெற்றிகரமாக பிரிவாக மாற்றப்பட்டது.</string>
   <string name="split_transaction_one_error">பரிவர்த்தனையை பிரிவாக மாற்ற முடியவில்லை.</string>
   <string name="split_transaction_group_success">%1$d பரிவர்த்தனைகள் ஒரு பிரிவு பரிவர்த்தனையாக வெற்றிகரமாக குழுவமைக்கப்பட்டது.</string>
-  <string name="split_transaction_group_error">பரிமாற்றங்களை பிரிவாக பிரிக்க குழுவமைக்க முடியவில்லை.</string>
-  <string name="split_transaction_not_possible">ஒரே கணக்கு, பணம் பெறுபவர், மற்றும் நிலை கொண்ட பரிவர்த்தனைகளை மட்டுமே ஒரே பிரிவு பரிவர்த்தனையாக குழுவமைக்க முடியும்.</string>
+  <string name="split_transaction_group_error">பரிமாற்றங்களை பிரிவாக குழுவமைக்க முடியவில்லை.</string>
+  <string name="split_transaction_not_possible">ஒரே கணக்கு, பணம் பெறுபவர் மற்றும் நிலை கொண்ட பரிவர்த்தனைகளை மட்டுமே ஒரே பிரிவு பரிவர்த்தனையாக குழுவமைக்க முடியும்.</string>
   <string name="pref_transaction_time_summary">சரியான பரிவர்த்தனை நேரத்தை அமைக்க அனுமதி.</string>
   <string name="pref_value_date_summary">பதிவு தேதிக்கு கூடுதலாக மதிப்பு தேதியை அமைக்க அனுமதி. பரிவர்த்தனை நேரம் மறைக்கப்படும். இந்த அமைப்பு பண கணக்குகளில் பயன்படுத்தப்படாது.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
@@ -743,14 +743,14 @@
   <string name="pref_category_title_privacy">தனியுரிமை</string>
   <string name="pref_ad_consent_title">தனிப்பயனாக்கப்பட்ட விளம்பரங்கள்</string>
   <string name="ad_consent_non_personalized">தனிப்பயனாக்கப்படாத விளம்பரங்கள்</string>
-  <string name="gdpr_consent_message">விளம்பரங்களைக் காட்டுவதன் மூலம் {app_name} இன் ஆதரவு, பராமரிப்பு மற்றும் வளர்ச்சி ஆகியவற்றைத் தக்கவைத்துக் கொள்வதற்காக நாங்கள் {ad_provider} உடன் நாங்கள் தொழில் கூட்டு வைத்துள்ளோம். உங்கள் ஒப்புதலை நாங்கள் கேட்க விரும்புகிறோம். நீங்கள் விளம்பரங்களைப் பார்க்க விரும்பவில்லை எனில், விளம்பரமற்ற பதிப்பிற்கு பணம் செலுத்தவும்.</string>
+  <string name="gdpr_consent_message">விளம்பரங்களைக் காட்டுவதன் மூலம் {app_name} இன் ஆதரவு, பராமரிப்பு மற்றும் வளர்ச்சி ஆகியவற்றைத் தக்கவைத்துக் கொள்வதற்காக {ad_provider} உடன் நாங்கள் தொழில் கூட்டு வைத்துள்ளோம். உங்கள் ஒப்புதலை நாங்கள் கேட்க விரும்புகிறோம். நீங்கள் விளம்பரங்களைப் பார்க்க விரும்பவில்லை எனில், விளம்பரமற்ற பதிப்பிற்கு பணம் செலுத்தவும்.</string>
   <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">ஆம், விளம்பரங்களை தொடர்ந்து பார்க்கவும்</string>
   <string name="gdpr_consent_button_no">விளம்பரம் இல்லாத பதிப்பிற்கு பணம் செலுத்து</string>
   <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
   <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
   <string name="pref_sync_wifi_only_summary">Wi-Fi இல் மட்டுமே ஒத்திசை</string>
   <string name="pref_sync_changes_immediately_summary">உள் மாற்றங்களை உடனடியாக பின்தளத்திற்கு எழுதவும்</string>
-  <string name="wifi_not_connected">சாதனமானது வைஃபையுடன் Wi-Fi இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
+  <string name="wifi_not_connected">சாதனமானது Wi-Fi-யுடன் இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">மொழிபெயர்ப்பு</string>
   <!--Content description for accessibility on image that allows to collapse content-->
@@ -776,18 +776,18 @@
   <string name="budget_table_header_spent">செலவிடப்பட்டது</string>
   <string name="budget_table_header_remainder">மீதம்</string>
   <string name="budget_allocated_amount">ஒதுக்கீடு செய்யப்பட்ட தொகை</string>
-  <string name="budget_exceeded_error_1_1">உங்கள் செலவுத் திட்டமிடப்பட்ட தொகையில் %s போக அனைத்தும் மற்ற வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
-  <string name="budget_exceeded_error_1_2">உங்கள் செலவுத் திட்டமிடப்பட்ட தொகை அனைத்தும் மற்ற வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
+  <string name="budget_exceeded_error_1_1">நீங்கள் திட்டமிட்ட தொகையில் %s போக அனைத்தும் மற்ற வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
+  <string name="budget_exceeded_error_1_2">நீங்கள் திட்டமிட்ட தொகை அனைத்தும் மற்ற வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
   <string name="budget_exceeded_error_2">திட்டமிடப்பட்ட தொகையை அதிகரிக்கவும் அல்லது பிற வகைகளிலிருந்து பணத்தை நீக்கவும்.</string>
   <string name="budget_under_allocated_error">%s ஏற்கனவே வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது. நீங்கள் அவைகளிலிருந்து பணத்தை நீக்காத பட்சத்தில், குறைந்த பட்சம் அந்த தொகையையாவது திட்டமிட வேண்டும்.</string>
   <string name="sub_budget_exceeded_error_1_1">முக்கிய வகைக்கு ஒதுக்கப்பட்டத் தொகையில் %s போக அனைத்தும் மற்ற துணை வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
-  <string name="sub_budget_exceeded_error_1_2">முக்கிய வகைக்கு ஒதுக்கப்பட்டத் தொகை அனைத்தும் மற்ற துணை வகைகளுக்கு ஒதுக்கப்பட்டுவிட்டன.</string>
+  <string name="sub_budget_exceeded_error_1_2">முக்கிய வகைக்கு ஒதுக்கப்பட்டத் தொகை அனைத்தும் மற்ற துணை வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
   <string name="sub_budget_exceeded_error_2">முக்கிய வகைக்கு ஒதுக்கப்பட்டத் தொகையை அதிகரிக்கவும் அல்லது பிற துணை வகைகளிலிருந்து பணத்தை நீக்கவும்.</string>
   <string name="sub_budget_under_allocated_error">%s ஏற்கனவே துணை வகைகளிளுக்கு ஒதுக்கப்பட்டுவிட்டன. நீங்கள் அவைகளிலிருந்து பணத்தை நீக்காத பட்சத்தில், குறைந்த பட்சம் அந்த தொகையையாவது முக்கிய வகைக்கு திட்டமிட வேண்டும்.</string>
   <!--Description for button that allows to clear the selected method-->
-  <string name="content_description_clear_method">முறைகளை நீக்கு</string>
+  <string name="content_description_clear_method">முறையை நீக்கு</string>
   <!--Description for button that allows to clear the selected category-->
-  <string name="content_description_clear_category">வகைகளை அழி</string>
+  <string name="content_description_clear_category">வகையை நீக்கு</string>
   <string name="currency_code">குறியீடு</string>
   <string name="dialog_title_new_currency">புதிய நாணயம்</string>
   <string name="currency_code_already_definded">நாணய குறியீடு ஏற்கனவே வரையறுக்கப்பட்டுள்ளது.</string>

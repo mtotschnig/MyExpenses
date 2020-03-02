@@ -2,20 +2,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Meniu Comenzi</string>
   <string name="help_contextual_actions">Acţiuni contextuale</string>
+  <string name="help_contextual_actions_help">Meniul contextual apare ţinând apăsat pe o tranzacție.</string>
   <string name="help_form_fields">Campuri Formular</string>
   <string name="cab_delete_help_text">Şterge elementele selectate</string>
   <string name="cab_edit_help_text">Editează elementul selectat</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista tranzacţii</string>
+  <string name="help_MyExpenses_info">Acest ecran listează toate tranzacțiile pentru contul curent. Folosiți butonul de acțiune flotant ca să deschideți formularul pentru a crea o noua tranzacție.</string>
   <string name="help_MyExpenses_crStatus_info">Statutul  tranzacției este indicată printr-un dreptunghi de culoare: gri pentru nedecontat, albastru pentru procesat, verde pentru decontat. Faceţi clic pe dreptunghi, pentru a modifica statutul.</string>
+  <string name="menu_reset_help_text">Comanda aceasta va exporta toate tranzacțiile contului curent într-un fișier pe cardul SD în format QIF sau CSV. Puteți alege să ștergeți tranzacțiile exportate, în acest caz soldul de deschidere va fi ajustat automat. Alternativ, dacă tranzacțiile nu sunt șterse, acestea vor fi marcate ca fiind exportate. Aplicația pote partaja fișierul imediat după export prin FTP, e-mail sau orice altă aplicație de partajare a fișierelor, aplicația poate fi configurată pentru a face acest lucru în Setări. Dacă un filtru de căutare este activ, vor fi luate în considerare numai tranzacțiile filtrate.</string>
   <string name="menu_grouping_help_text">Puteţi grupa operaţiunile de zi, săptămână, lună sau an. Pentru fiecare grupare, suma veniturilor, cheltuielilor şi a transferurilor este calculată şi afişată. Când faceţi clic pe un antet de grup, grupul  tranzacţiiloreste restrâns şi numai antetul este afişat. Faceţi clic din nou pentru a extinde.</string>
+  <string name="menu_sort_direction_help_text">Transacțiile pot fi sortate în ordine crescătoare (cea mai vechie sus) sau descendentă (cea mai nouă sus).</string>
   <string name="menu_distribution_help_text">Afişează distribuţia cheltuielilor pe categorii. De asemenea, clic  lung pe un antet de grup pentru a inspecta distribuţia pe o anumită perioadă de timp.</string>
+  <string name="menu_budget_help_text">Gestionează bugetele zilnice, săptămânale, lunare sau anuale pentru contul afișat.</string>
   <string name="menu_manage_plans_help_text">Deschide lista de şabloane şi scadenţe, de unde le puteţi aplica, edita sau şterge, sau defini scadenţe  pentru tranzacţii viitoare şi periodice.</string>
   <string name="menu_balance_help_text">Această comandă deschide o fereastra de dialog care afişează ultimul sold decontat şi soldul procesat. Puteţi compara aceasta cu extrasul dvs bancar, şi marca toate  tranzacţiile procesate ca decontate. Opţional puteţi decide să ştergeţi tranzacţii decontate.</string>
   <string name="menu_print_help_text">Generează o vedere imprimabilă  a tranzacţiilor afişate în momentul respectiv.</string>
   <string name="menu_search_help_text">Această intrare deschide un submeniu care vă permite să definiţi criterii de căutare bazat pe categoria, valoarea, comentariu, statutul,  terţ si metoda de plata. Atunci când un filtru de căutare este activ, pur şi simplu faceţi clic pe intrarea din submeniul pentru a-l dezactiva.</string>
   <string name="cab_create_template_from_transaction_help_text">Definiţi un şablon nou bazat pe tranzacţia selectată. Vă va solicita titlul pentru şablon.</string>
+  <string name="cab_clone_transaction_help_text">Tranzacțiile selectate vor fi clonate cu data și ora curente. Puteți face modificări înainte de a salva copia.</string>
+  <string name="cab_split_help_text">Puteți, mai tărziu, edita tranzacția pentru o a împârți după nevoi.</string>
   <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Acest ecran listează metodele de plată predefinite (Cec, Card de credit, Depozit, Debit direct) și vă permite și să definiți altele noi. Folosiți butonul de acțiune flotant pentru a deschide formularul creări unei noi metode de plată.</string>
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instanţiaţi şabloanele selectate şi salvaţi-le imediat.</string>
@@ -28,6 +36,7 @@
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Dacă tranzacţiile au fost create pentru evenimentele selectate , acestea vor fi şterse, dacă acestea au fost marcate ca anulate, steagurile sunt eliminate.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editarea tranzacţiei care a fost creată pentru scadenţa selectată.</string>
   <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Acest ecran afișează distribuția cheltuielilor și veniturilor dvs. pentru ori ce categorie, pentru toate tranzacțiile dintr-un cont sau pentru un anumit grup. Dacă extindeți o categorie principală din listă, graficul va afișa distribuția subcategoriilor sale. Dacă selectați o categorie din listă, aceasta va fi evidențiată în grafic și invers. Apăsați lung pe o categorie pentru a afișa o listă agregată a tranzacțiilor mapate pe acea categorie.</string>
   <string name="help_ManageCategories_select_mapping_info">Pe lângă acţiunile pe care puteţi efectua gestionarea categoriilor din ecranul  Preferinţe (creare, editare, ştergere) de pe acest ecran mapaţi o tranzacţie la o categorie selectată. Selectaţi o subcategorie pentru maparea la tranzacţia curentă  pur şi simplu făcând clic pe ea. Pentru a asocia o categorie principală,  apelaţi-o din meniul ei  contextual.</string>
   <string name="help_ManageCategories_select_filter_info">Selectaţi categoria pentru filtrarea listei de tranzacţii. Pentru a căuta o categorie principală, trebuie să apelaţi meniul ei contextual.</string>
   <string name="help_ManageCategories_manage_info">Acest ecran vă permite să creaţi, editaţi şi şterge categorii. În mod implicit, criteriu de sortare primar în lista  categoriilor este frecvenţa lor de utilizare (criteriul secundar este ordine alfabetică). Acest lucru vă oferă acces rapid la categoriile pe care le utilizaţi cel mai frecvent. Din setări, puteţi opta pentru sortarea categoriile în ordinea alfabetică. Facând clic pe o categorie principală, se deschide subcategoriile sale. Din meniul contextual al unei categorie principale, puteţi adăuga noi subcategorii, şterge o categorie sau s-o editaţi. Subcategorii au, de asemenea, meniuri contextuale pentru ştergere şi editare.</string>
@@ -35,15 +44,26 @@
   <string name="menu_back_help_text">Navigaţi la grupul anterior. Se poate face şi printr-un gest de deplasare al degetului de la stânga la dreapta.</string>
   <string name="menu_forward_help_text">Navigaţi la grupul următor. Se poate face şi printr-un gest de deplasare al degetului de la dreapta la stânga.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Deschide caseta de dialog pentru specificarea titlului al  unei noi subcategorii al categoriei selectate mai jos.</string>
+  <string name="cab_ManageCategories_move_help_text">Subcategoriile pot fi mutate într-o categorie principală diferită, sau pot fi transformate în categorii principale. Categoriile principale care nu au copii pot fi transformate în subcategorii pe o categorie principală diferită.</string>
   <string name="cab_ManageCategories_select_category_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
   <string name="menu_categories_setup_default_help_text">Un set de categorii implicite va fi importat.</string>
+  <string name="menu_categories_export_help_text">Categoriile vor fi exportate într-un fisier QIF.</string>
+  <string name="menu_distribution_show_pie_char_help_text">Comutați vizibilitatea graficului.</string>
+  <string name="menu_distribution_aggreate_help_text">În mod implicit, sumele calculate includ atât cheltuieli, cât și venituri. Puteți decide să le arătați separat, un buton din bara de acțiune vă permite să comutați între cheltuieli și venituri.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Categoria selectată va fi folosită pentru filtrarea listei de tranzacţie.</string>
+  <string name="menu_ManageCategories_search_help_text">Vor fi afișate doar categoriile principale și sub-categorii care se potrivesc interogării dvs.</string>
+  <string name="menu_ManageCategories_sort_help_text">Lista de categorii poate fi sortată după titlu (alfabetic), în funcție de frecvența de utilizare sau de ultima dată când a fost mapată o tranzacție.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formular pentru tranzacţii</string>
   <string name="help_ExpenseEdit_transfer_title">Formular pentru transferuri</string>
   <string name="help_ExpenseEdit_split_title">Formular pentru repartizări</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Formular repartizări categorie </string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formular repartizări transfer terţi</string>
+  <string name="form_account_help_text">Selectați contul din care aparține tranzacția.</string>
+  <string name="form_date_time_help_text">Introduceți data și ora la care a avut loc tranzacția.</string>
+  <string name="form_calculator_help_text">butonul deschide calculatorul.</string>
+  <string name="form_comment_help_text">Introduceți orice adnotare despre obiect.</string>
+  <string name="form_exchange_rate_help_text">Puteți specifica rata de conversie în ambele direcții ale transferului. Rata inversă și suma corespunzătoare a cursului de schimb valutar sunt calculate automat.</string>
   <string name="form_title_help_text">Introduceţi un titlu care identifică unic şablonul.</string>
   <string name="form_plan_help_text_mode">O scadenţă poate fi setată ca automată sau manuală. Atunci când apare o instanţă a unei scadenţe automate, tranzacţia va fi creată, şi veţi primi o notificare. Atunci când scadenţa este manuală, de asemenea, primiţi o notificare, care vă dă posibilitatea anulării, modificării sau aplicării unui şablon.</string>
   <string name="menu_save_help_text">Salvaţi datele şi închideţi  formularul.</string>
@@ -51,6 +71,8 @@
   <string name="menu_invert_transfer_help_text">Inversează direcţia transferului schimbând contul \'De la\' şi \'Către\'.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formular pentru conturi</string>
+  <string name="form_AccountEdit_label_help_text">Eticheta identifică contul din lista de conturi.</string>
+  <string name="form_AccountEdit_amount_switch_help_text">Folosiți comutatorul pentru a începe cu un sold de deschidere negativ.</string>
   <string name="menu_exclude_from_totals_help_text">Dacă bifaţi această opţiune, acest cont nu va fi inclus în agregatele pe moneda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formular pentru metode de plată</string>

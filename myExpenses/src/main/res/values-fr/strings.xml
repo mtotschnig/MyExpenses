@@ -805,7 +805,7 @@
   <string name="passphrase_for_synchronization">Entrez une phrase secrète si vous souhaitez que les données de synchronisation sur ce backend soient cryptées.</string>
   <string name="sync_backend_is_encrypted">Le backend distant est crypté. Vous devez spécifier une phrase secrète.</string>
   <string name="sync_backend_wrong_passphrase">Le backend distant semble crypté avec une phrase secrète différente.</string>
-  <string name="sync_backend_is_not_encrypted">Le backend distant n\'est pas crypté.</string>
+  <string name="sync_backend_is_not_encrypted">Le serveur distant n\'est pas crypté.</string>
   <string name="warning_backup_protected">L\'archive sera protégée par votre phrase secrète.</string>
   <string name="dialog_title_backup_protected">Sauvegarde (cryptée)</string>
   <string name="input_label_passphrase">Phrase secrète</string>
@@ -847,7 +847,7 @@
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">Utilisez ce bouton pour enregistrer le revenu.</string>
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">Utilisez ce menu déroulant pour enregistrer les transferts entre comptes ou les transactions fractionnées.</string>
+  <string name="discover_feature_operation_type_select">Utilisez ce menu déroulant pour enregistrer les transferts entre comptes ou les transactions ventilées.</string>
   <string name="menu_create_budget">Nouveau budget</string>
   <string name="budget_onetime">Une fois</string>
   <string name="dialog_confirm_discard_new_budget">Annuler le nouveau budget?</string>
@@ -870,14 +870,14 @@
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
   <string name="checkbox_is_default">Défaut</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <string name="menu_remap">Remapper</string>
+  <string name="menu_remap">Réaffecter</string>
   <string name="dialog_title_confirm_remap">Modifier (%s)?</string>
   <string name="remap_category">Toutes les opérations sélectionnées seront mises en correspondance avec la catégorie %s.</string>
   <string name="remap_payee">Toutes les opérations sélectionnées seront mises en correspondance avec le tiers %s.</string>
   <string name="remap_method">Toutes les opérations sélectionnées seront mises en correspondance avec la méthode %s.</string>
   <string name="remap_account">Toutes les opérations sélectionnées seront mises en correspondance avec le compte %s.</string>
-  <string name="remapping_result">Les transactions sélectionnées ont été remappées.</string>
+  <string name="remapping_result">Les transactions sélectionnées ont été réaffectées.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
-  <string name="remap_empty_list">Aucun élément n\';a été trouvé, qui peut être mis en correspondance avec toutes les opérations sélectionnées.</string>
+  <string name="remap_empty_list">Aucun élément n\'a été trouvé, qui peut être mis en correspondance avec toutes les opérations sélectionnées.</string>
 </resources>

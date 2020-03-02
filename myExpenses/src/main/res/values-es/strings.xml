@@ -864,8 +864,20 @@
   <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
   <string name="warning_delete_budget">El presupuesto \"%1$s\" será eliminado.</string>
   <string name="menu_edit_budget">Editar presupuesto</string>
+  <string name="onboarding_privacy_title">Tu información se queda contigo</string>
+  <string name="onboarding_privacy_intro">Tu información financiera no se envía a ningún servidor, así como tampoco son tratadas por terceros o nosotros.</string>
+  <string name="app_restart_required">La nueva configuración requiere reiniciar la aplicación para que surta efecto.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">Por defecto</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">Reasignar</string>
+  <string name="dialog_title_confirm_remap">¿Cambiar asignación (%s)?</string>
+  <string name="remap_category">Todas las transacciones seleccionadas se asignarán a la categoría %s.</string>
+  <string name="remap_payee">Todas las transacciones seleccionadas se asignarán al ordenante/acreedor %s.</string>
+  <string name="remap_method">Todas las transacciones seleccionadas se asignarán al método %s.</string>
+  <string name="remap_account">Todas las transacciones seleccionadas se asignarán a la cuenta %s.</string>
+  <string name="remapping_result">Todas las transacciones seleccionadas fueron reasignadas.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">No se encontró ningún ítem que pueda asignarse a las transacciones seleccionadas.</string>
 </resources>

@@ -888,8 +888,20 @@
   <string name="dialog_title_warning_delete_budget">האם למחוק חשבון?</string>
   <string name="warning_delete_budget">התקציב \"%1$s\" ימחק?</string>
   <string name="menu_edit_budget">ערוך תקציב</string>
+  <string name="onboarding_privacy_title">הנתונים שלך נשארים בידיים שלך</string>
+  <string name="onboarding_privacy_intro">הנתונים הכספיים שלך לא נשלחים לשום שרת, לא מופעל על ידינו ולא על ידי גורם שלישי כלשהו.</string>
+  <string name="app_restart_required">תצורה חדשה מחייבת הפעלה מחדש של האפליקציה.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">ברירת מחדל</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">מיפוי מחדש</string>
+  <string name="dialog_title_confirm_remap">שנה מיפוי%s?</string>
+  <string name="remap_category">כל העסקאות שנבחרו ימופיו לקטגוריה %s.</string>
+  <string name="remap_payee">כל העסקאות שנבחרו ימופו למשלם / מקבל התשלום %s.</string>
+  <string name="remap_method">כל העסקאות שנבחרו ימופו לשיטה %s.</string>
+  <string name="remap_account">כל העסקאות שנבחרו ימופו לחשבון %s.</string>
+  <string name="remapping_result">העסקות שנבחרו מופו מחדש.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">לא נמצא פריט שניתן למפות אותו לכל העסקאות שנבחרו.</string>
 </resources>
