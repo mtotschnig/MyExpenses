@@ -7,10 +7,12 @@ import android.net.Uri;
 
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import androidx.annotation.NonNull;
+
 public interface ImageViewIntentProvider {
   Intent getViewIntent(Context context, Uri pictureUri);
 
-  default void startViewIntent(Activity activity, Uri pictureUri) {
+  default void startViewIntent(Activity activity, @NonNull Uri pictureUri) {
     try {
       activity.startActivity(getViewIntent(activity, pictureUri));
     } catch (SecurityException e) {

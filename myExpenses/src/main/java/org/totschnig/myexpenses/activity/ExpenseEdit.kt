@@ -1001,7 +1001,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private fun handlePicturePopupMenuClick(command: Int) {
         when (command) {
             R.id.DELETE_COMMAND -> unsetPicture()
-            R.id.VIEW_COMMAND -> imageViewIntentProvider.startViewIntent(this, delegate.pictureUri)
+            R.id.VIEW_COMMAND -> delegate.pictureUri?.let { imageViewIntentProvider.startViewIntent(this, it) }
             R.id.CHANGE_COMMAND -> startMediaChooserDo()
         }
     }
