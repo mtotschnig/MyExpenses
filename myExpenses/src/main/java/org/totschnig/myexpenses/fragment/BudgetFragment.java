@@ -256,9 +256,9 @@ public class BudgetFragment extends DistributionBaseFragment implements
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
           budget.getCurrency(), this);
-      mListView.setAdapter(mAdapter);
       mListView.addHeaderView(filterGroup, null, false);
       mListView.addHeaderView(budgetSummary, null, false);
+      mListView.setAdapter(mAdapter);
     }
 
     mGrouping = budget.getGrouping();
