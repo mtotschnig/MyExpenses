@@ -180,9 +180,14 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   }
 
   @NonNull
-  protected String getEmptyMessage() {
-    int resId = getArguments().getInt(KEY_EMPTY_MESSAGE);
-    return resId != 0 ? getString(resId) : "No data";
+  private String getEmptyMessage() {
+    final Bundle arguments = getArguments();
+    int resId = 0;
+    if (arguments != null) {
+      resId = arguments.getInt(KEY_EMPTY_MESSAGE);
+      if (resId != 0) return getString(resId);
+    }
+    return "No data";
   }
 
   protected int getChoiceMode() {
