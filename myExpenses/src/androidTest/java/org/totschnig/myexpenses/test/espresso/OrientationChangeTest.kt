@@ -84,6 +84,7 @@ class OrientationChangeTest {
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
         rotate()
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
+        rotate()
     }
 
     private fun rotate() {
@@ -100,12 +101,14 @@ class OrientationChangeTest {
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         mActivityRule.launchActivity(i)
+        Thread.sleep(100) //unfortunately needed if test starts in landscape
         onView(withId(R.id.Method)).perform(scrollTo(), click())
         val string = getString(PaymentMethod.PreDefined.CREDITCARD.resId)
         onData(allOf(instanceOf(org.totschnig.myexpenses.viewmodel.data.PaymentMethod::class.java), withMethod(string))).perform(click())
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
         rotate()
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
+        rotate()
     }
 
     private fun getString(resid: Int) = mActivityRule.activity.getString(resid)
@@ -119,12 +122,14 @@ class OrientationChangeTest {
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         mActivityRule.launchActivity(i)
-        onView(withId(R.id.Status)).perform(click())
+        Thread.sleep(100) //unfortunately needed if test starts in landscape
+        onView(withId(R.id.Status)).perform(scrollTo(), click())
         onData(allOf(instanceOf(Transaction.CrStatus::class.java), withStatus(Transaction.CrStatus.CLEARED))).perform(click())
         //withSpinnerText matches toString of object
         val string = Transaction.CrStatus.CLEARED.toString()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
         rotate()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
+        rotate()
     }
 }
