@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 import java.util.Collections;
 
 import androidx.annotation.RequiresApi;
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
@@ -66,7 +67,13 @@ public class ShortcutHelper {
         .setIcon(Icon.createWithResource(context, R.drawable.ic_menu_split_shortcut))
         .setIntent(intent)
         .build();
-    shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+    if (shortcutManager != null) {
+      try {
+        shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+      } catch (Exception e) {
+        Timber.e(e);
+      }
+    }
   }
 
   @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -86,7 +93,13 @@ public class ShortcutHelper {
         .setIcon(Icon.createWithResource(context, R.drawable.ic_menu_forward_shortcut))
         .setIntent(intent)
         .build();
-    shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+    if (shortcutManager != null) {
+      try {
+        shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+      } catch (Exception e) {
+        Timber.e(e);
+      }
+    }
 
   }
 }
