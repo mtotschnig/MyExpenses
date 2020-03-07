@@ -95,7 +95,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         super.onItemSelected(parent, view, position, id)
         when (parent.id) {
             R.id.TransferAccount -> {

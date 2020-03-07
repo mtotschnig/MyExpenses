@@ -479,7 +479,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         val host = context as ExpenseEdit
         if (parent.id != R.id.OperationType) {
             host.setDirty()
