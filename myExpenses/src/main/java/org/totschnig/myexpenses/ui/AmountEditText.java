@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
@@ -17,9 +18,12 @@ import java.text.DecimalFormatSymbols;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+import icepick.Icepick;
+import icepick.State;
 
 public class AmountEditText extends AppCompatEditText {
 
+  @State
   int fractionDigits = -1;
 
   DecimalFormat numberFormat = new DecimalFormat();
@@ -37,6 +41,15 @@ public class AmountEditText extends AppCompatEditText {
     super(context, attrs, defStyleAttr);
   }
 
+  @Override public Parcelable onSaveInstanceState() {
+    return Icepick.saveInstanceState(this, super.onSaveInstanceState());
+  }
+
+  @Override public void onRestoreInstanceState(Parcelable state) {
+    super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
+    setFractionDigits(fractionDigits);
+  }
+
   public DecimalFormat getNumberFormat() {
     return numberFormat;
   }
@@ -46,7 +59,6 @@ public class AmountEditText extends AppCompatEditText {
   }
 
   public void setFractionDigits(int fractionDigits) {
-    if (this.fractionDigits == fractionDigits) return;
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
@@ -66,7 +78,7 @@ public class AmountEditText extends AppCompatEditText {
         if (minorPart.length() > fractionDigits) {
           String newText = currentText.substring(0, decimalSeparatorIndex);
           if (fractionDigits > 0) {
-            newText += String.valueOf(decimalSeparator) + minorPart.substring(0, fractionDigits);
+            newText += decimalSeparator + minorPart.substring(0, fractionDigits);
           }
           setText(newText);
         }
@@ -118,8 +130,7 @@ public class AmountEditText extends AppCompatEditText {
           int existingMinorUnits = dest.length() - dend;
           int additionalAllowedMinorUnits = fractionDigits - existingMinorUnits;
           int additionalPossibleMinorUnits = input.length() - separatorPositionInSource - 1;
-          int extractMinorUnits = additionalPossibleMinorUnits >= additionalAllowedMinorUnits ?
-              additionalAllowedMinorUnits : additionalPossibleMinorUnits;
+          int extractMinorUnits = Math.min(additionalPossibleMinorUnits, additionalAllowedMinorUnits);
           input = input.substring(0, separatorPositionInSource).replace(String.valueOf
               (decimalSeparator), "") +
               decimalSeparator + (extractMinorUnits > 0 ?
