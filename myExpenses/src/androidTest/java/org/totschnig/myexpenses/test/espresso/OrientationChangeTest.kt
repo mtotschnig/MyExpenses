@@ -5,16 +5,22 @@ import android.content.OperationApplicationException
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.RemoteException
+import android.widget.TextView
 import androidx.test.InstrumentationRegistry
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -27,6 +33,7 @@ import org.junit.runner.RunWith
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IAccount
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -34,6 +41,8 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.withAccount
 import org.totschnig.myexpenses.testutils.withMethod
 import org.totschnig.myexpenses.testutils.withStatus
@@ -131,5 +140,36 @@ class OrientationChangeTest {
         rotate()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
         rotate()
+    }
+
+    @Test
+    fun shouldHandleNewInstanceAfterOrientationChange() {
+        Intent(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
+            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            mActivityRule.launchActivity(this)
+        }
+        rotate()
+        Espresso.onIdle()
+        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar)))).check(doesNotExist())
+        checkEffectiveVisible(R.id.OperationType)
+    }
+
+    @Test
+    fun shouldHandleExistingInstanceAfterOrientationChange() {
+        val id = with(Transaction.getNewInstance(account1!!.id)) {
+            amount = Money(currency1, -500L)
+            crStatus = Transaction.CrStatus.UNRECONCILED
+            save()
+            id
+        }
+        Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
+            putExtra(DatabaseConstants.KEY_ROWID, id)
+            mActivityRule.launchActivity(this)
+        }
+        rotate()
+        Espresso.onIdle()
+        checkEffectiveGone(R.id.OperationType)
+        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar))))
+                .check(matches(withText(R.string.menu_edit_transaction)))
     }
 }

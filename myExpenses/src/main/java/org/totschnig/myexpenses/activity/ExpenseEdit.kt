@@ -210,15 +210,18 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
+        val extras = intent.extras
+        mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
+        mNewInstance = mRowId == 0L
+
         if (savedInstanceState != null) {
             Icepick.restoreInstanceState(this, savedInstanceState)
-            delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler);
+            delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler)
             loadData()
-            delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null);
+            delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null)
+            setTitle()
         } else {
-            val extras = intent.extras
             var task: TransactionViewModel.InstantiationTask? = null
-            mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
                 if (mRowId != 0L) {
@@ -244,7 +247,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             // fetch the transaction or create a new instance
             if (task != null) {
-                mNewInstance = task == FROM_INTENT_EXTRAS
                 //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
                 viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false), true, extras).observe(this, Observer {
                     populateFromTask(it, task)
@@ -271,7 +273,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     }
                 }
                 parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
-                supportActionBar!!.setDisplayShowTitleEnabled(false)
                 var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
                     populateWithNewInstance(Template.getTypedNewInstance(operationType, accountId, true, if (parentId != 0L) parentId else null).also { mRowId = it.id })
@@ -313,13 +314,13 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 }
             }
         }
-        viewModel.getMethods().observe(this, Observer<List<PaymentMethod>> { paymentMethods ->
+        viewModel.getMethods().observe(this, Observer { paymentMethods ->
             delegate.setMethods(paymentMethods)
         })
         currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
             delegate.setCurrencies(currencies, currencyContext)
         })
-        viewModel.getAccounts().observe(this, Observer<List<Account>> { accounts ->
+        viewModel.getAccounts().observe(this, Observer { accounts ->
             if (accounts.size == 0) {
                 abortWithMessage(getString(R.string.warning_no_account))
             } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
@@ -452,11 +453,17 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         loadData()
         delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence)
         setHelpVariant(delegate.helpVariant)
-        if (!mNewInstance) {
-            setTitle(delegate.title)
-        }
+        setTitle()
         operationType = transaction.operationType()
         invalidateOptionsMenu()
+    }
+
+    private fun setTitle() {
+        if (mNewInstance) {
+            supportActionBar!!.setDisplayShowTitleEnabled(false)
+        } else {
+            setTitle(delegate.title)
+        }
     }
 
     override fun hideKeyBoardAndShowDialog(id: Int) {

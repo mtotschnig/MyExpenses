@@ -152,11 +152,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             planId = (transaction as? Template)?.plan?.id
             crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
-            setVisibility(viewBinding.toolbar.OperationType, newInstance)
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
         }
+        setVisibility(viewBinding.toolbar.OperationType, newInstance)
         originTemplateId?.let { host.loadOriginTemplate(it) }
         if (isSplitPart) {
             disableAccountSpinner()
