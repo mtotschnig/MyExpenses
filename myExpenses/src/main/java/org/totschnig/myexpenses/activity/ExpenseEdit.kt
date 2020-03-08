@@ -640,29 +640,31 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun saveState() {
-        delegate.syncStateAndValidate(true, currencyContext)?.let {
-            mIsSaving = true
-            if (planInstanceId > 0L) {
-                it.originPlanInstanceId = planInstanceId
-            }
-            viewModel.save(it).observe(this, Observer {
-                onSaved(it)
-            })
-            if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
-                when (operationType) {
-                    Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, accountId)
-                    TYPE_TRANSFER -> {
-                        prefHandler.putLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, accountId)
-                        (delegate as? TransferDelegate)?.mTransferAccountId?.let {
-                            prefHandler.putLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, it)
-                        }
-                    }
-                    Transactions.TYPE_SPLIT -> prefHandler.putLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, accountId)
+        if (::delegate.isInitialized) {
+            delegate.syncStateAndValidate(true, currencyContext)?.let {
+                mIsSaving = true
+                if (planInstanceId > 0L) {
+                    it.originPlanInstanceId = planInstanceId
                 }
+                viewModel.save(it).observe(this, Observer {
+                    onSaved(it)
+                })
+                if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
+                    when (operationType) {
+                        Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                        TYPE_TRANSFER -> {
+                            prefHandler.putLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                            (delegate as? TransferDelegate)?.mTransferAccountId?.let {
+                                prefHandler.putLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, it)
+                            }
+                        }
+                        Transactions.TYPE_SPLIT -> prefHandler.putLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                    }
+                }
+            } ?: run {
+                //prevent this flag from being sticky if form was not valid
+                createNew = false
             }
-        } ?: run {
-            //prevent this flag from being sticky if form was not valid
-            createNew = false
         }
     }
 
