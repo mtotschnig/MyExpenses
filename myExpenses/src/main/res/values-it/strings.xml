@@ -150,7 +150,7 @@
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_instance_edit">Applicare e modificare</string>
-  <string name="menu_create_instance_save">Applicare e salvare</string>
+  <string name="menu_create_instance_save">Applica e salva</string>
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
   <string name="menu_create_party">Nuovo beneficiario</string>
@@ -159,14 +159,14 @@
   <string name="menu_create_split_part_transfer">Nuovo trasferimento (frazionamento)</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
   <string name="menu_create_template">Nuovo modello</string>
-  <string name="menu_create_template_from_transaction">Salvare come modello</string>
+  <string name="menu_create_template_from_transaction">Salva come modello</string>
   <string name="menu_create_template_for_transaction">Nuovo modello (operazione)</string>
   <string name="menu_create_template_for_transfer">Nuovo modello (trasferimento)</string>
   <string name="menu_create_transaction">Nuova operazione</string>
   <string name="menu_create_transfer">Nuovo trasferimento</string>
-  <string name="menu_delete">Cancellare</string>
+  <string name="menu_delete">Elimina</string>
   <string name="menu_distribution">Distribuzione</string>
-  <string name="menu_edit">Modificare</string>
+  <string name="menu_edit">Modifica</string>
   <string name="menu_edit_account">Modifica il conto</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica modo di pagamento</string>
@@ -216,6 +216,7 @@
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_split_parts">Nessun frazionamento.</string>
   <string name="no_templates">Non ci sono modelli.</string>
+  <string name="no_accounts">Nessun conto.</string>
   <string name="no_title_given">Non hai inserito nessun titolo.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">L\'oggetto selezionato viene mappato a una operazione e non può essere cancellato.</item>
@@ -358,7 +359,7 @@
   <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
   <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
   <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d piani sono stati ripristinati dal backup</string>
-  <string name="save_transaction_and_new_success">Salvata con successo</string>
+  <string name="save_transaction_and_new_success">Salvato con successo</string>
   <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello.</string>
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">Nuova transazione salvata con successo da modello.</item>

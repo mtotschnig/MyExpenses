@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_308">
+        <item>Birden fazla hesap artık tek bir dosyaya dışa aktarılabilir</item>
+        <item>Hesap üst verileri artık eşleştirilebilir</item>
+        <item>İyileştirilmiş ana ekran widget\'ları</item>
+    </string-array>
     <string-array name="whats_new_307">
         <item>Toplu düzenleme</item>
     </string-array>

@@ -216,6 +216,7 @@
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_split_parts">Aucune sous-opération.</string>
   <string name="no_templates">Aucun modèle.</string>
+  <string name="no_accounts">Pas de comptes.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">L\'objet sélectionné est attribué à une opération et ne peut pas être supprimé.</item>

@@ -216,6 +216,7 @@
   <string name="no_parties">Keine Parteien.</string>
   <string name="no_split_parts">Keine Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
+  <string name="no_accounts">Keine Konten.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Das ausgewählte Objekt ist mit einer Buchung verknüpft und kann nicht gelöscht werden.</item>

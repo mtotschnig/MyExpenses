@@ -216,6 +216,7 @@
   <string name="no_parties">Bölüm yok.</string>
   <string name="no_split_parts">Hiçbir alt muamele yok.</string>
   <string name="no_templates">Şablon yok.</string>
+  <string name="no_accounts">Hesap yok.</string>
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Seçilen unsur bir muameleyle ilişkilidir ve silinemez.</item>

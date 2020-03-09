@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">Comandi di menù</string>
+  <string name="help_menu_commands">Comandi del menù</string>
   <string name="help_contextual_actions">Azioni contestuali</string>
-  <string name="help_contextual_actions_help">Il menù per le azioni contestuali viene visualizzato premendo a lungo su una voce dell\'elenco.</string>
+  <string name="help_contextual_actions_help">Il menù delle azioni contestuali viene visualizzato premendo a lungo su una voce dell\'elenco.</string>
   <string name="help_form_fields">Campi del modulo</string>
-  <string name="cab_delete_help_text">Cancellare gli elementi selezionati.</string>
-  <string name="cab_edit_help_text">Modificare l\'elemento selezionato.</string>
+  <string name="cab_delete_help_text">Elimina gli elementi selezionati.</string>
+  <string name="cab_edit_help_text">Modifica l\'elemento selezionato.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Elenco delle transazioni</string>
-  <string name="help_MyExpenses_info">Questa schermata elenca tutte le operazioni per il conto corrente. Utilizzare il pulsante di azione galleggiante per aprire il modulo per la creazione di una nuova operazione.</string>
+  <string name="help_MyExpenses_info">Questa schermata elenca tutte le operazioni del conto attuale. Utilizza il pulsante circolare per aprire il modulo per la creazione di una nuova operazione.</string>
   <string name="help_MyExpenses_crStatus_info">Lo stato della transazione è indicato da un rettangolo colorato: grigio per non riconciliata, blu per compensata, verde per riconciliata . Facendo clic sul rettangolo si modifica lo stato.</string>
-  <string name="menu_reset_help_text">Questo comando consente di esportare tutte le operazioni del conto corrente in un file sulla scheda SD in formato QIF o CSV. Si può decidere di eliminare le operazioni esportate, in tal caso il saldo di apertura viene regolato automaticamente. In alternativa, se le operazioni non vengono eliminate, saranno marcate come esportate. Le mie spese possono condividere il file immediatamente dopo l\'esportazione tramite FTP, email o qualsiasi altra file sharing app, se è configurarato per farlo nelle impostazioni. Se è attivo un filtro di ricerca, solo le operazioni selezionate dal filtro verranno prese in considerazione.</string>
+  <string name="menu_reset_help_text">Questo comando consente di esportare tutte le operazioni del conto attuale in un file sulla scheda SD in formato QIF o CSV. Si può decidere di eliminare le operazioni esportate, nel qual caso il saldo di apertura viene ricalcolato automaticamente. In alternativa, se le operazioni non vengono eliminate, saranno marcate come esportate. Immediatamente dopo l\'esportazione, Le mie spese può condividere il file tramite FTP, email, o qualsiasi altra applicazione di file sharing, se appropriatamente configurato dalle Impostazioni. Se un filtro di ricerca è attivo, solo le operazioni selezionate dal filtro verranno prese in considerazione.</string>
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno. Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate. Quando si fa clic su un\'intestazione di gruppo, il gruppo delle transazioni viene compresso e viene visualizzata solo l\'intestazione. Fare nuovamente clic per espandere.</string>
   <string name="menu_sort_direction_help_text">Le transazioni possono essere disposte in ordine ascendente (la più vecchia in alto) o discendente (la più recente in alto).</string>
   <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare un tocco prolungato su un\'intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>

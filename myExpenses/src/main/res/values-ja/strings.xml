@@ -215,6 +215,7 @@
   <string name="no_parties">取引先がありません。</string>
   <string name="no_split_parts">分割パートがありません。</string>
   <string name="no_templates">テンプレートがありません。</string>
+  <string name="no_accounts">勘定がありません。</string>
   <string name="no_title_given">タイトル/科目が入力されていません。</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="other">%1$d オブジェクトが取引に配置されています。削除できません。</item>
