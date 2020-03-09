@@ -25,7 +25,6 @@ contrib:
   - distribution
   - print
   - plans_unlimited
-  - template_widget
   - split_transaction
   - attach_picture
   - ad_free
@@ -65,6 +64,7 @@ title:
   el: Έξοδα μου
   iw: ההוצאות שלי
   uk: Мої Витрати
+  ta: எனது செலவுகள
 langs:
   de: Deutsch
   en: English
@@ -91,6 +91,7 @@ langs:
   el: Ελληνικά
   iw: עברית
   uk: українська
+  ta: தமிழ்
 paypal-lc:
   de: DE
   en: US
@@ -113,6 +114,76 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -
+    - 3.0.8
+    - "2020-03-09"
+    -
+      en: |
+        Multiple accounts can now be exported into one file. Account metadata is now synchronized. Improved homescreen widgets.
+      fr: |
+        Plusieurs comptes peuvent désormais être exportés dans un seul fichier. Les métadonnées du compte sont maintenant synchronisées. Amélioration des widgets de l'écran d'accueil.
+      de: |
+        Es können jetzt mehrere Konten in eine Datei exportiert werden. Kontometadaten werden jetzt synchronisiert. Verbesserte Homescreen-Widgets.
+      it: |
+        É ora possibile esportare più account in un unico file. I metadati del conto sono ora sincronizzati. Migliorati i widget della homescreen.
+      tr: |
+        Birden fazla hesap artık tek bir dosyaya dışa aktarılabilir. Hesap üst verileri artık eşleştirilebilir. İyileştirilmiş ana ekran widget'ları.
+      ja: |
+        複数の勘定を1つのファイルにエクスポートできるようになりました. 勘定のメタデータが同期されるようになりました. ホーム画面ウィジェットの改善.
+  -
+    - 3.0.7
+    - "2019-12-11"
+    -
+      en: |
+        Bulk editing.
+      fr: |
+        Édition en masse.
+      de: |
+        Mehrere Buchungen gleichzeitig bearbeiten.
+      it: |
+        Modifica in blocco.
+      es: |
+        Editar en bloque.
+      tr: |
+        Toplu düzenleme.
+      bg: |
+        Групово редактиране.
+      ja: |
+        一括編集.
+      iw: |
+        עריכה בכמות גדולה.
+      ta: |
+        மொத்த திருத்தம்.
+  -
+    - 3.0.6
+    - "2019-10-28"
+    -
+      en: |
+        Budgeting 2.0.
+      fr: |
+        Budgétisation 2.0.
+      de: |
+        Budgetierung 2.0.
+      it: |
+        Bilancio 2.0.
+      es: |
+        Presupuestos 2.0.
+      pt: |
+        Orçamento 2.0.
+      tr: |
+        Bütçeleme 2.0.
+      bg: |
+        Бюджетиране 2.0.
+      ms: |
+        Pembelanjawan 2.0.
+      ja: |
+        予算作成 2.0.
+      pl: |
+        Przydzielanie budżetu 2.0.
+      iw: |
+        תקצוב 2.0.
+      ta: |
+        வரவு செலவுத் திட்டம் 2.0.
   -
     - 3.0.5
     - "2019-09-13"

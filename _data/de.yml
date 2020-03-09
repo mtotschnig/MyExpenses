@@ -54,7 +54,7 @@ de:
       auto_backup: Tägliche <b>automatische Sicherung</b> mit optionalem Upload in den Cloud-Speicher
       cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können über WebDAV und Google Drive zwischen mehreren Geräten synchronisiert werden"
       split_template: Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
-      email_support: <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
+      email_support: <b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen
       roadmap_voting: Stimmrecht zum <b>Entwicklungsfahrplan</b>
       history_chart: <b>Verlaufsdiagramm</b> (Cashflow)
       budgeting: "<b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich."

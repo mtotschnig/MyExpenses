@@ -54,7 +54,7 @@ it:
       auto_backup: <b> Backup automatici </b> giornalieri con caricamento opzionale sul cloud
       cloud_sync: "<b> Sincronizzazione </b>: I dati possono essere sincronizzati fra più dispositivi tramite WebDAV e Google Drive"
       split_template: Numero illimitato di <b> modelli e piani per le transazioni frazionate </b>
-      email_support: <b>Supporto email</b> con risposta garantita dopo 2 giorni lavorativi
+      email_support: <b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi
       roadmap_voting: Votare direttamente sulla <b>roadmap di sviluppo</b>
       history_chart: <b> Grafico storico </b> (flusso di cassa)
       budgeting: "<b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale."
@@ -80,14 +80,14 @@ it:
       label: Internet
       explanation_usage_tracking: Statistiche anonime sull'utilizzo
       explanation_crash_reporting: Segnalazioni di crash
-      explanation_key_validation: Convalida della chiave di licenza
+      explanation_key_validation: Convalida della licenza
       explanation_cloud_sync: Sincronizzazione cloud
     accounts:
       label: Conti
       explanation: Sincronizzare tra dispositivi attraverso i servizi cloud
-  contrib-key: Chiave Contrib
-  extended-key: Chiave Ampliata
-  professional-key: Chiave Professionale
-  all_contrib_key_features: Tutte le caratteristiche di Contrib chiave
-  all_extended_key_features: Tutte le funzionalità della Chiave Ampliata
+  contrib-key: Licenza Contributore
+  extended-key: Licenza Funzionalità Estese
+  professional-key: Licenza Professionale
+  all_contrib_key_features: Tutte le funzionalità della Licenza Contributore
+  all_extended_key_features: Tutte le funzionalità della Licenza Funzionalità Estese
   customer_support: Servizio Clienti

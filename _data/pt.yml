@@ -23,7 +23,7 @@ pt:
         Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
     feature-list-title: "Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:"
     feature:
-      email_support: <b>Suporte por e-mail</b> com garantia de resposta em até dois dias úteis
+      email_support: <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis
       history_chart: <b>Diagrama histórico</b> (fluxo de caixa)
   permissions:
     internet:

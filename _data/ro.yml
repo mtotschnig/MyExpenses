@@ -17,6 +17,8 @@ ro:
     licence: Licență
     sourcecode: Codul sursă
     links: Link-uri
+  features:
+    export: <b>Export</b> în QIF și CSV. <b>Import</b> din QIF
   contrib:
     thank_you: |
         Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
@@ -27,3 +29,4 @@ ro:
       label: Conturi
   contrib-key: Cheie Contrib
   extended-key: Cheie Extinse
+  professional-key: Cheie profesională

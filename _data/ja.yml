@@ -54,7 +54,7 @@ ja:
       auto_backup: 日次の <b>自動バックアップ</b> と、オプションのクラウドストレージにアップロード
       cloud_sync: "<b>クラウド同期</b>: WebDAV と Google ドライブ経由で、データを複数のデバイス間で同期できます"
       split_template: 無制限の数の <b>テンプレートと分割取引の計画</b>
-      email_support: 2 営業日内の <b>メールサポート</b> 対応を保証
+      email_support: 2 営業日以内の <b>メールサポート</b> 対応を保証
       roadmap_voting: <b>開発ロードマップ</b> の投票権
       history_chart: <b>履歴チャート</b> (キャッシュフロー)
       budgeting: "<b>予算</b>: 毎日、毎週、毎月、または毎年の分類ごとに設定した限度と支出を比較します。"
