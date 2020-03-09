@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util.licence;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +21,13 @@ public class LicenceHandlerTest {
   private LicenceHandler licenceHandler;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class), mock(CrashHandler.class));
+  }
+
+  @After
+  public void tearDown() {
+    licenceHandler.setLicenceStatus(null);
   }
 
   @Test
@@ -39,7 +45,7 @@ public class LicenceHandlerTest {
       "PROFESSIONAL, EXTENDED, true",
       "PROFESSIONAL, PROFESSIONAL, true",
   })
-  public void isEnabledFor(String hasStatus, String requestedStatus, boolean expected) throws Exception {
+  public void isEnabledFor(String hasStatus, String requestedStatus, boolean expected) {
     licenceHandler.setLicenceStatus(parse(hasStatus));
     assertEquals(expected, licenceHandler.isEnabledFor(LicenceStatus.valueOf(requestedStatus)));
   }
@@ -50,7 +56,7 @@ public class LicenceHandlerTest {
       "EXTENDED, true",
       "PROFESSIONAL, false"
   })
-  public void isUpgradeable(String hasStatus, boolean expected) throws Exception {
+  public void isUpgradeable(String hasStatus, boolean expected) {
     licenceHandler.setLicenceStatus(parse(hasStatus));
     assertEquals(expected, licenceHandler.isUpgradeable());
   }

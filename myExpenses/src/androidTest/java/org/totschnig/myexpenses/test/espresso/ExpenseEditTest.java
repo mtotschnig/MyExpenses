@@ -161,9 +161,10 @@ public class ExpenseEditTest {
     i.putExtra(KEY_TEMPLATEID, template.getId());
     mActivityRule.launchActivity(i);
     int amount = 2;
-    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(amount)));
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(click(), typeText(String.valueOf(amount)));
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     Template restored = Template.getInstanceFromDb(template.getId());
+    assertEquals(TYPE_TRANSFER, restored.operationType());
     assertEquals(-amount * 100, restored.getAmount().getAmountMinor().longValue());
   }
 }

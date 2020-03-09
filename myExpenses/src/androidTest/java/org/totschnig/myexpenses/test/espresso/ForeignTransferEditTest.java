@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import androidx.test.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +17,9 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transfer;
 
 import java.util.Currency;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -65,6 +66,5 @@ public class ForeignTransferEditTest {
     mActivityRule.launchActivity(i);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
-
   }
 }

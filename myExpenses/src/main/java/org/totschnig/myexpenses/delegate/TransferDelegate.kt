@@ -266,6 +266,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             buildTemplate(accountId).apply {
                 if (amount != null) {
                     this.amount = Money(currentAccount.currency, amount)
+                    setTransferAccountId(transferAccount.id)
                 } else if (!isSame && transferAmount != null) {
                     this.accountId = transferAccount.id
                     setTransferAccountId(currentAccount.id)
