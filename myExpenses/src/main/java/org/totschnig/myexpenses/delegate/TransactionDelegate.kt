@@ -188,9 +188,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 val recurrenceAdapter = RecurrenceAdapter(context,
                         Plan.Recurrence.ONETIME, Plan.Recurrence.CUSTOM)
                 recurrenceSpinner.adapter = recurrenceAdapter
-                recurrence?.let {
-                    recurrenceSpinner.setSelection(
-                            recurrenceAdapter.getPosition(it))
+                if (missingRecurrenceFeature() == null) {
+                    recurrence?.let {
+                        recurrenceSpinner.setSelection(
+                                recurrenceAdapter.getPosition(it))
+                    }
                 }
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 setPlannerRowVisibility(View.VISIBLE)
@@ -477,6 +479,8 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         }
     }
 
+    open fun missingRecurrenceFeature() = if (prefHandler.getBoolean(PrefKey.NEW_PLAN_ENABLED, true)) null else ContribFeature.PLANS_UNLIMITED
+
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -489,15 +493,12 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 var planVisibilty = View.GONE
                 if (id > 0) {
                     if (PermissionHelper.PermissionGroup.CALENDAR.hasPermission(context)) {
-                        val newSplitTemplateEnabled = prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
-                        val newPlanEnabled = prefHandler.getBoolean(PrefKey.NEW_PLAN_ENABLED, true)
-                        if (newPlanEnabled && (newSplitTemplateEnabled /*|| mOperationType != TransactionsContract.Transactions.TYPE_SPLIT || mTransaction is Template*/)) {
+                        missingRecurrenceFeature()?.let {
+                            recurrenceSpinner.setSelection(0)
+                            host.showContribDialog(it, null)
+                        } ?: run {
                             planVisibilty = View.VISIBLE
                             showCustomRecurrenceInfo()
-                        } else {
-                            recurrenceSpinner.setSelection(0)
-                            val contribFeature = if (newSplitTemplateEnabled /*|| mOperationType != TransactionsContract.Transactions.TYPE_SPLIT*/) ContribFeature.PLANS_UNLIMITED else ContribFeature.SPLIT_TEMPLATE
-                            host.showContribDialog(contribFeature, null)
                         }
                     } else {
                         host.requestPermission(PermissionHelper.PermissionGroup.CALENDAR)

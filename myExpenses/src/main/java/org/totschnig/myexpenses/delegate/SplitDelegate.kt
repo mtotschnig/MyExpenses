@@ -9,10 +9,12 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ISplit
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 
@@ -74,4 +76,6 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
                     Snackbar.LENGTH_LONG)
         }
     }
+
+    override fun missingRecurrenceFeature() = if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
 }
