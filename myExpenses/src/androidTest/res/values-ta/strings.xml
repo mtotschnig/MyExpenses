@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">என் பணப்பை</string>
+  <string name="testData_account1Description">தினசரி செலவுகள்</string>
+  <!--Account 2 is used as an example for a short term budget used for a travel to a country with
+    a different currency-->
+  <string name="testData_account2Label">பாரிஸில் வார இறுதி</string>
+  <string name="testData_account2Description">ஆகஸ்ட் 2012</string>
+  <!--the ISO 4217 currency code-->
+  <string name="testData_account2Currency">EUR</string>
+  <!--Account 3 is a bank account at an institution well known in the locale region-->
+  <string name="testData_account3Label">வங்கி கணக்கு</string>
+  <string name="testData_account3Description">பேங்க் ஆஃப் அமெரிக்கா</string>
+  <!--the cats must exist in the categories of the locale-->
+  <!--just an example of how one could describe by a comment a specific purchase-->
+  <string name="testData_transaction2Comment">பழங்கள் &amp; காய்கறிகள்</string>
+  <!--should be the name of a typical restaurant-->
+  <string name="testData_transaction4Payee">கையேந்தி பவன்</string>
+  <!--a name typically used as example name-->
+  <string name="testData_templatePayee">அப்துல் கலாம்</string>
+</resources>

@@ -3,10 +3,10 @@
 function mkScreenshots {
     if [[ $LANGS == "all" || $LANGS = *"$1"* ]] ; then
         echo "generate screenshots for $1-$2-$3 (scenario $SCENARIO, moving to $FOLDER)"
-        ./gradlew clean spoon -PtestScenario=$SCENARIO -PtestLang=$1 -PtestCountry=$2 -PtestCurrency=$3
+        ./gradlew spoon -PtestScenario=$SCENARIO -PtestLang=$1 -PtestCountry=$2 -PtestCurrency=$3
         for i in group summarize budget split distribution history export sync
         do
-            mv myExpenses/build/spoon-output/acraConscriptForTest/image/emulator-5554/org.totschnig.myexpenses.test.screenshots.TestMain/mkScreenShots/*_$i.png \
+            mv myExpenses/build/spoon-output/conscriptForTest/image/emulator-5554/org.totschnig.myexpenses.test.screenshots.TestMain/mkScreenShots/*_$i.png \
             metadata/$4/images/$FOLDER/$i.png
         done
     fi
@@ -55,8 +55,5 @@ mkScreenshots da DK DKK da-DK
 mkScreenshots iw IL ILS iw-IL
 mkScreenshots uk UA UAH uk
 mkScreenshots ko KO KRW ko
-
-
-
-
-
+mkScreenshots ta IN INR ta
+mkScreenshots el GR EUR el-GR

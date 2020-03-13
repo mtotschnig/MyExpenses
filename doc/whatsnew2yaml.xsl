@@ -7,7 +7,7 @@
 		<xsl:output method="text" encoding="UTF-8"/>
 		<xsl:param name="version" />
 		<xsl:param name="version_date" select='"2014-xx-xx"'/>
-  	<xsl:param name="langs" select="'en fr de it es pt tr el eu bg ca cs ru hr ms ja ro pl si ko da iw'"/>
+  	<xsl:param name="langs" select="'en fr de it es pt tr el eu bg ca cs ru hr ms ja ro pl si iw ta'"/>
   	
 
   <xsl:template match="/">

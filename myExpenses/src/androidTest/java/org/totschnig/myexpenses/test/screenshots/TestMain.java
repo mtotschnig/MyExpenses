@@ -1,14 +1,18 @@
 package org.totschnig.myexpenses.test.screenshots;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 
+import com.annimon.stream.Stream;
+import com.annimon.stream.function.Predicate;
 import com.jraska.falcon.FalconSpoonRule;
 
 import junit.framework.Assert;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,6 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Fixture;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -42,15 +47,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.testutils.Matchers.first;
 
 /**
- * These tests are meant to be run with Spoon (./gradlew spoon). Remove @Ignore first
+ * These tests are meant to be run with Spoon (./gradlew spoon).
  */
 public class TestMain extends BaseUiTest {
   private MyApplication app;
   private Context instCtx;
-  private Locale locale;
   private Currency defaultCurrency;
   @Rule public final FalconSpoonRule falconSpoonRule = new FalconSpoonRule();
   @Rule public final ActivityTestRule<MyExpenses> activityRule = new ActivityTestRule<>(MyExpenses.class, false, false);
@@ -64,15 +69,20 @@ public class TestMain extends BaseUiTest {
 
   @Test
   public void mkScreenShots() {
+    //noinspection ConstantConditions
     Assume.assumeFalse("undefined".equals(BuildConfig.TEST_CURRENCY));
+    final Account[] accountsAsArray = GenericAccountService.getAccountsAsArray(app);
+    Assertions.assertThat(accountsAsArray.length).isEqualTo(2);
+    Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("Dropbox"))).isTrue();
+    Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("WebDAV"))).isTrue();
     defaultCurrency = Currency.getInstance(BuildConfig.TEST_CURRENCY);
     loadFixture();
-    scenario(BuildConfig.TEST_SCENARIO);
+    scenario();
   }
 
-  private void scenario(int scenario) {
+  private void scenario() {
     sleep();
-    switch(scenario) {
+    switch(BuildConfig.TEST_SCENARIO) {
       case 1: {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         takeScreenshot("summarize");
@@ -97,7 +107,10 @@ public class TestMain extends BaseUiTest {
         takeScreenshot("history");
         Espresso.pressBack();
         clickMenuItem(R.id.BUDGET_COMMAND, R.string.menu_budget);
+        onView(withId(R.id.recycler_view))
+            .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         takeScreenshot("budget");
+        Espresso.pressBack();
         Espresso.pressBack();
         clickMenuItem(R.id.SETTINGS_COMMAND, R.string.menu_settings);
         onView(instanceOf(RecyclerView.class))
@@ -122,14 +135,14 @@ public class TestMain extends BaseUiTest {
         break;
       }
       default: {
-        throw new IllegalArgumentException("Unknown scenario" + scenario);
+        throw new IllegalArgumentException("Unknown scenario" + BuildConfig.TEST_SCENARIO);
       }
     }
 
   }
 
   private void loadFixture() {
-    this.locale = new Locale(BuildConfig.TEST_LANG, BuildConfig.TEST_COUNTRY);
+    Locale locale = new Locale(BuildConfig.TEST_LANG, BuildConfig.TEST_COUNTRY);
     Locale.setDefault(locale);
     Configuration config = new Configuration();
     config.locale = locale;

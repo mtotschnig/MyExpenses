@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="testData_account1Label">Cüzdanım</string>
-  <string name="testData_account1Description">Günlük giderleri</string>
+  <string name="testData_account1Description">Günlük giderler</string>
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
   <string name="testData_account2Label">İngiltere\'ye seyahat</string>
