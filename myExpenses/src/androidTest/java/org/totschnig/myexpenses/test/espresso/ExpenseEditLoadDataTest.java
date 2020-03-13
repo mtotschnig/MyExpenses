@@ -17,6 +17,7 @@ import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
@@ -28,6 +29,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
@@ -43,6 +45,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.ACCOUNT_LABEL;
@@ -50,6 +53,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.CATEGORY_LABEL;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.COMMENT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.PAYEE_NAME;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -59,8 +63,10 @@ import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndAncestor;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
+import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
+import static org.totschnig.myexpenses.testutils.MoreMatchersKt.toolbarTitle;
 
-public class ExpenseEditLoadDataTest {
+public class ExpenseEditLoadDataTest extends BaseUiTest {
   private static CurrencyUnit currency, foreignCurrency;
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
@@ -74,7 +80,7 @@ public class ExpenseEditLoadDataTest {
   private Transfer transfer;
 
   @Before
-  public void fixture()  {
+  public void fixture() {
     //IdlingRegistry.getInstance().register(getIdlingResource());
     currency = CurrencyUnit.create(Currency.getInstance("EUR"));
     foreignCurrency = CurrencyUnit.create(Currency.getInstance("USD"));
@@ -196,6 +202,37 @@ public class ExpenseEditLoadDataTest {
   }
 
   @Test
+  public void shouldPopulateWithSplitTemplateAndLoadParts() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_TEMPLATEID, buildSplitTemplate());
+    launchAndWait(i);
+    assertThat(mActivityRule.getActivity().isTemplate).isTrue();
+    toolbarTitle().check(matches(withSubstring(getString(R.string.menu_edit_template))));
+    checkEffectiveVisible(R.id.SplitContainer);
+    onView(withId(R.id.list)).check(matches(withListSize(1)));
+  }
+
+  @Test
+  public void shouldPopulateFromSplitTemplateAndLoadParts() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_TEMPLATEID, buildSplitTemplate());
+    i.putExtra(KEY_INSTANCEID, -1L);
+    launchAndWait(i);
+    assertThat(mActivityRule.getActivity().isTemplate).isFalse();
+    toolbarTitle().check(matches(withText(R.string.menu_edit_split)));
+    checkEffectiveVisible(R.id.SplitContainer);
+    onView(withId(R.id.list)).check(matches(withListSize(1)));
+  }
+
+  private long buildSplitTemplate() {
+    Template template = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), false, null);
+    template.save(true);
+    Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), false, template.getId());
+    part.save();
+    return template.getId();
+  }
+
+  @Test
   public void shouldPopulateWithPlanAndPrepareForm() {
     Template plan = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
     plan.setTitle("Daily plan");
@@ -205,7 +242,7 @@ public class ExpenseEditLoadDataTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_TEMPLATEID, plan.getId());
     launchAndWait(i);
-    checkEffectiveVisible(R.id.TitleRow,  R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+    checkEffectiveVisible(R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.PB);
     checkEffectiveGone(R.id.Recurrence);
     assertThat(mActivityRule.getActivity().isTemplate).isTrue();
@@ -263,5 +300,10 @@ public class ExpenseEditLoadDataTest {
     mActivityRule.launchActivity(i);
     assertThat(mActivityRule.getActivity().isFinishing()).isTrue();
     Account.delete(sealedAccount.getId());
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }

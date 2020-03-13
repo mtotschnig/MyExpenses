@@ -51,9 +51,10 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             isSplitPart -> ExpenseEdit.HelpVariant.transfer
             else -> ExpenseEdit.HelpVariant.splitPartTransfer
         }
-    override val title
-        get() = context.getString(if (parentId == null) R.string.menu_edit_transfer else R.string.menu_edit_split_part_transfer)
-    override val typeResId = R.string.split_transaction
+
+    override val typeResId = R.string.transfer
+    override val editResId = R.string.menu_edit_transfer
+    override val editPartResId = R.string.menu_edit_split_part_transfer
 
 
     override fun bind(transaction: ITransfer?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {

@@ -32,6 +32,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
@@ -41,8 +42,10 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withAccount
 import org.totschnig.myexpenses.testutils.withMethod
 import org.totschnig.myexpenses.testutils.withStatus
@@ -50,13 +53,12 @@ import java.util.*
 
 
 @RunWith(AndroidJUnit4::class)
-class OrientationChangeTest {
+class OrientationChangeTest: BaseUiTest() {
     @get:Rule
     var mActivityRule = ActivityTestRule(ExpenseEdit::class.java, false, false)
     private val accountLabel1 = "Test label 1"
     private var account1: Account? = null
     private var currency1: CurrencyUnit? = null
-
     private val accountLabel2 = "Test label 2"
     private var account2: Account? = null
     private var currency2: CurrencyUnit? = null
@@ -120,7 +122,7 @@ class OrientationChangeTest {
         rotate()
     }
 
-    private fun getString(resid: Int) = mActivityRule.activity.getString(resid)
+
 
     @Test
     fun shouldKeepStatusAfterOrientationChange() {
@@ -150,7 +152,7 @@ class OrientationChangeTest {
         }
         rotate()
         Espresso.onIdle()
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar)))).check(doesNotExist())
+        toolbarTitle().check(doesNotExist())
         checkEffectiveVisible(R.id.OperationType)
     }
 
@@ -169,7 +171,8 @@ class OrientationChangeTest {
         rotate()
         Espresso.onIdle()
         checkEffectiveGone(R.id.OperationType)
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar))))
-                .check(matches(withText(R.string.menu_edit_transaction)))
+        toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
     }
+
+    override fun getTestRule() = mActivityRule
 }

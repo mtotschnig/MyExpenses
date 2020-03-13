@@ -24,8 +24,8 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
 
     override val helpVariant: ExpenseEdit.HelpVariant
         get() = if  (isTemplate) ExpenseEdit.HelpVariant.templateSplit else ExpenseEdit.HelpVariant.split
-    override val title = context.getString(R.string.menu_edit_split)
     override val typeResId = R.string.split_transaction
+    override val editResId = R.string.menu_edit_split
     override val shouldAutoFill = false
 
     override fun bind(transaction: ISplit?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {

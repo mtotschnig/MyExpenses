@@ -1,8 +1,13 @@
 package org.totschnig.myexpenses.testutils
 
+import android.widget.TextView
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -39,3 +44,5 @@ fun withAccount(content: String): Matcher<Any> =
                 description.appendText("with label '$content'")
             }
         }
+
+fun toolbarTitle() = Espresso.onView(CoreMatchers.allOf(CoreMatchers.instanceOf(TextView::class.java), ViewMatchers.withParent(ViewMatchers.withId(R.id.toolbar))))

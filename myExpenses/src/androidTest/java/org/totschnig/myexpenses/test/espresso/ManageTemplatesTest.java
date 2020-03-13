@@ -3,9 +3,6 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import androidx.test.InstrumentationRegistry;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +22,10 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -78,7 +79,7 @@ public class ManageTemplatesTest extends BaseUiTest {
   }
 
   @Test
-  public void clickOnTemplateOpensDialogAndApplyEditActionIsTriggered() throws InterruptedException {
+  public void clickOnTemplateOpensDialogAndApplyEditActionIsTriggered() {
     clickOnFirstListEntry();
     onView(withText(R.string.menu_create_instance_edit)).perform(click());
     verifyEditAction();

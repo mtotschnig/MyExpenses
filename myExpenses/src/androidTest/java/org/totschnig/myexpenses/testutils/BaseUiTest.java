@@ -80,7 +80,7 @@ public abstract class BaseUiTest {
         .perform(click());
   }
 
-  protected void handleContribDialog(ContribFeature contribFeature) throws InterruptedException {
+  protected void handleContribDialog(ContribFeature contribFeature) {
     if (!contribFeature.hasAccess()) {
       try {
         //without playservice a billing setup error dialog is displayed
@@ -102,6 +102,10 @@ public abstract class BaseUiTest {
 
   protected int getListId() {
     return R.id.list;
+  }
+
+  protected String getString(int resid) {
+    return getTestRule().getActivity().getString(resid);
   }
 
   private Adapter getAdapter() {
