@@ -37,6 +37,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 
 public class QifImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
@@ -134,7 +135,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
             KEY_ROWID,
             KEY_LABEL,
             KEY_CURRENCY},
-        null, null, null);
+        KEY_SEALED + " = 0 ", null, null);
     return cursorLoader;
   }
 

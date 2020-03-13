@@ -51,6 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 public class CsvImportParseFragment extends Fragment implements View.OnClickListener,
@@ -249,7 +250,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
             KEY_LABEL,
             KEY_CURRENCY,
             KEY_TYPE},
-        null, null, null);
+        KEY_SEALED + " = 0 ", null, null);
   }
 
   @Override
