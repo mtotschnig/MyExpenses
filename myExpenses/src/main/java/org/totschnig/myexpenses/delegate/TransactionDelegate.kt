@@ -637,7 +637,8 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         return null
     }
 
-    protected fun buildTemplate(accountId: Long) = Template.getTypedNewInstance(operationType, accountId, false, parentId)
+    //TODO make getTypedNewInstance return non-null
+    protected fun buildTemplate(accountId: Long) = Template.getTypedNewInstance(operationType, accountId, false, parentId)!!
 
     abstract fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): T?
     abstract val operationType: Int
