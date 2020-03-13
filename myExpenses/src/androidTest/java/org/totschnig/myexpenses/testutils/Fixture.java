@@ -185,7 +185,7 @@ public class Fixture {
     //Transaction 8: Split
     Transaction split = SplitTransaction.getNewInstance(account1.getId());
     split.setAmount(new Money(defaultCurrency, -8967L));
-    split.save();
+    split.save(true);
 
     new TransactionBuilder(testContext)
         .accountId(account1.getId()).parentId(split.getId())
@@ -198,7 +198,6 @@ public class Fixture {
         .amount(defaultCurrency, -4444L)
         .catId(mainCat6)
         .persist();
-
 
     // Template
     Assert.assertNotSame("Unable to create planner", MyApplication.getInstance().createPlanner(true), MyApplication.INVALID_CALENDAR_ID);
