@@ -216,6 +216,7 @@
   <string name="no_parties">Няма страни.</string>
   <string name="no_split_parts">Няма разпределени части.</string>
   <string name="no_templates">Няма шаблони.</string>
+  <string name="no_accounts">Няма сметки.</string>
   <string name="no_title_given">Не сте въвели име.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Избраният обект е свързан с транзакция и не може да бъде изтрит.</item>

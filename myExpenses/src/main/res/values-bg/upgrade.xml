@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_308">
+        <item>Вече могат да бъдат експортирани няколко сметки в един файл</item>
+        <item>Метаданните на сметките вече са синхронизирани</item>
+        <item>Подобрени уйджети на началния екран</item>
+    </string-array>
     <string-array name="whats_new_307">
         <item>Групово редактиране</item>
     </string-array>
