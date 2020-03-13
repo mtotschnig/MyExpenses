@@ -212,6 +212,21 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
         val extras = intent.extras
         mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
+        var task: TransactionViewModel.InstantiationTask? = null
+        if (mRowId == 0L) {
+            mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
+            if (mRowId != 0L) {
+                planInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)
+                if (planInstanceId != 0L) {
+                    task = TRANSACTION_FROM_TEMPLATE
+                } else {
+                    isTemplate = true
+                    task = TEMPLATE
+                }
+            }
+        } else {
+            task = TRANSACTION
+        }
         mNewInstance = mRowId == 0L
 
         if (savedInstanceState != null) {
@@ -221,21 +236,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null)
             setTitle()
         } else {
-            var task: TransactionViewModel.InstantiationTask? = null
-            if (mRowId == 0L) {
-                mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
-                if (mRowId != 0L) {
-                    planInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)
-                    if (planInstanceId != 0L) {
-                        task = TRANSACTION_FROM_TEMPLATE
-                    } else {
-                        isTemplate = true
-                        task = TEMPLATE
-                    }
-                }
-            } else {
-                task = TRANSACTION
-            }
 
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
@@ -387,6 +387,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
             } else {
+                mRowId = it.id
                 populate(it)
             }
         } ?: run {

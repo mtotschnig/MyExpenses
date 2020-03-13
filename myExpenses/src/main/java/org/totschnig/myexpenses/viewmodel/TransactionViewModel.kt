@@ -27,12 +27,12 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
         emit(when (task) {
             InstantiationTask.TEMPLATE -> Template.getInstanceFromDb(transactionId)
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplate(transactionId)
-            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDb(transactionId)?.also {
-                if (forEdit) {
-                    it.prepareForEdit(clone)
-                }
-            }
+            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDb(transactionId)
             InstantiationTask.FROM_INTENT_EXTRAS -> ProviderUtils.buildFromExtras(extras)
+        }?.also {
+            if (forEdit) {
+                it.prepareForEdit(clone)
+            }
         })
     }
 
