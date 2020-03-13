@@ -275,7 +275,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
                 var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
-                    populateWithNewInstance(Template.getTypedNewInstance(operationType, accountId, true, if (parentId != 0L) parentId else null).also { mRowId = it.id })
+                    populateWithNewInstance(Template.getTypedNewInstance(operationType, accountId, true, if (parentId != 0L) parentId else null)?.also { mRowId = it.id })
                     isTemplate = true
                 } else {
                     when (operationType) {

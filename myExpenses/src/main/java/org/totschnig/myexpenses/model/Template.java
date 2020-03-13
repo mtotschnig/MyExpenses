@@ -329,6 +329,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setParentId(parentId);
   }
 
+  @androidx.annotation.Nullable
   public static Template getTypedNewInstance(int operationType, Long accountId, boolean forEdit, Long parentId) {
     Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
