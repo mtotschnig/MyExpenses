@@ -14,6 +14,8 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
@@ -156,6 +158,15 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
         int itemId = item.getItemId();
         //this allows us to have main menu entries without id that just open the submenu
         if (itemId == 0) return false;
+        if (itemId == R.id.SELECT_ALL_COMMAND) {
+          ListAdapter adapter = lv.getAdapter();
+          if (adapter instanceof HeaderViewListAdapter)
+              adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+          for (int i = 0; i < adapter.getCount(); i++) {
+            lv.setItemChecked(i, true);
+          }
+          return true;
+        }
         SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
         int checkedItemCount = checkedItemPositions.size();
         boolean result = false;
