@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.ProviderUtils
 import javax.inject.Inject
 
@@ -21,6 +23,9 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
     @Inject
     lateinit var coroutineDispatcher: CoroutineDispatcher
 
+    @Inject
+    lateinit var prefHandler: PrefHandler
+
     enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
 
     fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, forEdit: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
@@ -31,7 +36,7 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
             InstantiationTask.FROM_INTENT_EXTRAS -> ProviderUtils.buildFromExtras(extras)
         }?.also {
             if (forEdit) {
-                it.prepareForEdit(clone, clone)
+                it.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
             }
         })
     }

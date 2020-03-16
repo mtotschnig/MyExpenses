@@ -128,7 +128,8 @@ public enum PrefKey {
   EXCHANGE_RATE_PROVIDER(R.string.pref_exchange_rate_provider_key),
   OPEN_EXCHANGE_RATES_APP_ID(R.string.pref_openexchangerates_app_id_key),
   PLANNER_EXECUTION_TIME(R.string.pref_plan_executor_time_key),
-  WEBDAV_ALLOW_UNVERIFIED_HOST(R.string.pref_webdav_allow_unverified_host_key);
+  WEBDAV_ALLOW_UNVERIFIED_HOST(R.string.pref_webdav_allow_unverified_host_key),
+  CLONE_WITH_CURRENT_DATE(R.string.pref_clone_with_current_date_key);
 
   int resId = 0;
   String key = null;
