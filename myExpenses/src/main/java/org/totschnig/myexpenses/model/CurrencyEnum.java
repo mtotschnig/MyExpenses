@@ -158,7 +158,7 @@ public enum CurrencyEnum {
   USD("US Dollar"),
   UZS("Uzbekistan Sum"),
   VUV("Vanuatu Vatu"),
-  VEF("Venezuela Bolivar Fuerte"),
+  VEB("Venezuelan bolívar"),
   VND("Vietnam Dong"),
   YER("Yemeni Rial"),
   ZMW("Zambian Kwacha"),

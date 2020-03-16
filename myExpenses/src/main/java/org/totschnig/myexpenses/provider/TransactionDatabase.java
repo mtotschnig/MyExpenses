@@ -152,7 +152,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 99;
+  public static final int DATABASE_VERSION = 100;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -2082,6 +2082,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         createOrRefreshTransactionTriggers(db);
         createOrRefreshAccountTriggers(db);
         createOrRefreshAccountMetadataTrigger(db);
+      }
+      if (oldVersion < 100) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("code", CurrencyEnum.VEB.name());
+        //will log SQLiteConstraintException if value already exists in table
+        db.insert("currency", null, initialValues);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
