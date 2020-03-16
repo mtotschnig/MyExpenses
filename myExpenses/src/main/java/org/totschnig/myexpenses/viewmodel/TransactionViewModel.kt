@@ -31,7 +31,7 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
             InstantiationTask.FROM_INTENT_EXTRAS -> ProviderUtils.buildFromExtras(extras)
         }?.also {
             if (forEdit) {
-                it.prepareForEdit(clone)
+                it.prepareForEdit(clone, clone)
             }
         })
     }

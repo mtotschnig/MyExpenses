@@ -32,7 +32,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
         }
         val base = if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
         accuntDisposable = briteContentResolver.createQuery(ContentUris.withAppendedId(base, accountId),
-                Account.PROJECTION_BASE, null, null, null, true)
+                        Account.PROJECTION_BASE, null, null, null, true)
                 .mapToOne { Account.fromCursor(it) }
                 .subscribe {
                     liveData.postValue(it)
@@ -56,14 +56,21 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
         budgetAmount.postValue(budget.amount)
     }
 
-    fun remap(transactionIds: LongArray, column: String, rowId: Long, clone: Boolean): LiveData<Int> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO ) {
+    fun remap(transactionIds: LongArray, column: String, rowId: Long, clone: Boolean): LiveData<Int> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(if (clone) {
             var successCount = 0
             for (id in transactionIds) {
-                val ops = Transaction.getInstanceFromDb(id).also { it.prepareForEdit(true) }.buildSaveOperations(true)
-                ops.add(ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                        .withSelection(KEY_ROWID + " = ?", arrayOf(""))//replaced by back reference
-                        .withSelectionBackReference(0, 0).withValue(column, rowId).build())
+                val transaction = Transaction.getInstanceFromDb(id)
+                transaction.prepareForEdit(true, false)
+                val ops = transaction.buildSaveOperations(true)
+                val newUpdate = ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
+                if (transaction.isSplit) {
+                    newUpdate.withSelection(KEY_ROWID + " = ?", arrayOf(transaction.id.toString()))
+                } else {
+                    newUpdate.withSelection(KEY_ROWID + " = ?", arrayOf(""))//replaced by back reference
+                            .withSelectionBackReference(0, 0)
+                }
+                ops.add(newUpdate.build())
                 if (getApplication<MyApplication>().contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
                     successCount++
                 }

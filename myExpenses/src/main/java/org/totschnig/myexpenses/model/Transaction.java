@@ -831,13 +831,17 @@ public class Transaction extends Model implements ITransaction {
    *
    * @param clone if true an uncommited clone of the instance is prepared
    */
-  public void prepareForEdit(boolean clone) {
+  public void prepareForEdit(boolean clone, boolean withCurrentDate) {
+    if (withCurrentDate) {
+      final ZonedDateTime now = ZonedDateTime.now();
+      setDate(now);
+      setValueDate(now);
+    }
     //TODO this needs to be moved into a transaction
     if (isSplit()) {
       Long oldId = getId();
       if (clone) {
         status = STATUS_UNCOMMITTED;
-        setDate(new Date());
         saveAsNew();
       }
       String idStr = String.valueOf(oldId);
@@ -858,7 +862,7 @@ public class Transaction extends Model implements ITransaction {
         }
         c.close();
       }
-    } else if(clone) {
+    } else if (clone) {
       setId(0);
       uuid = null;
     }
@@ -889,7 +893,7 @@ public class Transaction extends Model implements ITransaction {
    * @param parentOffset        if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
    *                            Is used from SyncAdapter for creating split transactions
    * @param callerIsSyncAdapter
-   * @param withCommit change state from uncommitted to committed
+   * @param withCommit          change state from uncommitted to committed
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
@@ -1286,6 +1290,7 @@ public class Transaction extends Model implements ITransaction {
       return result;
     }
   }
+
   static void cleanupCanceledEdit(Long id, Uri contentUri, String partOrPeerSelect) {
     String idStr = String.valueOf(id);
     String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);

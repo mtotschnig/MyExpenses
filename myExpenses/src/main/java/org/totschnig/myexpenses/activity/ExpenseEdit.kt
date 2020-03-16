@@ -411,10 +411,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             mRowId = if (transaction is SplitTransaction) transaction.id else 0L
             transaction.crStatus = Transaction.CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE
-            ZonedDateTime.now().let {
-                transaction.setDate(it)
-                transaction.setValueDate(it)
-            }
             transaction.uuid = Model.generateUuid()
             mNewInstance = true
         }
