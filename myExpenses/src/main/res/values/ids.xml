@@ -180,4 +180,5 @@
     <item name="REMAP_PAYEE_COMMAND" type="id" />
     <item name="REMAP_METHOD_COMMAND" type="id" />
     <item name="REMAP_ACCOUNT_COMMAND" type="id" />
+    <item name="REMAP_COMMAND" type="id" />
 </resources>

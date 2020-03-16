@@ -1146,6 +1146,9 @@ public class MyExpenses extends LaunchActivity implements
             checked, 0);
         break;
       }
+      case R.id.REMAP_COMMAND: {
+        getCurrentFragment().remap(args, checked);
+      }
     }
   }
 

@@ -858,6 +858,9 @@ public class Transaction extends Model implements ITransaction {
         }
         c.close();
       }
+    } else if(clone) {
+      setId(0);
+      uuid = null;
     }
   }
 

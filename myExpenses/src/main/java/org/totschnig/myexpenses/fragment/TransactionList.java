@@ -109,7 +109,6 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
-import org.totschnig.myexpenses.viewmodel.data.EventObserver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -137,7 +136,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -148,6 +146,8 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_AC
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -300,16 +300,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         refresh(false);
       }
     });
-    viewModel.getUpdateComplete().observe(this, new EventObserver<>(result -> {
-          switch (result.getFirst()) {
-            case TransactionListViewModel.TOKEN_REMAP_CATEGORY: {
-              final String message = result.getSecond() > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
-              ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
-            }
-          }
-          return Unit.INSTANCE;
-        })
-    );
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
     budgetsObserver = new BudgetObserver();
@@ -467,14 +457,10 @@ public class TransactionList extends ContextualActionBarFragment implements
             message += " " + getString(R.string.warning_delete_reconciled);
           }
           Bundle b = new Bundle();
-          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-              R.string.dialog_title_warning_delete_transaction);
-          b.putString(
-              ConfirmationDialogFragment.KEY_MESSAGE, message);
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-              R.id.DELETE_COMMAND_DO);
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-              R.id.CANCEL_CALLBACK_COMMAND);
+          b.putInt(KEY_TITLE, R.string.dialog_title_warning_delete_transaction);
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
           b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
           if (finalHasNotVoid) {
             b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
@@ -1521,23 +1507,20 @@ public class TransactionList extends ContextualActionBarFragment implements
       }
       b.putString(KEY_COLUMN, column);
       b.putLong(KEY_ROWID, intent.getLongExtra(intentKey, 0));
-
-      SimpleDialog.build()
-          .title(getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)))
-          .pos(R.string.menu_remap)
-          .neg(android.R.string.cancel)
-          .msg(getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation))
-          .extra(b)
-          .show(this, REMAP_DIALOG);
+      b.putString(KEY_TITLE_STRING, getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)));
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap);
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap);
+      b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+      b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
+      b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
+      ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
     }
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which == BUTTON_POSITIVE) {
-      if (dialogTag.equals(REMAP_DIALOG)) {
-        viewModel.remap(mListView.getCheckedItemIds(), extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID));
-      }
       if (NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
         MyExpenses ctx = (MyExpenses) getActivity();
         String label = extras.getString(SimpleInputDialog.TEXT);
@@ -1564,6 +1547,14 @@ public class TransactionList extends ContextualActionBarFragment implements
       return true;
     }
     return false;
+  }
+
+  public void remap(@NonNull Bundle extras, boolean shouldClone) {
+    viewModel.remap(mListView.getCheckedItemIds(), extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID), shouldClone)
+        .observe(this, result -> {
+          final String message = result > 0 ? getString(shouldClone ? R.string.clone_and_remap_result : R.string.remapping_result) : "No transactions were mapped";
+          ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
+        });
   }
 
   private void addCategoryFilter(String label, long... catIds) {

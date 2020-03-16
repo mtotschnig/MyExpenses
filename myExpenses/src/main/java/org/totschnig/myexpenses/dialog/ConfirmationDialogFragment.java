@@ -45,12 +45,14 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   private CheckBox checkBox;
 
   public static final String KEY_TITLE = "title";
+  public static final String KEY_TITLE_STRING = "titleString";
   public static final String KEY_MESSAGE = "message";
   public static final String KEY_COMMAND_POSITIVE = "positiveCommand";
   public static final String KEY_COMMAND_NEGATIVE = "negativeCommand";
   public static final String KEY_PREFKEY = "prefKey";
   public static final String KEY_CHECKBOX_LABEL = "checkboxLabel";
   public static final String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
+  public static final String KEY_POSITIVE_BUTTON_CHECKED_LABEL = "positiveButtonCheckedLabel";
   public static final String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
 
   public static ConfirmationDialogFragment newInstance(Bundle args) {
@@ -68,6 +70,11 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     int title = bundle.getInt(KEY_TITLE, 0);
     if (title != 0) {
       builder.setTitle(title);
+    } else {
+      String titleString = bundle.getString(KEY_TITLE_STRING, null);
+      if (titleString != null) {
+        builder.setTitle(titleString);
+      }
     }
     builder.setMessage(bundle.getCharSequence(KEY_MESSAGE));
     int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL, 0);
@@ -83,6 +90,12 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     }
     int positiveLabel = bundle.getInt(KEY_POSITIVE_BUTTON_LABEL);
     int negativeLabel = bundle.getInt(KEY_NEGATIVE_BUTTON_LABEL);
+    int checkedLabel = bundle.getInt(KEY_POSITIVE_BUTTON_CHECKED_LABEL);
+    if (checkedLabel != 0) {
+      checkBox.setOnCheckedChangeListener((buttonView, isChecked) ->
+          ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE).setText(
+              isChecked ? checkedLabel : positiveLabel));
+    }
     builder.setPositiveButton(positiveLabel == 0 ? android.R.string.ok : positiveLabel, this);
     builder.setNegativeButton(negativeLabel == 0 ? android.R.string.cancel : negativeLabel, this);
     return builder.create();
