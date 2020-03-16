@@ -752,7 +752,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Icepick.saveInstanceState(this, outState)
-        delegate.onSaveInstanceState(outState)
+        if (::delegate.isInitialized) {
+            delegate.onSaveInstanceState(outState)
+        }
     }
 
     val amount: Money?
