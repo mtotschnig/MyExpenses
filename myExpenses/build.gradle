@@ -197,7 +197,7 @@ dependencies {
     kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.8'
 
     implementation 'com.github.mtotschnig:StickyListHeaders:348bbe1cdd'
-    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:87e7c0d19d'
+    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:bc211774e5'
     implementation project(':PlayLicensingOrig')
     implementation('com.gitlab.mtotschn:dav4android:fbaa5b51') {
         exclude group: "com.android.support", module: "support-annotations"
@@ -239,11 +239,11 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     implementation project(path: ':setupwizard')

@@ -287,10 +287,6 @@
         <item name="android:textSize">?textSizeNormal</item>
     </style>
 
-    <style name="MyPreference_TextAppearanceMaterialBody2" parent="@style/Preference_TextAppearanceMaterialBody2">
-        <item name="android:textSize">?textSizeSmall</item>
-    </style>
-
     <style name="BudgetButton" parent="Widget.AppCompat.Button">
         <item name="android:minWidth">0dip</item>
         <item name="android:padding">@dimen/budget_table_padding</item>

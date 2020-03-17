@@ -263,9 +263,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       final Preference preference = preferenceGroup.getPreference(i);
       if (preference instanceof PreferenceCategory) {
         unsetIconSpaceReservedRecursive(((PreferenceCategory) preference));
-      } else {
-        preference.setIconSpaceReserved(false);
       }
+      preference.setIconSpaceReserved(false);
     }
   }
 
@@ -955,15 +954,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else {
       super.onDisplayPreferenceDialog(preference);
     }
-  }
-
-  @Override
-  public RecyclerView onCreateRecyclerView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-    RecyclerView result = super.onCreateRecyclerView(inflater, parent, savedInstanceState);
-    result.addItemDecoration(
-        new PreferenceDividerItemDecoration(getActivity())
-    );
-    return result;
   }
 
   @TargetApi(Build.VERSION_CODES.KITKAT)

@@ -50,8 +50,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
-        <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
     </style>
 
@@ -86,8 +84,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.Flexible</item>
-        <item name="preferenceCategoryTextAppearance">@style/MyPreference_TextAppearanceMaterialBody2</item>
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
     </style>
 
@@ -449,14 +445,4 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Inactive track color(30% transparency) -->
         <item name="android:colorForeground">?colorExpense</item>
     </style>
-
-    <style name="MyCategoryPreferenceStyle" parent="@style/Preference.Category.Material">
-        <item name="android:layout">@layout/preference_category_material_flexible</item>
-    </style>
-
-    <style name="PreferenceThemeOverlay.v14.Material.Flexible">
-        <item name="preferenceCategoryStyle">@style/MyCategoryPreferenceStyle</item>
-    </style>
-
-
 </resources>
