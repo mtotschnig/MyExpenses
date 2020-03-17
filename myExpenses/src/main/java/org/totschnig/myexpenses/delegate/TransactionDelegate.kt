@@ -743,6 +743,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                     currencyExtra == null && account.id == accountId) {
                 accountSpinner.setSelection(item)
                 configureAccountDependent(account)
+                break
             }
         }
         //if the accountId we have been passed does not exist, we select the first entry
