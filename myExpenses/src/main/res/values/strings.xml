@@ -899,5 +899,8 @@
     <string name="remap_empty_list">No item was found, that can be mapped to all of the selected transactions.</string>
     <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">Clone and remap</string>
-    <string name="pref_clone_with_current_date_summary">Clone transactions with current date</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">Cloned transactions have current date</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">Cloned transactions keep original date</string>
 </resources>
