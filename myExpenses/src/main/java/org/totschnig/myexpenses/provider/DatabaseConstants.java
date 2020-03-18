@@ -387,7 +387,7 @@ public class DatabaseConstants {
    * @return
    */
   public static String CHECK_SEALED(String baseTable, String innerTable) {
-    return String.format("(select max(%1$s) from %2$s where _id in (%3$s, %4$s, (select %4$s from %5$s where %6$s = %7$s.%8$s)))",
+    return String.format("(SELECT max(%1$s) FROM %2$s WHERE %8$s = %3$s OR %8$s = %4$s OR %8$s in (SELECT %4$s FROM %5$s WHERE %6$s = %7$s.%8$s))",
         KEY_SEALED, TABLE_ACCOUNTS, KEY_ACCOUNTID, KEY_TRANSFER_ACCOUNT, innerTable, KEY_PARENTID, baseTable, KEY_ROWID);
   }
 
