@@ -1375,6 +1375,9 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if (mAccount == null || getActivity() == null) {
+      return false;
+    }
     int command = item.getItemId();
     switch (command) {
       case R.id.FILTER_CATEGORY_COMMAND:
