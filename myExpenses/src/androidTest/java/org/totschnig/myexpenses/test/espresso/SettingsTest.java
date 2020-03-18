@@ -37,6 +37,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 public class SettingsTest extends BaseUiTest {
@@ -94,7 +95,7 @@ public class SettingsTest extends BaseUiTest {
 
 
   @Test
-  public void importCsv() throws InterruptedException {
+  public void importCsv() {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
             withText(mActivityRule.getActivity().getString(R.string.pref_import_title, "CSV"))),
@@ -106,7 +107,7 @@ public class SettingsTest extends BaseUiTest {
   @Test
   public void backup() {
     onView(getRootMatcher())
-        .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.menu_backup)),
+        .perform(RecyclerViewActions.actionOnItem(allOf(hasDescendant(withText(R.string.menu_backup)), hasDescendant(withText(R.string.pref_backup_summary))),
             click()));
     intended(hasComponent(BackupRestoreActivity.class.getName()));
     onView(withText(R.string.menu_backup)).check(matches(isDisplayed()));
