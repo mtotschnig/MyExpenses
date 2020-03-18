@@ -65,7 +65,6 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val empt
         val widget = RemoteViews(context.getPackageName(), R.layout.widget_list)
         widget.setEmptyView(R.id.list, R.id.emptyView)
         val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
-        clickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
         widget.setOnClickPendingIntent(R.id.emptyView, clickPI)
