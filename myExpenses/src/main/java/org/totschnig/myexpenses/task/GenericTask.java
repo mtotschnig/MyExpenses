@@ -542,6 +542,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_LINK_LOCAL: {
         Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
+        if (account.isSealed()) {
+          return Result.ofFailure(R.string.object_sealed);
+        }
         String syncAccountName = (String) this.mExtra;
         account.setSyncAccountName(syncAccountName);
         Bundle bundle = new Bundle();
