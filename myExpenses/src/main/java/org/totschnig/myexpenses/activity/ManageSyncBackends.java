@@ -227,6 +227,8 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         Result result = (Result) o;
         if (result.isSuccess()) {
           getListFragment().reloadLocalAccountInfo();
+        } else {
+          showSnackbar(result.print(this));
         }
         break;
       }
