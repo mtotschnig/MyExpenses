@@ -12,7 +12,7 @@
     android:initialLayout="@layout/widget_list"
     android:minWidth="250dp"
     android:minHeight="40dp"
-    android:minResizeWidth="125dp"
+    android:minResizeWidth="40dp"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0" />
 
