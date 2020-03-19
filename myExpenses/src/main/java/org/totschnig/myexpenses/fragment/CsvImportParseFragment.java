@@ -225,7 +225,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         TaskExecutionFragment taskExecutionFragment =
             TaskExecutionFragment.newInstanceCSVParse(
                 mUri, delimiter.charAt(0), encoding);
-        getFragmentManager()
+        getParentFragmentManager()
             .beginTransaction()
             .add(taskExecutionFragment, ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(

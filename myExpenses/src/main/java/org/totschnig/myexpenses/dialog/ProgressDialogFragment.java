@@ -183,6 +183,10 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
     }
   }
 
+  public int getMax() {
+    return max;
+  }
+
   public void setTitle(String title) {
     this.title = title;
     mDialog.setTitle(title);

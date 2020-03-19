@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -70,6 +71,7 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
@@ -146,6 +148,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_AC
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
@@ -298,6 +301,24 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (this.budget != budget) {
         this.budget = budget;
         refresh(false);
+      }
+    });
+    viewModel.getCloneAndRemapProgress().observe(this, result -> {
+      ProtectedFragmentActivity context = (ProtectedFragmentActivity) getActivity();
+      if (context == null) return;
+      ProgressDialogFragment progressDialog = ((ProgressDialogFragment) getParentFragmentManager().findFragmentByTag(PROGRESS_TAG));
+      int totalProcessed = result.getFirst() + result.getSecond();
+      if (progressDialog != null) {
+        if (totalProcessed < progressDialog.getMax()) {
+          progressDialog.setProgress(totalProcessed);
+        } else {
+          if (result.getSecond() == 0) {
+            context.showSnackbar(R.string.clone_and_remap_result, Snackbar.LENGTH_LONG);
+          } else {
+            context.showSnackbar(String.format(Locale.ROOT, "%d out of %d failed", result.getSecond(), totalProcessed), Snackbar.LENGTH_LONG);
+          }
+          getParentFragmentManager().beginTransaction().remove(progressDialog).commit();
+        }
       }
     });
     MyApplication.getInstance().getAppComponent().inject(this);
@@ -1396,7 +1417,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.FILTER_DATE_COMMAND:
         if (!removeFilter(command)) {
           DateFilterDialog.newInstance()
-              .show(getActivity().getSupportFragmentManager(), "AMOUNT_FILTER");
+              .show(getActivity().getSupportFragmentManager(), "DATE_FILTER");
         }
         return true;
       case R.id.FILTER_COMMENT_COMMAND:
@@ -1553,11 +1574,23 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   public void remap(@NonNull Bundle extras, boolean shouldClone) {
-    viewModel.remap(mListView.getCheckedItemIds(), extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID), shouldClone)
-        .observe(this, result -> {
-          final String message = result > 0 ? getString(shouldClone ? R.string.clone_and_remap_result : R.string.remapping_result) : "No transactions were mapped";
-          ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
-        });
+    final long[] checkedItemIds = mListView.getCheckedItemIds();
+    if (shouldClone) {
+      final ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(
+          R.string.progress_dialog_saving, 0, ProgressDialog.STYLE_HORIZONTAL, false);
+      progressDialog.setMax(checkedItemIds.length);
+      getParentFragmentManager()
+          .beginTransaction()
+          .add(progressDialog, PROGRESS_TAG)
+          .commit();
+      viewModel.cloneAndRemap(checkedItemIds, extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID));
+    } else {
+      viewModel.remap(checkedItemIds, extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID))
+          .observe(this, result -> {
+            final String message = result > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
+            ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
+          });
+    }
   }
 
   private void addCategoryFilter(String label, long... catIds) {
