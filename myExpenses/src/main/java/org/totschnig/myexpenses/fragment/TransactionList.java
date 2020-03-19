@@ -138,6 +138,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+import icepick.Icepick;
+import icepick.State;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -276,6 +278,9 @@ public class TransactionList extends ContextualActionBarFragment implements
   CurrencyContext currencyContext;
   FilterPersistence filterPersistence;
 
+  @State
+  boolean shouldStartActionMode;
+
   public static Fragment newInstance(long accountId) {
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
@@ -287,10 +292,12 @@ public class TransactionList extends ContextualActionBarFragment implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     setHasOptionsMenu(true);
     viewModel = new ViewModelProvider(this).get(TransactionListViewModel.class);
     viewModel.account(getArguments().getLong(KEY_ACCOUNTID)).observe(this, account -> {
       mAccount = account;
+      shouldStartActionMode = mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
       mAdapter.setAccount(mAccount);
       setGrouping();
       Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
@@ -380,7 +387,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   protected boolean shouldStartActionMode() {
-    return mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
+    return shouldStartActionMode;
   }
 
   private void configureListView() {
@@ -1392,6 +1399,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (filterPersistence != null) {
       filterPersistence.onSaveInstanceState(outState);
     }
+    Icepick.saveInstanceState(this, outState);
   }
 
   @Override
