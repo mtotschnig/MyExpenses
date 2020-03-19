@@ -6,6 +6,7 @@ import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.junit.After;
 import org.junit.Before;
@@ -49,11 +50,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
@@ -259,6 +262,18 @@ public final class MyExpensesTest extends BaseUiTest {
   public void templateScreenIsOpened() {
     clickMenuItem(R.id.MANAGE_PLANS_COMMAND, R.string.menu_manage_plans);
     intended(hasComponent(ManageTemplates.class.getName()));
+  }
+
+  @Test
+  public void titleAndSubtitleAreSetAndSurviveOrientationChange() {
+    checkTitle();
+    rotate();
+    checkTitle();
+  }
+
+  private void checkTitle() {
+    onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText("Test account 1"))).check(matches(isDisplayed()));
+    onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText("0,00 €"))).check(matches(isDisplayed()));
   }
 
   @Override
