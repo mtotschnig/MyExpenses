@@ -2,10 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.content.OperationApplicationException
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.RemoteException
-import android.widget.TextView
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
@@ -15,12 +12,10 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -32,7 +27,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
@@ -96,11 +90,6 @@ class OrientationChangeTest: BaseUiTest() {
         rotate()
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
         rotate()
-    }
-
-    private fun rotate() {
-        mActivityRule.getActivity().requestedOrientation = if (mActivityRule.getActivity().requestedOrientation == SCREEN_ORIENTATION_LANDSCAPE)
-            SCREEN_ORIENTATION_PORTRAIT else SCREEN_ORIENTATION_LANDSCAPE
     }
 
     @Test

@@ -19,6 +19,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -93,6 +95,11 @@ public abstract class BaseUiTest {
 
   protected abstract ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule();
 
+  protected void rotate() {
+    final ProtectedFragmentActivity activity = getTestRule().getActivity();
+    activity.setRequestedOrientation(activity.getRequestedOrientation() == SCREEN_ORIENTATION_LANDSCAPE ?
+      SCREEN_ORIENTATION_PORTRAIT : SCREEN_ORIENTATION_LANDSCAPE);
+  }
 
   private ViewGroup getList() {
     Fragment currentFragment = getTestRule().getActivity().getCurrentFragment();

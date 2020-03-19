@@ -176,7 +176,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void splitCommandCreatesSplitTransaction() throws InterruptedException {
+  public void splitCommandCreatesSplitTransaction() {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -192,6 +192,17 @@ public final class MyExpensesCabTest extends BaseUiTest {
             isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.list)),
             isDisplayed())).check(matches(isDisplayed()));*/
+  }
+
+  @Test
+  public void cabIsRestoredAfterOrientationChange() {
+    waitForAdapter();
+    onData(is(instanceOf(Cursor.class)))
+        .inAdapterView(getWrappedList())
+        .atPosition(1)
+        .perform(longClick());
+    rotate();
+    onView(withId(R.id.action_mode_bar)).check(matches(isDisplayed()));
   }
 
   @Override
