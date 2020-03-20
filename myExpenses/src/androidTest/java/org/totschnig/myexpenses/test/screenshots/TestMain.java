@@ -4,15 +4,14 @@ import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Predicate;
 import com.jraska.falcon.FalconSpoonRule;
 
-import junit.framework.Assert;
-
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
@@ -47,25 +46,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.testutils.Matchers.first;
 
 /**
  * These tests are meant to be run with Spoon (./gradlew spoon).
  */
 public class TestMain extends BaseUiTest {
-  private MyApplication app;
-  private Context instCtx;
   private Currency defaultCurrency;
   @Rule public final FalconSpoonRule falconSpoonRule = new FalconSpoonRule();
   @Rule public final ActivityTestRule<MyExpenses> activityRule = new ActivityTestRule<>(MyExpenses.class, false, false);
-
-
-  @Before
-  public void setUp()  {
-    instCtx = InstrumentationRegistry.getInstrumentation().getContext();
-    app = (MyApplication) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
-  }
 
   @Test
   public void mkScreenShots() {
@@ -143,19 +132,11 @@ public class TestMain extends BaseUiTest {
 
   private void loadFixture() {
     Locale locale = new Locale(BuildConfig.TEST_LANG, BuildConfig.TEST_COUNTRY);
-    Locale.setDefault(locale);
-    Configuration config = new Configuration();
-    config.locale = locale;
-    app.getResources().updateConfiguration(config,
-        app.getResources().getDisplayMetrics());
-    instCtx.getResources().updateConfiguration(config,
-        instCtx.getResources().getDisplayMetrics());
-    android.content.SharedPreferences pref = app.getSettings();
+    configureLocale(locale);
+    SharedPreferences pref = app.getSettings();
     if (pref == null)
       Assert.fail("Could not find prefs");
-    pref.edit().putString(PrefKey.UI_LANGUAGE.getKey(), BuildConfig.TEST_LANG + "-" + BuildConfig.TEST_COUNTRY)
-        .putString(PrefKey.HOME_CURRENCY.getKey(), defaultCurrency.getCurrencyCode())
-        .apply();
+    pref.edit().putString(PrefKey.HOME_CURRENCY.getKey(), defaultCurrency.getCurrencyCode()).apply();
     app.getLicenceHandler().setLockState(false);
 
     Fixture fixture = new Fixture(InstrumentationRegistry.getInstrumentation(), locale);

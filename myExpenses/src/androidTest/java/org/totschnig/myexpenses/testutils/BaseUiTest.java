@@ -1,5 +1,8 @@
 package org.totschnig.myexpenses.testutils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +11,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.hamcrest.Matcher;
+import org.junit.Assert;
+import org.junit.Before;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Locale;
 
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.NoMatchingViewException;
@@ -36,6 +45,13 @@ import static org.hamcrest.Matchers.anything;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
 public abstract class BaseUiTest {
+  protected MyApplication app;
+
+  @Before
+  public void setUp()  {
+    app = (MyApplication) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
+  }
+
   protected void clickOnFirstListEntry() {
     clickOnListEntry(0);
   }
@@ -138,6 +154,22 @@ public abstract class BaseUiTest {
         return adapter;
       }
     }
+  }
+
+  protected void configureLocale(Locale locale) {
+    Locale.setDefault(locale);
+    Configuration config = new Configuration();
+    config.locale = locale;
+    app.getResources().updateConfiguration(config,
+        app.getResources().getDisplayMetrics());
+    Context instCtx = InstrumentationRegistry.getInstrumentation().getContext();
+    instCtx.getResources().updateConfiguration(config,
+        instCtx.getResources().getDisplayMetrics());
+    SharedPreferences pref = app.getSettings();
+    if (pref == null)
+      Assert.fail("Could not find prefs");
+    pref.edit().putString(PrefKey.UI_LANGUAGE.getKey(), locale.getLanguage() + "-" + locale.getCountry())
+        .apply();
   }
 
 }

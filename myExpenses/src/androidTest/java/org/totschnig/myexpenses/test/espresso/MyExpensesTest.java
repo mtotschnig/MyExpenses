@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
 import java.util.Currency;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.test.InstrumentationRegistry;
@@ -82,6 +83,7 @@ public final class MyExpensesTest extends BaseUiTest {
     account.save();
     Intent i = new Intent();
     i.putExtra(KEY_ROWID, account.getId());
+    configureLocale(Locale.GERMANY);
     mActivityRule.launchActivity(i);
   }
 
