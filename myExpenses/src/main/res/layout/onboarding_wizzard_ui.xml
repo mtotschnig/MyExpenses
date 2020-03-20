@@ -80,12 +80,5 @@
             android:layout_gravity="center"
             android:gravity="center"
             tools:text="System standard" />
-
-        <TextView
-            style="@style/OnboardingInputLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:labelFor="@+id/fontSize"
-            android:text="@string/pref_ui_fontsize_title" />
     </LinearLayout>
 </com.android.setupwizardlib.SetupWizardLayout>
