@@ -20,8 +20,8 @@ abstract class SelectMultipleDialogFragment(withNullItem: Boolean): SelectFromTa
             val labelList = ArrayList<String>()
             for (i in 0 until positions.size()) {
                 if (positions.valueAt(i)) {
-                    val cursor = adapter.getItem(positions.keyAt(i)) as Cursor
-                    labelList.add(cursor.getString(cursor.getColumnIndex(column)))
+                    val item = adapter.getItem(positions.keyAt(i)) as DataHolder
+                    labelList.add(item.label)
                 }
             }
             shouldDismiss = onResult(labelList, itemIds, which)

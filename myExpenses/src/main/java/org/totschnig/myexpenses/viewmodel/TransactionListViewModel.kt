@@ -80,7 +80,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                     }
                     ops.add(newUpdate.build())
                     if (getApplication<MyApplication>().contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
-                        failureCount++
+                        successCount++
                     } else {
                         failureCount++
                     }

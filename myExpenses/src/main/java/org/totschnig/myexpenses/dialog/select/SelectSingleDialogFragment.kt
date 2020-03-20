@@ -26,9 +26,9 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
     private fun buildExtras(): Bundle? {
         val listView = (dialog as AlertDialog).listView
         return listView.checkedItemPosition.takeIf { it != AdapterView.INVALID_POSITION }?.let {
-            val cursor = adapter.getItem(it) as Cursor
+            val item = adapter.getItem(it) as DataHolder
             Bundle().apply {
-                putString(DatabaseConstants.KEY_LABEL, cursor.getString(cursor.getColumnIndex(column)))
+                putString(DatabaseConstants.KEY_LABEL, item.label)
                 putLong(DatabaseConstants.KEY_ROWID, listView.checkedItemIds[0])
             }
         }

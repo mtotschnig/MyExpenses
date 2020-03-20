@@ -15,18 +15,20 @@
 
 package org.totschnig.myexpenses.dialog.select;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.squareup.sqlbrite3.BriteContentResolver;
 
@@ -45,6 +47,7 @@ import io.reactivex.disposables.Disposable;
 
 import static android.widget.AbsListView.CHOICE_MODE_MULTIPLE;
 import static android.widget.AbsListView.CHOICE_MODE_NONE;
+import static android.widget.AdapterView.INVALID_POSITION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
@@ -56,7 +59,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   @Inject
   BriteContentResolver briteContentResolver;
   private Disposable itemDisposable;
-  protected SimpleCursorAdapter adapter;
+  protected ArrayAdapter<DataHolder> adapter;
 
   public SelectFromTableDialogFragment(boolean withNullItem) {
     this.withNullItem = withNullItem;
@@ -105,24 +108,50 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] projection = {KEY_ROWID, getColumn()};
     final int layout = getChoiceMode() == CHOICE_MODE_MULTIPLE ? android.R.layout.simple_list_item_multiple_choice : android.R.layout.simple_list_item_single_choice;
-    adapter = new SimpleCursorAdapter(getActivity(), layout, null,
-        new String[]{getColumn()}, new int[]{android.R.id.text1}, 0);
+    adapter = new ArrayAdapter<DataHolder>(getContext(), layout) {
+      @Override
+      public boolean hasStableIds() {
+        return true;
+      }
+
+      @Nullable
+      @Override
+      public DataHolder getItem(int position) {
+        //workaround for framework bug, which causes getItem to be called upon orientation change with invalid position
+        if (getCount() == 0) return null;
+        return super.getItem(position);
+      }
+
+      @NonNull
+      @Override
+      public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        final DataHolder item = getItem(position);
+        if (item.getId() != INVALID_POSITION) return super.getView(position, convertView, parent);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        @SuppressLint("ViewHolder")
+        TextView textView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+        textView.setText(item.getLabel());
+        return textView;
+      }
+
+      @Override
+      public long getItemId(int position) {
+        final DataHolder item = getItem(position);
+        return item != null ? item.getId() : INVALID_POSITION;
+      }
+    };
     itemDisposable = briteContentResolver.createQuery(getUri(),
         projection, getSelection(), getSelectionArgs(), null, false)
+        .mapToList((Cursor cursor) -> DataHolder.fromCursor(cursor, getColumn()))
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(query -> {
+        .subscribe(collection -> {
+          adapter.clear();
           final Activity activity = getActivity();
           if (activity != null) {
-            Cursor cursor = query.run();
             final AlertDialog alertDialog = (AlertDialog) getDialog();
             if (withNullItem) {
-              MatrixCursor extras = new MatrixCursor(projection);
-              extras.addRow(new String[]{
-                  "-1",
-                  getString(R.string.unmapped),
-              });
-              cursor = new MergeCursor(new Cursor[]{extras, cursor});
-            } else if (cursor == null || cursor.getCount() == 0) {
+              adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
+            } else if (collection.size() == 0) {
               Button neutral = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
               if (neutral != null) {
                 neutral.setVisibility(View.GONE);
@@ -131,16 +160,11 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
               if (positive != null) {
                 positive.setVisibility(View.GONE);
               }
-              MatrixCursor extras = new MatrixCursor(projection);
-              extras.addRow(new String[]{
-                  "-1",
-                  getEmptyMessage(),
-              });
+              adapter.add(new DataHolder(-1, getEmptyMessage()));
               alertDialog.getListView().setChoiceMode(CHOICE_MODE_NONE);
-              adapter.setViewResource(android.R.layout.simple_list_item_1);
-              cursor = extras;
             }
-            adapter.swapCursor(cursor);
+            adapter.addAll(collection);
+            adapter.notifyDataSetChanged();
             if (savedInstanceState != null) {
               SparseBooleanArrayParcelable checkedItemPositions = savedInstanceState.getParcelable(KEY_CHECKED_POSITIONS);
               for (int i = 0; i < checkedItemPositions.size(); i++) {
@@ -208,4 +232,5 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
 
   @Override
   public abstract void onClick(DialogInterface dialog, int which);
+
 }
