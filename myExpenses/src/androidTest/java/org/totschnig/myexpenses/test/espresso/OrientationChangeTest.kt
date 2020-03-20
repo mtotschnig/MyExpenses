@@ -5,6 +5,7 @@ import android.content.OperationApplicationException
 import android.os.RemoteException
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -101,7 +102,8 @@ class OrientationChangeTest: BaseUiTest() {
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         mActivityRule.launchActivity(i)
-        Thread.sleep(100) //unfortunately needed if test starts in landscape
+        //Thread.sleep(100) //unfortunately needed if test starts in landscape
+        closeSoftKeyboard()
         onView(withId(R.id.Method)).perform(scrollTo(), click())
         val string = getString(PaymentMethod.PreDefined.CREDITCARD.resId)
         onData(allOf(instanceOf(org.totschnig.myexpenses.viewmodel.data.PaymentMethod::class.java), withMethod(string))).perform(click())
@@ -122,7 +124,8 @@ class OrientationChangeTest: BaseUiTest() {
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         mActivityRule.launchActivity(i)
-        Thread.sleep(100) //unfortunately needed if test starts in landscape
+        //Thread.sleep(100) //unfortunately needed if test starts in landscape
+        closeSoftKeyboard()
         onView(withId(R.id.Status)).perform(scrollTo(), click())
         onData(allOf(instanceOf(Transaction.CrStatus::class.java), withStatus(Transaction.CrStatus.CLEARED))).perform(click())
         //withSpinnerText matches toString of object

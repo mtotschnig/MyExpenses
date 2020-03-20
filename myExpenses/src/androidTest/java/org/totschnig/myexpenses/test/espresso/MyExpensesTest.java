@@ -31,11 +31,11 @@ import java.util.Currency;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.FlakyTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.viewpager.widget.ViewPager;
 
@@ -112,8 +112,8 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void helpDialogIsOpened() {
-    openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-    onData(hasToString(InstrumentationRegistry.getTargetContext().getString(R.string.menu_help))).perform(click());
+    openActionBarOverflowOrOptionsMenu(app);
+    onData(hasToString(app.getString(R.string.menu_help))).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.help_MyExpenses_title))))
         .check(matches(isDisplayed()));
     onView(allOf(
@@ -124,8 +124,8 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void settingsScreenIsOpened() {
-    openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-    onData(hasToString(InstrumentationRegistry.getTargetContext().getString(R.string.menu_settings))).perform(click());
+    openActionBarOverflowOrOptionsMenu(app);
+    onData(hasToString(app.getString(R.string.menu_settings))).perform(click());
     intended(hasComponent(MyPreferenceActivity.class.getName()));
   }
 
@@ -197,7 +197,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @NonNull
   private String getDialogTitleWarningDeleteAccount() {
-    return InstrumentationRegistry.getTargetContext().getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
+    return app.getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
   }
 
   @Test
@@ -266,6 +266,7 @@ public final class MyExpensesTest extends BaseUiTest {
     intended(hasComponent(ManageTemplates.class.getName()));
   }
 
+  @FlakyTest
   @Test
   public void titleAndSubtitleAreSetAndSurviveOrientationChange() {
     checkTitle();
