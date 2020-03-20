@@ -514,4 +514,7 @@
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
 </resources>

@@ -218,6 +218,7 @@
   <string name="no_parties">אין חלקים מפוצלים</string>
   <string name="no_split_parts">אין חלק מפוצל</string>
   <string name="no_templates">אין תבניות</string>
+  <string name="no_accounts">אין חשבונות</string>
   <string name="no_title_given">לא הוכנסה כותרת כל שהיא</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
@@ -901,7 +902,14 @@
   <string name="remap_method">כל העסקאות שנבחרו ימופו לשיטה %s.</string>
   <string name="remap_account">כל העסקאות שנבחרו ימופו לחשבון %s.</string>
   <string name="remapping_result">העסקות שנבחרו מופו מחדש.</string>
+  <string name="clone_and_remap_result">העסקאות שנבחרו הועתקו ומופו מחדש.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">לא נמצא פריט שניתן למפות אותו לכל העסקאות שנבחרו.</string>
+  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <string name="button_label_clone_and_remap">הועתק ומופה מחדש</string>
+  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <string name="pref_clone_with_current_date_summary_on">לעסקאות משובצות יש תאריך נוכחי</string>
+  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
+  <string name="pref_clone_with_current_date_summary_off">עסקאות משובצות שומרות על התאריך המקורי</string>
 </resources>

@@ -216,6 +216,7 @@
   <string name="no_parties">No hay grupos.</string>
   <string name="no_split_parts">No hay partes divididas.</string>
   <string name="no_templates">No hay plantillas.</string>
+  <string name="no_accounts">Sin cuentas</string>
   <string name="no_title_given">No ha introducido ningún título.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">El objeto seleccionado está asignado a una transacción y no se puede eliminar.</item>
@@ -880,4 +881,7 @@
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">No se encontró ningún ítem que pueda asignarse a las transacciones seleccionadas.</string>
+  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
 </resources>

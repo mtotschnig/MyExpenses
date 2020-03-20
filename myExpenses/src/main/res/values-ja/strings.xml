@@ -870,4 +870,7 @@
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">選択されたすべての取引に配置できる項目が見つかりませんでした。</string>
+  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
 </resources>

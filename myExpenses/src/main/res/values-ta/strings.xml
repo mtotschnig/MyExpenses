@@ -216,6 +216,7 @@
   <string name="no_parties">தரப்புகள் ஏதும் இல்லை.</string>
   <string name="no_split_parts">பிரிவு பகுதிகள் ஏதும் இல்லை.</string>
   <string name="no_templates">வார்ப்புருக்கள் ஏதும் இல்லை.</string>
+  <string name="no_accounts">கணக்குகள் இல்லை</string>
   <string name="no_title_given">நீங்கள் எந்த தலைப்பையும் பதிவு செய்யவில்லை.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பொருள் பரிவர்த்தனைக்கு மாப் செய்யப்பட்டது மற்றும் நீக்கப்பட முடியாது.</item>
@@ -880,4 +881,7 @@
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளுக்கும் தொடற்பு படுத்ததும் வகையில் எந்த உருப்படியும் கிடைக்கவில்லை.</string>
+  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
 </resources>
