@@ -372,6 +372,6 @@ public class LicenceHandler {
     return null;
   }
 
-  public void launchPurchase(@NonNull Package aPackage, boolean shouldReplaceExisting, BillingManager billingManager) {
+  public void launchPurchase(@NonNull Package aPackage, boolean shouldReplaceExisting, @NonNull BillingManager billingManager) {
   }
 }

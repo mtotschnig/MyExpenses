@@ -109,7 +109,9 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
       case PLAY:
       case AMAZON:
         try {
-          licenceHandler.launchPurchase(aPackage, getIntent().getBooleanExtra(KEY_SHOULD_REPLACE_EXISTING, false), billingManager);
+          if (billingManager != null) {
+            licenceHandler.launchPurchase(aPackage, getIntent().getBooleanExtra(KEY_SHOULD_REPLACE_EXISTING, false), billingManager);
+          }
         } catch (IllegalStateException e) {
           complain(e.getMessage());
         }
