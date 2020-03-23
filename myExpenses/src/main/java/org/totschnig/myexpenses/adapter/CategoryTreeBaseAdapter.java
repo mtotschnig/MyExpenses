@@ -50,6 +50,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   private boolean withSubColors;
   private final boolean withNullCategory;
   protected final ProtectedFragmentActivity.ThemeType themeType;
+  public static final long NULL_ITEM_ID = -1L;
 
   public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
                                  CurrencyUnit currency, boolean withMainColors, boolean withSubColors, boolean withNullCategory) {
@@ -179,7 +180,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         LongSparseArray<Integer> positionMap = new LongSparseArray<>();
         int position = 0;
         if (withNullCategory) {
-          newList.add(new Category(-1, null, context.getString(R.string.unmapped), null, null, 0, null, null));
+          newList.add(new Category(NULL_ITEM_ID, null, context.getString(R.string.unmapped), null, null, 0, null, null));
           position = 1;
         }
         final int columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);

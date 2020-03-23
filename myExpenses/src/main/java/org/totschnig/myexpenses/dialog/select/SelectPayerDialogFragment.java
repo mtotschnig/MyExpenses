@@ -50,6 +50,6 @@ public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragme
   @NonNull
   @Override
   protected Criteria makeCriteria(String label, long... ids) {
-    return ids.length == 1 && ids[0] == -1 ? new PayeeCriteria() : new PayeeCriteria(label, ids);
+    return ids.length == 1 && ids[0] == NULL_ITEM_ID ? new PayeeCriteria() : new PayeeCriteria(label, ids);
   }
 }

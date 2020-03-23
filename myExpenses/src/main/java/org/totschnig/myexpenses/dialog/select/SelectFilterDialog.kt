@@ -8,7 +8,7 @@ abstract class SelectFilterDialog(withNullItem: Boolean) : SelectMultipleDialogF
     abstract protected fun makeCriteria(label: String, vararg ids: Long): Criteria
 
     override fun onResult(labelList: List<String>, itemIds: LongArray, which: Int): Boolean {
-        if (itemIds.size == 1 || itemIds.indexOf(-1L) == -1) {
+        if (itemIds.size == 1 || itemIds.indexOf(NULL_ITEM_ID) == -1) {
             (activity as Host).addFilterCriteria(
                     makeCriteria(TextUtils.join(",", labelList), *itemIds))
             return true

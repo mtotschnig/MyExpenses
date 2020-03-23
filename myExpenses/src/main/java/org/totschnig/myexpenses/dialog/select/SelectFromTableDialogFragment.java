@@ -47,7 +47,7 @@ import io.reactivex.disposables.Disposable;
 
 import static android.widget.AbsListView.CHOICE_MODE_MULTIPLE;
 import static android.widget.AbsListView.CHOICE_MODE_NONE;
-import static android.widget.AdapterView.INVALID_POSITION;
+import static android.widget.AdapterView.INVALID_ROW_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
@@ -55,6 +55,8 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
   private static final String KEY_CHECKED_POSITIONS = "checked_positions";
   public static final String KEY_DIALOG_TITLE = "dialog_tile";
   public static final String KEY_EMPTY_MESSAGE = "empty_message";
+  protected static final long NULL_ITEM_ID = 0L;
+  protected static final long EMPTY_ITEM_ID = -1L;
   private final boolean withNullItem;
   @Inject
   BriteContentResolver briteContentResolver;
@@ -126,7 +128,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
       @Override
       public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         final DataHolder item = getItem(position);
-        if (item.getId() != INVALID_POSITION) return super.getView(position, convertView, parent);
+        if (item.getId() != EMPTY_ITEM_ID) return super.getView(position, convertView, parent);
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         @SuppressLint("ViewHolder")
         TextView textView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
@@ -137,7 +139,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
       @Override
       public long getItemId(int position) {
         final DataHolder item = getItem(position);
-        return item != null ? item.getId() : INVALID_POSITION;
+        return item != null ? item.getId() : INVALID_ROW_ID;
       }
     };
     itemDisposable = briteContentResolver.createQuery(getUri(),
@@ -150,7 +152,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
           if (activity != null) {
             final AlertDialog alertDialog = (AlertDialog) getDialog();
             if (withNullItem) {
-              adapter.add(new DataHolder(-1, getString(R.string.unmapped)));
+              adapter.add(new DataHolder(NULL_ITEM_ID, getString(R.string.unmapped)));
             } else if (collection.size() == 0) {
               Button neutral = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
               if (neutral != null) {
@@ -160,7 +162,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
               if (positive != null) {
                 positive.setVisibility(View.GONE);
               }
-              adapter.add(new DataHolder(-1, getEmptyMessage()));
+              adapter.add(new DataHolder(EMPTY_ITEM_ID, getEmptyMessage()));
               alertDialog.getListView().setChoiceMode(CHOICE_MODE_NONE);
             }
             adapter.addAll(collection);

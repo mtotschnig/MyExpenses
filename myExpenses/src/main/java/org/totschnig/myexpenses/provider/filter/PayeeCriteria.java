@@ -28,6 +28,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 public class PayeeCriteria extends IdCriteria {
   static final String COLUMN = KEY_PAYEEID;
 
+  public PayeeCriteria() {
+    super();
+  }
 
   public PayeeCriteria(String label, long... ids) {
     super(label, ids);
@@ -61,10 +64,6 @@ public class PayeeCriteria extends IdCriteria {
         return new PayeeCriteria[size];
     }
   };
-
-  public PayeeCriteria() {
-    super();
-  }
 
   public static Criteria fromStringExtra(String extra) {
     return extra.equals("null") ? new PayeeCriteria() : IdCriteria.fromStringExtra(extra,PayeeCriteria.class);

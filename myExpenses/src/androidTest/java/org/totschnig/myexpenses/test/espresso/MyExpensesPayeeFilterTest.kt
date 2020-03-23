@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.OperationApplicationException
 import android.os.RemoteException
+import android.widget.CheckedTextView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -11,11 +12,14 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.CursorMatchers
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -60,8 +64,7 @@ class MyExpensesPayeeFilterTest: BaseUiTest() {
         payeeIsDisplayed(payee2)
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
         onView(withText(R.string.payer_or_payee)).perform(click())
-        onData(org.totschnig.myexpenses.testutils.Matchers.withDataItemLabel(`is`(payee1)))
-                .inAdapterView(withId(R.id.select_dialog_listview)).perform(click())
+        onView(allOf(withText(payee1), isAssignableFrom(CheckedTextView::class.java))).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
         payeeIsDisplayed(payee1)
         payeeIsNotDisplayed(payee2)

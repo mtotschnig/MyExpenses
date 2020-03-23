@@ -79,6 +79,7 @@ import static android.app.Activity.RESULT_OK;
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_FILTER;
 import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_MAPPING;
+import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
@@ -289,7 +290,7 @@ public class CategoryList extends SortableListFragment {
         return true;
       }
       case R.id.SELECT_COMMAND_MULTIPLE: {
-        if (itemIds.length == 1 || Arrays.asList(itemIds).indexOf(-1L) == -1) {
+        if (itemIds.length == 1 || Arrays.asList(itemIds).indexOf(NULL_ITEM_ID) == -1) {
           ArrayList<String> labelList = new ArrayList<>();
           for (int i = 0; i < positions.size(); i++) {
             Category c;

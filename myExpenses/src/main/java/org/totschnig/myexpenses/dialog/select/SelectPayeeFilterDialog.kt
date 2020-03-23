@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 
 class SelectPayeeFilterDialog: SelectFilterDialog(true) {
     override fun makeCriteria(label: String, vararg ids: Long): Criteria =
-            if (ids.size == 1 && ids[0] == -1L) PayeeCriteria() else PayeeCriteria(label, *ids)
+            if (ids.size == 1 && ids[0] == NULL_ITEM_ID) PayeeCriteria() else PayeeCriteria(label, *ids)
 
     override fun getDialogTitle() = R.string.search_payee
 

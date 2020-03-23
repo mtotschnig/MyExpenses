@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.AccountAdapter
+import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
+import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
@@ -176,7 +178,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
-        (if (catIds.size == 1 && catIds[0] == -1L) CategoryCriteria()
+        (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriteria()
         else CategoryCriteria(label, *catIds)).let {
             addFilterCriteria(it)
         }

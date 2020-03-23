@@ -151,6 +151,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CA
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
+import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
@@ -1602,7 +1603,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   private void addCategoryFilter(String label, long... catIds) {
-    addFilterCriteria(catIds.length == 1 && catIds[0] == -1 ?
+    addFilterCriteria(catIds.length == 1 && catIds[0] == NULL_ITEM_ID ?
         new CategoryCriteria() : new CategoryCriteria(label, catIds));
   }
 

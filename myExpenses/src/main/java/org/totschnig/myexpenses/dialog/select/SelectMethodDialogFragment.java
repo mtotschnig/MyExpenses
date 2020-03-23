@@ -48,6 +48,6 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
 
   @Override
   protected Criteria makeCriteria(String label, long... ids) {
-    return ids.length == 1 && ids[0] == -1 ? new MethodCriteria() : new MethodCriteria(label, ids);
+    return ids.length == 1 && ids[0] == NULL_ITEM_ID ? new MethodCriteria() : new MethodCriteria(label, ids);
   }
 }
