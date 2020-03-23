@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.FlakyTest
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
@@ -93,6 +94,7 @@ class OrientationChangeTest: BaseUiTest() {
         rotate()
     }
 
+    @FlakyTest
     @Test
     fun shouldKeepMethodAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1!!.id)

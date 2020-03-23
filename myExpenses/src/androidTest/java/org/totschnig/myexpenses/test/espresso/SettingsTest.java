@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.filters.FlakyTest;
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -104,6 +105,7 @@ public class SettingsTest extends BaseUiTest {
     intended(hasComponent(CsvImportActivity.class.getName()));
   }
 
+  @FlakyTest
   @Test
   public void backup() {
     onView(getRootMatcher())

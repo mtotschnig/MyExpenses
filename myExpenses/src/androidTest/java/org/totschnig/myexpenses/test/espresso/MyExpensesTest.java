@@ -176,10 +176,11 @@ public final class MyExpensesTest extends BaseUiTest {
   }
 
   @Test
-  public void deleteConfirmationDialogDeleteButtonDeletes() {
+  public void deleteConfirmationDialogDeleteButtonDeletes() throws InterruptedException {
     // only if there are two accounts, the delete functionality is availalbe
     Account account2 = new Account("Test account 2", 0, "");
     account2.save();
+    Thread.sleep(500);
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
