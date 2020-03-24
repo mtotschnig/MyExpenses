@@ -157,7 +157,7 @@ td.checked {
 @media screen and (min-width: 600px) {
   #features {
     position: relative;
-    height: 500px;
+    min-height: 500px;
     overflow: hidden;
     display: flex;
     align-items: center;
