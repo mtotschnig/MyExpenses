@@ -15,12 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.accounts.Account;
 import android.app.Dialog;
-import android.appwidget.AppWidgetProvider;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,20 +40,12 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.service.DailyScheduler;
-import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.widget.AbstractWidgetKt;
-import org.totschnig.myexpenses.widget.AccountWidget;
-import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -67,29 +55,14 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
-import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
-import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_EXECUTION_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
-import static org.totschnig.myexpenses.preference.PrefKey.SYNC_FREQUCENCY;
-import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
-import static org.totschnig.myexpenses.sync.GenericAccountService.HOUR_IN_SECONDS;
 
 /**
  * Present references screen defined in Layout file
@@ -101,7 +74,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
   private String initialPrefToShow;
-  private SettingsFragment activeFragment;
+  private String TAG = SettingsFragment.class.getSimpleName();
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -110,15 +83,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     setContentView(R.layout.settings);
     setupToolbar(true);
     if (savedInstanceState == null) {
-      // Create the fragment only when the activity is created for the first time.
-      // ie. not after orientation changes
-      Fragment fragment = getFragment();
-      if (fragment == null) {
-        fragment = new SettingsFragment();
-      }
-
       FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.replace(R.id.fragment_container, fragment, SettingsFragment.class.getSimpleName());
+      ft.replace(R.id.fragment_container, new SettingsFragment(), TAG);
       ft.commit();
     }
     initialPrefToShow = savedInstanceState == null ?
@@ -130,16 +96,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
   }
 
-  @Override
-  public void onAttachFragment(Fragment fragment) {
-    super.onAttachFragment(fragment);
-    if (fragment instanceof SettingsFragment) {
-      activeFragment = (SettingsFragment) fragment;
-    }
-  }
-
   private SettingsFragment getFragment() {
-    return activeFragment;
+    return ((SettingsFragment) getSupportFragmentManager().findFragmentByTag(TAG));
   }
 
   @Override
@@ -157,19 +115,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     return super.onOptionsItemSelected(item);
   }
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-  }
-
-  private void restart() {
+  public void restart() {
     Intent intent = getIntent();
     finish();
     startActivity(intent);
@@ -257,54 +203,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
     }
     return result;
-  }
-
-  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                        String key) {
-    if (key.equals(UI_LANGUAGE.getKey()) ||
-        key.equals(GROUP_MONTH_STARTS.getKey()) ||
-        key.equals(GROUP_WEEK_STARTS.getKey())) {
-      DatabaseConstants.buildLocalized(Locale.getDefault());
-      Transaction.buildProjection();
-    }
-    if (key.equals(UI_FONTSIZE.getKey())) {
-      updateAllWidgets();
-    }
-    if (key.equals(PROTECTION_LEGACY.getKey()) || key.equals(PROTECTION_DEVICE_LOCK_SCREEN.getKey())) {
-      getFragment().setProtectionDependentsState();
-      updateAllWidgets();
-    } else if (key.equals(UI_FONTSIZE.getKey()) ||
-        key.equals(UI_LANGUAGE.getKey()) ||
-        key.equals(UI_THEME_KEY.getKey())) {
-      restart();
-    } else if (key.equals(PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())) {
-      //Log.d("DEBUG","shared preference changed: Account Widget");
-      updateWidgets(AccountWidget.class);
-    } else if (key.equals(PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
-      //Log.d("DEBUG","shared preference changed: Template Widget");
-      updateWidgets(TemplateWidget.class);
-    } else if (key.equals(AUTO_BACKUP.getKey()) || key.equals(AUTO_BACKUP_TIME.getKey())) {
-      DailyScheduler.updateAutoBackupAlarms(this);
-    } else if (key.equals(SYNC_FREQUCENCY.getKey())) {
-      for (Account account : GenericAccountService.getAccountsAsArray(this)) {
-        ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-            SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
-      }
-    } else if (key.equals(TRACKING.getKey())) {
-      setTrackingEnabled(sharedPreferences.getBoolean(key, false));
-    } else if (key.equals(PLANNER_EXECUTION_TIME.getKey())) {
-      DailyScheduler.updatePlannerAlarms(this, false, false);
-    }
-  }
-
-  private void updateAllWidgets() {
-    updateWidgets(AccountWidget.class);
-    updateWidgets(TemplateWidget.class);
-  }
-
-  private void updateWidgets(Class<? extends AppWidgetProvider> provider) {
-    AbstractWidgetKt.updateWidgets(this, provider, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
   }
 
   public void validateLicence() {
