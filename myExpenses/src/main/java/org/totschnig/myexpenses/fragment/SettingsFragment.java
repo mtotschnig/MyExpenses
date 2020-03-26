@@ -554,42 +554,41 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
+    final MyPreferenceActivity activity = activity();
     if (key.equals(getKey(UI_LANGUAGE)) ||
         key.equals(getKey(GROUP_MONTH_STARTS)) ||
         key.equals(getKey(GROUP_WEEK_STARTS))) {
       DatabaseConstants.buildLocalized(Locale.getDefault());
       Transaction.buildProjection();
-    }
-    if (key.equals(getKey(UI_FONTSIZE))) {
+    } else if (key.equals(getKey(UI_FONTSIZE))) {
       updateAllWidgets();
-    }
-    if (key.equals(PROTECTION_LEGACY.getKey()) || key.equals(PROTECTION_DEVICE_LOCK_SCREEN.getKey())) {
+    } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
+      if (sharedPreferences.getBoolean(key, false)) {
+        activity.showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
+      }
       setProtectionDependentsState();
       updateAllWidgets();
-    } else {
-      final MyPreferenceActivity activity = activity();
-      if (key.equals(getKey(UI_FONTSIZE)) ||
-          key.equals(getKey(UI_LANGUAGE)) ||
-          key.equals(getKey(UI_THEME_KEY))) {
-        activity.restart();
-      } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
-        //Log.d("DEBUG","shared preference changed: Account Widget");
-        updateWidgets(AccountWidget.class);
-      } else if (key.equals(getKey(PROTECTION_ENABLE_TEMPLATE_WIDGET))) {
-        //Log.d("DEBUG","shared preference changed: Template Widget");
-        updateWidgets(TemplateWidget.class);
-      } else if (key.equals(getKey(AUTO_BACKUP)) || key.equals(getKey(AUTO_BACKUP_TIME))) {
-        DailyScheduler.updateAutoBackupAlarms(activity);
-      } else if (key.equals(getKey(SYNC_FREQUCENCY))) {
-        for (Account account : GenericAccountService.getAccountsAsArray(activity)) {
-          ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-              prefHandler.getInt(SYNC_FREQUCENCY, GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
-        }
-      } else if (key.equals(getKey(TRACKING))) {
-        activity.setTrackingEnabled(sharedPreferences.getBoolean(key, false));
-      } else if (key.equals(getKey(PLANNER_EXECUTION_TIME))) {
-        DailyScheduler.updatePlannerAlarms(activity, false, false);
+    } else if (key.equals(getKey(UI_FONTSIZE)) ||
+        key.equals(getKey(UI_LANGUAGE)) ||
+        key.equals(getKey(UI_THEME_KEY))) {
+      activity.restart();
+    } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
+      //Log.d("DEBUG","shared preference changed: Account Widget");
+      updateWidgets(AccountWidget.class);
+    } else if (key.equals(getKey(PROTECTION_ENABLE_TEMPLATE_WIDGET))) {
+      //Log.d("DEBUG","shared preference changed: Template Widget");
+      updateWidgets(TemplateWidget.class);
+    } else if (key.equals(getKey(AUTO_BACKUP)) || key.equals(getKey(AUTO_BACKUP_TIME))) {
+      DailyScheduler.updateAutoBackupAlarms(activity);
+    } else if (key.equals(getKey(SYNC_FREQUCENCY))) {
+      for (Account account : GenericAccountService.getAccountsAsArray(activity)) {
+        ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+            prefHandler.getInt(SYNC_FREQUCENCY, GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
+    } else if (key.equals(getKey(TRACKING))) {
+      activity.setTrackingEnabled(sharedPreferences.getBoolean(key, false));
+    } else if (key.equals(getKey(PLANNER_EXECUTION_TIME))) {
+      DailyScheduler.updatePlannerAlarms(activity, false, false);
     }
   }
 
@@ -717,10 +716,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void setProtectionDependentsState() {
-    boolean isLegacy = prefHandler.getBoolean(PROTECTION_LEGACY, false);
-    boolean isProtected = isLegacy || prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false);
     PreferenceScreen screen = getPreferenceScreen();
     if (matches(screen, ROOT_SCREEN) || matches(screen, PERFORM_PROTECTION_SCREEN)) {
+      boolean isLegacy = prefHandler.getBoolean(PROTECTION_LEGACY, false);
+      boolean isProtected = isLegacy || prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false);
       findPreference(SECURITY_QUESTION).setEnabled(isLegacy);
       findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
       findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
