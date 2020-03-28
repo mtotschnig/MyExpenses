@@ -46,13 +46,12 @@ es:
       plans_unlimited: Número de proyectos ilimitados para transacciones <b>recurrentes</b>
       distribution: "<b>Gráfico de sectores</b>: visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)"
       split_transaction: "<b>Transacción dividida</b>: una transacción puede separarse en diferentes partes (categorías y transferencias)"
-      template_widget: Selección de una <b>plantilla</b> rápidamente desde el <b>widget</b> en la pantalla de inicio
       print: <b>Imprima</b> la lista de transacciones en un archivo PDF
       attach_picture: "<b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada desde galería"
       ad_free: <b>Sin anuncios</b>
       csv_import: Una sofisticada y personalizable <b>importación a CSV</b> (para aplicaciones de hojas de cálculo)
       auto_backup: <b>Copia de seguridad automática</b> diaria con subida a almacenamiento en la nube opcional
-      cloud_sync: "<b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos vía WebDAV y Google Drive"
+      cloud_sync: "<b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos"
       split_template: Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
       email_support: <b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales
       roadmap_voting: Derecho a participar en la <b>hoja de ruta de desarrollo</b>

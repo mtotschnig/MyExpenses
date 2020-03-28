@@ -38,6 +38,10 @@ professional:
   - roadmap_voting
   - history_chart
   - budgeting
+extra:
+  cloud_sync: "(Webdav, Dropbox, Google Drive)"
+extra_fdroid:
+  cloud_sync: "(Webdav, Dropbox)"
 title:
   ar: مصروفاتي
   en: My Expenses

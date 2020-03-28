@@ -46,13 +46,12 @@ ms:
       plans_unlimited: Bilangan plan tanpa had untuk transaksi <b>berulang</b>
       distribution: "<b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)"
       split_transaction: "<b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)"
-      template_widget: Pemilihan <b>templat</b> secara pantas melalui <b>widgjt</b> skrin rumah
       print: <b>Cetak</b> senarai transaksi ke dalam fail PDF
       attach_picture: "<b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri"
       ad_free: <b>Tanpa iklan</b>
       csv_import: <b>Import CSV import</b> (spreadsheet applications) yang canggih dan boleh disuaikan.
       auto_backup: <b>Sandar berautomatik</b> harian dengan muat naik pilihan ke storan awan
-      cloud_sync: "<b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti melalui WebDAV dan Google Drive"
+      cloud_sync: "<b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti"
       split_template: Bilangan <b>templat dan plan tanpa had untuk transaksi berasingan</b>
       email_support: <b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja
       roadmap_voting: Hak mengundi dalam </b>peta jalan pembangunan</b>

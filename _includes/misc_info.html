@@ -302,7 +302,7 @@
     {% endfor %}
     {% for feature in site.extended %}
     <tr>
-		<td>{% if msg.contrib.feature[feature] %}{{msg.contrib.feature[feature]}}{% else %}{{site.data.en.en.contrib.feature[feature]}}{% endif %}</td>
+		<td>{% if msg.contrib.feature[feature] %}{{msg.contrib.feature[feature]}}{% else %}{{site.data.en.en.contrib.feature[feature]}}{% endif %} {{site.extra[feature]}}</td>
 		<td></td>
 		<td class="checked">✓</td>
 		<td class="checked">✓</td>

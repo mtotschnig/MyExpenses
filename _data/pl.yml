@@ -36,13 +36,11 @@ pl:
       plans_unlimited: Nieograniczona liczba planów dla <b>powtarzających się</b> transakcji
       distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)"
       split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)"
-      template_widget: Szybki wybór <b>szablonu</b> z ekranu głównego <b>widżetu</b>
       print: <b>Drukuj</b> listę transakcji do pliku PDF
       attach_picture: "<b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii"
       ad_free: <b>Brak reklam</b>
       csv_import: Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy kalkulacyjnych)
       auto_backup: Codziennie <b>automatyczna kopia</b> z opcjonalnym przesyłaniem do chmury
-      cloud_sync: "<b>Synchronizacja w chmurze</b>: dane mogą być synchronizowane między wieloma urządzeniami za pośrednictwem WebDAV i Google Drive"
       split_template: Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
       email_support: <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
       roadmap_voting: Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>

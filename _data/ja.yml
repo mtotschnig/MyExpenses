@@ -46,13 +46,12 @@ ja:
       plans_unlimited: 無制限の数の <b>繰り返し</b> 取引の計画
       distribution: "<b>円グラフ</b>: 異なる期間にわたる分類ごとの取引の統計的分布を視覚化します (年、月、週、日)"
       split_transaction: "<b>取引の分割</b>: 一つの取引を複数の部分に分割できます (分類と振込)"
-      template_widget: クイック <b>テンプレート</b> をホーム画面 <b>ウィジェット</b> から選択
       print: 取引リストを PDF ファイルに <b>印刷</b>
       attach_picture: "<b>画像の添付</b>: カメラで撮影、またはギャラリーから選択"
       ad_free: <b>広告なし</b>
       csv_import: 洗練されたカスタマイズ可能な <b>CSV インポート</b> (スプレッドシート アプリケーション)
       auto_backup: 日次の <b>自動バックアップ</b> と、オプションのクラウドストレージにアップロード
-      cloud_sync: "<b>クラウド同期</b>: WebDAV と Google ドライブ経由で、データを複数のデバイス間で同期できます"
+      cloud_sync: "<b>クラウド同期</b>: データを複数のデバイス間で同期できます"
       split_template: 無制限の数の <b>テンプレートと分割取引の計画</b>
       email_support: 2 営業日以内の <b>メールサポート</b> 対応を保証
       roadmap_voting: <b>開発ロードマップ</b> の投票権

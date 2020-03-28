@@ -46,13 +46,12 @@ it:
       plans_unlimited: Numero illimitato di piani per le transazioni <b> ricorrenti </b>
       distribution: "<b> Grafico a torta </b>: visualizza la distribuzione statistica delle transazioni per categoria su periodi diversi (anni, mesi, settimane, giorni)"
       split_transaction: "<b> Transazione frazionata </b>: una singola transazione può essere suddivisa in più parti (categorie e trasferimenti)"
-      template_widget: Selezione rapida del <b> modello</b> dal <b> widget </b> della schermata iniziale
       print: <b> Esporta </b>l'elenco delle transazioni in un file PDF
       attach_picture: "<b> Allega immagine </b>: acquisisci tramite fotocamera o seleziona dalla galleria"
       ad_free: <b>Nessun annuncio</b>
       csv_import: <b> Importazione CSV </b>  sofisticata e personalizzabile (applicazioni per fogli di calcolo)
       auto_backup: <b> Backup automatici </b> giornalieri con caricamento opzionale sul cloud
-      cloud_sync: "<b> Sincronizzazione </b>: I dati possono essere sincronizzati fra più dispositivi tramite WebDAV e Google Drive"
+      cloud_sync: "<b> Sincronizzazione </b>: I dati possono essere sincronizzati fra più dispositivi"
       split_template: Numero illimitato di <b> modelli e piani per le transazioni frazionate </b>
       email_support: <b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi
       roadmap_voting: Votare direttamente sulla <b>roadmap di sviluppo</b>

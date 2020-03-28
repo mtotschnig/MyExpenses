@@ -46,13 +46,12 @@ fr:
       plans_unlimited: Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
       distribution: "<b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)"
       split_transaction: "<b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)"
-      template_widget: Sélection rapide du <b>modèle</b> à partir d'un <b>widget</b> de l'écran d'accueil
       print: <b>Imprimer</b> la liste des opérations dans un fichier PDF
       attach_picture: "<b>Image jointe</b>: Capture par caméra ou sélection dans la galerie"
       ad_free: <b>Sans publicité</b>
       csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
       auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
-      cloud_sync: "<b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils via WebDAV et Google Drive"
+      cloud_sync: "<b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils"
       split_template: Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
       email_support: <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
       roadmap_voting: Voter sur la <b>feuille de route pour le développement</b>

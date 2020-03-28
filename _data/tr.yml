@@ -46,13 +46,12 @@ tr:
       plans_unlimited: <b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı
       distribution: "<b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin"
       split_transaction: "<b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)"
-      template_widget: Ana ekran <b>widget'inden</b> hızlı <b>şablon</b> seçimi
       print: Muamele listesini bir PDF dosyasına <b>yazdırma</b>
       attach_picture: "<b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme"
       ad_free: <b>Reklamsız</b>
       csv_import: Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)
       auto_backup: Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama alanına yükleme
-      cloud_sync: "<b>Bulut eşleştirmesi</b>: veriler birden çok cihaz arasında WebDAV ve Google Drive vasıtasıyla eşleştirilebilir"
+      cloud_sync: "<b>Bulut eşleştirmesi</b>: veriler birden çok cihaz vasıtasıyla eşleştirilebilir"
       split_template: Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
       email_support: 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
       roadmap_voting: <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
