@@ -2,9 +2,9 @@ Mes dépenses enregistre vos dépenses et vos revenus, directement sur votre sma
 
 - Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
 - Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
-- Les opérations peuvent être <b>regroupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
+- 
 - <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-- Les données peuvent être protégées par un<b>mot de passe</b>
+- Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil.
 - <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
 - <b>Rapprochement</b>: comparez facilement l'état des opérations avec vos relevés bancaires
 - Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
@@ -19,14 +19,13 @@ Les fonctions Premium sont déverrouillées en achetant l'une des clés de licen
 - <b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
 - <b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)
 - <b>Imprimer</b> la liste des opérations dans un fichier PDF
-- Définir une <b>question de sécurité</b> pour récupérer un mot de passe perdu
+- 
 - <b>Image jointe</b>: Capture par caméra ou sélection dans la galerie
-- Sélection rapide du <b>modèle</b> à partir d'un <b>widget</b> de l'écran d'accueil
 
 <b>Clé étendue</b>
 
 - Toutes les fonctions de la Clé Contrib
-- <b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils via WebDAV et Google Drive
+- <b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils (Webdav, Dropbox)
 - <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
 - <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
 
