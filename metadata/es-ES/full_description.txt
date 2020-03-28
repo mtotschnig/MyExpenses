@@ -2,9 +2,9 @@ Mis gastos permite el seguimiento de gastos e ingresos, directamente desde tu te
 
 - Hasta cinco cuentas con <b>transferencias</b> (también entre diferentes monedas)
 - Número ilimitado de <b>plantillas</b> y hasta tres proyectos para transacciones <b>recurrentes</b>
-- Las transacciones pueden ser <b>agrupadas</b> (por día, semana, mes y año) y <b>filtradas</b>
+- 
 - <b>Exportar</b> a QIF y CSV. <b>Importar</b> desde QIF
-- Los datos pueden protegerse con <b>contraseña</b>
+- Se pueden proteger los datos con <b>contraseña</b> o un dispositivo de <b>bloqueo de pantalla</b>
 - Se puede personalizar el <b>tema</b> (oscuro y claro) y el <b>tipo de letra</b>
 - <b>Reconciliación</b>: compare fácilmente los estados de transacción con los recibos de banco
 - <b>Widgets</b> y <b>accesos directos</b> en su pantalla de inicio para introducir información rápidamente
@@ -19,25 +19,27 @@ Las características premium se desbloquean al comprar una de la siguientes llav
 - <b>Gráfico de sectores</b>: visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)
 - <b>Transacción dividida</b>: una transacción puede separarse en diferentes partes (categorías y transferencias)
 - <b>Imprima</b> la lista de transacciones en un archivo PDF
-- Defina una <b>pregunta de seguridad</b> para recuperar una contraseña perdida
+- 
 - <b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada desde galería
-- Selección de una <b>plantilla</b> rápidamente desde el <b>widget</b> en la pantalla de inicio
 
 <b>Clave Extendida</b>
 
 - Todas las características de licencia Contrib
-- <b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos vía WebDAV y Google Drive
+- <b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos (Webdav, Dropbox)
 - <b>Copia de seguridad automática</b> diaria con subida a almacenamiento en la nube opcional
 - Una sofisticada y personalizable <b>importación a CSV</b> (para aplicaciones de hojas de cálculo)
 
 <b>Llave Profesional</b>
 
 - Todas las características de la llave Extendida
+- <b>Presupuestar</b>: Compare sus gastos con los límites que establezca por categoría de forma diaria, semanal o anual.
+- <b>Gráfico del historial</b> (Flujo de efectivo)
 - Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
-- <b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables
+- <b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales
 - Derecho a participar en la <b>hoja de ruta de desarrollo</b>
 
 <i>Mis gastos</i> requiere los siguientes <u>permisos</u>:
+
 - <i>Calendario</i>: Los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
 - <i>Almacenamiento</i>: Almacenamiento para las exportaciones QIF, CSV y copias de seguridad
 - <i>Internet</i>: Validación de la llave de licencia, Sincronización en la nube.

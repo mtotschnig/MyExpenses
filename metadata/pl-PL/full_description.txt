@@ -2,9 +2,9 @@ Moje Wydatki śledzi Twoje wydatki i dochody bezpośrednio na smartfonie i table
 
 - Do pięciu kont z <b>transferem</b> (również między różnymi walutami)
 - Nieograniczona liczba <b>szablonów</b> i do trzech planów dla <b>recurring</b> transakcji
-- Transakcje mogą mieć <b>grupy</b> (dzień, tydzień, miesiąc i rok) i <b>filtry</b>
+- 
 - <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
-- Dane mogą być chronione <b>hasłem</b>
+- Data can be protected by <b>password</b> or device <b>lock screen</b>
 - <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
 - <b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami bankowymi
 - <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania danych
@@ -19,25 +19,27 @@ Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy l
 - <b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)
 - <b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)
 - <b>Drukuj</b> listę transakcji do pliku PDF
-- Zdefiniuj <b>pytanie dotyczące bezpieczeństwa</b>, aby odzyskać utracone hasło
+- 
 - <b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii
-- Szybki wybór <b>szablonu</b> z ekranu głównego <b>widżetu</b>
 
 <b>Klucz Rozszerzony</b>
 
 - Wszystkie funkcje Contrib Key
-- <b>Synchronizacja w chmurze</b>: dane mogą być synchronizowane między wieloma urządzeniami za pośrednictwem WebDAV i Google Drive
+- <b>Cloud synchronization</b>: Data can be synced between multiple devices (Webdav, Dropbox)
 - Codziennie <b>automatyczna kopia</b> z opcjonalnym przesyłaniem do chmury
 - Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy kalkulacyjnych)
 
 <b>Profesjonalny Klucz</b>
 
 - Wszystkie funkcje Extended Key
+- <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
+- <b>History chart</b> (Cash flow)
 - Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
 - <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
 - Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
 
 <i>Moje Wydatki</i> wymaga następujących <u>uprawnień</u>:
+
 - <i>Kalendarz</i>: Plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przypisujesz.
 - <i>Przechowywanie</i>: Przechowywanie eksportów QIF i CSV oraz plików kopii zapasowych.
 - <i>Internet</i>: Sprawdzenie klucza licencji, Synchronizacja w chmurze.

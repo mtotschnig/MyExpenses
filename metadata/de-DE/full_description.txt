@@ -2,9 +2,9 @@ Meine Ausgaben ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen 
 
 - Bis zu fünf Konten mit <b>Umbuchungen</b> (auch zwischen verschiedenen Währungen)
 - Unbegrenzte Anzahl von <b>Vorlagen</b> und bis zu drei Pläne für <b>wiederkehrende</b> Buchungen
-- Buchungen können <b>gruppiert</b> (pro Tag, Woche, Monat und Jahr) und <b>gefiltert</b> werden
+- 
 - <b>Exportieren</b> nach QIF und CSV. <b>Importieren</b> von QIF
-- Daten können mit <b>Passwort</b> geschützt werden
+- Daten können durch ein <b>Passwort</b> oder den <b>Sperrbildschirm des Gerätes</b> geschützt werden
 - <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
 - <b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen mit Ihren Kontoauszügen
 - Widget und Verknüpfungen für den Startbildschirm zur schnellen Dateneingabe
@@ -19,14 +19,13 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 - <b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)
 - <b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden
 - <b>Drucken</b> der Buchungsliste in eine PDF-Datei
-- Definieren Sie eine <b>Sicherheitsfrage</b> für die Wiederherstellung eines verlorenen Passworts
+- 
 - <b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen
-- Schnelle Auswahl von <b>Vorlagen</b> über <b>Widget</b> am Startbildschirm
 
 <b>Erweiterungsschlüssel</b>
 
 - Alle Funktionen des Contrib Schlüssels
-- <b>Cloud-Synchronisierung</b>: Daten können über WebDAV und Google Drive zwischen mehreren Geräten synchronisiert werden
+- <b>Cloud-Synchronisierung</b>: Daten können zwischen mehreren Geräten synchronisiert werden (Webdav, Dropbox)
 - Tägliche <b>automatische Sicherung</b> mit optionalem Upload in den Cloud-Speicher
 - Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
 
@@ -36,7 +35,7 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 - <b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich.
 - <b>Verlaufsdiagramm</b> (Cashflow)
 - Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
-- <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
+- <b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen
 - Stimmrecht zum <b>Entwicklungsfahrplan</b>
 
 <i>Meine Ausgaben</i> verwendet folgende <u>Berechtigungen</u>:
