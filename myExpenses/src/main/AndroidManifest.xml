@@ -79,7 +79,7 @@
         <activity
             android:name=".activity.MyExpenses"
             android:label="${appName}"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".activity.DeepLinkActivity"
@@ -146,7 +146,7 @@
             android:theme="@style/ThemeLight.EditDialog">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"></meta-data>
+                android:resource="@xml/searchable" />
         </activity>
 
         <activity
@@ -156,17 +156,17 @@
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <activity
             android:name=".activity.GrisbiImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <activity
             android:name=".activity.QifImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <activity
             android:name=".activity.CsvImportActivity"
@@ -192,14 +192,14 @@
         <activity
             android:name=".activity.ManageParties"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog"></activity>
+            android:theme="@style/ThemeLight.EditDialog" />
 
-        <activity android:name=".activity.ManageBudgets"></activity>
+        <activity android:name=".activity.ManageBudgets" />
 
         <activity
             android:name=".activity.ManageStaleImages"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog"></activity>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name=".activity.ManageTemplates"
@@ -225,11 +225,11 @@
         <activity
             android:name=".activity.ManageMethods"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog"></activity>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name=".activity.FolderBrowser"
-            android:theme="@style/ThemeLight.EditDialog"></activity>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name=".activity.CalculatorInput"
@@ -250,12 +250,12 @@
         <activity
             android:name=".activity.ManageCurrencies"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog"></activity>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name=".activity.ManageSyncBackends"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog"></activity>
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
@@ -273,7 +273,7 @@
         <activity android:name=".activity.RoadmapVoteActivity">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"></meta-data>
+                android:resource="@xml/searchable" />
         </activity>
 
         <activity android:name=".activity.HistoryActivity" />
@@ -326,6 +326,9 @@
             android:theme="@style/Launch" />
 
         <activity android:name=".activity.BudgetActivity" />
+
+        <activity android:name=".activity.ManageTags"
+            android:theme="@style/ThemeLight.EditDialog"/>
 
         <service
             android:name=".service.AutoBackupService"

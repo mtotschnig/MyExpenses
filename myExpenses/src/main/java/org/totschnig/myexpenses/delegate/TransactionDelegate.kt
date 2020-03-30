@@ -44,14 +44,17 @@ import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
+import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DistribHelper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
 import java.util.*
 
@@ -869,6 +872,13 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                     (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
                 }
             }
+        }
+    }
+
+    fun addTags(tags: Array<Tag>) {
+        with(viewBinding.TagGroup) {
+            removeAllViews()
+            addChipsBulk(tags.map(Tag::label))
         }
     }
 
