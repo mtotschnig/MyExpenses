@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.util.*
 
@@ -43,6 +44,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
     private val accounts = MutableLiveData<List<Account>>()
+    private val tags = MutableLiveData<MutableList<Tag>>()
 
     fun getMethods(): LiveData<List<PaymentMethod>> {
         return methods
@@ -50,6 +52,10 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun getAccounts(): LiveData<List<Account>> {
         return accounts
+    }
+
+    fun getTags(): LiveData<MutableList<Tag>> {
+        return tags
     }
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
@@ -124,6 +130,14 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
         val minorUnitDelta: Int = currencyUnit.fractionDigits() - Utils.getHomeCurrency().fractionDigits()
         return raw * Math.pow(10.0, minorUnitDelta.toDouble())
+    }
+
+    fun updateTags(it: MutableList<Tag>) {
+        tags.postValue(it)
+    }
+
+    fun removeTag(tag: Tag) {
+        tags.value?.remove(tag)
     }
 }
 

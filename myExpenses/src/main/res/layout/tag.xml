@@ -3,4 +3,6 @@
     style="@style/Widget.MaterialComponents.Chip.Choice"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:theme="@style/Theme.MaterialComponents.Light" />
+    android:textAlignment="center"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    android:gravity="center_horizontal" />

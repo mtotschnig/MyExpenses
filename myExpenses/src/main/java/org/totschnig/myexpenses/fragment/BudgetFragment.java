@@ -281,7 +281,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
     if (accountName == null) accountName = budget.getCurrency().code();
     filterList.add(accountName);
     Stream.of(filterPersistence.getWhereFilter().getCriteria()).forEach(criterion -> filterList.add(criterion.prettyPrint(getContext())));
-    addChipsBulk(filterGroup, filterList);
+    addChipsBulk(filterGroup, filterList, null);
   }
 
   private String getTemplateForAllocatedOnlyKey(@NonNull Budget budget) {

@@ -47,10 +47,8 @@ import com.google.android.material.snackbar.Snackbar
 import icepick.Icepick
 import icepick.State
 import org.threeten.bp.LocalDate
-import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity.SELECT_TAGS_REQUEST
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
@@ -103,7 +101,6 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Currency
-import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
@@ -341,6 +338,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
             }
+        })
+        viewModel.getTags().observe(this, Observer { tags ->
+            delegate.showTags(tags) { tag -> viewModel.removeTag(tag) }
         })
     }
 
@@ -710,7 +710,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST && resultCode == RESULT_OK) {
-            (intent?.getSerializableExtra(KEY_TAGLIST) as? Array<Tag>)?.let { delegate.addTags(it) }
+            (intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let { viewModel.updateTags(it) }
         }
     }
 

@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DistribHelper
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -875,10 +874,10 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         }
     }
 
-    fun addTags(tags: Array<Tag>) {
+    fun showTags(tags: Iterable<Tag>, closeFunction: (Tag) -> Unit) {
         with(viewBinding.TagGroup) {
             removeAllViews()
-            addChipsBulk(tags.map(Tag::label))
+            addChipsBulk(tags, closeFunction)
         }
     }
 

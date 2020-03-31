@@ -1,5 +1,9 @@
 package org.totschnig.myexpenses.viewmodel.data
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class Tag(val label: String, var selected: Boolean): Serializable
+@Parcelize
+data class Tag(val label: String, var selected: Boolean): Parcelable {
+    override fun toString() = label
+}

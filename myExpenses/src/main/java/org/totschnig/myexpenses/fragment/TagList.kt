@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.viewmodel.TagListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_TAGLIST = "tagList"
+
 class TagList : Fragment() {
     private var _binding: TagListBinding? = null
     private lateinit var viewModel: TagListViewModel
@@ -72,7 +73,7 @@ class TagList : Fragment() {
     }
 
     fun resultIntent() = Intent().apply {
-        putExtra(KEY_TAGLIST, adapter.tagList.filter { tag -> tag.selected }.toTypedArray())
+        putParcelableArrayListExtra(KEY_TAGLIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
     }
 
 }
@@ -97,8 +98,13 @@ class Adapter : RecyclerView.Adapter<ViewHolder>() {
     }
 
     fun addTag(label: String) {
-        tagList.add(0, Tag(label, true))
-        notifyItemInserted(0)
+        tagList.indexOfFirst { tag -> tag.label.equals(label) }.takeIf { it > -1 }?.let { position ->
+            tagList[position].selected = true
+            notifyItemChanged(position)
+        } ?: kotlin.run {
+            tagList.add(0, Tag(label, true))
+            notifyItemInserted(0)
+        }
     }
 }
 
