@@ -327,8 +327,9 @@
 
         <activity android:name=".activity.BudgetActivity" />
 
-        <activity android:name=".activity.ManageTags"
-            android:theme="@style/ThemeLight.EditDialog"/>
+        <activity
+            android:name=".activity.ManageTags"
+            android:theme="@style/ThemeLight.EditDialog" />
 
         <service
             android:name=".service.AutoBackupService"
