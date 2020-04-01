@@ -170,6 +170,7 @@
 
                 <LinearLayout
                     style="@style/FormField"
+                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <include layout="@layout/date_edit" />
