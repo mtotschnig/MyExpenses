@@ -1,28 +1,29 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import org.totschnig.myexpenses.model.Account
+import org.apache.commons.collections4.ListUtils
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.util.*
-import java.util.stream.Collectors
 
 class TagListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    private val accountLiveData: Map<Long, LiveData<List<Tag>>> = lazyMap { transactionId ->
-        val liveData = MutableLiveData<List<Tag>>()
-        val tagList = mutableListOf<Tag>()
-        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        val current = Random()
-        repeat(100) {
-            val randomString = current
-                    .ints(current.nextInt(10).toLong()+1, 0, charPool.size)
-                    .mapToObj { index -> charPool[index].toString() }
-                    .collect(Collectors.joining())
-            tagList.add(Tag(randomString, false))
+    private val tags = MutableLiveData<MutableList<Tag>>()
+
+    fun loadTags(selected: ArrayList<Tag>?): LiveData<MutableList<Tag>> {
+        if (tags.value == null) {
+            disposable = briteContentResolver.createQuery(TransactionProvider.TAGS_URI, null, null, null, null, false)
+                    .mapToList { cursor ->
+                        val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
+                        val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                        Tag(id, label, selected?.find { tag -> tag.label.equals(label) } != null)
+                    }
+                    .subscribe { list -> tags.postValue(selected?.let { ListUtils.union(it.filter { tag -> tag.id == -1L }, list) } ?: list) }
         }
-        liveData.postValue(tagList)
-        return@lazyMap liveData
+        return tags
     }
-    fun loadTags(transactionId: Long): LiveData<List<Tag>> = accountLiveData.getValue(transactionId)
 }

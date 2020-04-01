@@ -138,6 +138,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
@@ -696,6 +697,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_KEY + " text unique not null, "
           + KEY_VALUE + " text);";
 
+  private static final String TAGS_CREATE =
+      "CREATE TABLE " + TABLE_TAGS
+          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
+          KEY_LABEL + " text UNIQUE not null);";
+  ;
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -793,6 +800,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(BUDGETS_CREATE);
     db.execSQL(BUDGETS_CATEGORY_CREATE);
     db.execSQL("CREATE INDEX budget_categories_cat_id_index on " + TABLE_BUDGET_CATEGORIES + "(" + KEY_CATID + ")");
+
+    db.execSQL(TAGS_CREATE);
 
     //Run on ForTest build type
     //insertTestData(db, 50, 50);

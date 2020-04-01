@@ -148,6 +148,8 @@ public class TransactionProvider extends ContentProvider {
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
+  public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -246,6 +248,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int BUDGET_CATEGORY = 52;
   private static final int CURRENCIES_CODE = 53;
   private static final int ACCOUNTS_MINIMAL = 54;
+  private static final int TAGS = 55;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -920,6 +923,9 @@ public class TransactionProvider extends ContentProvider {
         break;
       case BUDGETS:
         qb.setTables(TABLE_BUDGETS + " LEFT JOIN " + TABLE_ACCOUNTS + " ON (" + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
+        break;
+      case TAGS:
+        qb.setTables(TABLE_TAGS);
         break;
       default:
         throw unknownUri(uri);
@@ -1750,6 +1756,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets/#/#", BUDGET_CATEGORY);
     URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
     URI_MATCHER.addURI(AUTHORITY, "accountsMinimal", ACCOUNTS_MINIMAL);
+    URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);
   }
 
   /**

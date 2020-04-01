@@ -1143,7 +1143,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     fun startTagSelection(view: View) {
-        val i = Intent(this, ManageTags::class.java)
+        val i = Intent(this, ManageTags::class.java).apply {
+            putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
+        }
         startActivityForResult(i, ProtectedFragmentActivity.SELECT_TAGS_REQUEST)
     }
 }

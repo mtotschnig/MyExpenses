@@ -271,6 +271,7 @@ public class DatabaseConstants {
   static final String TABLE_CHANGES = "changes";
   static final String TABLE_SETTINGS = "settings";
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
+  static final String TABLE_TAGS = "tags";
   /**
    * used on backup and restore
    */

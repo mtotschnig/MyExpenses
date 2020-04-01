@@ -39,11 +39,10 @@ class TagList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = Adapter()
-        binding.recyclerView.adapter = adapter
-        viewModel.loadTags(-1).observe(viewLifecycleOwner, Observer {
-            adapter.tagList.addAll(it)
-            adapter.notifyDataSetChanged()
+        val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)
+        viewModel.loadTags(selected).observe(viewLifecycleOwner, Observer {
+            adapter = Adapter(it)
+            binding.recyclerView.adapter = adapter
         })
         binding.newTag.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
@@ -78,8 +77,7 @@ class TagList : Fragment() {
 
 }
 
-class Adapter : RecyclerView.Adapter<ViewHolder>() {
-    var tagList: MutableList<Tag> = mutableListOf()
+class Adapter(val tagList: MutableList<Tag>) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tag, parent, false))
@@ -102,7 +100,7 @@ class Adapter : RecyclerView.Adapter<ViewHolder>() {
             tagList[position].selected = true
             notifyItemChanged(position)
         } ?: kotlin.run {
-            tagList.add(0, Tag(label, true))
+            tagList.add(0, Tag(-1, label, true))
             notifyItemInserted(0)
         }
     }
