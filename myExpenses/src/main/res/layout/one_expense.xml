@@ -231,29 +231,33 @@
             </TableRow>
 
             <TableRow android:id="@+id/TagRow">
+
                 <TextView
                     android:id="@+id/TagLabel"
                     style="@style/FormLabel"
                     android:text="@string/tags" />
+
                 <LinearLayout
                     style="@style/FormField"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/TagGroup"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_width="0dp" />
-                <ImageView
-                    android:id="@+id/SelectTag"
-                    style="?actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="TODO"
-                    android:focusable="true"
-                    android:onClick="startTagSelection"
-                    app:srcCompat="@drawable/ic_menu_add" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/TagGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/SelectTag"
+                        style="?actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="TODO"
+                        android:focusable="true"
+                        android:onClick="startTagSelection"
+                        app:srcCompat="@drawable/ic_menu_add" />
                 </LinearLayout>
             </TableRow>
 
