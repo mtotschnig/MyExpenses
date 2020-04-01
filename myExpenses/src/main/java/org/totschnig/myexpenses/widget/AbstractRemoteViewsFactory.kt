@@ -24,7 +24,7 @@ abstract class AbstractRemoteViewsFactory(
     init {
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID)
-        width = intent.getIntExtra(KEY_WIDTH, 0)
+        width = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
     }
 
     override fun onCreate() {}
