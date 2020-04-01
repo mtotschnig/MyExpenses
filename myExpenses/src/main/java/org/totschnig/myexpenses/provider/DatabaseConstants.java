@@ -199,6 +199,7 @@ public class DatabaseConstants {
   public static final String KEY_BUDGETID = "budget_id";
   public static final String KEY_START = "start";
   public static final String KEY_END = "end";
+  public static final String KEY_TAGID = "tag_id";
   /**
    * Used for both saving goal and credit limit on accounts
    */
@@ -272,6 +273,7 @@ public class DatabaseConstants {
   static final String TABLE_SETTINGS = "settings";
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   static final String TABLE_TAGS = "tags";
+  static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
   /**
    * used on backup and restore
    */

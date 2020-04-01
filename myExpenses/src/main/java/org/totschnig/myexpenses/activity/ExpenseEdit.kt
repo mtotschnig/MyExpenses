@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
+import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel
@@ -130,9 +131,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     @JvmField
     @State
     var mRowId = 0L
+
     @JvmField
     @State
     var parentId = 0L
+
     @JvmField
     @State
     var pictureUriTemp: Uri? = null
@@ -141,6 +144,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         get() = currentAccount?.id ?: 0L
 
     private var planInstanceId: Long = 0
+
     /**
      * transaction, transfer or split
      */
@@ -149,6 +153,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var operationType = 0
     private lateinit var mManager: LoaderManager
     private var createNew = false
+
     @JvmField
     @State
     var isTemplate = false
@@ -158,6 +163,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private var pObserver: ContentObserver? = null
     private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
+    private var tagsLoaded = false
     override fun getDate(): LocalDate {
         return dateEditBinding.Date2Button.date
     }
@@ -168,8 +174,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     @Inject
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
+
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
+
     @Inject
     lateinit var discoveryHelper: DiscoveryHelper
 
@@ -236,7 +244,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null)
             setTitle()
         } else {
-
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -340,6 +347,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
         })
         viewModel.getTags().observe(this, Observer { tags ->
+            tagsLoaded = true
             delegate.showTags(tags) { tag -> viewModel.removeTag(tag) }
         })
     }
@@ -392,9 +400,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             } else {
                 mRowId = it.id
                 populate(it)
+                viewModel.loadOriginalTags(mRowId)
             }
         } ?: run {
-            abortWithMessage(when(task) {
+            abortWithMessage(when (task) {
                 TRANSACTION, TEMPLATE -> "Object has been deleted from db"
                 TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
                 FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
@@ -823,21 +832,20 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     fun onSaved(result: Long) {
         if (result < 0L) {
-            val errorMsg: String
-            when (result) {
-                ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> errorMsg = getString(R.string.external_storage_unavailable)
-                ERROR_PICTURE_SAVE_UNKNOWN -> errorMsg = "Error while saving picture"
+            showSnackbar(when (result) {
+                ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
+                ERROR_PICTURE_SAVE_UNKNOWN -> "Error while saving picture"
+                ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
                 ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
                     delegate.recurrenceSpinner.setSelection(0)
                     //mTransaction!!.originTemplate = null
-                    errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device."
+                    "Recurring transactions are not available, because calendar integration is not functional on this device."
                 }
                 else -> {
                     (delegate as? CategoryDelegate)?.resetCategory()
-                    errorMsg = "Error while saving transaction"
+                    "Error while saving transaction"
                 }
-            }
-            showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
+            }, Snackbar.LENGTH_LONG)
             createNew = false
         } else {
             if (operationType == Transactions.TYPE_SPLIT) {
@@ -1142,10 +1150,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         const val AUTOFILL_CURSOR = 8
     }
 
-    fun startTagSelection(view: View) {
-        val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
+    fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
+        if (mNewInstance || tagsLoaded) {
+            val i = Intent(this, ManageTags::class.java).apply {
+                putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
+            }
+            startActivityForResult(i, ProtectedFragmentActivity.SELECT_TAGS_REQUEST)
         }
-        startActivityForResult(i, ProtectedFragmentActivity.SELECT_TAGS_REQUEST)
     }
 }

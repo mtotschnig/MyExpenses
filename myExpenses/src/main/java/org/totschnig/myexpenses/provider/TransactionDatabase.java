@@ -109,6 +109,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
@@ -141,6 +142,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -701,7 +703,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TABLE " + TABLE_TAGS
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
           KEY_LABEL + " text UNIQUE not null);";
-  ;
+
+  private static final String TRANSACTIONS_TAGS_CREATE =
+      "CREATE TABLE " + TABLE_TRANSACTIONS_TAGS
+          + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + "primary key (" + KEY_TAGID + "," + KEY_TRANSACTIONID + "));";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -802,6 +809,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE INDEX budget_categories_cat_id_index on " + TABLE_BUDGET_CATEGORIES + "(" + KEY_CATID + ")");
 
     db.execSQL(TAGS_CREATE);
+    db.execSQL(TRANSACTIONS_TAGS_CREATE);
 
     //Run on ForTest build type
     //insertTestData(db, 50, 50);

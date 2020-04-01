@@ -150,6 +150,8 @@ public class TransactionProvider extends ContentProvider {
 
   public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
 
+  public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions_tags");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -249,6 +251,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CURRENCIES_CODE = 53;
   private static final int ACCOUNTS_MINIMAL = 54;
   private static final int TAGS = 55;
+  private static final int TRANSACTIONS_TAGS = 56;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -927,6 +930,9 @@ public class TransactionProvider extends ContentProvider {
       case TAGS:
         qb.setTables(TABLE_TAGS);
         break;
+      case TRANSACTIONS_TAGS:
+        qb.setTables(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -1065,6 +1071,16 @@ public class TransactionProvider extends ContentProvider {
         }
         newUri = CURRENCIES_URI + "/" + id;
         break;
+      }
+      case TAGS: {
+        id = db.insertOrThrow(TABLE_TAGS, null, values);
+        newUri = TAGS_URI + "/" + id;
+        break;
+      }
+      case TRANSACTIONS_TAGS: {
+        db.insertWithOnConflict(TABLE_TRANSACTIONS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        //the table does not have priimary ids, we return the base uri
+        return TRANSACTIONS_TAGS_URI;
       }
       default:
         throw unknownUri(uri);
@@ -1211,6 +1227,10 @@ public class TransactionProvider extends ContentProvider {
         } catch (SQLiteConstraintException e) {
           return 0;
         }
+        break;
+      }
+      case TRANSACTIONS_TAGS: {
+        count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
         break;
       }
       default:
@@ -1757,6 +1777,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
     URI_MATCHER.addURI(AUTHORITY, "accountsMinimal", ACCOUNTS_MINIMAL);
     URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions_tags", TRANSACTIONS_TAGS);
   }
 
   /**
