@@ -31,11 +31,11 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -122,7 +122,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     var pictureUri: Uri? = null
     @JvmField
     @State
-    var crStatus: Transaction.CrStatus = Transaction.CrStatus.UNRECONCILED
+    var crStatus: CrStatus = CrStatus.UNRECONCILED
     @JvmField
     @State
     var parentId: Long? = null
@@ -444,7 +444,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         val sAdapter: CrStatusAdapter = object : CrStatusAdapter(context) {
             override fun isEnabled(position: Int): Boolean { //if the transaction is reconciled, the status can not be changed
                 //otherwise only unreconciled and cleared can be set
-                return crStatus != Transaction.CrStatus.RECONCILED && position != Transaction.CrStatus.RECONCILED.ordinal
+                return crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal
             }
         }
         statusSpinner.adapter = sAdapter
@@ -554,7 +554,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
             }
             R.id.Status -> {
-                crStatus = parent.selectedItem as Transaction.CrStatus
+                crStatus = parent.selectedItem as CrStatus
             }
         }
     }
@@ -691,7 +691,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                     }
                 }
             }
-            crStatus = (statusSpinner.selectedItem as Transaction.CrStatus)
+            crStatus = (statusSpinner.selectedItem as CrStatus)
             this.pictureUri = this@TransactionDelegate.pictureUri
         }
     }

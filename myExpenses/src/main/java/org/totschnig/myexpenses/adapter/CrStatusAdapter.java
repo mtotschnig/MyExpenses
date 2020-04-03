@@ -7,16 +7,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.CrStatus;
 
 import androidx.annotation.NonNull;
 
-public class CrStatusAdapter extends ArrayAdapter<Transaction.CrStatus> {
+public class CrStatusAdapter extends ArrayAdapter<CrStatus> {
 
   private static final int TEXT_VIEW_RESOURCE_ID = android.R.id.text1;
 
   public CrStatusAdapter(Context context) {
-    super(context, R.layout.custom_spinner_item, TEXT_VIEW_RESOURCE_ID, Transaction.CrStatus.values());
+    super(context, R.layout.custom_spinner_item, TEXT_VIEW_RESOURCE_ID, CrStatus.values());
     setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
   }
 

@@ -35,6 +35,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
@@ -42,7 +43,6 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -185,7 +184,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
           + KEY_PARENTID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_STATUS + " integer default 0, "
-          + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" + Transaction.CrStatus.RECONCILED.name() + "',"
+          + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")) default '" + CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text, "
           + KEY_UUID + " text, "
@@ -466,7 +465,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
-          + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
+          + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")),"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
 

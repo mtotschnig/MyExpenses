@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -1143,7 +1144,7 @@ public class TransactionProvider extends ContentProvider {
             count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[]{segment, segment});
           } else {
             ContentValues v = new ContentValues();
-            v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
+            v.put(KEY_CR_STATUS, CrStatus.VOID.name());
             count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[]{segment, segment, segment});
           }
           db.setTransactionSuccessful();
@@ -1285,7 +1286,7 @@ public class TransactionProvider extends ContentProvider {
         segment = uri.getPathSegments().get(1);
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
-        v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+        v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
         count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
         break;
       case ACCOUNTS:

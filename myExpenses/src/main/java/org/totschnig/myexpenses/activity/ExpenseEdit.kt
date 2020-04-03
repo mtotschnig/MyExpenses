@@ -64,6 +64,7 @@ import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan.Recurrence
@@ -421,7 +422,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private fun populate(transaction: Transaction) {
         if (intent.getBooleanExtra(KEY_CLONE, false)) {
             mRowId = if (transaction is SplitTransaction) transaction.id else 0L
-            transaction.crStatus = Transaction.CrStatus.UNRECONCILED
+            transaction.crStatus = CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE
             transaction.uuid = Model.generateUuid()
             mNewInstance = true

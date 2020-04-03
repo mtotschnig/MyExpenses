@@ -130,6 +130,11 @@ public class Utils {
     return currencyContext.get(home != null ? home : getLocalCurrency().getCurrencyCode());
   }
 
+  public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {
+    int minorUnitDelta = currencyUnit.fractionDigits() - Utils.getHomeCurrency().fractionDigits();
+    return raw * Math.pow(10, minorUnitDelta);
+  }
+
   private static Currency getLocalCurrency() {
     Currency result = null;
     String userCountry = getCountryFromTelephonyManager();

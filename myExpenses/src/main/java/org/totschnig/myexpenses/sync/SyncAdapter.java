@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
@@ -833,7 +834,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
     }
     if (change.crStatus() != null) {
-      t.setCrStatus(Transaction.CrStatus.valueOf(change.crStatus()));
+      t.setCrStatus(CrStatus.valueOf(change.crStatus()));
     }
     t.setReferenceNumber(change.referenceNumber());
     if (parentOffset == -1 && change.parentUuid() != null) {

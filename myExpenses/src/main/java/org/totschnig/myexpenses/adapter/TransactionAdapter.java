@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DbUtils;

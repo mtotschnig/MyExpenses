@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
@@ -168,7 +169,7 @@ public class Exporter {
     while (c.getPosition() < c.getCount()) {
       String comment = DbUtils.getString(c, KEY_COMMENT);
       String full_label = "", label_sub = "", label_main;
-      Transaction.CrStatus status;
+      CrStatus status;
       Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
       Cursor splits = null, readCat;
       if (SPLIT_CATID.equals(catId)) {
@@ -204,9 +205,9 @@ public class Exporter {
       String amountQIF = nfFormat.format(bdAmount);
       String amountAbsCSV = nfFormat.format(bdAmount.abs());
       try {
-        status = Transaction.CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
+        status = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
       } catch (IllegalArgumentException ex) {
-        status = Transaction.CrStatus.UNRECONCILED;
+        status = CrStatus.UNRECONCILED;
       }
       String referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
       String splitIndicator = SPLIT_CATID.equals(catId) ? SplitTransaction.CSV_INDICATOR : "";

@@ -75,35 +75,33 @@ class TagList : Fragment() {
         putParcelableArrayListExtra(KEY_TAGLIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
     }
 
-}
+    private class Adapter(val tagList: MutableList<Tag>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
-class Adapter(val tagList: MutableList<Tag>) : RecyclerView.Adapter<ViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+                ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tag, parent, false))
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tag, parent, false))
+        override fun getItemCount(): Int = tagList.size
 
-    override fun getItemCount(): Int = tagList.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        (holder.itemView as Chip).apply {
-            val tag = tagList[position]
-            text = tag.label
-            isChecked = tag.selected
-            setOnClickListener({
-                tag.selected = !tag.selected
-            })
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            (holder.itemView as Chip).apply {
+                val tag = tagList[position]
+                text = tag.label
+                isChecked = tag.selected
+                setOnClickListener({
+                    tag.selected = !tag.selected
+                })
+            }
         }
-    }
 
-    fun addTag(label: String) {
-        tagList.indexOfFirst { tag -> tag.label.equals(label) }.takeIf { it > -1 }?.let { position ->
-            tagList[position].selected = true
-            notifyItemChanged(position)
-        } ?: kotlin.run {
-            tagList.add(0, Tag(-1, label, true))
-            notifyItemInserted(0)
+        fun addTag(label: String) {
+            tagList.indexOfFirst { tag -> tag.label.equals(label) }.takeIf { it > -1 }?.let { position ->
+                tagList[position].selected = true
+                notifyItemChanged(position)
+            } ?: kotlin.run {
+                tagList.add(0, Tag(-1, label, true))
+                notifyItemInserted(0)
+            }
         }
+        private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
 }
-
-class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

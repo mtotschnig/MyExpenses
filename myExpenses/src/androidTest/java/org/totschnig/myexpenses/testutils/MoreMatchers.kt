@@ -1,19 +1,17 @@
 package org.totschnig.myexpenses.testutils
 
 import android.widget.TextView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withParent
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IAccount
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
 fun withMethod(label: String): Matcher<Any> =
@@ -27,9 +25,9 @@ fun withMethod(label: String): Matcher<Any> =
             }
         }
 
-fun withStatus(status: Transaction.CrStatus): Matcher<Any> =
-        object : BoundedMatcher<Any, Transaction.CrStatus>(Transaction.CrStatus::class.java) {
-            override fun matchesSafely(myObj: Transaction.CrStatus): Boolean {
+fun withStatus(status: CrStatus): Matcher<Any> =
+        object : BoundedMatcher<Any, CrStatus>(CrStatus::class.java) {
+            override fun matchesSafely(myObj: CrStatus): Boolean {
                 return myObj.equals(status)
             }
 

@@ -5,6 +5,7 @@
 package org.totschnig.myexpenses.export.qif;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
@@ -156,7 +157,7 @@ public class QifTransaction {
       t.setDate(date);
     }
     t.setComment(memo);
-    t.setCrStatus(Transaction.CrStatus.fromQifName(status));
+    t.setCrStatus(CrStatus.fromQifName(status));
     t.setReferenceNumber(number);
     return t;
   }

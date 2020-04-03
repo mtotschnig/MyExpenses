@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
+import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplatetRemoteViewsFactory;
@@ -173,4 +174,6 @@ public interface AppComponent {
   void inject(TemplatetRemoteViewsFactory templatetRemoteViewsFactory);
 
   void inject(AbstractWidget abstractWidget);
+
+  void inject(TransactionDetailViewModel transactionDetailViewModel);
 }

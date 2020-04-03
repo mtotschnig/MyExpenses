@@ -25,7 +25,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria;

@@ -13,7 +13,7 @@ interface ITransaction: Serializable {
     var catId: Long?
     var categoryIcon: String?
     var label: String?
-    var crStatus: Transaction.CrStatus
+    var crStatus: CrStatus
     var equivalentAmount: Money?
     var originalAmount: Money?
     var referenceNumber: String?

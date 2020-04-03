@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.provider;
 import android.content.ContentValues;
 
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.CrStatus;
 
 public class TransactionInfo {
 

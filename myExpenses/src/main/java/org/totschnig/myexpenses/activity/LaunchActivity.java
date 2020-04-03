@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -204,7 +205,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
                 edit.putString(key, val.substring(sepIndex + 1) + ";" + Criteria.escapeSeparator(val.substring(0, sepIndex)));
                 break;
               case "cr":
-                edit.putString(key, Transaction.CrStatus.values()[Integer.parseInt(val)].name());
+                edit.putString(key, CrStatus.values()[Integer.parseInt(val)].name());
                 break;
             }
           }

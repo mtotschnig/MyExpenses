@@ -22,7 +22,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
 
@@ -37,7 +36,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
@@ -52,7 +50,6 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 import timber.log.Timber;
@@ -430,51 +427,6 @@ public class Transaction extends Model implements ITransaction {
     this.originPlanInstanceId = originPlanInstanceId;
   }
 
-  public enum CrStatus {
-    UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, "V");
-    public int color;
-    @NonNull
-    public String symbol;
-
-    CrStatus(int color, @NonNull String symbol) {
-      this.color = color;
-      this.symbol = symbol;
-    }
-
-    public static final String JOIN;
-
-    static {
-      JOIN = TextUtils.joinEnum(CrStatus.class);
-    }
-
-    public static CrStatus fromQifName(String qifName) {
-      if (qifName == null)
-        return UNRECONCILED;
-      if (qifName.equals("*") || qifName.equalsIgnoreCase("C")) {
-        return CLEARED;
-      } else if (qifName.equalsIgnoreCase("X") || qifName.equalsIgnoreCase("R")) {
-        return RECONCILED;
-      } else {
-        return UNRECONCILED;
-      }
-    }
-
-    @StringRes
-    public int toStringRes() {
-      switch (this) {
-        case CLEARED:
-          return R.string.status_cleared;
-        case RECONCILED:
-          return R.string.status_reconciled;
-        case UNRECONCILED:
-          return R.string.status_uncreconciled;
-        case VOID:
-          return R.string.status_void;
-      }
-      return 0;
-    }
-  }
-
   @NonNull
   private CrStatus crStatus = CrStatus.UNRECONCILED;
   transient protected Uri pictureUri;
@@ -491,7 +443,7 @@ public class Transaction extends Model implements ITransaction {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, CHECK_SEALED_WITH_ALIAS(VIEW_ALL, TABLE_TRANSACTIONS)};
 
     Cursor c = cr().query(
