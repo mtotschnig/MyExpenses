@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -196,10 +197,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
             override fun onShow(dialog: DialogInterface) {
                 if (transactionData == null) {
                     super.onShow(dialog)
-                    val button = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEUTRAL)
-                    if (button != null) {
-                        button.visibility = View.GONE
-                    }
+                    (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEUTRAL)?.let { it.visibility = View.GONE }
                 }
                 //prevent automatic dismiss on button click
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { v: View? -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE) }
@@ -270,17 +268,15 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                         doShowPicture = false
                     }
                 }
-                var btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE)
-                if (btn != null) {
+                dlg.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
                     if (transaction.crStatus == CrStatus.VOID || transaction.isSealed) {
-                        btn.visibility = View.GONE
+                        it.visibility = View.GONE
                     } else {
-                        btn.isEnabled = true
+                        it.isEnabled = true
                     }
                 }
-                btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL)
-                if (btn != null) {
-                    btn.visibility = if (doShowPicture) View.VISIBLE else View.GONE
+                dlg.getButton(AlertDialog.BUTTON_NEUTRAL)?.let {
+                    it.visibility = if (doShowPicture) View.VISIBLE else View.GONE
                 }
                 tableView.visibility = View.VISIBLE
                 val title: Int
@@ -320,9 +316,9 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     amountText = formatCurrencyAbs(transaction.amount)
                 }
                 amountView.text = amountText
-                if (transaction.originalAmount != null) {
+                transaction.originalAmount?.let {
                     originalAmountRow.visibility = View.VISIBLE
-                    originalAmountView.text = formatCurrencyAbs(transaction.originalAmount)
+                    originalAmountView.text = formatCurrencyAbs(it)
                 }
                 if (!transaction.isTransfer && transaction.amount.currencyUnit.code() != Utils.getHomeCurrency().code()) {
                     equivalentAmountRow.visibility = View.VISIBLE
@@ -360,34 +356,23 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                 } else {
                     payeeRow.visibility = View.GONE
                 }
-                if (transaction.methodLabel != null) {
-                    methodView.text = transaction.methodLabel
-                } else {
-                    methodRow.visibility = View.GONE
-                }
+                transaction.methodLabel?.let {
+                    methodView.text = it
+                } ?: kotlin.run { methodRow.visibility = View.GONE }
+
                 if (transaction.accountType == AccountType.CASH) {
                     statusRow.visibility = View.GONE
                 } else {
                     statusView.setBackgroundColor(transaction.crStatus.color)
                     statusView.setText(transaction.crStatus.toStringRes())
                 }
-                if (transaction.originTemplatePlanInfo == null) {
+                if (transaction.originTemplate == null) {
                     planRow.visibility = View.GONE
                 } else {
-                    planView.text = transaction.originTemplatePlanInfo
+                    planView.text = transaction.originTemplate.plan?.let {
+                        Plan.prettyTimeInfo(activity, it.rrule, it.dtstart)
+                    } ?: getString(R.string.plan_event_deleted)
                 }
-
-/*    if (mTransaction.getOriginTemplatePlan() == null) {
-      planRow.setVisibility(View.GONE);
-    } else {
-      viewModel.transaction(mTransaction.getOriginTemplateId(), TransactionViewModel.InstantiationTask.TEMPLATE, false, false, null).observe(this,
-          transaction -> {
-            Template template = ((Template) transaction);
-            planView.setText(template.getPlan() == null ?
-                getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
-                template.getPlan().rrule, template.getPlan().dtstart));
-          });
-    }*/
                 dlg.setTitle(title)
                 if (doShowPicture) {
                     dlg.window?.findViewById<ImageView>(android.R.id.icon)?.let { image ->

@@ -85,6 +85,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   private final Transaction template;
 
+  @androidx.annotation.Nullable
   public Plan getPlan() {
     return plan;
   }
@@ -376,6 +377,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     return t;
   }
 
+  @androidx.annotation.Nullable
   public static Template getInstanceFromDb(long id) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null, null, null);

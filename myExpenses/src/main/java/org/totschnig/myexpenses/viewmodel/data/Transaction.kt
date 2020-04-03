@@ -7,22 +7,24 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
 import org.totschnig.myexpenses.provider.DbUtils.getString
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
-import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
+
 
 data class Transaction(
         val id: Long, val accountId: Long, val amount: Money, val date: Long, val valueDate: Long,
         val comment: String, val catId: Long?, val payee: String, val methodLabel: String?,
-        val label: String, val transferPeer: Long?, val transferAmount: Money?,
+        val label: String, val transferPeer: Long?, val transferAmount: Money?, val  hasTransferPeerParent: Boolean,
         val originalAmount: Money?, val equivalentAmount: Money?, val pictureUri: Uri?,
-        val crStatus: CrStatus, val referenceNumber: String, val originTemplatePlanInfo: String?,
+        val crStatus: CrStatus, val referenceNumber: String, val originTemplate: Template?,
         val isSealed: Boolean, val accountLabel: String, val accountType: AccountType) {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.getCurrencyUnit() == it.getCurrencyUnit() } ?: true
@@ -30,24 +32,23 @@ data class Transaction(
         get() = transferPeer != null
     val isSplit
         get() = SPLIT_CATID == catId
-    val hasTransferPeerParent: Boolean
-        get() = TODO()
 
     companion object {
         val projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
                 FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY,
                 KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-                KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_EXTENDED), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
-                KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, CHECK_SEALED_WITH_ALIAS(VIEW_EXTENDED, TABLE_TRANSACTIONS),
+                KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_EXTENDED), KEY_TEMPLATEID,
+                KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY, KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON,
+                CHECK_SEALED_WITH_ALIAS(VIEW_EXTENDED, TABLE_TRANSACTIONS),
                 getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE, KEY_ACCOUNT_LABEL, KEY_ACCOUNT_TYPE)
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): Transaction {
             val currencyUnit = currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
             val money = Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
             val transferAccountId = getLongOrNull(cursor, KEY_TRANSFER_ACCOUNT)
             val date: Long = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_DATE))
+            val transferPeer = getLongOrNull(cursor, KEY_TRANSFER_PEER)
             val homeCurrency = Utils.getHomeCurrency()
 
-            val originTemplateId = getLongOrNull(cursor, KEY_TEMPLATEID)
             return Transaction(
                     id = getLongOr0L(cursor, KEY_ROWID),
                     accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ACCOUNTID)),
@@ -59,7 +60,7 @@ data class Transaction(
                     payee = getString(cursor, KEY_PAYEE_NAME),
                     methodLabel = cursor.getString(cursor.getColumnIndex(KEY_METHOD_LABEL)),
                     label = getString(cursor, KEY_LABEL),
-                    transferPeer = getLongOrNull(cursor, KEY_TRANSFER_PEER),
+                    transferPeer = transferPeer,
                     transferAmount = transferAccountId?.let {
                         Money(Account.getInstanceFromDb(it).currencyUnit,
                                 cursor.getLong(cursor.getColumnIndex(KEY_TRANSFER_AMOUNT)))
@@ -91,14 +92,15 @@ data class Transaction(
                         CrStatus.UNRECONCILED
                     },
                     referenceNumber = getString(cursor, KEY_REFERENCE_NUMBER),
-                    originTemplatePlanInfo = null,
+                    originTemplate = getLongOrNull(cursor, KEY_TEMPLATEID)?.let { Template.getInstanceFromDb(it) },
                     isSealed = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_SEALED)) > 0,
                     accountLabel = cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)),
                     accountType = try {
                         AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_TYPE)))
                     } catch (ex: IllegalArgumentException) {
                         AccountType.CASH
-                    }
+                    },
+                    hasTransferPeerParent = org.totschnig.myexpenses.model.Transaction.hasParent(transferPeer)
             )
         }
     }

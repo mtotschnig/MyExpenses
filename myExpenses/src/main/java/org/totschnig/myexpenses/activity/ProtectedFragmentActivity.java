@@ -945,9 +945,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
                             Snackbar.Callback callback, @NonNull View container) {
     snackbar = Snackbar.make(container, message, duration);
-    View snackbarView = snackbar.getView();
-    TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-    textView.setMaxLines(10);
     UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
     if (snackbarAction != null) {
       snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
