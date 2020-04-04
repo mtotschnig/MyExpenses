@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.databinding.TransactionDetailBinding
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
@@ -55,6 +56,7 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
@@ -62,6 +64,10 @@ import javax.inject.Inject
 
 class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListener {
     private var transactionData: List<Transaction>? = null
+    private var _binding: TransactionDetailBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
@@ -72,120 +78,26 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    @BindView(R.id.progress)
-    lateinit var progressView: View
-
-    @BindView(R.id.error)
-    lateinit var errorView: TextView
-
-    @BindView(R.id.Table)
-    lateinit var tableView: ViewGroup
-
-    @BindView(R.id.SplitContainer)
-    lateinit var splitContainer: ViewGroup
-
-    @BindView(R.id.split_list)
-    lateinit var splitList: RecyclerView
-
-    @BindView(R.id.AccountLabel)
-    lateinit var accountLabelView: TextView
-
-    @BindView(R.id.CategoryLabel)
-    lateinit var categoryLabelView: TextView
-
-    @BindView(R.id.PayeeLabel)
-    lateinit var payeeLabelView: TextView
-
-    @BindView(R.id.DateLabel)
-    lateinit var dateLabel: TextView
-
-    @BindView(R.id.Account)
-    lateinit var accountView: TextView
-
-    @BindView(R.id.Category)
-    lateinit var categoryView: TextView
-
-    @BindView(R.id.CategoryRow)
-    lateinit var categoryRow: View
-
-    @BindView(R.id.CommentRow)
-    lateinit var commentRow: View
-
-    @BindView(R.id.NumberRow)
-    lateinit var numberRow: View
-
-    @BindView(R.id.PayeeRow)
-    lateinit var payeeRow: View
-
-    @BindView(R.id.MethodRow)
-    lateinit var methodRow: View
-
-    @BindView(R.id.StatusRow)
-    lateinit var statusRow: View
-
-    @BindView(R.id.PlanRow)
-    lateinit var planRow: View
-
-    @BindView(R.id.Date2Row)
-    lateinit var date2Row: View
-
-    @BindView(R.id.OriginalAmountRow)
-    lateinit var originalAmountRow: View
-
-    @BindView(R.id.EquivalentAmountRow)
-    lateinit var equivalentAmountRow: View
-
-    @BindView(R.id.Date)
-    lateinit var dateView: TextView
-
-    @BindView(R.id.Date2)
-    lateinit var date2View: TextView
-
-    @BindView(R.id.Amount)
-    lateinit var amountView: TextView
-
-    @BindView(R.id.OriginalAmount)
-    lateinit var originalAmountView: TextView
-
-    @BindView(R.id.EquivalentAmount)
-    lateinit var equivalentAmountView: TextView
-
-    @BindView(R.id.Comment)
-    lateinit var commentView: TextView
-
-    @BindView(R.id.Number)
-    lateinit var numberView: TextView
-
-    @BindView(R.id.Payee)
-    lateinit var payeeView: TextView
-
-    @BindView(R.id.Method)
-    lateinit var methodView: TextView
-
-    @BindView(R.id.Status)
-    lateinit var statusView: TextView
-
-    @BindView(R.id.Plan)
-    lateinit var planView: TextView
-
-    @BindView(R.id.TagGroup)
-    lateinit var tagGroup: ChipGroup
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MyApplication.getInstance().appComponent.inject(this)
-        val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
-        val rowId = arguments!!.getLong(DatabaseConstants.KEY_ROWID)
-        viewModel.transaction(rowId)
-                .observe(this, Observer { o -> fillData(o) })
-        //viewModel.getTags().observe(this, tags -> addChipsBulk(tagGroup, tags, null));
-        //viewModel.loadOriginalTags(rowId);
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val li = LayoutInflater.from(activity)
         dialogView = li.inflate(R.layout.transaction_detail, null)
-        ButterKnife.bind(this, dialogView)
+        _binding = TransactionDetailBinding.bind(dialogView)
+        val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
+        val rowId = arguments!!.getLong(DatabaseConstants.KEY_ROWID)
+        viewModel.transaction(rowId).observe(this, Observer { o -> fillData(o) })
+        viewModel.getTags().observe(this, Observer { tags ->
+            if (tags.size > 0) {
+                binding.TagGroup.addChipsBulk(tags, null)
+            } else {
+                binding.TagRow.visibility = View.GONE
+            }
+        })
+        viewModel.loadOriginalTags(rowId)
         val alertDialog = AlertDialog.Builder(activity!!)
                 .setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
                 .setView(dialogView)
@@ -253,7 +165,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
         (dialog as? AlertDialog)?.let { dlg ->
             if (list.size > 0) {
                 val transaction = list[0]
-                progressView.visibility = View.GONE
+                binding.progress.visibility = View.GONE
                 var doShowPicture = false
                 if (transaction.pictureUri != null) {
                     doShowPicture = true
@@ -278,27 +190,27 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                 dlg.getButton(AlertDialog.BUTTON_NEUTRAL)?.let {
                     it.visibility = if (doShowPicture) View.VISIBLE else View.GONE
                 }
-                tableView.visibility = View.VISIBLE
+                binding.Table.visibility = View.VISIBLE
                 val title: Int
                 val isIncome = transaction.amount.amountMinor > 0
                 if (transaction.isSplit) {
-                    splitContainer.visibility = View.VISIBLE
+                    binding.SplitContainer.visibility = View.VISIBLE
                     title = R.string.split_transaction
                     SplitPartRVAdapter(context!!, transaction.amount.currencyUnit, currencyFormatter, list.subList(1, list.size)).also {
-                        splitList.adapter = it
+                        binding.splitList.adapter = it
                         it.notifyDataSetChanged()
                     }
                 } else if (transaction.isTransfer) {
                     title = R.string.transfer
-                    accountLabelView.setText(R.string.transfer_from_account)
-                    categoryLabelView.setText(R.string.transfer_to_account)
+                    binding.AccountLabel.setText(R.string.transfer_from_account)
+                    binding.CategoryLabel.setText(R.string.transfer_to_account)
                 } else {
                     title = if (isIncome) R.string.income else R.string.expense
                 }
                 val amountText: String
                 if (transaction.isTransfer) {
-                    accountView.text = if (isIncome) transaction.label else transaction.accountLabel
-                    categoryView.text = if (isIncome) transaction.accountLabel else transaction.label
+                    binding.Account.text = if (isIncome) transaction.label else transaction.accountLabel
+                    binding.Category.text = if (isIncome) transaction.accountLabel else transaction.label
                     amountText = if (transaction.isSameCurrency) {
                         formatCurrencyAbs(transaction.amount)
                     } else {
@@ -307,30 +219,30 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                         if (isIncome) "$other => $self" else "$self => $other"
                     }
                 } else {
-                    accountView.text = transaction.accountLabel
+                    binding.Account.text = transaction.accountLabel
                     if (transaction.catId != null && transaction.catId > 0) {
-                        categoryView.text = transaction.label
+                        binding.Category.text = transaction.label
                     } else {
-                        categoryRow.visibility = View.GONE
+                        binding.CategoryRow.visibility = View.GONE
                     }
                     amountText = formatCurrencyAbs(transaction.amount)
                 }
-                amountView.text = amountText
+                binding.Amount.text = amountText
                 transaction.originalAmount?.let {
-                    originalAmountRow.visibility = View.VISIBLE
-                    originalAmountView.text = formatCurrencyAbs(it)
+                    binding.OriginalAmountRow.visibility = View.VISIBLE
+                    binding.OriginalAmount.text = formatCurrencyAbs(it)
                 }
                 if (!transaction.isTransfer && transaction.amount.currencyUnit.code() != Utils.getHomeCurrency().code()) {
-                    equivalentAmountRow.visibility = View.VISIBLE
-                    equivalentAmountView.text = formatCurrencyAbs(transaction.equivalentAmount)
+                    binding.EquivalentAmountRow.visibility = View.VISIBLE
+                    binding.EquivalentAmount.text = formatCurrencyAbs(transaction.equivalentAmount)
                 }
                 val dateMode = UiUtils.getDateMode(transaction.accountType, prefHandler)
                 val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
                 val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
                 if (dateMode == DateMode.BOOKING_VALUE) {
-                    dateLabel.setText(R.string.booking_date)
-                    date2Row.visibility = View.VISIBLE
-                    date2View.text = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
+                    binding.DateLabel.setText(R.string.booking_date)
+                    binding.Date2Row.visibility = View.VISIBLE
+                    binding.Date2.text = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
                             ZoneId.systemDefault()).format(dateFormatter)
                 }
                 val dateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.date),
@@ -339,37 +251,37 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                 if (dateMode == DateMode.DATE_TIME) {
                     dateText += " " + dateTime.format(timeFormatter)
                 }
-                dateView.text = dateText
+                binding.Date.text = dateText
                 if (transaction.comment != "") {
-                    commentView.text = transaction.comment
+                    binding.Comment.text = transaction.comment
                 } else {
-                    commentRow.visibility = View.GONE
+                    binding.CommentRow.visibility = View.GONE
                 }
                 if (transaction.referenceNumber != "") {
-                    numberView.text = transaction.referenceNumber
+                    binding.Number.text = transaction.referenceNumber
                 } else {
-                    numberRow.visibility = View.GONE
+                    binding.NumberRow.visibility = View.GONE
                 }
                 if (transaction.payee != "") {
-                    payeeView.text = transaction.payee
-                    payeeLabelView.setText(if (isIncome) R.string.payer else R.string.payee)
+                    binding.Payee.text = transaction.payee
+                    binding.PayeeLabel.setText(if (isIncome) R.string.payer else R.string.payee)
                 } else {
-                    payeeRow.visibility = View.GONE
+                    binding.PayeeRow.visibility = View.GONE
                 }
                 transaction.methodLabel?.let {
-                    methodView.text = it
-                } ?: kotlin.run { methodRow.visibility = View.GONE }
+                    binding.Method.text = it
+                } ?: kotlin.run { binding.MethodRow.visibility = View.GONE }
 
                 if (transaction.accountType == AccountType.CASH) {
-                    statusRow.visibility = View.GONE
+                    binding.StatusRow.visibility = View.GONE
                 } else {
-                    statusView.setBackgroundColor(transaction.crStatus.color)
-                    statusView.setText(transaction.crStatus.toStringRes())
+                    binding.Status.setBackgroundColor(transaction.crStatus.color)
+                    binding.Status.setText(transaction.crStatus.toStringRes())
                 }
                 if (transaction.originTemplate == null) {
-                    planRow.visibility = View.GONE
+                    binding.PlanRow.visibility = View.GONE
                 } else {
-                    planView.text = transaction.originTemplate.plan?.let {
+                    binding.Plan.text = transaction.originTemplate.plan?.let {
                         Plan.prettyTimeInfo(activity, it.rrule, it.dtstart)
                     } ?: getString(R.string.plan_event_deleted)
                 }
@@ -382,14 +294,19 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     }
                 }
             } else {
-                errorView.visibility = View.VISIBLE
-                errorView.setText(R.string.transaction_deleted)
+                binding.error.visibility = View.VISIBLE
+                binding.error.setText(R.string.transaction_deleted)
             }
         }
     }
 
     private fun formatCurrencyAbs(money: Money?): String {
         return currencyFormatter.formatCurrency(money!!.amountMajor.abs(), money.currencyUnit)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
