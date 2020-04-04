@@ -10,11 +10,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.fromCursor
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.projection
-import timber.log.Timber
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Transaction as TData
 
-class TransactionDetailViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class TransactionDetailViewModel(application: Application) : TransactionViewModel(application) {
     @Inject
     lateinit var currencyContext: CurrencyContext
 
@@ -24,7 +23,7 @@ class TransactionDetailViewModel(application: Application) : ContentResolvingAnd
 
     private val transactionLiveData: Map<Long, LiveData<List<TData>>> = lazyMap { transactionId ->
         val liveData = MutableLiveData<List<TData>>()
-        briteContentResolver.createQuery(
+        disposable =  briteContentResolver.createQuery(
                 Transaction.EXTENDED_URI,
                 projection, "%s = ? OR %s = ?".format(KEY_ROWID, KEY_PARENTID), Array(2) { transactionId.toString() }, KEY_PARENTID + " IS NULL DESC", false)
                 .mapToList { fromCursor(it, currencyContext) }

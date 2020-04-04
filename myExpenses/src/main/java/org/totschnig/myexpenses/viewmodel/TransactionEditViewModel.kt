@@ -50,7 +50,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
     private val accounts = MutableLiveData<List<Account>>()
-    private val tags = MutableLiveData<MutableList<Tag>>()
 
     fun getMethods(): LiveData<List<PaymentMethod>> {
         return methods
@@ -58,10 +57,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun getAccounts(): LiveData<List<Account>> {
         return accounts
-    }
-
-    fun getTags(): LiveData<MutableList<Tag>> {
-        return tags
     }
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
@@ -167,14 +162,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun removeTag(tag: Tag) {
         tags.value?.remove(tag)
-    }
-
-    fun loadOriginalTags(transactionId: Long) {
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.TRANSACTIONS_TAGS_URI, null, KEY_TRANSACTIONID + " = ?", arrayOf(transactionId.toString()), null, false)
-                .mapToList { cursor ->
-                    Tag(cursor.getLong(cursor.getColumnIndex(KEY_ROWID)), cursor.getString(cursor.getColumnIndex(KEY_LABEL)), true)
-                }
-                .subscribe { tags.postValue(it) })
     }
 }
 
