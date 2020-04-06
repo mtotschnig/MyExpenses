@@ -349,7 +349,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         })
         viewModel.getTags().observe(this, Observer { tags ->
             tagsLoaded = true
-            delegate.showTags(tags) { tag -> viewModel.removeTag(tag) }
+            delegate.showTags(tags) { tag ->
+                viewModel.removeTag(tag)
+                setDirty()
+            }
         })
     }
 
@@ -720,7 +723,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             setDirty()
         }
         if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST && resultCode == RESULT_OK) {
-            (intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let { viewModel.updateTags(it) }
+            (intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
+                viewModel.updateTags(it)
+                setDirty()
+            }
         }
     }
 

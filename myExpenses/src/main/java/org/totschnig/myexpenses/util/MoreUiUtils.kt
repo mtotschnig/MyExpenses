@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.ui.filter.ScrollingChip
                  scrollingChip.isCloseIconVisible = true
                  scrollingChip.setOnCloseIconClickListener {
                      removeView(scrollingChip)
-                     closeFunction(chip)
+                     it(chip)
                  }
              }
          })

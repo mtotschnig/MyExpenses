@@ -200,6 +200,8 @@ public class DatabaseConstants {
   public static final String KEY_END = "end";
   public static final String KEY_TAGID = "tag_id";
   public static final String KEY_TRANSFER_CURRENCY = "transfer_currency";
+  public static final String KEY_COUNT = "count";
+
   /**
    * Used for both saving goal and credit limit on accounts
    */

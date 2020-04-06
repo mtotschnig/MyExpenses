@@ -907,4 +907,11 @@
     <string name="tags_create_or_select">Create or select tags</string>
     <string name="content_description_tags_confirm">Confirm</string>
     <string name="tags">Tags</string>
+    <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
+    <string name="dialog_title_warning_delete_tag">Delete tag?</string>
+    <string name="tag_already_defined">Tag already defined.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Tag %1$s is mapped to one transaction. Should it be deleted?</item>
+        <item quantity="other">Tag %1$s is mapped to %2$d transactions. Should it be deleted?</item>
+    </plurals>
 </resources>

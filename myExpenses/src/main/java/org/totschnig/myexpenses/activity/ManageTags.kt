@@ -1,8 +1,9 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.fragment.ACTION_MANAGE
 import org.totschnig.myexpenses.fragment.TagList
 
 class ManageTags: ProtectedFragmentActivity() {
@@ -11,9 +12,15 @@ class ManageTags: ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
         setupToolbar(true)
-        setTitle(R.string.tags_create_or_select)
         configureFloatingActionButton(R.string.content_description_tags_confirm)
-        floatingActionButton.setImageResource(R.drawable.ic_menu_done)
+        val shouldManage = intent?.action?.equals(ACTION_MANAGE) ?: false
+        if (shouldManage) {
+            floatingActionButton.visibility = View.GONE
+            setTitle(R.string.tags)
+        } else {
+            floatingActionButton.setImageResource(R.drawable.ic_menu_done)
+            setTitle(R.string.tags_create_or_select)
+        }
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {

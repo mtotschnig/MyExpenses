@@ -180,6 +180,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
+  public static final String QUERY_PARAMETER_WITH_COUNT ="count";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -253,6 +254,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNTS_MINIMAL = 54;
   private static final int TAGS = 55;
   private static final int TRANSACTIONS_TAGS = 56;
+  private static final int TAG_ID = 57;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -929,7 +931,12 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(TABLE_BUDGETS + " LEFT JOIN " + TABLE_ACCOUNTS + " ON (" + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         break;
       case TAGS:
-        qb.setTables(TABLE_TAGS);
+        boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;
+        qb.setTables(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID  + " = " + KEY_TAGID + ")" : TABLE_TAGS);
+        if (withCount) {
+          projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
+          groupBy = KEY_ROWID;
+        }
         break;
       case TRANSACTIONS_TAGS:
         qb.setTables(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
@@ -1208,6 +1215,10 @@ public class TransactionProvider extends ContentProvider {
         break;
       case BUDGETS:
         count = db.delete(TABLE_BUDGETS, where, whereArgs);
+        break;
+      case TAG_ID:
+        count = db.delete(TABLE_TAGS,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
@@ -1599,6 +1610,11 @@ public class TransactionProvider extends ContentProvider {
             currency, prefixAnd(where)), whereArgs);
         break;
       }
+      case TAG_ID: {
+        count = db.update(TABLE_TAGS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1779,6 +1795,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accountsMinimal", ACCOUNTS_MINIMAL);
     URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions_tags", TRANSACTIONS_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
   }
 
   /**

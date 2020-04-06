@@ -4,6 +4,6 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Tag(val id: Long, val label: String, var selected: Boolean): Parcelable {
+data class Tag(val id: Long, val label: String, var selected: Boolean, val count: Int = 0): Parcelable {
     override fun toString() = label
 }

@@ -57,6 +57,15 @@
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:key="@string/pref_home_currency_key"
             android:title="@string/pref_home_currency_title" />
+        <Preference
+            android:key="manage_tags"
+            android:summary="@string/pref_manage_tags_summary"
+            android:title="@string/tags">
+        <intent
+            android:action="MANAGE"
+            android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
+            android:targetPackage="@string/application_id" />
+        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_ui">
