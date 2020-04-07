@@ -483,6 +483,7 @@
     <string name="search_status">Search for status</string>
     <string name="search_payee">Search for payee/payer</string>
     <string name="search_method">Search for method</string>
+    <string name="search_tag">Search for tag</string>
     <string name="and">and</string>
     <string name="between_and">between %1$s and %2$s</string>
     <string name="before">before %s</string>

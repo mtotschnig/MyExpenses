@@ -44,6 +44,9 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
         prefHandler.getString(prefNameForCriteria(TransferCriteria.COLUMN), null)?.let {
             whereFilter.put(TransferCriteria.fromStringExtra(it))
         }
+        prefHandler.getString(prefNameForCriteria(TAG_COLUMN), null)?.let {
+            whereFilter.put(TagCriteria.fromStringExtra(it))
+        }
     }
 
     fun addCriteria(criteria: Criteria) {

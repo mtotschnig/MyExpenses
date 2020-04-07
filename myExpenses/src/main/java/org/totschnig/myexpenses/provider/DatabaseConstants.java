@@ -178,6 +178,7 @@ public class DatabaseConstants {
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
   public static final String KEY_LAST_USED = "last_used";
   public static final String KEY_HAS_TRANSFERS = "has_transfers";
+  public static final String KEY_MAPPED_TAGS = "mapped_tags";
   public static final String KEY_PLAN_INFO = "plan_info";
   public static final String KEY_PARENT_UUID = "parent_uuid";
   public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
@@ -275,7 +276,7 @@ public class DatabaseConstants {
   static final String TABLE_SETTINGS = "settings";
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   static final String TABLE_TAGS = "tags";
-  static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
+  public static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
   /**
    * used on backup and restore
    */
@@ -444,6 +445,9 @@ public class DatabaseConstants {
       "count(CASE WHEN  " + KEY_METHODID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
   public static final String HAS_TRANSFERS =
       "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
+  public static final String MAPPED_TAGS = "count((SELECT 1 FROM " + TABLE_TRANSACTIONS_TAGS+ " WHERE "
+      + KEY_TRANSACTIONID + " = " + KEY_ROWID + " LIMIT 1)) AS " + KEY_MAPPED_TAGS;
+
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";

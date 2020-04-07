@@ -52,6 +52,9 @@
                 <item
                     android:id="@id/FILTER_TRANSFER_COMMAND"
                     android:title="@string/transfer"/>
+                <item
+                    android:id="@id/FILTER_TAG_COMMAND"
+                    android:title="@string/tags"/>
             </group>
         </menu>
     </item>

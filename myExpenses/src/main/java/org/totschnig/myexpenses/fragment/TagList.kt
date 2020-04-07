@@ -32,6 +32,7 @@ const val KEY_DELETED_IDS = "deletedIds"
 const val KEY_TAG = "tag"
 const val ACTION_MANAGE = "MANAGE"
 const val ACTION_SELECT_MAPPING = "SELECT_MAPPING"
+const val ACTION_SELECT_FILTER = "SELECT_FILTER"
 const val DELETE_TAG_DIALOG = "DELETE_TAG"
 const val EDIT_TAG_DIALOG = "EDIT_TAG"
 
@@ -63,6 +64,9 @@ class TagList : Fragment(), OnDialogResultListener {
     val shouldManage: Boolean
         get() = action == ACTION_MANAGE
 
+    val allowModifications: Boolean
+        get() = action != ACTION_SELECT_FILTER
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)
@@ -93,22 +97,29 @@ class TagList : Fragment(), OnDialogResultListener {
                         .show(this, EDIT_TAG_DIALOG)
             }
             val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
-            adapter = Adapter(it, itemLayoutResId, closeFunction, longClickFunction)
+            adapter = Adapter(it, itemLayoutResId, if (allowModifications) closeFunction else null,
+                    if (allowModifications) longClickFunction else null)
             binding.recyclerView.adapter = adapter
         })
-        binding.tagEdit.setOnEditorActionListener { v, actionId, event ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    addTag()
-                    true
-                }
-                EditorInfo.IME_NULL -> {
-                    if (event.action == KeyEvent.ACTION_UP) {
-                        addTag()
+        binding.tagEdit.apply {
+            if (allowModifications) {
+                setOnEditorActionListener { v, actionId, event ->
+                    return@setOnEditorActionListener when (actionId) {
+                        EditorInfo.IME_ACTION_DONE -> {
+                            addTag()
+                            true
+                        }
+                        EditorInfo.IME_NULL -> {
+                            if (event.action == KeyEvent.ACTION_UP) {
+                                addTag()
+                            }
+                            true
+                        }
+                        else -> false
                     }
-                    true
                 }
-                else -> false
+            } else {
+                visibility = View.GONE
             }
         }
     }
@@ -152,8 +163,8 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private class Adapter(val tagList: MutableList<Tag>, val itemLayoutResId: Int,
-                          val closeFunction: (Tag) -> Unit,
-                          val longClickFunction: (Tag) -> Unit) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+                          val closeFunction: ((Tag) -> Unit)?,
+                          val longClickFunction: ((Tag) -> Unit)?) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
                 ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutResId, parent, false))
@@ -170,12 +181,16 @@ class TagList : Fragment(), OnDialogResultListener {
                 setOnClickListener {
                     tag.selected = !tag.selected
                 }
-                setOnCloseIconClickListener {
-                    closeFunction(tag)
-                }
-                setOnLongClickListener {
-                    longClickFunction(tag)
-                    true
+                closeFunction?.let {
+                    setOnCloseIconClickListener {
+                        it(tag)
+                    }
+                } ?: kotlin.run { isCloseIconVisible = false }
+                longClickFunction?.let {
+                    setOnLongClickListener {
+                        it(tag)
+                        true
+                    }
                 }
             }
         }

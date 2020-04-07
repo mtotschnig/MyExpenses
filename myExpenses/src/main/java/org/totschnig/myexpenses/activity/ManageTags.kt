@@ -5,6 +5,8 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.ACTION_MANAGE
+import org.totschnig.myexpenses.fragment.ACTION_SELECT_FILTER
+import org.totschnig.myexpenses.fragment.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.fragment.TagList
 
 class ManageTags: ProtectedFragmentActivity() {
@@ -14,13 +16,16 @@ class ManageTags: ProtectedFragmentActivity() {
         setContentView(R.layout.activity_tags)
         setupToolbar(true)
         configureFloatingActionButton(R.string.content_description_tags_confirm)
-        val shouldManage = intent?.action?.equals(ACTION_MANAGE) ?: false
-        if (shouldManage) {
+        val action = intent?.action ?: ACTION_SELECT_MAPPING
+        setTitle(when(action) {
+            ACTION_MANAGE -> R.string.tags
+            ACTION_SELECT_FILTER -> R.string.search_tag
+            else -> R.string.tags_create_or_select
+        })
+        if (action == ACTION_MANAGE) {
             floatingActionButton.visibility = View.GONE
-            setTitle(R.string.tags)
         } else {
             floatingActionButton.setImageResource(R.drawable.ic_menu_done)
-            setTitle(R.string.tags_create_or_select)
         }
     }
 
