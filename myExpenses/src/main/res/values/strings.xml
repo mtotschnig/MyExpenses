@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -910,6 +909,7 @@
     <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
     <string name="dialog_title_warning_delete_tag">Delete tag?</string>
     <string name="tag_already_defined">Tag already defined.</string>
+    <string name="menu_edit_tag">Edit tag</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Tag %1$s is mapped to one transaction. Should it be deleted?</item>
         <item quantity="other">Tag %1$s is mapped to %2$d transactions. Should it be deleted?</item>

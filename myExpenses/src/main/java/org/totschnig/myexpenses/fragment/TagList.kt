@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
+import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -27,10 +28,10 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_TAGLIST = "tagList"
 const val KEY_TAG = "tag"
-const val KEY_POSITION = "position"
 const val ACTION_MANAGE = "MANAGE"
 const val ACTION_SELECT_MAPPING = "SELECT_MAPPING"
 const val DELETE_TAG_DIALOG = "DELETE_TAG"
+const val EDIT_TAG_DIALOG = "EDIT_TAG"
 
 class TagList : Fragment(), OnDialogResultListener {
     private var _binding: TagListBinding? = null
@@ -40,8 +41,6 @@ class TagList : Fragment(), OnDialogResultListener {
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-
-    private var activeTag: Tag? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,22 +80,28 @@ class TagList : Fragment(), OnDialogResultListener {
                 }
             }
             val longClickFunction: (Tag) -> Unit = { tag ->
-                binding.newTag.setText(tag.label)
-                activeTag = tag
+                SimpleInputDialog.build()
+                        .title(R.string.menu_edit_tag)
+                        .cancelable(false)
+                        .text(tag.label)
+                        .pos(R.string.menu_save)
+                        .neut()
+                        .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
+                        .show(this, EDIT_TAG_DIALOG)
             }
             val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
             adapter = Adapter(it, itemLayoutResId, closeFunction, longClickFunction)
             binding.recyclerView.adapter = adapter
         })
-        binding.newTag.setOnEditorActionListener { v, actionId, event ->
+        binding.tagEdit.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    addOrChangeTag()
+                    addTag()
                     true
                 }
                 EditorInfo.IME_NULL -> {
                     if (event.action == KeyEvent.ACTION_UP) {
-                        addOrChangeTag()
+                        addTag()
                     }
                     true
                 }
@@ -107,16 +112,11 @@ class TagList : Fragment(), OnDialogResultListener {
 
     private fun removeTag(tag: Tag) {
         val position = adapter.getPosition(tag.label)
-        if (tag.id == -1L) {
-            viewModel.removeTag(tag)
-            adapter.notifyItemRemoved(position)
-        } else {
-            viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner, Observer {
-                if (it) {
-                    adapter.notifyItemRemoved(position)
-                }
-            })
-        }
+        viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner, Observer {
+            if (it) {
+                adapter.notifyItemRemoved(position)
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -124,33 +124,20 @@ class TagList : Fragment(), OnDialogResultListener {
         _binding = null
     }
 
-    private fun addOrChangeTag() {
-        binding.newTag.text.toString().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
+    private fun addTag() {
+        binding.tagEdit.text.toString().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
             val position = adapter.getPosition(label)
             if (position > -1) {
                 (activity as? ProtectedFragmentActivity)?.showSnackbar(R.string.tag_already_defined, Snackbar.LENGTH_LONG)
             } else {
-                activeTag?.let { activeTag ->
-                    val activePosition = adapter.getPosition(activeTag.label)
-                    if (activePosition > -1) {
-                        viewModel.updateTag(activeTag, label).observe(viewLifecycleOwner, Observer {
-                            if (it) {
-                                adapter.notifyItemChanged(activePosition)
-                            }
-                        })
+                viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, Observer {
+                    if (it) {
+                        adapter.notifyItemInserted(0)
                     }
-                } ?: kotlin.run {
-                    viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, Observer {
-                        if (it) {
-                            adapter.notifyItemInserted(0)
-                        }
-                    })
-                }
-
+                })
             }
-            binding.newTag.text = null
+            binding.tagEdit.text = null
         }
-        activeTag = null
     }
 
     fun resultIntent() = Intent().apply {
@@ -190,8 +177,21 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-            if (which == BUTTON_POSITIVE && dialogTag == DELETE_TAG_DIALOG) {
-                removeTag(extras.getParcelable(KEY_TAG)!!)
+            if (which == BUTTON_POSITIVE) {
+                val tag: Tag = extras.getParcelable(KEY_TAG)!!
+                when (dialogTag) {
+                    DELETE_TAG_DIALOG -> {
+                        removeTag(tag)
+                    }
+                    EDIT_TAG_DIALOG -> {
+                        val activePosition = adapter.getPosition(tag.label)
+                        viewModel.updateTag(tag, extras.getString(SimpleInputDialog.TEXT)!!).observe(viewLifecycleOwner, Observer {
+                            if (it) {
+                                adapter.notifyItemChanged(activePosition)
+                            }
+                        })
+                    }
+                }
                 true
             } else false
 }
