@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -15,10 +16,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.util.*
+import kotlin.collections.ArrayList
 
-class TagListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class TagListViewModel(application: Application,
+                       private val savedStateHandle: SavedStateHandle) : ContentResolvingAndroidViewModel(application) {
     private val tags = MutableLiveData<MutableList<Tag>>()
+    private val KEY_DELETED_IDS = "deletedIds"
 
     fun loadTags(selected: ArrayList<Tag>?): LiveData<MutableList<Tag>> {
         if (tags.value == null) {
@@ -45,6 +48,7 @@ class TagListViewModel(application: Application) : ContentResolvingAndroidViewMo
         val success = result == 1
         if (success) {
             removeTag(tag)
+            addDeletedTagId(tag.id)
         }
         emit(success)
     }
@@ -75,5 +79,13 @@ class TagListViewModel(application: Application) : ContentResolvingAndroidViewMo
             }
         }
         emit(success)
+    }
+
+    fun addDeletedTagId(tagId: Long) {
+        savedStateHandle.set(KEY_DELETED_IDS, longArrayOf(*getDeletedTagIds(), tagId))
+    }
+
+    fun getDeletedTagIds(): LongArray {
+        return savedStateHandle.get<LongArray>(KEY_DELETED_IDS) ?: LongArray(0)
     }
 }

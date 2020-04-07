@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
 import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
@@ -722,10 +723,18 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         if (requestCode == ProtectedFragmentActivity.EDIT_REQUEST && resultCode == RESULT_OK) {
             setDirty()
         }
-        if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST && resultCode == RESULT_OK) {
-            (intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
-                viewModel.updateTags(it)
-                setDirty()
+        if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST) {
+            intent?.also {
+                if (resultCode == RESULT_OK) {
+                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
+                        viewModel.updateTags(it)
+                        setDirty()
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
+                        viewModel.removeTags(it)
+                    }
+                }
             }
         }
     }

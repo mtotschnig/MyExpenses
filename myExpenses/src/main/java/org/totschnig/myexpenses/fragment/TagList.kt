@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -27,6 +28,7 @@ import org.totschnig.myexpenses.viewmodel.TagListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_TAGLIST = "tagList"
+const val KEY_DELETED_IDS = "deletedIds"
 const val KEY_TAG = "tag"
 const val ACTION_MANAGE = "MANAGE"
 const val ACTION_SELECT_MAPPING = "SELECT_MAPPING"
@@ -44,7 +46,8 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[TagListViewModel::class.java]
+        val factory = SavedStateViewModelFactory(activity!!.application, this, null)
+        viewModel = ViewModelProvider(this, factory)[TagListViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -142,6 +145,10 @@ class TagList : Fragment(), OnDialogResultListener {
 
     fun resultIntent() = Intent().apply {
         putParcelableArrayListExtra(KEY_TAGLIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
+    }
+
+    fun cancelIntent() = Intent().apply {
+        putExtra(KEY_DELETED_IDS, viewModel.getDeletedTagIds())
     }
 
     private class Adapter(val tagList: MutableList<Tag>, val itemLayoutResId: Int,

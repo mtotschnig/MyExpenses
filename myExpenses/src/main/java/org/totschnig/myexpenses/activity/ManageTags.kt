@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.ACTION_MANAGE
 import org.totschnig.myexpenses.fragment.TagList
@@ -29,5 +30,14 @@ class ManageTags: ProtectedFragmentActivity() {
             finish()
         }
         return super.dispatchCommand(command, tag)
+    }
+
+    override fun doHome() {
+        setResult(FragmentActivity.RESULT_CANCELED, (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).cancelIntent())
+        finish()
+    }
+
+    override fun onBackPressed() {
+        doHome()
     }
 }
