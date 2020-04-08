@@ -76,9 +76,9 @@ import timber.log.Timber;
 
 import static android.app.Activity.RESULT_FIRST_USER;
 import static android.app.Activity.RESULT_OK;
-import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
-import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_FILTER;
-import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_SELECT_MAPPING;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_MANAGE;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;

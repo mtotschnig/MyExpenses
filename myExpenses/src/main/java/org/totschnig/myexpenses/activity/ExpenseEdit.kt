@@ -47,6 +47,7 @@ import com.google.android.material.snackbar.Snackbar
 import icepick.Icepick
 import icepick.State
 import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -629,7 +630,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
      */
     fun startSelectCategory() {
         val i = Intent(this, ManageCategories::class.java)
-        i.action = ManageCategories.ACTION_SELECT_MAPPING
+        i.action = ACTION_SELECT_MAPPING
         forwardDataEntryFromWidget(i)
         //we pass the currently selected category in to prevent
         //it from being deleted, which can theoretically lead

@@ -20,6 +20,9 @@ import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
 import eltos.simpledialogfragment.input.SimpleInputDialog
+import org.totschnig.myexpenses.ACTION_MANAGE
+import org.totschnig.myexpenses.ACTION_SELECT_FILTER
+import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -30,9 +33,6 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 const val KEY_TAGLIST = "tagList"
 const val KEY_DELETED_IDS = "deletedIds"
 const val KEY_TAG = "tag"
-const val ACTION_MANAGE = "MANAGE"
-const val ACTION_SELECT_MAPPING = "SELECT_MAPPING"
-const val ACTION_SELECT_FILTER = "SELECT_FILTER"
 const val DELETE_TAG_DIALOG = "DELETE_TAG"
 const val EDIT_TAG_DIALOG = "EDIT_TAG"
 

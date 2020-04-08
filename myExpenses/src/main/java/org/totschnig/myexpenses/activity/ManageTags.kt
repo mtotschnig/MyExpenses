@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.fragment.ACTION_MANAGE
-import org.totschnig.myexpenses.fragment.ACTION_SELECT_FILTER
-import org.totschnig.myexpenses.fragment.ACTION_SELECT_MAPPING
+import org.totschnig.myexpenses.ACTION_MANAGE
+import org.totschnig.myexpenses.ACTION_SELECT_FILTER
+import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.fragment.TagList
 
 class ManageTags: ProtectedFragmentActivity() {

@@ -149,6 +149,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_ACCOUNT_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
@@ -157,10 +159,8 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRE
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
-import static org.totschnig.myexpenses.fragment.TagListKt.ACTION_SELECT_FILTER;
 import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAGLIST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
@@ -171,7 +171,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
@@ -179,6 +178,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -198,6 +198,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
@@ -534,7 +535,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.REMAP_CATEGORY_COMMAND: {
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           Intent i = new Intent(getActivity(), ManageCategories.class);
-          i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
+          i.setAction(ACTION_SELECT_MAPPING);
           startActivityForResult(i, MAP_CATEGORY_RQEUST);
         });
         return true;
@@ -1425,7 +1426,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.FILTER_CATEGORY_COMMAND:
         if (!removeFilter(command)) {
           Intent i = new Intent(getActivity(), ManageCategories.class);
-          i.setAction(ManageCategories.ACTION_SELECT_FILTER);
+          i.setAction(ACTION_SELECT_FILTER);
           startActivityForResult(i, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST);
         }
         return true;

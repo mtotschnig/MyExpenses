@@ -41,6 +41,9 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_MANAGE;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -54,10 +57,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
  */
 public class ManageCategories extends CategoryActivity implements
     SimpleInputDialog.OnDialogResultListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
-
-  public static final String ACTION_MANAGE = "MANAGE";
-  public static final String ACTION_SELECT_MAPPING = "SELECT_MAPPING";
-  public static final String ACTION_SELECT_FILTER = "SELECT_FILTER";
 
   public enum HelpVariant {
     manage, select_mapping, select_filter
