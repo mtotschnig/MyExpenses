@@ -34,7 +34,7 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, R.string
                             Toast.LENGTH_LONG).show()
                 } else {
                     val t = Transaction.getInstanceFromTemplate(templateId)
-                    if (t != null && t.save() != null) {
+                    if (t != null && t.save(true) != null) {
                         Toast.makeText(context,
                                 context.resources.getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
                                 Toast.LENGTH_LONG).show()
