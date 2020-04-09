@@ -188,7 +188,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
             }
             viewBinding.AttachImage.visibility = View.GONE
-        } else { //Transfer or Transaction, we can suggest to create a plan
+        } else if (!isSplitPart) { //Transfer or Transaction, we can suggest to create a plan
             if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
 //after SAVE_AND_NEW action
                 val recurrenceAdapter = RecurrenceAdapter(context,
