@@ -92,6 +92,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
@@ -219,7 +220,9 @@ public class Transaction extends Model implements ITransaction {
         getThisWeek() + " AS " + KEY_THIS_WEEK,
         THIS_DAY + " AS " + KEY_THIS_DAY,
         getWeekStart() + " AS " + KEY_WEEK_START,
-        getWeekEnd() + " AS " + KEY_WEEK_END
+        getWeekEnd() + " AS " + KEY_WEEK_END,
+        KEY_TAGLIST
+
     };
 
     //extended
