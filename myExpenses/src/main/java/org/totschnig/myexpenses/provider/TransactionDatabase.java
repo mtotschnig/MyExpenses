@@ -711,6 +711,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + "primary key (" + KEY_TAGID + "," + KEY_TRANSACTIONID + "));";
 
+  private static final String INSERT_TRANSFER_TAGS_TRIGGER =
+      String.format("CREATE TRIGGER insert_transfer_tags AFTER INSERT ON %1$s "
+          + "WHEN %2$s IS NOT NULL "
+          + "BEGIN INSERT INTO %1$s (%3$s, %4$s) VALUES (%2$s, new.%4$s); END",
+          TABLE_TRANSACTIONS_TAGS, SELECT_TRANSFER_PEER("new"), KEY_TRANSACTIONID, KEY_TAGID);
+
+  private static final String DELETE_TRANSFER_TAGS_TRIGGER =
+      String.format("CREATE TRIGGER delete_transfer_tags AFTER DELETE ON %1$s "
+          + "WHEN %2$s IS NOT NULL "
+          + "BEGIN DELETE FROM %1$s WHERE %3$s = %2$s; END",
+          TABLE_TRANSACTIONS_TAGS, SELECT_TRANSFER_PEER("old"), KEY_TRANSACTIONID);
+
+  private static String SELECT_TRANSFER_PEER(String reference) {
+    return String.format("(SELECT %1$s FROM %2$S WHERE %3$s = %4$s.%5$s)", KEY_TRANSFER_PEER, TABLE_TRANSACTIONS, KEY_ROWID, reference, KEY_TRANSACTIONID);
+  }
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -811,6 +827,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     db.execSQL(TAGS_CREATE);
     db.execSQL(TRANSACTIONS_TAGS_CREATE);
+    db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
+    db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
 
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
