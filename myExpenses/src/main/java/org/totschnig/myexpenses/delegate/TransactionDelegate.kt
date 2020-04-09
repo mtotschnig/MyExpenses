@@ -165,6 +165,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         originTemplateId?.let { host.loadOriginTemplate(it) }
         if (isSplitPart) {
             disableAccountSpinner()
+            viewBinding.TagRow.visibility = View.GONE
         }
 
         if (isMainTemplate) {

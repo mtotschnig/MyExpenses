@@ -349,13 +349,15 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 if (mIsResumed) setupListeners()
             }
         })
-        viewModel.getTags().observe(this, Observer { tags ->
-            tagsLoaded = true
-            delegate.showTags(tags) { tag ->
-                viewModel.removeTag(tag)
-                setDirty()
-            }
-        })
+        if (!isSplitPart) {
+            viewModel.getTags().observe(this, Observer { tags ->
+                tagsLoaded = true
+                delegate.showTags(tags) { tag ->
+                    viewModel.removeTag(tag)
+                    setDirty()
+                }
+            })
+        }
     }
 
     private fun loadData() {

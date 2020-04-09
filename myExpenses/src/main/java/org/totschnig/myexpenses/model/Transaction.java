@@ -220,14 +220,12 @@ public class Transaction extends Model implements ITransaction {
         getThisWeek() + " AS " + KEY_THIS_WEEK,
         THIS_DAY + " AS " + KEY_THIS_DAY,
         getWeekStart() + " AS " + KEY_WEEK_START,
-        getWeekEnd() + " AS " + KEY_WEEK_END,
-        KEY_TAGLIST
-
+        getWeekEnd() + " AS " + KEY_WEEK_END
     };
 
     //extended
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 5];
+    PROJECTION_EXTENDED = new String[baseLength + 6];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
@@ -236,6 +234,7 @@ public class Transaction extends Model implements ITransaction {
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
     PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
+    PROJECTION_EXTENDED[baseLength + 5] = KEY_TAGLIST;
 
     //extended for aggregate include is_same_currecny
     int extendedLength = PROJECTION_EXTENDED.length;
