@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,7 +141,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  *
  * @author Michael Totschnig
  */
-public class Transaction extends Model implements ITransaction {
+public class Transaction extends AbstractTransaction {
   public boolean inEditState = false;
   private String comment = "";
   private String payee = "";
@@ -527,12 +528,12 @@ public class Transaction extends Model implements ITransaction {
     return t;
   }
 
-  public static Transaction getInstanceFromTemplate(long id) {
+  public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(long id) {
     Template te = Template.getInstanceFromDb(id);
     return te == null ? null : getInstanceFromTemplate(te);
   }
 
-  public static Transaction getInstanceFromTemplate(Template te) {
+  public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(Template te) {
     Transaction tr;
     switch (te.operationType()) {
       case TYPE_TRANSACTION:
@@ -560,15 +561,17 @@ public class Transaction extends Model implements ITransaction {
     tr.setPayeeId(te.getPayeeId());
     tr.setLabel(te.getLabel());
     tr.originTemplateId = te.getId();
+    final String idString = String.valueOf(te.getId());
     if (tr instanceof SplitTransaction) {
       tr.save();
       Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
-          KEY_PARENTID + " = ?", new String[]{String.valueOf(te.getId())}, null);
+          KEY_PARENTID + " = ?", new String[]{idString}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
-          if (part != null) {
+          Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          if (pair != null) {
+            Transaction part = pair.first;
             part.status = STATUS_UNCOMMITTED;
             part.setParentId(tr.getId());
             part.saveAsNew();
@@ -581,11 +584,26 @@ public class Transaction extends Model implements ITransaction {
     cr().update(
         TransactionProvider.TEMPLATES_URI
             .buildUpon()
-            .appendPath(String.valueOf(te.getId()))
+            .appendPath(idString)
             .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
             .build(),
         null, null, null);
-    return tr;
+    List<Tag> tags;
+    if (te.getParentId() == null) {
+      tags = new ArrayList<>();
+      Cursor c = cr().query(te.linkedTagsUri(), null, te.linkColumn() + " = ?", new String[]{idString}, null);
+      if (c != null) {
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+          tags.add(new Tag(c.getLong(c.getColumnIndex(DatabaseConstants.KEY_ROWID)), c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)), true, 0));
+          c.moveToNext();
+        }
+        c.close();
+      }
+    } else {
+      tags = null;
+    }
+    return Pair.create(tr, tags);
   }
 
   /**

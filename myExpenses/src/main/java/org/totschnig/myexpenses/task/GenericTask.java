@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +63,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
@@ -112,7 +114,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
    */
   @Override
   protected Object doInBackground(T... ids) {
-    Transaction t;
     Long transactionId;
     Long[][] extraInfo2d;
     MyApplication application = MyApplication.getInstance();
@@ -123,14 +124,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     switch (mTaskId) {
       case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
         for (int i = 0; i < ids.length; i++) {
-          t = Transaction.getInstanceFromTemplate((Long) ids[i]);
+          Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate((Long) ids[i]);
+          Transaction t = pair.first;
           if (t != null) {
             if (mExtra != null) {
               extraInfo2d = (Long[][]) mExtra;
               t.setDate(new Date(extraInfo2d[i][1]));
               t.originPlanInstanceId = extraInfo2d[i][0];
             }
-            if (t.save(true) != null) {
+            if (t.save(true) != null && t.saveTags(pair.second, cr)) {
               successCount++;
             }
           }

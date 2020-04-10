@@ -21,14 +21,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
@@ -47,10 +43,12 @@ import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.databinding.TransactionDetailBinding
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.UiUtils
@@ -97,7 +95,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                 binding.TagRow.visibility = View.GONE
             }
         })
-        viewModel.loadOriginalTags(rowId)
+        viewModel.loadOriginalTags(rowId, TransactionProvider.TRANSACTIONS_TAGS_URI, DatabaseConstants.KEY_TRANSACTIONID)
         val alertDialog = AlertDialog.Builder(activity!!)
                 .setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
                 .setView(dialogView)
@@ -136,7 +134,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
         if (ctx == null) {
             return
         }
-        transactionData?.let {
+        transactionData?.takeIf { it.size > 0 }?.let {
             val transaction = it[0]
             when (which) {
                 AlertDialog.BUTTON_POSITIVE -> {

@@ -1,14 +1,12 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import io.reactivex.disposables.CompositeDisposable
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -26,8 +24,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
@@ -37,7 +33,6 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.util.*
-import kotlin.collections.ArrayList
 
 const val ERROR_UNKNOWN = -1L
 const val ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2L
@@ -113,30 +108,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0) {
-            val ops = ArrayList<ContentProviderOperation>()
-            ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                    .withSelection(KEY_TRANSACTIONID + " = ?", arrayOf(result.toString()))
-                    .build())
-            tags.value?.let {
-                val (newTags, existingTags) = it.partition { tag -> tag.id == -1L }
-
-                newTags.forEachIndexed { index, tag ->
-                    ops.add(ContentProviderOperation.newInsert(TransactionProvider.TAGS_URI).withValue(KEY_LABEL, tag.label).build())
-                    ops.add(ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                            .withValue(KEY_TRANSACTIONID, result)
-                            //first transaction is delete
-                            .withValueBackReference(KEY_TAGID, 1 + index * 2).build())
-                }
-                for (tag in existingTags) {
-                    ops.add(ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                            .withValue(KEY_TRANSACTIONID, result)
-                            .withValue(KEY_TAGID, tag.id).build())
-                }
-            }
-            if (getApplication<MyApplication>().contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size)
-                ERROR_WHILE_SAVING_TAGS else result
-        } else result)
+        emit(if (result > 0 && !transaction.saveTags(tags.value, getApplication<Application>().contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> = liveData(context = coroutineContext()) {

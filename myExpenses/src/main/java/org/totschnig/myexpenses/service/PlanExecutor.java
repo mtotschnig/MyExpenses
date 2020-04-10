@@ -30,12 +30,15 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.core.app.JobIntentService;
+import androidx.core.util.Pair;
 import timber.log.Timber;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
@@ -172,10 +175,11 @@ public class PlanExecutor extends JobIntentService {
                   content += CurrencyFormatter.instance().formatCurrency(template.getAmount());
                   builder.setContentText(content);
                   if (template.isPlanExecutionAutomatic()) {
-                    Transaction t = Transaction.getInstanceFromTemplate(template);
+                    Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(template);
+                    Transaction t = pair.first;
                     t.originPlanInstanceId = instanceId;
                     t.setDate(new Date(date));
-                    if (t.save() != null) {
+                    if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
                       Intent displayIntent = new Intent(this, MyExpenses.class)
                           .putExtra(KEY_ROWID, template.getAccountId())
                           .putExtra(KEY_TRANSACTIONID, t.getId());

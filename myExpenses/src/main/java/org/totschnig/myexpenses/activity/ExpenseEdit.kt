@@ -408,7 +408,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             } else {
                 mRowId = it.id
                 populate(it)
-                viewModel.loadOriginalTags(mRowId)
+                if (task != TRANSACTION_FROM_TEMPLATE) {
+                    viewModel.loadOriginalTags(it)
+                }
             }
         } ?: run {
             abortWithMessage(when (task) {

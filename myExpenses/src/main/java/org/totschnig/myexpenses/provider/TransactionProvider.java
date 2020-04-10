@@ -153,6 +153,8 @@ public class TransactionProvider extends ContentProvider {
 
   public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions_tags");
 
+  public static final Uri TEMPLATES_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/templates_tags");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -255,6 +257,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TAGS = 55;
   private static final int TRANSACTIONS_TAGS = 56;
   private static final int TAG_ID = 57;
+  private static final int TEMPLATES_TAGS = 58;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -941,6 +944,9 @@ public class TransactionProvider extends ContentProvider {
       case TRANSACTIONS_TAGS:
         qb.setTables(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
+      case TEMPLATES_TAGS:
+        qb.setTables(TABLE_TEMPLATES_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -1087,8 +1093,13 @@ public class TransactionProvider extends ContentProvider {
       }
       case TRANSACTIONS_TAGS: {
         db.insertWithOnConflict(TABLE_TRANSACTIONS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-        //the table does not have priimary ids, we return the base uri
+        //the table does not have primary ids, we return the base uri
         return TRANSACTIONS_TAGS_URI;
+      }
+      case TEMPLATES_TAGS: {
+        db.insertWithOnConflict(TABLE_TEMPLATES_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        //the table does not have primary ids, we return the base uri
+        return TEMPLATES_TAGS_URI;
       }
       default:
         throw unknownUri(uri);
@@ -1243,6 +1254,10 @@ public class TransactionProvider extends ContentProvider {
       }
       case TRANSACTIONS_TAGS: {
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
+        break;
+      }
+      case TEMPLATES_TAGS: {
+        count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
         break;
       }
       default:
@@ -1796,6 +1811,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions_tags", TRANSACTIONS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
+    URI_MATCHER.addURI(AUTHORITY, "templates_tags", TEMPLATES_TAGS);
   }
 
   /**

@@ -141,6 +141,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_UR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
@@ -727,6 +728,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     return String.format("(SELECT %1$s FROM %2$S WHERE %3$s = %4$s.%5$s)", KEY_TRANSFER_PEER, TABLE_TRANSACTIONS, KEY_ROWID, reference, KEY_TRANSACTIONID);
   }
 
+  private static final String TEMPLATES_TAGS_CREATE =
+      "CREATE TABLE " + TABLE_TEMPLATES_TAGS
+          + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + "primary key (" + KEY_TAGID + "," + KEY_TEMPLATEID + "));";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -829,7 +836,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(TRANSACTIONS_TAGS_CREATE);
     db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
     db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
-
+    db.execSQL(TEMPLATES_TAGS_CREATE);
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
   }
