@@ -52,6 +52,7 @@ import dagger.internal.Preconditions;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.sync.SyncAdapter.LOCK_TIMEOUT_MINUTES;
+import static org.totschnig.myexpenses.sync.json.Utils.getChanges;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   static final String KEY_LOCK_TOKEN = "lockToken";
@@ -202,7 +203,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       throws IOException {
     List<TransactionChange> changes;
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
-      changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
+      changes = getChanges(gson, reader);
     }
     if (changes == null || changes.size() == 0) {
       return ChangeSet.empty(sequenceNumber);

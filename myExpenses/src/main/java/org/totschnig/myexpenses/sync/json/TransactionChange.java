@@ -157,6 +157,9 @@ public abstract class TransactionChange {
   public abstract String pictureUri();
 
   @Nullable
+  public abstract List<String> tags();
+
+  @Nullable
   public abstract List<TransactionChange> splitParts();
 
   public boolean isEmpty() {
@@ -238,6 +241,8 @@ public abstract class TransactionChange {
     public abstract Builder setPictureUri(String value);
 
     public abstract Builder setSplitParts(List<TransactionChange> value);
+
+    public abstract Builder setTags(List<String> vale);
 
     public Builder setSplitPartsAndValidate(List<TransactionChange> value) {
       if (Stream.of(value).allMatch(value1 -> value1.parentUuid().equals(uuid()))) {
