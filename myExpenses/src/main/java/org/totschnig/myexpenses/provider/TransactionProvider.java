@@ -1138,16 +1138,6 @@ public class TransactionProvider extends ContentProvider {
         //first we find out the account label
         db.beginTransaction();
         try {
-          Cursor c = db.query(
-              TABLE_ACCOUNTS,
-              new String[]{KEY_LABEL},
-              KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
-              new String[]{segment},
-              null, null, null);
-          c.moveToFirst();
-          //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
-          String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
-          c.close();
           ContentValues args = new ContentValues();
           args.putNull(KEY_TRANSFER_ACCOUNT);
           args.putNull(KEY_TRANSFER_PEER);
