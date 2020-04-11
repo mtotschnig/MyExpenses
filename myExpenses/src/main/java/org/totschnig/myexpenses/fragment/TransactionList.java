@@ -419,11 +419,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       @Override
       public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == SCROLL_STATE_IDLE && currentState != scrollState && view.isFastScrollEnabled()) {
-          view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-              if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
-            }
+          view.postDelayed(() -> {
+            if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
           }, 1000);
         }
         currentState = scrollState;
