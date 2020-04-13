@@ -119,11 +119,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int LOCK_TIMEOUT_MINUTES = BuildConfig.DEBUG ? 1 : 30;
   private static final long IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5);
   private static final long IO_LOCK_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(LOCK_TIMEOUT_MINUTES);
-  private Map<String, Long> categoryToId;
-  private Map<String, Long> payeeToId;
-  private Map<String, Long> methodToId;
-  private Map<String, Long> tagToId;
-  private Map<String, Long> accountUuidToId;
+  private Map<String, Long> categoryToId = new HashMap<>();
+  private Map<String, Long> payeeToId = new HashMap<>();
+  private Map<String, Long> methodToId = new HashMap<>();
+  private Map<String, Long> tagToId = new HashMap<>();
+  private Map<String, Long> accountUuidToId = new HashMap<>();
   private SparseArray<List<StringBuilder>> notificationContent = new SparseArray<>();
   public static final String TAG = "SyncAdapter";
   private boolean shouldNotify = true;
@@ -166,11 +166,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       notificationContent.remove(account.hashCode());
       return;
     }
-    categoryToId = new HashMap<>();
-    payeeToId = new HashMap<>();
-    methodToId = new HashMap<>();
-    tagToId = new HashMap<>();
-    accountUuidToId = new HashMap<>();
+    categoryToId.clear();
+    payeeToId.clear();
+    methodToId.clear();
+    tagToId.clear();
+    accountUuidToId.clear();
     String uuidFromExtras = extras.getString(KEY_UUID);
     int notificationId = account.hashCode();
     if (notificationContent.get(notificationId) == null) {
