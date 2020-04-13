@@ -807,9 +807,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
 
-    //Views
-    createOrRefreshViews(db);
-
     // Triggers
     createOrRefreshTransactionTriggers(db);
     db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
@@ -837,6 +834,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
     db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
     db.execSQL(TEMPLATES_TAGS_CREATE);
+
+    //Views
+    createOrRefreshViews(db);
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
   }
