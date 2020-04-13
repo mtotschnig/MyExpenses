@@ -205,4 +205,11 @@
   <string name="form_BudgetEdit_filter_help_text">Budgets can be filtered with respect to categories, parties, methods or states. Only transactions matched by these filters are taken into account.</string>
   <string name="form_BudgetEdit_type_help_text">A budget is defined as either regular (daily, monthly, weekly, annual) or one-time. For one-time budgets, you specify the beginning and the end of its duration. A regular budget (that is not filtered) can be set as default: This means that the transaction list (if it is configured to group data per day, week, month or year) will show the progress for this budget for each period.</string>
   <string name="cab_remap_help_text">Use the commands in this submenu, if you want to change the given property (account, category, payer/payee or payment method) for all selected transactions.</string>
+
+  <!-- Tags -->
+  <string name="form_tags_help_text">The + icon allows to select existing tags and to create new tags. The x icon on each tag allows to remove the mapping between the transaction and the tag.</string>
+  <string name="help_ManageTags_select_filter_info">Select or unselect the tags for filtering the transaction list by tapping on them. Use the floating action button to confirm the selection.</string>
+  <string name="help_ManageTags_manage_info">Create new tags by entering them into the text field. The x icon on each tag removes it from the database. Long tap on a tag allows to edit it.</string>
+  <string name="help_ManageTags_select_mapping_info">Map or unmap the tags by tapping on them. Use the floating action button to confirm the mapping.</string>
+
 </resources>
