@@ -137,7 +137,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     fun removeTags(tagIds: LongArray) {
-        tags.postValue(tags.value?.filter { tag -> !tagIds.contains(tag.id)  }?.toMutableList())
+        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id)  }.toMutableList())  }
     }
 }
 

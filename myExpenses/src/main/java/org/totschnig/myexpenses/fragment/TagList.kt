@@ -159,7 +159,9 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     fun cancelIntent() = Intent().apply {
-        putExtra(KEY_DELETED_IDS, viewModel.getDeletedTagIds())
+        viewModel.getDeletedTagIds().takeIf { it.size > 0 }?.let {
+            putExtra(KEY_DELETED_IDS, it)
+        }
     }
 
     private class Adapter(val tagList: MutableList<Tag>, val itemLayoutResId: Int,

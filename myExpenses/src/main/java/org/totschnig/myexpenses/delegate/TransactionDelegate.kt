@@ -875,10 +875,10 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         }
     }
 
-    fun showTags(tags: Iterable<Tag>, closeFunction: (Tag) -> Unit) {
+    fun showTags(tags: Iterable<Tag>?, closeFunction: (Tag) -> Unit) {
         with(viewBinding.TagGroup) {
             removeAllViews()
-            addChipsBulk(tags, closeFunction)
+            tags?.let { addChipsBulk(it, closeFunction) }
         }
     }
 
