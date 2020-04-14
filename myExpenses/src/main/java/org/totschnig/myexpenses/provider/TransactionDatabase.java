@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 101;
+  public static final int DATABASE_VERSION = 102;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -831,14 +831,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     db.execSQL(TAGS_CREATE);
     db.execSQL(TRANSACTIONS_TAGS_CREATE);
-    db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
-    db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
+    createOrRefreshTransferTagsTriggers(db);
     db.execSQL(TEMPLATES_TAGS_CREATE);
 
     //Views
     createOrRefreshViews(db);
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
+  }
+
+  public void createOrRefreshTransferTagsTriggers(SQLiteDatabase db) {
+    db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
+    db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
   }
 
 /*  private void insertTestData(SQLiteDatabase db, int countGroup, int countChild) {
@@ -1769,7 +1773,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid " +
             "FROM accounts_old");
         db.execSQL("DROP TABLE accounts_old");
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
 
         db.execSQL("CREATE TRIGGER protect_split_transaction BEFORE DELETE ON categories " +
             " WHEN (OLD._id = 0)" +
@@ -2000,7 +2004,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 89) {
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
 
       if (oldVersion < 90) {
@@ -2068,7 +2072,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
-        db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+        //db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
       }
 
       if (oldVersion < 93) {
@@ -2136,6 +2140,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //repair uuids that got lost by bug
         db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
       }
+      if (oldVersion < 102) {
+        db.execSQL("CREATE TABLE tags (_id integer primary key autoincrement, label text UNIQUE not null)");
+        db.execSQL("CREATE TABLE transactions_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, transaction_id integer references transactions(_id) ON DELETE CASCADE, primary key (tag_id,transaction_id))");
+        createOrRefreshTransferTagsTriggers(db);
+        db.execSQL("CREATE TABLE templates_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, template_id integer references templates(_id) ON DELETE CASCADE, primary key (tag_id,template_id));");
+        createOrRefreshViews(db);
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :
@@ -2197,7 +2208,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + " GROUP BY " + TABLE_TRANSACTIONS + "." + KEY_ROWID + ";");
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     final String tagJoin = String.format(" LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
         TABLE_TRANSACTIONS_TAGS, KEY_TRANSACTIONID, TABLE_TRANSACTIONS, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
     final String tagGroupBy = String.format(" GROUP BY %1$s.%2$s", TABLE_TRANSACTIONS, KEY_ROWID);
