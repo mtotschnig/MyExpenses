@@ -1291,6 +1291,23 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
+  protected String retrieveUuidFromDb() {
+    Cursor cursor = cr().query(CONTENT_URI,
+        new String[]{KEY_UUID}, KEY_ROWID + " = ?", new String[]{String.valueOf(getId())}, null);
+    if (cursor == null) {
+      return null;
+    }
+    if (cursor.getCount() == 0) {
+      cursor.close();
+      return null;
+    } else {
+      cursor.moveToFirst();
+      String result = cursor.getString(0);
+      cursor.close();
+      return result;
+    }
+  }
+
   static void cleanupCanceledEdit(Long id, Uri contentUri, String partOrPeerSelect) {
     String idStr = String.valueOf(id);
     String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);

@@ -200,6 +200,7 @@ public class Transfer extends Transaction implements ITransfer {
       //happens if the account after update is identical to transferAccountId before update
       ContentValues uuidNullValues = new ContentValues(1);
       uuidNullValues.putNull(KEY_UUID);
+      uuid = retrieveUuidFromDb();
       Uri transferUri = uri.buildUpon().appendPath(String.valueOf(getTransferPeer())).build();
       ops.add(ContentProviderOperation
           .newUpdate(transferUri)
