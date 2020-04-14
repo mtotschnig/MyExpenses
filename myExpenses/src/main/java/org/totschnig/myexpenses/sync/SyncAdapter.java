@@ -752,7 +752,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         break;
       case deleted:
         ops.add(ContentProviderOperation.newDelete(uri)
-            .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
+            .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?",
+                new String[]{change.uuid(), String.valueOf(accountId)})
             .build());
         break;
       case unsplit:
