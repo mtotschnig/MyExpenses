@@ -102,7 +102,8 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
 
   @Override
   public long getChildId(int groupPosition, int childPosition) {
-    if (groupPosition > getGroupCount() || childPosition >= getChildrenCount(groupPosition)) return 0;
+    if (groupPosition > getGroupCount() || childPosition >= getChildrenCount(groupPosition))
+      return 0;
     return getChild(groupPosition, childPosition).id;
   }
 
@@ -116,13 +117,13 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     final Category item = getGroup(groupPosition);
     final View view = getView(item, null, convertView, parent, withMainColors ? item.color : 0, item.icon);
     ImageView indicator = ((ViewHolder) view.getTag()).groupIndicator;
-    if( getChildrenCount( groupPosition ) == 0 ) {
-      indicator.setVisibility( View.INVISIBLE );
+    if (getChildrenCount(groupPosition) == 0) {
+      indicator.setImageResource(R.drawable.expander_empty);
+      indicator.setContentDescription("No children");
     } else {
-      indicator.setVisibility( View.VISIBLE );
-      indicator.setImageResource( isExpanded ? R.drawable.expander_close : R.drawable.expander_open );
+      indicator.setImageResource(isExpanded ? R.drawable.expander_close : R.drawable.expander_open);
       indicator.setContentDescription(context.getString(isExpanded ?
-              R.string.content_description_collapse : R.string.content_description_expand));
+          R.string.content_description_collapse : R.string.content_description_expand));
     }
     return view;
   }
@@ -171,6 +172,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
 
   /**
    * This method expects the main categories to be sorted first
+   *
    * @param cursor
    */
   public void ingest(Cursor cursor) {
@@ -198,7 +200,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
               columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapBudgets == -1 ? null : cursor.getInt(columnIndexMapBudgets) > 0,
               cursor.getInt(columnIndexColor),
-              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget),  cursor.getString(columIndexIcon));
+              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget), cursor.getString(columIndexIcon));
           if (parentId == null) {
             newList.add(category);
             positionMap.put(id, position);
@@ -235,10 +237,15 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   }
 
   class ViewHolder {
-    @BindView(R.id.label) TextView label;
-    @BindView(R.id.amount) TextView amount;
-    @BindView(R.id.explist_indicator) ImageView groupIndicator;
-    @BindView(R.id.category_icon) ImageView icon;
+    @BindView(R.id.label)
+    TextView label;
+    @BindView(R.id.amount)
+    TextView amount;
+    @BindView(R.id.explist_indicator)
+    ImageView groupIndicator;
+    @BindView(R.id.category_icon)
+    ImageView icon;
+
     ViewHolder(View view) {
       ButterKnife.bind(this, view);
     }
