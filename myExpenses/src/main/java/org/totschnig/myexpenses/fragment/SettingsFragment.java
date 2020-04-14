@@ -1,11 +1,15 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.appwidget.AppWidgetProvider;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.icu.text.ListFormatter;
@@ -14,9 +18,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -31,6 +32,7 @@ import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -43,11 +45,13 @@ import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.service.DailyScheduler;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -65,6 +69,8 @@ import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
+import org.totschnig.myexpenses.widget.AccountWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.net.URI;
 import java.text.DateFormatSymbols;
@@ -80,7 +86,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -89,7 +95,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
@@ -104,6 +109,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
@@ -132,6 +138,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCR
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
+import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_EXECUTION_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DELAY_SECONDS;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
@@ -148,18 +155,24 @@ import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_SPLIT;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSFER;
+import static org.totschnig.myexpenses.preference.PrefKey.SYNC_FREQUCENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_WIFI_ONLY;
 import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSLATION;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
+import static org.totschnig.myexpenses.sync.GenericAccountService.HOUR_IN_SECONDS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
+@SuppressWarnings("PackageVisibleField")
 public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference.OnPreferenceChangeListener,
     Preference.OnPreferenceClickListener,
+    SharedPreferences.OnSharedPreferenceChangeListener,
     SimpleInputDialog.OnDialogResultListener {
 
   private static final String DIALOG_VALIDATE_LICENCE = "validateLicence";
@@ -180,12 +193,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Inject
   CrashHandler crashHandler;
 
-  CurrencyViewModel currencyViewModel;
+  private CurrencyViewModel currencyViewModel;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     MyApplication.getInstance().getAppComponent().inject(this);
-    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
     super.onCreate(savedInstanceState);
     if (MyApplication.isInstrumentationTest()) {
       getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
@@ -233,11 +246,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       };
 
   private Preference findPreference(PrefKey prefKey) {
-    return findPreference(prefKey.getKey());
+    return findPreference(prefHandler.getKey(prefKey));
   }
 
   private boolean matches(@NonNull Preference preference, @NonNull PrefKey prefKey) {
-    return prefKey.getKey().equals(preference.getKey());
+    return prefHandler.getKey(prefKey).equals(preference.getKey());
   }
 
   private void trackPreferenceClick(Preference preference) {
@@ -268,13 +281,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
   }
 
+  private String getKey(PrefKey prefKey) {
+    return prefHandler.getKey(prefKey);
+  }
+
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     setPreferencesFromResource(R.xml.preferences, rootKey);
     Preference pref;
 
     final PreferenceScreen preferenceScreen = getPreferenceScreen();
-    setListenerRecursive(preferenceScreen, UI_HOME_SCREEN_SHORTCUTS.getKey().equals(rootKey) ?
+    setListenerRecursive(preferenceScreen, getKey(UI_HOME_SCREEN_SHORTCUTS).equals(rootKey) ?
         homeScreenShortcutPrefClickHandler : this);
     unsetIconSpaceReservedRecursive(preferenceScreen);
 
@@ -293,7 +310,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
       pref = findPreference(CUSTOM_DECIMAL_FORMAT);
       pref.setOnPreferenceChangeListener(this);
-      if (CUSTOM_DECIMAL_FORMAT.getString("").equals("")) {
+      if (prefHandler.getString(CUSTOM_DECIMAL_FORMAT, "").equals("")) {
         setDefaultNumberFormat(((EditTextPreference) pref));
       }
 
@@ -387,7 +404,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
     }
     //SHORTCUTS screen
-    else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
+    else if (rootKey.equals(getKey(UI_HOME_SCREEN_SHORTCUTS))) {
       pref = findPreference(SHORTCUT_CREATE_SPLIT);
       pref.setEnabled(licenceHandler.isContribEnabled());
       pref.setSummary(
@@ -396,7 +413,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
     }
     //Password screen
-    else if (rootKey.equals(PERFORM_PROTECTION_SCREEN.getKey())) {
+    else if (rootKey.equals(getKey(PERFORM_PROTECTION_SCREEN))) {
       setProtectionDependentsState();
       Preference preferenceLockScreen = findPreference(PROTECTION_DEVICE_LOCK_SCREEN);
       Preference preferenceLegacy = findPreference(PROTECTION_LEGACY);
@@ -414,7 +431,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     }
     //SHARE screen
-    else if (rootKey.equals(PERFORM_SHARE.getKey())) {
+    else if (rootKey.equals(getKey(PERFORM_SHARE))) {
       pref = findPreference(SHARE_TARGET);
       //noinspection AuthLeak
       pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
@@ -423,7 +440,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref.setOnPreferenceChangeListener(this);
     }
     //BACKUP screen
-    else if (rootKey.equals(AUTO_BACKUP.getKey())) {
+    else if (rootKey.equals(getKey(AUTO_BACKUP))) {
       pref = findPreference(AUTO_BACKUP_INFO);
       String summary = getString(R.string.pref_auto_backup_summary) + " " +
           ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
@@ -431,7 +448,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       findPreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     }
     //GROUP start screen
-    else if (rootKey.equals(GROUPING_START_SCREEN.getKey())) {
+    else if (rootKey.equals(getKey(GROUPING_START_SCREEN))) {
       ListPreference startPref = (ListPreference) findPreference(GROUP_WEEK_STARTS);
       final Locale locale = Locale.getDefault();
       DateFormatSymbols dfs = new DateFormatSymbols(locale);
@@ -447,7 +464,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           String.valueOf(Calendar.FRIDAY),
           String.valueOf(Calendar.SATURDAY),
       });
-      if (!GROUP_WEEK_STARTS.isSet()) {
+      if (!prefHandler.isSet(GROUP_WEEK_STARTS)) {
         startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
       }
 
@@ -459,11 +476,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       startPref.setEntries(daysEntries);
       startPref.setEntryValues(daysValues);
-    } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
+    } else if (rootKey.equals(getKey(DEBUG_SCREEN))) {
       if (!BuildConfig.DEBUG) {
         preferenceScreen.removePreference(findPreference(DEBUG_ADS));
       }
-    } else if (rootKey.equals(CRASHREPORT_SCREEN.getKey())) {
+    } else if (rootKey.equals(getKey(CRASHREPORT_SCREEN))) {
       findPreference(getString(R.string.pre_acra_info_key)).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
       findPreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
       findPreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
@@ -477,9 +494,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     return activity().getTranslatorsArrayResId(language, country);
   }
 
-  public static String[] getLocaleArray(Context context) {
+  static String[] getLocaleArray(Context context) {
     return Stream.of(context.getResources().getStringArray(R.array.pref_ui_language_values))
-        .map(localeString -> getLocaleDisplayName(context, localeString)).toArray(size -> new String[size]);
+        .map(localeString -> getLocaleDisplayName(context, localeString)).toArray(String[]::new);
   }
 
   private static CharSequence getLocaleDisplayName(Context context, CharSequence localeString) {
@@ -511,8 +528,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     if (isRoot) {
       findPreference(PERFORM_PROTECTION_SCREEN).setSummary(getString(
-          PROTECTION_LEGACY.getBoolean(false) ? R.string.pref_protection_password_title :
-              PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false) ? R.string.pref_protection_device_lock_screen_title :
+          prefHandler.getBoolean(PROTECTION_LEGACY, false) ? R.string.pref_protection_password_title :
+              prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false) ? R.string.pref_protection_device_lock_screen_title :
                   R.string.switch_off_text));
       Preference preference = findPreference(PLANNER_CALENDAR_ID);
       if (preference != null) {
@@ -525,6 +542,63 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       configureContribPrefs();
     }
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
+  }
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                        String key) {
+    final MyPreferenceActivity activity = activity();
+    if (key.equals(getKey(UI_LANGUAGE)) ||
+        key.equals(getKey(GROUP_MONTH_STARTS)) ||
+        key.equals(getKey(GROUP_WEEK_STARTS))) {
+      DatabaseConstants.buildLocalized(Locale.getDefault());
+      Transaction.buildProjection();
+    } else if (key.equals(getKey(UI_FONTSIZE))) {
+      updateAllWidgets();
+    } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
+      if (sharedPreferences.getBoolean(key, false)) {
+        activity.showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
+      }
+      setProtectionDependentsState();
+      updateAllWidgets();
+    } else if (key.equals(getKey(UI_FONTSIZE)) ||
+        key.equals(getKey(UI_LANGUAGE)) ||
+        key.equals(getKey(UI_THEME_KEY))) {
+      activity.restart();
+    } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
+      //Log.d("DEBUG","shared preference changed: Account Widget");
+      updateWidgets(AccountWidget.class);
+    } else if (key.equals(getKey(PROTECTION_ENABLE_TEMPLATE_WIDGET))) {
+      //Log.d("DEBUG","shared preference changed: Template Widget");
+      updateWidgets(TemplateWidget.class);
+    } else if (key.equals(getKey(AUTO_BACKUP)) || key.equals(getKey(AUTO_BACKUP_TIME))) {
+      DailyScheduler.updateAutoBackupAlarms(activity);
+    } else if (key.equals(getKey(SYNC_FREQUCENCY))) {
+      for (Account account : GenericAccountService.getAccountsAsArray(activity)) {
+        ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+            prefHandler.getInt(SYNC_FREQUCENCY, GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
+      }
+    } else if (key.equals(getKey(TRACKING))) {
+      activity.setTrackingEnabled(sharedPreferences.getBoolean(key, false));
+    } else if (key.equals(getKey(PLANNER_EXECUTION_TIME))) {
+      DailyScheduler.updatePlannerAlarms(activity, false, false);
+    }
+  }
+
+  private void updateAllWidgets() {
+    updateWidgets(AccountWidget.class);
+    updateWidgets(TemplateWidget.class);
+  }
+
+  private void updateWidgets(Class<? extends AppWidgetProvider> provider) {
+    AbstractWidgetKt.updateWidgets(activity(), provider, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
   }
 
   /**
@@ -533,12 +607,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
    * current value (On/Off)
    *
    * @param prefKey
-   * @return true if we have handle the given key as a subscreen
+   * @return true if we have handle the given key as a subScreen
    */
   private boolean handleScreenWithMasterSwitch(final PrefKey prefKey) {
     PreferenceScreen screen = getPreferenceScreen();
     final ActionBar actionBar = activity().getSupportActionBar();
-    final boolean status = prefKey.getBoolean(false);
+    final boolean status = prefHandler.getBoolean(prefKey, false);
     if (matches(screen, prefKey)) {
       //noinspection InflateParams
       SwitchCompat actionBarSwitch = (SwitchCompat) getActivity().getLayoutInflater().inflate(
@@ -547,21 +621,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           ActionBar.DISPLAY_SHOW_CUSTOM);
       actionBar.setCustomView(actionBarSwitch);
       actionBarSwitch.setChecked(status);
-      actionBarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-          if (prefKey.equals(AUTO_BACKUP)) {
-            if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
-              activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
-              if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
-                buttonView.setChecked(false);
-                return;
-              }
+      actionBarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        if (prefKey.equals(AUTO_BACKUP)) {
+          if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
+            activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
+            if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
+              buttonView.setChecked(false);
+              return;
             }
           }
-          prefKey.putBoolean(isChecked);
-          updateDependents(isChecked);
         }
+        prefHandler.putBoolean(prefKey, isChecked);
+        updateDependents(isChecked);
       });
       updateDependents(status);
       return true;
@@ -572,7 +643,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   private void setOnOffSummary(PrefKey prefKey) {
-    setOnOffSummary(prefKey, prefKey.getBoolean(false));
+    setOnOffSummary(prefKey, prefHandler.getBoolean(prefKey, false));
   }
 
   private void setOnOffSummary(PrefKey key, boolean status) {
@@ -645,10 +716,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void setProtectionDependentsState() {
-    boolean isLegacy = PROTECTION_LEGACY.getBoolean(false);
-    boolean isProtected = isLegacy || PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false);
     PreferenceScreen screen = getPreferenceScreen();
     if (matches(screen, ROOT_SCREEN) || matches(screen, PERFORM_PROTECTION_SCREEN)) {
+      boolean isLegacy = prefHandler.getBoolean(PROTECTION_LEGACY, false);
+      boolean isProtected = isLegacy || prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false);
       findPreference(SECURITY_QUESTION).setEnabled(isLegacy);
       findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
       findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
@@ -744,7 +815,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             ((PopupMenuPreference) preference).showPopupMenu(item -> {
               contribBuyDo(proPackagesForExtendOrSwitch[item.getItemId()], false);
               return true;
-            }, Stream.of(proPackagesForExtendOrSwitch).map(licenceHandler::getExtendOrSwitchMessage).toArray(size -> new String[size]));
+            }, Stream.of(proPackagesForExtendOrSwitch).map(licenceHandler::getExtendOrSwitchMessage).toArray(String[]::new));
           } else {
             //Currently we assume that if we have only one item, we switch
             contribBuyDo(proPackagesForExtendOrSwitch[0], true);
@@ -758,7 +829,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     if (matches(preference, RATE)) {
-      NEXT_REMINDER_RATE.putLong(-1);
+      prefHandler.putLong(NEXT_REMINDER_RATE, -1);
       activity().dispatchCommand(R.id.RATE_COMMAND, null);
       return true;
     }
@@ -831,7 +902,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           if (!((KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
             activity().showDeviceLockScreenWarning();
             switchPreferenceCompat.setChecked(false);
-          } else if (PROTECTION_LEGACY.getBoolean(false)) {
+          } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
             showOnlyOneProtectionWarning(true);
             switchPreferenceCompat.setChecked(false);
           }
@@ -861,7 +932,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     startActivity(ContribInfoDialogActivity.getIntentFor(getContext(), selectedPackage, shouldReplaceExisting));
   }
 
-  protected void startLegacyFolderRequest(@NonNull DocumentFile appDir) {
+  private void startLegacyFolderRequest(@NonNull DocumentFile appDir) {
     Intent intent;
     intent = new Intent(getActivity(), FolderBrowser.class);
     intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
@@ -888,9 +959,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
   }
 
-  private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLolipop) {
+  private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLollipop) {
     if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-      return UiUtils.drawableToBitmap(getResources().getDrawable(iconIdLolipop));
+      return UiUtils.drawableToBitmap(getResources().getDrawable(iconIdLollipop));
     } else {
       return UiUtils.getTintedBitmapForTheme(getActivity(), iconIdLegacy, R.style.ThemeDark);
     }
@@ -931,7 +1002,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else if (preference instanceof TimePreference) {
       fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, PROTECTION_LEGACY)) {
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false)) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
         showOnlyOneProtectionWarning(false);
         return;
       } else {
@@ -968,7 +1039,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         Uri dir = intent.getData();
         getActivity().getContentResolver().takePersistableUriPermission(dir,
             Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        APP_DIR.putString(intent.getData().toString());
+        prefHandler.putString(APP_DIR, intent.getData().toString());
         setAppDirSummary();
       } else {
         //we try to determine if we get here due to abnormal failure (observed on Xiaomi) of request, or if user canceled
@@ -992,8 +1063,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (DIALOG_VALIDATE_LICENCE.equals(dialogTag)) {
       if (which == BUTTON_POSITIVE) {
-        NEW_LICENCE.putString(extras.getString(KEY_KEY).trim());
-        LICENCE_EMAIL.putString(extras.getString(KEY_EMAIL).trim());
+        prefHandler.putString(NEW_LICENCE, extras.getString(KEY_KEY).trim());
+        prefHandler.putString(LICENCE_EMAIL, extras.getString(KEY_EMAIL).trim());
         activity().validateLicence();
       }
     } else if (DIALOG_MANAGE_LICENCE.equals(dialogTag)) {

@@ -2,9 +2,9 @@ Perbelanjaan Saya menyimpan jejak perbelanjaan dan pendapatan anda, secara langs
 
 - Sehingga lima akaun dengan <b>pemindahan</b> (juga merentasi matawang berbeza)
 - Bilangan <b>templat</b> tanpa had dan sehingga tiga plan untuk transaksi <b>berulang</b>
-- Transaksi boleh <b>dikelompokkan</b> (per hari, minggu, bulan dan tahun) dan juga boleh <b>ditapis</b>
+- 
 - <b>Eksport</b> ke QIF dan CSV. <b>Import</b> dari QIF
-- Data boleh dilindungi dengan <b>kata laluan</b>
+- Data boleh dilindungi dengan <b>kata laluan</b> atau <b>skrin kunci</b> peranti
 - <b>Tema</b> (gelap dan cerah) serta <b>saiz fon</b> boleh disuaikan
 - <b>Penyesuaian</b>: Bandingkan status transaksi secara mudah dengan penyata bank anda
 - <b>Widget</b> skrin rumah dan <b>pintasan</b> untuk masukan data secara pantas
@@ -19,20 +19,21 @@ Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut
 - <b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)
 - <b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)
 - <b>Cetak</b> senarai transaksi ke dalam fail PDF
-- Takrifkan <b>soalan keselematan</b> untuk memulihkan kata laluan yang terlupa
+- 
 - <b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri
-- Pemilihan <b>templat</b> secara pantas melalui <b>widgjt</b> skrin rumah
 
 <b>Kunci Lanjutan</b>
 
 - Semua fitur Kunci Contrib
-- <b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti melalui WebDAV dan Google Drive
+- <b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti (Webdav, Dropbox)
 - <b>Sandar berautomatik</b> harian dengan muat naik pilihan ke storan awan
 - <b>Import CSV import</b> (spreadsheet applications) yang canggih dan boleh disuaikan.
 
 <b>Kunci profesional</b>
 
 - Semua fitur Kunci Lanjutan
+- <b>Belanjawan</b>: Bandingkan perbelanjaan anda untuk anda hadkan per kategori mengikut harian, mingguan, bulanan atau tahunan.
+- <b>Carta sejarah</b> (Aliran tunai)
 - Bilangan <b>templat dan plan tanpa had untuk transaksi berasingan</b>
 - <b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja
 - Hak mengundi dalam </b>peta jalan pembangunan</b>

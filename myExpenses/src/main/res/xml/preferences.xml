@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -163,8 +162,8 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_clone_with_current_date_key"
-            android:summaryOn="@string/pref_clone_with_current_date_summary_on"
-            android:summaryOff="@string/pref_clone_with_current_date_summary_off" />
+            android:summaryOff="@string/pref_clone_with_current_date_summary_off"
+            android:summaryOn="@string/pref_clone_with_current_date_summary_on" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_import">
@@ -259,13 +258,15 @@
                 android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"
                 android:targetPackage="@string/application_id" />
         </Preference>
-        <LiveSeekBarPreference
+        <SeekBarPreference
             android:defaultValue="12"
             android:key="@string/pref_sync_frequency_key"
             android:max="99"
             android:summary="@string/pref_sync_frequency_summary"
             android:title="@string/pref_sync_frequency_title"
-            my:min="1" />
+            my:min="1"
+            my:showSeekBarValue="true"
+            my:updatesContinuously="true" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_sync_notification_key"
@@ -305,13 +306,15 @@
                 android:key="@string/pref_security_question_key"
                 android:summary="@string/pref_security_question_summary"
                 android:title="@string/pref_security_question_title" />
-            <LiveSeekBarPreference
+            <SeekBarPreference
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"
                 android:max="90"
                 android:summary="@string/pref_protection_delay_seconds_summary"
                 android:title="@string/pref_protection_delay_seconds_title"
-                my:min="1" />
+                my:min="1"
+                my:showSeekBarValue="true"
+                my:updatesContinuously="true" />
             <PreferenceCategory android:title="Widgets">
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
@@ -413,25 +416,25 @@
             android:defaultValue="true"
             android:key="@string/pref_tracking_key"
             android:summary="@string/pref_tracking_summary"
-        android:title="@string/pref_tracking_title" />
+            android:title="@string/pref_tracking_title" />
         <PreferenceScreen
             android:key="@string/pref_crash_reports_key"
             android:title="@string/pref_category_title_crash_reports">
             <Preference
                 style="?preferenceInformationStyle"
-                android:key="@string/pre_acra_info_key"/>
+                android:key="@string/pre_acra_info_key" />
             <SwitchPreferenceCompat
                 android:defaultValue="true"
                 android:key="@string/pref_crashreport_enabled_key"
                 android:summaryOff="@string/pref_acra_disabled"
                 android:summaryOn="@string/pref_acra_enabled"
-                android:title="@string/pref_enable_acra"/>
+                android:title="@string/pref_enable_acra" />
             <org.totschnig.myexpenses.preference.EditTextPreferenceShowSummary
                 android:dependency="@string/pref_crashreport_enabled_key"
                 android:inputType="textUri"
                 android:key="@string/pref_crashreport_useremail_key"
                 android:summary="@string/pref_acra_user_email_summary"
-                android:title="@string/pref_acra_user_email"/>
+                android:title="@string/pref_acra_user_email" />
         </PreferenceScreen>
         <Preference
             android:key="@string/pref_ad_consent_key"
@@ -477,12 +480,14 @@
             android:key="@string/pref_webdav_key"
             android:title="WebDAV">
 
-            <LiveSeekBarPreference
+            <SeekBarPreference
                 android:defaultValue="10"
                 android:key="@string/pref_webdav_timeout_key"
                 android:max="60"
                 android:title="@string/pref_webdav_timeout_title"
-                my:min="5" />
+                my:min="5"
+                my:showSeekBarValue="true"
+                my:updatesContinuously="true" />
 
             <SwitchPreferenceCompat
                 android:key="@string/pref_webdav_allow_unverified_host_key"
