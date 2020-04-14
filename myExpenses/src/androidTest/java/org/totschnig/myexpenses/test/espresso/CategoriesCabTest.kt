@@ -10,6 +10,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.filters.FlakyTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import org.assertj.core.api.Assertions
@@ -94,6 +95,7 @@ class CategoriesCabTest : BaseUiTest() {
         contentResolver?.delete(Category.CONTENT_URI, null, null)
     }
 
+    @FlakyTest
     @Test
     fun shouldNotDeleteCategoryMappedToTransaction() {
         fixtureWithMappedTransaction()
@@ -109,6 +111,7 @@ class CategoriesCabTest : BaseUiTest() {
                         R.plurals.not_deletable_mapped_transactions, 1, 1))))
     }
 
+    @FlakyTest
     @Test
     fun shouldNotDeleteCategoryMappedToTemplate() {
         fixtureWithMappedTemplate()

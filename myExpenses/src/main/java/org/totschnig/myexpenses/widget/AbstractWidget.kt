@@ -27,7 +27,7 @@ const val WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED
 const val WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED"
 const val EXTRA_START_FROM_WIDGET = "startFromWidget"
 const val EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry"
-const val KEY_WIDTH = "orientation"
+const val KEY_WIDTH = "width"
 
 fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String?) =
         context.sendBroadcast(Intent(context, provider).apply {
@@ -81,8 +81,6 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val empt
                     else -> /*ORIENTATION_LANDSCAPE*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
                 })
             }
-            // When intents are compared, the extras are ignored, so we need to embed the extras
-            // into the data so that the extras will not be ignored.
             // When intents are compared, the extras are ignored, so we need to embed the extras
             // into the data so that the extras will not be ignored.
             svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)))
