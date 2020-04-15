@@ -22,7 +22,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
 
@@ -37,10 +36,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +51,6 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 import timber.log.Timber;
@@ -95,6 +93,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
@@ -142,7 +141,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  *
  * @author Michael Totschnig
  */
-public class Transaction extends Model implements ITransaction {
+public class Transaction extends AbstractTransaction {
   public boolean inEditState = false;
   private String comment = "";
   private String payee = "";
@@ -227,7 +226,7 @@ public class Transaction extends Model implements ITransaction {
 
     //extended
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 5];
+    PROJECTION_EXTENDED = new String[baseLength + 6];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
@@ -236,6 +235,7 @@ public class Transaction extends Model implements ITransaction {
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
     PROJECTION_EXTENDED[baseLength + 4] = KEY_ACCOUNT_TYPE;
+    PROJECTION_EXTENDED[baseLength + 5] = KEY_TAGLIST;
 
     //extended for aggregate include is_same_currecny
     int extendedLength = PROJECTION_EXTENDED.length;
@@ -430,51 +430,6 @@ public class Transaction extends Model implements ITransaction {
     this.originPlanInstanceId = originPlanInstanceId;
   }
 
-  public enum CrStatus {
-    UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, "V");
-    public int color;
-    @NonNull
-    public String symbol;
-
-    CrStatus(int color, @NonNull String symbol) {
-      this.color = color;
-      this.symbol = symbol;
-    }
-
-    public static final String JOIN;
-
-    static {
-      JOIN = TextUtils.joinEnum(CrStatus.class);
-    }
-
-    public static CrStatus fromQifName(String qifName) {
-      if (qifName == null)
-        return UNRECONCILED;
-      if (qifName.equals("*") || qifName.equalsIgnoreCase("C")) {
-        return CLEARED;
-      } else if (qifName.equalsIgnoreCase("X") || qifName.equalsIgnoreCase("R")) {
-        return RECONCILED;
-      } else {
-        return UNRECONCILED;
-      }
-    }
-
-    @StringRes
-    public int toStringRes() {
-      switch (this) {
-        case CLEARED:
-          return R.string.status_cleared;
-        case RECONCILED:
-          return R.string.status_reconciled;
-        case UNRECONCILED:
-          return R.string.status_uncreconciled;
-        case VOID:
-          return R.string.status_void;
-      }
-      return 0;
-    }
-  }
-
   @NonNull
   private CrStatus crStatus = CrStatus.UNRECONCILED;
   transient protected Uri pictureUri;
@@ -491,7 +446,7 @@ public class Transaction extends Model implements ITransaction {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, CHECK_SEALED_WITH_ALIAS(VIEW_ALL, TABLE_TRANSACTIONS)};
 
     Cursor c = cr().query(
@@ -573,12 +528,12 @@ public class Transaction extends Model implements ITransaction {
     return t;
   }
 
-  public static Transaction getInstanceFromTemplate(long id) {
+  public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(long id) {
     Template te = Template.getInstanceFromDb(id);
     return te == null ? null : getInstanceFromTemplate(te);
   }
 
-  public static Transaction getInstanceFromTemplate(Template te) {
+  public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(Template te) {
     Transaction tr;
     switch (te.operationType()) {
       case TYPE_TRANSACTION:
@@ -606,15 +561,17 @@ public class Transaction extends Model implements ITransaction {
     tr.setPayeeId(te.getPayeeId());
     tr.setLabel(te.getLabel());
     tr.originTemplateId = te.getId();
+    final String idString = String.valueOf(te.getId());
     if (tr instanceof SplitTransaction) {
       tr.save();
       Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
-          KEY_PARENTID + " = ?", new String[]{String.valueOf(te.getId())}, null);
+          KEY_PARENTID + " = ?", new String[]{idString}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
-          if (part != null) {
+          Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          if (pair != null) {
+            Transaction part = pair.first;
             part.status = STATUS_UNCOMMITTED;
             part.setParentId(tr.getId());
             part.saveAsNew();
@@ -627,11 +584,26 @@ public class Transaction extends Model implements ITransaction {
     cr().update(
         TransactionProvider.TEMPLATES_URI
             .buildUpon()
-            .appendPath(String.valueOf(te.getId()))
+            .appendPath(idString)
             .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
             .build(),
         null, null, null);
-    return tr;
+    List<Tag> tags;
+    if (te.getParentId() == null) {
+      tags = new ArrayList<>();
+      Cursor c = cr().query(te.linkedTagsUri(), null, te.linkColumn() + " = ?", new String[]{idString}, null);
+      if (c != null) {
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+          tags.add(new Tag(c.getLong(c.getColumnIndex(DatabaseConstants.KEY_ROWID)), c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)), true, 0));
+          c.moveToNext();
+        }
+        c.close();
+      }
+    } else {
+      tags = null;
+    }
+    return Pair.create(tr, tags);
   }
 
   /**

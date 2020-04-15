@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,229 +13,237 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout android:id="@+id/OneExpense"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingTop="@dimen/padding_dialog_content_top">
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"/>
-
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:visibility="gone"/>
-
-    <TableLayout
-        android:id="@+id/Table"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side"
-        android:visibility="gone">
-
-        <TableRow android:id="@+id/AccountRow">
-
-            <TextView
-                android:id="@+id/AccountLabel"
-                style="@style/FormLabel.Condensed"
-                android:text="@string/account"/>
-
-            <TextView
-                android:id="@+id/Account"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/CategoryRow">
-
-            <TextView
-                android:id="@+id/CategoryLabel"
-                style="@style/FormLabel.Condensed"
-                android:text="@string/category"/>
-
-            <TextView
-                android:id="@+id/Category"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/DateLabel"
-                style="@style/FormLabel.Condensed"
-                android:text="@string/date"/>
-
-            <TextView
-                android:id="@+id/Date"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-
-        <TableRow android:id="@+id/Date2Row"
-            android:visibility="gone">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/value_date"/>
-
-            <TextView
-                android:id="@+id/Date2"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/OriginalAmountRow"
-                  android:visibility="gone">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/menu_original_amount"/>
-
-            <TextView
-                android:id="@+id/OriginalAmount"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/amount"/>
-
-            <TextView
-                android:id="@+id/Amount"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/EquivalentAmountRow"
-            android:visibility="gone">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/menu_equivalent_amount"/>
-
-            <TextView
-                android:id="@+id/EquivalentAmount"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/CommentRow">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/comment"/>
-
-            <TextView
-                android:id="@+id/Comment"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/PayeeRow">
-
-            <TextView
-                android:id="@+id/PayeeLabel"
-                style="@style/FormLabel.Condensed"/>
-
-            <TextView
-                android:id="@+id/Payee"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/MethodRow">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/method"/>
-
-            <TextView
-                android:id="@+id/Method"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/NumberRow">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/reference_number"/>
-
-            <TextView
-                android:id="@+id/Number"
-                style="@style/FormField.Dialog"/>
-        </TableRow>
-
-        <TableRow android:id="@+id/StatusRow">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/status"/>
-
-            <LinearLayout
-                style="@style/FormField.Dialog">
-                <!-- do not remove this linear layout, it prevents the enclosed textview from filling
-                the complete row https://github.com/mtotschnig/MyExpenses/issues/297
-                 -->
-                <TextView
-                    android:id="@+id/Status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="2dp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow android:id="@+id/PlanRow">
-
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/plan"/>
-
-            <TextView
-                android:id="@+id/Plan"
-                style="@style/FormField.Dialog"/>
-
-        </TableRow>
-    </TableLayout>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/padding_dialog_content_top">
 
     <LinearLayout
-        android:id="@+id/SplitContainer"
+        android:id="@+id/OneExpense"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal" />
 
         <TextView
-            style="@style/headingStyle.WithMargin"
-            android:text="@string/split_parts_heading"/>
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:visibility="gone" />
 
-        <ListView
-            android:id="@+id/list"
+        <TableLayout
+            android:id="@+id/Table"
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_dialog_side"
+            android:paddingRight="@dimen/padding_dialog_side"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/empty"
-            style="@style/FormField.Dialog"
+            <TableRow android:id="@+id/AccountRow">
+
+                <TextView
+                    android:id="@+id/AccountLabel"
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/account" />
+
+                <TextView
+                    android:id="@+id/Account"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow android:id="@+id/CategoryRow">
+
+                <TextView
+                    android:id="@+id/CategoryLabel"
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/category" />
+
+                <TextView
+                    android:id="@+id/Category"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/DateLabel"
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/date" />
+
+                <TextView
+                    android:id="@+id/Date"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/Date2Row"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/value_date" />
+
+                <TextView
+                    android:id="@+id/Date2"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/OriginalAmountRow"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/menu_original_amount" />
+
+                <TextView
+                    android:id="@+id/OriginalAmount"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/amount" />
+
+                <TextView
+                    android:id="@+id/Amount"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/EquivalentAmountRow"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/menu_equivalent_amount" />
+
+                <TextView
+                    android:id="@+id/EquivalentAmount"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow android:id="@+id/CommentRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/comment" />
+
+                <TextView
+                    android:id="@+id/Comment"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow android:id="@+id/PayeeRow">
+
+                <TextView
+                    android:id="@+id/PayeeLabel"
+                    style="@style/FormLabel.Condensed" />
+
+                <TextView
+                    android:id="@+id/Payee"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow android:id="@+id/MethodRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/method" />
+
+                <TextView
+                    android:id="@+id/Method"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow android:id="@+id/NumberRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/reference_number" />
+
+                <TextView
+                    android:id="@+id/Number"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+
+            <TableRow android:id="@+id/StatusRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/status" />
+
+                <LinearLayout style="@style/FormField.Dialog">
+                    <!-- do not remove this linear layout, it prevents the enclosed textview from filling
+                    the complete row https://github.com/mtotschnig/MyExpenses/issues/297
+                     -->
+                    <TextView
+                        android:id="@+id/Status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="2dp"
+                        android:textColor="#000000" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow android:id="@+id/PlanRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/plan" />
+
+                <TextView
+                    android:id="@+id/Plan"
+                    style="@style/FormField.Dialog" />
+
+            </TableRow>
+
+            <TableRow android:id="@+id/TagRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/tags" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/TagGroup"
+                    style="@style/FormField.Dialog" />
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/SplitContainer"
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/no_split_parts"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_dialog_side"
+            android:paddingRight="@dimen/padding_dialog_side"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/headingStyle.WithMargin"
+                android:text="@string/split_parts_heading" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/split_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </LinearLayout>
+
+
 
     </LinearLayout>
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -20,20 +20,21 @@ import android.net.Uri;
 
 import org.totschnig.myexpenses.MyApplication;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import androidx.annotation.VisibleForTesting;
 
-public abstract class Model implements Serializable {
+public abstract class Model implements IModel {
   public String uuid;
   private long id = 0L;
   private static ContentResolver cr;
 
+  @Override
   public long getId() {
     return id;
   }
 
+  @Override
   public void setId(long id) {
     this.id = id;
   }

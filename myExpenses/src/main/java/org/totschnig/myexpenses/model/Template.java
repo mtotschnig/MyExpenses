@@ -25,7 +25,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
-import org.jetbrains.annotations.Nullable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
@@ -37,6 +36,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
@@ -85,6 +86,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   private final Transaction template;
 
+  @Nullable
   public Plan getPlan() {
     return plan;
   }
@@ -96,6 +98,18 @@ public class Template extends Transaction implements ITransfer, ISplit {
   private Plan plan;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
+
+  @Override
+  public Uri linkedTagsUri() {
+    return TransactionProvider.TEMPLATES_TAGS_URI;
+  }
+
+  @NonNull
+  @Override
+  public String linkColumn() {
+    return KEY_TEMPLATEID;
+  }
+
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
   public String getUuid() {
@@ -376,6 +390,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     return t;
   }
 
+  @androidx.annotation.Nullable
   public static Template getInstanceFromDb(long id) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null, null, null);

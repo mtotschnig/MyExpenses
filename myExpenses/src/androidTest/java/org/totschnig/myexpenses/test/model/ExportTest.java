@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.export.Exporter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -111,7 +112,7 @@ public class ExportTest extends ModelTest {
     }
     op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
-    op.setCrStatus(Transaction.CrStatus.CLEARED);
+    op.setCrStatus(CrStatus.CLEARED);
     op.setReferenceNumber("1");
     op.setDate(new Date(baseSinceEpoch));
     op.save();
@@ -119,7 +120,7 @@ public class ExportTest extends ModelTest {
     op.setAmount(new Money(account1.getCurrencyUnit(), -expense2));
     op.setCatId(cat1Id);
     op.setPayee("N.N.");
-    op.setCrStatus(Transaction.CrStatus.UNRECONCILED);
+    op.setCrStatus(CrStatus.UNRECONCILED);
     op.setReferenceNumber("2");
     op.setDate(new Date(baseSinceEpoch + 1000));
     op.saveAsNew();
@@ -146,11 +147,11 @@ public class ExportTest extends ModelTest {
       return;
     }
     op.setAmount(new Money(account1.getCurrencyUnit(), transferP));
-    op.setCrStatus(Transaction.CrStatus.RECONCILED);
+    op.setCrStatus(CrStatus.RECONCILED);
     op.setDate(new Date(baseSinceEpoch + 4000));
     op.save();
 
-    op.setCrStatus(Transaction.CrStatus.UNRECONCILED);
+    op.setCrStatus(CrStatus.UNRECONCILED);
     op.setAmount(new Money(account1.getCurrencyUnit(), -transferN));
     op.setDate(new Date(baseSinceEpoch + 5000));
     op.saveAsNew();
@@ -215,7 +216,7 @@ public class ExportTest extends ModelTest {
     }
     op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
-    op.setCrStatus(Transaction.CrStatus.CLEARED);
+    op.setCrStatus(CrStatus.CLEARED);
     op.setReferenceNumber("1");
     op.setDate(new Date(baseSinceEpoch));
     op.save();
@@ -227,7 +228,7 @@ public class ExportTest extends ModelTest {
     }
     op.setAmount(new Money(account1.getCurrencyUnit(), -expense1));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
-    op.setCrStatus(Transaction.CrStatus.CLEARED);
+    op.setCrStatus(CrStatus.CLEARED);
     op.setReferenceNumber("1");
     op.setDate(new Date(baseSinceEpoch));
     op.save();

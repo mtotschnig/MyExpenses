@@ -18,14 +18,15 @@ import icepick.Icepick
 import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.AccountAdapter
-import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectPayeeFilterDialog
+import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -35,12 +36,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria
 import org.totschnig.myexpenses.provider.filter.Criteria
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.TagCriteria
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
 
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicker.OnDateChangedListener,
@@ -58,7 +61,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     var accountId: Long? = null
 
     private val allFilterChips: Array<ScrollingChip>
-        get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND)
+        get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND, FILTER_TAG_COMMAND)
 
     override fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
@@ -89,6 +92,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 R.id.FILTER_PAYEE_COMMAND -> R.string.budget_filter_all_parties
                 R.id.FILTER_METHOD_COMMAND -> R.string.budget_filter_all_methods
                 R.id.FILTER_STATUS_COMMAND -> R.string.budget_filter_all_states
+                R.id.FILTER_TAG_COMMAND -> R.string.budget_filter_all_tags
                 else -> 0
             }.takeIf { it != 0 }?.let { text = getString(it) }
             isCloseIconVisible = false
@@ -100,8 +104,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> {
                 Intent(this, ManageCategories::class.java).apply {
-                    action = ManageCategories.ACTION_SELECT_FILTER
+                    action = ACTION_SELECT_FILTER
                     startActivityForResult(this, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST)
+                }
+            }
+            R.id.FILTER_TAG_COMMAND -> {
+                Intent(this, ManageTags::class.java).apply {
+                    action = ACTION_SELECT_FILTER
+                    startActivityForResult(this, ProtectedFragmentActivity.FILTER_TAGS_REQUEST)
                 }
             }
             R.id.FILTER_PAYEE_COMMAND -> {
@@ -172,6 +182,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             if (resultCode == Activity.RESULT_FIRST_USER) {
                 val catIds = intent.getLongArrayExtra(KEY_CATID)
                 addCategoryFilter(label, *catIds)
+            }
+        } else if (requestCode == ProtectedFragmentActivity.FILTER_TAGS_REQUEST) {
+            intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)?.takeIf { it.size > 0 }?.let {
+                val tagIds = it.map(Tag::id).toLongArray()
+                val label = it.map(Tag::label).joinToString(", ")
+                addFilterCriteria(TagCriteria(label, *tagIds))
             }
         }
         super.onActivityResult(requestCode, resultCode, intent)

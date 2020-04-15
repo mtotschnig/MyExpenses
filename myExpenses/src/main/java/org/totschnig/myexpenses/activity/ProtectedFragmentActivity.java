@@ -35,7 +35,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Optional;
@@ -144,6 +143,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int MAP_PAYEE_RQEUST = 19;
   public static final int MAP_METHOD_RQEUST = 20;
   public static final int MAP_ACCOUNT_RQEUST = 21;
+  public static final int SELECT_TAGS_REQUEST = 22;
+  public static final int FILTER_TAGS_REQUEST = 23;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   public static final String EDIT_COLOR_DIALOG = "editColorDialog";
@@ -944,9 +945,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
                             Snackbar.Callback callback, @NonNull View container) {
     snackbar = Snackbar.make(container, message, duration);
-    View snackbarView = snackbar.getView();
-    TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-    textView.setMaxLines(10);
     UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
     if (snackbarAction != null) {
       snackbar.setAction(snackbarAction.resId, snackbarAction.listener);

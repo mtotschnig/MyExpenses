@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
@@ -73,6 +74,8 @@ import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.model.TagKt.extractTagIds;
+import static org.totschnig.myexpenses.model.TagKt.saveTagLinks;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -99,9 +102,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
@@ -114,10 +119,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int LOCK_TIMEOUT_MINUTES = BuildConfig.DEBUG ? 1 : 30;
   private static final long IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5);
   private static final long IO_LOCK_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(LOCK_TIMEOUT_MINUTES);
-  private Map<String, Long> categoryToId;
-  private Map<String, Long> payeeToId;
-  private Map<String, Long> methodToId;
-  private Map<String, Long> accountUuidToId;
+  private Map<String, Long> categoryToId = new HashMap<>();
+  private Map<String, Long> payeeToId = new HashMap<>();
+  private Map<String, Long> methodToId = new HashMap<>();
+  private Map<String, Long> tagToId = new HashMap<>();
+  private Map<String, Long> accountUuidToId = new HashMap<>();
   private SparseArray<List<StringBuilder>> notificationContent = new SparseArray<>();
   public static final String TAG = "SyncAdapter";
   private boolean shouldNotify = true;
@@ -160,10 +166,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       notificationContent.remove(account.hashCode());
       return;
     }
-    categoryToId = new HashMap<>();
-    payeeToId = new HashMap<>();
-    methodToId = new HashMap<>();
-    accountUuidToId = new HashMap<>();
+    categoryToId.clear();
+    payeeToId.clear();
+    methodToId.clear();
+    tagToId.clear();
+    accountUuidToId.clear();
     String uuidFromExtras = extras.getString(KEY_UUID);
     int notificationId = account.hashCode();
     if (notificationContent.get(notificationId) == null) {
@@ -642,6 +649,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           do {
             TransactionChange transactionChange = TransactionChange.create(c);
             if (!transactionChange.isEmpty()) {
+              if (transactionChange.type() == TransactionChange.Type.created || transactionChange.type() == TransactionChange.Type.updated) {
+                Cursor tagCursor = provider.query(TransactionProvider.TRANSACTIONS_TAGS_URI, null,
+                    String.format("%s = (SELECT %s FROM %s WHERE %s = ?)", KEY_TRANSACTIONID, KEY_ROWID, TABLE_TRANSACTIONS, KEY_UUID),
+                    new String[]{transactionChange.uuid()}, null);
+                if (tagCursor != null) {
+                  if (tagCursor.moveToFirst()) {
+                    List<String> tags = new ArrayList<>();
+                    do {
+                      tags.add(tagCursor.getString(tagCursor.getColumnIndex(DatabaseConstants.KEY_LABEL)));
+                    } while (tagCursor.moveToNext());
+                    transactionChange = transactionChange.toBuilder().setTags(tags).build();
+                  }
+                  tagCursor.close();
+                }
+              }
               result.add(transactionChange);
             }
           } while (c.moveToNext());
@@ -714,8 +736,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public void collectOperations(@NonNull TransactionChange change, long accountId, ArrayList<ContentProviderOperation> ops, int parentOffset) {
     Uri uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI;
     boolean skipped = false;
+    int offset = ops.size();
+    @Nullable
+    List<Long> tagIds = (change.tags() != null) ? extractTagIds(change.tags(), tagToId) : null;
     switch (change.type()) {
-      case created:
+      case created: {
         long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
         if (transactionId > -1) {
           if (parentOffset > -1) {
@@ -727,20 +752,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transactionId)})
                 .withValueBackReference(KEY_PARENTID, parentOffset)
                 .build());
+            saveTagLinks(tagIds, transactionId, null, ops);
           } else {
             skipped = true;
             log().i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
           }
         } else {
-          ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
+          ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset));
+          saveTagLinks(tagIds, null, offset, ops);
         }
         break;
-      case updated:
+      }
+      case updated: {
         ContentValues values = toContentValues(change);
         if (values.size() > 0 || parentOffset != -1) {
+          long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
           final ContentProviderOperation.Builder builder = ContentProviderOperation.newUpdate(uri)
-              .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?",
-                  new String[]{change.uuid(), String.valueOf(accountId)});
+              .withSelection(KEY_ROWID + " = ?",
+                  new String[]{String.valueOf(transactionId)});
           if (values.size() > 0) {
             builder.withValues(values);
           }
@@ -748,20 +777,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             builder.withValueBackReference(KEY_PARENTID, parentOffset);
           }
           ops.add(builder.build());
+          saveTagLinks(tagIds, transactionId, null, ops);
         }
         break;
-      case deleted:
+      }
+      case deleted: {
         ops.add(ContentProviderOperation.newDelete(uri)
             .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?",
                 new String[]{change.uuid(), String.valueOf(accountId)})
             .build());
         break;
-      case unsplit:
+      }
+      case unsplit: {
         ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build())
             .withValue(KEY_UUID, change.uuid())
             .build());
         break;
+      }
     }
     if (change.isCreateOrUpdate() && change.splitParts() != null && !skipped) {
       final int newParentOffset = ops.size() - 1;
@@ -775,7 +808,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       });
     }
   }
-
 
   private ArrayList<ContentProviderOperation> getContentProviderOperationsForCreate(
       TransactionChange change, int offset, int parentOffset) {
@@ -834,7 +866,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
     }
     if (change.crStatus() != null) {
-      t.setCrStatus(Transaction.CrStatus.valueOf(change.crStatus()));
+      t.setCrStatus(CrStatus.valueOf(change.crStatus()));
     }
     t.setReferenceNumber(change.referenceNumber());
     if (parentOffset == -1 && change.parentUuid() != null) {

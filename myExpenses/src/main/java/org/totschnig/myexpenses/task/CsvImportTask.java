@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
@@ -227,7 +228,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         }
 
         if (columnIndexStatus != -1) {
-          t.setCrStatus(Transaction.CrStatus.fromQifName(saveGetFromRecord(record, columnIndexStatus)));
+          t.setCrStatus(CrStatus.fromQifName(saveGetFromRecord(record, columnIndexStatus)));
         }
 
         if (columnIndexNumber != -1) {

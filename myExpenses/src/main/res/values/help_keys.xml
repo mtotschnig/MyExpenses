@@ -36,4 +36,7 @@
     <string name="menu_budget_aggregate">@string/menu_distribution_aggreate</string>
     <string name="accounts">@string/pref_manage_accounts_title</string>
     <string name="filter">@string/budget_form_label_filter</string>
+    <string name="help_ManageTags_manage_title">@string/tags</string>
+    <string name="help_ManageTags_select_mapping_title">@string/tags_create_or_select</string>
+    <string name="help_ManageTags_select_filter_title">@string/search_tag</string>
 </resources>

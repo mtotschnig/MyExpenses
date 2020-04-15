@@ -17,8 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -179,6 +178,7 @@ public class DatabaseConstants {
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
   public static final String KEY_LAST_USED = "last_used";
   public static final String KEY_HAS_TRANSFERS = "has_transfers";
+  public static final String KEY_MAPPED_TAGS = "mapped_tags";
   public static final String KEY_PLAN_INFO = "plan_info";
   public static final String KEY_PARENT_UUID = "parent_uuid";
   public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
@@ -199,6 +199,11 @@ public class DatabaseConstants {
   public static final String KEY_BUDGETID = "budget_id";
   public static final String KEY_START = "start";
   public static final String KEY_END = "end";
+  public static final String KEY_TAGID = "tag_id";
+  public static final String KEY_TRANSFER_CURRENCY = "transfer_currency";
+  public static final String KEY_COUNT = "count";
+  public static final String KEY_TAGLIST = "tag_list";
+
   /**
    * Used for both saving goal and credit limit on accounts
    */
@@ -271,6 +276,9 @@ public class DatabaseConstants {
   static final String TABLE_CHANGES = "changes";
   static final String TABLE_SETTINGS = "settings";
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
+  static final String TABLE_TAGS = "tags";
+  public static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
+  public static final String TABLE_TEMPLATES_TAGS = "templates_tags";
   /**
    * used on backup and restore
    */
@@ -360,16 +368,21 @@ public class DatabaseConstants {
           + " = " + VIEW_EXTENDED + "." + KEY_TRANSFER_PEER + ")";
 
   /**
-   * Can only be used when fetching single transaction from DB, because the inner select is linked
-   * to VIEW_ALL used as outer table
+   *
+   * @param view the view which is used in the outer table
+   * @return column expression
    */
-  public static final String TRANSFER_AMOUNT =
-      "CASE WHEN " +
+  public static String TRANSFER_AMOUNT(String view) {
+      return "CASE WHEN " +
           "  " + KEY_TRANSFER_PEER + " " +
           " THEN " +
-          "  (SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = " + VIEW_ALL + "." + KEY_TRANSFER_PEER + ") " +
+          "  (SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = " + view + "." + KEY_TRANSFER_PEER + ") " +
           " ELSE null" +
           " END AS " + KEY_TRANSFER_AMOUNT;
+  }
+
+  public static final String TRANSFER_CURRENCY = String.format("(select %1$s from %2$s where %3$s=%4$s) AS %5$s", KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_TRANSFER_ACCOUNT, KEY_TRANSFER_CURRENCY);
+
 
   public static final String CATEGORY_ICON =
       "CASE WHEN " +
@@ -400,7 +413,7 @@ public class DatabaseConstants {
       KEY_PARENTID + " IS null";
   public static final String WHERE_IN_PAST = KEY_DATE + " <= strftime('%s','now')";
   public static final String WHERE_NOT_VOID =
-      KEY_CR_STATUS + " != '" + Transaction.CrStatus.VOID.name() + "'";
+      KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is null";
   public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;
@@ -434,6 +447,9 @@ public class DatabaseConstants {
       "count(CASE WHEN  " + KEY_METHODID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
   public static final String HAS_TRANSFERS =
       "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
+  public static final String MAPPED_TAGS = "count((SELECT 1 FROM " + TABLE_TRANSACTIONS_TAGS+ " WHERE "
+      + KEY_TRANSACTIONID + " = " + KEY_ROWID + " LIMIT 1)) AS " + KEY_MAPPED_TAGS;
+
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";

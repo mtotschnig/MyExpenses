@@ -142,7 +142,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                     filterList.add(accountName)
                     val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false, true)
                     filterPersistence.whereFilter.criteria.forEach { criterion -> filterList.add(criterion.prettyPrint(context)) }
-                    addChipsBulk(filter, filterList)
+                    filter.addChipsBulk(filterList, null)
                     setOnClickListener {
                         val i = Intent(context, BudgetActivity::class.java)
                         i.putExtra(KEY_ROWID, budget.id)

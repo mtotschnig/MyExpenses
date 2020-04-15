@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import androidx.annotation.Nullable;
 import timber.log.Timber;
 
 import static org.threeten.bp.temporal.ChronoField.DAY_OF_WEEK;
@@ -120,6 +121,7 @@ public class Plan extends Model implements Serializable {
     this(0L, localDate, recurrence, title, description);
   }
 
+  @Nullable
   public static Plan getInstanceFromDb(long planId) {
     Plan plan = null;
     if (CALENDAR.hasPermission(MyApplication.getInstance())) {

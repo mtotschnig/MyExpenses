@@ -140,6 +140,13 @@
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:theme="@style/Theme.MaterialComponents"
                         android:text="@string/budget_filter_all_states" />
+                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                        android:id="@id/FILTER_TAG_COMMAND"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:theme="@style/Theme.MaterialComponents"
+                        android:text="@string/budget_filter_all_tags" />
                 </com.google.android.material.chip.ChipGroup>
             </TableRow>
 

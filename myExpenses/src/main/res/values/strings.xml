@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -484,6 +483,7 @@
     <string name="search_status">Search for status</string>
     <string name="search_payee">Search for payee/payer</string>
     <string name="search_method">Search for method</string>
+    <string name="search_tag">Search for tag</string>
     <string name="and">and</string>
     <string name="between_and">between %1$s and %2$s</string>
     <string name="before">before %s</string>
@@ -876,6 +876,7 @@
     <string name="budget_filter_all_parties">All parties</string>
     <string name="budget_filter_all_methods">All methods</string>
     <string name="budget_filter_all_states">All status</string>
+    <string name="budget_filter_all_tags">All tags</string>
     <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Delete budget?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
@@ -904,4 +905,15 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Cloned transactions keep original date</string>
     <string name="pref_protection_screenshot_information">By activating device protection, screenshot capture is disabled.</string>
+    <string name="tags_create_or_select">Create or select tags</string>
+    <string name="content_description_tags_confirm">Confirm</string>
+    <string name="tags">Tags</string>
+    <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
+    <string name="dialog_title_warning_delete_tag">Delete tag?</string>
+    <string name="tag_already_defined">Tag already defined.</string>
+    <string name="menu_edit_tag">Edit tag</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Tag %1$s is mapped to one transaction. Should it be deleted?</item>
+        <item quantity="other">Tag %1$s is mapped to %2$d transactions. Should it be deleted?</item>
+    </plurals>
 </resources>

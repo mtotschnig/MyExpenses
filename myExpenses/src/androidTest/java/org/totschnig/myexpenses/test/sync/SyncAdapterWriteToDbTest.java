@@ -3,16 +3,19 @@ package org.totschnig.myexpenses.test.sync;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import androidx.annotation.RequiresApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -48,7 +51,7 @@ public class SyncAdapterWriteToDbTest {
   }
 
   @Test
-  public void updatedChangeShouldBeCollectedAsUpdateOperation() {
+  public void updatedChangeShouldBeCollectedAsUpdateOperationWithoutTag() {
     TransactionChange change = TransactionChange.builder()
         .setType(TransactionChange.Type.updated)
         .setUuid("any")
@@ -56,8 +59,27 @@ public class SyncAdapterWriteToDbTest {
         .setAmount(123L)
         .build();
     syncAdapter.collectOperations(change, 0, ops, -1);
-    assertEquals(1, ops.size());
+    assertEquals(2, ops.size());
     assertTrue(ops.get(0).isUpdate());
+    assertTrue(ops.get(1).isDelete());
+    assertEquals(TransactionProvider.TRANSACTIONS_TAGS_URI, ops.get(1).getUri());
+  }
+
+  @Test
+  public void createChangeWithTag() {
+    TransactionChange change = TransactionChange.builder()
+        .setType(TransactionChange.Type.created)
+        .setUuid("any")
+        .setCurrentTimeStamp()
+        .setAmount(123L)
+        .setTags(Collections.singletonList("tag"))
+        .build();
+    syncAdapter.collectOperations(change, 0, ops, -1);
+
+    assertEquals(2, ops.size());
+    assertTrue(ops.get(0).isInsert());
+    assertEquals(TransactionProvider.TRANSACTIONS_TAGS_URI, ops.get(1).getUri());
+    assertTrue(ops.get(1).isInsert());
   }
 
   @Test

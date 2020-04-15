@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.util.*
 
@@ -37,6 +38,7 @@ const val ERROR_UNKNOWN = -1L
 const val ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2L
 const val ERROR_PICTURE_SAVE_UNKNOWN = -3L
 const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
+const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
@@ -90,23 +92,23 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     fun save(transaction: ITransaction): LiveData<Long> = liveData(context = coroutineContext()) {
-        emit(
-                try {
-                    transaction.save(true)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
-                } catch (e: ExternalStorageNotAvailableException) {
-                    ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
-                } catch (e: UnknownPictureSaveException) {
-                    val customData = HashMap<String, String>()
-                    customData["pictureUri"] = e.pictureUri.toString()
-                    customData["homeUri"] = e.homeUri.toString()
-                    CrashHandler.report(e, customData)
-                    ERROR_PICTURE_SAVE_UNKNOWN
-                } catch (e: CalendarIntegrationNotAvailableException) {
-                    ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
-                } catch (e: Exception) {
-                    CrashHandler.report(e)
-                    ERROR_UNKNOWN
-                })
+        val result = try {
+            transaction.save(true)?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
+        } catch (e: ExternalStorageNotAvailableException) {
+            ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
+        } catch (e: UnknownPictureSaveException) {
+            val customData = HashMap<String, String>()
+            customData["pictureUri"] = e.pictureUri.toString()
+            customData["homeUri"] = e.homeUri.toString()
+            CrashHandler.report(e, customData)
+            ERROR_PICTURE_SAVE_UNKNOWN
+        } catch (e: CalendarIntegrationNotAvailableException) {
+            ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
+        } catch (e: Exception) {
+            CrashHandler.report(e)
+            ERROR_UNKNOWN
+        }
+        emit(if (result > 0 && !transaction.saveTags(tags.value, getApplication<Application>().contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> = liveData(context = coroutineContext()) {
@@ -124,6 +126,18 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
         val minorUnitDelta: Int = currencyUnit.fractionDigits() - Utils.getHomeCurrency().fractionDigits()
         return raw * Math.pow(10.0, minorUnitDelta.toDouble())
+    }
+
+    fun updateTags(it: MutableList<Tag>) {
+        tags.postValue(it)
+    }
+
+    fun removeTag(tag: Tag) {
+        tags.value?.remove(tag)
+    }
+
+    fun removeTags(tagIds: LongArray) {
+        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id)  }.toMutableList())  }
     }
 }
 

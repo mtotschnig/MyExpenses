@@ -184,9 +184,9 @@ public class SplitTransaction extends Transaction implements ISplit {
     final long date = cursor.getLong(ciDate);
     final String crStatusString = cursor.getString(ciCrStatus);
     cursor.close();
-    Transaction.CrStatus crStatus;
+    CrStatus crStatus;
     try {
-      crStatus = Transaction.CrStatus.valueOf(crStatusString);
+      crStatus = CrStatus.valueOf(crStatusString);
     } catch (IllegalArgumentException e) {
       Timber.e(e);
       return FAILURE;
@@ -200,7 +200,7 @@ public class SplitTransaction extends Transaction implements ISplit {
     parent.setCrStatus(crStatus);
     final ArrayList<ContentProviderOperation> operations = parent.buildSaveOperations(false);
     ContentValues values = new ContentValues();
-    values.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+    values.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
     values.put(KEY_DATE, date);
     values.putNull(KEY_PAYEEID);
     operations.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)

@@ -257,6 +257,7 @@
         <item>payer_or_payee</item>
         <item>comment</item>
         <item>category</item>
+        <item>tags</item>
         <item>method</item>
         <item>instant_plan</item>
     </string-array>
@@ -265,6 +266,7 @@
         <item>amount</item>
         <item>exchange_rate</item>
         <item>date.time</item>
+        <item>tags</item>
         <item>comment</item>
         <item>instant_plan</item>
     </string-array>
@@ -275,6 +277,7 @@
         <item>payer_or_payee</item>
         <item>comment</item>
         <item>category</item>
+        <item>tags</item>
         <item>method</item>
         <item>plan</item>
     </string-array>
@@ -283,6 +286,7 @@
         <item>transfer_from_account.transfer_to_account</item>
         <item>amount</item>
         <item>exchange_rate</item>
+        <item>tags</item>
         <item>comment</item>
         <item>plan</item>
     </string-array>
@@ -293,6 +297,7 @@
         <item>payer_or_payee</item>
         <item>comment</item>
         <item>category</item>
+        <item>tags</item>
         <item>method</item>
         <item>plan</item>
         <item>split_parts_heading</item>
@@ -302,6 +307,7 @@
         <item>amount</item>
         <item>date.time</item>
         <item>payer_or_payee</item>
+        <item>tags</item>
         <item>comment</item>
         <item>method</item>
         <item>instant_plan</item>
@@ -458,6 +464,11 @@
     <string-array name="help_ManageBudgets_info">
         <item>help_ManageBudgets_info</item>
         <item>help_Budget_amount_click</item>
+    </string-array>
+
+    <string-array name="help_ManageTags_select_mapping_info">
+        <item>help_ManageTags_manage_info</item>
+        <item>help_ManageTags_select_mapping_info</item>
     </string-array>
 
     <string-array name="BudgetEdit_formfields" tools:ignore="UnusedResources">

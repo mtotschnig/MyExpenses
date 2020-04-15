@@ -76,7 +76,7 @@ class CategoriesCabTest : BaseUiTest() {
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         val categoryId = Category.write(0, "TestCategory", null)
-        val budget = Budget(0L, account.getId(), "TITLE", "DESCRIPTION", currency, Money(currency, 200000L), Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.getLabel(), true)
+        val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", currency, Money(currency, 200000L), Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.getLabel(), true)
         val budgetId = ContentUris.parseId(contentResolver!!.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues())!!)
         setCategoryBudget(budgetId, categoryId, 50000)
     }

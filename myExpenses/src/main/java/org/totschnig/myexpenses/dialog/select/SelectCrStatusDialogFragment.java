@@ -25,7 +25,7 @@ import android.widget.ListView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 
 import java.util.ArrayList;
@@ -45,9 +45,9 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    String[] items = new String[Transaction.CrStatus.values().length];
-    for (int i = 0; i < Transaction.CrStatus.values().length; i++) {
-      items[i] = getString(Transaction.CrStatus.values()[i].toStringRes());
+    String[] items = new String[CrStatus.values().length];
+    for (int i = 0; i < CrStatus.values().length; i++) {
+      items[i] = getString(CrStatus.values()[i].toStringRes());
     }
     return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.search_status)
@@ -70,10 +70,10 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
     ArrayList<String> statusList = new ArrayList<>();
     for (int i = 0; i < positions.size(); i++) {
       if (positions.valueAt(i)) {
-        statusList.add(Transaction.CrStatus.values()[positions.keyAt(i)].name());
+        statusList.add(CrStatus.values()[positions.keyAt(i)].name());
       }
     }
-    if (!statusList.isEmpty() && statusList.size() < Transaction.CrStatus.values().length) {
+    if (!statusList.isEmpty() && statusList.size() < CrStatus.values().length) {
       ((SelectFilterDialog.Host) getActivity()).addFilterCriteria(
           new CrStatusCriteria(statusList.toArray(new String[statusList.size()])));
     }

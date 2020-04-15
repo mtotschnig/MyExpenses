@@ -23,10 +23,10 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -60,6 +60,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
@@ -93,6 +94,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexAmount;
   private int columnIndexTransferPeer;
   private int columnIndexEquivalentAmount;
+  private int columnIndexTagList;
 
   private CurrencyContext currencyContext;
   private PrefHandler prefHandler;
@@ -203,6 +205,14 @@ public class TransactionAdapter extends ResourceCursorAdapter {
           TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
           ssb;
     }
+    String tagList = cursor.getString(columnIndexTagList);
+    if (tagList != null && tagList.length() > 0) {
+      ssb = new SpannableStringBuilder(tagList);
+      ssb.setSpan(new StyleSpan(Typeface.BOLD), 0, tagList.length(), 0);
+      catText = catText.length() > 0 ?
+          TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
+          ssb;
+    }
     if (insideFragment) {
       if (catText.length() == 0) {
         catText = "―――";
@@ -308,6 +318,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       columnIndexCrStatus = cursor.getColumnIndex(KEY_CR_STATUS);
       columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
       columnIndexEquivalentAmount = cursor.getColumnIndex(KEY_EQUIVALENT_AMOUNT);
+      columnIndexTagList = cursor.getColumnIndex(KEY_TAGLIST);
 
       indexesCalculated = true;
     }

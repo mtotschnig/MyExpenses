@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
@@ -395,7 +396,7 @@ public class PdfPrinter {
       long amount = transactionCursor.getLong(columnIndexAmount);
       boolean isVoid = false;
       try {
-        isVoid = Transaction.CrStatus.valueOf(transactionCursor.getString(columnIndexCrStatus)) == Transaction.CrStatus.VOID;
+        isVoid = CrStatus.valueOf(transactionCursor.getString(columnIndexCrStatus)) == CrStatus.VOID;
       } catch (IllegalArgumentException ignored) {
       }
 

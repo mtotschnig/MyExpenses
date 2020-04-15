@@ -27,6 +27,7 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     override val typeResId = R.string.split_transaction
     override val editResId = R.string.menu_edit_split
     override val shouldAutoFill = false
+    private var missingRecurrenceFeature: ContribFeature? = null
 
     override fun bind(transaction: ISplit?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
         super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
@@ -36,6 +37,7 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
             }
         })
         viewBinding.CategoryRow.visibility = View.GONE
+        missingRecurrenceFeature = if (!newInstance || prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
     }
 
     override fun buildMainTransaction(accountId: Long): ISplit = if (isTemplate) buildTemplate(accountId) else SplitTransaction(accountId)
@@ -77,5 +79,5 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
         }
     }
 
-    override fun missingRecurrenceFeature() = if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
+    override fun missingRecurrenceFeature() = missingRecurrenceFeature
 }

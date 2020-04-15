@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -148,6 +149,12 @@ public class TransactionProvider extends ContentProvider {
 
   public static final Uri BUDGETS_URI = Uri.parse("content://" + AUTHORITY + "/budgets");
 
+  public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
+
+  public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions_tags");
+
+  public static final Uri TEMPLATES_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/templates_tags");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -175,6 +182,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
+  public static final String QUERY_PARAMETER_WITH_COUNT ="count";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -246,6 +254,10 @@ public class TransactionProvider extends ContentProvider {
   private static final int BUDGET_CATEGORY = 52;
   private static final int CURRENCIES_CODE = 53;
   private static final int ACCOUNTS_MINIMAL = 54;
+  private static final int TAGS = 55;
+  private static final int TRANSACTIONS_TAGS = 56;
+  private static final int TAG_ID = 57;
+  private static final int TEMPLATES_TAGS = 58;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -921,6 +933,20 @@ public class TransactionProvider extends ContentProvider {
       case BUDGETS:
         qb.setTables(TABLE_BUDGETS + " LEFT JOIN " + TABLE_ACCOUNTS + " ON (" + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         break;
+      case TAGS:
+        boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;
+        qb.setTables(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID  + " = " + KEY_TAGID + ")" : TABLE_TAGS);
+        if (withCount) {
+          projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
+          groupBy = KEY_ROWID;
+        }
+        break;
+      case TRANSACTIONS_TAGS:
+        qb.setTables(TABLE_TRANSACTIONS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        break;
+      case TEMPLATES_TAGS:
+        qb.setTables(TABLE_TEMPLATES_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -1060,6 +1086,21 @@ public class TransactionProvider extends ContentProvider {
         newUri = CURRENCIES_URI + "/" + id;
         break;
       }
+      case TAGS: {
+        id = db.insertOrThrow(TABLE_TAGS, null, values);
+        newUri = TAGS_URI + "/" + id;
+        break;
+      }
+      case TRANSACTIONS_TAGS: {
+        db.insertWithOnConflict(TABLE_TRANSACTIONS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        //the table does not have primary ids, we return the base uri
+        return TRANSACTIONS_TAGS_URI;
+      }
+      case TEMPLATES_TAGS: {
+        db.insertWithOnConflict(TABLE_TEMPLATES_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        //the table does not have primary ids, we return the base uri
+        return TEMPLATES_TAGS_URI;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1097,16 +1138,6 @@ public class TransactionProvider extends ContentProvider {
         //first we find out the account label
         db.beginTransaction();
         try {
-          Cursor c = db.query(
-              TABLE_ACCOUNTS,
-              new String[]{KEY_LABEL},
-              KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
-              new String[]{segment},
-              null, null, null);
-          c.moveToFirst();
-          //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
-          String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
-          c.close();
           ContentValues args = new ContentValues();
           args.putNull(KEY_TRANSFER_ACCOUNT);
           args.putNull(KEY_TRANSFER_PEER);
@@ -1121,7 +1152,7 @@ public class TransactionProvider extends ContentProvider {
             count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[]{segment, segment});
           } else {
             ContentValues v = new ContentValues();
-            v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
+            v.put(KEY_CR_STATUS, CrStatus.VOID.name());
             count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[]{segment, segment, segment});
           }
           db.setTransactionSuccessful();
@@ -1186,6 +1217,10 @@ public class TransactionProvider extends ContentProvider {
       case BUDGETS:
         count = db.delete(TABLE_BUDGETS, where, whereArgs);
         break;
+      case TAG_ID:
+        count = db.delete(TABLE_TAGS,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
           count = resumeChangeTrigger(db);
@@ -1205,6 +1240,14 @@ public class TransactionProvider extends ContentProvider {
         } catch (SQLiteConstraintException e) {
           return 0;
         }
+        break;
+      }
+      case TRANSACTIONS_TAGS: {
+        count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
+        break;
+      }
+      case TEMPLATES_TAGS: {
+        count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
         break;
       }
       default:
@@ -1259,7 +1302,7 @@ public class TransactionProvider extends ContentProvider {
         segment = uri.getPathSegments().get(1);
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
-        v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+        v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
         count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
         break;
       case ACCOUNTS:
@@ -1572,6 +1615,11 @@ public class TransactionProvider extends ContentProvider {
             currency, prefixAnd(where)), whereArgs);
         break;
       }
+      case TAG_ID: {
+        count = db.update(TABLE_TAGS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1750,6 +1798,10 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets/#/#", BUDGET_CATEGORY);
     URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
     URI_MATCHER.addURI(AUTHORITY, "accountsMinimal", ACCOUNTS_MINIMAL);
+    URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions_tags", TRANSACTIONS_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
+    URI_MATCHER.addURI(AUTHORITY, "templates_tags", TEMPLATES_TAGS);
   }
 
   /**

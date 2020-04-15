@@ -47,7 +47,7 @@ import com.google.android.material.snackbar.Snackbar
 import icepick.Icepick
 import icepick.State
 import org.threeten.bp.LocalDate
-import org.threeten.bp.ZonedDateTime
+import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -60,10 +60,13 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
+import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan.Recurrence
@@ -93,6 +96,7 @@ import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
 import org.totschnig.myexpenses.viewmodel.ERROR_PICTURE_SAVE_UNKNOWN
+import org.totschnig.myexpenses.viewmodel.ERROR_WHILE_SAVING_TAGS
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel
@@ -101,7 +105,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Currency
-import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
 import java.io.Serializable
@@ -130,9 +134,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     @JvmField
     @State
     var mRowId = 0L
+
     @JvmField
     @State
     var parentId = 0L
+
     @JvmField
     @State
     var pictureUriTemp: Uri? = null
@@ -141,6 +147,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         get() = currentAccount?.id ?: 0L
 
     private var planInstanceId: Long = 0
+
     /**
      * transaction, transfer or split
      */
@@ -149,6 +156,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     var operationType = 0
     private lateinit var mManager: LoaderManager
     private var createNew = false
+
     @JvmField
     @State
     var isTemplate = false
@@ -158,6 +166,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private var pObserver: ContentObserver? = null
     private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
+    private var tagsLoaded = false
     override fun getDate(): LocalDate {
         return dateEditBinding.Date2Button.date
     }
@@ -168,8 +177,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     @Inject
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
+
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
+
     @Inject
     lateinit var discoveryHelper: DiscoveryHelper
 
@@ -236,7 +247,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null)
             setTitle()
         } else {
-
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -339,6 +349,15 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 if (mIsResumed) setupListeners()
             }
         })
+        if (!isSplitPart) {
+            viewModel.getTags().observe(this, Observer { tags ->
+                tagsLoaded = true
+                delegate.showTags(tags) { tag ->
+                    viewModel.removeTag(tag)
+                    setDirty()
+                }
+            })
+        }
     }
 
     private fun loadData() {
@@ -389,9 +408,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             } else {
                 mRowId = it.id
                 populate(it)
+                if (task != TRANSACTION_FROM_TEMPLATE) {
+                    viewModel.loadOriginalTags(it)
+                }
             }
         } ?: run {
-            abortWithMessage(when(task) {
+            abortWithMessage(when (task) {
                 TRANSACTION, TEMPLATE -> "Object has been deleted from db"
                 TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
                 FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
@@ -409,7 +431,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private fun populate(transaction: Transaction) {
         if (intent.getBooleanExtra(KEY_CLONE, false)) {
             mRowId = if (transaction is SplitTransaction) transaction.id else 0L
-            transaction.crStatus = Transaction.CrStatus.UNRECONCILED
+            transaction.crStatus = CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE
             transaction.uuid = Model.generateUuid()
             mNewInstance = true
@@ -612,7 +634,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
      */
     fun startSelectCategory() {
         val i = Intent(this, ManageCategories::class.java)
-        i.action = ManageCategories.ACTION_SELECT_MAPPING
+        i.action = ACTION_SELECT_MAPPING
         forwardDataEntryFromWidget(i)
         //we pass the currently selected category in to prevent
         //it from being deleted, which can theoretically lead
@@ -705,6 +727,20 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
         if (requestCode == ProtectedFragmentActivity.EDIT_REQUEST && resultCode == RESULT_OK) {
             setDirty()
+        }
+        if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST) {
+            intent?.also {
+                if (resultCode == RESULT_OK) {
+                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
+                        viewModel.updateTags(it)
+                        setDirty()
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
+                        viewModel.removeTags(it)
+                    }
+                }
+            }
         }
     }
 
@@ -817,21 +853,20 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     fun onSaved(result: Long) {
         if (result < 0L) {
-            val errorMsg: String
-            when (result) {
-                ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> errorMsg = getString(R.string.external_storage_unavailable)
-                ERROR_PICTURE_SAVE_UNKNOWN -> errorMsg = "Error while saving picture"
+            showSnackbar(when (result) {
+                ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
+                ERROR_PICTURE_SAVE_UNKNOWN -> "Error while saving picture"
+                ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
                 ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
                     delegate.recurrenceSpinner.setSelection(0)
                     //mTransaction!!.originTemplate = null
-                    errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device."
+                    "Recurring transactions are not available, because calendar integration is not functional on this device."
                 }
                 else -> {
                     (delegate as? CategoryDelegate)?.resetCategory()
-                    errorMsg = "Error while saving transaction"
+                    "Error while saving transaction"
                 }
-            }
-            showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
+            }, Snackbar.LENGTH_LONG)
             createNew = false
         } else {
             if (operationType == Transactions.TYPE_SPLIT) {
@@ -1134,5 +1169,14 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
         const val AUTOFILL_CURSOR = 8
+    }
+
+    fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
+        if (mNewInstance || tagsLoaded) {
+            val i = Intent(this, ManageTags::class.java).apply {
+                putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
+            }
+            startActivityForResult(i, ProtectedFragmentActivity.SELECT_TAGS_REQUEST)
+        }
     }
 }

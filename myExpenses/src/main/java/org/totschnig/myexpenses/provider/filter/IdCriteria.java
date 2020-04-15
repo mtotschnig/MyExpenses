@@ -40,7 +40,7 @@ public abstract class IdCriteria extends Criteria {
     this.label = label;
   }
 
-  private static String[] longArrayToStringArray(long[] in) {
+  protected static String[] longArrayToStringArray(long[] in) {
     String[] out = new String[in.length];
     for (int i = 0; i < in.length; i++) {
       out[i] = String.valueOf(in[i]);

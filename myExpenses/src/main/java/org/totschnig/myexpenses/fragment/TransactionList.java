@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
@@ -83,13 +84,13 @@ import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragmen
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -102,6 +103,7 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.FilterPersistence;
+import org.totschnig.myexpenses.provider.filter.TagCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
@@ -111,6 +113,7 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -146,6 +149,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_ACCOUNT_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
@@ -154,6 +159,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRE
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
+import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAGLIST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -172,6 +178,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -191,6 +198,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
@@ -224,6 +232,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private boolean mappedPayees;
   private boolean mappedMethods;
   private boolean hasTransfers;
+  private boolean hasTags;
   private boolean firstLoadCompleted;
   private Cursor mTransactionsCursor;
   private Parcelable listState;
@@ -410,11 +419,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       @Override
       public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == SCROLL_STATE_IDLE && currentState != scrollState && view.isFastScrollEnabled()) {
-          view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-              if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
-            }
+          view.postDelayed(() -> {
+            if (currentState == SCROLL_STATE_IDLE) view.setFastScrollEnabled(false);
           }, 1000);
         }
         currentState = scrollState;
@@ -526,7 +532,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.REMAP_CATEGORY_COMMAND: {
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           Intent i = new Intent(getActivity(), ManageCategories.class);
-          i.setAction(ManageCategories.ACTION_SELECT_MAPPING);
+          i.setAction(ACTION_SELECT_MAPPING);
           startActivityForResult(i, MAP_CATEGORY_RQEUST);
         });
         return true;
@@ -716,7 +722,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case SUM_CURSOR:
         cursorLoader = new CursorLoader(getActivity(),
             TransactionProvider.TRANSACTIONS_URI,
-            new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES, HAS_TRANSFERS},
+            new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES, HAS_TRANSFERS, MAPPED_TAGS},
             selection,
             selectionArgs, null);
         break;
@@ -801,6 +807,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
         mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
         hasTransfers = c.getInt(c.getColumnIndex(KEY_HAS_TRANSFERS)) > 0;
+        hasTags = c.getInt(c.getColumnIndex(KEY_MAPPED_TAGS)) > 0;
         getActivity().invalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
@@ -1337,7 +1344,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         DrawableCompat.setTintList(searchMenuIcon, getFilter().isEmpty() ? null : ColorStateList.valueOf(Color.GREEN));
       }
       if (!getFilter().isEmpty()) {
-        addChipsBulk(filterView, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()));
+        addChipsBulk(filterView, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
       }
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
@@ -1358,6 +1365,9 @@ public class TransactionList extends ContextualActionBarFragment implements
             break;
           case R.id.FILTER_TRANSFER_COMMAND:
             enabled = hasTransfers;
+            break;
+          case R.id.FILTER_TAG_COMMAND:
+            enabled = hasTags;
             break;
         }
         Criteria c = getFilter().get(filterItem.getItemId());
@@ -1413,8 +1423,15 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.FILTER_CATEGORY_COMMAND:
         if (!removeFilter(command)) {
           Intent i = new Intent(getActivity(), ManageCategories.class);
-          i.setAction(ManageCategories.ACTION_SELECT_FILTER);
+          i.setAction(ACTION_SELECT_FILTER);
           startActivityForResult(i, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST);
+        }
+        return true;
+      case R.id.FILTER_TAG_COMMAND:
+        if (!removeFilter(command)) {
+          Intent i = new Intent(getActivity(), ManageTags.class);
+          i.setAction(ACTION_SELECT_FILTER);
+          startActivityForResult(i, ProtectedFragmentActivity.FILTER_TAGS_REQUEST);
         }
         return true;
       case R.id.FILTER_AMOUNT_COMMAND:
@@ -1504,8 +1521,14 @@ public class TransactionList extends ContextualActionBarFragment implements
         long[] catIds = intent.getLongArrayExtra(KEY_CATID);
         addCategoryFilter(label, catIds);
       }
-    }
-    if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST || requestCode == MAP_METHOD_RQEUST || requestCode == MAP_ACCOUNT_RQEUST) {
+    } else if (requestCode == ProtectedFragmentActivity.FILTER_TAGS_REQUEST) {
+      final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAGLIST);
+      if (tagList != null) {
+        long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();
+        String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
+        addFilterCriteria(new TagCriteria(label, tagIds));
+      }
+    } else if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST || requestCode == MAP_METHOD_RQEUST || requestCode == MAP_ACCOUNT_RQEUST) {
       Bundle b = new Bundle();
       int columnStringResId, confirmationStringResId;
       String column;

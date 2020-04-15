@@ -47,6 +47,7 @@ public class UiUtils {
       snackbarView.setBackgroundColor(Color.WHITE);
       TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
       textView.setTextColor(Color.BLACK);
+      textView.setMaxLines(10);
     }
   }
 

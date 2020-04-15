@@ -35,6 +35,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
@@ -42,7 +43,6 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -109,6 +108,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
@@ -138,8 +139,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -152,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 101;
+  public static final int DATABASE_VERSION = 102;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -182,7 +186,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
           + KEY_PARENTID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_STATUS + " integer default 0, "
-          + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" + Transaction.CrStatus.RECONCILED.name() + "',"
+          + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")) default '" + CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text, "
           + KEY_UUID + " text, "
@@ -234,6 +238,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
+      stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -463,7 +468,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
-          + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
+          + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")),"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
 
@@ -696,6 +701,39 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_KEY + " text unique not null, "
           + KEY_VALUE + " text);";
 
+  private static final String TAGS_CREATE =
+      "CREATE TABLE " + TABLE_TAGS
+          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
+          KEY_LABEL + " text UNIQUE not null);";
+
+  private static final String TRANSACTIONS_TAGS_CREATE =
+      "CREATE TABLE " + TABLE_TRANSACTIONS_TAGS
+          + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + "primary key (" + KEY_TAGID + "," + KEY_TRANSACTIONID + "));";
+
+  private static final String INSERT_TRANSFER_TAGS_TRIGGER =
+      String.format("CREATE TRIGGER insert_transfer_tags AFTER INSERT ON %1$s "
+          + "WHEN %2$s IS NOT NULL "
+          + "BEGIN INSERT INTO %1$s (%3$s, %4$s) VALUES (%2$s, new.%4$s); END",
+          TABLE_TRANSACTIONS_TAGS, SELECT_TRANSFER_PEER("new"), KEY_TRANSACTIONID, KEY_TAGID);
+
+  private static final String DELETE_TRANSFER_TAGS_TRIGGER =
+      String.format("CREATE TRIGGER delete_transfer_tags AFTER DELETE ON %1$s "
+          + "WHEN %2$s IS NOT NULL "
+          + "BEGIN DELETE FROM %1$s WHERE %3$s = %2$s; END",
+          TABLE_TRANSACTIONS_TAGS, SELECT_TRANSFER_PEER("old"), KEY_TRANSACTIONID);
+
+  private static String SELECT_TRANSFER_PEER(String reference) {
+    return String.format("(SELECT %1$s FROM %2$S WHERE %3$s = %4$s.%5$s)", KEY_TRANSFER_PEER, TABLE_TRANSACTIONS, KEY_ROWID, reference, KEY_TRANSACTIONID);
+  }
+
+  private static final String TEMPLATES_TAGS_CREATE =
+      "CREATE TABLE " + TABLE_TEMPLATES_TAGS
+          + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + "primary key (" + KEY_TAGID + "," + KEY_TEMPLATEID + "));";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -769,9 +807,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
 
-    //Views
-    createOrRefreshViews(db);
-
     // Triggers
     createOrRefreshTransactionTriggers(db);
     db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
@@ -794,8 +829,20 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(BUDGETS_CATEGORY_CREATE);
     db.execSQL("CREATE INDEX budget_categories_cat_id_index on " + TABLE_BUDGET_CATEGORIES + "(" + KEY_CATID + ")");
 
+    db.execSQL(TAGS_CREATE);
+    db.execSQL(TRANSACTIONS_TAGS_CREATE);
+    createOrRefreshTransferTagsTriggers(db);
+    db.execSQL(TEMPLATES_TAGS_CREATE);
+
+    //Views
+    createOrRefreshViews(db);
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
+  }
+
+  public void createOrRefreshTransferTagsTriggers(SQLiteDatabase db) {
+    db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
+    db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
   }
 
 /*  private void insertTestData(SQLiteDatabase db, int countGroup, int countChild) {
@@ -1726,7 +1773,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid " +
             "FROM accounts_old");
         db.execSQL("DROP TABLE accounts_old");
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
 
         db.execSQL("CREATE TRIGGER protect_split_transaction BEFORE DELETE ON categories " +
             " WHEN (OLD._id = 0)" +
@@ -1957,7 +2004,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 89) {
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
 
       if (oldVersion < 90) {
@@ -2025,7 +2072,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
-        db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+        //db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
       }
 
       if (oldVersion < 93) {
@@ -2093,6 +2140,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //repair uuids that got lost by bug
         db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
       }
+      if (oldVersion < 102) {
+        db.execSQL("CREATE TABLE tags (_id integer primary key autoincrement, label text UNIQUE not null)");
+        db.execSQL("CREATE TABLE transactions_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, transaction_id integer references transactions(_id) ON DELETE CASCADE, primary key (tag_id,transaction_id))");
+        createOrRefreshTransferTagsTriggers(db);
+        db.execSQL("CREATE TABLE templates_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, template_id integer references templates(_id) ON DELETE CASCADE, primary key (tag_id,template_id));");
+        createOrRefreshViews(db);
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :
@@ -2155,9 +2209,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    final String tagJoin = String.format(" LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
+        TABLE_TRANSACTIONS_TAGS, KEY_TRANSACTIONID, TABLE_TRANSACTIONS, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
+    final String tagGroupBy = String.format(" GROUP BY %1$s.%2$s", TABLE_TRANSACTIONS, KEY_ROWID);
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
-    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagJoin + tagGroupBy);
+    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + tagJoin + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
+        tagGroupBy + ";");
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
 

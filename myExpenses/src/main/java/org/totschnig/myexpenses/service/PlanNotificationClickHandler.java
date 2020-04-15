@@ -16,10 +16,13 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -52,15 +55,14 @@ public class PlanNotificationClickHandler extends IntentService {
     Long instanceId = extras.getLong(DatabaseConstants.KEY_INSTANCEID);
     switch (action) {
       case PlanExecutor.ACTION_APPLY:
-        Transaction t = Transaction.getInstanceFromTemplate(templateId);
-        if (t == null) {
+        Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(templateId);
+        if (pair == null) {
           message = getString(R.string.save_transaction_template_deleted);
         } else {
+          Transaction t = pair.first;
           t.setDate(new Date(extras.getLong(DatabaseConstants.KEY_DATE)));
           t.originPlanInstanceId = instanceId;
-          if (t.save() == null) {
-            message = getString(R.string.save_transaction_error);
-          } else {
+          if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
             message = getResources().getQuantityString(
                 R.plurals.save_transaction_from_template_success, 1, 1);
             Intent displayIntent = new Intent(this, MyExpenses.class)
@@ -70,6 +72,8 @@ public class PlanNotificationClickHandler extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(resultIntent);
             builder.setAutoCancel(true);
+          } else {
+            message = getString(R.string.save_transaction_error);
           }
         }
         break;

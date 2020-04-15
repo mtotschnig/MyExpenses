@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.util.UiUtils;
 
 import androidx.annotation.NonNull;
 
-import static org.totschnig.myexpenses.activity.ManageCategories.ACTION_MANAGE;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_MANAGE;
 
 public class BudgetActivity extends CategoryActivity<BudgetFragment> {
 

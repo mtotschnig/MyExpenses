@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -121,7 +122,7 @@ class OrientationChangeTest: BaseUiTest() {
     fun shouldKeepStatusAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1!!.id)
         transaction.amount = Money(currency1, -500L)
-        transaction.crStatus = Transaction.CrStatus.UNRECONCILED
+        transaction.crStatus = CrStatus.UNRECONCILED
         transaction.save()
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
@@ -129,9 +130,9 @@ class OrientationChangeTest: BaseUiTest() {
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
         onView(withId(R.id.Status)).perform(scrollTo(), click())
-        onData(allOf(instanceOf(Transaction.CrStatus::class.java), withStatus(Transaction.CrStatus.CLEARED))).perform(click())
+        onData(allOf(instanceOf(CrStatus::class.java), withStatus(CrStatus.CLEARED))).perform(click())
         //withSpinnerText matches toString of object
-        val string = Transaction.CrStatus.CLEARED.toString()
+        val string = CrStatus.CLEARED.toString()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
         rotate()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
@@ -154,7 +155,7 @@ class OrientationChangeTest: BaseUiTest() {
     fun shouldHandleExistingInstanceAfterOrientationChange() {
         val id = with(Transaction.getNewInstance(account1!!.id)) {
             amount = Money(currency1, -500L)
-            crStatus = Transaction.CrStatus.UNRECONCILED
+            crStatus = CrStatus.UNRECONCILED
             save()
             id
         }

@@ -24,7 +24,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.CrStatus;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 

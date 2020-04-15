@@ -3,13 +3,18 @@ package org.totschnig.myexpenses.util
 import com.google.android.material.chip.ChipGroup
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 
- fun addChipsBulk(chipGroup: ChipGroup, chips: List<String>) {
-     with(chipGroup) {
-         removeAllViews()
-         for (chip in chips) {
-             addView(ScrollingChip(context).apply {
-                 text = chip
-             })
-         }
+ fun <T>ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)?) {
+     removeAllViews()
+     for (chip in chips) {
+         addView(ScrollingChip(context).also { scrollingChip ->
+             scrollingChip.text = chip.toString()
+             closeFunction?.let {
+                 scrollingChip.isCloseIconVisible = true
+                 scrollingChip.setOnCloseIconClickListener {
+                     removeView(scrollingChip)
+                     it(chip)
+                 }
+             }
+         })
      }
  }
