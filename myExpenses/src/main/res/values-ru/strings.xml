@@ -64,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
   <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Испытать</string>
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
@@ -97,6 +98,13 @@
   <string name="dialog_title_balance_account">Баланс %1$s</string>
   <string name="dialog_title_contrib_feature">Премиум функция</string>
   <string name="dialog_title_template_title">Установить заголовок</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Удалить аккаунт?</item>
+    <item quantity="few">Удалить аккаунты %1$d?</item>
+    <item quantity="many">Удалить аккаунты %1$d?</item>
+    <item quantity="other">Удалить аккаунты %1$d?</item>
+  </plurals>
+  <string name="dialog_title_warning_delete_category">Удалить категорию?</string>
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
   <string name="expense">Расход</string>
@@ -210,6 +218,7 @@
   <string name="no_parties">Нет участников.</string>
   <string name="no_split_parts">Нет разделённых частей</string>
   <string name="no_templates">Нет шаблонов.</string>
+  <string name="no_accounts">Нет аккаунтов.</string>
   <string name="no_title_given">Вы не ввели какое-либо название.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Выбранный объект связан с операцией и не может быть удален.</item>

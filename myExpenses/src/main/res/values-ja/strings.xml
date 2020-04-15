@@ -867,10 +867,14 @@
   <string name="remap_method">選択したすべての取引が方法に配置されます %s.</string>
   <string name="remap_account">選択したすべての取引が勘定に配置されます %s.</string>
   <string name="remapping_result">選択した取引が再配置されました。</string>
+  <string name="clone_and_remap_result">選択した取引の複製が作成され、再配置されました。</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">選択されたすべての取引に配置できる項目が見つかりませんでした。</string>
   <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <string name="button_label_clone_and_remap">複製と再配置</string>
   <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <string name="pref_clone_with_current_date_summary_on">複製された取引は現在の日付になります</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
+  <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
 </resources>

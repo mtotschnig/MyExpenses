@@ -175,4 +175,5 @@
   <string name="form_BudgetEdit_filter_help_text">Budgets können nach Kategorien, Parteien, Methoden oder Zuständen gefiltert werden. Es werden nur Buchungen berücksichtigt, die mit diesen Filtern übereinstimmen.</string>
   <string name="form_BudgetEdit_type_help_text">Ein Budget wird entweder als regulär (täglich, monatlich, wöchentlich, jährlich) oder einmalig definiert. Bei einmaligen Budgets geben Sie den Beginn und das Ende der Laufzeit an. Ein reguläres Budget (das nicht gefiltert wird) kann als Standard festgelegt werden: Dies bedeutet, dass die Buchungsliste (wenn sie so konfiguriert ist, dass Daten pro Tag, Woche, Monat oder Jahr gruppiert werden) den Fortschritt für dieses Budget für jeden Zeitraum anzeigt.</string>
   <string name="cab_remap_help_text">Verwenden Sie die Befehle in diesem Untermenü, wenn Sie die angegebene Eigenschaft (Konto, Kategorie, Zahler / Empfänger oder Zahlungsmethode) für alle ausgewählten Buchungen ändern möchten.</string>
+  <!--Tags-->
 </resources>

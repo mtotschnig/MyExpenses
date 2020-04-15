@@ -878,10 +878,14 @@
   <string name="remap_method">Todas las transacciones seleccionadas se asignarán al método %s.</string>
   <string name="remap_account">Todas las transacciones seleccionadas se asignarán a la cuenta %s.</string>
   <string name="remapping_result">Todas las transacciones seleccionadas fueron reasignadas.</string>
+  <string name="clone_and_remap_result">Las transacciones seleccionadas han sido clonadas y reasignadas.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">No se encontró ningún ítem que pueda asignarse a las transacciones seleccionadas.</string>
   <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <string name="button_label_clone_and_remap">Clonar y reasignar</string>
   <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <string name="pref_clone_with_current_date_summary_on">Las transacciones clonadas tendrán la fecha actual</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
+  <string name="pref_clone_with_current_date_summary_off">Las transacciones clonadas mantendrán la fecha original</string>
 </resources>

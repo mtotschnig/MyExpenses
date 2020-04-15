@@ -15,8 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3091">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_310">
+        <item>Transactions can be mapped to multiple tags</item>
     </string-array>
     <string-array name="whats_new_308">
         <item>Multiple accounts can now be exported into one file</item>

@@ -158,4 +158,5 @@
   <!--Budget-->
   <string name="cab_show_transactions_help_text">Buka satu dialog yang menyenaraikan semua transaksi terpeta ke kategori terpilih dalam akaun semasa.</string>
   <string name="menu_BudgetActivity_back_forward_help_text">Bandingkan bajet dengan perbelanjaan bagi tempoh masa lepas dan akan datang.</string>
+  <!--Tags-->
 </resources>
