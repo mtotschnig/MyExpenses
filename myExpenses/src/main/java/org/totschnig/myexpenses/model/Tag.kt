@@ -50,7 +50,7 @@ private fun extractTagId(label: String) = find(label).takeIf { it > -1 } ?: writ
 private fun write(label: String) =
         Model.cr().insert(
                 TransactionProvider.TAGS_URI,
-                ContentValues().apply { put(KEY_LABEL, label) }
+                ContentValues().apply { put(KEY_LABEL, label.trim()) }
         )?.let {
             ContentUris.parseId(it)
         } ?: -1

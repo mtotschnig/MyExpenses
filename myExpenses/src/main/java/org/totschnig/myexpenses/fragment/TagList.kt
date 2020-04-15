@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -138,8 +139,8 @@ class TagList : Fragment(), OnDialogResultListener {
         _binding = null
     }
 
-    private fun addTag() {
-        binding.tagEdit.text.toString().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
+    private fun addTag(runnable: Runnable? = null) {
+        binding.tagEdit.text.toString().trim().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
             val position = adapter.getPosition(label)
             if (position > -1) {
                 (activity as? ProtectedFragmentActivity)?.showSnackbar(R.string.tag_already_defined, Snackbar.LENGTH_LONG)
@@ -147,11 +148,19 @@ class TagList : Fragment(), OnDialogResultListener {
                 viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, Observer {
                     if (it) {
                         adapter.notifyItemInserted(0)
+                        runnable?.run()
                     }
                 })
             }
             binding.tagEdit.text = null
-        }
+        } ?: kotlin.run { runnable?.run() }
+    }
+
+    fun confirm() {
+        addTag(Runnable { activity?.run {
+            setResult(Activity.RESULT_OK, resultIntent())
+            finish()
+        } })
     }
 
     fun resultIntent() = Intent().apply {

@@ -39,8 +39,7 @@ class ManageTags: ProtectedFragmentActivity() {
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (command == R.id.CREATE_COMMAND) {
-            setResult(RESULT_OK, (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).resultIntent())
-            finish()
+            (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).confirm()
         }
         return super.dispatchCommand(command, tag)
     }

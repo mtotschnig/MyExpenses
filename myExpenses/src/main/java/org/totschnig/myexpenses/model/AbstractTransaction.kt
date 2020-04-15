@@ -22,7 +22,7 @@ abstract class AbstractTransaction: Model(), ITransaction {
             val (newTags, existingTags) = it.partition { tag -> tag.id == -1L }
 
             newTags.forEachIndexed { index, tag ->
-                ops.add(ContentProviderOperation.newInsert(TransactionProvider.TAGS_URI).withValue(DatabaseConstants.KEY_LABEL, tag.label).build())
+                ops.add(ContentProviderOperation.newInsert(TransactionProvider.TAGS_URI).withValue(DatabaseConstants.KEY_LABEL, tag.label.trim()).build())
                 ops.add(ContentProviderOperation.newInsert(linkedTagsUri())
                         .withValue(linkColumn(), id)
                         //first operation is delete
