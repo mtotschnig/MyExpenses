@@ -25,8 +25,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import butterknife.ButterKnife
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.threeten.bp.Instant
@@ -43,7 +41,6 @@ import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.databinding.TransactionDetailBinding
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -116,19 +113,6 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
         return alertDialog
     }
 
-    /*  @Override
-  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    if (getActivity() == null) {
-      return null;
-    }
-    switch (id) {
-      case SPLIT_PART_CURSOR:
-        CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI, null, "parent_id = ?",
-            new String[]{String.valueOf(mTransaction.getId())}, null);
-        return cursorLoader;
-    }
-    return null;
-  }*/
     override fun onClick(dialog: DialogInterface, which: Int) {
         val ctx: Activity? = activity
         if (ctx == null) {
@@ -145,7 +129,6 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     dismiss()
                     val i = Intent(ctx, ExpenseEdit::class.java)
                     i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-                    //i.putExtra("operationType", operationType);
                     ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST)
                 }
                 AlertDialog.BUTTON_NEUTRAL -> {
@@ -309,12 +292,10 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
 
     companion object {
         @JvmStatic
-        fun newInstance(id: Long?): TransactionDetailFragment {
-            val dialogFragment = TransactionDetailFragment()
-            val bundle = Bundle()
-            bundle.putLong(DatabaseConstants.KEY_ROWID, id!!)
-            dialogFragment.arguments = bundle
-            return dialogFragment
+        fun newInstance(id: Long): TransactionDetailFragment = TransactionDetailFragment().apply {
+            arguments = Bundle().apply {
+                putLong(DatabaseConstants.KEY_ROWID, id)
+            }
         }
     }
 }
