@@ -8,14 +8,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.totschnig.myexpenses.R;
 
 import static junit.framework.Assert.fail;
 import static org.totschnig.myexpenses.util.Utils.PLACEHOLDER_APP_NAME;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(packageName = "org.totschnig.myexpenses")
 public class AppNameLocalizationTest {
 
   @Test

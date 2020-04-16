@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = intArrayOf(28))
 class AccountTest {
 
     @Test(expected = SQLiteConstraintException::class)

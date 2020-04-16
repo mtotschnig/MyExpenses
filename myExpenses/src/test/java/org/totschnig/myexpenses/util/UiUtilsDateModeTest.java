@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -22,7 +21,6 @@ import static org.totschnig.myexpenses.util.UiUtils.DateMode.DATE;
 import static org.totschnig.myexpenses.util.UiUtils.DateMode.DATE_TIME;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(packageName = "org.totschnig.myexpenses")
 public class UiUtilsDateModeTest {
   private Account cashAccount, bankAcount;
   private PrefHandler prefHandler;

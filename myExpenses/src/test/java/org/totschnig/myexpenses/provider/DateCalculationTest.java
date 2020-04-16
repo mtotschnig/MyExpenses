@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +29,6 @@ import static junit.framework.Assert.assertEquals;
  * TZ=Etc/GMT+5 ./gradlew testAcraDebugUnitTest --tests org.totschnig.myexpenses.provider.DateCalculationTest
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(packageName = "org.totschnig.myexpenses")
 public class DateCalculationTest {
 
   // Contains an SQLite database, used as test data
