@@ -51,7 +51,7 @@ es:
       ad_free: <b>Sin anuncios</b>
       csv_import: Una sofisticada y personalizable <b>importación a CSV</b> (para aplicaciones de hojas de cálculo)
       auto_backup: <b>Copia de seguridad automática</b> diaria con subida a almacenamiento en la nube opcional
-      cloud_sync: "<b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos"
+      cloud_sync: "<b>Sincronización con la nube</b>: los datos pueden sincronizarse entre varios dispositivos"
       split_template: Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
       email_support: <b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales
       roadmap_voting: Derecho a participar en la <b>hoja de ruta de desarrollo</b>
