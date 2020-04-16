@@ -244,7 +244,7 @@ public class Account extends Model {
           openOnly ? String.format(" WHERE %s = 0", KEY_SEALED) : "");
     } else {
       selection += id;
-      if (openOnly){
+      if (openOnly) {
         selection += String.format(" AND %s = 0", KEY_SEALED);
       }
     }
@@ -320,9 +320,9 @@ public class Account extends Model {
       accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
     }
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ops.add(account.updateTransferPeersForTransactionDelete(
+    account.updateTransferPeersForTransactionDelete(ops,
         buildTransactionRowSelect(null),
-        new String[]{String.valueOf(account.getId())}));
+        new String[]{String.valueOf(account.getId())});
     ops.add(ContentProviderOperation.newDelete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build())
         .build());
@@ -353,13 +353,13 @@ public class Account extends Model {
     this(label, currencyUnit, openingBalance, "", accountType, DEFAULT_COLOR);
   }
 
-  public Account(String label, CurrencyUnit currencyUnit, Money openingBalance, String description, AccountType accountType) {
-    this(label, currencyUnit, openingBalance, description, accountType, DEFAULT_COLOR);
-  }
-
   public Account(String label, CurrencyUnit currency, long openingBalance, String description,
                  AccountType type, int color) {
     this(label, currency, new Money(currency, openingBalance), description, type, color);
+  }
+
+  public Account(String label, CurrencyUnit currency, long openingBalance, String description, AccountType accountType) {
+    this(label, currency, openingBalance, description, accountType, DEFAULT_COLOR);
   }
 
   public Account(String label, CurrencyUnit currencyUnit, Money openingBalance, String description,
@@ -525,7 +525,7 @@ public class Account extends Model {
     if (filter != null && !filter.isEmpty()) {
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
-    ops.add(updateTransferPeersForTransactionDelete(rowSelect, selectionArgs));
+    updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs);
     ops.add(ContentProviderOperation.newDelete(
         Transaction.CONTENT_URI)
         .withSelection(
@@ -607,17 +607,19 @@ public class Account extends Model {
     return rowSelect;
   }
 
-  private ContentProviderOperation updateTransferPeersForTransactionDelete(
-      String rowSelect, String[] selectionArgs) {
+  private void updateTransferPeersForTransactionDelete(
+      ArrayList<ContentProviderOperation> ops, String rowSelect, String[] selectionArgs) {
+    ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1).withSelection(KEY_SEALED + " = 1", null).build());
     ContentValues args = new ContentValues();
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
-    return ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
+    ops.add(ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
         .withValues(args)
         .withSelection(
             KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
             selectionArgs)
-        .build();
+        .build());
+    ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1).withSelection(KEY_SEALED + " = -1", null).build());
   }
 
   /**

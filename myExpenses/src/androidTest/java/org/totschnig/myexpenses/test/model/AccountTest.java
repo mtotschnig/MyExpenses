@@ -260,7 +260,6 @@ public class AccountTest extends ModelTest {
     assertEquals(initialtotalBalance, resetAccount.getTotalBalance());
   }
 
-
   public void testResetWithFilterCreateHelper() {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();

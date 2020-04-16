@@ -282,6 +282,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$rootProject.robolectricVersion"
+    testImplementation "androidx.test:core:$rootProject.androidSupportTestVersion"
     testImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"

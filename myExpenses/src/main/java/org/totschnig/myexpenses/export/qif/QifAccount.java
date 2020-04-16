@@ -7,7 +7,6 @@ package org.totschnig.myexpenses.export.qif;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Money;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -35,7 +34,7 @@ public class QifAccount {
   }
 
   public Account toAccount(CurrencyUnit currency) {
-    Money openingBalance = openinBalance != null ? new Money(currency, openinBalance) : new Money(currency, 0L);
+    long openingBalance = openinBalance != null ? openinBalance.longValue() : 0L;
     return new Account(memo, currency, openingBalance, desc, AccountType.fromQifName(type));
   }
 
