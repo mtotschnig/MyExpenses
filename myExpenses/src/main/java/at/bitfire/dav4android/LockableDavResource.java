@@ -63,17 +63,15 @@ public class LockableDavResource extends DavResource {
 
   /**
    * Tries to establish if the Dav resource represented by this object exists on the server by sending
-   * a HEAD request to it,
-   *
-   * @throws HttpException if status is < 200 or > 299
+   * a HEAD request to it. A resource is supposed to exist unless the server explicitly returns 404
    */
-  public void head() throws HttpException, IOException {
+  private boolean head() throws IOException {
     Request request = new Request.Builder()
         .url(location)
         .head()
         .build();
     Response response = httpClient.newCall(request).execute();
-    checkStatus(response, true);
+    return response.code() != 404;
   }
 
   /**
@@ -83,9 +81,8 @@ public class LockableDavResource extends DavResource {
    */
   public boolean exists() {
     try {
-      head();
-      return true;
-    } catch (HttpException | IOException e) {
+      return head();
+    } catch (IOException e) {
       return false;
     }
   }
