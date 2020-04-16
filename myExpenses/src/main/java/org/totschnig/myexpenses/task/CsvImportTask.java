@@ -156,9 +156,9 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
             if (category.equals(application.getString(R.string.transfer)) &&
                 !subCategory.equals("") &&
                 QifUtils.isTransferCategory(subCategory)) {
-              transferAccountId = Account.findAny(subCategory.substring(1, subCategory.length() - 1));
+              transferAccountId = Account.findAnyOpen(subCategory.substring(1, subCategory.length() - 1));
             } else if (QifUtils.isTransferCategory(category)) {
-              transferAccountId = Account.findAny(category.substring(1, category.length() - 1));
+              transferAccountId = Account.findAnyOpen(category.substring(1, category.length() - 1));
             }
             if (transferAccountId == -1) {
               categoryInfo = category;

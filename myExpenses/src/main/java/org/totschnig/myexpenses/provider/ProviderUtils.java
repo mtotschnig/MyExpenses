@@ -40,7 +40,7 @@ public class ProviderUtils {
         long transferAccountId = -1;
         String transferAccountLabel = extras.getString(TRANSFER_ACCOUNT_LABEL);
         if (!TextUtils.isEmpty(transferAccountLabel)) {
-          transferAccountId = Account.findAny(transferAccountLabel);
+          transferAccountId = Account.findAnyOpen(transferAccountLabel);
         }
         if (transferAccountId != -1) {
           transaction.setTransferAccountId(transferAccountId);
@@ -56,7 +56,7 @@ public class ProviderUtils {
     long accountId = -1;
     String accountLabel = extras.getString(ACCOUNT_LABEL);
     if (!TextUtils.isEmpty(accountLabel)) {
-      accountId = Account.findAny(accountLabel);
+      accountId = Account.findAnyOpen(accountLabel);
     }
     if (accountId == -1) {
       String currency = extras.getString(CURRENCY);

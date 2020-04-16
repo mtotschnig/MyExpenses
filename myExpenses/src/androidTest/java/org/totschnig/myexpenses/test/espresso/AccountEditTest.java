@@ -33,7 +33,7 @@ public class AccountEditTest {
 
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
-    final long accountId = Account.findAny(LABEL);
+    final long accountId = Account.findAnyOpen(LABEL);
     if (accountId > -1) {
       Account.delete(accountId);
     }
@@ -46,7 +46,7 @@ public class AccountEditTest {
     onView(withId(R.id.Label)).perform(typeText(LABEL));
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
-    assertTrue(Account.findAny(LABEL) > -1);
+    assertTrue(Account.findAnyOpen(LABEL) > -1);
   }
 
   @Test

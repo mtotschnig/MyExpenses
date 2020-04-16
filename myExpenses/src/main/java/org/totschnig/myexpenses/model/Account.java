@@ -818,14 +818,14 @@ public class Account extends Model {
   }
 
   /**
-   * Looks for an account with a label. WARNING: If several accounts have the same label, this
+   * Looks for an account with a label, that is not sealed. WARNING: If several accounts have the same label, this
    * method fill return the first account retrieved in the cursor, order is undefined
    *
    * @param label label of the account we want to retrieve
    * @return id or -1 if not found
    */
-  public static long findAny(String label) {
-    String selection = KEY_LABEL + " = ?";
+  public static long findAnyOpen(String label) {
+    String selection = KEY_LABEL + " = ? AND  " + KEY_SEALED + " = 0";
     String[] selectionArgs = new String[]{label};
 
     Cursor mCursor = cr().query(CONTENT_URI,
