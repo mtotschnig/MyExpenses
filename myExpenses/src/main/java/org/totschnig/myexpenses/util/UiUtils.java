@@ -41,14 +41,14 @@ public class UiUtils {
   private UiUtils() {}
 
   public static void configureSnackbarForDarkTheme(Snackbar snackbar, ProtectedFragmentActivity.ThemeType themeType) {
+    View snackbarView = snackbar.getView();
+    TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
     if (themeType.equals(ProtectedFragmentActivity.ThemeType.dark)) {
       //Workaround for https://issuetracker.google.com/issues/37120757
-      View snackbarView = snackbar.getView();
       snackbarView.setBackgroundColor(Color.WHITE);
-      TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
       textView.setTextColor(Color.BLACK);
-      textView.setMaxLines(10);
     }
+    textView.setMaxLines(10);
   }
 
   public static Bitmap getTintedBitmapForTheme(Context context, int drawableResId, int themeResId) {
