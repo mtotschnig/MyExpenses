@@ -95,9 +95,6 @@ public class Transfer extends Transaction implements ITransfer {
 
   @Override
   public void setAmount(Money amount) {
-    if (getTransferAmount() != null && !amount.getCurrencyUnit().code().equals(getTransferAmount().getCurrencyUnit().code())) {
-      throw new UnsupportedOperationException("for foreign exchange transfers, use setAmountAndTransferAmount");
-    }
     super.setAmount(amount);
     this.setTransferAmount(new Money(amount.getCurrencyUnit(), amount.getAmountMajor().negate()));
   }
