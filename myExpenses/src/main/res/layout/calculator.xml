@@ -7,13 +7,14 @@
 	Michael Totschnig - refactorings, fixes, UI improvements, accessibility
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_margin="0dp"
-              android:orientation="vertical"
-              android:padding="3dp">
+    android:id="@+id/Calculator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:orientation="vertical"
+    android:padding="3dp">
 
-    <include layout="@layout/calculator_result"/>
+    <include layout="@layout/calculator_result" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,23 +23,23 @@
 
         <Button
             android:id="@+id/b7"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b8"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b9"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b0"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/bAdd"
-            style="@style/CalculatorButton.Add"/>
+            style="@style/CalculatorButton.Add" />
 
         <Button
             android:id="@+id/bClear"
@@ -52,27 +53,27 @@
 
         <Button
             android:id="@+id/b4"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b5"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b6"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/bPlusMinus"
-            style="@style/CalculatorButton.PlusMinus"/>
+            style="@style/CalculatorButton.PlusMinus" />
 
         <Button
             android:id="@+id/bSubtract"
-            style="@style/CalculatorButton.Subtract"/>
+            style="@style/CalculatorButton.Subtract" />
 
         <Button
             android:id="@+id/bDelete"
-            style="@style/CalculatorButton.Delete"/>
+            style="@style/CalculatorButton.Delete" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,42 +83,42 @@
 
         <Button
             android:id="@+id/b1"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b2"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/b3"
-            style="@style/CalculatorButton"/>
+            style="@style/CalculatorButton" />
 
         <Button
             android:id="@+id/bDot"
-            style="@style/CalculatorButton.Dot"/>
+            style="@style/CalculatorButton.Dot" />
 
         <Button
             android:id="@+id/bMultiply"
-            style="@style/CalculatorButton.Multiply"/>
+            style="@style/CalculatorButton.Multiply" />
 
         <Button
             android:id="@+id/bPercent"
             style="@style/CalculatorButton"
-            android:text="%"/>
+            android:text="%" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/ok_cancel_buttons"/>
+        <include layout="@layout/ok_cancel_buttons" />
 
         <Button
             android:id="@+id/bDivide"
-            style="@style/CalculatorButton.Divide"/>
+            style="@style/CalculatorButton.Divide" />
 
         <Button
             android:id="@+id/bResult"
-            style="@style/CalculatorButton.Result"/>
+            style="@style/CalculatorButton.Result" />
     </LinearLayout>
 </LinearLayout>

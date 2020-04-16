@@ -406,4 +406,9 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     if (lastOp != 0 && !isInEquals) tvOp.setText(getLastOpLabel());
     setDisplay(result);
   }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return R.id.Calculator;
+  }
 }
