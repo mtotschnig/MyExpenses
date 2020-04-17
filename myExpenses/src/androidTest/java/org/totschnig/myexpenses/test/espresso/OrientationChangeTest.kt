@@ -15,7 +15,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.filters.FlakyTest
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
@@ -23,7 +22,6 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -93,7 +91,6 @@ class OrientationChangeTest: BaseUiTest() {
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
     }
 
-    @FlakyTest
     @Test
     fun shouldKeepMethodAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1!!.id)

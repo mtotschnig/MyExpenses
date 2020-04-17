@@ -33,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.filters.FlakyTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.viewpager.widget.ViewPager;
 
@@ -264,7 +263,6 @@ public final class MyExpensesTest extends BaseUiTest {
     intended(hasComponent(ManageTemplates.class.getName()));
   }
 
-  @FlakyTest
   @Test
   public void titleAndSubtitleAreSetAndSurviveOrientationChange() {
     checkTitle();
