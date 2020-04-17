@@ -555,7 +555,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
             }
             R.id.Status -> {
-                crStatus = parent.selectedItem as CrStatus
+                (parent.selectedItem as? CrStatus)?.let {
+                    crStatus = it
+                }
             }
         }
     }
