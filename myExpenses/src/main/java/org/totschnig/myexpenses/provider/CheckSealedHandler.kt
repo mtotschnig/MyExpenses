@@ -16,7 +16,6 @@ class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
         fun onResult(result: Boolean)
     }
 
-    private val TOKEN = 1
     fun check(itemIds: LongArray, listener: ResultListener?) {
         startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("MAX(" + DatabaseConstants.CHECK_SEALED(DatabaseConstants.VIEW_COMMITTED, DatabaseConstants.TABLE_TRANSACTIONS) + ")"),
                 DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(itemIds.size), itemIds.map(Long::toString).toTypedArray(), null)
@@ -30,9 +29,13 @@ class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
             close()
             (cookie as ResultListener).onResult(result == 0)
         } ?: kotlin.run {
-            val errorMessage = "Error while cheching status of transaction"
+            val errorMessage = "Error while checking status of transaction"
             CrashHandler.report(errorMessage)
             Toast.makeText(MyApplication.getInstance(), errorMessage, Toast.LENGTH_LONG).show()
         }
+    }
+
+    companion object {
+        private const val TOKEN = 1
     }
 }
