@@ -558,19 +558,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     if (key.equals(getKey(UI_LANGUAGE)) ||
         key.equals(getKey(GROUP_MONTH_STARTS)) ||
         key.equals(getKey(GROUP_WEEK_STARTS))) {
-      DatabaseConstants.buildLocalized(Locale.getDefault());
-      Transaction.buildProjection();
+      rebuildDbConstants();
+      activity.restart();
+    } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
+        key.equals(getKey(GROUP_WEEK_STARTS))) {
+      rebuildDbConstants();
     } else if (key.equals(getKey(UI_FONTSIZE))) {
       updateAllWidgets();
+      activity.restart();
     } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
       if (sharedPreferences.getBoolean(key, false)) {
         activity.showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
       }
       setProtectionDependentsState();
       updateAllWidgets();
-    } else if (key.equals(getKey(UI_FONTSIZE)) ||
-        key.equals(getKey(UI_LANGUAGE)) ||
-        key.equals(getKey(UI_THEME_KEY))) {
+    } else if (key.equals(getKey(UI_THEME_KEY))) {
       activity.restart();
     } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
@@ -590,6 +592,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else if (key.equals(getKey(PLANNER_EXECUTION_TIME))) {
       DailyScheduler.updatePlannerAlarms(activity, false, false);
     }
+  }
+
+  public void rebuildDbConstants() {
+    DatabaseConstants.buildLocalized(Locale.getDefault());
+    Transaction.buildProjection();
   }
 
   private void updateAllWidgets() {
