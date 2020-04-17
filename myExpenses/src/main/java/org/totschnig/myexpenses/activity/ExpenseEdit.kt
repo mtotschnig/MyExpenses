@@ -211,6 +211,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHelpVariant(HelpVariant.transaction)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         dateEditBinding = DateEditBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
