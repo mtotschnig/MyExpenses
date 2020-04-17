@@ -412,6 +412,7 @@
     <item quantity="many"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
     <item quantity="other"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
   </plurals>
+  <string name="warning_delete_category_with_budget">Для одной выбранной категории (как минимум) есть бюджетные ассигнования, которые тоже будут удалены.</string>
   <plurals name="warning_delete_template">
     <item quantity="one">Выбранный шаблон будет удалён</item>
     <item quantity="few">%1$d выбранных шаблонов будут удалены.</item>
@@ -430,6 +431,12 @@
     <item quantity="many">%d категорий были успешно перемещены.</item>
     <item quantity="other">%d категорий были успешно перемещены.</item>
   </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Одна категория не была перемещена, поскольку тот же ярлык уже существует в целевом объекте.</item>
+    <item quantity="few">Категории %d не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
+    <item quantity="many">Категории %d не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
+    <item quantity="other">Категории %d не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Удаление согласованных операций может привести к расхождениям с банковской счет-выпиской</string>
   <string name="warning_balance_account">Пожалуйста, сравните итог с конечным балансом в вашем счете-выписке. Если Вы продолжите, то утвержденные операции будут отмечены как согласованные.</string>
   <string name="warning_password_protected">Приложение защищено паролем.</string>
@@ -438,6 +445,7 @@
   <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
+  <string name="warning_reset_account_matched">Если вы продолжите, транзакции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
   <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущая папка для резервного копирования и экспортирования будет автоматически удалена Android если Вы удалите {app_name}. Вы можете предотвратить это, выбрав другую папку из меню Настройки.</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>

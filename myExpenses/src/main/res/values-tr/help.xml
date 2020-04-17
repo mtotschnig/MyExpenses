@@ -176,4 +176,8 @@
   <string name="form_BudgetEdit_type_help_text">Bir bütçe ya düzenli (günlük, aylık, haftalık, senelik) olarak ya da bir kerelik olarak tanımlanır. Bir kerelik bütçeler için süresinin başlangıcını ve sonunu belirtirsiniz. (Filtrelenmemiş) düzenli bir bütçe varsayılan bütçe olarak tanımlanabilir: bu, muamele listesinin (gün, hafta, ay veya sene için verileri gruplandırmak üzere yapılandırılmışsa) her bir dönem için bu bütçenin ilerlemesini göstereceği anlamına gelir.</string>
   <string name="cab_remap_help_text">Tüm seçili muameleler için belli bir özelliği (hesap, kategori, borçlu/alacaklı veya ödeme metodu) değiştirmek istiyorsanız bu alt menüdeki komutları kullanın.</string>
   <!--Tags-->
+  <string name="form_tags_help_text">+ ikonu mevcut etiketleri seçmeye ve yeni etiket oluşturmaya imkân sağlar. Her bir etiket üzerindeki x ikonu ise muamele ve etiket arasındaki eşleştirmeyi kaldırmaya imkân verir.</string>
+  <string name="help_ManageTags_select_filter_info">Üzerine dokunarak işlem listesini filtrelemek için etiketleri seçin veya seçimi kaldırın. Seçimi teyit etmek için kayan eylem düğmesini kullanın.</string>
+  <string name="help_ManageTags_manage_info">Yeni etkilet oluşturmak için onu metin alanına girin. Her bir etiket üzerindeki x ikonu etiketi veritabanından kaldırır. Bir etikete uzun dokunmak onu düzenlemeye imkân verir.</string>
+  <string name="help_ManageTags_select_mapping_info">Etiketleri eşleştirmek için veya eşleştirmeyi kaldırmak için etiketlere dokunun. Eşleştirmeyi teyit etmek için kayan eylem düğmesini kullanın.</string>
 </resources>

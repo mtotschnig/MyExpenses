@@ -301,7 +301,7 @@
   <string name="pref_manage_methods_title">Méthodes de paiement</string>
   <string name="pref_manage_parties_summary">Ajouter, éditer, supprimer les tiers.</string>
   <string name="pref_manage_parties_title">Tiers</string>
-  <string name="pref_manage_sync_backends_title">Serveur de synchronisation</string>
+  <string name="pref_manage_sync_backends_title">Serveurs de synchronisation</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Ajoutez un serveur pour la synchronisation des comptes (%s).</string>
   <string name="pref_more_info_dialog_title">Licence &amp; Générique</string>
@@ -637,7 +637,7 @@
   <string name="sync_io_exception_unlocking">Erreur lors de la suppression du verrouillage du serveur à distance.</string>
   <string name="sync_io_exception_locking">Le serveur à distance est verrouillé ou ne peut pas être verrouillé.</string>
   <string name="synchronization_start">Démarrage de la synchronisation pour le compte %s.</string>
-  <string name="synchronization_end_success">Les modifications à distance %1$d ont été écrites dans la base de données locale. Les changements locaux %2$d ont été écrits sur un serveur à distance.</string>
+  <string name="synchronization_end_success">%1$d modifications à distance ont été écrites dans la base de données locale. %2$d changements locaux ont été écrits sur un serveur à distance.</string>
   <string name="synchronization_end_success_none">Aucune modification à synchroniser.</string>
   <string name="pref_webdav_timeout_title">Expiration du délai WebDAV (en secondes)</string>
   <string name="sync_state_restored">L\'état de synchronisation a été restauré pour %d comptes.</string>

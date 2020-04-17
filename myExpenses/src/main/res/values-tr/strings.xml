@@ -469,6 +469,7 @@
   <string name="search_status">Durum ara</string>
   <string name="search_payee">Alacaklı/mükellef ara</string>
   <string name="search_method">Metot ara</string>
+  <string name="search_tag">Etiket ara</string>
   <string name="and">ve</string>
   <string name="between_and">%1$s ilâ %2$s arasında</string>
   <string name="before">şundan önce: %s</string>
@@ -861,6 +862,7 @@
   <string name="budget_filter_all_parties">Tüm taraflar</string>
   <string name="budget_filter_all_methods">Tüm metotlar</string>
   <string name="budget_filter_all_states">Tüm durumlar</string>
+  <string name="budget_filter_all_tags">Tüm etiketler</string>
   <string name="budget_form_label_filter">Filtre</string>
   <string name="dialog_title_warning_delete_budget">Bütçe silinsin mi?</string>
   <string name="warning_delete_budget">\"%1$s\" bütçesi silinecek.</string>
@@ -888,4 +890,16 @@
   <string name="pref_clone_with_current_date_summary_on">Klonlanmış muamelelerin tarihi güncel tarihtir</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">Klonlanmış muameleler orijinal tarihi korur</string>
+  <string name="pref_protection_screenshot_information">Cihaz korumasını etkinleştirerek ekran kopyası almayı devre dışı bırakırsınız.</string>
+  <string name="tags_create_or_select">Etiket oluştur veya seç</string>
+  <string name="content_description_tags_confirm">Teyit et</string>
+  <string name="tags">Etiketler</string>
+  <string name="pref_manage_tags_summary">Etiket ilave et, düzenle veya sil.</string>
+  <string name="dialog_title_warning_delete_tag">Etiket silinsin mi?</string>
+  <string name="tag_already_defined">Etiket zaten tanımlı.</string>
+  <string name="menu_edit_tag">Etiket düzenle</string>
+  <plurals name="warning_delete_tag">
+    <item quantity="one">%1$s etiketi bir muameleyle eşleştirilmiştir. Silinmeli mi?</item>
+    <item quantity="other">%1$s etiketi %2$d muameleleriyle eşleştirilmiştir. Silinmeli mi? </item>
+  </plurals>
 </resources>

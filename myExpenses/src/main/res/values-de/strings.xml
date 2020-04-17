@@ -469,6 +469,7 @@
   <string name="search_status">Suche nach Status</string>
   <string name="search_payee">Suche nach Empfänger/Zahler</string>
   <string name="search_method">Suche nach Zahlungsweise</string>
+  <string name="search_tag">Suche nach Markierung</string>
   <string name="and">und</string>
   <string name="between_and">zwischen %1$s und %2$s</string>
   <string name="before">vor %s</string>
@@ -861,6 +862,7 @@
   <string name="budget_filter_all_parties">Alle Parteien</string>
   <string name="budget_filter_all_methods">Alle Zahlungsweisen</string>
   <string name="budget_filter_all_states">Alle Status</string>
+  <string name="budget_filter_all_tags">Alle Markierungen</string>
   <string name="budget_form_label_filter">Filter</string>
   <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
   <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>
@@ -888,4 +890,16 @@
   <string name="pref_clone_with_current_date_summary_on">Geklonte Transaktionen haben das aktuelle Datum</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">Geklonte Transaktionen behalten das ursprüngliche Datum</string>
+  <string name="pref_protection_screenshot_information">Durch Aktivieren des Geräteschutzes wird die Screenshot-Aufnahme deaktiviert.</string>
+  <string name="tags_create_or_select">Markierungen erstellen oder auswählen</string>
+  <string name="content_description_tags_confirm">Bestätigen</string>
+  <string name="tags">Markierungen</string>
+  <string name="pref_manage_tags_summary">Markierungen hinzufügen, bearbeiten, löschen.</string>
+  <string name="dialog_title_warning_delete_tag">Markierung löschen?</string>
+  <string name="tag_already_defined">Markierung bereits definiert.</string>
+  <string name="menu_edit_tag">Markierung bearbeiten</string>
+  <plurals name="warning_delete_tag">
+    <item quantity="one">Die Markierung %1$s ist einer Transaktion zugeordnet. Soll sie gelöscht werden?</item>
+    <item quantity="other">Die Markierung %1$s wird %2$d-Transaktionen zugeordnet. Soll sie gelöscht werden?</item>
+  </plurals>
 </resources>
