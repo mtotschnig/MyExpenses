@@ -12,7 +12,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -34,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.FlakyTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.viewpager.widget.ViewPager;
@@ -68,7 +66,6 @@ import static org.junit.Assert.assertTrue;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
-@RunWith(AndroidJUnit4.class)
 public final class MyExpensesTest extends BaseUiTest {
   private Account account;
 

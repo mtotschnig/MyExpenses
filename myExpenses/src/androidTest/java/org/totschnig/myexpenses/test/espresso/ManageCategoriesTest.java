@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import androidx.test.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,6 +9,9 @@ import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

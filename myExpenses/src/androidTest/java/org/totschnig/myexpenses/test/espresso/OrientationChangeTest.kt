@@ -15,7 +15,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.FlakyTest
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.CoreMatchers.`is`
@@ -24,9 +23,9 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IAccount
@@ -49,7 +48,6 @@ import org.totschnig.myexpenses.testutils.withStatus
 import java.util.*
 
 
-@RunWith(AndroidJUnit4::class)
 class OrientationChangeTest: BaseUiTest() {
     @get:Rule
     var mActivityRule = ActivityTestRule(ExpenseEdit::class.java, false, false)
@@ -91,8 +89,8 @@ class OrientationChangeTest: BaseUiTest() {
         onData(allOf(instanceOf(IAccount::class.java), withAccount(accountLabel2))).perform(click())
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
         rotate()
+        Espresso.onIdle()
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
-        rotate()
     }
 
     @FlakyTest
@@ -112,8 +110,8 @@ class OrientationChangeTest: BaseUiTest() {
         onData(allOf(instanceOf(org.totschnig.myexpenses.viewmodel.data.PaymentMethod::class.java), withMethod(string))).perform(click())
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
         rotate()
+        Espresso.onIdle()
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
-        rotate()
     }
 
 
@@ -135,8 +133,8 @@ class OrientationChangeTest: BaseUiTest() {
         val string = CrStatus.CLEARED.toString()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
         rotate()
+        Espresso.onIdle()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
-        rotate()
     }
 
     @Test

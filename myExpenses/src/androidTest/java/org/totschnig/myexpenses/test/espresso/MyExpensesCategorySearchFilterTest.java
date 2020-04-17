@@ -2,15 +2,11 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -26,6 +22,9 @@ import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
 
+import androidx.test.espresso.matcher.CursorMatchers;
+import androidx.test.rule.ActivityTestRule;
+
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -38,8 +37,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.totschnig.myexpenses.testutils.Matchers.withCategoryLabel;
 
-
-@RunWith(AndroidJUnit4.class)
 public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
 
   @Rule

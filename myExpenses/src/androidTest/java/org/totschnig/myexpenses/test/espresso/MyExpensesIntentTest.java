@@ -3,20 +3,19 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import androidx.test.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -27,8 +26,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-
-@RunWith(AndroidJUnit4.class)
 public final class MyExpensesIntentTest extends BaseUiTest {
 
   @Rule

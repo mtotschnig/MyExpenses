@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -23,7 +22,6 @@ import org.totschnig.myexpenses.testutils.Matchers;
 import java.util.Currency;
 
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -36,8 +34,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
-
-@RunWith(AndroidJUnit4.class)
 public final class MyExpensesCommentSearchFilterTest extends BaseUiTest {
 
   private static final String comment1 = "something";

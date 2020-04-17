@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -25,7 +24,6 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import java.util.Currency;
 
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.FlakyTest;
 import androidx.test.rule.ActivityTestRule;
 
@@ -49,8 +47,6 @@ import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 
-
-@RunWith(AndroidJUnit4.class)
 public final class MyExpensesCabTest extends BaseUiTest {
 
   @Rule
