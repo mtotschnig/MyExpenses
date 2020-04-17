@@ -82,7 +82,7 @@ public class DateCalculationTest {
   private void doTheTest(String timeZone, int configuredWeekStart) {
     calendar = Calendar.getInstance();
     PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
-    DatabaseConstants.buildLocalized(Locale.getDefault());
+    DatabaseConstants.buildLocalized();
     assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
     String[] projection = {
         DatabaseConstants.getYearOfWeekStart() + " AS year",

@@ -555,9 +555,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
     final MyPreferenceActivity activity = activity();
-    if (key.equals(getKey(UI_LANGUAGE)) ||
-        key.equals(getKey(GROUP_MONTH_STARTS)) ||
-        key.equals(getKey(GROUP_WEEK_STARTS))) {
+    if (key.equals(getKey(UI_LANGUAGE))) {
       rebuildDbConstants();
       activity.restart();
     } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
@@ -595,7 +593,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void rebuildDbConstants() {
-    DatabaseConstants.buildLocalized(Locale.getDefault());
+    DatabaseConstants.buildLocalized();
     Transaction.buildProjection();
   }
 
