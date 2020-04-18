@@ -922,4 +922,5 @@
     </plurals>
     <string name="dialog_multi_tag_append">Add new tags to existing tags</string>
     <string name="dialog_multi_tag_replace">Replace existing tags by new tags</string>
+    <string name="new_tag_hint">Enter new tag</string>
 </resources>
