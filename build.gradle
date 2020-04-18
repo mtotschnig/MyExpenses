@@ -27,7 +27,7 @@ allprojects {
 
 ext {
     compileSdkVersion = 29
-    minSdkVersion = 15
+    minSdkVersion = 16
     targetSdkVersion = 29
     espressoVersion = "3.2.0"
     androidSupportTestVersion = "1.2.0"
