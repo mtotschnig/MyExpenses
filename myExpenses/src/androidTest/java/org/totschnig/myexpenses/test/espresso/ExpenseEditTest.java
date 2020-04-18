@@ -35,6 +35,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
@@ -58,7 +59,7 @@ public class ExpenseEditTest {
     currency2 = CurrencyUnit.create(Currency.getInstance("EUR"));
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
-    account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
+    account2 = new Account(accountLabel2, currency2, 0, "", AccountType.BANK, Account.DEFAULT_COLOR);
     account2.save();
   }
 
@@ -75,6 +76,16 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+    checkEffectiveGone(R.id.Status);
+  }
+
+  @Test
+  public void statusIsShownWhenBankAccountIsSelected() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
+    i.putExtra(KEY_ACCOUNTID, account2.getId());
+    mActivityRule.launchActivity(i);
+    checkEffectiveVisible(R.id.Status);
   }
 
   @Test
