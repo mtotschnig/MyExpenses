@@ -244,7 +244,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         }
 
         setMethodSelection()
-        configureStatusSpinner()
     }
 
     private fun configurePlanExecutionButton() {
@@ -718,6 +717,8 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, Utils.getHomeCurrency())
         }
         configureDateInput(account)
+        configureStatusSpinner()
+        viewBinding.Amount.setFractionDigits(account.currency.fractionDigits())
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {
@@ -742,21 +743,17 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     }
 
     open fun setAccount(currencyExtra: String?) {
+        var selected = 0 //if the accountId we have been passed does not exist, we select the first entry
         for (item in mAccounts.indices) {
             val account = mAccounts[item]
             if (account.currency.code() == currencyExtra ||
                     currencyExtra == null && account.id == accountId) {
-                accountSpinner.setSelection(item)
-                configureAccountDependent(account)
+                selected = item
                 break
             }
         }
-        //if the accountId we have been passed does not exist, we select the first entry
-        if (accountSpinner.selectedItemPosition == AdapterView.INVALID_POSITION) {
-            accountSpinner.setSelection(0)
-            accountId = mAccounts[0].id
-            configureAccountDependent(mAccounts[0])
-        }
+        accountSpinner.setSelection(selected)
+        updateAccount(mAccounts[selected])
     }
 
     open fun setAccounts(data: List<Account>, currencyExtra: String?) {
@@ -779,8 +776,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     open fun updateAccount(account: Account) {
         accountId = account.id
         configureAccountDependent(account)
-        configureStatusSpinner()
-        viewBinding.Amount.setFractionDigits(account.currency.fractionDigits())
     }
 
     open fun configureType() {
