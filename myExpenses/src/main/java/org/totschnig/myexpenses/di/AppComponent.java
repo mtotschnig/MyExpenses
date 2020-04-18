@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CurrencyList;
@@ -26,7 +27,6 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.ExchangeRateRepository;
@@ -93,7 +93,7 @@ public interface AppComponent {
 
   void inject(TemplatesList templatesList);
 
-  void inject(TransactionList transactionList);
+  void inject(BaseTransactionList transactionList);
 
   void inject(SplitPartList splitPartList);
 

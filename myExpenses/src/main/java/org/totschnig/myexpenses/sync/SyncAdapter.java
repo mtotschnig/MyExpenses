@@ -752,14 +752,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transactionId)})
                 .withValueBackReference(KEY_PARENTID, parentOffset)
                 .build());
-            saveTagLinks(tagIds, transactionId, null, ops);
+            saveTagLinks(tagIds, transactionId, null, ops, true);
           } else {
             skipped = true;
             log().i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
           }
         } else {
           ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset));
-          saveTagLinks(tagIds, null, offset, ops);
+          saveTagLinks(tagIds, null, offset, ops, true);
         }
         break;
       }
@@ -777,7 +777,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             builder.withValueBackReference(KEY_PARENTID, parentOffset);
           }
           ops.add(builder.build());
-          saveTagLinks(tagIds, transactionId, null, ops);
+          saveTagLinks(tagIds, transactionId, null, ops, true);
         }
         break;
       }

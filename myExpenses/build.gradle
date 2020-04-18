@@ -267,6 +267,8 @@ dependencies {
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.3@aar'
 
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation "androidx.test:runner:$rootProject.androidSupportTestVersion"

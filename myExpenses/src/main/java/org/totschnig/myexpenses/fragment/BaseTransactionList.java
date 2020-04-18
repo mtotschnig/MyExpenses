@@ -155,6 +155,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_AC
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_TAG_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
@@ -206,7 +207,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
-public class TransactionList extends ContextualActionBarFragment implements
+public abstract class BaseTransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
@@ -277,7 +278,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private boolean indexesCalculated = false;
   private Account mAccount;
   private Money budget = null;
-  private TransactionListViewModel viewModel;
+  protected TransactionListViewModel viewModel;
   private ContentObserver budgetsObserver;
 
   @Inject
@@ -310,9 +311,9 @@ public class TransactionList extends ContextualActionBarFragment implements
       shouldStartActionMode = mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
       mAdapter.setAccount(mAccount);
       setGrouping();
-      Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, TransactionList.this);
-      Utils.requireLoader(mManager, SUM_CURSOR, null, TransactionList.this);
-      Utils.requireLoader(mManager, SECTION_CURSOR, null, TransactionList.this);
+      Utils.requireLoader(mManager, TRANSACTION_CURSOR, null, BaseTransactionList.this);
+      Utils.requireLoader(mManager, SUM_CURSOR, null, BaseTransactionList.this);
+      Utils.requireLoader(mManager, SECTION_CURSOR, null, BaseTransactionList.this);
     });
     viewModel.getBudgetAmount().observe(this, budget -> {
       if (this.budget != budget) {
@@ -537,6 +538,16 @@ public class TransactionList extends ContextualActionBarFragment implements
         });
         return true;
       }
+
+      case R.id.MAP_TAG_COMMAND: {
+        checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+          Intent i = new Intent(getActivity(), ManageTags.class);
+          i.setAction(ACTION_SELECT_MAPPING);
+          startActivityForResult(i, MAP_TAG_RQEUST);
+        });
+        return true;
+      }
+
       case R.id.REMAP_PAYEE_COMMAND: {
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap, R.string.no_parties);
@@ -933,7 +944,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       HeaderViewHolder holder = null;
-      final boolean withBudget = TransactionList.this.getFilter().isEmpty() &&
+      final boolean withBudget = BaseTransactionList.this.getFilter().isEmpty() &&
           budget != null;
 
       if (convertView != null) {
@@ -970,7 +981,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit()));
         currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit());
         holder.interimBalance.setText(
-            TransactionList.this.getFilter().isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
+            BaseTransactionList.this.getFilter().isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
                 currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
@@ -1528,7 +1539,8 @@ public class TransactionList extends ContextualActionBarFragment implements
         String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
         addFilterCriteria(new TagCriteria(label, tagIds));
       }
-    } else if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST || requestCode == MAP_METHOD_RQEUST || requestCode == MAP_ACCOUNT_RQEUST) {
+    } else if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST
+        || requestCode == MAP_METHOD_RQEUST || requestCode == MAP_ACCOUNT_RQEUST) {
       Bundle b = new Bundle();
       int columnStringResId, confirmationStringResId;
       String column;
@@ -1571,8 +1583,12 @@ public class TransactionList extends ContextualActionBarFragment implements
       b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
+    } else if (requestCode == MAP_TAG_RQEUST) {
+      handleTagResult(intent);
     }
   }
+
+  protected abstract void handleTagResult(Intent intent);
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
@@ -1592,7 +1608,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         finishActionMode();
       }
-      if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
+      if (BaseTransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag)) {
         final String textResult = extras.getString(SimpleInputDialog.TEXT);
         if (textResult != null) {
           addFilterCriteria(
@@ -1620,7 +1636,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       viewModel.remap(checkedItemIds, extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID))
           .observe(this, result -> {
             final String message = result > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
-            ((ProtectedFragmentActivity) TransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
+            ((ProtectedFragmentActivity) BaseTransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
           });
     }
   }

@@ -151,9 +151,9 @@ public class TransactionProvider extends ContentProvider {
 
   public static final Uri TAGS_URI = Uri.parse("content://" + AUTHORITY + "/tags");
 
-  public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions_tags");
+  public static final Uri TRANSACTIONS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/tags");
 
-  public static final Uri TEMPLATES_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/templates_tags");
+  public static final Uri TEMPLATES_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/templates/tags");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -1094,11 +1094,13 @@ public class TransactionProvider extends ContentProvider {
       case TRANSACTIONS_TAGS: {
         db.insertWithOnConflict(TABLE_TRANSACTIONS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         //the table does not have primary ids, we return the base uri
+        notifyChange(uri, callerIsNotSyncAdatper(uri));
         return TRANSACTIONS_TAGS_URI;
       }
       case TEMPLATES_TAGS: {
         db.insertWithOnConflict(TABLE_TEMPLATES_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         //the table does not have primary ids, we return the base uri
+        notifyChange(uri, callerIsNotSyncAdatper(uri));
         return TEMPLATES_TAGS_URI;
       }
       default:
@@ -1799,9 +1801,9 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "currencies/*", CURRENCIES_CODE);
     URI_MATCHER.addURI(AUTHORITY, "accountsMinimal", ACCOUNTS_MINIMAL);
     URI_MATCHER.addURI(AUTHORITY, "tags", TAGS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions_tags", TRANSACTIONS_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/tags", TRANSACTIONS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
-    URI_MATCHER.addURI(AUTHORITY, "templates_tags", TEMPLATES_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
   }
 
   /**

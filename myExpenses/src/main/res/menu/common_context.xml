@@ -15,7 +15,7 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    tools:ignore="AppCompatResource,AlwaysShowAction">
     <item
         android:id="@id/DELETE_COMMAND"
         android:icon="@drawable/ic_menu_delete"

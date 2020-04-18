@@ -16,12 +16,14 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class TransactionListViewModel(application: Application) : BudgetViewModel(application) {
     val budgetAmount = MutableLiveData<Money>()
@@ -103,6 +105,19 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                     selection,
                     selectionArgs)
         })
+    }
+
+    fun tag(transactionIds: LongArray, tagList: ArrayList<Tag>, replace: Boolean) {
+        val tagIds = tagList.map { tag -> tag.id }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val ops = ArrayList<ContentProviderOperation>()
+                for (id in transactionIds) {
+                    saveTagLinks(tagIds, id, null, ops, replace)
+                }
+                getApplication<MyApplication>().contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+            }
+        }
     }
 }
 

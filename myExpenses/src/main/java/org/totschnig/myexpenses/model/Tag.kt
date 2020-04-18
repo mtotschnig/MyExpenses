@@ -29,13 +29,15 @@ private fun find(label: String): Long {
 fun extractTagIds(tags: List<String?>, tagToId: MutableMap<String, Long>) =
         tags.filter { it != null } .map { tag -> tagToId[tag] ?: extractTagId(tag!!).also { tagToId.put(tag, it) }  }
 
-fun saveTagLinks(tagIds: List<Long>?, transactionId: Long?, backReference: Int?, ops: MutableList<ContentProviderOperation>) {
-    transactionId?.let {
-        ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                .withSelection(KEY_TRANSACTIONID + " = ?", arrayOf(it.toString())).build())
+fun saveTagLinks(tagIds: List<Long>?, transactionId: Long?, backReference: Int?, ops: MutableList<ContentProviderOperation>, replace: Boolean = true) {
+    if (replace) {
+        transactionId?.let {
+            ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_TAGS_URI)
+                    .withSelection(KEY_TRANSACTIONID + " = ?", arrayOf(it.toString())).build())
+        }
     }
     tagIds?.forEach {
-        val insert = ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI).withValue(KEY_TAGID, it);
+        val insert = ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI).withValue(KEY_TAGID, it)
         transactionId?.let {
             insert.withValue(KEY_TRANSACTIONID, it)
         } ?: backReference?.let {

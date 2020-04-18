@@ -15,36 +15,50 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="AppCompatResource,AlwaysShowAction">
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_TEMPLATE_COMMAND"
             android:icon="@drawable/ic_action_template_add"
+            android:orderInCategory="10"
             android:showAsAction="always"
             android:title="@string/menu_create_template_from_transaction" />
         <item
             android:id="@id/CLONE_TRANSACTION_COMMAND"
             android:icon="@drawable/ic_menu_copy"
+            android:orderInCategory="10"
             android:showAsAction="always"
             android:title="@string/menu_clone_transaction" />
     </group>
     <item
+        android:id="@id/MAP_TAG_COMMAND"
+        android:icon="@drawable/ic_action_tag"
+        android:orderInCategory="30"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_tag" />
+
+    <item
         android:id="@id/SPLIT_TRANSACTION_COMMAND"
         android:icon="@drawable/ic_menu_split_transaction"
-        android:showAsAction="always"
+        android:orderInCategory="40"
+        android:showAsAction="ifRoom"
         android:title="@string/menu_split_transaction" />
     <item
         android:id="@id/UNGROUP_SPLIT_COMMAND"
         android:icon="@drawable/ic_menu_split"
-        android:showAsAction="always"
+        android:orderInCategory="40"
+        android:showAsAction="ifRoom"
         android:title="@string/menu_ungroup_split_transaction" />
     <item
         android:id="@id/UNDELETE_COMMAND"
         android:icon="@drawable/ic_menu_undelete"
-        android:showAsAction="always"
+        android:orderInCategory="45"
+        android:showAsAction="ifRoom"
         android:title="@string/menu_undelete_transaction" />
     <item
         android:showAsAction="never"
+        android:orderInCategory="50"
         android:title="@string/menu_remap">
         <menu>
             <item

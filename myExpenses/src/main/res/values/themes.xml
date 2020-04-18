@@ -51,6 +51,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
+        <item name="md_color_button_text">?colorAccent</item>
     </style>
 
     <style name="ThemeDark" parent="@style/ThemeDarkBase">
@@ -85,6 +86,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
         <item name="android:textAppearanceListItem">@style/MyTextAppearanceSubhead</item>
+        <item name="md_color_button_text">?colorAccent</item>
     </style>
 
     <style name="ThemeLight" parent="@style/ThemeLightBase">
