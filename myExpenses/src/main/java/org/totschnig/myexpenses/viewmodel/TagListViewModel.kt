@@ -26,7 +26,7 @@ class TagListViewModel(application: Application,
     fun loadTags(selected: ArrayList<Tag>?): LiveData<MutableList<Tag>> {
         if (tags.value == null) {
             val tagsUri = TransactionProvider.TAGS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT, "1").build()
-            disposable = briteContentResolver.createQuery(tagsUri, null, null, null, null, false)
+            disposable = briteContentResolver.createQuery(tagsUri, null, null, null, KEY_LABEL + " COLLATE LOCALIZED", false)
                     .mapToList { cursor ->
                         val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
                         val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))

@@ -916,6 +916,7 @@
     <string name="menu_tag">Tag</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
     <string name="dialog_multi_tag">All selected transactions will be tagged with %s.</string>
+    <string name="dialog_multi_tag_clear">All tags will be removed from the selected transactions.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Tag %1$s is mapped to one transaction. Should it be deleted?</item>
         <item quantity="other">Tag %1$s is mapped to %2$d transactions. Should it be deleted?</item>
