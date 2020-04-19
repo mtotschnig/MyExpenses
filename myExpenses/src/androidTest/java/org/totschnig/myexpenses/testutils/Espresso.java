@@ -35,21 +35,22 @@ import static org.hamcrest.Matchers.endsWith;
 
 public class Espresso {
 
-  public static void openActionBarOverflowOrOptionsMenu(Context context) {
+  public static void openActionBarOverflowOrOptionsMenu(Context context, boolean isCab) {
     if (hasVirtualOverflowButton(context)) {
       // If we're using virtual keys - theres a chance we're in mid animation of switching
       // between a contextual action bar and the non-contextual action bar. In this case there
       // are 2 'More Options' buttons present. Lets wait till that is no longer the case.
-      onView(isRoot())
-          .perform(new TransitionBridgingViewAction());
+      onView(isRoot()).perform(new TransitionBridgingViewAction());
 
-      onView(localizedOverFlowButtonMatcher(context))
-          .perform(click());
+      onView(isCab ? localizedContextualOverFlowButtonMatcher(context) : localizedOverFlowButtonMatcher(context)).perform(click());
     } else {
       // either a hardware button exists, or we're on a pre-HC os.
-      onView(isRoot())
-          .perform(pressMenuKey());
+      onView(isRoot()).perform(pressMenuKey());
     }
+  }
+
+  public static void openActionBarOverflowOrOptionsMenu(Context context) {
+    openActionBarOverflowOrOptionsMenu(context, false);
   }
 
   private static boolean hasVirtualOverflowButton(Context context) {
@@ -104,6 +105,11 @@ public class Espresso {
       return actionButtonCount > 1;
     }
   }
+
+  private static final Matcher<View> localizedContextualOverFlowButtonMatcher(Context context) {
+    return allOf(localizedOverFlowButtonMatcher(context), isDescendantOfA(withClassName(endsWith("ActionBarContextView"))));
+  }
+
   @SuppressLint("PrivateResource")
   private static final Matcher<View> localizedOverFlowButtonMatcher(Context context) {
     return anyOf(

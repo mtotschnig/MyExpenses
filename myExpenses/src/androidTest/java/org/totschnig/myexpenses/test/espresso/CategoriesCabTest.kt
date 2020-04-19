@@ -104,7 +104,7 @@ class CategoriesCabTest : BaseUiTest() {
         Espresso.onData(Matchers.`is`(Matchers.instanceOf(org.totschnig.myexpenses.viewmodel.data.Category::class.java)))
                 .atPosition(0)
                 .perform(ViewActions.longClick())
-        performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND)
+        clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true)
         Assertions.assertThat(waitForAdapter().count).isEqualTo(origListSize)
         onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(mActivityRule.activity!!.resources.getQuantityString(
@@ -120,7 +120,7 @@ class CategoriesCabTest : BaseUiTest() {
         Espresso.onData(Matchers.`is`(Matchers.instanceOf(org.totschnig.myexpenses.viewmodel.data.Category::class.java)))
                 .atPosition(0)
                 .perform(ViewActions.longClick())
-        performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND)
+        clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true)
         Assertions.assertThat(waitForAdapter().count).isEqualTo(origListSize)
         onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(mActivityRule.activity!!.resources.getQuantityString(
@@ -135,7 +135,7 @@ class CategoriesCabTest : BaseUiTest() {
         Espresso.onData(Matchers.`is`(Matchers.instanceOf(org.totschnig.myexpenses.viewmodel.data.Category::class.java)))
                 .atPosition(0)
                 .perform(ViewActions.longClick())
-        performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND)
+        clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true)
         onView(withText(R.string.warning_delete_category_with_budget)).check(matches(isDisplayed()))
         onView(withText(android.R.string.cancel)).perform(ViewActions.click())
         Assertions.assertThat(waitForAdapter().count).isEqualTo(origListSize)

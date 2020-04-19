@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.testutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -18,7 +17,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Locale;
 
@@ -74,12 +72,7 @@ public abstract class BaseUiTest {
    * @param menuTextResId
    */
   protected void clickMenuItem(int menuItemId, int menuTextResId) {
-    try {
-      onView(withId(menuItemId)).perform(click());
-    } catch (NoMatchingViewException e) {
-      openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-      onView(withText(menuTextResId)).perform(click());
-    }
+    clickMenuItem(menuItemId, menuTextResId, false);
   }
 
   protected Matcher<View> getWrappedList() {
@@ -90,12 +83,17 @@ public abstract class BaseUiTest {
   }
 
   /**
-   * @param legacyString String used on Gingerbread where context actions are rendered in a context menu
-   * @param cabId        id of menu item rendered in CAB on Honeycomb and higher
+   * @param menuItemId        id of menu item rendered in CAB on Honeycomb and higher
+   * @param menuTextResId String used on Gingerbread where context actions are rendered in a context menu
+   * @param isCab
    */
-  protected void performContextMenuClick(int legacyString, int cabId) {
-    onView(Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ? withId(cabId) : withText(legacyString))
-        .perform(click());
+  protected void clickMenuItem(int menuItemId, int menuTextResId, boolean isCab) {
+    try {
+      onView(withId(menuItemId)).perform(click());
+    } catch (NoMatchingViewException e) {
+      openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext(), isCab);
+      onView(withText(menuTextResId)).perform(click());
+    }
   }
 
   protected void handleContribDialog(ContribFeature contribFeature) {
