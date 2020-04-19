@@ -104,14 +104,14 @@ class TagList : Fragment(), OnDialogResultListener {
         })
         binding.tagEdit.apply {
             if (allowModifications) {
-                setOnEditorActionListener { v, actionId, event ->
+                setOnEditorActionListener { v, actionId, event: KeyEvent? ->
                     return@setOnEditorActionListener when (actionId) {
                         EditorInfo.IME_ACTION_DONE -> {
                             addTag()
                             true
                         }
                         EditorInfo.IME_NULL -> {
-                            if (event.action == KeyEvent.ACTION_UP) {
+                            if (event == null || event.action == KeyEvent.ACTION_UP) {
                                 addTag()
                             }
                             true
