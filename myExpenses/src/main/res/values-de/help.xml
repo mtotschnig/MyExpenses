@@ -176,4 +176,8 @@
   <string name="form_BudgetEdit_type_help_text">Ein Budget wird entweder als regulär (täglich, monatlich, wöchentlich, jährlich) oder einmalig definiert. Bei einmaligen Budgets geben Sie den Beginn und das Ende der Laufzeit an. Ein reguläres Budget (das nicht gefiltert wird) kann als Standard festgelegt werden: Dies bedeutet, dass die Buchungsliste (wenn sie so konfiguriert ist, dass Daten pro Tag, Woche, Monat oder Jahr gruppiert werden) den Fortschritt für dieses Budget für jeden Zeitraum anzeigt.</string>
   <string name="cab_remap_help_text">Verwenden Sie die Befehle in diesem Untermenü, wenn Sie die angegebene Eigenschaft (Konto, Kategorie, Zahler / Empfänger oder Zahlungsmethode) für alle ausgewählten Buchungen ändern möchten.</string>
   <!--Tags-->
+  <string name="form_tags_help_text">Mit dem +-Symbol können Sie vorhandene Markierungen auswählen und neue Markierungen erstellen. Das x-Symbol auf jeder Markierungen ermöglicht das Entfernen der Zuordnung zwischen der Buchung und der Markierung.</string>
+  <string name="help_ManageTags_select_filter_info">Aktivieren oder deaktivieren Sie die Markierungen zum Filtern der Buchungssliste, indem Sie darauf tippen. Verwenden Sie die schwebende Aktionsschaltfläche, um die Auswahl zu bestätigen.</string>
+  <string name="help_ManageTags_manage_info">Erstellen Sie neue Markierungen, indem Sie sie in das Textfeld eingeben. Das x-Symbol auf jeder Markierung entfernt es aus der Datenbank. Durch langes Tippen auf eine Markierung können Sie diese bearbeiten.</string>
+  <string name="help_ManageTags_select_mapping_info">Ändern Sie die Auswahl der Markierungen, indem Sie auf diese tippen. Verwenden Sie die schwebende Aktionsschaltfläche, um die Zuordnung zu bestätigen.</string>
 </resources>

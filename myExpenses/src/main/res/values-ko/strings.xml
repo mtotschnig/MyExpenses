@@ -534,4 +534,6 @@
   <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
   <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
+  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <!--%s will be replaced with the labels of all tags that user has selected.-->
 </resources>

@@ -877,4 +877,6 @@
   <string name="pref_clone_with_current_date_summary_on">複製された取引は現在の日付になります</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
+  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <!--%s will be replaced with the labels of all tags that user has selected.-->
 </resources>

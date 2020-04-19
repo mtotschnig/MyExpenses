@@ -469,6 +469,7 @@
   <string name="search_status">Recherche d\'état</string>
   <string name="search_payee">Recherche par tiers</string>
   <string name="search_method">Recherche par méthode de paiement</string>
+  <string name="search_tag">Rechercher une étiquette</string>
   <string name="and">et</string>
   <string name="between_and">entre %1$s et %2$s</string>
   <string name="before">avant %s</string>
@@ -861,6 +862,7 @@
   <string name="budget_filter_all_parties">Tous les tiers</string>
   <string name="budget_filter_all_methods">Toutes les méthodes</string>
   <string name="budget_filter_all_states">Tous les états</string>
+  <string name="budget_filter_all_tags">Toutes les étiquettes</string>
   <string name="budget_form_label_filter">Filtre</string>
   <string name="dialog_title_warning_delete_budget">Supprimer le budget?</string>
   <string name="warning_delete_budget">Le budget \"%1$s\" sera supprimé.</string>
@@ -888,4 +890,24 @@
   <string name="pref_clone_with_current_date_summary_on">Les transactions clonées ont la date du jour</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">Les transactions clonées conservent la date d\'origine</string>
+  <string name="pref_protection_screenshot_information">En activant la protection de l\'appareil, la capture d\'écran est désactivée.</string>
+  <string name="tags_create_or_select">Créer ou sélectionner des étiquettes</string>
+  <string name="content_description_tags_confirm">Confirmer</string>
+  <string name="tags">Étiquettes</string>
+  <string name="pref_manage_tags_summary">Ajouter, modifier, supprimer des étiquettes.</string>
+  <string name="dialog_title_warning_delete_tag">Supprimer l\'étiquette?</string>
+  <string name="tag_already_defined">L\'étiquette est déjà définie.</string>
+  <string name="menu_edit_tag">Modifier l\'étiquette</string>
+  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">Étiquetter</string>
+  <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">Toutes les opérations sélectionnées seront étiquetées avec %s.</string>
+  <string name="dialog_multi_tag_clear">Toutes les étiquettes seront supprimées des opérations sélectionnées.</string>
+  <plurals name="warning_delete_tag">
+    <item quantity="one">La balise %1$s est mappée à une transaction. Doit-il être supprimé?</item>
+    <item quantity="other">L\'étiquette %1$s est mise en correspondance avec %2$dopérations. Doit-elle être supprimée?</item>
+  </plurals>
+  <string name="dialog_multi_tag_append">Ajouter les nouvelles étiquettes aux étiquettes existantes</string>
+  <string name="dialog_multi_tag_replace">Remplacer les étiquettes existantes par les nouvelles étiquettes</string>
+  <string name="new_tag_hint">Entrez une nouvelle étiquette</string>
 </resources>

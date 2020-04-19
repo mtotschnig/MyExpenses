@@ -898,8 +898,16 @@
   <string name="dialog_title_warning_delete_tag">Markierung löschen?</string>
   <string name="tag_already_defined">Markierung bereits definiert.</string>
   <string name="menu_edit_tag">Markierung bearbeiten</string>
+  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">Markieren</string>
+  <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">Alle ausgewählten Buchungen werden mit %s markiert.</string>
+  <string name="dialog_multi_tag_clear">Alle Markierungen werden von den ausgewählten Buchungen entfernt.</string>
   <plurals name="warning_delete_tag">
     <item quantity="one">Die Markierung %1$s ist einer Transaktion zugeordnet. Soll sie gelöscht werden?</item>
     <item quantity="other">Die Markierung %1$s wird %2$d-Transaktionen zugeordnet. Soll sie gelöscht werden?</item>
   </plurals>
+  <string name="dialog_multi_tag_append">Die neuen Markierungen werden zu den bestehenden hinzugefügt</string>
+  <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>
+  <string name="new_tag_hint">Neue Markierung eingeben</string>
 </resources>

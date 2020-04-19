@@ -177,4 +177,8 @@
   <string name="form_BudgetEdit_type_help_text">Un budget est défini comme étant régulier (quotidien, mensuel, hebdomadaire, annuel) ou ponctuel. Pour les budgets uniques, vous spécifiez le début et la fin de sa durée. Un budget normal (non filtré) peut être défini en tant que défaut: cela signifie que la liste des transactions (si elle est configurée pour regrouper des données par jour, semaine, mois ou année) indiquera l\'avancement de ce budget pour chaque période.</string>
   <string name="cab_remap_help_text">Utilisez les commandes de ce sous-menu si vous souhaitez modifier la propriété donnée (compte, catégorie, tiers ou mode de paiement) pour toutes les opérations sélectionnées.</string>
   <!--Tags-->
+  <string name="form_tags_help_text">L\'icône + permet de sélectionner des étiquettes existantes et de créer de nouvelles étiquettes. L\'icône x sur chaque étiquette permet de supprimer la correspondance entre l\'opération et la balise.</string>
+  <string name="help_ManageTags_select_filter_info">Sélectionnez ou désélectionnez les étiquettes pour filtrer la liste des opérations en appuyant dessus. Utilisez le bouton d'action flottant pour confirmer la sélection.</string>
+  <string name="help_ManageTags_manage_info">Créez de nouvelles étiquettes en les saisissant dans le champ de texte. L\'icône x sur chaque étiquette la supprime de la base de données. Un appui long sur une étiquette permet de la modifier.</string>
+  <string name="help_ManageTags_select_mapping_info">Changez la sélection des étiquettes en appuyant dessus. Utilisez le bouton d'action flottant pour confirmer la mise en correspondance.</string>
 </resources>

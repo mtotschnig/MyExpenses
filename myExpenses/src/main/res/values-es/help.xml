@@ -176,4 +176,8 @@
   <string name="form_BudgetEdit_type_help_text">Un presupuesto se define como regular (diario, mensual, semanal, anual) o puntual. Para los presupuestos puntuales, especifique el comienzo y fin de su duración. Por otro lado, un presupuesto regular (no filtrado) puede configurarse por defecto: cada lista de transacción (si está configurada en grupo de datos por días, semanas, meses o años) mostrará el progreso de ese presupuesto para cada periodo.</string>
   <string name="cab_remap_help_text">Utilice los comandos de este submenú si quiere cambiar el atributo asignado (cuenta, categoría, ordenante/acreedor o método de pago) para todas las transacciones seleccionadas.</string>
   <!--Tags-->
+  <string name="form_tags_help_text">El icono de \"+\" permite seleccionar etiquetas ya creadas o crear otras nuevas. El icono de \"x\" de cada etiqueta permite quitar la etiqueta asignada a la transacción.</string>
+  <string name="help_ManageTags_select_filter_info">Filtre la lista de transacciones seleccionando y de-seleccionando etiquetas al presionar sobre ellas. Use el botón de acción flotante para confirmar la selección.</string>
+  <string name="help_ManageTags_manage_info">Cree nuevas etiquetas introduciéndolas en el campo de texto. El icono de \"x\" de cada etiqueta la eliminará de la base de datos. Si mantiene presionado sobre una etiqueta, le permitirá editarla.</string>
+  <string name="help_ManageTags_select_mapping_info">Asigne o elimine etiquetas presionando sobre ella. Use el botón de acción flotante para confirmar la asignación.</string>
 </resources>

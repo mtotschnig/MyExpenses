@@ -24,7 +24,7 @@
   <string name="cab_clone_transaction_help_text">Le operazioni selezionate verranno clonate con la data corrente e l\'ora. È possibile modificare prima di salvare la copia.</string>
   <string name="cab_split_help_text">Puoi modificare successivamente la transazione per creare parti aggiuntive secondo necessità.</string>
   <!--ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definirne nuovi. Utilizzare il pulsante di azione galleggiante per aprire il modulo per la creazione di un nuovo metodo.</string>
+  <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definirne nuovi. Utilizzare il pulsante circolare per aprire il modulo per la creazione di un nuovo metodo.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">Questa schermata elenca le parti utilizzate per il completamento automatico del campo ordinante/beneficiario. Utilizzare il pulsante di azione galleggiante per aggiungere una nuova voce.</string>
   <!--ManageTemplates title is in keys-->
@@ -176,4 +176,8 @@
   <string name="form_BudgetEdit_type_help_text">Un budget è definito come ricorrente (giornaliero, mensile, settimanale, annuale) o una tantum. Per i budget una tantum, specifica l\'inizio e la fine della loro durata. Un budget ricorrente (che non è filtrato) può essere impostato come predefinito: ciò significa che l\'elenco delle transazioni (se configurato per raggruppare i dati per giorno, settimana, mese o anno) mostrerà lo stato di avanzamento di questo budget per ciascun periodo.</string>
   <string name="cab_remap_help_text">Usa i comandi in questo sottomenu se desideri modificare la proprietà specificata (conto, categoria, pagatore / beneficiario o metodo di pagamento) per tutte le transazioni selezionate.</string>
   <!--Tags-->
+  <string name="form_tags_help_text">L\'icona + consente di selezionare le categorie esistenti e di crearne di nuove. L\'icona x su ciascuna categoria consente di rimuovere l\'associazione fra la transazione e la categoria.</string>
+  <string name="help_ManageTags_select_filter_info">Per filtrare l\'elenco delle transazioni, seleziona o deseleziona le categorie premendoci sopra. Utilizza il pulsante circolare per confermare la selezione.</string>
+  <string name="help_ManageTags_manage_info">Crea nuove categorie inserendole nel campo di testo. L\'icona x su ogni categoria la rimuove dal database. Premere a lungo su una categoria consente di modificarla.</string>
+  <string name="help_ManageTags_select_mapping_info">Assegna o rimuovi le categorie premendoci sopra. Utilizza il pulsante circolare per confermare l\'assegnazione.</string>
 </resources>

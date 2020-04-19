@@ -898,8 +898,16 @@
   <string name="dialog_title_warning_delete_tag">Etiket silinsin mi?</string>
   <string name="tag_already_defined">Etiket zaten tanımlı.</string>
   <string name="menu_edit_tag">Etiket düzenle</string>
+  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">Etiketle</string>
+  <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">Tüm seçili muameleler %s ile etiketlenecektir.</string>
+  <string name="dialog_multi_tag_clear">Seçili muamelelerden tüm etiketler kaldırılacaktır.</string>
   <plurals name="warning_delete_tag">
     <item quantity="one">%1$s etiketi bir muameleyle eşleştirilmiştir. Silinmeli mi?</item>
     <item quantity="other">%1$s etiketi %2$d muameleleriyle eşleştirilmiştir. Silinmeli mi? </item>
   </plurals>
+  <string name="dialog_multi_tag_append">Mevcut etiketlere yeni etiket ekle</string>
+  <string name="dialog_multi_tag_replace">Mevcut etiketleri yeni etiketlerle değiştir</string>
+  <string name="new_tag_hint">Yeni etiket gir</string>
 </resources>

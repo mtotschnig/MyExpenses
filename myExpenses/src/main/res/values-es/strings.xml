@@ -469,6 +469,7 @@
   <string name="search_status">Buscar por estado</string>
   <string name="search_payee">Buscar por acreedor/ordenante</string>
   <string name="search_method">Buscar por método de pago</string>
+  <string name="search_tag">Buscar por etiqueta</string>
   <string name="and">y</string>
   <string name="between_and">entre %1$s y %2$s</string>
   <string name="before">antes de %s</string>
@@ -861,6 +862,7 @@
   <string name="budget_filter_all_parties">Todos los grupos</string>
   <string name="budget_filter_all_methods">Todos los métodos</string>
   <string name="budget_filter_all_states">Todos los estados</string>
+  <string name="budget_filter_all_tags">Todas las etiquetas</string>
   <string name="budget_form_label_filter">Filtro</string>
   <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
   <string name="warning_delete_budget">El presupuesto \"%1$s\" será eliminado.</string>
@@ -888,4 +890,18 @@
   <string name="pref_clone_with_current_date_summary_on">Las transacciones clonadas tendrán la fecha actual</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">Las transacciones clonadas mantendrán la fecha original</string>
+  <string name="pref_protection_screenshot_information">La opción de captura de pantalla quedará deshabilitada al activar la protección del dispositivo.</string>
+  <string name="tags_create_or_select">Crear o seleccionar etiquetas</string>
+  <string name="content_description_tags_confirm">Confirmar</string>
+  <string name="tags">Etiquetas</string>
+  <string name="pref_manage_tags_summary">Añadir, editar o eliminar etiquetas.</string>
+  <string name="dialog_title_warning_delete_tag">¿Eliminar etiqueta?</string>
+  <string name="tag_already_defined">Esa etiqueta ya está registrada.</string>
+  <string name="menu_edit_tag">Editar etiqueta</string>
+  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <plurals name="warning_delete_tag">
+    <item quantity="one">La etiqueta %1$s está asignada a una transacción. ¿Quiere eliminarla?</item>
+    <item quantity="other">La etiqueta %1$s está asignada a %2$d transacciones. ¿Quiere eliminarlas?</item>
+  </plurals>
 </resources>
