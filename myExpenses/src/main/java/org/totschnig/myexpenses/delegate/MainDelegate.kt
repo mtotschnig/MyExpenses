@@ -83,9 +83,8 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
                 val search = Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString()))
                 //we accept the string at the beginning of a word
                 selection = DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-                        DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-                        DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ?"
-                selectArgs = arrayOf("$search%", "% $search%", "%.$search%")
+                        DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " GLOB ?"
+                selectArgs = arrayOf("$search%", "*[ (.;,]$search*")
             }
             context.contentResolver.query(
                     TransactionProvider.PAYEES_URI, arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
