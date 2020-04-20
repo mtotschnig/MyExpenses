@@ -73,7 +73,6 @@ import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -286,7 +285,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
                 var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
-                    populateWithNewInstance(Template.getTypedNewInstance(operationType, accountId, true, if (parentId != 0L) parentId else null)?.also { mRowId = it.id })
+                    viewModel.newTemplate(operationType, accountId, if (parentId != 0L) parentId else null).observe(this, Observer {
+                        if (it != null) {
+                            mRowId = it.id
+                        }
+                        populateWithNewInstance(it)
+                    })
                     isTemplate = true
                 } else {
                     when (operationType) {
@@ -294,7 +298,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populateWithNewInstance(Transaction.getNewInstance(accountId, if (parentId != 0L) parentId else null))
+                            viewModel.newTransaction(accountId, if (parentId != 0L) parentId else null).observe(this, Observer {
+                                populateWithNewInstance(it)
+                            })
                         }
                         TYPE_TRANSFER -> {
                             var transferAccountId = 0L
@@ -302,15 +308,22 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                                 accountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L)
                                 transferAccountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populateWithNewInstance(Transfer.getNewInstance(accountId,
+                            viewModel.newTransfer(accountId,
                                     if (transferAccountId != 0L) transferAccountId else null,
-                                    if (parentId != 0L) parentId else null))
+                                    if (parentId != 0L) parentId else null).observe(this, Observer {
+                                populateWithNewInstance(it)
+                            })
                         }
                         Transactions.TYPE_SPLIT -> {
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            populateWithNewInstance(SplitTransaction.getNewInstance(accountId)?.also { mRowId = it.id })
+                            viewModel.newSplit(accountId).observe(this, Observer {
+                                if (it != null) {
+                                    mRowId = it.id
+                                }
+                                populateWithNewInstance(it)
+                            })
                         }
                     }
                 }

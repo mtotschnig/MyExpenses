@@ -16,8 +16,10 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transaction.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.model.Transaction.UnknownPictureSaveException
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -138,6 +140,22 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun removeTags(tagIds: LongArray) {
         tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id)  }.toMutableList())  }
+    }
+
+    fun newTemplate(operationType: Int, accountId: Long, parentId : Long?): LiveData<Template?> = liveData(context = coroutineContext()) {
+        emit(Template.getTypedNewInstance(operationType, accountId, true, parentId))
+    }
+
+    fun newTransaction(accountId: Long, parentId : Long?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+        emit(Transaction.getNewInstance(accountId, parentId))
+    }
+
+    fun newTransfer(accountId: Long, transferAcountId: Long?, parentId : Long?): LiveData<Transfer?> = liveData(context = coroutineContext()) {
+        emit(Transfer.getNewInstance(accountId, transferAcountId, parentId))
+    }
+
+    fun newSplit(accountId: Long): LiveData<SplitTransaction?> = liveData(context = coroutineContext()) {
+        emit(SplitTransaction.getNewInstance(accountId))
     }
 }
 

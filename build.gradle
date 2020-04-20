@@ -39,5 +39,5 @@ ext {
     roomVersion = "2.2.5"
     archLifecycleVersion = '2.2.0'
     androidxArchVersion = '2.1.0'
-    coroutines = '1.3.0'
+    coroutines = '1.3.5'
 }

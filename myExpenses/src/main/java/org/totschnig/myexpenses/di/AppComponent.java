@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
@@ -176,4 +177,6 @@ public interface AppComponent {
   void inject(AbstractWidget abstractWidget);
 
   void inject(TransactionDetailViewModel transactionDetailViewModel);
+
+  void inject(ExchangeRateViewModel exchangeRateViewModel);
 }

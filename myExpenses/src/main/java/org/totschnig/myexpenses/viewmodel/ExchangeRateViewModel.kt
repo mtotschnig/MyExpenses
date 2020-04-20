@@ -9,13 +9,21 @@ import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.retrofit.MissingAppIdException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
+import javax.inject.Inject
 
 class ExchangeRateViewModel(application: MyApplication) {
     private val exchangeRate: MutableLiveData<Float> = MutableLiveData()
     private val error: MutableLiveData<Exception> = MutableLiveData()
-    private val repository: ExchangeRateRepository = application.appComponent.exchangeRateRepository()
+    @Inject
+    lateinit var repository: ExchangeRateRepository
     private val viewModelJob = SupervisorJob()
     private val bgScope = CoroutineScope(Dispatchers.Default + viewModelJob)
+
+    init {
+        bgScope.launch {
+            application.appComponent.inject(this@ExchangeRateViewModel)
+        }
+    }
 
     fun getData(): LiveData<Float> = exchangeRate
     fun getError(): LiveData<Exception> = error
