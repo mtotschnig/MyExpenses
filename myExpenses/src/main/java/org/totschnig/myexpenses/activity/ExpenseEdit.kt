@@ -353,12 +353,6 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 delegate.setAccounts(accounts, if (savedInstanceState != null) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
 
                 linkInputsWithLabels()
-                if (operationType != TYPE_TRANSFER) {//the methods cursor is based on the current account,
-                    //hence it is loaded only after the accounts cursor is loaded
-                    if (!isSplitPart) {
-                        loadMethods(currentAccount)
-                    }
-                }
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
             }

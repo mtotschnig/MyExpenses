@@ -60,6 +60,7 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     }
 
     override fun updateAccount(account: Account) {
+        super.updateAccount(account)
         host.updateSplitPartList(account)
     }
 

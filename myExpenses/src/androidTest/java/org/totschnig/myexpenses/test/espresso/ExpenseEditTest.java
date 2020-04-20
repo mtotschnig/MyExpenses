@@ -77,6 +77,8 @@ public class ExpenseEditTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
     checkEffectiveGone(R.id.Status);
+    onView(withId(R.id.AmountLabel)).check(matches(withText("Amount ($)")));
+    onView(withId(R.id.DateTimeLabel)).check(matches(withText("Date / Time")));
   }
 
   @Test
@@ -95,6 +97,8 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
         R.id.TransferAccountRow, R.id.Recurrence);
+    onView(withId(R.id.AmountLabel)).check(matches(withText("Amount ($)")));
+    onView(withId(R.id.DateTimeLabel)).check(matches(withText("Date / Time")));
   }
 
   @Test
@@ -104,6 +108,8 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+    onView(withId(R.id.AmountLabel)).check(matches(withText("Amount ($)")));
+    onView(withId(R.id.DateTimeLabel)).check(matches(withText("Date / Time")));
   }
 
   @Test
