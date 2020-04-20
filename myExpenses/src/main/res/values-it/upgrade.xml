@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_310">
+        <item>Le transazioni possono essere associate a più tag</item>
+    </string-array>
     <string-array name="whats_new_308">
         <item>É ora possibile esportare più account in un unico file</item>
         <item>I metadati del conto sono ora sincronizzati</item>

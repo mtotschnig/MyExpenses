@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_310">
+        <item>Buchungen können mehreren Markierungen zugeordnet werden</item>
+    </string-array>
     <string-array name="whats_new_308">
         <item>Es können jetzt mehrere Konten in eine Datei exportiert werden</item>
         <item>Kontometadaten werden jetzt synchronisiert</item>

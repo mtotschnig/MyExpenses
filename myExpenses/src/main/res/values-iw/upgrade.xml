@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_310">
+        <item>ניתן למפות עסקאות לתגיות מרובות</item>
+    </string-array>
+    <string-array name="whats_new_308">
+        <item>כעת ניתן לייצא מספר חשבונות לקובץ אחד</item>
+        <item>מטא נתונים של חשבון מסונכרנים כעת</item>
+        <item>ווידג\'טים משופרים של מסך הבית</item>
+    </string-array>
     <string-array name="whats_new_307">
         <item>עריכה בכמות גדולה</item>
     </string-array>

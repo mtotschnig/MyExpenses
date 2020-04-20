@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_310">
+        <item>Les opérations peuvent être mises en correspondance avec plusieurs étiquettes</item>
+    </string-array>
     <string-array name="whats_new_308">
         <item>Plusieurs comptes peuvent désormais être exportés dans un seul fichier</item>
         <item>Les métadonnées du compte sont maintenant synchronisées</item>
