@@ -344,7 +344,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       //3. move pictures home and update uri
       File backupPictureDir = new File(workingDir, ZipUtils.PICTURES);
       Cursor c = cr.query(TransactionProvider.TRANSACTIONS_URI,
-          new String[]{DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PICTURE_URI, DatabaseConstants.KEY_ACCOUNTID},
+          new String[]{KEY_ROWID, DatabaseConstants.KEY_PICTURE_URI, DatabaseConstants.KEY_ACCOUNTID},
           DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL", null, null);
       if (c == null)
         return Result.ofFailure(R.string.restore_db_failure);
@@ -375,19 +375,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           }
           ArrayList<ContentProviderOperation> ops = new ArrayList<>();
           try {
-            ContentValues unsealValues = new ContentValues(1);
-            unsealValues.put(KEY_SEALED, 0);
-            ContentValues sealValues = new ContentValues(1);
-            sealValues.put(KEY_SEALED, 1);
-            ops.add(ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
-                .withValues(unsealValues).withSelection(DatabaseConstants.KEY_ROWID + " = ?", accountId)
-                .build());
+            ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1)
+                .withSelection(KEY_SEALED + " = 1 AND " + KEY_ROWID + " = ?", accountId).build());
             ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
-                .withValues(uriValues).withSelection(DatabaseConstants.KEY_ROWID + " = ?", rowId)
+                .withValues(uriValues).withSelection(KEY_ROWID + " = ?", rowId)
                 .build());
-            ops.add(ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
-                .withValues(sealValues).withSelection(DatabaseConstants.KEY_ROWID + " = ?", accountId)
-                .build());
+            ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1)
+                .withSelection(KEY_SEALED + " = -1 AND " + KEY_ROWID + " = ?", accountId).build());
             cr.applyBatch(TransactionProvider.AUTHORITY, ops);
           } catch (OperationApplicationException | RemoteException e) {
             CrashHandler.report(e);
