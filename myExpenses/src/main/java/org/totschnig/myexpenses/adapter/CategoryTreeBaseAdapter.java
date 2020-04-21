@@ -121,7 +121,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
       indicator.setImageResource(R.drawable.expander_empty);
       indicator.setContentDescription("No children");
     } else {
-      indicator.setImageResource(isExpanded ? R.drawable.expander_close : R.drawable.expander_open);
+      indicator.setImageResource(isExpanded ? R.drawable.expander_close_mtrl_alpha : R.drawable.expander_open_mtrl_alpha);
       indicator.setContentDescription(context.getString(isExpanded ?
           R.string.content_description_collapse : R.string.content_description_expand));
     }
@@ -236,7 +236,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     notifyDataSetChanged();
   }
 
-  class ViewHolder {
+  static class ViewHolder {
     @BindView(R.id.label)
     TextView label;
     @BindView(R.id.amount)

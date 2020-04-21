@@ -59,7 +59,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     return R.layout.budget_row;
   }
 
-  class ViewHolder extends CategoryTreeBaseAdapter.ViewHolder {
+  static class ViewHolder extends CategoryTreeBaseAdapter.ViewHolder {
     @BindView(R.id.budget) TextView budget;
     @BindView(R.id.available) TextView available;
     @BindView(R.id.budgetProgress) DonutProgress budgetProgress;

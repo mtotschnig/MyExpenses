@@ -47,7 +47,7 @@ public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
     return new ViewHolder(convertView);
   }
 
-  class ViewHolder extends CategoryTreeBaseAdapter.ViewHolder {
+  static class ViewHolder extends CategoryTreeBaseAdapter.ViewHolder {
     @BindView(R.id.color1)
     View color;
 
