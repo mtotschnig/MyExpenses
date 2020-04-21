@@ -2145,7 +2145,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 101) {
         //repair uuids that got lost by bug
+        db.execSQL("update accounts set sealed = -1 where sealed = 1");
         db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
+        db.execSQL("update accounts set sealed = 1 where sealed = -1");
       }
       if (oldVersion < 102) {
         db.execSQL("CREATE TABLE tags (_id integer primary key autoincrement, label text UNIQUE not null)");
