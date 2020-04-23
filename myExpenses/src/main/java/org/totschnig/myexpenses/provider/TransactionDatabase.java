@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 103;
+  public static final int DATABASE_VERSION = 104;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -438,10 +438,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TRIGGER sealed_account_transaction_update " +
           "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
           "WHEN (SELECT max(" + KEY_SEALED + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ")) = 1 " +
-          "BEGIN " +
-          String.format(Locale.ROOT, " UPDATE %1$s SET %2$s = new.%2$s where new.%2$s = %3$d; ", TABLE_TRANSACTIONS, KEY_STATUS, STATUS_EXPORTED) +
-          RAISE_UPDATE_SEALED_ACCOUNT +
-          "END";
+          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_delete " +
@@ -2164,6 +2161,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 103) {
         createOrRefreshTransferTagsTriggers(db);
+      }
+      if (oldVersion < 104) {
+        db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+        db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

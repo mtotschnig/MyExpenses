@@ -23,7 +23,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,6 +48,7 @@ import java.util.ArrayList;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
@@ -509,7 +509,7 @@ public class Account extends Model {
     if (handleDelete == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
       long currentBalance = getFilteredBalance(filter).getAmountMinor();
       openingBalance = new Money(openingBalance.getCurrencyUnit(), currentBalance);
-      handleDeleteOperation = ContentProviderOperation.newUpdate(
+      handleDeleteOperation = newUpdate(
           CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValue(KEY_OPENING_BALANCE, currentBalance)
           .build();
@@ -542,20 +542,26 @@ public class Account extends Model {
   }
 
   public void markAsExported(WhereFilter filter) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    Uri acccountUri = ContentUris.withAppendedId(Account.CONTENT_URI, getId());
+    ops.add(newUpdate(acccountUri).withValue(KEY_SEALED, -1)
+        .withSelection(KEY_SEALED + " = 1", null).build());
     String selection = KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null";
     String[] selectionArgs = new String[]{String.valueOf(getId())};
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.TABLE_TRANSACTIONS);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
     }
-    ContentValues args = new ContentValues();
-    args.put(KEY_STATUS, STATUS_EXPORTED);
+    ops.add(newUpdate(Transaction.CONTENT_URI)
+        .withValue(KEY_STATUS, STATUS_EXPORTED).withSelection(selection, selectionArgs)
+        .build());
+    ops.add(newUpdate(acccountUri).withValue(KEY_SEALED, 1)
+        .withSelection(KEY_SEALED + " = -1", null).build());
+
     try {
-      cr().update(Transaction.CONTENT_URI, args,
-          selection,
-          selectionArgs);
-    } catch (SQLiteConstraintException e) {
-      //The trigger raises an error but accepts the update of the status
+      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+    } catch (OperationApplicationException | RemoteException e) {
+      CrashHandler.report(e);
     }
   }
 
@@ -609,17 +615,17 @@ public class Account extends Model {
 
   private void updateTransferPeersForTransactionDelete(
       ArrayList<ContentProviderOperation> ops, String rowSelect, String[] selectionArgs) {
-    ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1).withSelection(KEY_SEALED + " = 1", null).build());
+    ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1).withSelection(KEY_SEALED + " = 1", null).build());
     ContentValues args = new ContentValues();
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
-    ops.add(ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
+    ops.add(newUpdate(Transaction.CONTENT_URI)
         .withValues(args)
         .withSelection(
             KEY_TRANSFER_PEER + " IN (" + rowSelect + ")",
             selectionArgs)
         .build());
-    ops.add(ContentProviderOperation.newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1).withSelection(KEY_SEALED + " = -1", null).build());
+    ops.add(newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1).withSelection(KEY_SEALED + " = -1", null).build());
   }
 
   /**
