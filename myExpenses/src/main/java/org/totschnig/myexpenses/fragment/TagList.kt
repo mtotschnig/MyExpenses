@@ -48,7 +48,7 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val factory = SavedStateViewModelFactory(activity!!.application, this, null)
+        val factory = SavedStateViewModelFactory(requireActivity().application, this, null)
         viewModel = ViewModelProvider(this, factory)[TagListViewModel::class.java]
     }
 

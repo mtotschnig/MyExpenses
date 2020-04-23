@@ -83,7 +83,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
         dialogView = li.inflate(R.layout.transaction_detail, null)
         _binding = TransactionDetailBinding.bind(dialogView)
         val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
-        val rowId = arguments!!.getLong(DatabaseConstants.KEY_ROWID)
+        val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this, Observer { o -> fillData(o) })
         viewModel.getTags().observe(this, Observer { tags ->
             if (tags.size > 0) {
@@ -93,7 +93,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
             }
         })
         viewModel.loadOriginalTags(rowId, TransactionProvider.TRANSACTIONS_TAGS_URI, DatabaseConstants.KEY_TRANSACTIONID)
-        val alertDialog = AlertDialog.Builder(activity!!)
+        val alertDialog = AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
                 .setView(dialogView)
                 .setNegativeButton(android.R.string.ok, this)
@@ -177,7 +177,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                 if (transaction.isSplit) {
                     binding.SplitContainer.visibility = View.VISIBLE
                     title = R.string.split_transaction
-                    SplitPartRVAdapter(context!!, transaction.amount.currencyUnit, currencyFormatter, list.subList(1, list.size)).also {
+                    SplitPartRVAdapter(requireContext(), transaction.amount.currencyUnit, currencyFormatter, list.subList(1, list.size)).also {
                         binding.splitList.adapter = it
                         it.notifyDataSetChanged()
                     }

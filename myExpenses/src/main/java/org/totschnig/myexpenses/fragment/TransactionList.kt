@@ -39,11 +39,11 @@ class TransactionList : BaseTransactionList() {
 
 class ConfirmTagDialogFragment : DialogFragment() {
     val tagList
-        get() = arguments!!.getParcelableArrayList<Tag>(KEY_TAGLIST)!!
+        get() = requireArguments().getParcelableArrayList<Tag>(KEY_TAGLIST)!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val isEmpty = tagList.size == 0
-        val dialog = MaterialDialog(context!!)
+        val dialog = MaterialDialog(requireContext())
                 .title(R.string.menu_tag)
                 .message(text = if (isEmpty) getString(R.string.dialog_multi_tag_clear) else getString(R.string.dialog_multi_tag, tagList.map { tag -> tag.label }.joinToString(", ")))
                 .negativeButton(android.R.string.cancel)
