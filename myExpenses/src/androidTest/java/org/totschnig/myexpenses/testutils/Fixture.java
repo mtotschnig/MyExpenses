@@ -43,13 +43,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 public class Fixture {
   private final Context testContext;
   private final MyApplication appContext;
-  private final Locale locale;
   private  Account account1, account2, account3, account4;
 
-  public Fixture(Instrumentation inst, Locale locale) {
+  public Fixture(Instrumentation inst) {
     testContext = inst.getContext();
     appContext = (MyApplication) inst.getTargetContext().getApplicationContext();
-    this.locale = locale;
   }
 
   public Account getInitialAccount() {
@@ -226,7 +224,7 @@ public class Fixture {
     if (templateuri == null)
       throw new RuntimeException("Could not save template");
 
-    Budget budget = new Budget(0L, account1.getId(), "TITLE", "DESCRIPTION", defaultCurrency, new Money(defaultCurrency, 200000L), Grouping.MONTH, -1, (LocalDate) null, (LocalDate) null, account1.getLabel(), true);
+    Budget budget = new Budget(0L, account1.getId(),  testContext.getString(R.string.testData_account1Description), "DESCRIPTION", defaultCurrency, new Money(defaultCurrency, 200000L), Grouping.MONTH, -1, (LocalDate) null, (LocalDate) null, account1.getLabel(), true);
     long budgetId = ContentUris.parseId(appContext.getContentResolver().insert(TransactionProvider.BUDGETS_URI, budget.toContentValues()));
     setCategoryBudget(budgetId, mainCat1, 50000);
     setCategoryBudget(budgetId, mainCat2, 40000);

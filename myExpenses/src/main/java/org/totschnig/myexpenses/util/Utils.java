@@ -275,7 +275,7 @@ public class Utils {
   }
 
   @NonNull
-  private static Currency getSaveDefault() {
+  public static Currency getSaveDefault() {
     try {
       return Currency.getInstance(MyApplication.getSystemLocale());
     } catch (NullPointerException | IllegalArgumentException ex) {

@@ -1,23 +1,16 @@
 package org.totschnig.myexpenses.test.screenshots;
 
+import android.Manifest;
 import android.accounts.Account;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-
-import com.annimon.stream.Stream;
-import com.jraska.falcon.FalconSpoonRule;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -26,9 +19,10 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Fixture;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.Utils;
 
-import java.util.Currency;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
@@ -36,8 +30,11 @@ import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
-import androidx.test.runner.lifecycle.Stage;
+import androidx.test.rule.GrantPermissionRule;
+import timber.log.Timber;
+import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.locale.LocaleTestRule;
+import tools.fastlane.screengrab.locale.LocaleUtil;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -52,26 +49,27 @@ import static org.totschnig.myexpenses.testutils.Matchers.first;
  * These tests are meant to be run with Spoon (./gradlew spoon).
  */
 public class TestMain extends BaseUiTest {
-  private Currency defaultCurrency;
-  @Rule public final FalconSpoonRule falconSpoonRule = new FalconSpoonRule();
-  @Rule public final ActivityTestRule<MyExpenses> activityRule = new ActivityTestRule<>(MyExpenses.class, false, false);
+  @ClassRule
+  public static final LocaleTestRule localeTestRule = new LocaleTestRule();
+  @Rule
+  public final ActivityTestRule<MyExpenses> activityRule = new ActivityTestRule<>(MyExpenses.class, false, false);
+  @Rule
+  public final GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
+      Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR);
 
   @Test
   public void mkScreenShots() {
-    //noinspection ConstantConditions
-    Assume.assumeFalse("undefined".equals(BuildConfig.TEST_CURRENCY));
     final Account[] accountsAsArray = GenericAccountService.getAccountsAsArray(app);
     Assertions.assertThat(accountsAsArray.length).isEqualTo(2);
     Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("Dropbox"))).isTrue();
     Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("WebDAV"))).isTrue();
-    defaultCurrency = Currency.getInstance(BuildConfig.TEST_CURRENCY);
     loadFixture();
     scenario();
   }
 
   private void scenario() {
     sleep();
-    switch(BuildConfig.TEST_SCENARIO) {
+    switch (BuildConfig.TEST_SCENARIO) {
       case 1: {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         takeScreenshot("summarize");
@@ -131,15 +129,15 @@ public class TestMain extends BaseUiTest {
   }
 
   private void loadFixture() {
-    Locale locale = new Locale(BuildConfig.TEST_LANG, BuildConfig.TEST_COUNTRY);
-    configureLocale(locale);
+    //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
+    configureLocale(LocaleUtil.getTestLocale());
     SharedPreferences pref = app.getSettings();
     if (pref == null)
       Assert.fail("Could not find prefs");
-    pref.edit().putString(PrefKey.HOME_CURRENCY.getKey(), defaultCurrency.getCurrencyCode()).apply();
+    pref.edit().putString(PrefKey.HOME_CURRENCY.getKey(), Utils.getSaveDefault().getCurrencyCode()).apply();
     app.getLicenceHandler().setLockState(false);
 
-    Fixture fixture = new Fixture(InstrumentationRegistry.getInstrumentation(), locale);
+    Fixture fixture = new Fixture(InstrumentationRegistry.getInstrumentation());
     fixture.setup();
     int current_version = DistribHelper.getVersionNumber();
     pref.edit()
@@ -160,20 +158,8 @@ public class TestMain extends BaseUiTest {
   }
 
   private void takeScreenshot(String fileName) {
-    try {
-      Thread.sleep(250);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    falconSpoonRule.screenshot(getCurrentActivity(), fileName);
-  }
-
-  private Activity getCurrentActivity() {
-    final Activity[] activities = new Activity[1];
-    InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
-      ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).toArray(activities);
-    });
-    return activities[0];
+    Espresso.onIdle();
+    Screengrab.screenshot(fileName);
   }
 
   @Override

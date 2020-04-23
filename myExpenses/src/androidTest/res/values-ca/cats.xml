@@ -1,16 +1,2 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- the cats must exist in the categories of the locale -->
-    <string name="testData_transaction1SubCat">Metro</string>
-    <string name="testData_transaction1MainCat">Transport</string>
-    <string name="testData_transaction2SubCat">Supermercat</string>
-    <string name="testData_transaction2MainCat">Alimentació</string>
-    <string name="testData_transaction3SubCat">Carburant</string>
-    <string name="testData_transaction3MainCat">Automòbil</string>
-    <string name="testData_transaction4SubCat">Restaurant</string>
-    <string name="testData_transaction6MainCat">Donacions</string>
-    <string name="testData_templateMainCat">Allotjament</string>
-    <string name="testData_templateSubCat">Lloguer</string>
-    
-</resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources><string name="testData_transaction1SubCat">Metro</string><string name="testData_transaction1MainCat">Transport</string><string name="testData_transaction2SubCat">Botiga de queviures</string><string name="testData_transaction2MainCat">Alimentació</string><string name="testData_transaction3SubCat">Carburant</string><string name="testData_transaction3MainCat">Cotxe</string><string name="testData_transaction4SubCat">Restaurant</string><string name="testData_transaction6MainCat">Regals</string><string name="testData_templateMainCat">Allotjament</string><string name="testData_templateSubCat">Lloguer</string></resources>

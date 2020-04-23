@@ -1,13 +1,2 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="testData_transaction1SubCat">Métro</string>
-    <string name="testData_transaction1MainCat">Transport</string>
-    <string name="testData_transaction2SubCat">Supermarché</string>
-    <string name="testData_transaction2MainCat">Alimentation</string>
-    <string name="testData_transaction3SubCat">Carburant</string>
-    <string name="testData_transaction3MainCat">Automobile</string>
-    <string name="testData_transaction4SubCat">Restaurant</string>
-    <string name="testData_transaction6MainCat">Dons</string>
-    <string name="testData_templateMainCat">Logement</string>
-    <string name="testData_templateSubCat">Loyer</string>
-</resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources><string name="testData_transaction1SubCat">Métro</string><string name="testData_transaction1MainCat">Transport</string><string name="testData_transaction2SubCat">Épicerie</string><string name="testData_transaction2MainCat">Alimentation</string><string name="testData_transaction3SubCat">Carburant</string><string name="testData_transaction3MainCat">Voiture</string><string name="testData_transaction4SubCat">Restaurant</string><string name="testData_transaction6MainCat">Cadeaux</string><string name="testData_templateMainCat">Logement</string><string name="testData_templateSubCat">Loyer</string></resources>
