@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 102;
+  public static final int DATABASE_VERSION = 103;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -424,15 +424,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "SELECT RAISE (FAIL, 'attempt to update sealed account');";
 
   private static final String ACCOUNTS_SEALED_TRIGGER_CREATE =
-      String.format("CREATE TRIGGER sealed_account_update BEFORE UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s ON %8$s WHEN old.%9$s = 1 ",
+      String.format(Locale.ROOT, "CREATE TRIGGER sealed_account_update BEFORE UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s ON %8$s WHEN old.%9$s = 1 ",
           KEY_LABEL, KEY_OPENING_BALANCE, KEY_DESCRIPTION, KEY_CURRENCY, KEY_TYPE, KEY_UUID, KEY_CRITERION, TABLE_ACCOUNTS, KEY_SEALED) +
-          String.format("BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
+          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_insert " +
           "BEFORE INSERT ON " + TABLE_TRANSACTIONS + " " +
           "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = new." + KEY_ACCOUNTID + ") = 1 " +
-          String.format("BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
+          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_update " +
@@ -447,7 +447,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TRIGGER sealed_account_transaction_delete " +
           "BEFORE DELETE ON " + TABLE_TRANSACTIONS + " " +
           "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ") = 1 " +
-          String.format("BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
+          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String CHANGES_CREATE =
       "CREATE TABLE " + TABLE_CHANGES
@@ -713,19 +713,19 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + "primary key (" + KEY_TAGID + "," + KEY_TRANSACTIONID + "));";
 
   private static final String INSERT_TRANSFER_TAGS_TRIGGER =
-      String.format("CREATE TRIGGER insert_transfer_tags AFTER INSERT ON %1$s "
+      String.format(Locale.ROOT, "CREATE TRIGGER insert_transfer_tags AFTER INSERT ON %1$s "
           + "WHEN %2$s IS NOT NULL "
           + "BEGIN INSERT INTO %1$s (%3$s, %4$s) VALUES (%2$s, new.%4$s); END",
           TABLE_TRANSACTIONS_TAGS, SELECT_TRANSFER_PEER("new"), KEY_TRANSACTIONID, KEY_TAGID);
 
   private static final String DELETE_TRANSFER_TAGS_TRIGGER =
-      String.format("CREATE TRIGGER delete_transfer_tags AFTER DELETE ON %1$s "
+      String.format(Locale.ROOT, "CREATE TRIGGER delete_transfer_tags AFTER DELETE ON %1$s "
           + "WHEN %2$s IS NOT NULL "
           + "BEGIN DELETE FROM %1$s WHERE %3$s = %2$s; END",
           TABLE_TRANSACTIONS_TAGS, SELECT_TRANSFER_PEER("old"), KEY_TRANSACTIONID);
 
   private static String SELECT_TRANSFER_PEER(String reference) {
-    return String.format("(SELECT %1$s FROM %2$S WHERE %3$s = %4$s.%5$s)", KEY_TRANSFER_PEER, TABLE_TRANSACTIONS, KEY_ROWID, reference, KEY_TRANSACTIONID);
+    return String.format(Locale.ROOT, "(SELECT %1$s FROM %2$s WHERE %3$s = %4$s.%5$s)", KEY_TRANSFER_PEER, TABLE_TRANSACTIONS, KEY_ROWID, reference, KEY_TRANSACTIONID);
   }
 
   private static final String TEMPLATES_TAGS_CREATE =
@@ -848,6 +848,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
 
   public void createOrRefreshTransferTagsTriggers(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS insert_transfer_tags");
+    db.execSQL("DROP TRIGGER IF EXISTS delete_transfer_tags");
     db.execSQL(INSERT_TRANSFER_TAGS_TRIGGER);
     db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
   }
@@ -1730,7 +1732,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 66) {
-        db.execSQL(String.format("CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
+        db.execSQL(String.format(Locale.ROOT, "CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
       }
 
       if (oldVersion < 67) {
@@ -2160,6 +2162,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE templates_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, template_id integer references templates(_id) ON DELETE CASCADE, primary key (tag_id,template_id));");
         createOrRefreshViews(db);
       }
+      if (oldVersion < 103) {
+        createOrRefreshTransferTagsTriggers(db);
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :
@@ -2222,9 +2227,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    final String tagJoin = String.format(" LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
+    final String tagJoin = String.format(Locale.ROOT, " LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
         TABLE_TRANSACTIONS_TAGS, KEY_TRANSACTIONID, TABLE_TRANSACTIONS, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
-    final String tagGroupBy = String.format(" GROUP BY %1$s.%2$s", TABLE_TRANSACTIONS, KEY_ROWID);
+    final String tagGroupBy = String.format(Locale.ROOT, " GROUP BY %1$s.%2$s", TABLE_TRANSACTIONS, KEY_ROWID);
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagJoin + tagGroupBy);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + tagJoin + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
