@@ -2142,16 +2142,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //will log SQLiteConstraintException if value already exists in table
         db.insert("currency", null, initialValues);
       }
-      if (oldVersion < 101) {
-        //repair uuids that got lost by bug
-        db.execSQL("update accounts set sealed = -1 where sealed = 1");
-        try {
-          db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
-        } catch (SQLException e) {
-          Timber.e(e);
-        }
-        db.execSQL("update accounts set sealed = 1 where sealed = -1");
-      }
       if (oldVersion < 102) {
         db.execSQL("CREATE TABLE tags (_id integer primary key autoincrement, label text UNIQUE not null)");
         db.execSQL("CREATE TABLE transactions_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, transaction_id integer references transactions(_id) ON DELETE CASCADE, primary key (tag_id,transaction_id))");
@@ -2165,6 +2155,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 104) {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+        //repair uuids that got lost by bug
+        db.execSQL("update accounts set sealed = -1 where sealed = 1");
+        try {
+          //this has faiiled for some users, when it was run in update to version 101, possibly this failure was caused by the faulty sealed_account_transaction_update
+          //and then it should succeed now
+          db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
+        } catch (SQLException e) {
+          Timber.e(e);
+        }
+        db.execSQL("update accounts set sealed = 1 where sealed = -1");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
