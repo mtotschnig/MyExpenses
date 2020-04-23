@@ -10,13 +10,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
+import java.util.Locale;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -41,7 +44,7 @@ import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
-public class ExpenseEditTest {
+public class ExpenseEditTest extends BaseUiTest {
 
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
@@ -77,8 +80,12 @@ public class ExpenseEditTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
     checkEffectiveGone(R.id.Status);
-    onView(withId(R.id.AmountLabel)).check(matches(withText("Amount ($)")));
-    onView(withId(R.id.DateTimeLabel)).check(matches(withText("Date / Time")));
+    checkAccountDependents();
+  }
+
+  private void checkAccountDependents() {
+    onView(withId(R.id.AmountLabel)).check(matches(withText(String.format(Locale.ROOT, "%s (%s)", getString(R.string.amount), "$"))));
+    onView(withId(R.id.DateTimeLabel)).check(matches(withText(String.format(Locale.ROOT, "%s / %s", getString(R.string.date), getString(R.string.time)))));
   }
 
   @Test
@@ -97,8 +104,7 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
         R.id.TransferAccountRow, R.id.Recurrence);
-    onView(withId(R.id.AmountLabel)).check(matches(withText("Amount ($)")));
-    onView(withId(R.id.DateTimeLabel)).check(matches(withText("Date / Time")));
+    checkAccountDependents();
   }
 
   @Test
@@ -108,8 +114,7 @@ public class ExpenseEditTest {
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
-    onView(withId(R.id.AmountLabel)).check(matches(withText("Amount ($)")));
-    onView(withId(R.id.DateTimeLabel)).check(matches(withText("Date / Time")));
+    checkAccountDependents();
   }
 
   @Test
@@ -156,7 +161,7 @@ public class ExpenseEditTest {
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     mActivityRule.launchActivity(i);
-    String success = mActivityRule.getActivity().getString(R.string.save_transaction_and_new_success);
+    String success = getString(R.string.save_transaction_and_new_success);
     int times = 5;
     int amount = 2;
     for (int j = 0; j < times; j++) {
@@ -183,5 +188,10 @@ public class ExpenseEditTest {
     Template restored = Template.getInstanceFromDb(template.getId());
     assertEquals(TYPE_TRANSFER, restored.operationType());
     assertEquals(-amount * 100, restored.getAmount().getAmountMinor().longValue());
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }
