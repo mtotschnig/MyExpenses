@@ -8,6 +8,7 @@ import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.android.calendar.CalendarContractCompat
 import org.assertj.core.api.Assertions.assertThat
+import org.threeten.bp.LocalDateTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -81,13 +82,15 @@ class PlanInfoTest : BaseDbTest() {
         do {
             val planId = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_PLANID))
             val planInfo = cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_PLAN_INFO))
-            assertThat(planInfo).contains(getInstrumentation().targetContext.getString(
-                    when (planId) {
-                        dailyPlan.id -> R.string.daily_plain
-                        weeklyPlan.id -> R.string.weekly_plain
-                        monthlyPlan.id -> R.string.monthly
-                        else -> 0
-                    }))
+            with(getInstrumentation().targetContext) {
+                assertThat(planInfo).contains(when (planId) {
+                            dailyPlan.id -> getString(R.string.daily_plain)
+                            weeklyPlan.id -> getString(R.string.weekly_plain)
+                            monthlyPlan.id -> getString(R.string.monthly_on_day, LocalDateTime.now().dayOfMonth)
+                            else -> throw IllegalArgumentException()
+                        })
+            }
+
         } while (cursor.moveToNext())
         cursor.close()
     }
