@@ -6,7 +6,7 @@
         <item>Indennità di disoccupazione</item>
         <item>Assegno familiare</item>
         <item>Credito d\'imposta</item>
-        <item>Gioco</item>
+        <item>Gioco d\'azzardo</item>
         <item>Mutua assicurazione</item>
         <item>Previdenza sociale</item>
     </string-array>
@@ -29,8 +29,8 @@
     <string-array name="Sub_4">
         <item>Straordinario</item>
         <item>Liquidazione</item>
-        <item>Premi vari</item>
-        <item>Commissione di successo</item>
+        <item>Bonus vari</item>
+        <item>Bonus raggiungimento obiettivo</item>
         <item>Salario netto</item>
     </string-array>
     <string name="Main_5">Redditi vari</string>
@@ -96,7 +96,7 @@
     <!-- Subcategories under "Financial expenses" -->
     <string-array name="Sub_13">
         <item>Spese bancarie</item>
-        <item>Prestito/Ipoteca</item>
+        <item>Prestito/Mutuo ipotecario</item>
         <item>Addebiti</item>
         <item>Rimborso</item>
     </string-array>
@@ -110,13 +110,13 @@
     <!-- Subcategories under "Taxes" -->
     <string-array name="Sub_15">
         <item>Tassa sul reddito</item>
-        <item>Tassa territoriale</item>
+        <item>IMU</item>
         <item>Imposta sul valore aggiunto</item>
     </string-array>
     <string name="Main_16">Abitazione</string>
     <!-- Subcategories under "Housing" -->
     <string-array name="Sub_16">
-        <item>Hotel</item>
+        <item>Albergo</item>
         <item>Affitto</item>
         <item>TV</item>
         <item>Arredamento</item>
@@ -129,7 +129,7 @@
         <item>Attrezzatura</item>
         <item>Gas</item>
         <item>Giardino</item>
-        <item>Governante</item>
+        <item>Domestica</item>
         <item>Telefono</item>
         <item>Telefono cellulare</item>
     </string-array>
@@ -140,7 +140,7 @@
         <item>Bowling</item>
         <item>Film</item>
         <item>Night club</item>
-        <item>Computer</item>
+        <item>Tecnologia</item>
         <item>Giochi</item>
         <item>Libri</item>
         <item>Parchi</item>
@@ -151,7 +151,7 @@
         <item>Attrezzatura</item>
         <item>Musei/mostre</item>
     </string-array>
-    <string name="Main_18">Prestito/Ipoteca</string>
+    <string name="Main_18">Prestito/Mutuo ipotecario</string>
     <!-- Subcategories under "Loan/Mortgage" -->
     <string-array name="Sub_18">
         <item>Capitale</item>
@@ -169,7 +169,7 @@
         <item>Farmacista</item>
         <item>Previdenza sociale</item>
     </string-array>
-    <string name="Main_20">Cura</string>
+    <string name="Main_20">Cura personale</string>
     <!-- Subcategories under "Care" -->
     <string-array name="Sub_20">
         <item>Parrucchiere</item>
@@ -178,7 +178,7 @@
     <string name="Main_21">Trasporto</string>
     <!-- Subcategories under "Transport" -->
     <string-array name="Sub_21">
-        <item>Autobus</item>
+        <item>Bus</item>
         <item>Metropolitana</item>
         <item>Pedaggio</item>
         <item>Treno</item>
@@ -188,7 +188,7 @@
     <string name="Main_22">Vacanze</string>
     <!-- Subcategories under "Holidays" -->
     <string-array name="Sub_22">
-        <item>Abitazione</item>
+        <item>Alloggio</item>
         <item>Visite</item>
         <item>Viaggi</item>
     </string-array>

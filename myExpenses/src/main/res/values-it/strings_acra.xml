@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="crash_reports_user_info">{app_name} invierà automaticamente il messaggio di errore agli sviluppatori, al fine di risolvere il problema il prima possibile.</string>
-  <string name="pref_category_title_crash_reports">Segnalazioni di crash</string>
-  <string name="pref_enable_acra">Consenti l\'invio automatico delle segnalazioni di crash</string>
-  <string name="pref_acra_enabled">L\'invio automatico è attivato</string>
+  <string name="crash_reports_user_info">{app_name} invierà automaticamente segnalazioni di arresto anomalo dell\'applicazione agli sviluppatori, al fine di risolvere i problemi il prima possibile.</string>
+  <string name="pref_category_title_crash_reports">Segnalazioni di arresto anomalo</string>
+  <string name="pref_enable_acra">Consenti l\'invio automatico delle segnalazioni di arresto anomalo</string>
+  <string name="pref_acra_enabled">L\'invio automatico è attivo</string>
   <string name="pref_acra_disabled">L\'invio automatico è disattivato</string>
-  <string name="pref_acra_user_email">L\'email dell\'utente deve essere inclusa nel messaggio di errore</string>
-  <string name="pref_acra_user_email_summary">Inserisci il tuo indirizzo email se desideri aiutarci nella risoluzione dei problemi, permettendoci di contattarti.</string>
+  <string name="pref_acra_user_email">e-mail utente da includere nella segnalazione di arresto anomalo</string>
+  <string name="pref_acra_user_email_summary">Inserisci il tuo indirizzo e-mail se desideri aiutarci nella risoluzione dei problemi, permettendoci di contattarti in merito.</string>
 </resources>

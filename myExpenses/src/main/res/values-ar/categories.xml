@@ -5,8 +5,8 @@
     <string-array name="Sub_1">
         <item>إعانات البطالة</item>
         <item>إعانة أسرية</item>
-        <item>إعفاء ضريبي</item>
-        <item>قمار</item>
+        <item>ضريبة الائتمان</item>
+        <item>مقامرة</item>
         <item>تأمين تعاوني</item>
         <item>ضمان اجتماعي</item>
     </string-array>
@@ -57,14 +57,14 @@
     <string-array name="Sub_7">
         <item>طعام</item>
         <item>تجهيزات أخرى</item>
-        <item>تزين</item>
+        <item>تدليل</item>
         <item>طبيب بيطري</item>
     </string-array>
     <string name="Main_8">تأمين</string>
     <!-- Subcategories under "Insurance" -->
     <string-array name="Sub_8">
         <item>سيارة</item>
-        <item>صحي</item>
+        <item>صحة</item>
         <item>منزل</item>
         <item>مسؤولية مدنية</item>
         <item>حياة</item>
@@ -82,7 +82,7 @@
     <string name="Main_11">أطفال</string>
     <!-- Subcategories under "Children" -->
     <string-array name="Sub_11">
-        <item>حضانة</item>
+        <item>ممرضة</item>
         <item>دراسة</item>
     </string-array>
     <string name="Main_12">دراسة</string>
@@ -129,7 +129,7 @@
         <item>معدات</item>
         <item>غاز</item>
         <item>حديقة</item>
-        <item>عامل المنزل</item>
+        <item>مديرة المنزل</item>
         <item>هاتف</item>
         <item>جوال</item>
     </string-array>
@@ -162,11 +162,11 @@
         <item>تأمين</item>
         <item>طبيب أسنان</item>
         <item>مستشفى</item>
-        <item>تدليك</item>
+        <item>معالج الحركة</item>
         <item>طبيب</item>
         <item>طبيب عيون</item>
         <item>عظام</item>
-        <item>صيدلي</item>
+        <item>كيميائي</item>
         <item>ضمان اجتماعي</item>
     </string-array>
     <string name="Main_20">عناية</string>
@@ -183,7 +183,7 @@
         <item>رسوم طريق</item>
         <item>قطار</item>
         <item>ترام / عربة معلقة</item>
-        <item>مطار</item>
+        <item>طائره</item>
     </string-array>
     <string name="Main_22">العطلات</string>
     <!-- Subcategories under "Holidays" -->

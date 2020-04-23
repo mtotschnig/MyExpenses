@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">الحساب</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">أنواع الحساب</string>
+  <string name="account_types">أنواع الحسابات</string>
   <string name="account_type_asset">حساب الاصول</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">حسابات الاصول</string>
@@ -33,7 +33,12 @@
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">تصدير قائمة العمليات إلى PDF</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق التصويت على <b> مخططات التنمية</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">مخطط زمني (التدفق النقدي)</string>
+  <string name="licence_status_free">خالي</string>
+  <string name="contrib_key">مفتاح المساهمة</string>
+  <string name="extended_key">مفتاح موسع</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
@@ -49,6 +54,7 @@
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
+  <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
@@ -58,12 +64,12 @@
   <string name="dialog_remind_later">لاحقاً</string>
   <string name="dialog_remind_no">لا شكراً</string>
   <string name="dialog_remind_rate_1">فضلا قم بتقييم {app_name}.</string>
-  <string name="dialog_remind_rate_2">تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
+  <string name="dialog_remind_rate_2">تعليقاتكم تسمح لنا بالاستمرار في تحسين و ترقية البرنامج .</string>
   <string name="dialog_remind_rate_yes">تقييم الآن</string>
   <string name="dialog_security_answer">الإجابة</string>
   <string name="dialog_security_question">السؤال</string>
   <string name="dialog_title_attention">تحذير</string>
-  <string name="dialog_title_information">المعلومات</string>
+  <string name="dialog_title_information">معلومات</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
@@ -81,9 +87,9 @@
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
   <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
-  <string name="grouping_day">اليوم</string>
-  <string name="grouping_last_week">آخر أسبوع</string>
-  <string name="grouping_month">الشهر</string>
+  <string name="grouping_day">يوم</string>
+  <string name="grouping_last_week">نهاية الاسبوع</string>
+  <string name="grouping_month">شهر</string>
   <string name="grouping_none">منفردة</string>
   <string name="grouping_this_week">هذا الأسبوع</string>
   <string name="grouping_today">اليوم</string>
@@ -417,11 +423,15 @@
   <string name="menu_sync_link">إبدأ المزامنة</string>
   <string name="menu_sync_download">تحميل و منزامنة</string>
   <string name="template">نموذج</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">تزامن سحابي</string>
+  <string name="all_contrib_key_features">جميع ميزات مفتاح المساهمة</string>
+  <string name="all_extended_key_features">جميع ميزات Extended Key</string>
   <!--button leading user to purchase flow for licence keys-->
   <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
   <string name="currency_symbol">رمز العملة</string>
   <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="professional_key">المفتاح شامل</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_validity">مدد الصلاحية</string>
   <!--A label indicating the color for the sum of expenses-->

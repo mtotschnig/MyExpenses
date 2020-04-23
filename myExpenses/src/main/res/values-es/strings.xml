@@ -497,7 +497,7 @@
   <string name="menu_view_picture">Ver imagen</string>
   <string name="menu_delete_picture">Borrar imagen</string>
   <string name="menu_change_picture">Adjuntar una imagen diferente</string>
-  <string name="menu_distribution_show_pie_char">Mostrar el gráfico de tarta</string>
+  <string name="menu_distribution_show_pie_char">Mostrar el gráfico de sectores</string>
   <string name="menu_distribution_aggreate">Agregar gastos e ingresos</string>
   <string name="pref_manage_stale_images_title">Antiguas imágenes</string>
   <string name="pref_manage_stale_images_summary">Administrar imágenes restantes de transacciones eliminadas</string>
@@ -899,9 +899,15 @@
   <string name="tag_already_defined">Esa etiqueta ya está registrada.</string>
   <string name="menu_edit_tag">Editar etiqueta</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">Etiqueta</string>
   <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">Todas las transacciones seleccionadas serás etiquetadas con %s.</string>
+  <string name="dialog_multi_tag_clear">Se eliminarán todas las etiquetas en las transacciones eliminadas.</string>
   <plurals name="warning_delete_tag">
     <item quantity="one">La etiqueta %1$s está asignada a una transacción. ¿Quiere eliminarla?</item>
     <item quantity="other">La etiqueta %1$s está asignada a %2$d transacciones. ¿Quiere eliminarlas?</item>
   </plurals>
+  <string name="dialog_multi_tag_append">Añadir nuevas etiquetas a las etiquetas existentes</string>
+  <string name="dialog_multi_tag_replace">Reemplazar a las etiquetas existentes con nuevas etiquetas</string>
+  <string name="new_tag_hint">Introducir nueva etiqueta</string>
 </resources>

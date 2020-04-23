@@ -2,15 +2,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">أوامر القائمة</string>
   <string name="help_contextual_actions">الإجراءات السياقية</string>
+  <string name="help_contextual_actions_help">يتم عرض قائمة الإجراءات السياقية من خلال النقر لفترة طويلة على إدخال قائمة.</string>
   <string name="help_form_fields">حقول النموذج</string>
   <string name="cab_delete_help_text">حذف العناصر المحددة</string>
   <string name="cab_edit_help_text">تعديل العناصر المحددة</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">قائمة العمليات</string>
+  <string name="help_MyExpenses_info">تسرد هذه الشاشة جميع المعاملات للحساب الجاري. استخدم زر الإجراء العائم لفتح النموذج لإنشاء معاملة جديدة.</string>
+  <string name="help_MyExpenses_crStatus_info">تتم الإشارة إلى حالة المعاملة بواسطة مستطيل ملون: رمادي لما لم تتم مطابقته ، والأزرق للخالي ، والأخضر للمطابقة. النقر على المستطيل ، يغير الحالة.</string>
   <string name="menu_reset_help_text">سيقوم هذا الأمر بتصدير جميع معاملات الحساب الجاري إلى ملف على بطاقة الذاكرة بصيغة QIF أو CSV. يمكنك أن تقرر حذف المعاملات الصادرة، في هذه الحالة يتم تعديل الرصيد الافتتاحي تلقائيا. بدلا من ذلك، إذا لم يتم حذف المعاملات، سيتم وضع علامة على أنها صادرة. مصروفاتي يمكنه مشاركة الملف مباشرة بعد التصدير من خلال FTP، او البريد الإلكتروني أو أي تطبيق آخر لمشاركة الملفات، إذا قمت بالسماح له في الاعدادات. إذا كان فلتر البحث نشطا، فلن يتم أخذ سوى المعاملات التي تم تعيينها بواسطة هذا الفلتر في الاعتبار.</string>
   <string name="menu_grouping_help_text">يمكنك تجميع المعاملات حسب اليوم أو الأسبوع أو الشهر أو السنة. لكل مجموعة، يتم حساب الاجمالي للايرادات والمصروفات والتحويلات وعرضها. عند النقر فوق رأس مجموعة، يتم تصغير مجموعة المعاملات ويتم عرض الرأس فقط. انقر مرة أخرى للتوسيع.</string>
   <string name="menu_sort_direction_help_text">يمكن فرز المعاملات تصاعديا (الأقدم في المقدمة) أو تنازليا (الأحدث في المقدمة) .</string>
   <string name="menu_distribution_help_text">عرض توزيع النفقات الخاصة بك لكل فئة. يمكنك أيضا النقر مطولاً على رأس مجموعة لتفقد التوزيع لفترة محددة من الزمن.</string>
+  <string name="menu_budget_help_text">إدارة الميزانيات اليومية أو الأسبوعية أو الشهرية أو السنوية للحساب المعروض حاليًا.</string>
+  <string name="menu_history_help_text">عرض رسم بياني للتدفق النقدي: كيف تطورت مصروفك ودخلك على مدار أيام أو أسابيع أو شهور أو سنوات؟</string>
+  <string name="menu_manage_plans_help_text">يفتح قائمة القوالب والخطط ، حيث يمكنك تطبيقها أو تحريرها أو حذفها ، وكذلك تحديد خطط المعاملات المستقبلية والمتكررة.</string>
+  <string name="menu_balance_help_text">يفتح هذا الأمر مربع حوار يعرض آخر رصيد تمت تسويته والرصيد الذي تم تسويته. يمكنك مقارنة هذا الأخير بكشف حسابك المصرفي ، ووضع علامة على جميع المعاملات التي تمت تسويتها على أنها مطابقة. اختياريا ، يمكنك حذف المعاملات التي تمت تسويتها.</string>
+  <string name="menu_print_help_text">يولد عرض قابل للطباعة للمعاملات المعروضة حاليا.</string>
+  <string name="menu_search_help_text">يفتح هذا الإدخال قائمة فرعية تتيح لك تحديد معايير البحث استنادًا إلى الفئة والمبلغ والتعليق والحالة والدافع / المدفوع له وطريقة الدفع. عندما يكون فلتر البحث نشطًا ، يمكنك ببساطة النقر على إدخاله في القائمة الفرعية لإلغاء تنشيطه.</string>
+  <string name="cab_create_template_from_transaction_help_text">تحديد قالب جديد بناءً على المعاملة المحددة. سيطالبك بعنوان القالب.</string>
+  <string name="cab_clone_transaction_help_text">سيتم استنساخ المعاملات المحددة بالتاريخ والوقت الحاليين. يمكنك إجراء تغييرات قبل حفظ النسخة.</string>
+  <string name="cab_split_help_text">يمكنك تحرير المعاملة لاحقًا لإنشاء أجزاء إضافية حسب الحاجة.</string>
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
@@ -34,7 +46,7 @@
   <!--StaleImages-->
   <!--CSV Import-->
   <!--SyncBackends-->
-  <string name="cab_sync_unlink_help_text">الحساب المحدد لن يتم مزامنته مع المخدم</string>
+  <string name="cab_sync_unlink_help_text">لن تتم مزامنة الحساب المحدد مع الخلفية</string>
   <!--History-->
   <!--Budget-->
   <!--Tags-->

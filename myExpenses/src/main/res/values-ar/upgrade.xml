@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_310">
+        <item>يمكن تعيين المعاملات لعلامات متعددة</item>
+    </string-array>
+    <string-array name="whats_new_308">
+        <item>يمكن الآن تصدير حسابات متعددة إلى ملف واحد</item>
+        <item>تتم الآن مزامنة بيانات تعريف الحساب</item>
+        <item>تحسين مصغرات الشاشة الرئيسية</item>
+    </string-array>
     <string-array name="whats_new_307">
         <item>تحرير بالجملة</item>
     </string-array>
@@ -64,7 +72,7 @@
         <item>امكانية المزامنة باستخدام Wi-Fi حصراً</item>
     </string-array>
     <string-array name="whats_new_291">
-        <item>تحديد وقت المعاملات اصبح اختياري</item>
+        <item>تحديد وقت المعاملات اصبح الان اختياريا</item>
         <item>التمييز اختياريا بين تاريخ الحجز وتاريخ القيمة</item>
     </string-array>
     <string-array name="whats_new_290">
