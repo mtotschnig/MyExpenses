@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -176,7 +175,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     } else {
       Long catId = DbUtils.getLongOrNull(cursor, KEY_CATID);
       if (SPLIT_CATID.equals(catId))
-        catText = MyApplication.getInstance().getString(R.string.split_transaction);
+        catText = context.getString(R.string.split_transaction);
       else if (catId == null) {
         if (cursor.getInt(columnIndexStatus) != STATUS_HELPER) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
