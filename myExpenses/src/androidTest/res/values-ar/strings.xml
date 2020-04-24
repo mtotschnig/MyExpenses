@@ -5,12 +5,9 @@
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
   <string name="testData_account2Label">عطلة نهاية الاسبوع في باريس</string>
-  <string name="testData_account2Description">أغسطس 2012</string>
-  <!--the ISO 4217 currency code-->
-  <string name="testData_account2Currency">EUR</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">حساب البنك</string>
-  <string name="testData_account3Description">أمريكا بنك</string>
+  <string name="testData_account3Description">البنك الامريكي</string>
   <!--the cats must exist in the categories of the locale-->
   <!--just an example of how one could describe by a comment a specific purchase-->
   <string name="testData_transaction2Comment">فواكه &amp; خضروات</string>
@@ -18,4 +15,5 @@
   <string name="testData_transaction4Payee">مطعم Pizzeria Antonella</string>
   <!--a name typically used as example name-->
   <string name="testData_templatePayee">فلان الفلاني</string>
+  <string name="testData_tag_project">مشروع بلا عنوان</string>
 </resources>

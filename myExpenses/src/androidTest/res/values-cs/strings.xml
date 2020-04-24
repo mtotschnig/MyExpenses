@@ -5,9 +5,6 @@
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
   <string name="testData_account2Label">víkend v Paříži</string>
-  <string name="testData_account2Description">Srpen 2012</string>
-  <!--the ISO 4217 currency code of the country testData_account2Label refers to-->
-  <string name="testData_account2Currency">EUR</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Bankovní účet</string>
   <string name="testData_account3Description">Bank of America</string>
