@@ -1,7 +1,7 @@
 it:
   imprint: Imprint
   imprint_text: Responsabile per il contenuto di questo sito web e per lo sviluppo, la manutenzione e la distribuzione di <i>{app_name}</i>
-  privacy_policy_heading: Norme sulla privacy
+  privacy_policy_heading: Informativa sulla privacy
   privacy_policy_text: " <i>{app_name}</i> non accede a alcuni dati di suo apparecchio al di fuori della database e la cartella proprie sulla scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future e ricorrenti, si assegnano il calendario, in cui sono memorizzati questi piani."
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
@@ -18,10 +18,10 @@ it:
     versionlist: Registro delle modifiche (changelog)
     credits: Credits
     licence: Licenza
-    sourcecode: Codice fonte
+    sourcecode: Codice sorgente
     links: Collegamenti
   screenshots:
-    group: Raggruppa le tue transazioni per giorno, settimana, mese e anno
+    group: Raggruppa le tue transazioni per giorno, settimana, mese ed anno
     summarize: Somma tutti i tuoi conti (Gestione sofisticata dei tassi di cambio per account e per transazione)
     budget: Stabilisci quanto intendi spendere in budget annuali, mensili o settimanali
     split: Dividi una transazione in più categorie
