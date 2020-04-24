@@ -191,6 +191,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
+        <item name="md_color_button_text">?colorAccent</item>
     </style>
 
     <style name="ThemeLight.EditDialog" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
@@ -214,6 +215,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
+        <item name="md_color_button_text">?colorAccent</item>
     </style>
 
     <style name="ThemeDark.EditDialog.s1" tools:ignore="UnusedResources">
@@ -364,6 +366,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorAccent">@color/accent_material_dark</item>
+        <item name="md_color_button_text">?colorAccent</item>
     </style>
 
     <style name="ThemeLight.Onboarding" parent="@style/SuwThemeMaterial.Light">
@@ -378,6 +381,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorAccent">@color/accent_material_light</item>
+        <item name="md_color_button_text">?colorAccent</item>
     </style>
 
     <style name="ThemeDark.Onboarding.s1" tools:ignore="UnusedResources">
