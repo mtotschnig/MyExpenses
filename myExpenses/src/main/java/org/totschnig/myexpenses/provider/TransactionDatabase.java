@@ -2090,10 +2090,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         createOrRefreshAccountTriggers(db);
       }
 
-      if (oldVersion < 95) {
+/*      if (oldVersion < 95) {
         db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
         db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-      }
+      }*/
       if (oldVersion < 96) {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
