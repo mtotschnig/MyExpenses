@@ -6,7 +6,7 @@
     a different currency-->
   <string name="testData_account2Label">在巴黎的週末</string>
   <string name="testData_account2Description">2012年8月</string>
-  <!--the ISO 4217 currency code-->
+  <!--the ISO 4217 currency code of the country testData_account2Label refers to-->
   <string name="testData_account2Currency">EUR</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">銀行帳戶</string>
@@ -18,4 +18,5 @@
   <string name="testData_transaction4Payee">安東內拉的意大利肉餅店</string>
   <!--a name typically used as example name-->
   <string name="testData_templatePayee">張三</string>
+  <string name="testData_tag_project">無標題項目</string>
 </resources>

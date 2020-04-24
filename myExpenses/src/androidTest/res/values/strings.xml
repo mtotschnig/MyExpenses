@@ -18,4 +18,6 @@
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <!-- a name typically used as example name -->
     <string name="testData_templatePayee">John Doe</string>
+
+    <string name="testData_tag_project">Untitled project</string>
 </resources>

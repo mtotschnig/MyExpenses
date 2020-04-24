@@ -40,6 +40,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
@@ -63,7 +64,7 @@ public class TestMain extends BaseUiTest {
     Assertions.assertThat(accountsAsArray.length).isEqualTo(2);
     Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("Dropbox"))).isTrue();
     Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("WebDAV"))).isTrue();
-    loadFixture();
+    loadFixture(BuildConfig.TEST_SCENARIO == 2);
     scenario();
   }
 
@@ -79,7 +80,7 @@ public class TestMain extends BaseUiTest {
         Espresso.closeSoftKeyboard();
         takeScreenshot("export");
         Espresso.pressBack();
-        onView(withText(R.string.split_transaction)).perform(click());
+        onView(withSubstring(getString(R.string.split_transaction))).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
         takeScreenshot("split");
@@ -128,9 +129,12 @@ public class TestMain extends BaseUiTest {
 
   }
 
-  private void loadFixture() {
+  private void loadFixture(boolean withPicture) {
     //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
-    configureLocale(LocaleUtil.getTestLocale());
+    final Locale testLocale = LocaleUtil.getTestLocale();
+    if (testLocale != null) {//if run from Android Studio and not via Screengrab
+      configureLocale(testLocale);
+    }
     SharedPreferences pref = app.getSettings();
     if (pref == null)
       Assert.fail("Could not find prefs");
@@ -138,7 +142,7 @@ public class TestMain extends BaseUiTest {
     app.getLicenceHandler().setLockState(false);
 
     Fixture fixture = new Fixture(InstrumentationRegistry.getInstrumentation());
-    fixture.setup();
+    fixture.setup(withPicture);
     int current_version = DistribHelper.getVersionNumber();
     pref.edit()
         .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), fixture.getInitialAccount().getId())

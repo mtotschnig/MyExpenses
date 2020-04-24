@@ -46,3 +46,8 @@ file_filter = myExpenses/src/androidTest/res/values-<lang>/strings.xml
 source_lang = en
 source_file = ../licencedb/config/locales/en.yml
 file_filter = ../licencedb/config/locales/<lang>.yml
+
+[my-expenses.screenshottitles]
+source_lang = en
+source_file = fastlane/metadata/android/en-US/images/phoneScreenshots/title.strings
+file_filter = fastlane/metadata/android/<lang>/images/phoneScreenshots/title.strings

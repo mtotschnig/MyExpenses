@@ -28,10 +28,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import timber.log.Timber;
@@ -54,7 +56,7 @@ public class Fixture {
     return account1;
   }
 
-  public void setup() {
+  public void setup(boolean withPicture) {
     CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(testContext.getString(R.string.testData_account2Currency));
     CurrencyUnit defaultCurrency = Utils.getHomeCurrency();
 
@@ -104,13 +106,15 @@ public class Fixture {
     for (int i = 0; i < 15; i++) {
       //Transaction 1
       final File file = new File(appContext.getExternalFilesDir(null), "screenshot.jpg");
-      Transaction op1 = new TransactionBuilder(testContext)
+      final TransactionBuilder builder = new TransactionBuilder(testContext)
           .accountId(account1.getId())
           .amount(defaultCurrency, -random(12000))
           .catId(R.string.testData_transaction1SubCat, mainCat1)
-          .date(offset - 300000)
-          .pictureUri(Uri.fromFile(file))
-          .persist();
+          .date(offset - 300000);
+      if (withPicture) {
+        builder.pictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
+      }
+      Transaction op1 = builder.persist();
 
       //Transaction 2
       Transaction op2 = new TransactionBuilder(testContext)
@@ -184,6 +188,8 @@ public class Fixture {
     Transaction split = SplitTransaction.getNewInstance(account1.getId());
     split.setAmount(new Money(defaultCurrency, -8967L));
     split.save(true);
+    List<Tag> tagList = Collections.singletonList(new Tag(-1, testContext.getString(R.string.testData_tag_project), false, 0));
+    split.saveTags(tagList, MyApplication.getInstance().getContentResolver());
 
     new TransactionBuilder(testContext)
         .accountId(account1.getId()).parentId(split.getId())

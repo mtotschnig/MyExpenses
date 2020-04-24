@@ -1,0 +1,45 @@
+app_package_name('org.totschnig.myexpenses.fortest')
+
+use_tests_in_packages(['org.totschnig.myexpenses.test.screenshots'])
+
+app_apk_path('myExpenses/build/outputs/apk/conscript/forTest/myExpenses-conscript-forTest.apk')
+tests_apk_path('myExpenses/build/outputs/apk/androidTest/conscript/forTest/myExpenses-conscript-forTest-androidTest.apk')
+
+locales([
+    'ar-SA',
+    'bg-BG',
+    'ca-ES',
+    'cs-CZ',
+    'da-DK',
+    'de-DE',
+    'el-GR',
+    'en-US',
+    'es-ES',
+    'eu-ES',
+    'fr-FR',
+    'hr-HR',
+    'hu-HU',
+    'it-IT',
+    'iw-IL',
+    'ja-JP',
+    'km-KH',
+    'ko-KR',
+    'ms-MY',
+    'pl-PL',
+    'pt-BR',
+    'ro-RO',
+    'ru-RU',
+    'si-LK',
+    'tr-TR',
+    'vi-VI',
+    'zh-TW'
+])
+#locales(['ta-IN'])
+
+test_instrumentation_runner('org.totschnig.myexpenses.MyTestRunner')
+
+use_adb_root(true)
+
+clear_previous_screenshots(false)
+
+use_timestamp_suffix(false)

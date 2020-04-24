@@ -4,10 +4,10 @@
   <string name="testData_account1Description">Καθημερινά έξοδα</string>
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
-  <string name="testData_account2Label">Σαββατοκύριακο στο Παρίσι</string>
+  <string name="testData_account2Label">Σαββατοκύριακο στο Λονδίνο</string>
   <string name="testData_account2Description">Αύγουστος 2012</string>
-  <!--the ISO 4217 currency code-->
-  <string name="testData_account2Currency">Ευρώ</string>
+  <!--the ISO 4217 currency code of the country testData_account2Label refers to-->
+  <string name="testData_account2Currency">GBP</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Τραπεζικός λογαριασμός</string>
   <string name="testData_account3Description">Τράπεζα της Αμερικής</string>
@@ -18,4 +18,5 @@
   <string name="testData_transaction4Payee">Πιτσαρία Antonella</string>
   <!--a name typically used as example name-->
   <string name="testData_templatePayee">John Doe</string>
+  <string name="testData_tag_project">Έργο χωρίς τίτλο</string>
 </resources>
