@@ -188,4 +188,14 @@
         <url>https://github.com/romandanylyk/PageIndicatorView</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>FlexboxLayout</name>
+        <url>https://github.com/google/flexbox-layout</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Material Dialogs</name>
+        <url>https://github.com/afollestad/material-dialogs</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>
