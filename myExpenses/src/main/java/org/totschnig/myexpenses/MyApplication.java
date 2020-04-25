@@ -239,6 +239,7 @@ public class MyApplication extends MultiDexApplication implements
     }
   }
 
+  @Deprecated
   public static MyApplication getInstance() {
     return mSelf;
   }

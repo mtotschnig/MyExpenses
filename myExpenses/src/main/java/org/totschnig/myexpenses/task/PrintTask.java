@@ -56,7 +56,7 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
     }
     account = Account.getInstanceFromDb(accountId);
     try {
-      return new PdfPrinter(account, appDir, filter).print();
+      return new PdfPrinter(account, appDir, filter).print(taskExecutionFragment.getContext());
     } catch (Exception e) {
       Timber.e(e, "Error while printing");
       return Result.ofFailure(R.string.export_sdcard_failure, appDir.getName(), e.getMessage());

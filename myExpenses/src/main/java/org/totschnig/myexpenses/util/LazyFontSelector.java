@@ -57,7 +57,7 @@ public class LazyFontSelector {
   protected Font currentFont = null;
   protected FontType type;
 
-  public LazyFontSelector(File[] files) throws DocumentException, IOException {
+  public LazyFontSelector(File[] files) {
     this.files = files;
   }
 
@@ -150,6 +150,9 @@ public class LazyFontSelector {
   private BaseFont getBaseFont(int index) throws DocumentException, IOException {
     if (baseFonts.size() < index + 1) {
       String file = files[index].getAbsolutePath();
+      if (file.endsWith("ttc")) {
+        file += ",0";
+      }
       Timber.i("now loading font file %s", file);
       BaseFont bf = BaseFont.createFont(file, BaseFont.IDENTITY_H,
           BaseFont.EMBEDDED);

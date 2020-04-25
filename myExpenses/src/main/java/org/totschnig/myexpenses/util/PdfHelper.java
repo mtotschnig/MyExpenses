@@ -51,16 +51,12 @@ public class PdfHelper {
       //we want the Default Font to be used first
       try {
         File dir = new File("/system/fonts");
-        File[] files = dir.listFiles((dir1, filename) -> {
-          return filename.endsWith("ttf") //NotoSans*-Regular.otf files found not to work:
-              //BaseFont.charExists finds chars that are not visible in PDF
-              //NotoColorEmoji.ttf and SamsungColorEmoji.ttf are known not to work
-              && !filename.contains("ColorEmoji")
-              //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
-              && !filename.equals("Kindle_Symbol.ttf")
-              ;
-
-        });
+        File[] files = dir.listFiles((dir1, filename) -> (filename.endsWith("ttf") || filename.endsWith("ttc")) //NotoSans*-Regular.otf files found not to work:
+            //BaseFont.charExists finds chars that are not visible in PDF
+            //NotoColorEmoji.ttf and SamsungColorEmoji.ttf are known not to work
+            && !filename.contains("ColorEmoji")
+            //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
+            && !filename.equals("Kindle_Symbol.ttf"));
         Arrays.sort(files, (f1, f2) -> {
           String n1 = f1.getName();
           String n2 = f2.getName();
