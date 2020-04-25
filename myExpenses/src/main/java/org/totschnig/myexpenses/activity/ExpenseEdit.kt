@@ -414,11 +414,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
             } else {
+                if (task != TRANSACTION_FROM_TEMPLATE) {
+                    viewModel.loadOriginalTags(mRowId, it.linkedTagsUri(), it.linkColumn())
+                }
                 mRowId = it.id
                 populate(it)
-                if (task != TRANSACTION_FROM_TEMPLATE) {
-                    viewModel.loadOriginalTags(it)
-                }
+
             }
         } ?: run {
             abortWithMessage(when (task) {

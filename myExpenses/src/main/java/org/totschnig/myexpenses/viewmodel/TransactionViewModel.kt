@@ -60,9 +60,6 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
         tagList?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
     }
 
-    fun loadOriginalTags(transaction: ITransaction) {
-       loadOriginalTags(transaction.id, transaction.linkedTagsUri(), transaction.linkColumn())
-    }
     fun loadOriginalTags(id: Long, uri: Uri, column: String) {
         disposable = briteContentResolver.createQuery(uri, null, column + " = ?", arrayOf(id.toString()), null, false)
                 .mapToList { cursor ->
