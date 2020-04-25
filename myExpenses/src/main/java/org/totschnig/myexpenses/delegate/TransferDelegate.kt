@@ -57,7 +57,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override val editPartResId = R.string.menu_edit_split_part_transfer
 
 
-    override fun bind(transaction: ITransfer?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
+    override fun bind(transaction: ITransfer?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
         if (transaction != null) {
             mTransferAccountId = transaction.transferAccountId
             transferPeer = transaction.transferPeer
@@ -69,15 +69,15 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.TransferAccountRow.visibility = View.VISIBLE
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, withAutoFill)
         hideRowsSpecificToMain()
         if (rowId != 0L) {
             configureTransferDirection()
         }
     }
 
-    override fun populateFields(transaction: ITransfer, prefHandler: PrefHandler, newInstance: Boolean) {
-        super.populateFields(transaction, prefHandler, newInstance)
+    override fun populateFields(transaction: ITransfer, prefHandler: PrefHandler, withAutoFill: Boolean) {
+        super.populateFields(transaction, prefHandler, withAutoFill)
         transaction.transferAmount?.let {
             viewBinding.TransferAmount.setAmount(it.amountMajor.abs())
             if (!isTemplate) {
@@ -89,7 +89,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
 
     }
 
-    override fun createAdapters(newInstance: Boolean) {
+    override fun createAdapters(newInstance: Boolean, withAutoFill: Boolean) {
         createStatusAdapter()
         if (newInstance) {
             createOperationTypeAdapter()

@@ -56,23 +56,23 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
         }
     }
 
-    override fun createAdapters(newInstance: Boolean) {
-        createPayeeAdapter(newInstance)
+    override fun createAdapters(newInstance: Boolean, withAutoFill: Boolean) {
+        createPayeeAdapter(withAutoFill)
         createStatusAdapter()
         if (newInstance) {
             createOperationTypeAdapter()
         }
     }
 
-    override fun populateFields(transaction: T, prefHandler: PrefHandler, newInstance: Boolean) {
-        super.populateFields(transaction, prefHandler, newInstance)
+    override fun populateFields(transaction: T, prefHandler: PrefHandler, withAutoFill: Boolean) {
+        super.populateFields(transaction, prefHandler, withAutoFill)
         if (!isSplitPart)
             viewBinding.Payee.setText(transaction.payee)
     }
 
     abstract fun buildMainTransaction(accountId: Long): T
 
-    private fun createPayeeAdapter(newInstance: Boolean) {
+    private fun createPayeeAdapter(withAutoFill: Boolean) {
         payeeAdapter = SimpleCursorAdapter(context, R.layout.support_simple_spinner_dropdown_item, null, arrayOf(DatabaseConstants.KEY_PAYEE_NAME), intArrayOf(android.R.id.text1),
                 0)
         viewBinding.Payee.setAdapter(payeeAdapter)
@@ -95,7 +95,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             val c = payeeAdapter.getItem(position) as Cursor
             if (c.moveToPosition(position)) {
                 c.getLong(0).let {
-                    if (newInstance && shouldAutoFill) {
+                    if (withAutoFill && shouldAutoFill) {
                         if (prefHandler.getBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, false)) {
                             if (PreferenceUtils.shouldStartAutoFill()) {
                                 host.startAutoFill(it, false)

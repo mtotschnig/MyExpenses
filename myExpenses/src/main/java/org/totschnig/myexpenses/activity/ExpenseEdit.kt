@@ -145,7 +145,9 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     val accountId: Long
         get() = currentAccount?.id ?: 0L
 
-    private var planInstanceId: Long = 0
+    @JvmField
+    @State
+    var planInstanceId: Long = 0
 
     /**
      * transaction, transfer or split
@@ -200,6 +202,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private val isMainTransactione: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPart && !isTemplate
 
+    private val isClone: Boolean
+        get() = intent.getBooleanExtra(KEY_CLONE, false)
+
+    private val withAutoFill: Boolean
+        get() = mNewInstance && !isClone
+
     public override fun getDiscardNewMessage(): Int {
         return if (isTemplate) R.string.dialog_confirm_discard_new_template else R.string.dialog_confirm_discard_new_transaction
     }
@@ -221,32 +229,32 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
-        val extras = intent.extras
-        mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
-        var task: TransactionViewModel.InstantiationTask? = null
-        if (mRowId == 0L) {
-            mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
-            if (mRowId != 0L) {
-                planInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)
-                if (planInstanceId != 0L) {
-                    task = TRANSACTION_FROM_TEMPLATE
-                } else {
-                    isTemplate = true
-                    task = TEMPLATE
-                }
-            }
-        } else {
-            task = TRANSACTION
-        }
-        mNewInstance = mRowId == 0L
-
         if (savedInstanceState != null) {
             Icepick.restoreInstanceState(this, savedInstanceState)
+            mNewInstance = mRowId == 0L
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler)
             loadData()
-            delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null)
+            delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
             setTitle()
         } else {
+            val extras = intent.extras
+            mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
+            var task: TransactionViewModel.InstantiationTask? = null
+            if (mRowId == 0L) {
+                mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
+                if (mRowId != 0L) {
+                    planInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)
+                    if (planInstanceId != 0L) {
+                        task = TRANSACTION_FROM_TEMPLATE
+                    } else {
+                        isTemplate = true
+                        task = TEMPLATE
+                    }
+                }
+            } else {
+                task = TRANSACTION
+            }
+            mNewInstance = mRowId == 0L
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -438,7 +446,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     private fun populate(transaction: Transaction) {
-        if (intent.getBooleanExtra(KEY_CLONE, false)) {
+        if (isClone) {
             mRowId = if (transaction is SplitTransaction) transaction.id else 0L
             transaction.crStatus = CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE
@@ -474,7 +482,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
         delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding, prefHandler)
         loadData()
-        delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence)
+        delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
+                withAutoFill)
         setHelpVariant(delegate.helpVariant)
         setTitle()
         operationType = transaction.operationType()

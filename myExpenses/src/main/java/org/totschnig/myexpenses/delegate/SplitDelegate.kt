@@ -29,8 +29,8 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     override val shouldAutoFill = false
     private var missingRecurrenceFeature: ContribFeature? = null
 
-    override fun bind(transaction: ISplit?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
+    override fun bind(transaction: ISplit?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, withAutoFill)
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 host.updateSplitBalance()

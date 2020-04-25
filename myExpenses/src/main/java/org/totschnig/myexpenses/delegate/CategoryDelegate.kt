@@ -37,8 +37,8 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     @State
     var catId: Long? = null
 
-    override fun bind(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
-        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
+    override fun bind(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
+        super.bind(transaction, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, withAutoFill)
         viewBinding.Category.setOnClickListener { host.startSelectCategory() }
         if (transaction != null) {
             label = transaction.label
@@ -83,9 +83,9 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
     }
 
-    override fun populateFields(transaction: ITransaction, prefHandler: PrefHandler, newInstance: Boolean) {
-        super.populateFields(transaction, prefHandler, newInstance)
-        if (newInstance && !isTemplate && !isSplitPart && PreferenceUtils.shouldStartAutoFill()) {
+    override fun populateFields(transaction: ITransaction, prefHandler: PrefHandler, withAutoFill: Boolean) {
+        super.populateFields(transaction, prefHandler, withAutoFill)
+        if (withAutoFill && !isTemplate && !isSplitPart && PreferenceUtils.shouldStartAutoFill()) {
             viewBinding.Payee.requestFocus()
         }
     }

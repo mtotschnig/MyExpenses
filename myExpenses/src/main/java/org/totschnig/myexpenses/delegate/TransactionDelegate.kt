@@ -143,11 +143,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     private val planExecutionButton: ToggleButton
         get() = viewBinding.RR.TB.root as ToggleButton
 
-    fun bindUnsafe(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
-        bind(transaction as T?, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence)
+    fun bindUnsafe(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
+        bind(transaction as T?, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, withAutoFill)
     }
 
-    open fun bind(transaction: T?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?) {
+    open fun bind(transaction: T?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
         if (transaction != null) {
             rowId = transaction.id
             parentId = transaction.parentId
@@ -208,12 +208,12 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             viewBinding.DateTimeRow.visibility = View.GONE
         }
 
-        createAdapters(newInstance)
+        createAdapters(newInstance, withAutoFill)
 
         //when we have a savedInstance, fields have already been populated
         if (savedInstanceState == null) {
             isProcessingLinkedAmountInputs = true
-            populateFields(transaction!!, prefHandler, newInstance)
+            populateFields(transaction!!, prefHandler, withAutoFill)
             isProcessingLinkedAmountInputs = false
             if (!isSplitPart) {
                 setLocalDateTime(transaction)
@@ -281,7 +281,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     /**
      * populates the input fields with a transaction from the database or a new one
      */
-    open fun populateFields(transaction: T, prefHandler: PrefHandler, newInstance: Boolean) {
+    open fun populateFields(transaction: T, prefHandler: PrefHandler, withAutoFill: Boolean) {
         populateStatusSpinner()
         viewBinding.Comment.setText(transaction.comment)
         if (isMainTemplate) {
@@ -306,7 +306,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
             }
         }
-        if (newInstance && isMainTemplate) {
+        if (withAutoFill && isMainTemplate) {
             viewBinding.Title.requestFocus()
         }
     }
@@ -425,7 +425,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     val host: ExpenseEdit
         get() = context as ExpenseEdit
 
-    abstract fun createAdapters(newInstance: Boolean)
+    abstract fun createAdapters(newInstance: Boolean, withAutoFill: Boolean)
 
     protected fun createOperationTypeAdapter() {
         val allowedOperationTypes: MutableList<Int> = ArrayList()
