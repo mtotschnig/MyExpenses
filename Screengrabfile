@@ -30,11 +30,11 @@ locales([
     'ro-RO',
     'ru-RU',
     'si-LK',
+    'ta-IN',
     'tr-TR',
     'vi-VI',
     'zh-TW'
 ])
-#locales(['ta-IN'])
 
 test_instrumentation_runner('org.totschnig.myexpenses.MyTestRunner')
 
