@@ -77,6 +77,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GRO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -243,6 +244,7 @@ public class PdfPrinter {
     int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
     int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
     int columnIndexCrStatus = transactionCursor.getColumnIndex(KEY_CR_STATUS);
+    int columnIndexTagList = transactionCursor.getColumnIndex(KEY_TAGLIST);
     DateFormat itemDateFormat;
     switch (account.getGrouping()) {
       case DAY:
@@ -480,14 +482,31 @@ public class PdfPrinter {
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);
-      if (comment != null && comment.length() > 0) {
-        cell = helper.printToCell(comment, FontType.ITALIC);
-        if (isVoid) {
-          cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
-        }
-        cell.setColspan(2);
+      String tagList = transactionCursor.getString(columnIndexTagList);
+      final boolean hasComment = comment != null && comment.length() > 0;
+      final boolean hasTags = tagList != null && tagList.length() > 0;
+      if (hasComment || hasTags) {
         table.addCell(helper.emptyCell());
-        table.addCell(cell);
+        if (hasComment) {
+          cell = helper.printToCell(comment, FontType.ITALIC);
+          if (isVoid) {
+            cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
+          }
+          if (!hasTags) {
+            cell.setColspan(2);
+          }
+          table.addCell(cell);
+        }
+        if (hasTags) {
+          cell = helper.printToCell(tagList, FontType.BOLD);
+          if (isVoid) {
+            cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
+          }
+          if (!hasComment) {
+            cell.setColspan(2);
+          }
+          table.addCell(cell);
+        }
         table.addCell(helper.emptyCell());
       }
       transactionCursor.moveToNext();
