@@ -57,8 +57,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MIN_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
@@ -187,11 +185,11 @@ public class DbUtils {
   }
 
   public static String maximumWeekExpression(int year) {
-    return String.format(Locale.US, getWeekMax() + " AS " + KEY_MAX_VALUE, year);
+    return String.format(Locale.US, getWeekMax(), year);
   }
 
   public static String minimumWeekExpression(int year) {
-    return String.format(Locale.US, getWeekMin() + " AS " + KEY_MIN_VALUE, year);
+    return String.format(Locale.US, getWeekMin(), year);
   }
 
   public static Map<String, String> getSchemaDetails() {

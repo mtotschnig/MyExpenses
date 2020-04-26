@@ -307,21 +307,21 @@ public class DistributionFragment extends DistributionBaseFragment {
 
   public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
-    mGroupingYear = thisYear;
+    mGroupingYear = dateInfo.getThisYear();
     switch (grouping) {
       case NONE:
         mGroupingYear = 0;
         break;
       case DAY:
-        mGroupingSecond = thisDay;
+        mGroupingSecond = dateInfo.getThisDay();
         break;
       case WEEK:
-        mGroupingYear = thisYearOfWeekStart;
-        mGroupingSecond = thisWeek;
+        mGroupingYear = dateInfo.getThisYearOfWeekStart();
+        mGroupingSecond = dateInfo.getThisWeek();
         break;
       case MONTH:
-        mGroupingYear = thisYearOfMonthStart;
-        mGroupingSecond = thisMonth;
+        mGroupingYear = dateInfo.getThisYearOfMonthStart();
+        mGroupingSecond = dateInfo.getThisMonth();
         break;
       case YEAR:
         mGroupingSecond = 0;

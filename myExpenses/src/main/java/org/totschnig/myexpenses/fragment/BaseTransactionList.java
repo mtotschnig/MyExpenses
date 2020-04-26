@@ -113,6 +113,7 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
+import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.text.SimpleDateFormat;
@@ -938,7 +939,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       if (c != null) {
         c.moveToPosition(position);
         fillSums(holder, getHeaderId(position));
-        holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c), c));
+        holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
+            DateInfo.fromCursor(c)));
       }
       return convertView;
     }

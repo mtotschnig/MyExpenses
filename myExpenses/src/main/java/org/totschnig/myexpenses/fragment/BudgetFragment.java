@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -295,28 +294,28 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
-  protected void onDateInfoReceived(Cursor cursor) {
+  protected void onDateInfoReceived() {
     //we fetch dateinfo from database two times, first to get info about current date,
     //then we use this info in second run
     if (mGroupingYear == 0) {
-      mGroupingYear = thisYear;
+      mGroupingYear = dateInfo.getThisYear();
       switch (mGrouping) {
         case DAY:
-          mGroupingSecond = thisDay;
+          mGroupingSecond = dateInfo.getThisDay();
           break;
         case WEEK:
-          mGroupingYear = thisYearOfWeekStart;
-          mGroupingSecond = thisWeek;
+          mGroupingYear = dateInfo.getThisYearOfWeekStart();
+          mGroupingSecond = dateInfo.getThisWeek();
           break;
         case MONTH:
-          mGroupingYear = thisYearOfMonthStart;
-          mGroupingSecond = thisMonth;
+          mGroupingYear = dateInfo.getThisYearOfMonthStart();
+          mGroupingSecond = dateInfo.getThisMonth();
           break;
       }
       updateDateInfo(true);
       updateSum();
     } else {
-      super.onDateInfoReceived(cursor);
+      super.onDateInfoReceived();
       loadData();
     }
   }

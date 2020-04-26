@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,14 +72,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   protected boolean isIncome = false;
   int mGroupingYear;
   int mGroupingSecond;
-  int thisYear;
-  int thisYearOfWeekStart;
-  int thisYearOfMonthStart;
-  int thisMonth;
-  int thisWeek;
-  int thisDay;
-  int maxValue;
-  int minValue;
+  DateInfo dateInfo;
   boolean aggregateTypes;
   private Disposable dateInfoDisposable;
   private Disposable sumDisposable;
@@ -119,20 +112,23 @@ public abstract class DistributionBaseFragment extends CategoryList {
     if (withMaxValue) {
       //if we are at the beginning of the year we are interested in the max of the previous year
       int maxYearToLookUp = mGroupingSecond <= 1 ? mGroupingYear - 1 : mGroupingYear;
+      String maxValueExpression = "0"; //default year
+      String minValueExpression = "1";
       switch (mGrouping) {
         case DAY:
-          projectionList.add(String.format(Locale.US, "strftime('%%j','%d-12-31') AS " + KEY_MAX_VALUE, maxYearToLookUp));
+          maxValueExpression = String.format(Locale.US, "strftime('%%j','%d-12-31')", maxYearToLookUp);
           break;
         case WEEK:
-          projectionList.add(DbUtils.maximumWeekExpression(maxYearToLookUp));
-          projectionList.add(DbUtils.minimumWeekExpression(mGroupingSecond > 1 ? mGroupingYear + 1 : mGroupingYear));
+          maxValueExpression = DbUtils.maximumWeekExpression(maxYearToLookUp);
+          minValueExpression = DbUtils.minimumWeekExpression(mGroupingSecond > 1 ? mGroupingYear + 1 : mGroupingYear);
           break;
         case MONTH:
-          projectionList.add("11 as " + KEY_MAX_VALUE);
+          maxValueExpression = "11";
+          minValueExpression = "0";
           break;
-        default://YEAR
-          projectionList.add("0 as " + KEY_MAX_VALUE);
       }
+      projectionList.add(maxValueExpression + " AS " + KEY_MAX_VALUE);
+      projectionList.add(minValueExpression + " AS " + KEY_MIN_VALUE);
       if (mGrouping.equals(Grouping.WEEK)) {
         //we want to find out the week range when we are given a week number
         //we find out the first Monday in the year, which is the beginning of week 1 and then
@@ -145,40 +141,11 @@ public abstract class DistributionBaseFragment extends CategoryList {
         TransactionProvider.DUAL_URI,
         projectionList.toArray(new String[0]),
         null, null, null, false)
-        .subscribe(query -> {
-          final Cursor cursor = query.run();
-          if (cursor != null) {
-            if (getActivity() != null) {
-              getActivity().runOnUiThread(() -> {
-                try {
-                  cursor.moveToFirst();
-                  thisYear = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR));
-                  thisYearOfWeekStart = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
-                  thisYearOfMonthStart = cursor.getInt(cursor.getColumnIndex(KEY_THIS_YEAR_OF_MONTH_START));
-                  thisMonth = cursor.getInt(cursor.getColumnIndex(KEY_THIS_MONTH));
-                  thisWeek = cursor.getInt(cursor.getColumnIndex(KEY_THIS_WEEK));
-                  thisDay = cursor.getInt(cursor.getColumnIndex(KEY_THIS_DAY));
-                  if (withMaxValue) {
-                    maxValue = cursor.getInt(cursor.getColumnIndex(KEY_MAX_VALUE));
-                    switch (mGrouping) {
-                      case WEEK:
-                        minValue = cursor.getInt(cursor.getColumnIndex(KEY_MIN_VALUE));
-                        break;
-                      case MONTH:
-                        minValue = 0;
-                        break;
-                      default:
-                        minValue = 1;
-                    }
-                  }
-
-                  onDateInfoReceived(cursor);
-                } finally {
-                  cursor.close();
-                }
-              });
-            }
-          }
+        .mapToOne(DateInfo::fromCursor)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(dateInfo -> {
+          this.dateInfo = dateInfo;
+          onDateInfoReceived();
         });
   }
 
@@ -189,8 +156,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
     return tv;
   }
 
-  protected void onDateInfoReceived(Cursor cursor) {
-    setSubTitle(mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, cursor));
+  protected void onDateInfoReceived() {
+    setSubTitle(mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, dateInfo));
   }
 
   protected void setSubTitle(CharSequence title) {
@@ -319,9 +286,9 @@ public abstract class DistributionBaseFragment extends CategoryList {
       mGroupingYear--;
     else {
       mGroupingSecond--;
-      if (mGroupingSecond < minValue) {
+      if (mGroupingSecond < dateInfo.getMinValue()) {
         mGroupingYear--;
-        mGroupingSecond = maxValue;
+        mGroupingSecond = dateInfo.getMaxValue();
       }
     }
     reset();
@@ -332,9 +299,9 @@ public abstract class DistributionBaseFragment extends CategoryList {
       mGroupingYear++;
     else {
       mGroupingSecond++;
-      if (mGroupingSecond > maxValue) {
+      if (mGroupingSecond > dateInfo.getMaxValue()) {
         mGroupingYear++;
-        mGroupingSecond = minValue;
+        mGroupingSecond = dateInfo.getMinValue();
       }
     }
     reset();

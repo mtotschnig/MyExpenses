@@ -1,13 +1,13 @@
 package org.totschnig.myexpenses.model;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,13 +16,6 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 
 /**
  * grouping of transactions
@@ -33,11 +26,11 @@ public enum Grouping {
   /**
    * @param groupYear   the year of the group to display
    * @param groupSecond the number of the group in the second dimension (day, week or month)
-   * @param c           a cursor where we can find information about the current date
+   * @param dateInfo           a cursor where we can find information about the current date
    * @return a human readable String representing the group as header or activity title
    */
   @NonNull
-  public String getDisplayTitle(@Nullable Context ctx, int groupYear, int groupSecond, Cursor c) {
+  public String getDisplayTitle(@Nullable Context ctx, int groupYear, int groupSecond, DateInfo dateInfo) {
     if (ctx == null) {
       return "";
     }
@@ -46,8 +39,8 @@ public enum Grouping {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
       case DAY: {
-        int this_day = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
-        int this_year = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
+        int this_day = dateInfo.getThisDay();
+        int this_year = dateInfo.getThisYear();
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
@@ -61,11 +54,11 @@ public enum Grouping {
         return title;
       }
       case WEEK: {
-        int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
-        int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
+        int this_week = dateInfo.getThisWeek();
+        int this_year_of_week_start = dateInfo.getThisYearOfWeekStart();
         DateFormat dateformat = Utils.localizedYearlessDateFormat(ctx);
-        String weekRange = " (" + Utils.convDateTime(c.getLong(c.getColumnIndex(KEY_WEEK_START)), dateformat)
-            + " - " + Utils.convDateTime(c.getLong(c.getColumnIndex(KEY_WEEK_END)), dateformat) + " )";
+        String weekRange = " (" + Utils.convDateTime(dateInfo.getWeekStart(), dateformat)
+            + " - " + Utils.convDateTime(dateInfo.getWeekEnd(), dateformat) + " )";
         String yearPrefix;
         if (groupYear == this_year_of_week_start) {
           if (groupSecond == this_week)
