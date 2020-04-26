@@ -7,7 +7,7 @@ import android.os.Bundle;
  * {@link AsyncTask} that takes {@link Bundle} as parameter and communicates with {@link TaskExecutionFragment}
  */
 abstract class ExtraTask<T> extends AsyncTask<Bundle, Void, T> {
-  private final TaskExecutionFragment taskExecutionFragment;
+  protected final TaskExecutionFragment taskExecutionFragment;
   private final int taskId;
 
   ExtraTask(TaskExecutionFragment taskExecutionFragment, int taskId) {

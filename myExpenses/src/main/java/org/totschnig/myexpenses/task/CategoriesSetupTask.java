@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.task;
 
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Result;
@@ -14,7 +13,7 @@ public class CategoriesSetupTask extends ExtraTask<Result> {
 
   @Override
   protected Result doInBackground(Bundle... bundles) {
-    int total = MyApplication.getInstance()
+    int total = taskExecutionFragment.getContext()
         .getContentResolver()
         .call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SETUP_CATEGORIES, null, null)
         .getInt(TransactionProvider.KEY_RESULT);
