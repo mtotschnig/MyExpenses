@@ -931,6 +931,26 @@ public class Account extends Model {
     return Transaction.PROJECTION_EXTENDED;
   }
 
+  public String getSelectionForTransactionList() {
+    return KEY_ACCOUNTID + " = ?";
+  }
+
+  public String[] getSelectionArgsForTransactionList() {
+    return new String[]{String.valueOf(getId())};
+  }
+
+  final protected Uri.Builder getGroupingBaseUri(Grouping grouping) {
+    return Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS).appendPath(grouping.name());
+  }
+
+  public Uri.Builder getGroupingUri() {
+    return getGroupingUri(grouping);
+  }
+
+  public Uri.Builder getGroupingUri(Grouping grouping) {
+    return getGroupingBaseUri(grouping).appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
+  }
+
   public AccountType getType() {
     return type;
   }

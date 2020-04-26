@@ -168,10 +168,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TY
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
@@ -201,7 +199,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
@@ -692,21 +689,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
-    String selection;
-    String[] selectionArgs;
-    if (mAccount.isHomeAggregate()) {
-      selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0)";
-      selectionArgs = null;
-    } else if (mAccount.isAggregate()) {
-      selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-          KEY_EXCLUDE_FROM_TOTALS + " = 0)";
-      selectionArgs = new String[]{mAccount.getCurrencyUnit().code()};
-    } else {
-      selection = KEY_ACCOUNTID + " = ?";
-      selectionArgs = new String[]{String.valueOf(mAccount.getId())};
-    }
+    String selection = mAccount.getSelectionForTransactionList();
+    String[] selectionArgs = mAccount.getSelectionArgsForTransactionList();
     switch (id) {
       case TRANSACTION_CURSOR:
         if (!getFilter().isEmpty()) {
@@ -741,20 +725,11 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       case SECTION_CURSOR:
         selection = null;
         selectionArgs = null;
-        Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+        Builder builder = mAccount.getGroupingUri(id == GROUPING_CURSOR ? mAccount.getGrouping() : Grouping.MONTH);
         if (!getFilter().isEmpty()) {
           selection = getFilter().getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
           if (!selection.equals("")) {
             selectionArgs = getFilter().getSelectionArgs(true);
-          }
-        }
-        builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-            .appendPath(id == GROUPING_CURSOR ? mAccount.getGrouping().name() : Grouping.MONTH.name());
-        if (!mAccount.isHomeAggregate()) {
-          if (mAccount.isAggregate()) {
-            builder.appendQueryParameter(KEY_CURRENCY, mAccount.getCurrencyUnit().code());
-          } else {
-            builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
           }
         }
         String sortOrder = null;

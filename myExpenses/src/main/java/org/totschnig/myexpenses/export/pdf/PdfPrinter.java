@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -56,7 +55,6 @@ import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
 
 import static com.itextpdf.text.Chunk.GENERICTAG;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -106,16 +104,8 @@ public class PdfPrinter {
     Timber.d("Print start %d", start);
     PdfHelper helper = new PdfHelper();
     Timber.d("Helper created %d", (System.currentTimeMillis() - start));
-    String selection;
-    String[] selectionArgs;
-    if (account.getId() < 0) {
-      selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[]{account.getCurrencyUnit().code()};
-    } else {
-      selection = KEY_ACCOUNTID + " = ?";
-      selectionArgs = new String[]{String.valueOf(account.getId())};
-    }
+    String selection = account.getSelectionForTransactionList();
+    String[] selectionArgs = account.getSelectionArgsForTransactionList();
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
@@ -215,14 +205,7 @@ public class PdfPrinter {
       selection = null;
       selectionArgs = null;
     }
-    Uri.Builder builder = Transaction.CONTENT_URI.buildUpon();
-    builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-        .appendPath(account.getGrouping().name());
-    if (account.getId() < 0) {
-      builder.appendQueryParameter(KEY_CURRENCY, account.getCurrencyUnit().code());
-    } else {
-      builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(account.getId()));
-    }
+    Uri.Builder builder = account.getGroupingUri();
     Cursor groupCursor = Model.cr().query(builder.build(), null, selection, selectionArgs,
         KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC");
 

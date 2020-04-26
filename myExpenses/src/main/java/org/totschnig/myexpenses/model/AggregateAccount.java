@@ -9,6 +9,12 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+
 public class AggregateAccount extends Account {
   public static final int AGGREGATE_HOME = 2;
   public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
@@ -92,6 +98,36 @@ public class AggregateAccount extends Account {
   @Override
   public String[] getExtendedProjectionForTransactionList() {
     return isHomeAggregate() ? Transaction.PROJECTON_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
+  }
+
+  @Override
+  public String getSelectionForTransactionList() {
+    if (isHomeAggregate()) {
+      return KEY_ACCOUNTID + " IN " +
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0)";
+    } else {
+      return KEY_ACCOUNTID + " IN " +
+          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+          KEY_EXCLUDE_FROM_TOTALS + " = 0)";
+    }
+  }
+
+  @Override
+  public String[] getSelectionArgsForTransactionList() {
+    if (isHomeAggregate()) {
+      return null;
+    } else {
+      return new String[]{getCurrencyUnit().code()};
+    }
+  }
+
+  @Override
+  public Uri.Builder getGroupingUri(Grouping grouping) {
+    Uri.Builder base = getGroupingBaseUri(grouping);
+    if (!isHomeAggregate()) {
+      base.appendQueryParameter(KEY_CURRENCY, getCurrencyUnit().code());
+    }
+    return base;
   }
 
   private String getKeyForPreference() {
