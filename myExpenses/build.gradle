@@ -48,7 +48,7 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 404
+        versionCode 405
         versionName '3.1.0.1'
         multiDexEnabled true
 
