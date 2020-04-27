@@ -18,6 +18,9 @@
     <string-array name="whats_new_3102">
         <item>@string/bug_fixes</item>
     </string-array>
+    <string-array name="whats_new_3101">
+        <item>@string/bug_fixes</item>
+    </string-array>
     <string-array name="whats_new_310">
         <item>Transactions can be mapped to multiple tags</item>
     </string-array>
