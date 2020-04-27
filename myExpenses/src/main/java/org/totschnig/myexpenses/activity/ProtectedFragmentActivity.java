@@ -97,6 +97,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -180,6 +181,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Inject
   protected CurrencyContext currencyContext;
+
+  private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
   public int getColorIncome() {
     return colorIncome;
@@ -1025,6 +1028,19 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void forwardDataEntryFromWidget(Intent intent) {
     intent.putExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY,
         getIntent().getBooleanExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false));
+  }
+
+  @Override
+  public void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView) {
+    this.focusAfterRestoreInstanceState = focusView;
+  }
+
+  @Override
+  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    if (focusAfterRestoreInstanceState != null) {
+      findViewById(focusAfterRestoreInstanceState.first).findViewById(focusAfterRestoreInstanceState.second).requestFocus();
+    }
   }
 
   public enum ThemeType {

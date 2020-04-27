@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.util.Pair;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -293,6 +294,7 @@ public class AmountInput extends ConstraintLayout {
 
   /**
    * sets the second currency on the exchangeedit, the first one taken from the currency selector
+   *
    * @param currencyUnit
    */
   public void configureExchange(CurrencyUnit currencyUnit) {
@@ -341,14 +343,16 @@ public class AmountInput extends ConstraintLayout {
 
   public interface Host {
     void showCalculator(BigDecimal amount, int id);
+    void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView);
   }
 
   @Override
   protected Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
+    final View focusedChild = getFocusedChild();
     return new SavedState(superState, typeButton.onSaveInstanceState(),
         amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState(),
-        exchangeRateEdit.getRate(false));
+        exchangeRateEdit.getRate(false), focusedChild != null ? focusedChild.getId() : 0);
   }
 
   @Override
@@ -359,7 +363,11 @@ public class AmountInput extends ConstraintLayout {
     amountEditText.onRestoreInstanceState(savedState.getAmountEditTextState());
     currencySpinner.onRestoreInstanceState(savedState.getCurrencySpinnerState());
     exchangeRateEdit.setRate(savedState.getExchangeRateState(), true);
+    if (savedState.getFocusedId() != 0) {
+      getHost().setFocusAfterRestoreInstanceState(Pair.create(getId(), savedState.getFocusedId()));
+    }
   }
+
 
   @Override
   protected void dispatchSaveInstanceState(SparseArray<Parcelable> container) {
@@ -380,6 +388,7 @@ public class AmountInput extends ConstraintLayout {
     private Parcelable amountEditTextState;
     private Parcelable currencySpinnerState;
     private BigDecimal exchangeRateState;
+    private int focusedId;
 
     private SavedState(Parcel in) {
       super(in);
@@ -388,15 +397,17 @@ public class AmountInput extends ConstraintLayout {
       this.amountEditTextState = in.readParcelable(classLoader);
       this.currencySpinnerState = in.readParcelable(classLoader);
       this.exchangeRateState = (BigDecimal) in.readSerializable();
+      this.focusedId = in.readInt();
     }
 
     SavedState(Parcelable superState, Parcelable typeButtonState, Parcelable amountEditTextState,
-               Parcelable currencySpinnerState, BigDecimal exchangeRateState) {
+               Parcelable currencySpinnerState, BigDecimal exchangeRateState, int focusedId) {
       super(superState);
       this.typeButtonState = typeButtonState;
       this.amountEditTextState = amountEditTextState;
       this.currencySpinnerState = currencySpinnerState;
       this.exchangeRateState = exchangeRateState;
+      this.focusedId = focusedId;
     }
 
     @Override
@@ -406,6 +417,7 @@ public class AmountInput extends ConstraintLayout {
       destination.writeParcelable(amountEditTextState, flags);
       destination.writeParcelable(currencySpinnerState, flags);
       destination.writeSerializable(exchangeRateState);
+      destination.writeInt(focusedId);
     }
 
     public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
@@ -433,6 +445,10 @@ public class AmountInput extends ConstraintLayout {
 
     BigDecimal getExchangeRateState() {
       return exchangeRateState;
+    }
+
+    int getFocusedId() {
+      return focusedId;
     }
   }
 }
