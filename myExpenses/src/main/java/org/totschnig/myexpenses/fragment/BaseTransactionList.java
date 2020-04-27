@@ -728,7 +728,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         selectionArgs = null;
         Builder builder = mAccount.getGroupingUri(id == GROUPING_CURSOR ? mAccount.getGrouping() : Grouping.MONTH);
         if (!getFilter().isEmpty()) {
-          selection = getFilter().getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
+          selection = getFilter().getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT);
           if (!selection.equals("")) {
             selectionArgs = getFilter().getSelectionArgs(true);
           }

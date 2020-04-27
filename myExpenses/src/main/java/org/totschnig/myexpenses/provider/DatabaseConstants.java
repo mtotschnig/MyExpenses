@@ -266,6 +266,7 @@ public class DatabaseConstants {
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_CURRENCIES = "currency";
   public static final String VIEW_COMMITTED = "transactions_committed";
+  public static final String VIEW_WITH_ACCOUNT = "transactions_with_account";
   public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";
   public static final String VIEW_ALL = "transactions_all";
   static final String VIEW_TEMPLATES_ALL = "templates_all";
@@ -543,9 +544,9 @@ public class DatabaseConstants {
     return WEEK_MIN;
   }
 
-  public static String getAmountHomeEquivalent() {
-    return "coalesce(" + calcEquivalentAmountForSplitParts(VIEW_EXTENDED) + "," +
-        getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+  public static String getAmountHomeEquivalent(String forTable) {
+    return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
+        getExchangeRate(forTable, KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
@@ -558,13 +559,13 @@ public class DatabaseConstants {
   }
 
   public static String getExchangeRate(String forTable, String accountIdColumn) {
-    forTable = forTable == null ? "" : forTable + ".";
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + forTable + accountIdColumn +
-        " AND " + KEY_CURRENCY_SELF + "=" + forTable + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
+    final String accountReference = forTable  + "."+ accountIdColumn;
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
+        " AND " + KEY_CURRENCY_SELF + "=" + forTable + "." + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
   }
 
   private static String getAmountCalculation(boolean forHome) {
-    return forHome ? getAmountHomeEquivalent() : KEY_AMOUNT;
+    return forHome ? getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) : KEY_AMOUNT;
   }
 
   static String getInSum(boolean forHome) {

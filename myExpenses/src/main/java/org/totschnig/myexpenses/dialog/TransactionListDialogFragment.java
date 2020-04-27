@@ -167,7 +167,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     if (mAccount.isHomeAggregate()) {
       selection = "";
       accountSelect = null;
-      amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+      amountCalculation = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED);
     } else if (mAccount.isAggregate()) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +

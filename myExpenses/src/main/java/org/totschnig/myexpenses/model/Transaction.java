@@ -247,7 +247,7 @@ public class Transaction extends AbstractTransaction {
     PROJECTON_EXTENDED_HOME = new String[aggregateLength + 2];
     System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTON_EXTENDED_HOME, 0, aggregateLength);
     PROJECTON_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
-    PROJECTON_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent() + " AS " + KEY_EQUIVALENT_AMOUNT;
+    PROJECTON_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED) + " AS " + KEY_EQUIVALENT_AMOUNT;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;

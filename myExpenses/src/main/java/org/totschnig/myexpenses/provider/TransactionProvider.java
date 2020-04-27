@@ -355,13 +355,13 @@ public class TransactionProvider extends ContentProvider {
           qb.appendWhere(" AND " + KEY_AMOUNT + " < 0");
         }
         String amountCalculation;
-        qb.setTables(VIEW_EXTENDED);
+        qb.setTables(VIEW_WITH_ACCOUNT);
         if (accountSelector != null) {
           selectionArgs = Utils.joinArrays(new String[]{accountSelector}, selectionArgs);
           qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
-          amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
         }
         final String sumColumn = "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM;
         projection = groupByType ? new String[]{KEY_AMOUNT + " > 0 as " + KEY_TYPE, sumColumn} : new String[]{sumColumn};
@@ -425,7 +425,7 @@ public class TransactionProvider extends ContentProvider {
             groupBy = KEY_YEAR;
             break;
         }
-        qb.setTables(VIEW_EXTENDED);
+        qb.setTables(VIEW_WITH_ACCOUNT);
         int projectionSize;
         if (sectionsOnly) {
           projectionSize = 2;
@@ -648,8 +648,8 @@ public class TransactionProvider extends ContentProvider {
                 "0 AS " + KEY_CRITERION,
                 "0 AS " + KEY_SEALED,
                 "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
-                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_EXTENDED + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_INCOME,
-                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_EXTENDED + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_EXPENSES,
+                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_WITH_ACCOUNT + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_INCOME,
+                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_WITH_ACCOUNT + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_EXPENSES,
                 "0 AS " + KEY_SUM_TRANSFERS,
                 "sum(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts

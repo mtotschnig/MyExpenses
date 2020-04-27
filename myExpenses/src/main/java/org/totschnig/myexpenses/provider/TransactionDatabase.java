@@ -152,11 +152,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 104;
+  public static final int DATABASE_VERSION = 105;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -218,6 +219,19 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID);
     }
     return stringBuilder.toString();
+  }
+
+  private static String buildViewWithAccount() {
+    return new StringBuilder()
+        .append(" AS SELECT ").append(TABLE_TRANSACTIONS).append(".*").append(", ")
+        .append(KEY_COLOR).append(", ")
+        .append(KEY_CURRENCY).append(", ")
+        .append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
+        .append(TABLE_ACCOUNTS).append(".").append(KEY_TYPE).append(" AS ").append(KEY_ACCOUNT_TYPE).append(", ")
+        .append(TABLE_ACCOUNTS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_ACCOUNT_LABEL)
+        .append(" FROM ").append(TABLE_TRANSACTIONS).append(" LEFT JOIN ")
+        .append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
+        .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID).toString();
   }
 
   private static String buildViewDefinitionExtended(String tableName) {
@@ -2166,6 +2180,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         }
         db.execSQL("update accounts set sealed = 1 where sealed = -1");
       }
+      if (oldVersion < 105) {
+        db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :
@@ -2224,6 +2241,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_ALL);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_CHANGES_EXTENDED);
+    db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
 
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
@@ -2237,6 +2255,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         tagGroupBy + ";");
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+    db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
 
     createOrRefreshTemplateViews(db);
   }

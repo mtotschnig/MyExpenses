@@ -56,6 +56,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
@@ -323,8 +324,8 @@ public abstract class DistributionBaseFragment extends CategoryList {
     long id = accountInfo.getId();
     if (id == Account.HOME_AGGREGATE_ID) {
       accountSelection = null;
-      amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
-      table = VIEW_EXTENDED;
+      amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
+      table = VIEW_WITH_ACCOUNT;
     } else if (id < 0) {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
