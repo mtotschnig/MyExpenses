@@ -119,7 +119,7 @@
   <string name="grouping_day">தினம்</string>
   <string name="grouping_last_week">கடந்த வாரம்</string>
   <string name="grouping_month">மாதம்</string>
-  <string name="grouping_none">குழுவமைக்கப்படாதவை</string>
+  <string name="grouping_none">குழுவமைக்காதே</string>
   <string name="grouping_this_week">இந்த வாரம்</string>
   <string name="grouping_today">இன்று</string>
   <string name="grouping_week">வாரம்</string>
@@ -264,7 +264,7 @@
   <string name="pm_type_debit">செலவு</string>
   <string name="pm_type_neutral">நடுநிலை</string>
   <string name="pref_app_dir_title">காப்புப்பிரதி மற்றும் ஏற்றுமதிகளுக்கான கோப்புறை</string>
-  <string name="pref_auto_fill_title">பரிவர்த்தனைகளை தன்னிரப்பு</string>
+  <string name="pref_auto_fill_title">பரிவர்த்தனைகளை தன்னிரப்புதல்</string>
   <string name="pref_auto_fill_summary">அதே பணம் பெறுபவர்/செலுத்துபவர் எனும் பட்சத்தில் கடந்த பரிவர்த்தனையிலிருந்து தரவை நிரப்பு</string>
   <string name="pref_backup_summary">தரவுதளம் மற்றும் விருப்பத்தேர்வுகளின் காப்புப்பிரதி உருவாக்குதல்.</string>
   <string name="pref_sort_order_usages">பயன்பாடுகளின் எண்ணிக்கை</string>
@@ -469,6 +469,7 @@
   <string name="search_status">நிலையைத் தேடவும்</string>
   <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும் </string>
   <string name="search_method">முறைகளைத் தேடவும்</string>
+  <string name="search_tag">குறிச்சொல்லைத் தேடுங்கள்</string>
   <string name="and">மற்றும்</string>
   <string name="between_and">%1$s மற்றும் %2$s இடையே</string>
   <string name="before">%s க்கு முன்</string>
@@ -602,7 +603,7 @@
   <string name="dialog_confirm_sync_link_remote">இந்த கணக்கிற்கான உள் தரவு நீக்கப்படும்.</string>
   <string name="warning_limited_trial">%1$s அம்சம் %2$s வரை பரிசோதனை செய்யலாம்.</string>
   <string name="warning_trial_limit_reached">%s அம்சத்திற்கான பரிசோதனைக் காலம் முடிந்தது.</string>
-  <string name="warning_synchronization_folder_usage">வெவ்வேறு சாதனங்களில் {app_name} இன் நிறுவல்களுக்கு இடையேயான ஒத்திசைவுக்காக இந்த கோப்புறை பயன்படுத்தப்படுகிறது.  தயவு செய்து அதன் உள்ளடக்கங்களை கைமுறையாக மாற்ற வேண்டாம்.</string>
+  <string name="warning_synchronization_folder_usage">வெவ்வேறு கருவிகளில் {app_name} இன் நிறுவல்களுக்கு இடையேயான ஒத்திசைவுக்காக இந்த கோப்புறை பயன்படுத்தப்படுகிறது.  தயவு செய்து அதன் உள்ளடக்கங்களை கைமுறையாக மாற்ற வேண்டாம்.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">நீங்கள் தேர்ந்தெடுத்திற்கும் கோப்புறை ஏற்கனவே இருக்கும் ஒரு பின்தளத்தின் ஒரு கணக்குடன் ஒத்துள்ளது. இந்த பின்தளத்தை மறுபயன்பாடு செய்ய, அதன் மூலக் கோப்புறையை நீங்கள் தேர்ந்தெடுக்க வேண்டும்.</string>
   <string name="select_unsynced_accounts">இந்த பின்தளத்துடன் ஒத்திசைக்க வேண்டிய கணக்குகளைத் தேர்ந்தெடுக்கவும்</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d கணக்குகள் பின்தளத்துடன் ஒத்திசைக்கப்படுகிறது.</string>
@@ -658,16 +659,16 @@
   <string name="plan_custom_recurrence_info">முதலில் வார்ப்புருவை சேமியுங்கள். நாட்காட்டி செயலியில் திட்டம் திறக்கப்படும், அங்கு நீங்கள் தனி விருப்ப மறுநிகழ்வை அமைக்கலாம்.</string>
   <string name="storage_permission_required">நீங்கள் வெளிப்புற சேமிப்பகத்திலிருந்து படிக்க அனுமதி வழங்கியிருந்தால் மட்டுமே தேர்ந்தெடுத்திருக்கும் மூலத்தைப் படிக்க முடியும்.</string>
   <string name="picture">படம்</string>
-  <string name="menu_create_template_for_split">புதிய பிளவு வார்ப்புரு</string>
+  <string name="menu_create_template_for_split">புதிய பிரிவு வார்ப்புரு</string>
   <string name="progress_validating_licence">உரிமம் சரிபார்க்கப்படுகிறது</string>
   <string name="licence_validation_error_expired">உரிமம் காலாவதியானது</string>
-  <string name="licence_validation_error_device_limit_exceeded">சாதனங்களின் வரம்பு மீறப்பட்டது. தயவு செய்து மற்றொரு சாதனத்திலிருந்து உரிமத்தை அகற்றவும்.</string>
+  <string name="licence_validation_error_device_limit_exceeded">கருவிகளின் வரம்பு மீறப்பட்டது. தயவு செய்து மற்றொரு சாதனத்திலிருந்து உரிமத்தை அகற்றவும்.</string>
   <string name="error">பிழை (%s)</string>
   <string name="button_validate">சரிபார்</string>
   <string name="licence_key">உரிம திறவுகோல்</string>
-  <string name="licence_removal_information">இந்த சாதனத்தில் இனி மதிப்பு செயல்பாடுகள் தேவையில்லை என்றால், நீங்கள் உரிம திறவுகோலை அகற்றலாம். இது மேலும் ஒரு சாதனத்தில் செயல்படுத்துவதற்கு திறவுகோலை விடுவிக்கிறது. திறவுகோலை %d சாதனங்களில் செயல்படுத்தலாம்.</string>
+  <string name="licence_removal_information">இந்த கருவியில் இனி மதிப்பு செயல்பாடுகள் தேவையில்லை என்றால், நீங்கள் உரிம திறவுகோலை அகற்றலாம். இது மேலும் ஒரு கருவியில் செயல்படுத்துவதற்கு திறவுகோலை விடுவிக்கிறது. திறவுகோலை %dகருவிகளில் செயல்படுத்தலாம்.</string>
   <string name="progress_removing_licence">உரிமம் அகற்றப்படுகிறது</string>
-  <string name="licence_removal_success">இந்த சாதனத்திலிருந்து உரிம திறவுகோல் வெற்றிகரமாக விடுவிக்கப்பட்டது.</string>
+  <string name="licence_removal_success">இந்த கருவியிலிருந்து உரிம திறவுகோல் வெற்றிகரமாக விடுவிக்கப்பட்டது.</string>
   <string name="professional_key">நிபுணத்துவ திறவுகோல்</string>
   <string name="n_months">%d மாதங்கள்</string>
   <string name="eu_vat_info">ஐரோப்பிய ஒன்றியத்தில் வாழ்பவர்களுக்கு, காட்டப்படும் விலை VAT சேர்க்கப்படாதது.</string>
@@ -699,8 +700,8 @@
   </plurals>
   <string name="feature_deprecated">கைவிடப்பட்டது</string>
   <string name="pref_protection_device_lock_screen_title">கருவியின் பூட்டு திரை</string>
-  <string name="pref_warning_only_one_protection">நீங்கள் %1$s மூலம் பாதுகாப்பைப் பயன்படுத்தும் முன், நீங்கள் %2$s மூலம் பாதுகாப்பை நிறுத்த வேண்டும்.</string>
-  <string name="warning_device_lock_screen_not_set_up_1">பாதுகாப்பான சாதன பூட்டு திரை அமைக்கப்படவில்லை.</string>
+  <string name="pref_warning_only_one_protection">நீங்கள் %1$s மூலம் பாதுகாப்பைப் பயன்படுத்தும் முன், %2$s மூலம் பாதுகாப்பை நிறுத்த வேண்டும்.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">பாதுகாப்பான கருவி பூட்டு திரை அமைக்கப்படவில்லை.</string>
   <string name="warning_device_lock_screen_not_set_up_2">\'அமைப்புகள் -&gt; பாதுகாப்பு -&gt; திரைப்பூட்டு\';-க்கு சென்று ஒரு பூட்டு திரையை அமைக்கவும்.</string>
   <string name="snackbar_dismiss">அகற்று</string>
   <string name="menu_history_show_balance">இருப்பை காட்டு</string>
@@ -716,15 +717,15 @@
   <string name="menu_original_amount">அசல் தொகை</string>
   <string name="menu_equivalent_amount">நிகரான தொகை</string>
   <string name="home_currency_change_warning">நீங்கள் உங்கள் வீட்டு நாணயத்தை மாற்றினால், நிகரான தொகை மற்றும் மாற்று விகிதங்கள் இழக்கப்படும், மேலும் அவை மீண்டும் வரையறுக்கப்பட வேண்டும்.</string>
-  <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கப்படும். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியால் மாற்றி வைக்கப்படும்</string>
-  <string name="warning_ungroup_split_transactions">தேர்ந்தெடுக்கப்பட்ட பிளவு பரிவர்த்தனைகள் கலைக்கப்படும், அதாவது அவற்றின் பிளவுப் பகுதிகள் சாதாரண பரிவர்த்தனைகளாக மாற்றப்படும்.</string>
+  <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிரிவு பரிவர்த்தனையாக குழுவமைக்கப்படும். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியால் மாற்றி வைக்கப்படும்</string>
+  <string name="warning_ungroup_split_transactions">தேர்ந்தெடுக்கப்பட்ட பிரிவு பரிவர்த்தனைகள் கலைக்கப்படும், அதாவது அவற்றின் பிளவுப் பகுதிகள் சாதாரண பரிவர்த்தனைகளாக மாற்றப்படும்.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="menu_ungroup_split_transaction">பிளவை கலை</string>
+  <string name="menu_ungroup_split_transaction">பிரிவை கலை</string>
   <plurals name="ungroup_split_transaction_success">
     <item quantity="one">பிளவு பரிவர்த்தனை வெற்றிகரமாக கலைக்கப்பட்டது.</item>
-    <item quantity="other">%1$d பிளவு பரிவர்த்தனைகள் வெற்றிகரமாக கலைக்கப்பட்டன.</item>
+    <item quantity="other">%1$d பிரிவு பரிவர்த்தனைகள் வெற்றிகரமாக கலைக்கப்பட்டன.</item>
   </plurals>
-  <string name="ungroup_split_transaction_failure">பிளவு பரிவர்த்தனைகளை கலைக்கும்போது, %2$d இல் %1$d தோல்வியடைந்தது.</string>
+  <string name="ungroup_split_transaction_failure">பிரிவு பரிவர்த்தனைகளை கலைக்கும்போது, %2$d இல் %1$d தோல்வியடைந்தது.</string>
   <string name="split_transaction_one_success">பரிவர்த்தனை வெற்றிகரமாக பிரிவாக மாற்றப்பட்டது.</string>
   <string name="split_transaction_one_error">பரிவர்த்தனையை பிரிவாக மாற்ற முடியவில்லை.</string>
   <string name="split_transaction_group_success">%1$d பரிவர்த்தனைகள் ஒரு பிரிவு பரிவர்த்தனையாக வெற்றிகரமாக குழுவமைக்கப்பட்டது.</string>
@@ -751,7 +752,7 @@
   <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
   <string name="pref_sync_wifi_only_summary">Wi-Fi இல் மட்டுமே ஒத்திசை</string>
   <string name="pref_sync_changes_immediately_summary">உள் மாற்றங்களை உடனடியாக பின்தளத்திற்கு எழுதவும்</string>
-  <string name="wifi_not_connected">சாதனமானது Wi-Fi-யுடன் இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
+  <string name="wifi_not_connected">கருவியானது Wi-Fi-யுடன் இணைக்கப்படவில்லை. ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">மொழிபெயர்ப்பு</string>
   <!--Content description for accessibility on image that allows to collapse content-->
@@ -798,7 +799,7 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
   <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்பட்டாதது\' வடிப்பான் பல தேர்வுகளில் சேர்க்க முடியாது</string>
-  <string name="upgrade_information_cloud_sync_storage_format">பதிப்பு 2.9.8 உடன், ஒத்திசைவு பின்தளத்தில் தரவு சேமிக்ககும் விதம் மாற்றப்பட்டது. எந்தவொரு புதிய பதிவையும் உள்ளிடுவதற்கு முன், ஒத்திசைக்கப்பட்ட எல்லா சாதனங்களிலும் இந்த பதிப்பிற்கு மேம்படுத்தவும்.</string>
+  <string name="upgrade_information_cloud_sync_storage_format">பதிப்பு 2.9.8 உடன், ஒத்திசைவு பின்தளத்தில் தரவு சேமிக்ககும் விதம் மாற்றப்பட்டது. எந்தவொரு புதிய பதிவையும் உள்ளிடுவதற்கு முன், ஒத்திசைக்கப்பட்ட எல்லா கருவிகளையும் இந்த பதிப்பிற்கு மேம்படுத்தவும்.</string>
   <string name="pref_security_export_passphrase_title">காப்புப்பிரதிகளுக்கான கடவுச்சொற்றொடர்</string>
   <string name="pref_security_export_passphrase_summary">இந்த கடவுச்சொற்றை கொண்டு காப்புப்பிரதிகள் மறையாக்கம் செய்யப்படும்</string>
   <string name="backup_is_encrypted">காப்புப்பிரதி கோப்பு மறையாக்கப்பட்டுள்ளது. அதை மறையீடு நீக்க, நீங்கள் அதன் கடவுச்சொல்லை குறிப்பிட வேண்டும்.</string>
@@ -848,7 +849,7 @@
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">கணக்குகளுக்கு இடையில் இடமாற்றங்கள் அல்லது பிளவு பரிவர்த்தனைகளை பதிவு செய்ய இந்த கீழ்விடு பட்டியலை பயன்படுத்தவும்.</string>
+  <string name="discover_feature_operation_type_select">கணக்குகளுக்கு இடையில் இடமாற்றங்கள் அல்லது பிரிவு பரிவர்த்தனைகளை பதிவு செய்ய இந்த கீழ்விடு பட்டியலை பயன்படுத்தவும்.</string>
   <string name="menu_create_budget">புதிய வரவு செலவுத் திட்டம்</string>
   <string name="budget_onetime">ஒரு முறை</string>
   <string name="dialog_confirm_discard_new_budget">புதிய வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
@@ -861,6 +862,7 @@
   <string name="budget_filter_all_parties">அனைத்து தரப்புகள்</string>
   <string name="budget_filter_all_methods">அனைத்து முறைகள்</string>
   <string name="budget_filter_all_states">அனைத்து நிலைகள்</string>
+  <string name="budget_filter_all_tags">அனைத்து குறிச்சொற்களும்</string>
   <string name="budget_form_label_filter">வடிப்பான்</string>
   <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
   <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
@@ -878,12 +880,34 @@
   <string name="remap_method">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளும் முறை - %s -க்கு தொடற்பு படுத்தப்படும்.</string>
   <string name="remap_account">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளும் கணக்கு - %s -க்கு க தொடற்பு படுத்தப்படும்.</string>
   <string name="remapping_result">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் மறு தொடற்பு படுத்தப்பட்டன.</string>
+  <string name="clone_and_remap_result">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் நகல் எடுக்கப்பட்டு மறு தொடற்பு படுத்தப்பட்டன.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
   <string name="remap_empty_list">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளுக்கும் தொடற்பு படுத்ததும் வகையில் எந்த உருப்படியும் கிடைக்கவில்லை.</string>
   <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <string name="button_label_clone_and_remap">நகல் எடுத்து மறு தொடற்புப்படுத்து</string>
   <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <string name="pref_clone_with_current_date_summary_on">நகல் எடுக்கப்படும் பரிவர்த்தனைகள் தற்போதைய தேதியை பெற்றிருக்கும்</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
+  <string name="pref_clone_with_current_date_summary_off">நகல் எடுக்கப்படும் பரிவர்த்தனைகள் அசல் தேதியை தக்கவைத்துக் கொள்ளும்</string>
+  <string name="pref_protection_screenshot_information">கருவியின் பாதுகாப்பைச் செயல்படுத்துவதன் மூலம், திரைப்பிடிப்பு முடக்கப்பட்டது.</string>
+  <string name="tags_create_or_select">குறிச்சொற்களை உருவாக்கவும் அல்லது தேர்ந்தெடுக்கவும்</string>
+  <string name="content_description_tags_confirm">உறுதிப்படுத்த்து</string>
+  <string name="tags">குறிச்சொற்கள்</string>
+  <string name="pref_manage_tags_summary">குறிச்சொற்களைச் சேர்க்கவும், திருத்தவும், நீக்கவும்.</string>
+  <string name="dialog_title_warning_delete_tag">குறிச்சொல்லை நீக்கவா?</string>
+  <string name="tag_already_defined">குறிச்சொல் ஏற்கனவே வரையறுக்கப்பட்டுள்ளது.</string>
+  <string name="menu_edit_tag">குறிச்சொல்லைத் திருத்து</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">குறிச்சொல்</string>
   <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளும் %s உடன் குறிக்கப்படும்.</string>
+  <string name="dialog_multi_tag_clear">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளிலிருந்து அனைத்து குறிச்சொற்களும் அகற்றப்படும்.</string>
+  <plurals name="warning_delete_tag">
+    <item quantity="one">குறிச்சொல் %1$s ஒரு பரிவர்த்தனைக்கு மாற்றப்பட்டுள்ளது. அதை நீக்க வேண்டுமா?</item>
+    <item quantity="other">குறிச்சொல் %1$s, %2$d பரிவர்த்தனைகளுடன் தொடற்பு படுத்தப்பட்டுள்ளது. அதை நீக்க வேண்டுமா?</item>
+  </plurals>
+  <string name="dialog_multi_tag_append">இருக்கும் குறிச்சொற்களுடன் புதிய குறிச்சொற்களைச் சேர்</string>
+  <string name="dialog_multi_tag_replace">இருக்கும் குறிச்சொற்களை புதிய குறிச்சொற்களை கொண்டு மாற்றவும்</string>
+  <string name="new_tag_hint">புதிய குறிச்சொல்லை உள்ளிடவும்</string>
 </resources>

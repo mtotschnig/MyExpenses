@@ -336,6 +336,7 @@
   <string name="pref_share_target_summary">Оставьте пустым, если вы хотите выбрать соответствующие приложения (электронная почта, Dropbox и Google Docs, …), или предоставить URL-адрес в одной из поддерживаемых схем</string>
   <string name="pref_share_target_title">URL для загрузки</string>
   <string name="pref_shortcut_added">Ярлык добавлен на домашний экран</string>
+  <string name="pref_shortcut_not_added">Нет домашнего экрана, который принимает ярлыки.</string>
   <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
   <string name="pref_template_click_default_summary">При краткосрочном нажатии на элемент списка шаблонов</string>
   <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
@@ -395,6 +396,7 @@
   <string name="thank_you">Спасибо вам за вашу поддержку!</string>
   <string name="time">Время</string>
   <string name="title">Название</string>
+  <string name="total_cleared">Всего очищено</string>
   <string name="total_reconciled">Согласованный итог</string>
   <string name="transaction">Операция</string>
   <string name="transfer">Перевод</string>
@@ -441,6 +443,7 @@
   <string name="warning_balance_account">Пожалуйста, сравните итог с конечным балансом в вашем счете-выписке. Если Вы продолжите, то утвержденные операции будут отмечены как согласованные.</string>
   <string name="warning_password_protected">Приложение защищено паролем.</string>
   <string name="warning_widget_disabled">Вам необходимо включить этот виджет в настройках приложения.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">Быстрое создание шаблонов из этого виджета работает, только если вы разрешаете ввод данных из виджетов без пароля в настройках приложения.</string>
   <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
   <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
@@ -450,6 +453,10 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущая папка для резервного копирования и экспортирования будет автоматически удалена Android если Вы удалите {app_name}. Вы можете предотвратить это, выбрав другую папку из меню Настройки.</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
+  <string name="warning_change_fraction_digits_1">Суммы в базе данных должны быть обновлены, чтобы соответствовать новому числу цифр дроби.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как умноженные на %d после изменения.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как разделенные на %d после изменения.</string>
+  <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
   <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
   <string name="import_categories_success">%1$s категорий успешно импортированы</string>
   <string name="import_parties_success">%1$s участников успешно импортированы</string>
@@ -467,14 +474,20 @@
   <!--This is used as content description for the navigation control in the widgets-->
   <string name="menu_sort_up">Вверх</string>
   <!--This is used as content description for the navigation control in the widgets-->
+  <string name="menu_sort_down">Вниз</string>
   <string name="create_new_folder_fail">Ошибка создания каталога</string>
   <string name="widget_title_accounts">Мои счета</string>
   <string name="widget_title_templates">Мои шаблоны</string>
+  <string name="app_dir_not_accessible">Текущая выбранная папка для резервного копирования и экспорта (%1$s) недоступна. Пожалуйста, выберите другую.</string>
+  <string name="app_dir_not_compatible_with_nougat">Текущий настроенный URI для резервного копирования и экспорта (%1$s) не поддерживается в Android Nougat. Пожалуйста, выберите папку снова .</string>
   <string name="search_amount">Поиск по размеру</string>
   <string name="search_category">Поиск по категории</string>
   <string name="search_comment">Поиск по заметкам</string>
   <string name="search_date">Поиск по дате</string>
+  <string name="search_status">Ишите статус </string>
   <string name="search_payee">Поиск по получателю/плательщику</string>
+  <string name="search_method">Ишите метод</string>
+  <string name="search_tag">Ишите тег</string>
   <string name="and">и</string>
   <string name="between_and">между %1$s и %2$s</string>
   <string name="before">до %s</string>
@@ -489,44 +502,62 @@
   <string name="hint_auto_fill">Позволить автозаполнение на основе последней транзакции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
+  <string name="hint_template_click">Короткое нажатие на запись в этом списке создаст экземпляр шаблона и либо сохранит его немедленно, либо предложит редактирование, где вы сможете изменить его перед сохранением. Вы всегда можете получить доступ к обоим действиям с помощью длительного нажатия, и изменить необходимую настройку.</string>
   <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
   <string name="learn_more">Узнать больше</string>
   <string name="import_source_file">Файл</string>
   <string name="restore_calendar_handling">Работа с календарем</string>
+  <string name="restore_calendar_handling_configured">Восстановить планы на текущий настроенный календарь</string>
+  <string name="restore_calendar_handling_ignore">Не восстанавливайте планы </string>
+  <string name="restore_not_possible_target_calendar_missing">Календарь %s, установленный в архиве резервных копий, не существует локально. Восстановление было прервано.</string>
+  <string name="restore_not_possible_local_calendar_missing">Текущий календарь планирования недоступен.</string>
   <string name="menu_view_picture">Просмотр изображения</string>
   <string name="menu_delete_picture">Удалить изображение</string>
   <string name="menu_change_picture">Прикрепить другое изображение</string>
   <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
   <string name="menu_distribution_aggreate">Объединить расходы и доходы</string>
+  <string name="pref_manage_stale_images_title">Устаревшие изображения</string>
+  <string name="pref_manage_stale_images_summary">Управляйте фотографиями, оставшимися от удаленных транзакций</string>
   <string name="menu_select_categories">Выбрать отмеченные категории</string>
   <string name="image_deleted">Изображение было удалено</string>
   <string name="transaction_deleted">Транзакция была удалена</string>
+  <string name="dialog_export_applied_to_filter">Только транзакции, соответствующие текущему фильтру, будут рассматриваться.</string>
+  <string name="export_handle_deleted_create_helper">Создать вспомогательную транзакцию</string>
   <string name="export_handle_deleted_update_balance">Обновить начальный баланс</string>
   <string name="file_name">Имя файла</string>
   <string name="folder_name">Имя папки</string>
   <string name="mark_void_instead_of_delete">Не удалять транзакцию, а отметить как \"недействительную\"</string>
   <string name="menu_undelete_transaction">Восстановить</string>
   <string name="slash_forbidden_in_filename">Символ / не допускается в именах файлов</string>
+  <string name="io_error_unable_to_create_file">Невозможно создать файл %1$s в папке %2$s</string>
   <string name="menu_categories_export">Экспорт в QIF</string>
   <string name="pref_csv_import_delimiter">Разделитель</string>
   <string name="csv_import_preview">Предпросмотр</string>
+  <string name="menu_parse">Анализировать</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Сброс</string>
+  <string name="csv_import_field_mapped_more_than_once">%s отображается более одного раза.</string>
   <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d не могут быть импортированы.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Записи %d были отброшены.</string>
+  <string name="csv_import_subcategory_requires_category">Если вы отображаете подкатегорию, вы также должны отобразить категорию.</string>
   <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>
   <string name="csv_import_delimiter_comma">Запятая</string>
   <string name="csv_import_delimiter_semicolon">Точка с запятой</string>
   <string name="csv_import_delimiter_tab">Tab</string>
+  <string name="csv_import_no_mapping_found_for_amount">Пожалуйста, сопоставьте один столбец с доходами или расходами</string>
   <string name="menu_show_transactions">Показать список транзакций</string>
   <string name="pref_custom_decimal_format_title">Формат числа</string>
+  <string name="pref_custom_decimal_format_summary">Если вас не устраивает формат по умолчанию для ваших региональных параметров, адаптируйте его под свои нужды. Оставьте пустым, чтобы восстановить формат по умолчанию.</string>
   <string name="pref_auto_backup_title">Включить авто-бэкап</string>
   <string name="pref_auto_backup_summary">Резервная копия базы данных ежедневно в указанное время (только если данные были изменены)</string>
   <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">После успешных автоматических резервных копий %d автоматическое резервное копирование будет отключено.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
   <string name="switch_on_text">ВКЛ</string>
   <string name="switch_off_text">ВЫКЛ</string>
   <string name="menu_move">Переместить</string>
+  <string name="dialog_title_select_target">Выберите цель</string>
   <string name="transform_subcategory_to_main">Превратить в основную категорию</string>
   <string name="preferences_week_start_day_title">Начало недели:</string>
   <string name="preferences_month_start_date_title">Начало месяца</string>
@@ -547,11 +578,13 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">принятый</string>
   <string name="progress_dialog_updating_split_parts">Обновление частей</string>
+  <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку имеются другие состовляюшие, которые имеют отношение к этому счету.</string>
   <string name="content_description_calculator_clear_button">Сбросить все</string>
   <string name="content_description_calculator_delete_button">Удалить последнее число</string>
   <string name="paypal_callback_info">Ваша транзакция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
   <string name="search_transfer">Поиск перевода</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Следующий пример </string>
   <string name="crash_dialog_title">{app_name} аварийно завершен</string>
   <string name="crash_dialog_text">Возникла непредвиденная ошибка приведшая к принудительному завершению программы. Пожалуйста, помогите нам предотвратить их в будущем, направив нам отчет - Вам потребуется только нажать ОК.</string>
   <string name="crash_dialog_comment_prompt">Вы можете оставить свой комментарий о проблеме внизу:</string>
@@ -563,7 +596,11 @@
   <string name="hint_user_name">Имя пользователя</string>
   <string name="hint_password">Пароль</string>
   <string name="label_trust_certificate">Доверять этому сертификату</string>
+  <string name="no_sync_backends">Нет синхронизации бэкэндов</string>
+  <string name="menu_create_sync_backend">Новый бэкэнд синхронизации</string>
   <string name="validate_error_not_empty">Должен быть заполнен</string>
+  <string name="validate_error_webdav_invalid_certificate">Нельзя доверять этому сертификату. Он выглядит недействительным. </string>
+  <string name="validate_error_webdav_not_compliant">Этот URL не указывает на ресурс WebDAV.</string>
   <string name="validate_error_webdav_404">URL не существует на сервере.</string>
   <string name="url_not_valid">URL не действителен</string>
   <string name="menu_sync_unlink">Остановить синхронизацию</string>
@@ -572,19 +609,40 @@
   <string name="menu_sync_now">Синхронизировать сейчас</string>
   <string name="pref_sync_frequency_title">Частота синхронизации</string>
   <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах)</string>
+  <string name="dialog_confirm_sync_unlink">Если вы отсоедините эту учетную запись от %s, состояние синхронизации будет потеряно. Чтобы связать их позже, требуется полная синхронизация для повторного выполнения.</string>
+  <string name="dialog_sync_link">Учетная запись с uuid %s существует как в локальной базе данных, так и в удаленном бэкэнде. Когда вы связываете оба, вы должны решить, хотите ли вы изначально загружать локальные данные в удаленный сервер или загружать удаленные данные в локальную базу данных.</string>
   <string name="dialog_command_sync_link_remote">Загрузить из удаленного хранилища</string>
   <string name="dialog_command_sync_link_local">Загрузить из локального хранилища</string>
+  <string name="dialog_synced_to_other">Учетная запись с uuid %s уже существует в локальной базе данных и связана с другим удаленным бэкэндом.</string>
   <string name="menu_remove">Удалить</string>
+  <string name="dialog_confirm_sync_remove_backend">Удаленный бэкэнд %s будет удален. Это не повлияет на данные, хранящиеся локально или удаленно, но состояние синхронизации потеряется.</string>
+  <string name="dialog_confirm_sync_link_local">Удаленные данные для этой учетной записи будут удалены. Убедитесь, что другие устройства не связаны с ним.</string>
   <string name="dialog_confirm_sync_link_remote">Локальные данные для этого счета будут удалены.</string>
   <string name="warning_limited_trial">Функция %1$s будет доступна до %2$s.</string>
   <string name="warning_trial_limit_reached">Пробный период функции %s завершился.</string>
+  <string name="warning_synchronization_folder_usage">Эта папка используется для синхронизации данных между установками {app_name} на разных устройствах. Пожалуйста, не изменяйте его содержимое вручную.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папка, которую вы выбрали, соответствует одной учетной записи существующего бэкэнда. Вам нужно выбрать родительскую папку, чтобы использовать этот бэкэнд.</string>
+  <string name="select_unsynced_accounts">Выберите аккаунты для синхронизации с этим бэкэндом</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">Аккаунты %d были настроены для синхронизации с бэкэндом.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">Аккаунты %d не могут быть настроены для синхронизации с бэкэндом.</string>
+  <string name="link_account_failure_2">Аккаунт с таким же uuid уже существует на удаленном бэкэндe.</string>
+  <string name="link_account_failure_3">Этот конфликт может быть решен вручную из контекстного меню записи.</string>
+  <string name="progress_dialog_checking_sync_backend">Проверка бэкэнда</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
   <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
   <string name="all_extended_key_features">Все возможности Extended-ключа</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Обновить</string>
+  <string name="pref_backup_cloud_title">Сохраните на синхронизационном бэкенде</string>
+  <string name="pref_backup_cloud_summary">Помимо локального хранилища на устройстве, файл резервной копии можно скопировать на удаленный бэкенд.</string>
+  <string name="auto_backup_cloud_create_backend">Создайте синхронизационный бэкенд на главном экране настроек.</string>
+  <string name="auto_backup_cloud_failure">Произошла ошибка при попытке сохранить файл резервной копии %1$s на бэкенде %2$s:</string>
+  <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на бэкенде%2$s.</string>
+  <string name="home_screen_shortcuts_nougate_info">Ярлыки можно добавить, нажав значок приложения на главном экране.</string>
   <string name="currency_symbol">Символ валюты</string>
   <string name="number_of_fraction_digits">Число дробных знаков</string>
+  <string name="warning_auto_backup_deactivated">Авто-резервное копирование было отключено. Вы можете включить его снова из настроек после решения проблемы (например, выбрав другую папку для резервных копий).</string>
   <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
   <string name="synchronization_start">Начинается синхронизация для счета %s.</string>
   <string name="synchronization_end_success_none">Нет изменений для синхронизации.</string>

@@ -437,6 +437,7 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Predložak</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinhronizacija u oblaku</string>
   <!--button leading user to purchase flow for licence keys-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <!--%1$s date, %2$s price-->

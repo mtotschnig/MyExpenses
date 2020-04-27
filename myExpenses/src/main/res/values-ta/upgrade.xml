@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_310">
+        <item>பரிவர்த்தனைகளை பல குறிச்சொற்களுடன் தொடற்பு படுத்தலாம்</item>
+    </string-array>
+    <string-array name="whats_new_308">
+        <item>பல கணக்குகளை இப்போது ஒரே கோப்பில் ஏற்றுமதி செய்யலாம்</item>
+        <item>கணக்கு மெட்டாடேட்டா இப்போது ஒத்திசைக்கப்படுகிறது</item>
+        <item>மேம்படுத்தப்பட்ட முகப்புத் திரை நிரல் பலகைகள்</item>
+    </string-array>
     <string-array name="whats_new_307">
         <item>மொத்த திருத்தம்</item>
     </string-array>
@@ -69,7 +77,7 @@
     </string-array>
     <string-array name="whats_new_290">
         <item>பல பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கலாம்</item>
-        <item>பிளவு பரிவர்த்தனையை பிரிக்கலாம்</item>
+        <item>பிரிவு பரிவர்த்தனையை பிரிக்கலாம்</item>
     </string-array>
     <string-array name="whats_new_289">
         <item>வெளிநாட்டு நாணயங்களுக்கும் வீட்டு நாணயத்திற்கும் இடையில் மாற்றம்</item>

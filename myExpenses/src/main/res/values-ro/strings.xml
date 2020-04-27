@@ -512,6 +512,7 @@
   <string name="synchronization_none">Fără sincronizare</string>
   <string name="hint_url">URL</string>
   <string name="template">Şablon</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizare în cloud</string>
   <!--button leading user to purchase flow for licence keys-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
   <string name="professional_key">Cheie profesională</string>

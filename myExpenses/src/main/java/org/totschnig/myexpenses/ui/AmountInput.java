@@ -368,7 +368,6 @@ public class AmountInput extends ConstraintLayout {
     }
   }
 
-
   @Override
   protected void dispatchSaveInstanceState(SparseArray<Parcelable> container) {
     super.dispatchFreezeSelfOnly(container);

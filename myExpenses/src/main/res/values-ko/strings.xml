@@ -34,6 +34,8 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">템플릿 위젯</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV 가져오기</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b></string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>개발 로드맵에</b> 바로 투표</string>
   <string name="contrib_key">기부 확인 키</string>
   <string name="extended_key">확장 키</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -61,6 +63,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
+  <string name="dialog_contrib_text_2"><i>{app_name}</i> 을 (를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오.</string>
   <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
   <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>
   <string name="dialog_password_activate_protection">암호 보안 사용하기</string>
@@ -499,8 +502,12 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">클라우드 동기화</string>
+  <string name="all_contrib_key_features">Contrib Key의 모든 기능</string>
+  <string name="all_extended_key_features">확장 키의 모든 기능</string>
   <!--button leading user to purchase flow for licence keys-->
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="professional_key">프로페셔널 키</string>
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
