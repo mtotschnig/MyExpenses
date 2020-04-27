@@ -248,6 +248,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
     menu.findItem(R.id.EDIT_COMMAND).setVisible(false);
     menu.findItem(R.id.DELETE_COMMAND).setVisible(false);
+    menu.findItem(R.id.SELECT_ALL_COMMAND).setVisible(false);
     menu.findItem(R.id.SELECT_COMMAND).setTitle(R.string.menu_show_transactions);
     menu.findItem(R.id.SELECT_COMMAND_MULTIPLE).setVisible(false);
     menu.findItem(R.id.CREATE_COMMAND).setVisible(false);

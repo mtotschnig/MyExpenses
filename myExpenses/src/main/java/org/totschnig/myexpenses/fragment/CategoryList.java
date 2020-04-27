@@ -555,19 +555,19 @@ public class CategoryList extends SortableListFragment {
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
     String action = getAction();
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
-    maybeHide(menu.findItem(R.id.EDIT_COMMAND), isFilter);
-    maybeHide(menu.findItem(R.id.DELETE_COMMAND), isFilter);
-    MenuItem item = menu.findItem(R.id.SELECT_COMMAND);
-    maybeHide(item, !action.equals(ACTION_SELECT_MAPPING));
-    maybeHide(menu.findItem(R.id.SELECT_COMMAND_MULTIPLE), !isFilter);
-    maybeHide(menu.findItem(R.id.CREATE_COMMAND), isFilter);
-    maybeHide(menu.findItem(R.id.MOVE_COMMAND), (isFilter || hasChildren));
-    maybeHide(menu.findItem(R.id.COLOR_COMMAND), !isWithMainColors());
+    maybeHide(menu, R.id.EDIT_COMMAND, isFilter);
+    maybeHide(menu, R.id.DELETE_COMMAND, isFilter);
+    maybeHide(menu, R.id.SELECT_COMMAND, !action.equals(ACTION_SELECT_MAPPING));
+    maybeHide(menu, R.id.SELECT_COMMAND_MULTIPLE, !isFilter);
+    maybeHide(menu, R.id.CREATE_COMMAND, isFilter);
+    maybeHide(menu, R.id.MOVE_COMMAND, (isFilter || hasChildren));
+    maybeHide(menu, R.id.COLOR_COMMAND, !isWithMainColors());
+    maybeHide(menu, R.id.SELECT_ALL_COMMAND, true);
   }
 
-  protected void maybeHide(MenuItem item, boolean condition) {
+  protected void maybeHide(Menu menu, int id, boolean condition) {
     if (condition) {
-      item.setVisible(false);
+      menu.findItem(id).setVisible(false);
     }
   }
 
