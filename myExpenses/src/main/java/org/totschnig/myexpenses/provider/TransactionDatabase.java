@@ -2181,6 +2181,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("update accounts set sealed = 1 where sealed = -1");
       }
       if (oldVersion < 105) {
+        db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
         db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       }
     } catch (SQLException e) {
