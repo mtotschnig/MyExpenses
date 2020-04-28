@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:tools="http://schemas.android.com/tools" package="..." >
+
+    <uses-sdk tools:overrideLibrary="tools.fastlane.screengrab"/>
+</manifest>
