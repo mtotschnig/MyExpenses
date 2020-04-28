@@ -138,8 +138,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                     })
 
                     val filterList = mutableListOf<String>()
-                    var accountName = budget.accountName ?: budget.currency.code()
-                    filterList.add(accountName)
+                    filterList.add(budget.label(requireContext()))
                     val filterPersistence = FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false, true)
                     filterPersistence.whereFilter.criteria.forEach { criterion -> filterList.add(criterion.prettyPrint(context)) }
                     filter.addChipsBulk(filterList, null)

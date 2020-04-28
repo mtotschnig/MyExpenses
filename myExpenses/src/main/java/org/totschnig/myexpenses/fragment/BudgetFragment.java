@@ -276,10 +276,8 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   private void setFilterInfo() {
     ArrayList<String> filterList = new ArrayList<>();
-    String accountName = budget.getAccountName();
-    if (accountName == null) accountName = budget.getCurrency().code();
-    filterList.add(accountName);
-    Stream.of(filterPersistence.getWhereFilter().getCriteria()).forEach(criterion -> filterList.add(criterion.prettyPrint(getContext())));
+    filterList.add(budget.label(requireContext()));
+    Stream.of(filterPersistence.getWhereFilter().getCriteria()).forEach(criterion -> filterList.add(criterion.prettyPrint(requireContext())));
     addChipsBulk(filterGroup, filterList, null);
   }
 

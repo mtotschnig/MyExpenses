@@ -8,10 +8,19 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE
 import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 
 
 data class Budget(val id: Long, val accountId: Long, val title: String, val description: String?,
@@ -21,11 +30,15 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
             id, accountId, title, description, currency, amount, grouping, color, start?.let { LocalDate.parse(it) }, end?.let { LocalDate.parse(it) }, accountName, default)
 
     init {
-        when(grouping) {
+        when (grouping) {
             Grouping.NONE -> if (start == null || end == null) throw IllegalArgumentException("start and date are required with Grouping.NONE")
             else -> if (start != null || end != null) throw IllegalArgumentException("start and date are only allowed with Grouping.NONE")
         }
     }
+
+    fun label(context: Context) = accountName
+            ?: if (accountId == Account.HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
+            else currency.code()
 
     fun toContentValues() = ContentValues().apply {
         put(KEY_TITLE, title)
@@ -59,7 +72,7 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
     }
 
     fun titleComplete(context: Context) = "%s (%s)".format(title,
-            when(grouping) {
+            when (grouping) {
                 Grouping.NONE -> durationPrettyPrint()
                 else -> context.getString(grouping.getLabelForBudgetType())
             }
