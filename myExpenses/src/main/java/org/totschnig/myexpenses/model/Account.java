@@ -108,7 +108,7 @@ public class Account extends Model {
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
-  public final static int HOME_AGGREGATE_ID = Integer.MIN_VALUE;
+  public final static long HOME_AGGREGATE_ID = Integer.MIN_VALUE;
 
   private String label;
 

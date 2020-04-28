@@ -105,7 +105,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         var filterClause = buildDateFilterClause(budget)
         val selectionArgs: Array<String>?
         if (!filterPersistence.whereFilter.isEmpty) {
-            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(VIEW_EXTENDED)
+            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(VIEW_WITH_ACCOUNT)
             selectionArgs = filterPersistence.whereFilter.getSelectionArgs(true)
         } else {
             selectionArgs = null

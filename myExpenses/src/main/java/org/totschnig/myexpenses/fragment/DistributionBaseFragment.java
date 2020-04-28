@@ -216,7 +216,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     //if we have no income or expense, there is no row in the cursor
     sumDisposable = briteContentResolver.createQuery(builder.build(),
         null,
-        buildFilterClause(VIEW_EXTENDED),
+        buildFilterClause(VIEW_WITH_ACCOUNT),
         filterSelectionArgs(),
         null, true)
         .mapToList(cursor -> {
