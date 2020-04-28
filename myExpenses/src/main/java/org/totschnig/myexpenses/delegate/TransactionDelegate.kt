@@ -157,6 +157,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             planId = (transaction as? Template)?.plan?.id
             crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
+            //Setting this early instead of waiting for call to setAccounts
+            //works around a bug in some legagy virtual keyboards where configuring the
+            //edittext too late corrupt inputType
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)

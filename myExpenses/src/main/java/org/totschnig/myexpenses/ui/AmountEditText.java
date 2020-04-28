@@ -47,7 +47,7 @@ public class AmountEditText extends AppCompatEditText {
 
   @Override public void onRestoreInstanceState(Parcelable state) {
     super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
-    setFractionDigits(fractionDigits);
+    setFractionDigitsInternal(fractionDigits);
   }
 
   public DecimalFormat getNumberFormat() {
@@ -57,8 +57,13 @@ public class AmountEditText extends AppCompatEditText {
   public int getFractionDigits() {
     return fractionDigits;
   }
-
   public void setFractionDigits(int fractionDigits) {
+    if (this.fractionDigits != fractionDigits) {
+      setFractionDigitsInternal(fractionDigits);
+    }
+  }
+
+  private void setFractionDigitsInternal(int fractionDigits) {
     char decimalSeparator = Utils.getDefaultDecimalSeparator();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(decimalSeparator);
