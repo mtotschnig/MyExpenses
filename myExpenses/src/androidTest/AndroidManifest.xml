@@ -2,5 +2,5 @@
 <manifest
     xmlns:tools="http://schemas.android.com/tools" package="..." >
 
-    <uses-sdk tools:overrideLibrary="tools.fastlane.screengrab"/>
+    <uses-sdk tools:overrideLibrary="tools.fastlane.screengrab,android_libs.ub_uiautomator"/>
 </manifest>
