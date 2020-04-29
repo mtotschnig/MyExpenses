@@ -225,9 +225,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       case TASK_SYNC_LINK_LOCAL:
       case TASK_SYNC_LINK_REMOTE: {
         Result result = (Result) o;
-        if (result.isSuccess()) {
-          getListFragment().reloadLocalAccountInfo();
-        } else {
+        if (!result.isSuccess()) {
           showSnackbar(result.print(this));
         }
         break;

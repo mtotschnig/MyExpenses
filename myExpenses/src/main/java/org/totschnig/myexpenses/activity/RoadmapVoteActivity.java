@@ -39,7 +39,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -90,7 +90,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
     showIsLoading();
 
-    roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
+    roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     voteWeights = roadmapViewModel.restoreWeights();
     roadmapViewModel.loadLastVote();
     roadmapViewModel.getData().observe(this, data -> {

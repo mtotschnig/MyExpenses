@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import com.annimon.stream.Collectors;
 import com.dropbox.core.InvalidAccessTokenException;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -30,17 +27,11 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncBackendProvider;
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
-import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.SyncBackendViewModel;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -48,27 +39,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
+import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.SimpleDialog;
 
 import static com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncBackendList extends Fragment implements
     ExpandableListView.OnGroupExpandListener, SimpleDialog.OnDialogResultListener {
 
-  private static final int ACCOUNT_CURSOR = -1;
   private static final String DIALOG_INACTIVE_BACKEND = "inactive_backend";
 
   private SyncBackendAdapter syncBackendAdapter;
-  private LoaderManager mManager;
   private ExpandableListView listView;
   private int metadataLoadingCount = 0;
   private Snackbar snackbar;
+  private SyncBackendViewModel viewModel;
 
   @Inject
   PrefHandler prefHandler;
@@ -80,7 +66,7 @@ public class SyncBackendList extends Fragment implements
     MyApplication.getInstance().getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    mManager = getLoaderManager();
+    viewModel = new ViewModelProvider(this).get(SyncBackendViewModel.class);
   }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,13 +80,15 @@ public class SyncBackendList extends Fragment implements
     listView.setOnGroupExpandListener(this);
     snackbar = Snackbar.make(listView, R.string.sync_loading_accounts_from_backend, LENGTH_INDEFINITE);
     UiUtils.configureSnackbarForDarkTheme(snackbar, context.getThemeType());
-    mManager.initLoader(ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
+    viewModel.getLocalAccountInfo().observe(getViewLifecycleOwner(),
+        stringStringMap -> syncBackendAdapter.setLocalAccountInfo(stringStringMap));
+    viewModel.loadLocalAccountInfo();
     registerForContextMenu(listView);
     return v;
   }
 
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+  public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, ContextMenu.ContextMenuInfo menuInfo) {
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) menuInfo).packedPosition;
     int commandId;
     int titleId;
@@ -141,7 +129,7 @@ public class SyncBackendList extends Fragment implements
   }
 
   protected List<Pair<String, Boolean>> getAccountList() {
-    return GenericAccountService.getAccountNamesWithEncryption(getActivity());
+    return viewModel.getAccounts(requireActivity());
   }
 
   @Override
@@ -226,16 +214,28 @@ public class SyncBackendList extends Fragment implements
       if (!snackbar.isShownOrQueued()) {
         snackbar.show();
       }
-      Utils.requireLoader(mManager, groupPosition, null, new AccountMetaDataLoaderCallbacks());
+      final String backendLabel = syncBackendAdapter.getBackendLabel(groupPosition);
+      viewModel.accountMetadata(backendLabel).observe(getViewLifecycleOwner(), result -> {
+        metadataLoadingCount--;
+        if (metadataLoadingCount == 0) {
+          snackbar.dismiss();
+        }
+        try {
+          syncBackendAdapter.setAccountMetadata(groupPosition, result.getOrThrow());
+        } catch (Throwable throwable) {
+          ManageSyncBackends activity = (ManageSyncBackends) requireActivity();
+          if (Utils.getCause(throwable) instanceof InvalidAccessTokenException) {
+            activity.requestDropboxAccess(backendLabel);
+          } else {
+            activity.showSnackbar(throwable.getMessage(), Snackbar.LENGTH_SHORT);
+          }
+        }
+      });
     }
   }
 
   public Account getAccountForSync(long packedPosition) {
     return syncBackendAdapter.getAccountForSync(packedPosition);
-  }
-
-  public void reloadLocalAccountInfo() {
-    Utils.requireLoader(mManager, ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
   }
 
   @Override
@@ -244,149 +244,5 @@ public class SyncBackendList extends Fragment implements
       GenericAccountService.activateSync(GenericAccountService.GetAccount(extras.getString(KEY_SYNC_ACCOUNT_NAME)));
     }
     return false;
-  }
-
-  private class LocalAccountInfoCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-      return new CursorLoader(getActivity(), TransactionProvider.ACCOUNTS_BASE_URI,
-          new String[]{KEY_UUID, KEY_SYNC_ACCOUNT_NAME}, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-      Map<String, String> uuid2syncMap = new HashMap<>();
-      cursor.moveToFirst();
-      while (!cursor.isAfterLast()) {
-        int columnIndexUuid = cursor.getColumnIndex(KEY_UUID);
-        int columnIndexSyncAccountName = cursor.getColumnIndex(KEY_SYNC_ACCOUNT_NAME);
-        uuid2syncMap.put(cursor.getString(columnIndexUuid), cursor.getString(columnIndexSyncAccountName));
-        cursor.moveToNext();
-      }
-      syncBackendAdapter.setLocalAccountInfo(uuid2syncMap);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-  }
-
-  private class AccountMetaDataLoaderCallbacks implements LoaderManager.LoaderCallbacks<AccountMetaDataLoaderResult> {
-    @Override
-    public Loader<AccountMetaDataLoaderResult> onCreateLoader(int id, Bundle args) {
-      return new AccountMetaDataLoader(getActivity(), syncBackendAdapter.getBackendLabel(id));
-    }
-
-    @Override
-    public void onLoadFinished(Loader<AccountMetaDataLoaderResult> loader,
-                               AccountMetaDataLoaderResult result) {
-      metadataLoadingCount--;
-      if (metadataLoadingCount == 0) {
-        snackbar.dismiss();
-      }
-      if (result.getResult() != null) {
-        syncBackendAdapter.setAccountMetadata(loader.getId(), result.getResult());
-      } else {
-        ManageSyncBackends activity = (ManageSyncBackends) getActivity();
-        if (result.getError() != null && Utils.getCause(result.getError()) instanceof InvalidAccessTokenException) {
-          activity.requestDropboxAccess(syncBackendAdapter.getBackendLabel(loader.getId()));
-        } else {
-          activity.showSnackbar(result.getError() != null ? result.getError().getMessage() :
-              "Could not get account metadata for backend", Snackbar.LENGTH_SHORT);
-        }
-      }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<AccountMetaDataLoaderResult> loader) {
-
-    }
-  }
-
-  //TODO replace by Exceptional
-  private static class AccountMetaDataLoaderResult {
-    private final List<AccountMetaData> result;
-    private final Throwable error;
-
-    AccountMetaDataLoaderResult(List<AccountMetaData> result, Throwable error) {
-      this.result = result;
-      this.error = error;
-    }
-
-
-    public Throwable getError() {
-      return error;
-    }
-
-    public List<AccountMetaData> getResult() {
-      return result;
-    }
-
-  }
-
-  private static class AccountMetaDataLoader extends AsyncTaskLoader<AccountMetaDataLoaderResult> {
-    private final String accountName;
-    private boolean hasResult = false;
-    private AccountMetaDataLoaderResult data;
-
-    AccountMetaDataLoader(Context context, String accountName) {
-      super(context);
-      this.accountName = accountName;
-      onContentChanged();
-    }
-
-    @Override
-    public AccountMetaDataLoaderResult loadInBackground() {
-      try {
-        android.accounts.Account account = GenericAccountService.GetAccount(accountName);
-        return SyncBackendProviderFactory.get(getContext(), account, false)
-            .map(syncBackendProvider -> {
-              final AccountMetaDataLoaderResult remoteAccountList = getRemoteAccountList(syncBackendProvider);
-              syncBackendProvider.tearDown();
-              return remoteAccountList;
-            })
-            .getOrThrow();
-      } catch (Throwable throwable) {
-        if (!(throwable instanceof IOException || throwable instanceof SyncBackendProvider.EncryptionException)) {
-          CrashHandler.report(throwable);
-        }
-        return new AccountMetaDataLoaderResult(null, throwable);
-      }
-    }
-
-    private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
-      try {
-        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList().collect(Collectors.toList()), null);
-      } catch (IOException e) {
-        return new AccountMetaDataLoaderResult(null, e);
-      }
-    }
-
-    @Override
-    protected void onStartLoading() {
-      if (takeContentChanged())
-        forceLoad();
-      else if (hasResult)
-        deliverResult(data);
-    }
-
-    @Override
-    public void deliverResult(final AccountMetaDataLoaderResult data) {
-      this.data = data;
-      hasResult = true;
-      super.deliverResult(data);
-    }
-
-    @Override
-    protected void onReset() {
-      super.onReset();
-      onStopLoading();
-      if (hasResult) {
-        data = null;
-        hasResult = false;
-      }
-    }
   }
 }

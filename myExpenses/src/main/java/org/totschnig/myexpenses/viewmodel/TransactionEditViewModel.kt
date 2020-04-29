@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
@@ -117,12 +118,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         emit(
                 if (isTemplate) Template.cleanupCanceledEdit(id) else SplitTransaction.cleanupCanceledEdit(id)
         )
-    }
-
-    data class Account(override val id: Long, val label: String, val currency: CurrencyUnit, val color: Int, val type: AccountType, val exchangeRate: Double) : IAccount, Serializable {
-        override fun toString(): String {
-            return label
-        }
     }
 
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {

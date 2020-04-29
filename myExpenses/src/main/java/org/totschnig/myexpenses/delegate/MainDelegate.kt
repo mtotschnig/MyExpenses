@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
+import org.totschnig.myexpenses.viewmodel.data.Account
 
 //Transaction or Split
 abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) : TransactionDelegate<T>(viewBinding, dateEditBinding, prefHandler, isTemplate) {

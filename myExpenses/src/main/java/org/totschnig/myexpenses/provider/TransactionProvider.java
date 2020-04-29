@@ -85,7 +85,7 @@ public class TransactionProvider extends ContentProvider {
   //we do not want the cursor to be reloaded when a transaction is added
   //hence we access it through a different URI
   public static final Uri ACCOUNTS_BASE_URI =
-      Uri.parse("content://" + AUTHORITY + "/accountsbase");
+      Uri.parse("content://" + AUTHORITY + "/accounts/base");
   public static final Uri ACCOUNTS_AGGREGATE_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
   //returns accounts with aggregates, limited to id and label
@@ -1113,7 +1113,7 @@ public class TransactionProvider extends ContentProvider {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
-      notifyChange(ACCOUNTS_BASE_URI, false);
+      //notifyChange(ACCOUNTS_BASE_URI, false);
     } else if (uriMatch == TEMPLATES) {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     }
@@ -1261,7 +1261,7 @@ public class TransactionProvider extends ContentProvider {
       notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS) {
-        notifyChange(ACCOUNTS_BASE_URI, false);
+        //notifyChange(ACCOUNTS_BASE_URI, false);
       }
       if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
         notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
@@ -1649,6 +1649,9 @@ public class TransactionProvider extends ContentProvider {
     if (uriMatch == BUDGET_CATEGORY) {
       notifyChange(CATEGORIES_URI, false);
     }
+    if (uriMatch == ACCOUNTS) {
+      //notifyChange(ACCOUNTS_BASE_URI, false);
+    }
     return count;
   }
 
@@ -1759,7 +1762,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
-    URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
     URI_MATCHER.addURI(AUTHORITY, "account_groupings/*/*", ACCOUNT_ID_GROUPING);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#/sortDirection/*", ACCOUNT_ID_SORTDIRECTION);

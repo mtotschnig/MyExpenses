@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.MyTextWatcher
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account
+import org.totschnig.myexpenses.viewmodel.data.Account
 
 class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
         MainDelegate<ISplit>(viewBinding, dateEditBinding, prefHandler, isTemplate) {

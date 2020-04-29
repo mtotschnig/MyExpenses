@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Account;
+import org.totschnig.myexpenses.viewmodel.data.Account;
 
 import javax.inject.Inject;
 
