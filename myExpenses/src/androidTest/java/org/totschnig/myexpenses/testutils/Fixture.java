@@ -47,14 +47,25 @@ public class Fixture {
   private final Context testContext;
   private final MyApplication appContext;
   private Account account1, account2, account3, account4;
+  public static final String SYNC_ACCOUNT_1 = "Drive - Encrypted";
+  public static final String SYNC_ACCOUNT_2 = "Dropbox - Finanzen";
+  public static final String SYNC_ACCOUNT_3 = "WebDAV - Shared";
 
   public Fixture(Instrumentation inst) {
     testContext = inst.getContext();
     appContext = (MyApplication) inst.getTargetContext().getApplicationContext();
   }
 
-  public Account getInitialAccount() {
+  public Account getAccount1() {
     return account1;
+  }
+
+  public Account getAccount2() {
+    return account2;
+  }
+
+  public Account getAccount3() {
+    return account3;
   }
 
   public void setup(boolean withPicture) {
@@ -66,6 +77,7 @@ public class Fixture {
         90000,
         testContext.getString(R.string.testData_account1Description));
     account1.setGrouping(Grouping.WEEK);
+    account1.setSyncAccountName(SYNC_ACCOUNT_1);
     account1.save();
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
@@ -75,6 +87,7 @@ public class Fixture {
         50000,
         formatter.format(LocalDate.now()), AccountType.CASH,
         testContext.getResources().getColor(R.color.material_red));
+    account2.setSyncAccountName(SYNC_ACCOUNT_2);
     account2.save();
 
     account3 = new Account(
@@ -84,6 +97,7 @@ public class Fixture {
         testContext.getString(R.string.testData_account3Description), AccountType.BANK,
         testContext.getResources().getColor(R.color.material_blue));
     account3.setGrouping(Grouping.DAY);
+    account3.setSyncAccountName(SYNC_ACCOUNT_3);
     account3.save();
 
     account4 = new Account(

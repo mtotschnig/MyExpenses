@@ -59,7 +59,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class})
+@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class})
 public interface AppComponent {
   @Singleton
   DiscoveryHelper discoveryHelper();
@@ -74,6 +74,8 @@ public interface AppComponent {
     Builder licenceModule(LicenceModule licenceModule);
 
     Builder coroutineModule(CoroutineModule coroutineModule);
+
+    Builder viewModelModule(ViewModelModule viewModelModule);
 
     AppComponent build();
   }

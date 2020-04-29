@@ -31,7 +31,6 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
-import timber.log.Timber;
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 import tools.fastlane.screengrab.locale.LocaleUtil;
@@ -47,7 +46,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.totschnig.myexpenses.testutils.Matchers.first;
 
 /**
- * These tests are meant to be run with Spoon (./gradlew spoon).
+ * This test is meant to be run with FastLane Screengrab, but also works on its own.
  */
 public class TestMain extends BaseUiTest {
   @ClassRule
@@ -60,10 +59,6 @@ public class TestMain extends BaseUiTest {
 
   @Test
   public void mkScreenShots() {
-    final Account[] accountsAsArray = GenericAccountService.getAccountsAsArray(app);
-    Assertions.assertThat(accountsAsArray.length).isEqualTo(2);
-    Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("Dropbox"))).isTrue();
-    Assertions.assertThat(Stream.of(accountsAsArray).anyMatch(value -> value.name.contains("WebDAV"))).isTrue();
     loadFixture(BuildConfig.TEST_SCENARIO == 2);
     scenario();
   }
@@ -141,11 +136,10 @@ public class TestMain extends BaseUiTest {
     pref.edit().putString(PrefKey.HOME_CURRENCY.getKey(), Utils.getSaveDefault().getCurrencyCode()).apply();
     app.getLicenceHandler().setLockState(false);
 
-    Fixture fixture = new Fixture(InstrumentationRegistry.getInstrumentation());
-    fixture.setup(withPicture);
+    app.fixture.setup(withPicture);
     int current_version = DistribHelper.getVersionNumber();
     pref.edit()
-        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), fixture.getInitialAccount().getId())
+        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), app.fixture.getAccount1().getId())
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
         .putInt(PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version)
         .apply();

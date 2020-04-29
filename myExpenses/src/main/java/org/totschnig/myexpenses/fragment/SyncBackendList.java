@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.viewmodel.SyncBackendViewModel;
+import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel;
 
 import java.util.List;
 
@@ -54,19 +54,21 @@ public class SyncBackendList extends Fragment implements
   private ExpandableListView listView;
   private int metadataLoadingCount = 0;
   private Snackbar snackbar;
-  private SyncBackendViewModel viewModel;
+  private AbstractSyncBackendViewModel viewModel;
 
   @Inject
   PrefHandler prefHandler;
   @Inject
   CurrencyContext currencyContext;
+  @Inject
+  Class<? extends AbstractSyncBackendViewModel> modelClass;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     MyApplication.getInstance().getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    viewModel = new ViewModelProvider(this).get(SyncBackendViewModel.class);
+    viewModel = new ViewModelProvider(this).get(modelClass);
   }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -18,35 +18,12 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import java.util.*
 
-class SyncBackendViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    private val localAccountInfo = MutableLiveData<Map<String, String?>>()
+class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewModel(application) {
 
-    fun getAccounts(context: Context) = GenericAccountService.getAccountNamesWithEncryption(context)
+    override fun getAccounts(context: Context) = GenericAccountService.getAccountNamesWithEncryption(context)
 
-    fun getLocalAccountInfo(): LiveData<Map<String, String?>> = localAccountInfo
-
-    fun accountMetadata(accountName: String): LiveData<Exceptional<List<AccountMetaData>>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+    override fun accountMetadata(accountName: String): LiveData<Exceptional<List<AccountMetaData>>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(SyncBackendProviderFactory.get(getApplication<MyApplication>(), GenericAccountService.GetAccount(accountName), false).map { it.remoteAccountList.collect(Collectors.toList()) })
     }
 
-    fun loadLocalAccountInfo() {
-        disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI,
-                arrayOf(DatabaseConstants.KEY_UUID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME), null, null, null, false)
-                .map(SqlBrite.Query::run)
-                .subscribe { cursor ->
-                    val uuid2syncMap: MutableMap<String, String?> = HashMap()
-                    cursor?.let {
-                        it.use {
-                            it.moveToFirst()
-                            while (!it.isAfterLast) {
-                                val columnIndexUuid = it.getColumnIndex(DatabaseConstants.KEY_UUID)
-                                val columnIndexSyncAccountName = it.getColumnIndex(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
-                                uuid2syncMap[it.getString(columnIndexUuid)] = it.getString(columnIndexSyncAccountName)
-                                it.moveToNext()
-                            }
-                        }
-                        localAccountInfo.postValue(uuid2syncMap)
-                    }
-                }
-    }
 }

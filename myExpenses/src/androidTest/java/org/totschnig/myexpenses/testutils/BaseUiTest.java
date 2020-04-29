@@ -12,8 +12,8 @@ import android.widget.ListView;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Before;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.TestApp;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -43,11 +43,11 @@ import static org.hamcrest.Matchers.anything;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
 public abstract class BaseUiTest {
-  protected MyApplication app;
+  protected TestApp app;
 
   @Before
   public void setUp()  {
-    app = (MyApplication) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
+    app = (TestApp) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
   }
 
   protected void clickOnFirstListEntry() {
