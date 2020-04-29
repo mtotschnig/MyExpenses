@@ -904,8 +904,8 @@
   <string name="dialog_multi_tag">Alle ausgewählten Buchungen werden mit %s markiert.</string>
   <string name="dialog_multi_tag_clear">Alle Markierungen werden von den ausgewählten Buchungen entfernt.</string>
   <plurals name="warning_delete_tag">
-    <item quantity="one">Die Markierung %1$s ist einer Transaktion zugeordnet. Soll sie gelöscht werden?</item>
-    <item quantity="other">Die Markierung %1$s wird %2$d-Transaktionen zugeordnet. Soll sie gelöscht werden?</item>
+    <item quantity="one">Die Markierung %1$s ist einer Buchung zugeordnet. Soll sie gelöscht werden?</item>
+    <item quantity="other">Die Markierung %1$s ist %2$d Buchungen zugeordnet. Soll sie gelöscht werden?</item>
   </plurals>
   <string name="dialog_multi_tag_append">Die neuen Markierungen werden zu den bestehenden hinzugefügt</string>
   <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>

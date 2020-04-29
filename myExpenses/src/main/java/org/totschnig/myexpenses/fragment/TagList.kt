@@ -73,19 +73,15 @@ class TagList : Fragment(), OnDialogResultListener {
         val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)
         viewModel.loadTags(selected).observe(viewLifecycleOwner, Observer {
             val closeFunction: (Tag) -> Unit = { tag ->
-                if (tag.count == 0) {
-                    removeTag(tag)
-                } else {
-                    SimpleDialog.build()
-                            .title(R.string.dialog_title_warning_delete_tag)
-                            .extra(Bundle().apply {
-                                putParcelable(KEY_TAG, tag)
-                            })
-                            .msg(resources.getQuantityString(R.plurals.warning_delete_tag, tag.count, tag.label, tag.count))
-                            .pos(R.string.menu_delete)
-                            .neg(android.R.string.cancel)
-                            .show(this, DELETE_TAG_DIALOG)
-                }
+                SimpleDialog.build()
+                        .title(R.string.dialog_title_warning_delete_tag)
+                        .extra(Bundle().apply {
+                            putParcelable(KEY_TAG, tag)
+                        })
+                        .msg(resources.getQuantityString(R.plurals.warning_delete_tag, tag.count, tag.label, tag.count))
+                        .pos(R.string.menu_delete)
+                        .neg(android.R.string.cancel)
+                        .show(this, DELETE_TAG_DIALOG)
             }
             val longClickFunction: (Tag) -> Unit = { tag ->
                 SimpleInputDialog.build()
