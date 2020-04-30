@@ -275,7 +275,7 @@ public class DistributionFragment extends DistributionBaseFragment {
   }
 
   @Override
-  public void onPrepareOptionsMenu(Menu menu) {
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
     if (mGrouping != null) {
       Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).getSubMenu(), mGrouping);
     }
@@ -343,7 +343,7 @@ public class DistributionFragment extends DistributionBaseFragment {
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (handleGrouping(item)) return true;
     if (super.onOptionsItemSelected(item)) return true;
     switch (item.getItemId()) {

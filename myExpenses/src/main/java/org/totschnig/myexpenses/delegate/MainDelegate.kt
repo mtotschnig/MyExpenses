@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceUtils
@@ -80,11 +81,8 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             var selection: String? = null
             var selectArgs = arrayOfNulls<String>(0)
             if (constraint != null) {
-                val search = Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString()))
-                //we accept the string at the beginning of a word
-                selection = DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-                        DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED + " GLOB ?"
-                selectArgs = arrayOf("$search%", "*[ (.;,]$search*")
+                selection = Payee.SELECTION
+                selectArgs = Payee.SELECTION_ARGS(Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString())))
             }
             context.contentResolver.query(
                     TransactionProvider.PAYEES_URI, arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),

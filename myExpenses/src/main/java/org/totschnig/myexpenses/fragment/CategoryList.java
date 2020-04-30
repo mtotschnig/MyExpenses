@@ -16,8 +16,6 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -57,6 +54,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.MenuUtilsKt;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
@@ -69,6 +67,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -89,6 +89,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.util.MenuUtilsKt.prepareSearch;
 
 public class CategoryList extends SortableListFragment {
 
@@ -121,6 +122,7 @@ public class CategoryList extends SortableListFragment {
 
   protected int lastExpandedPosition = -1;
 
+  @State
   String mFilter;
 
   @Inject
@@ -136,6 +138,7 @@ public class CategoryList extends SortableListFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
     briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
   }
@@ -146,9 +149,6 @@ public class CategoryList extends SortableListFragment {
     View v = inflater.inflate(R.layout.categories_list, container, false);
     ButterKnife.bind(this, v);
     configureImportButton(true);
-    if (savedInstanceState != null) {
-      mFilter = savedInstanceState.getString(KEY_FILTER);
-    }
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
     mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, null, isWithMainColors(),
@@ -202,8 +202,9 @@ public class CategoryList extends SortableListFragment {
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     if (isFiltered) {
+      String normalized = Utils.esacapeSqlLikeExpression(Utils.normalize(mFilter));
       String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
-      selectionArgs = new String[]{"%" + mFilter + "%", "%" + mFilter + "%"};
+      selectionArgs = new String[]{"%" + normalized + "%", "%" + normalized + "%"};
       selection = filterSelection + " OR EXISTS (SELECT 1 FROM " + TABLE_CATEGORIES +
           " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
           + filterSelection + " ))";
@@ -390,56 +391,35 @@ public class CategoryList extends SortableListFragment {
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     if (getActivity() == null) return;
     inflater.inflate(R.menu.search, menu);
-    SearchManager searchManager =
-        (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-    MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
-    SearchView searchView = (SearchView) searchMenuItem.getActionView();
-
-    searchView.setSearchableInfo(searchManager.
-        getSearchableInfo(getActivity().getComponentName()));
-    //searchView.setIconifiedByDefault(true);
-    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-      @Override
-      public boolean onQueryTextSubmit(String query) {
-        return false;
-      }
-
-      @Override
-      public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-          mFilter = "";
-          configureImportButton(true);
-        } else {
-          mFilter = Utils.esacapeSqlLikeExpression(Utils.normalize(newText));
-          // if a filter results in an empty list,
-          // we do not want to show the setup default categories button
-          configureImportButton(false);
-        }
-        collapseAll();
-        loadData();
-        return true;
-      }
-    });
+    MenuUtilsKt.configureSearch(getActivity(), menu, this::onQueryTextChange);
   }
 
-  @Override
-  public void onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-
-    MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
-    if (searchMenuItem != null && mFilter != null) {
-      SearchView searchView = (SearchView) searchMenuItem.getActionView();
-      searchView.setQuery(mFilter, false);
-      searchView.setIconified(false);
-      searchView.clearFocus();
+  private Boolean onQueryTextChange(String newText) {
+    if (TextUtils.isEmpty(newText)) {
+      mFilter = "";
+      configureImportButton(true);
+    } else {
+      mFilter = newText;
+      // if a filter results in an empty list,
+      // we do not want to show the setup default categories button
+      configureImportButton(false);
     }
+    collapseAll();
+    loadData();
+    return true;
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    prepareSearch(menu, mFilter);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     return handleSortOption(item);
   }
 
@@ -510,9 +490,7 @@ public class CategoryList extends SortableListFragment {
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    if (!TextUtils.isEmpty(mFilter)) {
-      outState.putString("filter", mFilter);
-    }
+    Icepick.saveInstanceState(this, outState);
   }
 
   @Override

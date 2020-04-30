@@ -127,7 +127,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (budget != null) {
       switch (item.getItemId()) {
         case R.id.EDIT_COMMAND: {
@@ -363,7 +363,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
-  public void onPrepareOptionsMenu(Menu menu) {
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
     super.onPrepareOptionsMenu(menu);
     MenuItem m = menu.findItem(R.id.BUDGET_ALLOCATED_ONLY);
     if (m != null) {

@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import java.util.Locale;
 import java.util.Map;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
@@ -40,6 +41,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 public class Payee extends Model {
+  public static final String SELECTION = String.format(Locale.ROOT, "%1$s LIKE ? OR %1$s GLOB ?", KEY_PAYEE_NAME_NORMALIZED);
+  public static String[] SELECTION_ARGS(String search) {
+    return new String[] {
+        search + "%",
+        "*[ (.;,]" + search + "*"
+    };
+  }
   private String name;
 
   public Payee(long id, String name) {

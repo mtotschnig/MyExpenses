@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 public abstract class SortableListFragment extends ContextualActionBarFragment {
 
   @Override
-  public void onPrepareOptionsMenu(Menu menu) {
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
     if (menuItem != null) {
       final MenuItem currentItem = menuItem.getSubMenu().findItem(getCurrentSortOrder().getCommandId());

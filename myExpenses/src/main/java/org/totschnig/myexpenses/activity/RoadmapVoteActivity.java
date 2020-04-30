@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
@@ -27,6 +24,7 @@ import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.Vote;
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView;
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog;
+import org.totschnig.myexpenses.util.MenuUtilsKt;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
@@ -181,30 +179,19 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.search, menu);
-    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-    MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
-    SearchView searchView = (SearchView) searchMenuItem.getActionView();
-
-    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-      @Override
-      public boolean onQueryTextSubmit(String query) {
-        return false;
-      }
-
-      @Override
-      public boolean onQueryTextChange(String newText) {
-        query = newText;
-        filterData();
-        return true;
-      }
-    });
+    MenuUtilsKt.configureSearch(this, menu, this::onQueryTextChange);
     voteMenuItem = menu.add(Menu.NONE, R.id.ROADMAP_SUBMIT_VOTE, 0, "");
     voteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     updateVoteMenuItem();
 
     inflater.inflate(R.menu.vote, menu);
     inflater.inflate(R.menu.help_with_icon, menu);
+    return true;
+  }
+
+  private Boolean onQueryTextChange(String newText) {
+    query = newText;
+    filterData();
     return true;
   }
 

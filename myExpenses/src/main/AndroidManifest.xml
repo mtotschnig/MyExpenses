@@ -192,7 +192,11 @@
         <activity
             android:name=".activity.ManageParties"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/ThemeLight.EditDialog">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
 
         <activity android:name=".activity.ManageBudgets" />
 

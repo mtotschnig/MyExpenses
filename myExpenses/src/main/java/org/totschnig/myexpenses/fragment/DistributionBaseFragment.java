@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.util.Pair;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -263,7 +264,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     switch (item.getItemId()) {
       case R.id.BACK_COMMAND:
         back();
@@ -376,7 +377,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   protected abstract boolean showAllCategories();
 
   @Override
-  public void onPrepareOptionsMenu(Menu menu) {
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
     super.onPrepareOptionsMenu(menu);
     MenuItem m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES);
     if (m != null) {

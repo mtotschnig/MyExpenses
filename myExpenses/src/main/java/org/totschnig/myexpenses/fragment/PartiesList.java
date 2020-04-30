@@ -19,9 +19,12 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -32,21 +35,45 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.MenuUtilsKt;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+import icepick.Icepick;
+import icepick.State;
+
+import static org.totschnig.myexpenses.util.MenuUtilsKt.prepareSearch;
 
 public class PartiesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   public static final String DIALOG_EDIT_PARTY = "dialogEditParty";
   SimpleCursorAdapter mAdapter;
   private Cursor mPartiesCursor;
+  @State
+  String filter;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
+    Icepick.restoreInstanceState(this, savedInstanceState);
+  }
+
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
+  }
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
@@ -129,6 +156,29 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   }
 
   @Override
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    if (getActivity() == null) return;
+    inflater.inflate(R.menu.search, menu);
+    MenuUtilsKt.configureSearch(getActivity(), menu, this::onQueryTextChange);
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    prepareSearch(menu, filter);
+  }
+
+  private Boolean onQueryTextChange(String newText) {
+    if (TextUtils.isEmpty(newText)) {
+      filter = "";
+    } else {
+      filter = newText;
+    }
+    LoaderManager.getInstance(this).restartLoader(0, null, this);
+    return true;
+  }
+
+  @Override
   @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.parties_list, container, false);
@@ -151,7 +201,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
         to,
         0);
 
-    getLoaderManager().initLoader(0, null, this);
+    LoaderManager.getInstance(this).initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
@@ -160,8 +210,11 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
 
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+    final String selection = TextUtils.isEmpty(filter) ? null : Payee.SELECTION;
+    final String[] selectionArgs = TextUtils.isEmpty(filter) ? null : Payee.SELECTION_ARGS(Utils.esacapeSqlLikeExpression(Utils.normalize(filter)));
+
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.PAYEES_URI, null, null, null, null);
+        TransactionProvider.PAYEES_URI, null, selection, selectionArgs, null);
     return cursorLoader;
   }
 
