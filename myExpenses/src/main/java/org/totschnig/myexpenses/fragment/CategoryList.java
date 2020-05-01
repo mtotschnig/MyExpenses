@@ -376,7 +376,7 @@ public class CategoryList extends SortableListFragment {
         if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
           label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
         }
-        doSelection(elcmi.id, label, category.icon, isMain);
+        doSingleSelection(elcmi.id, label, category.icon, isMain);
         finishActionMode();
         return true;
       case R.id.CREATE_COMMAND:
@@ -448,7 +448,7 @@ public class CategoryList extends SortableListFragment {
     if (action.equals(ACTION_SELECT_MAPPING)) {
       label = mAdapter.getGroup(groupPosition).label + TransactionList.CATEGORY_SEPARATOR + label;
     }
-    doSelection(id, label, mAdapter.getChild(groupPosition, childPosition).icon, false);
+    doSingleSelection(id, label, mAdapter.getChild(groupPosition, childPosition).icon, false);
     return true;
   }
 
@@ -465,11 +465,11 @@ public class CategoryList extends SortableListFragment {
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    doSelection(id, label, mAdapter.getGroup(groupPosition).icon, true);
+    doSingleSelection(id, label, mAdapter.getGroup(groupPosition).icon, true);
     return true;
   }
 
-  protected void doSelection(long cat_id, String label, String icon, boolean isMain) {
+  protected void doSingleSelection(long cat_id, String label, String icon, boolean isMain) {
     Activity ctx = getActivity();
     Intent intent = new Intent();
     intent.putExtra(KEY_CATID, cat_id);
@@ -491,6 +491,26 @@ public class CategoryList extends SortableListFragment {
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     Icepick.saveInstanceState(this, outState);
+  }
+
+  @Override
+  protected void inflateHelper(Menu menu, int listId) {
+    super.inflateHelper(menu, listId);
+    MenuInflater inflater = getActivity().getMenuInflater();
+    if (hasSelectSingle()) {
+      inflater.inflate(R.menu.select, menu);
+    }
+    if (hasSelectMultiple()) {
+      inflater.inflate(R.menu.select_multiple, menu);
+    }
+  }
+
+  protected boolean hasSelectSingle() {
+    return getAction().equals(ACTION_SELECT_MAPPING);
+  }
+
+  protected boolean hasSelectMultiple() {
+    return getAction().equals(ACTION_SELECT_FILTER);
   }
 
   @Override
@@ -535,8 +555,6 @@ public class CategoryList extends SortableListFragment {
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
     maybeHide(menu, R.id.EDIT_COMMAND, isFilter);
     maybeHide(menu, R.id.DELETE_COMMAND, isFilter);
-    maybeHide(menu, R.id.SELECT_COMMAND, !action.equals(ACTION_SELECT_MAPPING));
-    maybeHide(menu, R.id.SELECT_COMMAND_MULTIPLE, !isFilter);
     maybeHide(menu, R.id.CREATE_COMMAND, isFilter);
     maybeHide(menu, R.id.MOVE_COMMAND, (isFilter || hasChildren));
     maybeHide(menu, R.id.COLOR_COMMAND, !isWithMainColors());

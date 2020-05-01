@@ -11,12 +11,13 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -28,44 +29,56 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageParties;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.MenuUtilsKt;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.PartyListViewModel;
+import org.totschnig.myexpenses.viewmodel.data.Party;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
+import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
 
+import static android.app.Activity.RESULT_FIRST_USER;
+import static android.app.Activity.RESULT_OK;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_MANAGE;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
+import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.util.MenuUtilsKt.prepareSearch;
 
-public class PartiesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PartiesList extends ContextualActionBarFragment {
   public static final String DIALOG_EDIT_PARTY = "dialogEditParty";
-  SimpleCursorAdapter mAdapter;
-  private Cursor mPartiesCursor;
+  ArrayAdapter<Party> mAdapter;
+  private PartyListViewModel viewModel;
+
   @State
+  @Nullable
   String filter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
+    viewModel = new ViewModelProvider(this).get(PartyListViewModel.class);
     Icepick.restoreInstanceState(this, savedInstanceState);
   }
 
@@ -78,21 +91,25 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
+    Party party = mAdapter.getItem(menuInfo.position);
     switch (command) {
       case R.id.EDIT_COMMAND:
         Bundle args = new Bundle();
         args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
-        String name = mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME));
         SimpleInputDialog.build()
             .title(R.string.menu_edit_party)
             .cancelable(false)
             .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
             .hint(R.string.label)
-            .text(name)
+            .text(party.getName())
             .pos(R.string.menu_save)
             .neut()
             .extra(args)
             .show(this, DIALOG_EDIT_PARTY);
+        return true;
+      case R.id.SELECT_COMMAND:
+        doSingleSelection(party);
+        finishActionMode();
         return true;
     }
     return super.dispatchCommandSingle(command, info);
@@ -101,31 +118,28 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
     switch (command) {
-      case R.id.DELETE_COMMAND:
-        int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
-        int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
-        int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+      case R.id.DELETE_COMMAND: {
         int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
         ArrayList<Long> idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           if (positions.valueAt(i)) {
             boolean deletable = true;
-            mPartiesCursor.moveToPosition(positions.keyAt(i));
-            if (mPartiesCursor.getInt(columnIndexMappedTransactions) > 0) {
+            Party party = mAdapter.getItem(positions.keyAt(i));
+            if (party.getMappedTransactions() > 0) {
               mappedTransactionsCount++;
               deletable = false;
             }
-            if (mPartiesCursor.getInt(columnIndexMappedTemplates) > 0) {
+            if (party.getMappedTemplates() > 0) {
               mappedTemplatesCount++;
               deletable = false;
             }
             if (deletable) {
-              idList.add(mPartiesCursor.getLong(columnIndexRowId));
+              idList.add(party.getId());
             }
           }
         }
-        ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
         if (!idList.isEmpty()) {
           activity.startTaskExecution(
               TaskExecutionFragment.TASK_DELETE_PAYEES,
@@ -151,6 +165,26 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
           activity.showSnackbar(message, Snackbar.LENGTH_LONG);
         }
         break;
+      }
+      case R.id.SELECT_COMMAND_MULTIPLE: {
+        if (itemIds.length == 1 || Arrays.asList(itemIds).indexOf(NULL_ITEM_ID) == -1) {
+          ArrayList<String> labelList = new ArrayList<>();
+          for (int i = 0; i < positions.size(); i++) {
+            if (positions.valueAt(i)) {
+              Party party = mAdapter.getItem(positions.keyAt(i));
+              labelList.add(party.getName());
+            }
+          }
+          Intent intent = new Intent();
+          intent.putExtra(KEY_PAYEEID, ArrayUtils.toPrimitive(itemIds));
+          intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
+          activity.setResult(RESULT_FIRST_USER, intent);
+          activity.finish();
+        } else {
+          activity.showSnackbar(R.string.unmapped_filter_only_single, Snackbar.LENGTH_LONG);
+        }
+        return true;
+      }
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
@@ -174,8 +208,25 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     } else {
       filter = newText;
     }
-    LoaderManager.getInstance(this).restartLoader(0, null, this);
+    loadData();
     return true;
+  }
+
+  private void loadData() {
+    viewModel.loadParties(filter, requireActivity().getIntent().getLongExtra(KEY_ACCOUNTID, 0));
+  }
+
+  private String getAction() {
+    return ((ManageParties) getActivity()).getAction();
+  }
+
+  protected void doSingleSelection(Party party) {
+    Activity ctx = getActivity();
+    Intent intent = new Intent();
+    intent.putExtra(KEY_PAYEEID, party.getId());
+    intent.putExtra(KEY_LABEL, party.getName());
+    ctx.setResult(RESULT_OK, intent);
+    ctx.finish();
   }
 
   @Override
@@ -183,50 +234,58 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.parties_list, container, false);
 
-    final ListView lv = (ListView) v.findViewById(R.id.list);
+    final ListView lv = v.findViewById(R.id.list);
     lv.setItemsCanFocus(false);
-    //((TextView) findViewById(android.R.id.empty)).setText(R.string.no_parties);
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{DatabaseConstants.KEY_PAYEE_NAME};
+    String action = getAction();
+    if (!action.equals(ACTION_MANAGE)) {
+      lv.setOnItemClickListener((parent, view, position, id) -> {
+        doSingleSelection(mAdapter.getItem(position));
+      });
+    }
 
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{android.R.id.text1};
+    mAdapter = new ArrayAdapter<Party>(requireContext(), android.R.layout.simple_list_item_activated_1) {
+      @Override
+      public boolean hasStableIds() {
+        return true;
+      }
 
-    // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(
-        getActivity(),
-        android.R.layout.simple_list_item_activated_1,
-        null,
-        from,
-        to,
-        0);
-
-    LoaderManager.getInstance(this).initLoader(0, null, this);
+      @Override
+      public long getItemId(int position) {
+        return getItem(position).getId();
+      }
+    };
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
+    viewModel.getParties().observe(getViewLifecycleOwner(), parties -> {
+      mAdapter.clear();
+      if (getAction().equals(ACTION_SELECT_FILTER)) {
+        mAdapter.add(new Party(NULL_ITEM_ID, getString(R.string.unmapped), 0, 0));
+      }
+      mAdapter.addAll(parties);
+      mAdapter.notifyDataSetChanged();
+    });
+    loadData();
     return v;
   }
 
   @Override
-  public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    final String selection = TextUtils.isEmpty(filter) ? null : Payee.SELECTION;
-    final String[] selectionArgs = TextUtils.isEmpty(filter) ? null : Payee.SELECTION_ARGS(Utils.esacapeSqlLikeExpression(Utils.normalize(filter)));
-
-    CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.PAYEES_URI, null, selection, selectionArgs, null);
-    return cursorLoader;
+  protected void inflateHelper(Menu menu, int listId) {
+    super.inflateHelper(menu, listId);
+    MenuInflater inflater = getActivity().getMenuInflater();
+    if (hasSelectSingle()) {
+      inflater.inflate(R.menu.select, menu);
+    }
+    if (hasSelectMultiple()) {
+      inflater.inflate(R.menu.select_multiple, menu);
+    }
   }
 
-  @Override
-  public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-    mPartiesCursor = c;
-    mAdapter.swapCursor(c);
+  protected boolean hasSelectSingle() {
+    return getAction().equals(ACTION_SELECT_MAPPING);
   }
 
-  @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
-    mPartiesCursor = null;
-    mAdapter.swapCursor(null);
+  protected boolean hasSelectMultiple() {
+    return getAction().equals(ACTION_SELECT_FILTER);
   }
 }

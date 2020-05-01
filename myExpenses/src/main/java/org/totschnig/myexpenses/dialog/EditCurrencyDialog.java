@@ -35,7 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -86,7 +86,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
-    editCurrencyViewModel = ViewModelProviders.of(this).get(EditCurrencyViewModel.class);
+    editCurrencyViewModel = new ViewModelProvider(this).get(EditCurrencyViewModel.class);
     editCurrencyViewModel.getUpdateComplete().observe(this, this::dismiss);
     editCurrencyViewModel.getInsertComplete().observe(this, success -> {
       if (success != null && success) {
