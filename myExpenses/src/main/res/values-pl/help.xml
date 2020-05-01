@@ -14,6 +14,7 @@
   <string name="menu_grouping_help_text">Możesz grupować transakcję na dni, tygodnie, miesiące czy lata. Dla każdej grupy suma wpływów, wydatków i transferów jest wyliczana i wyświetlana. Gdy naciśniesz na nagłówek grupy, grupa danej transakcji zwija się i wyświetlany jest tylko nagłówek. Kliknij ponownie aby rozszerzyć.</string>
   <string name="menu_sort_direction_help_text">Transakcje mogą być sortowane rosnąco (najstarsze na górze) lub malejące (najnowsze na górze).</string>
   <string name="menu_distribution_help_text">Wyświetlaj rozkład swoich wydatków według kategorii. Możesz także długo kliknąć nagłówek grupy, aby sprawdzić dystrybucję przez określony czas.</string>
+  <string name="menu_budget_help_text">Zarządzaj dziennymi, tygodniowymi, miesięcznymi lub rocznymi budżetami dla aktualnie wyswietlanego konta</string>
   <string name="menu_manage_plans_help_text">Otwiera listę szablonów oraz planów, gdzie możesz zastosować, edytować lub edytować je, i także określić plany na przyszłość oraz powtarzających się transakcji.</string>
   <string name="menu_balance_help_text">To polecenie otwiera okno dialogowe wyświetlające ostatnio uzgodnione saldo i rozliczone saldo. Możesz porównać to drugie z wyciągiem bankowym i oznaczyć wszystkie rozliczone transakcje jako uzgodnione. Opcjonalnie możesz zdecydować o usunięciu uzgodnionych transakcji.</string>
   <string name="menu_print_help_text">Generuje gotowy do wydruku widok obecnie wyświetlanych transakcji.</string>
@@ -23,7 +24,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">To okno pokazuje wszystkie zdefiniowane metody płatności (czek, karta kredytowa, depozyt, karta debetowa) oraz pozwala dodawać nowe. Uzyj pływającego przycisku akcji aby utworzyć nową metodę płatności.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Na tym ekranie wyszczególniono strony używane do autouzupełniania pola Płatnik/Odbiorca płatności. Użyj pływającego przycisku akcji, aby dodać nowy wpis.</string>
+  <string name="help_ManageParties_manage_info">Na tym ekranie wyszczególniono strony używane do autouzupełniania pola Płatnik/Odbiorca płatności.</string>
+  <string name="help_ManageParties_floating_action_button">Użyj pływającego przycisku akcji, aby dodać nowy wpis.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Widok planu kalendarza</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Podczas gdy szablony można wyprowadzać z transakcji za pośrednictwem menu kontekstowego, tutaj możesz tworzyć nowe szablony od podstaw (w przypadku transakcji lub przelewów), klikając pływający przycisk akcji. Kliknięcie szablonu stworzy dla niego instancję.<br><img src=\"ic_event\"> Plan to szablon, dla którego utworzyłeś wydarzenie (jednorazowe lub cykliczne) w kalendarzu terminarza. Klikając plan, otworzy się widok kalendarza, który wyświetla poprzednie i nadchodzące wystąpienia planu.]]></string>

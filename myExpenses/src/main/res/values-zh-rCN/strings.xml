@@ -58,7 +58,6 @@
   <string name="dialog_command_disabled_reset_account">没有交易可被导出.</string>
   <string name="dialog_command_disabled_distribution">在此帐户,没有交易被对应到类别中.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">没有剩下的免费使用额</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> 是无广告和开放源码的.</string>
@@ -315,8 +314,6 @@
   <string name="save_transaction_template_deleted">模板已被移除</string>
   <string name="select">选取</string>
   <string name="select_category">选取类别</string>
-  <string name="menu_select_category">选取这个类别</string>
-  <string name="menu_select_folder">选择该文件夹</string>
   <string name="share_scheme_not_supported">不支持方桉 %1$s</string>
   <string name="share_sending">发送导出文件</string>
   <string name="split_parts_heading">分割部分</string>
@@ -368,8 +365,6 @@
   <string name="menu_categories_setup_default">设置默认类别</string>
   <string name="menu_create_folder">新建文件夹</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--This is used as content description for the navigation control in the widgets-->
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">目录建立失败</string>
   <string name="widget_title_accounts">我的账户</string>
   <string name="widget_title_templates">我的模板</string>
@@ -402,7 +397,6 @@
   <string name="menu_change_picture">附加不同图片</string>
   <string name="menu_distribution_show_pie_char">显示饼状图</string>
   <string name="menu_distribution_aggreate">集合消费和收入</string>
-  <string name="menu_select_categories">选择被勾选的类别</string>
   <string name="image_deleted">图片被删除</string>
   <string name="dialog_export_applied_to_filter">只有被当前过滤器匹配的交易才会被考虑</string>
   <string name="export_handle_deleted_create_helper">创建交易助手</string>

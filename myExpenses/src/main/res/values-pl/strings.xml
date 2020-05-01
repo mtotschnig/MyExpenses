@@ -64,7 +64,6 @@
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie i uzyskaj dostęp do dodatkowych funkcji, aktualizując <i>{app_name} </i>.</string>
@@ -367,8 +366,6 @@
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
   <string name="select">Wybierz</string>
   <string name="select_category">Wybierz kategorię</string>
-  <string name="menu_select_category">Wybierz tą kategorię</string>
-  <string name="menu_select_folder">Wybierz ten folder</string>
   <string name="share_scheme_not_supported">Schemat %1$s nie jest wspierany</string>
   <string name="share_sending">Wyślij plik eksportu</string>
   <string name="split_parts_heading">Części podziału</string>
@@ -449,10 +446,6 @@
   <string name="menu_create_folder">Nowy folder</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Do góry</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Do góry</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">W dół</string>
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
   <string name="widget_title_accounts">Moje konta</string>
   <string name="widget_title_templates">Moje szablony</string>
@@ -495,7 +488,6 @@
   <string name="menu_distribution_aggreate">Łączne wydatki i dochody</string>
   <string name="pref_manage_stale_images_title">Stale obrazy</string>
   <string name="pref_manage_stale_images_summary">Zarządzaj zdjęciami pozostałymi po usuniętych transakcjach</string>
-  <string name="menu_select_categories">Wybierz sprawdzone kategorie</string>
   <string name="image_deleted">Obrazek został usunięty</string>
   <string name="transaction_deleted">Transakcja została usunięta</string>
   <string name="dialog_export_applied_to_filter">Tylko transakcje dopasowane do obecnego filtra będą brane pod uwagę.</string>
@@ -678,8 +670,6 @@
   <string name="sort_direction_descending">malejąco</string>
   <string name="never">nigdy</string>
   <string name="always">zawsze</string>
-  <string name="dropbox_folder_name_prompt">Podaj nazwę istniejącego foldera na głównym poziomie Twojego konta Dropbox.</string>
-  <string name="dropbox_folder_not_found">Folder nie został odnaleziony</string>
   <string name="sync_auth_exception_login_again">Autoryzacja się nie powiodła. Zaloguj się proszę ponowie.</string>
   <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
   <plurals name="delete_success">
@@ -746,12 +736,7 @@
   <string name="pref_scroll_to_current_date_summary">Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty</string>
   <string name="professional_key_fallback_info">Subskrypcja Klucza Profesjonalnego, która była aktywna przez przynajmniej rok, a która nie zostanie odnowiona, automatycznie zamieni się w nieograniczony Klucz Rozszerzony.</string>
   <string name="menu_budget">Przydzielanie budżetu</string>
-  <string name="dialog_title_new_budget">Nowy budżet</string>
   <string name="dialog_title_edit_budget">Edycja budżetu</string>
-  <string name="daily_budget">Budżet dzienny</string>
-  <string name="weekly_budget">Budżet tygodniowy</string>
-  <string name="monthly_budget">Budżet miesięczny</string>
-  <string name="yearly_budget">Budżet roczny</string>
   <string name="budget_table_header_budgeted">Rozdzielono</string>
   <string name="budget_table_header_allocated">Zaalokowano</string>
   <string name="budget_table_header_spent">Wydano</string>

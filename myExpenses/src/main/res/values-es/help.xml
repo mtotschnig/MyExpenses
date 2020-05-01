@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Esta pantalla muestra las formas de pago predefinidas (cheque, tarjeta de crédito, depósito, tarjeta de débito) y le permitirá definir otras nuevas. Utilice el botón de acción flotante para abrir el formulario para la creación de un nuevo método.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Esta pantalla muestra las partes que se utiliza para el autocompletado del campo ordenante/acreedor. Utilice el botón de acción flotante para añadir una nueva entrada.</string>
+  <string name="help_ManageParties_manage_info">Esta pantalla muestra las partes que se utiliza para el autocompletado del campo ordenante/acreedor.</string>
+  <string name="help_ManageParties_floating_action_button">Utilice el botón de acción flotante para añadir una nueva entrada.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Vista en calendario</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Mientras que las plantillas pueden derivarse por las transacciones a través de su menú contextual, aquí puede crear nuevas plantillas desde cero (para transacciones o transferencias) haciendo clic en el botón de acción flotante. Al hacer clic en una plantilla, se crea una instancia para ello.<br><img src=\"ic_event\">Un proyecto es una plantilla con un evento (único o recurrente) en el planificador de calendario. Haga clic en un proyecto para abrir una vista de calendario, mostrando las pasadas y las próximas instancias de un proyecto.]]></string>

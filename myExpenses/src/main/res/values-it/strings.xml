@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Prova</string>
-  <string name="dialog_contrib_no_usages_left">Hai terminato i tuoi usi gratuiti.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s è una funzionalità premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione e accedere ad altre funzionalità aggiornando <i>{app_name}</i>.</string>
@@ -368,8 +367,6 @@
   <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
   <string name="select">Selezionare</string>
   <string name="select_category">Selezionare una categoria</string>
-  <string name="menu_select_category">Selezionare questa categoria</string>
-  <string name="menu_select_folder">Selezionare questa cartella</string>
   <string name="share_scheme_not_supported">Schema %1$s non supportato</string>
   <string name="share_sending">Invia file export</string>
   <string name="split_parts_heading">Frazionamenti</string>
@@ -453,10 +450,6 @@
   <string name="menu_create_folder">Nuova cartella</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">In alto</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">In alto</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Verso il basso</string>
   <string name="create_new_folder_fail">Impossibile creare la cartella</string>
   <string name="widget_title_accounts">I miei conti</string>
   <string name="widget_title_templates">I miei modelli</string>
@@ -501,7 +494,6 @@
   <string name="menu_distribution_aggreate">Aggrega redditi e spese</string>
   <string name="pref_manage_stale_images_title">Immagini vecchie</string>
   <string name="pref_manage_stale_images_summary">Gestire immagini lasciate da transazioni eliminate</string>
-  <string name="menu_select_categories">Selezionare categorie controllate</string>
   <string name="image_deleted">Foto cancellata</string>
   <string name="transaction_deleted">Transazione è stata eliminata</string>
   <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni che corrispondono al filtro corrente.</string>
@@ -690,8 +682,6 @@
   <string name="never">mai</string>
   <string name="always">sempre</string>
   <string name="auto_fill_account_from_aggregate_only">Solo se avviato da un conto aggregato.</string>
-  <string name="dropbox_folder_name_prompt">Inserisci il nome di una cartella esistente al livello principale del tuo Dropbox</string>
-  <string name="dropbox_folder_not_found">Cartella non trovata</string>
   <string name="sync_auth_exception_login_again">Autorizzazione fallita. Per favore esegui nuovamente l\'accesso.</string>
   <string name="sync_loading_accounts_from_backend">Caricamento degli conti disponibili dal back-end.</string>
   <plurals name="delete_success">
@@ -767,12 +757,7 @@
   <string name="pref_scroll_to_current_date_summary">All\'avvio dell\'app, scorrere l\'elenco delle transazioni sulla data corrente</string>
   <string name="professional_key_fallback_info">Una sottoscrizione alla Licenza Professionale che è stata attiva per almeno un anno e non viene rinnovata, sarà trasformata automaticamente in una Licenza Funzionalità Estese illimitata.</string>
   <string name="menu_budget">Bilancio</string>
-  <string name="dialog_title_new_budget">Nuovo budget</string>
   <string name="dialog_title_edit_budget">Modifica il budget</string>
-  <string name="daily_budget">Budget giornaliero</string>
-  <string name="weekly_budget">Budget settimanale</string>
-  <string name="monthly_budget">Budget mensile</string>
-  <string name="yearly_budget">Budget annuale</string>
   <string name="budget_table_header_budgeted">Preventivato</string>
   <string name="budget_table_header_allocated">Stanziato</string>
   <string name="budget_table_header_spent">Speso</string>

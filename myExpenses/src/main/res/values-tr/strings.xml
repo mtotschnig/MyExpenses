@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Dene</string>
-  <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>
@@ -368,8 +367,6 @@
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
-  <string name="menu_select_category">Bu kategoriyi seç</string>
-  <string name="menu_select_folder">Bu klasörü seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="split_parts_heading">Bölünmüş alt muameleler</string>
@@ -453,10 +450,6 @@
   <string name="menu_create_folder">Yeni klasör</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Yukarı</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Yukarı</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Aşağı</string>
   <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
   <string name="widget_title_accounts">Hesaplarım</string>
   <string name="widget_title_templates">Şablonlarım</string>
@@ -501,7 +494,6 @@
   <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
   <string name="pref_manage_stale_images_title">Eski resimler</string>
   <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
-  <string name="menu_select_categories">İşaretlenen kategorileri seç</string>
   <string name="image_deleted">Resim silinmiştir</string>
   <string name="transaction_deleted">Muamele silinmiştir</string>
   <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
@@ -690,8 +682,6 @@
   <string name="never">asla</string>
   <string name="always">daima</string>
   <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
-  <string name="dropbox_folder_name_prompt">Dropbox\'ınızın kök seviyesinde mevcut bir klasörün  ismini girin</string>
-  <string name="dropbox_folder_not_found">Klasör bulunamadı</string>
   <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
   <string name="sync_loading_accounts_from_backend">Mevcut hesaplar arka uçtan yükleniyor.</string>
   <plurals name="delete_success">
@@ -767,12 +757,7 @@
   <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
   <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
   <string name="menu_budget">Bütçeleme</string>
-  <string name="dialog_title_new_budget">Yeni bütçe</string>
   <string name="dialog_title_edit_budget">Bütçeyi düzenle</string>
-  <string name="daily_budget">Günlük bütçe</string>
-  <string name="weekly_budget">Haftalıkbütçe</string>
-  <string name="monthly_budget">Aylık bütçe</string>
-  <string name="yearly_budget">Senelik bütçe</string>
   <string name="budget_table_header_budgeted">Bütçelenmiş</string>
   <string name="budget_table_header_allocated">Tahsis edilmiş</string>
   <string name="budget_table_header_spent">Harcanmış</string>

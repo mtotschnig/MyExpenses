@@ -55,7 +55,6 @@
   <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Încearcă</string>
-  <string name="dialog_contrib_no_usages_left">Nu mai aveţi utilizare gratuită</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit fără publicitate şi open source.</string>
@@ -346,8 +345,6 @@
   <string name="save_transaction_template_deleted">Şablonul a fost şters</string>
   <string name="select">Selectează </string>
   <string name="select_category">Selectează categorie</string>
-  <string name="menu_select_category">Selectează această categorie</string>
-  <string name="menu_select_folder">Selectează acest folder</string>
   <string name="share_scheme_not_supported">Schema %1$s nesuportată</string>
   <string name="share_sending">Trimite fişier export</string>
   <string name="split_parts_heading">Repartizări</string>
@@ -420,10 +417,6 @@
   <string name="menu_create_folder">Folder nou</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Sus</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Sus</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Jos</string>
   <string name="create_new_folder_fail">Eşec la crearea folderului</string>
   <string name="widget_title_accounts">Conturile mele</string>
   <string name="widget_title_templates">Şabloanele mele</string>
@@ -462,7 +455,6 @@
   <string name="menu_change_picture">Atașați o imagine diferită</string>
   <string name="menu_distribution_show_pie_char">Afiseaza grafic pie</string>
   <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
-  <string name="menu_select_categories">Selectează categoriile bifate</string>
   <string name="image_deleted">Poza a fost ștearsă</string>
   <string name="transaction_deleted">Tranzacția a fost ștearsă</string>
   <string name="export_handle_deleted_update_balance">Actualizați soldul de deschidere</string>

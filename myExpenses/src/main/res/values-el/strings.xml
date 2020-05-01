@@ -59,7 +59,6 @@
   <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
   <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Δεν έχετε πια δωρεάν χρήσεις.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i></string>
@@ -349,8 +348,6 @@
   <string name="save_transaction_template_deleted">Το πρότυπο έχει διαγραφεί</string>
   <string name="select">Επιλέξτε</string>
   <string name="select_category">Επιλέξτε κατηγορία</string>
-  <string name="menu_select_category">Επιλέξτε αυτήν την κατηγορία</string>
-  <string name="menu_select_folder">Επιλογή αυτού του φακέλου</string>
   <string name="share_scheme_not_supported">Δεν υποστηρίζεται το πρόγραμμα/σύστημα %1$s</string>
   <string name="share_sending">Αποστολή αρχείου εξαγωγής</string>
   <string name="split_parts_heading">Διαχωρισμός, διάσπαση των μερών </string>
@@ -433,10 +430,6 @@
   <string name="menu_create_folder">Νέος φάκελος</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Πάνω</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Πάνω</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Κάτων</string>
   <string name="create_new_folder_fail">Αποτυχία δημιουργίας του φακέλου</string>
   <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
   <string name="widget_title_templates">Τα πρότυπά μου</string>
@@ -478,7 +471,6 @@
   <string name="menu_distribution_aggreate">Συγκεντρωτικό εξόδων και εσόδων</string>
   <string name="pref_manage_stale_images_title">Παλαιές εικόνες</string>
   <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>
-  <string name="menu_select_categories">Επιλογή επισημασμένων κατηγοριών</string>
   <string name="image_deleted">Η εικόνα έχει διαγραφεί</string>
   <string name="transaction_deleted">Η συναλλαγή έχει διαγραφεί</string>
   <string name="dialog_export_applied_to_filter">Μόνο συναλλαγές που ταιριάζουν με το τρέχων φίλτρο θα ληφθούν υπόψη.</string>

@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Essayer</string>
-  <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en passant <i>{app_name}</i> au niveau supérieur.</string>
@@ -368,8 +367,6 @@
   <string name="save_transaction_template_deleted">Le modèle a été supprimé.</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
-  <string name="menu_select_category">Choisir cette catégorie</string>
-  <string name="menu_select_folder">Sélectionner ce dossier</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="split_parts_heading">Sous-opérations</string>
@@ -453,10 +450,6 @@
   <string name="menu_create_folder">Nouveau dossier</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Plus haut</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Plus haut</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Vers le bas</string>
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
@@ -501,7 +494,6 @@
   <string name="menu_distribution_aggreate">Totaliser les recettes et dépenses</string>
   <string name="pref_manage_stale_images_title">Images non utilisées</string>
   <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>
-  <string name="menu_select_categories">Sélectionner les catégories cochées</string>
   <string name="image_deleted">La photo a été supprimée</string>
   <string name="transaction_deleted">L\'opération a été supprimée</string>
   <string name="dialog_export_applied_to_filter">Seules les transactions qui correspondent au filtre actuel seront pris en considération.</string>
@@ -690,8 +682,6 @@
   <string name="never">jamais</string>
   <string name="always">toujours</string>
   <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
-  <string name="dropbox_folder_name_prompt">Entrez le nom d\'un dossier existant au niveau de la racine de votre Dropbox</string>
-  <string name="dropbox_folder_not_found">Dossier non trouvé</string>
   <string name="sync_auth_exception_login_again">L\'autorisation a échoué. Veuillez vous reconnecter.</string>
   <string name="sync_loading_accounts_from_backend">Chargement des comptes disponible à partir du backend.</string>
   <plurals name="delete_success">
@@ -767,12 +757,7 @@
   <string name="pref_scroll_to_current_date_summary">Au démarrage de l\'application, défiler la liste des opérations jusqu\'à la date actuelle</string>
   <string name="professional_key_fallback_info">Un abonnement à la clé professionnelle, actif depuis au moins un an et non renouvelé, sera automatiquement transformé en clé étendue illimitée.</string>
   <string name="menu_budget">Budgétisation</string>
-  <string name="dialog_title_new_budget">Nouveau budget</string>
   <string name="dialog_title_edit_budget">Modifier le budget</string>
-  <string name="daily_budget">Budget quotidien</string>
-  <string name="weekly_budget">Budget hebdomadaire</string>
-  <string name="monthly_budget">Budget mensuel</string>
-  <string name="yearly_budget">Budget annuel</string>
   <string name="budget_table_header_budgeted">Budgétisé</string>
   <string name="budget_table_header_allocated">Alloué</string>
   <string name="budget_table_header_spent">Dépensé</string>

@@ -62,5 +62,4 @@
     <dimen name="list_header_vertical_padding">4dp</dimen>
     <dimen name="category_icon_selector_column_width">40dp</dimen>
     <dimen name="category_icon_size">24dp</dimen>
-    <dimen name="category_icon_vmargin_half">4dp</dimen>
 </resources>

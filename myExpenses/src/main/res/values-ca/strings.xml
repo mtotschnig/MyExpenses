@@ -45,7 +45,6 @@
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium  (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> s\'ofereix sense publicitat i és de codi obert.</string>
@@ -278,7 +277,6 @@
   <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
   <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
-  <string name="menu_select_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer</string>
   <string name="split_parts_heading">Particions</string>
@@ -316,8 +314,6 @@
   <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
   <string name="import_accounts_none">No s\'ha importat cap compte!</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--This is used as content description for the navigation control in the widgets-->
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
   <string name="learn_more">Més informació</string>
   <!--Label for column where user can check rows to be discarded from import-->
