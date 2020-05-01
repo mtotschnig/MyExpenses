@@ -66,7 +66,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
         break;
       case ACTION_SELECT_MAPPING:
         setHelpVariant(HelpVariant.select_mapping);
-        title = R.string.menu_remap;
+        title = R.string.select_payee;
     }
     if (title != 0) getSupportActionBar().setTitle(title);
     if (action.equals(ACTION_SELECT_MAPPING) || action.equals(ACTION_MANAGE)) {

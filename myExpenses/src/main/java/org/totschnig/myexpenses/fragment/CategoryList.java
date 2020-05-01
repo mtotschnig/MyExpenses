@@ -269,7 +269,7 @@ public class CategoryList extends SortableListFragment {
         if (!idList.isEmpty()) {
           Long[] objectIds = idList.toArray(new Long[idList.size()]);
           if (hasChildrenCount > 0 || mappedBudgetsCount > 0) {
-            String message = hasChildrenCount > 0  ?
+            String message = hasChildrenCount > 0 ?
                 getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount) : "";
             if (mappedBudgetsCount > 0) {
               if (!message.equals("")) {
@@ -494,6 +494,11 @@ public class CategoryList extends SortableListFragment {
   }
 
   @Override
+  protected boolean withCommonContext() {
+    return !(getAction().equals(ACTION_SELECT_FILTER));
+  }
+
+  @Override
   protected void inflateHelper(Menu menu, int listId) {
     super.inflateHelper(menu, listId);
     MenuInflater inflater = getActivity().getMenuInflater();
@@ -553,17 +558,18 @@ public class CategoryList extends SortableListFragment {
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
     String action = getAction();
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
-    maybeHide(menu, R.id.EDIT_COMMAND, isFilter);
-    maybeHide(menu, R.id.DELETE_COMMAND, isFilter);
     maybeHide(menu, R.id.CREATE_COMMAND, isFilter);
     maybeHide(menu, R.id.MOVE_COMMAND, (isFilter || hasChildren));
     maybeHide(menu, R.id.COLOR_COMMAND, !isWithMainColors());
     maybeHide(menu, R.id.SELECT_ALL_COMMAND, true);
   }
 
-  protected void maybeHide(Menu menu, int id, boolean condition) {
+  private void maybeHide(Menu menu, int id, boolean condition) {
     if (condition) {
-      menu.findItem(id).setVisible(false);
+      @Nullable final MenuItem item = menu.findItem(id);
+      if (item != null) {
+        item.setVisible(false);
+      }
     }
   }
 

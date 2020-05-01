@@ -142,7 +142,12 @@
         <item>delete</item>
     </string-array>
 
-    <string-array name="ManageParties_cabitems" tools:ignore="UnusedResources">
+    <string-array name="ManageParties_manage_cabitems" tools:ignore="UnusedResources">
+        <item>edit</item>
+        <item>delete</item>
+    </string-array>
+
+    <string-array name="ManageParties_select_mapping_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
     </string-array>
@@ -469,6 +474,16 @@
     <string-array name="help_ManageTags_select_mapping_info">
         <item>help_ManageTags_manage_info</item>
         <item>help_ManageTags_select_mapping_info</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_manage_info">
+        <item>help_ManageParties_manage_info</item>
+        <item>help_ManageParties_floating_action_button</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_select_mapping_info">
+        <item>help_ManageParties_select_mapping_info</item>
+        <item>help_ManageParties_floating_action_button</item>
     </string-array>
 
     <string-array name="BudgetEdit_formfields" tools:ignore="UnusedResources">

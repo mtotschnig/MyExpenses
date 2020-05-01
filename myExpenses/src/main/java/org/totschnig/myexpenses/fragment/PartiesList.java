@@ -89,6 +89,11 @@ public class PartiesList extends ContextualActionBarFragment {
   }
 
   @Override
+  protected boolean withCommonContext() {
+    return !(getAction().equals(ACTION_SELECT_FILTER));
+  }
+
+  @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     Party party = mAdapter.getItem(menuInfo.position);
@@ -146,7 +151,6 @@ public class PartiesList extends ContextualActionBarFragment {
               idList.toArray(new Long[idList.size()]),
               null,
               R.string.progress_dialog_deleting);
-          return true;
         }
         if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
           String message = "";
@@ -251,7 +255,8 @@ public class PartiesList extends ContextualActionBarFragment {
 
       @Override
       public long getItemId(int position) {
-        return getItem(position).getId();
+        //BUG in Abslistview https://stackoverflow.com/a/15692815/1199911
+        return position < getCount() ? getItem(position).getId() : -1;
       }
     };
     lv.setAdapter(mAdapter);
