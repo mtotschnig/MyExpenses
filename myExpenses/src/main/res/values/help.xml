@@ -44,7 +44,10 @@
   <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Use the floating action button to open the form for creating a new method.</string>
 
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field. Use the floating action button to add a new entry.</string>
+  <string name="help_ManageParties_manage_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.</string>
+  <string name="help_ManageParties_select_mapping_info">Select a party by tapping on it.</string>
+  <string name="help_ManageParties_select_filter_info">Tap on a party for filtering the transaction list. Long tap for selecting multiple parties.</string>
+  <string name="help_ManageParties_floating_action_button">Use the floating action button to add a new entry.</string>
   
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Plan calendar view</string>

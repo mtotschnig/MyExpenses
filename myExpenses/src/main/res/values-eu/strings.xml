@@ -63,7 +63,6 @@
   <string name="dialog_command_disabled_reset_account">Ez dago transakziorik esportatzeko</string>
   <string name="dialog_command_disabled_distribution">Ez da transakziorik lotu kategorietara kontu honetan.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Ez dira doako erabilera gehiago geratzen.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>{app_name}</i> bertsio-berrituz.</string>
@@ -362,8 +361,6 @@
   <string name="save_transaction_template_deleted">Txantiloia ezabatu da</string>
   <string name="select">Aukeratu</string>
   <string name="select_category">Aukeratu kategoria</string>
-  <string name="menu_select_category">Aukeratu kategoria hau</string>
-  <string name="menu_select_folder">Aukeratu karpeta hau</string>
   <string name="share_scheme_not_supported">%1$s eskema ez da onartzen</string>
   <string name="share_sending">Bidali esportazio fitxategia</string>
   <string name="split_parts_heading">Banaketaren zatiak</string>
@@ -446,10 +443,6 @@
   <string name="menu_create_folder">Karpeta berria</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Gora</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Gora</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Behera</string>
   <string name="create_new_folder_fail">Huts egin du karpeta sortzean</string>
   <string name="widget_title_accounts">Nire kontuak</string>
   <string name="widget_title_templates">Nire txantiloiak</string>
@@ -492,7 +485,6 @@
   <string name="menu_distribution_aggreate">Agregatu gatuak eta diru-sarrerak</string>
   <string name="pref_manage_stale_images_title">Irudi soilak</string>
   <string name="pref_manage_stale_images_summary">Kudeatu ezabatutako transakzioetatik soberan geratu diren irudiak</string>
-  <string name="menu_select_categories">Aukeratu markatutako kategoria</string>
   <string name="image_deleted">Irudia ezabatu da</string>
   <string name="transaction_deleted">Transakzioa ezabatu da</string>
   <string name="dialog_export_applied_to_filter">Oraingo iragazkiarekin bat datozen transakzioak besterik ez dira aintzat hartuko.</string>

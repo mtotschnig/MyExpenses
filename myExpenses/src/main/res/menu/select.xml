@@ -17,27 +17,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
-    <item
-        android:id="@id/MOVE_COMMAND"
-        android:icon="@drawable/ic_menu_move"
-        android:orderInCategory="50"
-        android:showAsAction="always"
-        android:title="@string/menu_move">
-    </item>
-    <group android:id="@id/MenuSingleGroup">
+    <group android:id="@id/MenuSingle">
         <item
-            android:id="@id/CREATE_COMMAND"
-            android:icon="@drawable/ic_menu_add"
-            android:orderInCategory="1"
-            android:showAsAction="always"
-            android:title="@string/menu_create_sub_cat">
-        </item>
-        <item
-            android:id="@id/COLOR_COMMAND"
-            android:icon="@drawable/ic_color"
+            android:id="@id/SELECT_COMMAND"
+            android:icon="@drawable/ic_menu_done"
             android:orderInCategory="0"
             android:showAsAction="always"
-            android:title="@string/menu_color">
+            android:title="@string/select">
         </item>
     </group>
 </menu>

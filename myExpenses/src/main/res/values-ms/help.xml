@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Skrin ini menyenaraikan kaedah pembayaran pratakrif (Cek, Kad kredir, Deposit, Debit terus) dan membolehkan anda takrifkan yang baharu. Guna butang tindakan apung  buka borang untuk mencipta kaedah baharu.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Skrin ini menyenaraikan pihak yang digunakan untuk autopelengkapan bagi medan Pembayar/Penerima. Guna butang tindakan apung untuk menambah satu masukan baharu.</string>
+  <string name="help_ManageParties_manage_info">Skrin ini menyenaraikan pihak yang digunakan untuk autopelengkapan bagi medan Pembayar/Penerima.</string>
+  <string name="help_ManageParties_floating_action_button">Guna butang tindakan apung untuk menambah satu masukan baharu.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Paparan plan kalendar</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Walaupun templat boleh diterbit dari transaksi melalui menu konteks mereka, di sini ana boleh cipta templat baharu dari kosong (untuk transaksi atau pemindahan) dengan mengklik pada butang tindakan apung. Mengklik pada templat, akan hasilkan tika untuknya.<br><img src=\"ic_event\">Plan ialah templat yang mana anda telah wujudkan peristiwa (sekali atau berulang) di dalam kalendar perancang. Dengan mengklik pada plan, paparan kalendar akan dibuka, yang menunjukkan tika plan terdahulu atau akan datang.]]></string>

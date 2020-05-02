@@ -51,7 +51,6 @@
   <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
   <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
   <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
@@ -305,8 +304,6 @@
   <string name="save_transaction_template_deleted">تم حذف النموذج</string>
   <string name="select">اختر</string>
   <string name="select_category">اختر تصنيف</string>
-  <string name="menu_select_category">اختر هذا التصنيف</string>
-  <string name="menu_select_folder">اختر هذا المجلد</string>
   <string name="share_scheme_not_supported">الطريقة %1$s غير مدعومة</string>
   <string name="share_sending">ارسال الملف المصدّر</string>
   <string name="split_parts_heading">تقسيم</string>
@@ -342,9 +339,6 @@
   <string name="menu_create_folder">مجلد جديد</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">أعلى</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">أعلى</string>
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">فشل في انشاء المجلد</string>
   <string name="widget_title_accounts">حساباتي</string>
   <string name="widget_title_templates">نماذجي</string>

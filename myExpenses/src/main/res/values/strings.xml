@@ -79,7 +79,6 @@
     <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Try</string>
-    <string name="dialog_contrib_no_usages_left">No free usages left.</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s is a premium feature (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>
@@ -382,8 +381,7 @@
     <string name="save_transaction_template_deleted">Template has been deleted</string>
     <string name="select">Select</string>
     <string name="select_category">Select category</string>
-    <string name="menu_select_category">Select this category</string>
-    <string name="menu_select_folder">Select this folder</string>
+    <string name="select_payee">Select payer/payee</string>
     <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
     <string name="share_sending">Send export file</string>
     <string name="split_parts_heading">Split parts</string>
@@ -467,10 +465,6 @@
     <string name="menu_create_folder">New folder</string>
     <!-- This string is used for navigating up in the folder browser -->
     <string name="menu_up">Up</string>
-    <!-- This is used as content description for the navigation control in the widgets -->
-    <string name="menu_sort_up">Up</string>
-    <!-- This is used as content description for the navigation control in the widgets -->
-    <string name="menu_sort_down">Down</string>
     <string name="create_new_folder_fail">Failed to create the folder</string>
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>
@@ -515,7 +509,6 @@
     <string name="menu_distribution_aggreate">Aggregate expenses and income</string>
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
-    <string name="menu_select_categories">Select checked categories</string>
     <string name="image_deleted">Picture has been deleted</string>
     <string name="transaction_deleted">Transaction has been deleted</string>
     <string name="dialog_export_applied_to_filter">Only transactions matched by the current filter will be considered.</string>
@@ -704,8 +697,6 @@
     <string name="never">never</string>
     <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
-    <string name="dropbox_folder_name_prompt">Enter the name of an existing folder at the root level of your Dropbox</string>
-    <string name="dropbox_folder_not_found">Folder not found</string>
     <string name="sync_auth_exception_login_again">Authorization failed. Please log in again.</string>
     <string name="sync_loading_accounts_from_backend">Loading available accounts from backend.</string>
     <plurals name="delete_success">
@@ -781,12 +772,7 @@
     <string name="pref_scroll_to_current_date_summary">Upon app start, scroll transaction list to current date</string>
     <string name="professional_key_fallback_info">A subscription to the Professional Key that has been active for at least one year and is not renewed, will be automatically transformed into an unlimited Extended Key.</string>
     <string name="menu_budget">Budgeting</string>
-    <string name="dialog_title_new_budget">New budget</string>
     <string name="dialog_title_edit_budget">Edit budget</string>
-    <string name="daily_budget">Daily budget</string>
-    <string name="weekly_budget">Weekly budget</string>
-    <string name="monthly_budget">Monthly budget</string>
-    <string name="yearly_budget">Yearly budget</string>
     <string name="budget_table_header_budgeted">Budgeted</string>
     <string name="budget_table_header_allocated">Allocated</string>
     <string name="budget_table_header_spent">Spent</string>

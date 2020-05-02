@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">試してみる</string>
-  <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
   <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
@@ -364,8 +363,6 @@
   <string name="save_transaction_template_deleted">テンプレートが削除されました。</string>
   <string name="select">選択</string>
   <string name="select_category">分類の選択</string>
-  <string name="menu_select_category">この分類を選択</string>
-  <string name="menu_select_folder">このフォルダーを選択</string>
   <string name="share_scheme_not_supported">スキーム %1$s はサポートされていません</string>
   <string name="share_sending">エクスポートファイルを送信</string>
   <string name="split_parts_heading">分割パート</string>
@@ -444,10 +441,6 @@
   <string name="menu_create_folder">新しいフォルダー</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">上へ</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">上へ</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">下へ</string>
   <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
   <string name="widget_title_accounts">マイ勘定</string>
   <string name="widget_title_templates">マイ テンプレート</string>
@@ -491,7 +484,6 @@
   <string name="menu_distribution_aggreate">支出と収入を集計</string>
   <string name="pref_manage_stale_images_title">古くなった画像</string>
   <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
-  <string name="menu_select_categories">チェックした分類を選択</string>
   <string name="image_deleted">写真が削除されました</string>
   <string name="transaction_deleted">取引が削除されました</string>
   <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
@@ -680,8 +672,6 @@
   <string name="never">しない</string>
   <string name="always">常に</string>
   <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
-  <string name="dropbox_folder_name_prompt">Dropboxのルートレベルで既存フォルダーの名前を入力</string>
-  <string name="dropbox_folder_not_found">フォルダーが見つかりません</string>
   <string name="sync_auth_exception_login_again">認証に失敗しました。もう一度ログインしてください。</string>
   <string name="sync_loading_accounts_from_backend">バックエンドから利用可能な口座をロード中。</string>
   <plurals name="delete_success">
@@ -755,12 +745,7 @@
   <string name="pref_scroll_to_current_date_summary">アプリの起動時に、取引リストを現在の日付にスクロールします</string>
   <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
   <string name="menu_budget">予算作成</string>
-  <string name="dialog_title_new_budget">新しい予算</string>
   <string name="dialog_title_edit_budget">予算を編集</string>
-  <string name="daily_budget">毎日の予算</string>
-  <string name="weekly_budget">毎週の予算</string>
-  <string name="monthly_budget">毎月の予算</string>
-  <string name="yearly_budget">毎年の予算</string>
   <string name="budget_table_header_budgeted">予算計画済</string>
   <string name="budget_table_header_allocated">割り当て済</string>
   <string name="budget_table_header_spent">消費</string>

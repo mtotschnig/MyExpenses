@@ -50,7 +50,6 @@
   <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
   <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Denne funktion kan ikke længere bruges gratis.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt annonce gratis og open source.</string>
@@ -331,8 +330,6 @@
   <string name="save_transaction_template_deleted">Skabelonen blev slettet</string>
   <string name="select">Vælg</string>
   <string name="select_category">Vælg kategori</string>
-  <string name="menu_select_category">Vælg denne kategori</string>
-  <string name="menu_select_folder">Vælg denne mappe</string>
   <string name="share_scheme_not_supported">Skema %1$s understøttes ikke</string>
   <string name="share_sending">Send eksportfilen</string>
   <string name="split_parts_heading">Splittede delbeløb</string>
@@ -402,9 +399,6 @@
   <string name="menu_create_folder">Ny mappe</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Op</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Op</string>
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
   <string name="widget_title_accounts">Mine konti</string>
   <string name="widget_title_templates">Mine skabeloner</string>
@@ -445,7 +439,6 @@
   <string name="menu_distribution_aggreate">Samlede udgifter og indtægter</string>
   <string name="pref_manage_stale_images_title">Gamle billeder</string>
   <string name="pref_manage_stale_images_summary">Administrer billeder fra slettede posteringer</string>
-  <string name="menu_select_categories">Vælg kontrollerede kategorier</string>
   <string name="image_deleted">Billedet slettet</string>
   <string name="dialog_export_applied_to_filter">Der medtages kun posteringer der svarer til den aktuelle filter.</string>
   <string name="export_handle_deleted_create_helper">Opret postering til en hjælpekonto</string>

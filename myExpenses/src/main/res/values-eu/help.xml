@@ -21,7 +21,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txekea, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. Erabili ekintza botoi flotatzailea metodo berri bat sortzeko formularioa irekitzeko.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Pantaila honek Ordaintzailea/Onuraduna eremua automatikoki betetzeko erabiltzen diren balioak zerrendatzen ditu. Erabili ekintza botoi mugikorra sarrera berri bat gehitzeko.</string>
+  <string name="help_ManageParties_manage_info">Pantaila honek Ordaintzailea/Onuraduna eremua automatikoki betetzeko erabiltzen diren balioak zerrendatzen ditu.</string>
+  <string name="help_ManageParties_floating_action_button">Erabili ekintza botoi mugikorra sarrera berri bat gehitzeko.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Egutegi ikuspegia</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Txantiloiak transakzioetatik erator daitezke beraien laster-menuaren bidez, hemen txantiloi berriak sor ditzakezu hutsetik (transakzioetarako edo transferentzietarako) ekintza botoi mugikorrean klik eginez. Txantiloi batean klik eginez, horretarako instantzia bat sortzen da.<br><img src=\"ic_event\">Plan bat egutegiaren antolatzailean berarentzako gertaera bat (behin edo errepikakorra) sortu duzun txantiloi bat da. Plan batean klik egiteak egutegi ikuspegia irekiko du, zeinak plan baten iraganeko eta hurrengo instantziak bistaratuko dituen.]]></string>

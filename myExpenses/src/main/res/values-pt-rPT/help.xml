@@ -21,7 +21,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Este ecrã lista os métodos de pagamento predefinidos (cheque, cartão de crédito, depósito, débito direto) e permite-lhe definir novos métodos. Utilize o botão de ação flutuante para abrir o formulário de criação de um novo método.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Este ecrã lista os participantes utilizados no preenchimento automático do campo do pagador/beneficiário. Utilize o botão de ação flutuante para adicionar uma nova entrada.</string>
+  <string name="help_ManageParties_manage_info">Este ecrã lista os participantes utilizados no preenchimento automático do campo do pagador/beneficiário.</string>
+  <string name="help_ManageParties_select_filter_info">Utilize o botão de ação flutuante para adicionar uma nova entrada.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Vista de calendário de planeamento</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Enquanto que os modelos podem derivar de transações através dos respetivos menus de contexto, aqui pode criar novos modelos a partir do zero (para transações ou transferências) clicando no botão de ação flutuante. Clicar num modelo, irá criar uma ocorrência para o mesmo.<br><img src=\"ic_event\">Um plano é um modelo para o qual criou um evento (único ou recorrente) no calendário de planeamento. Clicar num plano, abrirá a vista de calendário que exibe as ocorrências passadas e futuras de um plano.]]></string>
