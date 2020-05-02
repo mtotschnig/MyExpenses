@@ -13,7 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import icepick.Icepick
 import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
@@ -25,17 +25,18 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectPayeeFilterDialog
 import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria
 import org.totschnig.myexpenses.provider.filter.Criteria
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 import org.totschnig.myexpenses.provider.filter.TagCriteria
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
@@ -74,7 +75,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         Description.addTextChangedListener(this)
         Amount.addTextChangedListener(this)
         typeSpinnerHelper.setOnItemSelectedListener(this)
-        Accounts.setOnItemSelectedListener(this)
+        Accounts.onItemSelectedListener = this
         (budget?.start ?: LocalDate.now()).let {
             DurationFrom.initWith(it, this)
         }
@@ -100,7 +101,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         configureFilterDependents()
     }
 
-    fun startFilterDialog(id: Int) {
+    private fun startFilterDialog(id: Int) {
         when (id) {
             R.id.FILTER_CATEGORY_COMMAND -> {
                 Intent(this, ManageCategories::class.java).apply {
@@ -115,8 +116,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 }
             }
             R.id.FILTER_PAYEE_COMMAND -> {
-                SelectPayeeFilterDialog()
-                        .show(supportFragmentManager, "PAYER_FILTER")
+                Intent(this, ManageParties::class.java).apply {
+                    action = ACTION_SELECT_FILTER
+                    startActivityForResult(this, ProtectedFragmentActivity.FILTER_PAYEE_REQUEST)
+                }
             }
             R.id.FILTER_METHOD_COMMAND -> {
                 SelectMethodsAllDialogFragment()
@@ -137,9 +140,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         Icepick.restoreInstanceState(this, savedInstanceState)
         setContentView(R.layout.one_budget)
         setupToolbar()
-        viewModel = ViewModelProviders.of(this).get(BudgetEditViewModel::class.java)
-        viewModel.accounts.observe(this, Observer {
-            Accounts.adapter = AccountAdapter(this, it)
+        viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
+        viewModel.accounts.observe(this, Observer { list ->
+            Accounts.adapter = AccountAdapter(this, list)
             linkInputWithLabel(Accounts, AccountsLabel)
             accountId?.let { populateAccount(it) }
         })
@@ -173,21 +176,43 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST && resultCode != Activity.RESULT_CANCELED) {
-            val label = intent!!.getStringExtra(KEY_LABEL)
-            if (resultCode == Activity.RESULT_OK) {
-                val catId = intent.getLongExtra(KEY_CATID, 0)
-                addCategoryFilter(label, catId)
-            }
-            if (resultCode == Activity.RESULT_FIRST_USER) {
-                val catIds = intent.getLongArrayExtra(KEY_CATID)
-                addCategoryFilter(label, *catIds)
-            }
-        } else if (requestCode == ProtectedFragmentActivity.FILTER_TAGS_REQUEST) {
-            intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)?.takeIf { it.size > 0 }?.let {
-                val tagIds = it.map(Tag::id).toLongArray()
-                val label = it.map(Tag::label).joinToString(", ")
-                addFilterCriteria(TagCriteria(label, *tagIds))
+        if (resultCode != Activity.RESULT_CANCELED) {
+            when (requestCode) {
+                ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST -> {
+                    intent?.getStringExtra(KEY_LABEL)?.let { label ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            intent.getLongExtra(KEY_CATID, 0).takeIf { it > 0 }?.let {
+                                addCategoryFilter(label, it)
+                            }
+                        }
+                        if (resultCode == Activity.RESULT_FIRST_USER) {
+                            intent.getLongArrayExtra(KEY_CATID)?.let {
+                                addCategoryFilter(label, *it)
+                            }
+                        }
+                    }
+                }
+                ProtectedFragmentActivity.FILTER_TAGS_REQUEST -> {
+                    intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)?.takeIf { it.size > 0 }?.let {
+                        val tagIds = it.map(Tag::id).toLongArray()
+                        val label = it.map(Tag::label).joinToString(", ")
+                        addFilterCriteria(TagCriteria(label, *tagIds))
+                    }
+                }
+                ProtectedFragmentActivity.FILTER_PAYEE_REQUEST -> {
+                    intent?.getStringExtra(KEY_LABEL)?.let { label ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            intent.getLongExtra(KEY_PAYEEID, 0).takeIf { it > 0 }?.let {
+                                addPayeeFilter(label, it)
+                            }
+                        }
+                        if (resultCode == Activity.RESULT_FIRST_USER) {
+                            intent.getLongArrayExtra(KEY_PAYEEID)?.let {
+                                addPayeeFilter(label, *it)
+                            }
+                        }
+                    }
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, intent)
@@ -196,6 +221,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
         (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriteria()
         else CategoryCriteria(label, *catIds)).let {
+            addFilterCriteria(it)
+        }
+    }
+
+    private fun addPayeeFilter(label: String, vararg payeeIds: Long) {
+        (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriteria()
+        else PayeeCriteria(label, *payeeIds)).let {
             addFilterCriteria(it)
         }
     }

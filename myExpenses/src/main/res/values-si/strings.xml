@@ -37,7 +37,6 @@
   <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
   <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">නිදහස් පාවිච්චි කිරීම් ඉතිරව නැත </string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
@@ -288,7 +287,6 @@
   <string name="save_transaction_template_deleted">අච්චුව මකා දමන ලදී </string>
   <string name="select">තෝරන්න </string>
   <string name="select_category">වර්ගය තෝරාගන්න </string>
-  <string name="menu_select_category">මෙම ප්‍රබෙධය තෝරාගන්න </string>
   <string name="share_scheme_not_supported">%1$s ක්‍රමය තහවුරු නොකරයි </string>
   <string name="share_sending">අපනයනය කල ලිපි ගොනුව යවන්න </string>
   <string name="split_parts_heading">කොටස් බෙදන්න </string>
@@ -349,9 +347,6 @@
   <string name="menu_create_folder">නව ගොනුව </string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">ඉහල </string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">ඉහල </string>
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
   <string name="widget_title_accounts">මගේ ගිණුම් </string>
   <string name="widget_title_templates">මගේ අච්චු </string>

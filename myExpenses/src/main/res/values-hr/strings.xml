@@ -46,7 +46,6 @@
   <string name="dialog_command_disabled_reset_account">Ne postoje transakcije za eksport.</string>
   <string name="dialog_command_disabled_distribution">Nema transakcija označenih uz kategorije unutar ovog računa.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Ne postoji više besplatnih uporaba.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s mogu koristiti samo premium korisnici (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> ne sarži reklame i otvorenog je koda.</string>
@@ -324,7 +323,6 @@
   <string name="save_transaction_template_deleted">Predložak izbrisan</string>
   <string name="select">Odaberi</string>
   <string name="select_category">Odaberi kategoriju</string>
-  <string name="menu_select_category">Odaberi ovu kategoriju</string>
   <string name="share_scheme_not_supported">Shema %1$s nije podržana</string>
   <string name="share_sending">Pošalji eksportirani dokument</string>
   <string name="split_parts_heading">Dijelovi odvojenih transakcija</string>
@@ -395,9 +393,6 @@
   <string name="menu_create_folder">Nova mapa</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Gore</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Gore</string>
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Kreiranje mape nije uspjelo</string>
   <string name="widget_title_accounts">Moji računi</string>
   <string name="widget_title_templates">Moji predlošci.</string>

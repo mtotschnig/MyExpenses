@@ -4,10 +4,13 @@
     <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
     <string name="help_ManageTemplates_templates_title">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
+    <string name="help_ManageParties_manage_title">@string/pref_manage_parties_title</string>
     <string name="help_Distribution_title">@string/menu_distribution</string>
     <string name="help_BudgetActivity_title">@string/menu_budget</string>
     <string name="help_ManageCategories_select_mapping_title">@string/select_category</string>
+    <string name="help_ManageParties_select_mapping_title">@string/select_payee</string>
     <string name="help_ManageCategories_select_filter_title">@string/search_category</string>
+    <string name="help_ManageParties_select_filter_title">@string/search_payee</string>
     <string name="help_ManageCurrencies_title">@string/pref_custom_currency_title</string>
     <string name="help_FolderBrowser_title">@string/pref_app_dir_title</string>
     <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>

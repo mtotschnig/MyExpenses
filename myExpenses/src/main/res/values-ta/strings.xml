@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">இந்த கணக்கில் எந்தவொரு பரிவர்த்தனையும் வகைப்படுத்தப்படவில்லை.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">முயற்சி செய்</string>
-  <string name="dialog_contrib_no_usages_left">இலவச பயன்பாடுகள் மீதம் இல்லை.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ஒரு மதிப்பு அம்சம் (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் இந்த வரம்பை நீக்கி கூடுதல் அம்சங்களை பெறலாம்.</string>
@@ -368,8 +367,6 @@
   <string name="save_transaction_template_deleted">வார்ப்புரு நீக்கப்பட்டது</string>
   <string name="select">தேர்வு செய்க</string>
   <string name="select_category">வகையைத் தேர்வு செய்க</string>
-  <string name="menu_select_category">இந்த வகையைத் தேர்வு செய்க</string>
-  <string name="menu_select_folder">இந்த கோப்புறையைத் தேர்வு செய்க</string>
   <string name="share_scheme_not_supported">ஆதரிக்கப்படாதத் திட்டம்: %1$s</string>
   <string name="share_sending">ஏற்றுமதி கோப்பை பகிர்</string>
   <string name="split_parts_heading">பிரிவு பகுதிகள்</string>
@@ -453,10 +450,6 @@
   <string name="menu_create_folder">புதிய கோப்புறை</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">மேலே</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">மேலே</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">கீழே</string>
   <string name="create_new_folder_fail">கோப்புறையை உருவாக்க முடியவில்லை</string>
   <string name="widget_title_accounts">எனது கணக்குகள்</string>
   <string name="widget_title_templates">எனது வார்ப்புருக்கள்</string>
@@ -501,7 +494,6 @@
   <string name="menu_distribution_aggreate">மொத்த செலவுகள் மற்றும் வருமானம்</string>
   <string name="pref_manage_stale_images_title">நாள்பட்ட படங்கள்</string>
   <string name="pref_manage_stale_images_summary">நீக்கப்பட்ட பரிவர்த்தனைகளில் இருந்து மீதமுள்ள படங்களை நிர்வகிக்கவும்</string>
-  <string name="menu_select_categories">சரிபார்க்கப்பட்ட வகைகளைத் தேர்ந்தெடுக்கவும்</string>
   <string name="image_deleted">படம் நீக்கப்பட்டது</string>
   <string name="transaction_deleted">பரிவர்த்தனை நீக்கப்பட்டது</string>
   <string name="dialog_export_applied_to_filter">தற்போதைய வடிப்பான் மூலம் பொருந்திய பரிவர்த்தனைகள் மட்டுமே கருதப்படும்.</string>
@@ -690,8 +682,6 @@
   <string name="never">எப்போதும் இல்லை</string>
   <string name="always">எப்பொழுதும்</string>
   <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>
-  <string name="dropbox_folder_name_prompt">உங்கள் டிராப்பாக்ஸின் மூல மட்டத்தில் இருக்கும் கோப்புறையின் பெயரை உள்ளிடவும்</string>
-  <string name="dropbox_folder_not_found">கோப்புறை இல்லை</string>
   <string name="sync_auth_exception_login_again">அதிகாரமளிப்பு தோல்வியடைந்தது. தயவு செய்து மீண்டும் புகுபதிகை செய்க.</string>
   <string name="sync_loading_accounts_from_backend">பின்தளத்தில் இருக்கக்கூடிய கணக்குகளை ஏற்றுகிறது.</string>
   <plurals name="delete_success">
@@ -767,12 +757,7 @@
   <string name="pref_scroll_to_current_date_summary">செயலியை தொடங்கும் போது, நடப்பு தேதியின் பரிவர்த்தனை பட்டியலை காட்டு</string>
   <string name="professional_key_fallback_info">குறைந்தபட்சம் ஒரு வருடத்திற்கு செயலில் உள்ள நிபுணத்துவ திறவுகோலுக்கான சந்தா புதுப்பிக்கப்படவில்லையெனில், தானாகவே வரம்பற்ற விரிவாக்கப்பட்ட திறவுகோலாக மாற்றப்படும்.</string>
   <string name="menu_budget">வரவு செலவுத் திட்டம்</string>
-  <string name="dialog_title_new_budget">புதிய வரவு செலவுத் திட்டம்</string>
   <string name="dialog_title_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>
-  <string name="daily_budget">தினசரி வரவு செலவுத் திட்டம்</string>
-  <string name="weekly_budget">வாராந்திர வரவு செலவுத் திட்டம்</string>
-  <string name="monthly_budget">மாதாந்திர வரவு செலவுத் திட்டம்</string>
-  <string name="yearly_budget">வருடாந்திர வரவு செலவுத் திட்டம்</string>
   <string name="budget_table_header_budgeted">திட்டமிடப்பட்டது</string>
   <string name="budget_table_header_allocated">ஒதுக்கப்பட்டது</string>
   <string name="budget_table_header_spent">செலவிடப்பட்டது</string>

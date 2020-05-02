@@ -90,9 +90,15 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     return 0;
   }
 
+  protected boolean withCommonContext() {
+    return true;
+  }
+
   protected void inflateHelper(Menu menu, int listId) {
     MenuInflater inflater = getActivity().getMenuInflater();
-    inflater.inflate(R.menu.common_context, menu);
+    if (withCommonContext()) {
+      inflater.inflate(R.menu.common_context, menu);
+    }
     int menuResource = getMenuResource();
     if (menuResource != 0)
       inflater.inflate(menuResource, menu);

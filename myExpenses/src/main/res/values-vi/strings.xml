@@ -64,7 +64,6 @@
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
   <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s là tính năng trả phí (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>{app_name}</i></string>
@@ -361,8 +360,6 @@
   <string name="save_transaction_template_deleted">Bản mẫu đã bị xóa</string>
   <string name="select">Chọ</string>
   <string name="select_category">Chọn phân loại</string>
-  <string name="menu_select_category">Chọn phân loại này</string>
-  <string name="menu_select_folder">Chọn thư mục này</string>
   <string name="share_scheme_not_supported">Sự phối hợp %1$s không được hỗ trợ</string>
   <string name="share_sending">Gửi tập tin xuất dữ liệu</string>
   <string name="split_parts_heading">Tách thành từng phần</string>
@@ -440,10 +437,6 @@
   <string name="menu_create_folder">Thư mục mới</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Lên</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Lên</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Xuống</string>
   <string name="create_new_folder_fail">Không thể tạo thư mục</string>
   <string name="widget_title_accounts">Tài khoản của tôi</string>
   <string name="widget_title_templates">Bản mẫu của tôi</string>
@@ -487,7 +480,6 @@
   <string name="menu_distribution_aggreate">Gộp thu và chi</string>
   <string name="pref_manage_stale_images_title">Ảnh mất hiệu lực</string>
   <string name="pref_manage_stale_images_summary">Xử lý hình ảnh còn dư từ các giao dịch đã bị xoá</string>
-  <string name="menu_select_categories">Chọn các danh mục được đánh dấu</string>
   <string name="image_deleted">Ảnh đã bị xoá</string>
   <string name="transaction_deleted">Giao dịch đã bị xoá</string>
   <string name="dialog_export_applied_to_filter">Chỉ các giao dịch khớp bộ lọc hiện tại sẽ được tính đến</string>
@@ -672,8 +664,6 @@
   <string name="never">không bao giờ</string>
   <string name="always">luôn luôn</string>
   <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>
-  <string name="dropbox_folder_name_prompt">Nhập vào tên thư mục sẵn có tại cấp cao nhất (root level) trên kho lưu trữ Dropbox</string>
-  <string name="dropbox_folder_not_found">Không tìm thấy thư mục</string>
   <string name="sync_auth_exception_login_again">Không thể uỷ quyền. Vui lòng đăng nhập lại.</string>
   <string name="sync_loading_accounts_from_backend">Đang nạp các tài khoản sẵn có từ backend.</string>
   <plurals name="delete_success">
@@ -735,12 +725,7 @@
   <string name="credit_limit">Giới hạn tín dụng</string>
   <string name="clear_all_filters">Xóa tất cả bộ lọc</string>
   <string name="menu_budget">Ngân quỹ</string>
-  <string name="dialog_title_new_budget">Quỹ mới</string>
   <string name="dialog_title_edit_budget">Sửa quỹ</string>
-  <string name="daily_budget">Quỹ theo ngày</string>
-  <string name="weekly_budget">Quỹ theo tuần</string>
-  <string name="monthly_budget">Quỹ theo tháng</string>
-  <string name="yearly_budget">Quỹ theo năm</string>
   <string name="budget_table_header_budgeted">Đã góp quỹ</string>
   <string name="budget_table_header_allocated">Đã phân bố</string>
   <string name="budget_table_header_spent">Đã chi</string>

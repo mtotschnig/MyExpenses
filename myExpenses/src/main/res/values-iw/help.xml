@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. השתמש בלחצן פעולה הצף כדי לפתוח את הטופס ליצירת שיטה חדשה.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של משלם / מקבל התשלום. השתמש בלחצן הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
+  <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של משלם / מקבל התשלום. השתמש בלחצן </string>
+  <string name="help_ManageParties_floating_action_button">הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
   <string name="help_ManageTemplates_templates_info"> <![CDATA[<img src=\"ic_menu_template\"> בעוד שתבניות ניתן לגזור מעסקאות באמצעות תפריט ההקשר שלהם, כאן אתה יכול ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורו.<br><img src=\"ic_event\"> תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידים של תוכנית.]]></string>

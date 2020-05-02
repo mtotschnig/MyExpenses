@@ -43,7 +43,6 @@
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">គ្មាន​ការ​ប្រើប្រាស់​ដោយអត់​បង់ថ្លៃ​នៅសល់​ទេ។</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។ (%2$s)</string>
   <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
@@ -288,7 +287,6 @@
   <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
   <string name="select">ជ្រើសរើស</string>
   <string name="select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់</string>
-  <string name="menu_select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់​មួយនេះ</string>
   <string name="share_scheme_not_supported">គ្រោងការណ៍ %1$s មិន​ត្រូវបាន​គាំទ្រ</string>
   <string name="share_sending">ផ្ញើឯកសារនាំចេញ</string>
   <string name="split_parts_heading">ញែក​ផ្នែក</string>
@@ -341,9 +339,6 @@
   <string name="menu_create_folder">ថត​ថ្មី</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">ទៅលើ</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">ទៅលើ</string>
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">បរាជ័យ​ក្នុង​ការបង្កើតថតនេះ</string>
   <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
   <string name="widget_title_templates">ពុម្ព​របស់ខ្ញុំ</string>

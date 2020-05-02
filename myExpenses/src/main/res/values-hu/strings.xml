@@ -43,7 +43,6 @@
   <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
   <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Nincs több ingyenes számla lehetőség.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> reklám mentes és nyitott forráskódú.</string>
@@ -260,7 +259,6 @@
   <string name="save_transaction_template_deleted">Sablon törölve</string>
   <string name="select">Kiválasztás</string>
   <string name="select_category">Kategória kiválasztása</string>
-  <string name="menu_select_category">Ezen kategória kiválasztása</string>
   <string name="share_scheme_not_supported">A %1$s séma nem támogatott</string>
   <string name="share_sending">Export állomány küldése</string>
   <string name="split_parts_heading">Részletösszegek</string>
@@ -297,8 +295,6 @@
   <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
   <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--This is used as content description for the navigation control in the widgets-->
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_time_title">Automatikus biztonsági mentés ideje</string>

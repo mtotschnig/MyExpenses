@@ -64,7 +64,6 @@
   <string name="dialog_command_disabled_reset_account">Немає операцій для експорту.</string>
   <string name="dialog_command_disabled_distribution">Жодній операцій в цьому рахунку не було присвоєно категорію.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">Більше немає можливості вільного використання.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s є преміум-функцією (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Усуньте це обмеження та отримайте доступ до додаткових функцій, модернізувавши <i>{app_name}</i> до преміум-версії.</string>
@@ -367,8 +366,6 @@
   <string name="save_transaction_template_deleted">Шаблон видалено</string>
   <string name="select">Вибрати</string>
   <string name="select_category">Вибрати категорію</string>
-  <string name="menu_select_category">Вибрати цю категорію</string>
-  <string name="menu_select_folder">Вибрати цю теку</string>
   <string name="share_scheme_not_supported">Схема %1$s не підтримується</string>
   <string name="share_sending">Надіслати експортний файл</string>
   <string name="split_parts_heading">Частини поділу</string>
@@ -461,10 +458,6 @@
   <string name="menu_create_folder">Нова тека</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Вгору</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Вгору</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Вниз</string>
   <string name="create_new_folder_fail">Не вдалося створити теку</string>
   <string name="widget_title_accounts">Мої рахунки</string>
   <string name="widget_title_templates">Мої шаблони</string>
@@ -508,7 +501,6 @@
   <string name="menu_distribution_aggreate">Об\'єднати витрати та доходи</string>
   <string name="pref_manage_stale_images_title">Старі зображення</string>
   <string name="pref_manage_stale_images_summary">Керування зображеннями, залишеними після видалених операцій</string>
-  <string name="menu_select_categories">Вибрати відмічені категорії</string>
   <string name="image_deleted">Зображення було видалено</string>
   <string name="transaction_deleted">Операцію було видалено</string>
   <string name="dialog_export_applied_to_filter">Буде розглянуто лише операції, які відповідають поточному фільтру.</string>
@@ -695,8 +687,6 @@
   <string name="never">ніколи</string>
   <string name="always">завжди</string>
   <string name="auto_fill_account_from_aggregate_only">Лише коли розпочатий з об\'єднаного рахунку.</string>
-  <string name="dropbox_folder_name_prompt">Введіть назву існуючої теки на кореневому рівні вашого Dropbox</string>
-  <string name="dropbox_folder_not_found">Теку не знайдено</string>
   <string name="sync_auth_exception_login_again">Помилка авторизації. Спробуйте знову.</string>
   <string name="sync_loading_accounts_from_backend">Завантаження доступних рахунків із сервера.</string>
   <plurals name="delete_success">
@@ -775,12 +765,7 @@
   <string name="pref_scroll_to_current_date_summary">Після запуску програми прокручувати список операцій до поточної дати</string>
   <string name="professional_key_fallback_info">Підписку на Професійну версію, яка була активною протягом принаймні одного року та не була поновлена, буде автоматично перетворено в необмежену Розширену версію.</string>
   <string name="menu_budget">Бюджетування</string>
-  <string name="dialog_title_new_budget">Новий бюджет</string>
   <string name="dialog_title_edit_budget">Редагувати бюджет</string>
-  <string name="daily_budget">Денний бюджет</string>
-  <string name="weekly_budget">Тижневий бюджет</string>
-  <string name="monthly_budget">Місячний бюджет</string>
-  <string name="yearly_budget">Річний бюджет</string>
   <string name="budget_table_header_budgeted">Розподілено</string>
   <string name="budget_table_header_allocated">Виділено</string>
   <string name="budget_table_header_spent">Витрачено</string>

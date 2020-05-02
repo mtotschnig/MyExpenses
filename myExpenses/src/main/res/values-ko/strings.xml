@@ -59,7 +59,6 @@
   <string name="dialog_command_disabled_reset_account">내보낼 거래 내역이 없습니다.</string>
   <string name="dialog_command_disabled_distribution">이 계좌의 카테고리에 배치할 거래 내역이 없습니다.</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">무료 사용량이 소진되었습니다.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
@@ -338,8 +337,6 @@
   <string name="save_transaction_template_deleted">템플릿이 삭제되었습니다.</string>
   <string name="select">선택</string>
   <string name="select_category">카테고리 선택</string>
-  <string name="menu_select_category">이 카테고리 선택</string>
-  <string name="menu_select_folder">이 폴더 선택</string>
   <string name="share_scheme_not_supported">%1$s 구성 방안은 지원되지 않습니다.</string>
   <string name="share_sending">내보내기 파일 전송</string>
   <string name="split_parts_heading">분할 거래의 일부분</string>
@@ -411,9 +408,6 @@
   <string name="menu_create_folder">새 폴더</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">위</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">위</string>
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">폴더를 생성하지 못했습니다</string>
   <string name="widget_title_accounts">내 계좌</string>
   <string name="widget_title_templates">내 템플릿</string>
@@ -455,7 +449,6 @@
   <string name="menu_distribution_aggreate">지출과 수입 총계</string>
   <string name="pref_manage_stale_images_title">오래된 이미지</string>
   <string name="pref_manage_stale_images_summary">삭제된 거래 내역으로부터 남겨진 사진 관리</string>
-  <string name="menu_select_categories">체크된 카테고리 선택</string>
   <string name="image_deleted">사진이 삭제되었습니다</string>
   <string name="dialog_export_applied_to_filter">현재의 필터와 일치하는 거래 내역만이 고려됩니다.</string>
   <string name="export_handle_deleted_create_helper">보조 거래 내역 생성</string>

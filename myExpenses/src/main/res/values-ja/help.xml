@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">この画面では、あらかじめ定義された支払方法 (小切手/手形、クレジットカード、預金、口座振替) を一覧表示し、新しいものを定義することができます。フローティングアクションボタンを使用すると、新しい方法を作成するためのフォームを開きます。</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">この画面は、支払人/受取人フィールドのオートコンプリート用に使用される取引先/支払先が一覧表示されます。フローティングアクションボタンを使用して、新しいエントリを追加します。</string>
+  <string name="help_ManageParties_manage_info">この画面は、支払人/受取人フィールドのオートコンプリート用に使用される取引先/支払先が一覧表示されます。</string>
+  <string name="help_ManageParties_floating_action_button">フローティングアクションボタンを使用して、新しいエントリを追加します。</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">計画カレンダー表示</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">テンプレートは、取引のコンテキストメニューから導出することができますが、フローティングアクションボタンをクリックして、ここで最初から (取引または振替用の) 新しいテンプレートを作成することができます。テンプレートをクリックすると、そのためのインスタンスを作成します。<br><img src=\"ic_event\">計画はプランナーカレンダーに (1回限りまたは定期的) イベントを作成するためのテンプレートです。計画をクリックすると、過去と今後の計画インスタンスを表示するカレンダービューを開きます。]]></string>

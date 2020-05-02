@@ -27,7 +27,7 @@
     <item
         android:id="@id/SELECT_COMMAND"
         android:icon="@drawable/ic_menu_done"
-        android:title="@string/menu_select_folder"
+        android:title="@string/select"
         app:showAsAction="always"/>
 
     <item

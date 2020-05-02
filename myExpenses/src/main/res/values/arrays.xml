@@ -142,7 +142,12 @@
         <item>delete</item>
     </string-array>
 
-    <string-array name="ManageParties_cabitems" tools:ignore="UnusedResources">
+    <string-array name="ManageParties_manage_cabitems" tools:ignore="UnusedResources">
+        <item>edit</item>
+        <item>delete</item>
+    </string-array>
+
+    <string-array name="ManageParties_select_mapping_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
     </string-array>
@@ -456,19 +461,29 @@
         <item>history_transfers</item>
     </string-array>
 
-    <string-array name="help_BudgetActivity_info">
+    <string-array name="help_BudgetActivity_info" tools:ignore="UnusedResources">
         <item>help_BudgetActivity_info</item>
         <item>help_Budget_amount_click</item>
     </string-array>
 
-    <string-array name="help_ManageBudgets_info">
+    <string-array name="help_ManageBudgets_info" tools:ignore="UnusedResources">
         <item>help_ManageBudgets_info</item>
         <item>help_Budget_amount_click</item>
     </string-array>
 
-    <string-array name="help_ManageTags_select_mapping_info">
+    <string-array name="help_ManageTags_select_mapping_info" tools:ignore="UnusedResources">
         <item>help_ManageTags_manage_info</item>
         <item>help_ManageTags_select_mapping_info</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_manage_info" tools:ignore="UnusedResources">
+        <item>help_ManageParties_manage_info</item>
+        <item>help_ManageParties_floating_action_button</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_select_mapping_info" tools:ignore="UnusedResources">
+        <item>help_ManageParties_select_mapping_info</item>
+        <item>help_ManageParties_floating_action_button</item>
     </string-array>
 
     <string-array name="BudgetEdit_formfields" tools:ignore="UnusedResources">

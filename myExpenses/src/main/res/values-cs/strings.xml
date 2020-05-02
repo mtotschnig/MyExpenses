@@ -59,7 +59,6 @@
   <string name="dialog_command_disabled_distribution">Transakce na tomto účtu nebyly přiřazené do kategorií.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Vyzkoušet</string>
-  <string name="dialog_contrib_no_usages_left">Nezbývá žádné použití zdarma.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce  (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
@@ -281,7 +280,6 @@
   <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
   <string name="select">Vybrat</string>
   <string name="select_category">Vybrat kategorii</string>
-  <string name="menu_select_category">Vyberte tuto kategorii</string>
   <string name="share_scheme_not_supported">Schéma %1$s není podporováno</string>
   <string name="share_sending">Odeslat soubor exportu</string>
   <string name="split_parts_heading">Rozdělení stran</string>
@@ -318,8 +316,6 @@
   <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
   <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--This is used as content description for the navigation control in the widgets-->
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">Povolit automatickou zálohu</string>

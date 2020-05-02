@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">Tiada transaksi telah dipetakan pada kategori dalam akaun ini.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Cuba</string>
-  <string name="dialog_contrib_no_usages_left">Tiada penggunaan percuma berbaki.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Buang sekatan ini dan capai lagi banyak fitur dengan menatar <i>{app_name}</i>.</string>
@@ -363,8 +362,6 @@
   <string name="save_transaction_template_deleted">Templat telah dipadam</string>
   <string name="select">Pilih</string>
   <string name="select_category">Pilih kategori</string>
-  <string name="menu_select_category">Pilih kategori ini</string>
-  <string name="menu_select_folder">Pilih folder ini</string>
   <string name="share_scheme_not_supported">Skema %1$s tidak disokong</string>
   <string name="share_sending">Hantar fail eksport</string>
   <string name="split_parts_heading">Bahagian pengasingan</string>
@@ -443,10 +440,6 @@
   <string name="menu_create_folder">Folder baharu</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Naik</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Naik</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Turun</string>
   <string name="create_new_folder_fail">Gagal mencipta folder</string>
   <string name="widget_title_accounts">Akaun saya</string>
   <string name="widget_title_templates">Templat saya</string>
@@ -490,7 +483,6 @@
   <string name="menu_distribution_aggreate">Perbelanjaan dan pendapatan aggregat</string>
   <string name="pref_manage_stale_images_title">Imej kaku</string>
   <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
-  <string name="menu_select_categories">Pilih kategori ditanda</string>
   <string name="image_deleted">Gambar telah dipadamkan</string>
   <string name="transaction_deleted">Transaksi telah dipadamkan</string>
   <string name="dialog_export_applied_to_filter">Hanya transaksi yang sepadan dengan penapis semasa akan diambilkira.</string>
@@ -678,8 +670,6 @@
   <string name="never">tidak sesekali</string>
   <string name="always">sentiasa</string>
   <string name="auto_fill_account_from_aggregate_only">Hanya bermula dari akaun beragregat.</string>
-  <string name="dropbox_folder_name_prompt">Masukkan nama folder sedia pada aras root Dropbox anda</string>
-  <string name="dropbox_folder_not_found">Folder tidak ditemui</string>
   <string name="sync_auth_exception_login_again">Pengesahihan gagal. Sila daftar masuk sekali lagi.</string>
   <string name="sync_loading_accounts_from_backend">Memuatkan akaun tersedia dari bahagian belakang.</string>
   <plurals name="delete_success">
@@ -753,12 +743,7 @@
   <string name="pref_scroll_to_current_date_summary">Ketika apl mula, tatal senarai transaksi dengan tarikh semasa</string>
   <string name="professional_key_fallback_info">Langganan Kunci Profesional telah aktif dalam tempoh setahun dan tidak diperbaharui, akan diubah secara automatik menjadi Kunci Lanjutan tanpa had.</string>
   <string name="menu_budget">Pembelanjawan</string>
-  <string name="dialog_title_new_budget">Bajet baharu</string>
   <string name="dialog_title_edit_budget">Sunting bajet</string>
-  <string name="daily_budget">Bajet harian</string>
-  <string name="weekly_budget">Bajet mingguan</string>
-  <string name="monthly_budget">Bajet bulanan</string>
-  <string name="yearly_budget">Bajet tahunan</string>
   <string name="budget_table_header_budgeted">Dibajetkan</string>
   <string name="budget_table_header_allocated">Diperuntukkan</string>
   <string name="budget_table_header_spent">Belanja</string>

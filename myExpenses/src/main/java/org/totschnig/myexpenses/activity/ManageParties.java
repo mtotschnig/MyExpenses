@@ -15,9 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -31,19 +33,47 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import androidx.annotation.NonNull;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_MANAGE;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
+import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
+
 public class ManageParties extends ProtectedFragmentActivity implements
     SimpleInputDialog.OnDialogResultListener {
   private static final String DIALOG_NEW_PARTY = "dialogNewParty";
   Payee mParty;
 
+  public enum HelpVariant {
+    manage, select_mapping, select_filter
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    String action = getAction();
     setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_parties);
     setupToolbar(true);
-    setTitle(R.string.pref_manage_parties_title);
-    configureFloatingActionButton(R.string.menu_create_party);
+    int title = 0;
+    switch (action) {
+      case Intent.ACTION_MAIN:
+      case ACTION_MANAGE:
+        setHelpVariant(HelpVariant.manage);
+        title = R.string.pref_manage_parties_title;
+        break;
+      case ACTION_SELECT_FILTER:
+        setHelpVariant(HelpVariant.select_filter);
+        title = R.string.search_payee;
+        break;
+      case ACTION_SELECT_MAPPING:
+        setHelpVariant(HelpVariant.select_mapping);
+        title = R.string.select_payee;
+    }
+    if (title != 0) getSupportActionBar().setTitle(title);
+    if (action.equals(ACTION_SELECT_MAPPING) || action.equals(ACTION_MANAGE)) {
+      configureFloatingActionButton(R.string.menu_create_party);
+    } else {
+      findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
+    }
   }
 
   @Override
@@ -98,5 +128,12 @@ public class ManageParties extends ProtectedFragmentActivity implements
   @Override
   public Model getObject() {
     return mParty;
+  }
+
+  @NonNull
+  public String getAction() {
+    Intent intent = getIntent();
+    String action = intent.getAction();
+    return action == null ? ACTION_MANAGE : action;
   }
 }

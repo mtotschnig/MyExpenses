@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definirne nuovi. Utilizzare il pulsante circolare per aprire il modulo per la creazione di un nuovo metodo.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Questa schermata elenca le parti utilizzate per il completamento automatico del campo ordinante/beneficiario. Utilizzare il pulsante di azione galleggiante per aggiungere una nuova voce.</string>
+  <string name="help_ManageParties_manage_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Ordinante / Beneficiario. </string>
+  <string name="help_ManageParties_floating_action_button">Utilizzare il pulsante di azione galleggiante per aggiungere una nuova voce.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendario</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Mentre i modelli possono essere derivati da transazioni attraverso i menu di scelta rapida, qui è possibile creare nuovi modelli dal niente (per transazioni o trasferimenti) facendo clic sul pulsante azione galleggiante. Se si fa clic su una voce dell\'elenco, è possibile creare istanze del modello. Facendo clic su un modello, verrà creata un\'istanza per esso.<br><img src=\"ic_event\">Un piano è un modello per cui è stato creato un evento (unico o ricorrente) sul calendario. Cliccando su un piano, si aprirà una visualizzazione del calendario, che visualizza istanze passate o imminenti di un piano.]]></string>

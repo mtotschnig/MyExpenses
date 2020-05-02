@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">В тази сметка няма транзакции, отнесени към категорията.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Опитай</string>
-  <string name="dialog_contrib_no_usages_left">Няма безплатни употреби.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s е допълнителна функция и изисква ключ за %2$sвариант.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Премахнете ограниченията и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>
@@ -368,8 +367,6 @@
   <string name="save_transaction_template_deleted">Шаблонът е изтрит</string>
   <string name="select">Избери</string>
   <string name="select_category">Избери категория</string>
-  <string name="menu_select_category">Избери тази категория</string>
-  <string name="menu_select_folder">Избери тази папка</string>
   <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
   <string name="share_sending">Избери файл за експорт</string>
   <string name="split_parts_heading">Разпределени суми</string>
@@ -453,10 +450,6 @@
   <string name="menu_create_folder">Нова папка</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Нагоре</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Нагоре</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Надолу</string>
   <string name="create_new_folder_fail">Неуспешно създаване на папка</string>
   <string name="widget_title_accounts">Моите сметки</string>
   <string name="widget_title_templates">Моите шаблони</string>
@@ -501,7 +494,6 @@
   <string name="menu_distribution_aggreate">Сумирай разходите и приходите</string>
   <string name="pref_manage_stale_images_title">Ненужни изображения</string>
   <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>
-  <string name="menu_select_categories">Избери отбелязаните категории</string>
   <string name="image_deleted">Изображението е изтрито</string>
   <string name="transaction_deleted">Транзакцията е изтрита</string>
   <string name="dialog_export_applied_to_filter">Ще се отчитат само транзакции, избрани с текущия филтър</string>
@@ -690,8 +682,6 @@
   <string name="never">никога</string>
   <string name="always">винаги</string>
   <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
-  <string name="dropbox_folder_name_prompt">Въведете името на съществуваща папка в основното ниво на вашия Dropbox</string>
-  <string name="dropbox_folder_not_found">Папката не е намерена</string>
   <string name="sync_auth_exception_login_again">Достъпът е отказан. Моля, влезте отново.</string>
   <string name="sync_loading_accounts_from_backend">Зареждане на наличните сметки от отдалеченото хранилище.</string>
   <plurals name="delete_success">
@@ -767,12 +757,7 @@
   <string name="pref_scroll_to_current_date_summary">При стартиране на приложението превърти списъка с транзакции до текущата дата</string>
   <string name="professional_key_fallback_info">Абонамент за Професионален ключ, който е бил активен най-малко една година и не е подновен, ще бъде автоматично преобразуван в неограничен Разширен ключ.</string>
   <string name="menu_budget">Бюджетиране</string>
-  <string name="dialog_title_new_budget">Нов бюджет</string>
   <string name="dialog_title_edit_budget">Редактиране на бюджет</string>
-  <string name="daily_budget">Дневен бюджет</string>
-  <string name="weekly_budget">Седмичен бюджет</string>
-  <string name="monthly_budget">Месечен бюджет</string>
-  <string name="yearly_budget">Годишен бюджет</string>
   <string name="budget_table_header_budgeted">В бюджета</string>
   <string name="budget_table_header_allocated">Разпределена</string>
   <string name="budget_table_header_spent">Похарчено</string>

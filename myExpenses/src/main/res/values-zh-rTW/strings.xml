@@ -36,7 +36,6 @@
   <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
   <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
   <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no_usages_left">沒有剩下的免費使用額</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能 (%2$s)。</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> 是無廣告和開放源碼的。</string>
@@ -247,7 +246,6 @@
   <string name="save_transaction_template_deleted">範本已被移除</string>
   <string name="select">選取</string>
   <string name="select_category">選取類別</string>
-  <string name="menu_select_category">選取這個類別</string>
   <string name="share_scheme_not_supported">不支持方案 %1$s</string>
   <string name="share_sending">發送匯出檔案</string>
   <string name="split_parts_heading">分割部分</string>
@@ -284,8 +282,6 @@
   <string name="import_categories_success">%1$s 類別  被匯入成功</string>
   <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
   <!--This string is used for navigating up in the folder browser-->
-  <!--This is used as content description for the navigation control in the widgets-->
-  <!--This is used as content description for the navigation control in the widgets-->
   <string name="create_new_folder_fail">目錄建立失敗</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_title">啟用自動備份</string>

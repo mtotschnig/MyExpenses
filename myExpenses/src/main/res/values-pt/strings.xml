@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">Nenhuma transação foi mapeada para categorias nesta conta.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Tentar</string>
-  <string name="dialog_contrib_no_usages_left">Não restou nenhum uso livre.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é um recurso premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>{app_name}</i>.</string>
@@ -362,8 +361,6 @@
   <string name="save_transaction_template_deleted">O modelo foi excluído</string>
   <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
-  <string name="menu_select_category">Selecionar esta categoria</string>
-  <string name="menu_select_folder">Selecionar esta pasta</string>
   <string name="share_scheme_not_supported">Não há suporte para o esquema %1$s</string>
   <string name="share_sending">Enviar o arquivo de exportação</string>
   <string name="split_parts_heading">Divisões</string>
@@ -446,10 +443,6 @@
   <string name="menu_create_folder">Nova pasta</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Acima</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Para cima</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Para baixo</string>
   <string name="create_new_folder_fail">Não foi possível criar a pasta</string>
   <string name="widget_title_accounts">Minhas contas</string>
   <string name="widget_title_templates">Meus modelos</string>
@@ -493,7 +486,6 @@
   <string name="menu_distribution_aggreate">Agregar despesas e rendas</string>
   <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
   <string name="pref_manage_stale_images_summary">Gerenciar imagens que sobraram de transações excluídas</string>
-  <string name="menu_select_categories">Selecione a categorias marcada</string>
   <string name="image_deleted">A Imagem foi excluída</string>
   <string name="transaction_deleted">A transação foi excluída</string>
   <string name="dialog_export_applied_to_filter">Serão consideradas somente as transações correspondentes ao filtro atual.</string>
@@ -679,8 +671,6 @@
   <string name="never">nunca</string>
   <string name="always">sempre</string>
   <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
-  <string name="dropbox_folder_name_prompt">Digite o nome de uma pasta existente na raiz do seu Dropbox</string>
-  <string name="dropbox_folder_not_found">Pasta não encontrada</string>
   <string name="sync_auth_exception_login_again">Falha na autorização. Por favor, autentique-se novamente.</string>
   <string name="sync_loading_accounts_from_backend">Carregando contas disponíveis no servidor.</string>
   <plurals name="delete_success">
@@ -755,12 +745,7 @@
   <string name="pref_scroll_to_current_date_summary">Ao iniciar o aplicativo, role a lista de transações até a data atual</string>
   <string name="professional_key_fallback_info">Uma assinatura da Chave Profissional que esteve ativa por pelo menos um ano e não foi renovada será automaticamente transformada em uma Chave Estendida ilimitada.</string>
   <string name="menu_budget">Orçamento</string>
-  <string name="dialog_title_new_budget">Novo orçamento</string>
   <string name="dialog_title_edit_budget">Editar o orçamento</string>
-  <string name="daily_budget">Orçamento diário</string>
-  <string name="weekly_budget">Orçamento semanal</string>
-  <string name="monthly_budget">Orçamento mensal</string>
-  <string name="yearly_budget">Orçamento anual</string>
   <string name="budget_table_header_budgeted">Orçado</string>
   <string name="budget_table_header_allocated">Alocado</string>
   <string name="budget_table_header_spent">Gasto</string>
