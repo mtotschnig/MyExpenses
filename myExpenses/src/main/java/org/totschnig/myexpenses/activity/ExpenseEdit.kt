@@ -78,6 +78,8 @@ import org.totschnig.myexpenses.preference.PreferenceUtils
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.AmountInput
@@ -199,7 +201,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     private val shouldLoadMethods: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPart
 
-    private val isMainTransactione: Boolean
+    private val isMainTransaction: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPart && !isTemplate
 
     private val isClone: Boolean
@@ -213,7 +215,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun injectDependencies() {
-        MyApplication.getInstance().appComponent.inject(this)
+        (applicationContext as MyApplication).appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -226,7 +228,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         mManager = LoaderManager.getInstance(this)
         viewModel = ViewModelProvider(this).get(TransactionEditViewModel::class.java)
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
-        //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
+        //we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
         if (savedInstanceState != null) {
@@ -238,12 +240,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             setTitle()
         } else {
             val extras = intent.extras
-            mRowId = Utils.getFromExtra(extras, DatabaseConstants.KEY_ROWID, 0L)
+            Utils.getFromExtra(extras, KEY_ROWID, 0L)
             var task: TransactionViewModel.InstantiationTask? = null
             if (mRowId == 0L) {
-                mRowId = intent.getLongExtra(DatabaseConstants.KEY_TEMPLATEID, 0L)
+                mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
                 if (mRowId != 0L) {
-                    planInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)
+                    planInstanceId = intent.getLongExtra(KEY_INSTANCEID, 0)
                     if (planInstanceId != 0L) {
                         task = TRANSACTION_FROM_TEMPLATE
                     } else {
@@ -353,7 +355,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             delegate.setCurrencies(currencies, currencyContext)
         })
         viewModel.getAccounts().observe(this, Observer { accounts ->
-            if (accounts.size == 0) {
+            if (accounts.isEmpty()) {
                 abortWithMessage(getString(R.string.warning_no_account))
             } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
                 abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
@@ -476,7 +478,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             setDirty()
         } else {
-            getIntent().getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
+            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
                 transaction.date = it / 1000
             }
         }
@@ -494,7 +496,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         if (mNewInstance) {
             supportActionBar!!.setDisplayShowTitleEnabled(false)
         } else {
-            setTitle(delegate.title)
+            title = delegate.title
         }
     }
 
@@ -535,7 +537,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         delegate.linkInputsWithLabels()
     }
 
-    val currentAccount: Account?
+    private val currentAccount: Account?
         get() = if (::delegate.isInitialized) delegate.currentAccount() else null
 
     override fun onTypeChanged(isChecked: Boolean) {
@@ -569,7 +571,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         if (!isNoMainTransaction && !(operationType == Transactions.TYPE_SPLIT &&
-                        !MyApplication.getInstance().licenceHandler.isContribEnabled)) {
+                        !(applicationContext as MyApplication).licenceHandler.isContribEnabled)) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                     .setIcon(R.drawable.ic_action_save_new)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
@@ -578,7 +580,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
                     .setIcon(R.drawable.ic_menu_move)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        } else if (isMainTransactione) {
+        } else if (isMainTransaction) {
             menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
                     .setCheckable(true)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
@@ -602,7 +604,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun doHome() {
-        cleanup({ finish() })
+        cleanup { finish() }
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
@@ -657,7 +659,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         //we pass the currently selected category in to prevent
         //it from being deleted, which can theoretically lead
         //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
-        i.putExtra(DatabaseConstants.KEY_ROWID, (delegate as? CategoryDelegate)?.catId)
+        i.putExtra(KEY_ROWID, (delegate as? CategoryDelegate)?.catId)
         startActivityForResult(i, ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST)
     }
 
@@ -673,12 +675,12 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
 
     override fun saveState() {
         if (::delegate.isInitialized) {
-            delegate.syncStateAndValidate(true, currencyContext)?.let {
+            delegate.syncStateAndValidate(true, currencyContext)?.let { transaction ->
                 mIsSaving = true
                 if (planInstanceId > 0L) {
-                    it.originPlanInstanceId = planInstanceId
+                    transaction.originPlanInstanceId = planInstanceId
                 }
-                viewModel.save(it).observe(this, Observer {
+                viewModel.save(transaction).observe(this, Observer {
                     onSaved(it)
                 })
                 if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
@@ -763,7 +765,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun dispatchOnBackPressed() {
-        cleanup({ super.dispatchOnBackPressed() })
+        cleanup { super.dispatchOnBackPressed() }
     }
 
     private fun cleanup(onComplete: () -> Unit) {
@@ -792,8 +794,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     private fun refreshPlanData() {
-        delegate.planId?.let {
-            viewModel.plan(it).observe(this, Observer {
+        delegate.planId?.let { planId ->
+            viewModel.plan(planId).observe(this, Observer {
                 delegate.configurePlan(it)
             })
         }
@@ -852,7 +854,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         val bundle = Bundle()
         bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType)
         logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle)
-        cleanup({
+        cleanup {
             val restartIntent = intent
             restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
             if (isDirty) {
@@ -866,10 +868,10 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             }
             finish()
             startActivity(restartIntent)
-        })
+        }
     }
 
-    fun onSaved(result: Long) {
+    private fun onSaved(result: Long) {
         if (result < 0L) {
             showSnackbar(when (result) {
                 ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
@@ -902,7 +904,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    viewModel.transaction(result, TEMPLATE, false, false, null).observe(this, Observer {
+                    viewModel.transaction(result, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer {
                         it?.let { launchPlanView(true, (it as Template).planId) }
                     })
                 } else { //make sure soft keyboard is closed
@@ -951,7 +953,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
                     dataToLoad.add(DatabaseConstants.KEY_ACCOUNTID)
                 }
                 return CursorLoader(this,
-                        ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, args.getLong(DatabaseConstants.KEY_ROWID)),
+                        ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, args.getLong(KEY_ROWID)),
                         dataToLoad.toTypedArray(), null, null, null)
             }
         }
@@ -985,7 +987,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autocompletetextview
+    override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autoCompleteTextView
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
@@ -1005,7 +1007,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     override fun onPositive(args: Bundle) {
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.AUTO_FILL_COMMAND -> {
-                startAutoFill(args.getLong(DatabaseConstants.KEY_ROWID), true)
+                startAutoFill(args.getLong(KEY_ROWID), true)
                 PreferenceUtils.enableAutoFill()
             }
             else -> super.onPositive(args)
@@ -1018,7 +1020,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
      */
     fun startAutoFill(id: Long, overridePreferences: Boolean) {
         val extras = Bundle(2)
-        extras.putLong(DatabaseConstants.KEY_ROWID, id)
+        extras.putLong(KEY_ROWID, id)
         extras.putBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES, overridePreferences)
         Utils.requireLoader(mManager, AUTOFILL_CURSOR, extras, this)
     }
@@ -1062,7 +1064,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    fun startMediaChooser(v: View?) {
+    fun startMediaChooser(@Suppress("UNUSED_PARAMETER") v: View?) {
         contribFeatureRequested(ContribFeature.ATTACH_PICTURE, null)
     }
 
@@ -1123,11 +1125,11 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    fun clearMethodSelection(view: View) {
+    fun clearMethodSelection(@Suppress("UNUSED_PARAMETER") view: View) {
         delegate.setMethodSelection(null)
     }
 
-    fun clearCategorySelection(view: View) {
+    fun clearCategorySelection(@Suppress("UNUSED_PARAMETER") view: View) {
         (delegate as? CategoryDelegate)?.setCategory(null, null, null)
     }
 
@@ -1172,8 +1174,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     fun loadOriginTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, false, false, null).observe(this, Observer {
-            (it as? Template)?.let { delegate.originTemplateLoaded(it) }
+        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer { transaction ->
+            (transaction as? Template)?.let { delegate.originTemplateLoaded(it) }
         })
     }
 

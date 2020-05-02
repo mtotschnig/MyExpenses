@@ -39,9 +39,9 @@ public class DailyScheduler {
   }
 
   public static void updateAutoBackupAlarms(Context context) {
-    if (PrefKey.AUTO_BACKUP.getBoolean(false) &&
-        PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
-      final PrefHandler prefHandler = getPrefHandler(context);
+    final PrefHandler prefHandler = getPrefHandler(context);
+    if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false) &&
+        prefHandler.getBoolean(PrefKey.AUTO_BACKUP_DIRTY, true)) {
       if (ContribFeature.AUTO_BACKUP.hasAccess() || ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) > 0) {
         scheduleAutoBackup(context);
       }

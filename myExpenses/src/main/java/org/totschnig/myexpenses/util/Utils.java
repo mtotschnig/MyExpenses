@@ -347,23 +347,10 @@ public class Utils {
   }
 
   /**
-   * get a value from extras that could be either passed as String or a long extra
-   * we need this method, to pass values from monkeyrunner, which is not able to pass long extras
-   * if extras is null, defaultValue is returned
-   *
-   * @param extras
-   * @param key
-   * @param defaultValue
-   * @return
+   * get a value from extras that could be null
    */
-  public static long getFromExtra(Bundle extras, String key, long defaultValue) {
-    if (extras == null) return defaultValue;
-    String stringValue = extras.getString(key);
-    if (TextUtils.isEmpty(stringValue)) {
-      return extras.getLong(key, defaultValue);
-    } else {
-      return Long.parseLong(stringValue);
-    }
+  public static long getFromExtra(@Nullable Bundle extras, String key, long defaultValue) {
+    return (extras == null) ? defaultValue : extras.getLong(key, defaultValue);
   }
 
   @SuppressLint("DefaultLocale")

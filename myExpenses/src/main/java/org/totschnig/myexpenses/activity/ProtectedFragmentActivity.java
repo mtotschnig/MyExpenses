@@ -237,7 +237,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void injectDependencies() {
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
   }
 
   public ThemeType getThemeType() {

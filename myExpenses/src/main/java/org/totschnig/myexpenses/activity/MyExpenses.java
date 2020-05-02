@@ -215,7 +215,7 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   protected void injectDependencies() {
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
   }
 
   @Override
