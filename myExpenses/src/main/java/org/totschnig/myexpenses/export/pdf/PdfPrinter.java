@@ -200,7 +200,7 @@ public class PdfPrinter {
     String selection;
     String[] selectionArgs;
     if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
+      selection = filter.getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT);//GROUP query uses view with account
       selectionArgs = filter.getSelectionArgs(true);
     } else {
       selection = null;
