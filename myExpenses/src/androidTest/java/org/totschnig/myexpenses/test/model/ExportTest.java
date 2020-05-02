@@ -17,7 +17,9 @@ package org.totschnig.myexpenses.test.model;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.util.Log;
 
 import org.totschnig.myexpenses.R;
@@ -372,7 +374,7 @@ public class ExportTest extends ModelTest {
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.isSuccess());
       export = result.getExtra();
       compare(new File(export.getPath()), linesCSV);
-    } catch (IOException e) {
+    } catch (IOException | OperationApplicationException | RemoteException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
     }
   }

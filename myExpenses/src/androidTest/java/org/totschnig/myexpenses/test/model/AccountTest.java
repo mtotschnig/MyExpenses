@@ -236,7 +236,7 @@ public class AccountTest extends ModelTest {
 
   }
 
-  public void testReset() {
+  public void testReset() throws OperationApplicationException, RemoteException {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6, count(account1.getId(), null));
@@ -247,7 +247,7 @@ public class AccountTest extends ModelTest {
     assertEquals(initialtotalBalance, resetAccount.getTotalBalance());
   }
 
-  public void testResetWithFilterUpdateBalance() {
+  public void testResetWithFilterUpdateBalance() throws OperationApplicationException, RemoteException {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6, count(account1.getId(), null));
@@ -260,7 +260,7 @@ public class AccountTest extends ModelTest {
     assertEquals(initialtotalBalance, resetAccount.getTotalBalance());
   }
 
-  public void testResetWithFilterCreateHelper() {
+  public void testResetWithFilterCreateHelper() throws OperationApplicationException, RemoteException {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
     assertEquals(6, count(account1.getId(), null));

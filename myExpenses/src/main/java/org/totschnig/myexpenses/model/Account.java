@@ -38,9 +38,9 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -503,7 +503,7 @@ public class Account extends Model {
    *                      if equals {@link #EXPORT_HANDLE_DELETED_CREATE_HELPER} a helper transaction
    * @param helperComment
    */
-  public void reset(WhereFilter filter, int handleDelete, String helperComment) {
+  public void reset(WhereFilter filter, int handleDelete, String helperComment) throws OperationApplicationException, RemoteException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentProviderOperation handleDeleteOperation = null;
     if (handleDelete == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
@@ -534,14 +534,10 @@ public class Account extends Model {
         .build());
     //needs to be last, otherwise helper transaction would be deleted
     if (handleDeleteOperation != null) ops.add(handleDeleteOperation);
-    try {
-      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-    } catch (Exception e) {
-      CrashHandler.report(e);
-    }
+    cr().applyBatch(TransactionProvider.AUTHORITY, ops);
   }
 
-  public void markAsExported(WhereFilter filter) {
+  public void markAsExported(WhereFilter filter) throws OperationApplicationException, RemoteException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     Uri acccountUri = ContentUris.withAppendedId(Account.CONTENT_URI, getId());
     ops.add(newUpdate(acccountUri).withValue(KEY_SEALED, -1)
@@ -558,11 +554,7 @@ public class Account extends Model {
     ops.add(newUpdate(acccountUri).withValue(KEY_SEALED, 1)
         .withSelection(KEY_SEALED + " = -1", null).build());
 
-    try {
-      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
-    } catch (OperationApplicationException | RemoteException e) {
-      CrashHandler.report(e);
-    }
+    cr().applyBatch(TransactionProvider.AUTHORITY, ops);
   }
 
   /**
@@ -768,15 +760,20 @@ public class Account extends Model {
    * @param resetP if true immediately delete reconciled transactions
    *               and reset opening balance
    */
-  public void balance(boolean resetP) {
-    ContentValues args = new ContentValues();
-    args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
-    cr().update(Transaction.CONTENT_URI, args,
-        KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
-            KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
-        new String[]{String.valueOf(getId())});
-    if (resetP) {
-      reset(reconciledFilter(), EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
+  public Result balance(boolean resetP) {
+    try {
+      ContentValues args = new ContentValues();
+      args.put(KEY_CR_STATUS, CrStatus.RECONCILED.name());
+      cr().update(Transaction.CONTENT_URI, args,
+          KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null AND " +
+              KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'",
+          new String[]{String.valueOf(getId())});
+      if (resetP) {
+        reset(reconciledFilter(), EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
+      }
+      return Result.SUCCESS;
+    } catch (Exception e) {
+     return Result.ofFailure(e.getMessage());
     }
   }
 

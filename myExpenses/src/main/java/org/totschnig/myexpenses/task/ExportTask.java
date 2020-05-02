@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.documentfile.provider.DocumentFile;
@@ -32,7 +33,7 @@ import androidx.documentfile.provider.DocumentFile;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
+public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
   public static final String KEY_DECIMAL_SEPARATOR = "export_decimal_separator";
   public static final String KEY_NOT_YET_EXPORTED_P = "notYetExportedP";
   public static final String KEY_DELETE_P = "deleteP";
@@ -109,7 +110,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   }
 
   @Override
-  protected void onPostExecute(ArrayList<Uri> result) {
+  protected void onPostExecute(List<Uri> result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_EXPORT, result);
@@ -123,7 +124,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
    * @see android.os.AsyncTask#doInBackground(Params[])
    */
   @Override
-  protected ArrayList<Uri> doInBackground(Void... ignored) {
+  protected List<Uri> doInBackground(Void... ignored) {
     Long[] accountIds;
     MyApplication application = MyApplication.getInstance();
     if (accountId > 0L) {
@@ -180,20 +181,25 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       }
     }
     for (Account a : successfullyExported) {
-      if (deleteP) {
-        if (a.isSealed()) {
-          CrashHandler.report("Trying to reset account that is sealed");
+      try {
+        if (deleteP) {
+          if (a.isSealed()) {
+            throw new IllegalStateException("Trying to reset account that is sealed");
+          } else {
+            a.reset(filter, handleDelete, fileName);
+          }
         } else {
-          a.reset(filter, handleDelete, fileName);
+          a.markAsExported(filter);
         }
-      } else {
-        a.markAsExported(filter);
+      } catch (Exception e) {
+        publishProgress("ERROR: " + e.getMessage());
+        CrashHandler.report(e);
       }
     }
     return getResult();
   }
 
-  public ArrayList<Uri> getResult() {
+  public List<Uri> getResult() {
     return result;
   }
 

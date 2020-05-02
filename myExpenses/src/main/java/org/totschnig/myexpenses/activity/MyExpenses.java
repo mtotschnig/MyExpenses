@@ -92,6 +92,7 @@ import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -141,10 +142,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
 
 /**
  * This is the main activity where all expenses are listed
@@ -984,7 +988,14 @@ public class MyExpenses extends LaunchActivity implements
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TaskExecutionFragment.TASK_SPLIT: {
+      case TASK_BALANCE: {
+        Result result = (Result) o;
+        if (!result.isSuccess()) {
+          showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+        }
+        break;
+      }
+      case TASK_SPLIT: {
         Result result = (Result) o;
         if (((Result) o).isSuccess()) {
           recordUsage(ContribFeature.SPLIT_TRANSACTION);
@@ -992,13 +1003,13 @@ public class MyExpenses extends LaunchActivity implements
         showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         break;
       }
-      case TaskExecutionFragment.TASK_REVOKE_SPLIT: {
+      case TASK_REVOKE_SPLIT: {
         Result result = (Result) o;
         showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         break;
       }
-      case TaskExecutionFragment.TASK_EXPORT: {
-        ArrayList<Uri> files = (ArrayList<Uri>) o;
+      case TASK_EXPORT: {
+        List<Uri> files = (List<Uri>) o;
         if (files != null && !files.isEmpty()) {
           Result shareResult = ShareUtils.share(this, files,
               PrefKey.SHARE_TARGET.getString("").trim(),
@@ -1009,7 +1020,7 @@ public class MyExpenses extends LaunchActivity implements
         }
         break;
       }
-      case TaskExecutionFragment.TASK_PRINT: {
+      case TASK_PRINT: {
         Result<Uri> result = (Result<Uri>) o;
         if (result.isSuccess()) {
           recordUsage(ContribFeature.PRINT);
@@ -1107,7 +1118,7 @@ public class MyExpenses extends LaunchActivity implements
         args.putParcelableArrayList(TransactionList.KEY_FILTER,
             getCurrentFragment().getFilterCriteria());
         getSupportFragmentManager().beginTransaction()
-            .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_EXPORT),
+            .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
                 ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
                 R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
@@ -1118,11 +1129,11 @@ public class MyExpenses extends LaunchActivity implements
         onPositive(args, false);
         break;
       case R.id.SPLIT_TRANSACTION_COMMAND: {
-        startTaskExecution(TaskExecutionFragment.TASK_SPLIT, args, R.string.progress_dialog_saving);
+        startTaskExecution(TASK_SPLIT, args, R.string.progress_dialog_saving);
         break;
       }
       case R.id.UNGROUP_SPLIT_COMMAND: {
-        startTaskExecution(TaskExecutionFragment.TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
+        startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
         break;
       }
     }
