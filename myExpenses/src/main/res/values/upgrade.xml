@@ -15,14 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3103">
-        <item>@string/bug_fixes</item>
-    </string-array>
-    <string-array name="whats_new_3102">
-        <item>@string/bug_fixes</item>
-    </string-array>
-    <string-array name="whats_new_3101">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_311">
+        <item>The list of parties (payers and payees) is searchable</item>
     </string-array>
     <string-array name="whats_new_310">
         <item>Transactions can be mapped to multiple tags</item>
