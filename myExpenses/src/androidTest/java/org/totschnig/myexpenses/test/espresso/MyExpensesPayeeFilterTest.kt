@@ -60,8 +60,7 @@ class MyExpensesPayeeFilterTest: BaseUiTest() {
         payeeIsDisplayed(payee2)
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
         onView(withText(R.string.payer_or_payee)).perform(click())
-        onView(allOf(withText(payee1), isAssignableFrom(CheckedTextView::class.java))).perform(click())
-        onView(withId(android.R.id.button1)).perform(click())
+        onView(withText(payee1)).perform(click())
         payeeIsDisplayed(payee1)
         payeeIsNotDisplayed(payee2)
         //switch off filter
