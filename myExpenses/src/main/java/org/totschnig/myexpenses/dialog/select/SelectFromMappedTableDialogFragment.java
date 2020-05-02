@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.dialog.select;
 
 import android.os.Bundle;
 
+import org.jetbrains.annotations.Nullable;
 import org.totschnig.myexpenses.model.AggregateAccount;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -40,10 +41,25 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
 
   @Override
   protected String getSelection() {
-    final long rowId = getArguments().getLong(KEY_ROWID);
-    if (rowId > 0) {
+    return accountSelection(getArguments().getLong(KEY_ROWID));
+  }
+
+  @Override
+  protected String[] getSelectionArgs() {
+    return accountSelectionArgs(getArguments().getLong(KEY_ROWID));
+  }
+
+  protected static void setArguments(SelectFromMappedTableDialogFragment dialogFragment, long rowId) {
+    Bundle args = new Bundle(1);
+    args.putLong(KEY_ROWID, rowId);
+    dialogFragment.setArguments(args);
+  }
+
+  @Nullable
+  public static String accountSelection(long accountId) {
+    if (accountId > 0) {
       return KEY_ACCOUNTID + " = ?";
-    } else if (rowId != AggregateAccount.HOME_AGGREGATE_ID) {
+    } else if (accountId != AggregateAccount.HOME_AGGREGATE_ID) {
       return KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY +
           " = (SELECT " + KEY_CODE + " FROM " + TABLE_CURRENCIES + " WHERE " + KEY_ROWID + " = ?))";
@@ -51,15 +67,8 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
     return null;
   }
 
-  @Override
-  protected String[] getSelectionArgs() {
-    final long rowId = getArguments().getLong(KEY_ROWID);
-    return rowId == AggregateAccount.HOME_AGGREGATE_ID ? null : new String[]{String.valueOf(Math.abs(rowId))};
-  }
-
-  protected static void setArguments(SelectFromMappedTableDialogFragment dialogFragment, long rowId) {
-    Bundle args = new Bundle(1);
-    args.putLong(KEY_ROWID, rowId);
-    dialogFragment.setArguments(args);
+  @Nullable
+  public static String[] accountSelectionArgs(long accountId) {
+    return accountId == AggregateAccount.HOME_AGGREGATE_ID ? null : new String[]{String.valueOf(Math.abs(accountId))};
   }
 }

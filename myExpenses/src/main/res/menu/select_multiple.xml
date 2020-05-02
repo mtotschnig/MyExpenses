@@ -18,26 +18,10 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
     <item
-        android:id="@id/MOVE_COMMAND"
-        android:icon="@drawable/ic_menu_move"
-        android:orderInCategory="50"
+        android:id="@id/SELECT_COMMAND_MULTIPLE"
+        android:icon="@drawable/ic_menu_done"
+        android:orderInCategory="20"
         android:showAsAction="always"
-        android:title="@string/menu_move">
+        android:title="@string/select">
     </item>
-    <group android:id="@id/MenuSingleGroup">
-        <item
-            android:id="@id/CREATE_COMMAND"
-            android:icon="@drawable/ic_menu_add"
-            android:orderInCategory="1"
-            android:showAsAction="always"
-            android:title="@string/menu_create_sub_cat">
-        </item>
-        <item
-            android:id="@id/COLOR_COMMAND"
-            android:icon="@drawable/ic_color"
-            android:orderInCategory="0"
-            android:showAsAction="always"
-            android:title="@string/menu_color">
-        </item>
-    </group>
 </menu>

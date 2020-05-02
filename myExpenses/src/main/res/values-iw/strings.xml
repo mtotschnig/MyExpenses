@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">לא בוצעו עסקאות ממופות לקטגוריות בחשבון זה.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">נסה</string>
-  <string name="dialog_contrib_no_usages_left">לא נשארו עוד שימושים בחינם.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s היא תכונת פרימיום (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
@@ -376,8 +375,6 @@
   <string name="save_transaction_template_deleted">התבנית נמחקה</string>
   <string name="select">בחר</string>
   <string name="select_category">בחר קטגוריה</string>
-  <string name="menu_select_category">בחר קטגוריה זו</string>
-  <string name="menu_select_folder">בחר תיקייה זו</string>
   <string name="share_scheme_not_supported">תכנית%1$s אינה נתמכת</string>
   <string name="share_sending">שלח קובץ ייצוא</string>
   <string name="split_parts_heading">חלקים מפוצלים</string>
@@ -471,10 +468,6 @@
   <string name="menu_create_folder">תקייה חדשה</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">למעלה</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">למעלה</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">למטה</string>
   <string name="create_new_folder_fail">נכשל ייצור תיקייה</string>
   <string name="widget_title_accounts">החשבונות שלי</string>
   <string name="widget_title_templates">התבניות שלי</string>
@@ -519,7 +512,6 @@
   <string name="menu_distribution_aggreate">הוצאות והכנסות מצטברות</string>
   <string name="pref_manage_stale_images_title">תמונות לא ברורות</string>
   <string name="pref_manage_stale_images_summary">ניהול תמונות שנותרו מעסקאות שנמחקו</string>
-  <string name="menu_select_categories">בחר קטגוריות מסומנות</string>
   <string name="image_deleted">תמונה נמחקה</string>
   <string name="transaction_deleted">עסקה נמחקה</string>
   <string name="dialog_export_applied_to_filter">רק עסקאות התואמות את המסנן הנוכחי ייחשבו.</string>
@@ -708,8 +700,6 @@
   <string name="never">לעולם לא</string>
   <string name="always">תמיד</string>
   <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>
-  <string name="dropbox_folder_name_prompt">הזן את השם של תיקייה קיימת ברמת השורש של Dropbox שלך</string>
-  <string name="dropbox_folder_not_found">התיקיה לא נמצאה</string>
   <string name="sync_auth_exception_login_again">ההרשאה נכשלה. היכנס שוב.</string>
   <string name="sync_loading_accounts_from_backend">טוען חשבונות זמינים מ backend.</string>
   <plurals name="delete_success">
@@ -789,12 +779,7 @@
   <string name="pref_scroll_to_current_date_summary">בהפעלת היישום, גלול רשימת עסקאות לתאריך הנוכחי</string>
   <string name="professional_key_fallback_info">מנוי על המפתח המקצועי הפועל במשך שנה לפחות ולא יחודש, יהפוך אוטומטית למפתח מורחב לזמן בלתי מוגבל.</string>
   <string name="menu_budget">תקצוב</string>
-  <string name="dialog_title_new_budget">תקציב חדש</string>
   <string name="dialog_title_edit_budget">ערוך תקציב</string>
-  <string name="daily_budget">תקציב יומי</string>
-  <string name="weekly_budget">תקציב שבועי</string>
-  <string name="monthly_budget">תקציב חודשי</string>
-  <string name="yearly_budget">תקציב שנתי</string>
   <string name="budget_table_header_budgeted">מתוקצב</string>
   <string name="budget_table_header_allocated">מוקצה</string>
   <string name="budget_table_header_spent">הוצאה</string>

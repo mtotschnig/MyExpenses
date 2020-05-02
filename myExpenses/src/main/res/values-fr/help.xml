@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Cet écran répertorie les méthodes de paiement prédéfinies (chèque, carte de crédit, dépôt, prélèvement) et vous permet d\'en définir de nouvelles. Utilisez le bouton d\'action pour ouvrir le formulaire pour la création d\'un nouveau type.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Cet écran répertorie les parties utilisées pour la complétion automatique du champ payeur/bénéficiaire. Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
+  <string name="help_ManageParties_manage_info">Cet écran répertorie les parties utilisées pour la complétion automatique du champ payeur/bénéficiaire.</string>
+  <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendrier</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Tandis que les modèles peuvent être issus des transactions par le biais de leur menu de contexte, ici vous pouvez créer de nouveaux modèles à partir de rien (pour les transactions ou transferts) en cliquant sur le bouton d\'action. En cliquant sur un modèle, vous créez une nouvelle instance pour elle.<br><img src=\"ic_event\">Une échéance est un modèle pour lequel vous avez créé un événement (unique ou répétitif) dans le calendrier de l\'échéancier. Cliquez sur un échéancier, pour ouvrir un calendrier, qui affichera ses instances passées et futures.]]></string>
@@ -174,11 +175,11 @@
   <string name="form_BudgetEdit_amount_help_text">Combien d\'argent est disponible dans le cadre de ce budget?</string>
   <string name="form_BudgetEdit_accounts_help_text">Un budget est soit limité à un seul compte; soit il couvre tous les comptes avec la même devise; ou il fait référence à l\'agrégat total dans toutes les devises.</string>
   <string name="form_BudgetEdit_filter_help_text">Les budgets peuvent être filtrés par catégories, parties, méthodes ou états. Seules les opérations correspondantes à ces filtres sont prises en compte.</string>
-  <string name="form_BudgetEdit_type_help_text">Un budget est défini comme étant régulier (quotidien, mensuel, hebdomadaire, annuel) ou ponctuel. Pour les budgets uniques, vous spécifiez le début et la fin de sa durée. Un budget normal (non filtré) peut être défini en tant que défaut: cela signifie que la liste des transactions (si elle est configurée pour regrouper des données par jour, semaine, mois ou année) indiquera l\'avancement de ce budget pour chaque période.</string>
+  <string name="form_BudgetEdit_type_help_text">Un budget est défini comme étant régulier (quotidien, mensuel, hebdomadaire, annuel) ou ponctuel. Pour les budgets uniques, vous spécifiez le début et la fin de sa durée. Un budget normal (non filtré) peut être défini en tant que défaut: cela signifie que la liste des opérations (si elle est configurée pour regrouper des données par jour, semaine, mois ou année) indiquera l\'avancement de ce budget pour chaque période.</string>
   <string name="cab_remap_help_text">Utilisez les commandes de ce sous-menu si vous souhaitez modifier la propriété donnée (compte, catégorie, tiers ou mode de paiement) pour toutes les opérations sélectionnées.</string>
   <!--Tags-->
   <string name="form_tags_help_text">L\'icône + permet de sélectionner des étiquettes existantes et de créer de nouvelles étiquettes. L\'icône x sur chaque étiquette permet de supprimer la correspondance entre l\'opération et la balise.</string>
   <string name="help_ManageTags_select_filter_info">Sélectionnez ou désélectionnez les étiquettes pour filtrer la liste des opérations en appuyant dessus. Utilisez le bouton d\'action flottant pour confirmer la sélection.</string>
-  <string name="help_ManageTags_manage_info">Créez de nouvelles étiquettes en les saisissant dans le champ de texte. L\'icône x sur chaque étiquette la supprime de la base de données. Un appui long sur une étiquette permet de la modifier.</string>
+  <string name="help_ManageTags_manage_info">Créez de nouvelles étiquettes en les saisissant dans le champ de texte. L\'icône x sur chaque étiquettes la supprime de la base de données. Un appui long sur une étiquette permet de la modifier.</string>
   <string name="help_ManageTags_select_mapping_info">Changez la sélection des étiquettes en appuyant dessus. Utilisez le bouton d\'action flottant pour confirmer la mise en correspondance.</string>
 </resources>

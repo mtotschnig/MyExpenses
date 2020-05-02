@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ManageParties;
 import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -76,10 +77,8 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectPayerDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectSinglePayeeDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -103,6 +102,7 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.FilterPersistence;
+import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TagCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -548,9 +548,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
       case R.id.REMAP_PAYEE_COMMAND: {
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
-          final SelectSinglePayeeDialogFragment dialogFragment = SelectSinglePayeeDialogFragment.newInstance(R.string.menu_remap, R.string.no_parties);
-          dialogFragment.setTargetFragment(this, MAP_PAYEE_RQEUST);
-          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_PAYEE");
+          Intent i = new Intent(getActivity(), ManageParties.class);
+          i.setAction(ACTION_SELECT_MAPPING);
+          startActivityForResult(i, MAP_PAYEE_RQEUST);
         });
         return true;
       }
@@ -1451,8 +1451,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         return true;
       case R.id.FILTER_PAYEE_COMMAND:
         if (!removeFilter(command)) {
-          SelectPayerDialogFragment.newInstance(mAccount.getId())
-              .show(getActivity().getSupportFragmentManager(), "PAYER_FILTER");
+          Intent i = new Intent(getActivity(), ManageParties.class);
+          i.setAction(ACTION_SELECT_FILTER);
+          i.putExtra(KEY_ACCOUNTID, mAccount.getId());
+          startActivityForResult(i, ProtectedFragmentActivity.FILTER_PAYEE_REQUEST);
         }
         return true;
       case R.id.FILTER_METHOD_COMMAND:
@@ -1499,6 +1501,17 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (resultCode == Activity.RESULT_CANCELED) {
       return;
     }
+    if (requestCode == ProtectedFragmentActivity.FILTER_PAYEE_REQUEST) {
+      String label = intent.getStringExtra(KEY_LABEL);
+      if (resultCode == Activity.RESULT_OK) {
+        long payeeId = intent.getLongExtra(KEY_PAYEEID, 0);
+        addPayeeFilter(label, payeeId);
+      }
+      if (resultCode == Activity.RESULT_FIRST_USER) {
+        long[] payeeIds = intent.getLongArrayExtra(KEY_PAYEEID);
+        addPayeeFilter(label, payeeIds);
+      }
+    }
     if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
@@ -1530,7 +1543,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           break;
         }
         case MAP_PAYEE_RQEUST: {
-          column = KEY_PAYEEID;
+          column = intentKey = KEY_PAYEEID;
           columnStringResId = R.string.payer_or_payee;
           confirmationStringResId = R.string.remap_payee;
           break;
@@ -1621,6 +1634,11 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   private void addCategoryFilter(String label, long... catIds) {
     addFilterCriteria(catIds.length == 1 && catIds[0] == NULL_ITEM_ID ?
         new CategoryCriteria() : new CategoryCriteria(label, catIds));
+  }
+
+  private void addPayeeFilter(String label, long... payeeIds) {
+    addFilterCriteria(payeeIds.length == 1 && payeeIds[0] == NULL_ITEM_ID ?
+        new PayeeCriteria() : new PayeeCriteria(label, payeeIds));
   }
 
 }

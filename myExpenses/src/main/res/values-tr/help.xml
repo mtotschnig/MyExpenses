@@ -26,7 +26,8 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
+  <string name="help_ManageParties_manage_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. </string>
+  <string name="help_ManageParties_floating_action_button">Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Planlama takvim görünümü</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Şablonlar muamelelerin bağlam menülerinden elde edilebilir olsa da, burada yeni şablonları (muameleler ya da transferler için) eylem düğmesine tıklayarak sıfırdan oluşturabilirsiniz. Şablona tıklamak onun bir örneklendirmesini oluşturacaktır.<br><img src=\"ic_event\">Bir planlama, planlama takviminde (bir seferlik ya da tekrarlanan) bir olay oluşturduğunuz bir şablondur. Herhangi bir planlamaya tıklamanız planlamanın geçmiş ve gelecekteki örneklemelerini gösteren takvim görünümünü açacaktır.]]></string>

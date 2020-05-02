@@ -65,7 +65,6 @@
   <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
   <!--Button for accessing trial of premium feature-->
   <string name="dialog_contrib_no">Испытать</string>
-  <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, а также получите больше возможностей расширив <i>{app_name}</i>.</string>
@@ -376,8 +375,6 @@
   <string name="save_transaction_template_deleted">Шаблон удалён</string>
   <string name="select">Выбрать</string>
   <string name="select_category">Выбрать категорию</string>
-  <string name="menu_select_category">Выбрать эту категорию</string>
-  <string name="menu_select_folder">Выбрать эту папку</string>
   <string name="share_scheme_not_supported">Схема %1$s не поддерживается</string>
   <string name="share_sending">Отправить экспортированный файл</string>
   <string name="split_parts_heading">Разделённые части</string>
@@ -471,10 +468,6 @@
   <string name="menu_create_folder">Новый каталог</string>
   <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Вверх</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_up">Вверх</string>
-  <!--This is used as content description for the navigation control in the widgets-->
-  <string name="menu_sort_down">Вниз</string>
   <string name="create_new_folder_fail">Ошибка создания каталога</string>
   <string name="widget_title_accounts">Мои счета</string>
   <string name="widget_title_templates">Мои шаблоны</string>
@@ -518,7 +511,6 @@
   <string name="menu_distribution_aggreate">Объединить расходы и доходы</string>
   <string name="pref_manage_stale_images_title">Устаревшие изображения</string>
   <string name="pref_manage_stale_images_summary">Управляйте фотографиями, оставшимися от удаленных транзакций</string>
-  <string name="menu_select_categories">Выбрать отмеченные категории</string>
   <string name="image_deleted">Изображение было удалено</string>
   <string name="transaction_deleted">Транзакция была удалена</string>
   <string name="dialog_export_applied_to_filter">Только транзакции, соответствующие текущему фильтру, будут рассматриваться.</string>
@@ -684,8 +676,6 @@
   <string name="sort_direction_descending">по убыванию</string>
   <string name="never">никогда</string>
   <string name="always">всегда</string>
-  <string name="dropbox_folder_name_prompt">Введите название существующей папке на корневом уровне вашего Dropbox</string>
-  <string name="dropbox_folder_not_found">Папка не найдена</string>
   <string name="sync_auth_exception_login_again">Авторизация провалена. Пожалуйста, представьтесь повторно.</string>
   <plurals name="delete_success">
     <item quantity="one">Объект был успешно удален.</item>

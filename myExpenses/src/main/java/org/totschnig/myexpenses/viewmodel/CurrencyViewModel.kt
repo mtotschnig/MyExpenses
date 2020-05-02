@@ -19,9 +19,7 @@ open class CurrencyViewModel(application: Application) : ContentResolvingAndroid
         get() = Currency.create(Utils.getHomeCurrency().code())
 
 
-    fun getCurrencies(): LiveData<List<Currency>> {
-        return currencies
-    }
+    fun getCurrencies(): LiveData<List<Currency>> = currencies
 
     fun loadCurrencies() {
         val collator: Collator? = try {
