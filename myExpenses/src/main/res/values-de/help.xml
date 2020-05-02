@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">Weiter zur nächsten Gruppe. Kann auch durch Swipe Geste von links nach rechts erfolgen.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Unterkategorie unterhalb der ausgewählten Hauptkategorie.</string>
   <string name="cab_ManageCategories_move_help_text">Unterkategorien können in eine andere Kategorie verschoben werden, oder zu Hauptkategorien umgewandelt werden. Hauptkategorien, die keine Kinder haben, können in Unterkategorien einer anderen Hauptkategorie umgewandelt werden.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Die ausgewählte Kategorie wird der Buchung zugeordnet und Rückkehr zum Buchungsformular.</string>
+  <string name="cab_ManageCategories_select_help_text">Die ausgewählte Kategorie wird der Buchung zugeordnet und Rückkehr zum Buchungsformular.</string>
   <string name="menu_categories_setup_default_help_text">Eine Reihe von Standardkategorien werden importiert.</string>
   <string name="menu_categories_export_help_text">Kategorien werden in QIF-Datei exportiert.</string>
   <string name="menu_distribution_show_pie_char_help_text">Schalten Sie die Sichtbarkeit des Kreisdiagramms an oder aus.</string>
   <string name="menu_distribution_aggreate_help_text">Standardmäßig enthalten die berechneten Summen Ausgaben und Einnahmen. Sie können diese aber auch getrennt anzeigen, eine Schaltfläche in der Aktionsleiste erlaubt dann das Umschalten zwischen Ausgaben und Einnahmen.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Die ausgewählte Kategorie wird zum Filtern der Buchungsliste verwendet werden.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Die ausgewählte Kategorie wird zum Filtern der Buchungsliste verwendet werden.</string>
   <string name="menu_ManageCategories_search_help_text">Nur Haupt und Unter-Kategorien, die Ihrer Abfrage entsprechen, werden angezeigt.</string>
   <string name="menu_ManageCategories_sort_help_text">Die Kategorienliste kann Titel (alphabetisch) sortiert werden, nach der Häufigkeit der Verwendung oder nach dem Zeitpunkt, an dem zuletzt eine Buchung zugeordnet wurde.</string>
   <string name="cab_ManageCategories_color_help_text">Sie können Hauptkategorien eine Farbe zuweisen. Diese Farbe wird verwendet, um die Kategorie in Diagrammen darzustellen. Unterkategorien verwenden Schattierungen der Farbe ihrer Hauptkategorie.</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">In dem Ordner, den sie hier auswählen, werden Sicherungen und Exporte gespeichert. Navigieren Sie durch die Ordner-Hierarchie navigieren, bis Sie den gewünschten Ordner erreichen.</string>
   <string name="menu_create_folder_help_text">Erstellen Sie einen neuen Ordner im aktuellen Ordner.</string>
-  <string name="menu_select_folder_help_text">Wählen Sie den aktuellen Ordner als Speicherziel für Exporte und Sicherungen.</string>
+  <string name="menu_FolderBrowser_select_help_text">Wählen Sie den aktuellen Ordner als Speicherziel für Exporte und Sicherungen.</string>
   <string name="menu_up_help_text">Navigieren Sie zu dem übergeordneten Ordner.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">In diesem Fenster können Sie Bild-Dateien verwalten, die von gelöschten Buchungen übrig geblieben sind. Indem Sie lange auf Einträge klicken, können Sie die Bilder löschen oder aus dem (möglicherweise internen) Speicherordner in einen Sicherungsordner (Android/data/org.totschnig.mxexpenses/files/images.old) auf dem externen Speicher verschieben.</string>

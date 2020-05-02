@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">Ir al siguiente grupo. También se puede realizar mediante un gesto de desplazamiento de derecha a izquierda.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Abrir el cuadro de diálogo para especificar el título de una nueva subcategoría, por debajo de la categoría seleccionada.</string>
   <string name="cab_ManageCategories_move_help_text">Las subcategorías se pueden mover a una categoría principal diferente o pueden ser transformadas en categorías principales. Las categorías principales que no tienen subcategorías pueden ser transformadas en subcategorías de una categoría principal diferente.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Asignar la categoría seleccionada a la transacción y volver al formulario de transacción.</string>
+  <string name="cab_ManageCategories_select_help_text">Asignar la categoría seleccionada a la transacción y volver al formulario de transacción.</string>
   <string name="menu_categories_setup_default_help_text">Se importarán un conjunto de categorías por defecto.</string>
   <string name="menu_categories_export_help_text">Las categorías se exportarán a un archivo QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Alternar la visibilidad de los gráficos de sectores.</string>
   <string name="menu_distribution_aggreate_help_text">De forma predeterminada, las sumas calculadas incluyen gastos e ingresos. Podrá decidir mostrarlas por separado. El botón en la barra de acción le permitirá alternar entre gastos e ingresos.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoría seleccionada se utilizará para filtrar la lista de transacciones.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">La categoría seleccionada se utilizará para filtrar la lista de transacciones.</string>
   <string name="menu_ManageCategories_search_help_text">Sólo se mostrarán las categorías principales y las subcategorías que coinciden con su consulta.</string>
   <string name="menu_ManageCategories_sort_help_text">La lista de categorías puede ordenarse por título (alfabéticamente), por la frecuencia de uso o por la última vez en que se le asignó una transacción.</string>
   <string name="cab_ManageCategories_color_help_text">Puede asignar colores a las categorías principales. Este color podrá usarse para representar la categoría en los gráficos. Las subcategorías usarán tonos del color de la categoría principal.</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">La carpeta que seleccione aquí, se utilizará para almacenar copias de seguridad y exportaciones. Puede navegar a través de las carpetas hasta llegar a la carpeta deseada.</string>
   <string name="menu_create_folder_help_text">Crear una nueva carpeta dentro de la carpeta actual.</string>
-  <string name="menu_select_folder_help_text">Seleccionar la carpeta actual como destino de almacenamiento para las exportaciones y copias de seguridad.</string>
+  <string name="menu_FolderBrowser_select_help_text">Seleccionar la carpeta actual como destino de almacenamiento para las exportaciones y copias de seguridad.</string>
   <string name="menu_up_help_text">Desplazarse hasta el elemento superior de la carpeta actual.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Esta pantalla le permitirá tratar con archivos de imagen que han quedado en las transacciones eliminadas. Haga un clic prolongado en las entradas para eliminarlas o moverlas fuera de la carpeta de almacenamiento (posiblemente interna) a una carpeta de respaldo (Android/data/org.totschnig.mxexpenses/files/images.old) en el almacenamiento externo.</string>

@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">次のグループに移動します。右から左にスワイプのジェスチャーをして移動することもできます。</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">選択した分類の下の、新しい副分類のタイトルを指定するダイアログを開きます。</string>
   <string name="cab_ManageCategories_move_help_text">副分類は、異なる主分類に移動させること、または主分類に変換することができます。子を持たない主分類は異なる主分類の副分類に変換することができます。</string>
-  <string name="cab_ManageCategories_select_category_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
+  <string name="cab_ManageCategories_select_help_text">取引に選択した分類を配置し、取引フォームに戻ります。</string>
   <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
   <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>
   <string name="menu_distribution_show_pie_char_help_text">円グラフの表示を切り替えます。</string>
   <string name="menu_distribution_aggreate_help_text">デフォルトでは、計算された合計に支出と収入の両方が含まれます。それらを個別に表示することもできます。アクションバーにあるボタンを使用すると、支出と収入の間で切り替えできます。</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
   <string name="menu_ManageCategories_search_help_text">クエリに一致するメインとサブカテゴリーのみ表示されます。</string>
   <string name="menu_ManageCategories_sort_help_text">分類リストは、タイトル (アルファベット順)、使用頻度、または取引がマップされた最後の時間によってソートすることができます。</string>
   <string name="cab_ManageCategories_color_help_text">主分類に色を割り当てることができます。 この色は、グラフの分類を表すために使用されます。 副分類は、主分類の色の陰影を使用します。</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">ここで選択したフォルダーは、バックアップやエクスポートを保存するために使用されます。目的のフォルダに到達するまで、フォルダーの階層を移動してください。</string>
   <string name="menu_create_folder_help_text">現在のフォルダーの中に新しいフォルダーを作成します。</string>
-  <string name="menu_select_folder_help_text">エクスポートやバックアップ用の対象ストレージとして現在のフォルダを選択します。</string>
+  <string name="menu_FolderBrowser_select_help_text">エクスポートやバックアップ用の対象ストレージとして現在のフォルダを選択します。</string>
   <string name="menu_up_help_text">現在のフォルダーの親に移動します。</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">この画面は、削除された取引から残っている画像ファイルを扱うことができます。エントリー上で長押しして、削除するか、または (おそらく内部) ストレージフォルダーから、外部ストレージのバックアップフォルダー (Android/data/org.totschnig.mxexpenses/files/images.old) に移動します。</string>

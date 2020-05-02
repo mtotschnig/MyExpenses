@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">Passare al gruppo successivo. Si può fare anche attraverso lo swipe gesture da destra a sinistra.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova sottocategoria sotto la categoria selezionata.</string>
   <string name="cab_ManageCategories_move_help_text">Le sottocategorie possono essere spostate in una categoria principale diversa, o possono essere trasformate in categorie principali. Categorie principali che non hanno figli possono essere trasformate in sottocategorie di un\'altra categoria principale.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Mappa la categoria selezionata alla transazione e ritorna al modulo di transazione.</string>
+  <string name="cab_ManageCategories_select_help_text">Mappa la categoria selezionata alla transazione e ritorna al modulo di transazione.</string>
   <string name="menu_categories_setup_default_help_text">Un insieme di categorie predefinite verrà importato.</string>
   <string name="menu_categories_export_help_text">Categorie verranno esportate in file QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Attiva o disattiva la visibilità del grafico a torta.</string>
   <string name="menu_distribution_aggreate_help_text">Per impostazione predefinita, le somme calcolate includono sia le spese che i proventi. È possibile decidere di mostrare loro separatamente, un pulsante nella barra delle azioni consente di alternare tra spese e proventi.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoria selezionata si utilizzerà per filtrare l\'elenco delle transazioni.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">La categoria selezionata si utilizzerà per filtrare l\'elenco delle transazioni.</string>
   <string name="menu_ManageCategories_search_help_text">Solo la categoria principale e le sottocategorie che corrispondono alla tua query verranno visualizzate.</string>
   <string name="menu_ManageCategories_sort_help_text">Elenco categoria possa essere ordinato per titolo (in ordine alfabetico), per frequenza di utilizzi, o in base all\'ultima volta che una transazione è stata mappata ad esso.</string>
   <string name="cab_ManageCategories_color_help_text">Puoi assegnare un colore alle categorie principali. Questo colore sarà utilizzato per rappresentare la categoria nei grafici. Le sottocategorie utilizzeranno le sfumature del colore della loro categoria principale.</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">La cartella qui selezionata, servirà per archiviare i backup e le esportazioni. Navigare attraverso la gerarchia di cartelle fino a raggiungere la cartella desiderata.</string>
   <string name="menu_create_folder_help_text">Creare una nuova cartella all\'interno della cartella corrente.</string>
-  <string name="menu_select_folder_help_text">Selezionare la cartella corrente come destinazione di archiviazione per i backup e le esportazioni.</string>
+  <string name="menu_FolderBrowser_select_help_text">Selezionare la cartella corrente come destinazione di archiviazione per i backup e le esportazioni.</string>
   <string name="menu_up_help_text">Passare al padre della cartella corrente.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Questa schermata consente di trattare con immagini che sono state lasciate da transazioni eliminate. Premi a lungo sulle voci al fine di eliminarle o spostarle fuori dalla cartella di archiviazione (possibilmente interna) ad una cartella di backup (Android/data/org.totschnig.mxexpenses/files/images.old) di archiviazione esterna.</string>

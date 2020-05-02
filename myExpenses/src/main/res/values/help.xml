@@ -75,12 +75,12 @@
   <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Opens the dialog for specifying the title of a new sub-category below the selected category.</string>
   <string name="cab_ManageCategories_move_help_text">Sub-categories can be moved to a different main category, or can be transformed to main categories. Main categories that have no children can be transformed to sub-categories of a different main category.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Map the selected category to the transaction and return to the transaction form.</string>
+  <string name="cab_ManageCategories_select_help_text">Map the selected category to the transaction and return to the transaction form.</string>
   <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
   <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
   <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>
   <string name="menu_distribution_aggreate_help_text">By default, the calculated sums include both expenses and income. You can decide to show them separately, a button in the action bar allows you to toggle between expenses and income.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">The selected category will be used for filtering the transaction list.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">The selected category will be used for filtering the transaction list.</string>
   <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
   <string name="menu_ManageCategories_sort_help_text">The category list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was mapped to it.</string>
   <string name="cab_ManageCategories_color_help_text">You can assign a color to main categories. This color will be used to represent the category in charts. Subcategories will use shades of their main category\'s color. </string>
@@ -150,7 +150,7 @@
   <!--  FolderBrowser title is in keys -->
   <string name="help_FolderBrowser_info">The folder you select here, will be used for storing backups and exports. Navigate through the folder hierarchy until you reach the desired folder.</string>
   <string name="menu_create_folder_help_text">Create a new folder inside the current folder.</string>
-  <string name="menu_select_folder_help_text">Select the current folder as storage target for exports and backups.</string>
+  <string name="menu_FolderBrowser_select_help_text">Select the current folder as storage target for exports and backups.</string>
   <string name="menu_up_help_text">Navigate to the parent of the current folder.</string>
   <!-- StaleImages -->
   <string name="help_ManageStaleImages_info">This screen allows you to deal with image files that have been left over from deleted transactions. Long click on entries in order to either delete them, or move them out of the (possibly internal) storage folder to a backup folder (Android/data/org.totschnig.mxexpenses/files/images.old) on external storage.</string>

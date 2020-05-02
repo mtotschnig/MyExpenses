@@ -45,12 +45,12 @@
   <string name="menu_forward_help_text">Navigaţi la grupul următor. Se poate face şi printr-un gest de deplasare al degetului de la dreapta la stânga.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Deschide caseta de dialog pentru specificarea titlului al  unei noi subcategorii al categoriei selectate mai jos.</string>
   <string name="cab_ManageCategories_move_help_text">Subcategoriile pot fi mutate într-o categorie principală diferită, sau pot fi transformate în categorii principale. Categoriile principale care nu au copii pot fi transformate în subcategorii pe o categorie principală diferită.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
+  <string name="cab_ManageCategories_select_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
   <string name="menu_categories_setup_default_help_text">Un set de categorii implicite va fi importat.</string>
   <string name="menu_categories_export_help_text">Categoriile vor fi exportate într-un fisier QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Comutați vizibilitatea graficului.</string>
   <string name="menu_distribution_aggreate_help_text">În mod implicit, sumele calculate includ atât cheltuieli, cât și venituri. Puteți decide să le arătați separat, un buton din bara de acțiune vă permite să comutați între cheltuieli și venituri.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Categoria selectată va fi folosită pentru filtrarea listei de tranzacţie.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Categoria selectată va fi folosită pentru filtrarea listei de tranzacţie.</string>
   <string name="menu_ManageCategories_search_help_text">Vor fi afișate doar categoriile principale și sub-categorii care se potrivesc interogării dvs.</string>
   <string name="menu_ManageCategories_sort_help_text">Lista de categorii poate fi sortată după titlu (alfabetic), în funcție de frecvența de utilizare sau de ultima dată când a fost mapată o tranzacție.</string>
   <!--ExpenseEdit-->
@@ -80,7 +80,7 @@
   <string name="help_ManageCurrencies_info">Pentru fiecare valută, aveţi posibilitatea să modificaţi numărul de zecimale utilizate. De exemplu, dacă pentru Euro, trebuie să mânuiti  1/10 din un  ¢, adică 1/1000 din Euro, ar trebui setat numărul la trei. Conturile existente care utilizează moneda, vor folosi noua setare.</string>
   <!--FolderBrowser title is in keys-->
   <string name="menu_create_folder_help_text">Creaza un nou subfolder in folderul curent</string>
-  <string name="menu_select_folder_help_text">Selectaţi folderul curent ca targhet de stocare pentru export şi backup.</string>
+  <string name="menu_FolderBrowser_select_help_text">Selectaţi folderul curent ca targhet de stocare pentru export şi backup.</string>
   <string name="menu_up_help_text">Navigheaza in folderul parinte al folderului curent.</string>
   <!--StaleImages-->
   <!--CSV Import-->

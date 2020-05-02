@@ -34,10 +34,10 @@
   <string name="menu_back_help_text">Muda para o grupo anterior. Também pode ser feito deslizando o dedo da esquerda para a direita na tela.</string>
   <string name="menu_forward_help_text">Muda para o próximo grupo. Também pode ser feito deslizando o dedo da direita para a esquerda na tela.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Abre a caixa de diálogo para especificar o título de uma nova sub-categoria abaixo a categoria selecionada.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Mapear a categoria selecionada pela operação e retornar pela forma de transação.</string>
+  <string name="cab_ManageCategories_select_help_text">Mapear a categoria selecionada pela operação e retornar pela forma de transação.</string>
   <string name="menu_categories_setup_default_help_text">Um conjunto de categorias padrão será importado.</string>
   <string name="menu_categories_export_help_text">As categorias serão exportadas para o arquivo QIF.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulário para transações</string>
   <string name="help_ExpenseEdit_transfer_title">Formulário para transferências</string>

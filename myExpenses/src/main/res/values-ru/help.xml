@@ -39,12 +39,12 @@
   <string name="menu_back_help_text">Перейти к предыдущей группе. Также можно сделать свайпом слева направо.</string>
   <string name="menu_forward_help_text">Перейти к следующей группе. Также можно сделать свайпом справа налево.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Открывает диалоговое окно для указания названия новой подкатегории ниже выбранной категории.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Отобразить выбранную категорию в операции и вернуться к форме операции.</string>
+  <string name="cab_ManageCategories_select_help_text">Отобразить выбранную категорию в операции и вернуться к форме операции.</string>
   <string name="menu_categories_setup_default_help_text">Будут импортированы категории по умолчанию.</string>
   <string name="menu_categories_export_help_text">Категории будут экспортированы в QIF file.</string>
   <string name="menu_distribution_show_pie_char_help_text">Переключить видимость круговой диаграммы.</string>
   <string name="menu_distribution_aggreate_help_text">По умолчанию рассчитанные суммы включают расходы и поступления. Вы можете решить показать их отдельно, кнопка в панели действий позволяет переключаться между расходами и поступлениями.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Выбранная категория будет использоваться для фильтрации списка операций.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Выбранная категория будет использоваться для фильтрации списка операций.</string>
   <string name="menu_ManageCategories_search_help_text">Будут отображены только основные категории и подкатегории, которые соответствуют вашему запросу. будет отображаться.</string>
   <string name="menu_ManageCategories_sort_help_text">Список категорий может быть отсортирован по заголовку (в алфавитном порядке), по частоте использования или по времени последней операции внутри категории.</string>
   <!--ExpenseEdit-->

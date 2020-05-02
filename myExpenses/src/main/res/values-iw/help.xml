@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">נווט אל הקבוצה הבאה. ניתן לעשות זאת גם באמצעות תנועת החלקה מימין לשמאל.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">פותח את תיבת הדו-שיח לציון הכותרת של קטגוריית המשנה החדשה מתחת לקטגוריה שנבחרה.</string>
   <string name="cab_ManageCategories_move_help_text">ניתן להעביר קטגוריות משנה לקטגוריה ראשית אחרת, או להפוך אותן לקטגוריות עיקריות. הקטגוריות העיקריות שאין להן ילדים יכולות להפוך לקטגוריות משנה של קטגוריה ראשית אחרת.</string>
-  <string name="cab_ManageCategories_select_category_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
+  <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
   <string name="menu_categories_setup_default_help_text">קבוצה של קטגוריות ברירת מחדל תיובא.</string>
   <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
   <string name="menu_distribution_aggreate_help_text">כברירת מחדל, הסכומים המחושבים כוללים הן הוצאות והן הכנסות. אתה יכול להחליט להציג אותם בנפרד, כפתור בסרגל הפעולות מאפשר לך לעבור בין ההוצאות וההכנסות.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">הקטגוריה שנבחרה תשמש לסינון רשימת העסקאות.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">הקטגוריה שנבחרה תשמש לסינון רשימת העסקאות.</string>
   <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת-קטגוריות התואמות את השאילתה שלך יוצגו.</string>
   <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששוייכה לעסקה.</string>
   <string name="cab_ManageCategories_color_help_text">ניתן להקצות צבע לקטגוריות עיקריות. צבע זה ישמש לייצוג הקטגוריה בתרשימים. קטגוריות משנה ישתמשו בגוונים של צבע הקטגוריה העיקרית שלהם.</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">התיקיה שתבחר כאן, תשמש לאחסון גיבויים ויצוא. נווט בהיררכית התיקיות עד שתגיע לתיקיה הרצויה.</string>
   <string name="menu_create_folder_help_text">צור תיקייה חדשה בתוך התיקיה הנוכחית.</string>
-  <string name="menu_select_folder_help_text">בחר את התיקייה הנוכחית כיעד אחסון ליצוא ולגיבויים.</string>
+  <string name="menu_FolderBrowser_select_help_text">בחר את התיקייה הנוכחית כיעד אחסון ליצוא ולגיבויים.</string>
   <string name="menu_up_help_text">נווט אל ההורה של התיקיה הנוכחית.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">מסך זה מאפשר לך להתמודד עם קבצי תמונה שהושארו מעסקאות שנמחקו. לחץ לחיצה ארוכה על ערכים כדי למחוק אותם, או להעביר אותם מתוך תיקיית האחסון (אולי פנימי) לתיקיית גיבוי (Android / data / org.totschnig.mxexpenses / files / images.old) על אחסון חיצוני.</string>

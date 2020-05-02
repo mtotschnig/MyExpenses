@@ -27,7 +27,7 @@
   <string name="menu_back_help_text">පෙර කණ්ඩායමට ගමන් කිරීම. මෙය වමේ සිට දකුණට සර්පණ අංගහාරයෙන් කල හැක. </string>
   <string name="menu_forward_help_text">ඊළඟ කණ්ඩායමට ගමන් කිරීම. මෙය දකුණේ සිට වමට සර්පණ අංගහාරයෙන් කල හැක. </string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">තෝරා ගත් කාණ්ඩය යටතේ ඇති අනුකාණ්ඩයක නම සටහන් කිරීමේ සංවාදය විවෘත වේ.</string>
-  <string name="cab_ManageCategories_select_category_help_text">තෝරා ගත් කාණ්ඩය ගනුදෙනුවකට අනුරූපනය කර ගනුදෙනු පෝරමයට නැවත පිවිසෙන්න.</string>
+  <string name="cab_ManageCategories_select_help_text">තෝරා ගත් කාණ්ඩය ගනුදෙනුවකට අනුරූපනය කර ගනුදෙනු පෝරමයට නැවත පිවිසෙන්න.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">ගනුදෙනු සඳහා පෝරමය</string>
   <string name="help_ExpenseEdit_transfer_title">මුදල් හුවමාරුව සඳහා පෝරමය</string>

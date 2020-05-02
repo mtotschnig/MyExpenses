@@ -18,10 +18,10 @@
   <string name="menu_back_help_text">导航到前一组.也可以从左向右滑动手势实现</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">打开创建所选类别的子类别对话框</string>
   <string name="cab_ManageCategories_move_help_text">子类别可以被移动到不同主类别,可以转换为主类别.没有子类别的主类别可以转换为其他主类别的子类别</string>
-  <string name="cab_ManageCategories_select_category_help_text">映射所选类别到转换,返回转换表格</string>
+  <string name="cab_ManageCategories_select_help_text">映射所选类别到转换,返回转换表格</string>
   <string name="menu_categories_setup_default_help_text">一套默认类别将会被导入</string>
   <string name="menu_categories_export_help_text">类别会被导出到QIF文件</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">所选类别将会被应用与过滤转换列表</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">所选类别将会被应用与过滤转换列表</string>
   <string name="menu_ManageCategories_search_help_text">只有显示匹配你查询的主和次类别</string>
   <!--ExpenseEdit-->
   <string name="form_comment_help_text">输入关于对象的标注</string>
@@ -34,7 +34,7 @@
   <!--ManageCurrencies-->
   <!--FolderBrowser title is in keys-->
   <string name="menu_create_folder_help_text">在当前文件夹创建新文件夹</string>
-  <string name="menu_select_folder_help_text">设置当前文件夹作为导出和备份路径</string>
+  <string name="menu_FolderBrowser_select_help_text">设置当前文件夹作为导出和备份路径</string>
   <string name="menu_up_help_text">导航到父文件夹</string>
   <!--StaleImages-->
   <!--CSV Import-->

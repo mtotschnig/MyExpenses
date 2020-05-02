@@ -53,12 +53,12 @@
   <string name="menu_forward_help_text">Naviguer vers le groupe suivant. Peut aussi être fait par le glissement de droite à gauche.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre une fenêtre pour spécifier le titre d\'une nouvelle sous-catégorie en dessous de la catégorie sélectionnée.</string>
   <string name="cab_ManageCategories_move_help_text">Les sous-catégories peuvent être déplacées vers une autre catégorie principale ou être transformées en catégories principales. Une catégorie principale seule peut être changée en sous-catégorie d\'une autre principale.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
+  <string name="cab_ManageCategories_select_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
   <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
   <string name="menu_categories_export_help_text">Les catégories seront exportées vers le fichier QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Activer/désactiver la visibilité du graphique à secteurs.</string>
   <string name="menu_distribution_aggreate_help_text">Par défaut, les sommes calculées incluent les dépenses et les revenus. Vous pouvez décider de les montrer séparément : un bouton dans la barre d\'action permet de basculer entre les dépenses et revenus.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
   <string name="menu_ManageCategories_search_help_text">Seulement la catégorie principal et les sous catégories qui correspondent à votre requête seront affichées.</string>
   <string name="menu_ManageCategories_sort_help_text">La liste des catégories peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation ou de la date de dernière création d\'une transaction.</string>
   <string name="cab_ManageCategories_color_help_text">Vous pouvez attribuer une couleur aux catégories principales. Cette couleur sera utilisée pour représenter la catégorie dans les graphiques. Les sous-catégories utiliseront les nuances de la couleur de leur catégorie principale.</string>
@@ -126,7 +126,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Le dossier sélectionné ici sera utilisé pour stocker les sauvegardes et exportations. Naviguez dans la hiérarchie jusqu\'à ce que vous trouviez le dossier souhaité.</string>
   <string name="menu_create_folder_help_text">Créer un nouveau dossier dans le dossier actuel.</string>
-  <string name="menu_select_folder_help_text">Sélectionner le dossier actuel comme cible de stockage pour les sauvegardes et exportations.</string>
+  <string name="menu_FolderBrowser_select_help_text">Sélectionner le dossier actuel comme cible de stockage pour les sauvegardes et exportations.</string>
   <string name="menu_up_help_text">Naviguer vers le dossier parent de celui-ci</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Cet écran vous permet de traiter des fichiers d\'images qui ont fait partie des transactions supprimées. Cliquez longuement sur une entrée afin de la supprimer ou la déplacer hors du dossier de stockage (éventuellement interne) vers un dossier de sauvegarde (Android/data/org.totschnig.mxexpenses/files/images.old) sur le stockage externe.</string>

@@ -47,12 +47,12 @@
   <string name="menu_forward_help_text">Navegar para o próximo grupo. Pode também ser feito através de um gesto de passar da direita para a esquerda.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Abre o diálogo para especificar o título de uma nova subcategoria em baixo da categoria selecionada.</string>
   <string name="cab_ManageCategories_move_help_text">As subcategorias podem ser movidas para uma categoria principal diferente, ou podem ser transformadas em categorias principais. As categorias principais que não têm descendentes podem ser transformadas em subcategorias de uma categoria principal diferente.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Atribuir a categoria selecionada à transação e voltar ao formulário da transação.</string>
+  <string name="cab_ManageCategories_select_help_text">Atribuir a categoria selecionada à transação e voltar ao formulário da transação.</string>
   <string name="menu_categories_setup_default_help_text">Um conjunto de categorias predefinidas será importado.</string>
   <string name="menu_categories_export_help_text">As categorias serão exportadas para um ficheiro QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Alternar a visibilidade do gráfico circular.</string>
   <string name="menu_distribution_aggreate_help_text">Por omissão, as somas calculadas incluem ambas as despesas e a receita. Pode optar por mostrar as mesmas separadamente, um botão na barra de ações permite-lhe alternar entre as despesas e a receita.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
   <string name="menu_ManageCategories_search_help_text">Apenas a categoria principal e as subcategorias que coincidem com a sua pesquisa serão exibidas.</string>
   <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última categoria atribuída a uma transação.</string>
   <!--ExpenseEdit-->
@@ -109,7 +109,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">A pasta que selecionar aqui, será usada para armazenar cópias de segurança e exportações. Navegue através da hierarquia da pasta até chegar à pasta pretendida.</string>
   <string name="menu_create_folder_help_text">Criar uma nova pasta dentro da pasta atual.</string>
-  <string name="menu_select_folder_help_text">Selecionar a pasta atual como destino de armazenamento de exportações e cópias de segurança.</string>
+  <string name="menu_FolderBrowser_select_help_text">Selecionar a pasta atual como destino de armazenamento de exportações e cópias de segurança.</string>
   <string name="menu_up_help_text">Navegar para a pasta superior da pasta atual.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Este ecrã permite-lhe lidar com imagens que foram deixadas para trás pelas transações eliminadas. Clique longamente nas entradas para as eliminar, ou para as mover da pasta de armazenamento (possívelmente interno) para uma pasta de cópia de segurança (Android/data/org.totschnig.mxexpenses/files/images.old) no armazenamento externo.</string>

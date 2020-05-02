@@ -47,12 +47,12 @@
   <string name="menu_forward_help_text">Joan hurrengo taldera. Hatza eskumatik ezkerrera pasatuz ere egin daiteke.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Kategoria honen azpi-kategoria berri baten izena zehazteko elkarrizketa-koadroa irekitzen du.</string>
   <string name="cab_ManageCategories_move_help_text">Azpikategoriak kategoria nagusi desberdin batera mugituak edo kategoria nagusitan eraldatuak izan daitezke. Azpikategoriarik gabeko kategoria nagusiak kategoria nagusi desberdin bateko azpikategoriatan eraldatuak izan daitezke.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Lotu aukeratutako kategoria transakziora eta itzuli transakzioaren formulariora.</string>
+  <string name="cab_ManageCategories_select_help_text">Lotu aukeratutako kategoria transakziora eta itzuli transakzioaren formulariora.</string>
   <string name="menu_categories_setup_default_help_text">Lehenetsitako kategoria multzo bat inportatuko da.</string>
   <string name="menu_categories_export_help_text">Kategoriak QIF fitxategira esportatuko dira.</string>
   <string name="menu_distribution_show_pie_char_help_text">Txandakatu grafiko biribilaren ikusgaitasuna.</string>
   <string name="menu_distribution_aggreate_help_text">Lehenetsita, kalkulatutako baturetan gastuak eta irabaziak daude. Biak bereiz erakustea erabaki dezakezu, ekintza-barrako botoi batekin gastu eta irabazi artean txandakatu dezakezu.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Aukeratutako kategoria transakzioen zerrenda iragazteko erabiliko da.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Aukeratutako kategoria transakzioen zerrenda iragazteko erabiliko da.</string>
   <string name="menu_ManageCategories_search_help_text">Zure kontsultarekin bat datozen kategoria nagusiak eta azpikategoriak bakarrik bistaratuko dira.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategoria zerrenda izenburuaren (alfabetikoki), erabilera maiztasunaren edo transakzio bat esleitua izan den azken aldiaren arabera ordenatu daiteke.</string>
   <!--ExpenseEdit-->
@@ -109,7 +109,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Hemen aukeratzen duzun karpeta babeskopiak eta esportazioak gordetzeko erabiliko da. Nabigatu karpeten hierarkian zehar nahi duzun karpeta aurkitu arte.</string>
   <string name="menu_create_folder_help_text">Sortu karpeta bat karpeta honen barruan.</string>
-  <string name="menu_select_folder_help_text">Aukeratu uneko karpeta esportazio eta babeskopien biltegiratze helburu gisa.</string>
+  <string name="menu_FolderBrowser_select_help_text">Aukeratu uneko karpeta esportazio eta babeskopien biltegiratze helburu gisa.</string>
   <string name="menu_up_help_text">Joan karpeta honen karpeta gurasora.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Pantaila honetan ezabatutako transakzioetatik soberan geratu diren irudiak kudeatzea baimentzen dizu. Sakatu luze sarreretan hauek ezabatu edo (barne) biltegiratze karpetatik kanpo biltegiratzeko babeskopia karpetara mugitzeko (Android/data/org.totschnig.mxexpenses/files/images.old) </string>

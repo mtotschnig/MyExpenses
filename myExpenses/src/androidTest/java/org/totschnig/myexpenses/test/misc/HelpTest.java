@@ -22,11 +22,16 @@ import junit.framework.Assert;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.BudgetEdit;
+import org.totschnig.myexpenses.activity.Distribution;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.FolderBrowser;
+import org.totschnig.myexpenses.activity.ManageBudgets;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageParties;
+import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -69,7 +74,12 @@ public class HelpTest extends android.test.InstrumentationTestCase {
         ManageTemplates.class,
         MyExpenses.class,
         ManageCategories.class,
-        ManageCurrencies.class
+        ManageCurrencies.class,
+        ManageTags.class,
+        Distribution.class,
+        BudgetEdit.class,
+        ManageBudgets.class,
+        FolderBrowser.class
     };
     for (Class<?> activity : activities) {
       String className = activity.getSimpleName();
@@ -136,20 +146,19 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     resources = context.getResources();
     String pack = context.getPackageName();
     String resIdString;
-    int resId;
     for (String item : menuItems) {
       //assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
       if (prefix.equals("form")) {
         for (String resIdPart : item.split("\\.")) {
-          assertTrue("title not found for " + item, resources.getIdentifier(resIdPart, "string", pack) != 0);
+          assertTrue(String.format("title not found for %s-%s-%s-%s", activityName, variant, prefix, item), resources.getIdentifier(resIdPart, "string", pack) != 0);
         }
       } else {
         resIdString = "menu_" + item;
-        assertTrue("title not found for " + item, resources.getIdentifier(resIdString, "string", pack) != 0);
+        assertTrue(String.format("title not found for %s-%s-%s-%s", activityName, variant, prefix, item), resources.getIdentifier(resIdString, "string", pack) != 0);
       }
       if (!resolveStringOrArray(prefix + "_" + activityName + "_" + variant + "_" + item + "_help_text")) {
         if (!resolveStringOrArray(prefix + "_" + activityName + "_" + item + "_help_text")) {
-          assertTrue("help text not found for " + item, resolveStringOrArray(prefix + "_" + item + "_help_text"));
+          assertTrue(String.format("help text not found for %s-%s-%s-%s", activityName, variant, prefix, item), resolveStringOrArray(prefix + "_" + item + "_help_text"));
         }
       }
     }

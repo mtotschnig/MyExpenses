@@ -195,14 +195,14 @@
         <item>color</item>
     </string-array>
     <string-array name="ManageCategories_select_mapping_cabitems" tools:ignore="UnusedResources">
-        <item>select_category</item>
+        <item>select</item>
         <item>edit</item>
         <item>create_sub_cat</item>
         <item>delete</item>
         <item>move</item>
     </string-array>
     <string-array name="ManageCategories_select_filter_cabitems" tools:ignore="UnusedResources">
-        <item>select_category</item>
+        <item>select</item>
     </string-array>
     <string-array name="Distribution_cabitems" tools:ignore="UnusedResources">
         <item>color</item>
@@ -413,7 +413,7 @@
 
     <string-array name="FolderBrowser_menuitems" tools:ignore="UnusedResources">
         <item>create_folder</item>
-        <item>select_folder</item>
+        <item>select</item>
         <item>up</item>
     </string-array>
 

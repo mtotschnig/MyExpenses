@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">Напред до следваща група. Може да се направи и с жест - плъзгане от дясно на ляво.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Отваря диалог за задаване на име на нова подкатегория на избраната главна.</string>
   <string name="cab_ManageCategories_move_help_text">Под-категориите могат да бъдат преместени в друга главна категория, или да бъдат преобразувани в главни. Главна категория, която няма под-категория, може да се преобразува в под-категория на друга главна.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Свързва избраната категория с транзакцията и връщане в бланката на транзакцията.</string>
+  <string name="cab_ManageCategories_select_help_text">Свързва избраната категория с транзакцията и връщане в бланката на транзакцията.</string>
   <string name="menu_categories_setup_default_help_text">Импорт на комплект предварително подготвени категории.</string>
   <string name="menu_categories_export_help_text">Категориите ще бъдат експортирани във файл тип QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Включва / изключва показването на графиката.</string>
   <string name="menu_distribution_aggreate_help_text">По подразбиране, изчислените суми включват и двете - и разходи и приходи. Ако искате да се показват по отделно, бутона - или + в ленатата за действия ще превключва между разходи и приходи.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Избраната категория ще служи за филтриране на списъка с транзакции.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Избраната категория ще служи за филтриране на списъка с транзакции.</string>
   <string name="menu_ManageCategories_search_help_text">Ще бъдат показани само категориите (главна и подкатегория), съответстващи на заявката за търсене.</string>
   <string name="menu_ManageCategories_sort_help_text">Списъка на категориите може да е подреден по име (в азбучен ред), по честота на използване или по последно използвана категория.</string>
   <string name="cab_ManageCategories_color_help_text">Може да зададете цвят на главните категории. Този цвят ще се използва за представяне на категорията в графиките. Подкатегориите ще използват нюанси на цвета на главната категория.</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Папката, която посочите тук, ще бъде използвана за запазване на бекъпите и за експортиране. Придвижете се в иерархията на папките, докато достигнете желаната.</string>
   <string name="menu_create_folder_help_text">Създава нова папка, вътре в текущата.</string>
-  <string name="menu_select_folder_help_text">Изберете папка, където да се запазват бекъпите и файловете с експортирани данни.</string>
+  <string name="menu_FolderBrowser_select_help_text">Изберете папка, където да се запазват бекъпите и файловете с експортирани данни.</string>
   <string name="menu_up_help_text">Придвижване до родителя на текущата папка.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">От тук може да управлявате файловете с изображения, които остават след изтриване на транзакции. Докоснете продължително за да изтриете или преместите. Папка за бекъп: Android/data/org.totschnig.mxexpenses/files/images.old.</string>

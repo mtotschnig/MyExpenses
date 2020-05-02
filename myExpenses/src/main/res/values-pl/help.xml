@@ -50,12 +50,12 @@
   <string name="menu_forward_help_text">Przechodzi do następnej grupy. To może być także dokonane przez gest przesunięcia palcem od prawej do lewej.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Otwiera okno dialogowe dla określenia tytułu dla nowej podkategorii poniżej aktualnie wybranej kategorii.</string>
   <string name="cab_ManageCategories_move_help_text">Podkategorie mogą być przeniesione do innej kategorii głównej, albo zmienione na główną kategorie. Główne kategorie, które nie mają podkategorii mogą zostać zmienione do podkategorii innej głównej kategorii.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Mapuj wybraną kategorię do transakcji i wróć do formy transakcji.</string>
+  <string name="cab_ManageCategories_select_help_text">Mapuj wybraną kategorię do transakcji i wróć do formy transakcji.</string>
   <string name="menu_categories_setup_default_help_text">Zaimportowany zostanie zestaw domyślnych kategorii.</string>
   <string name="menu_categories_export_help_text">Kategorie zostaną wyeksportowane do pliku QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Przełącz widoczność wykresu kołowego.</string>
   <string name="menu_distribution_aggreate_help_text">Domyślnie, kalkulowane sumy zawierają zarówno wydatki jak i przychody. Możesz zadecydować by wyświetlać je osobno, przycisk w pasku akcji pozwala na przełączanie pomiędzy wydatkami i przychodami.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Wybrana kategoria zostania użyta do filtrowania listy transakcji.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Wybrana kategoria zostania użyta do filtrowania listy transakcji.</string>
   <string name="menu_ManageCategories_search_help_text">Tylko kategorie główne i podkategorie które pasują do twojego zapytania zostaną wyświetlone.</string>
   <string name="menu_ManageCategories_sort_help_text">Lista kategorii może być sortowana według tytułu (alfabetycznie), według częstotliwości używania lub ostatniego czasu, kiedy transakcja została do niej przyporządkowana.</string>
   <!--ExpenseEdit-->
@@ -114,7 +114,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Wybrany tutaj folder będzie używany do przechowywania kopii zapasowych i eksportowania. Przechodź przez hierarchię folderów, aż dotrzesz do żądanego folderu.</string>
   <string name="menu_create_folder_help_text">Stwórz nowy folder wewnątrz obecnego.</string>
-  <string name="menu_select_folder_help_text">Wybierz obecny folder jako cel dla eksportów i kopii zapasowych.</string>
+  <string name="menu_FolderBrowser_select_help_text">Wybierz obecny folder jako cel dla eksportów i kopii zapasowych.</string>
   <string name="menu_up_help_text">Nawiguj do folderu nadrzędnego.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Ten ekran umożliwia obsługę plików graficznych, które zostały usunięte ze skasowanych transakcji. Długo klikaj wpisy, aby je usunąć lub przenieś je z (ewentualnie wewnętrznego) folderu magazynu do folderu kopii zapasowej (Android/data/org.totschnig.mxexpenses/files/images.old) w pamięci zewnętrznej.</string>

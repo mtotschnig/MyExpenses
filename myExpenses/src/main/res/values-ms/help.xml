@@ -52,12 +52,12 @@
   <string name="menu_forward_help_text">Navigasi ke kumpulan berikutnya. Boleh juga dibuat melalui gerak isyarat seret dari kanan ke kiri.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Buka dialog untuk menyatakan tajuk bagi sub-kategori dibawah kategori terpilih.</string>
   <string name="cab_ManageCategories_move_help_text">Sub-kategori boleh dialih ke kategori utama yang lain, atau boleh dijelmakan ke kategori utama. Kategori utama yang tidak mempunyai sub-kategori boleh dijelmakan menjadi sub-kategori bagi kategori utama yang lain.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Petakan kategori terpilih ke transaksi dan kembali ke borang transaksi.</string>
+  <string name="cab_ManageCategories_select_help_text">Petakan kategori terpilih ke transaksi dan kembali ke borang transaksi.</string>
   <string name="menu_categories_setup_default_help_text">Satu set kategori lalai akan diimport.</string>
   <string name="menu_categories_export_help_text">Kategori akan dieksport ke fail QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Togol ketampakan carta pai.</string>
   <string name="menu_distribution_aggreate_help_text">Secara lalai, hasil tambah yang dikira termasuklah kedua-dua perbelanjaan dan pendapatan. Anda boleh tentukan sama ada ditunjukkan secara berasingan, butang pada palang tindakan membolehkan anda togol diantara perbelanjaan dengan pendapatan.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
   <string name="menu_ManageCategories_search_help_text">Hanya kategori utama dan sub-kategori yang sepadan dengan pertanyaan anda akan dipaparkan.</string>
   <string name="menu_ManageCategories_sort_help_text">Senarai kategori boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau mengikut kali terakhir transaksi dipetakan.</string>
   <string name="cab_ManageCategories_color_help_text">Anda boleh umpuk satu warna untuk kategori utama. Warna ini akan digunakan untuk mewakili kategori dalam carta. Subkategori akan guna lorekan dari warna kategori utama mereka.</string>
@@ -125,7 +125,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Folder yang anda pilih di sini, akan digunakan untuk menyimpan sandar dan eksport. Navigasi melalui hieraki folder sehinggalah anda menemui folder yang dikehendaki.</string>
   <string name="menu_create_folder_help_text">Cipta folder baharu di dalam folder semasa.</string>
-  <string name="menu_select_folder_help_text">Pilih folder semasa sebagai sasaran stroan untuk eksport dan sandar.</string>
+  <string name="menu_FolderBrowser_select_help_text">Pilih folder semasa sebagai sasaran stroan untuk eksport dan sandar.</string>
   <string name="menu_up_help_text">Navigasi induk folder semasa.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Skrin ini membolehkan anda mengurus fail imej tertinggal daripada transaksi yang telah dipadam. Klik lama pada masukan untuk memadam ia, atau mengalih ia keluar dari (berkemungkinan dalaman) folder storan ke folder sandar (Android/data/org.totschnig.mxexpenses/files/images.old) di dalam storan luaran.</string>

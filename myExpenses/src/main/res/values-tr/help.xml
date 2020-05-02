@@ -27,6 +27,8 @@
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. </string>
+  <string name="help_ManageParties_select_mapping_info">Muameleye müdahil bir taraf seçmek için üzerine dokunun.</string>
+  <string name="help_ManageParties_select_filter_info">Muamele listesine filtre uygulamak için muameleye müdahil bir tarafa dokunun. Birden fazla taraf seçmek için uzun dokunun.</string>
   <string name="help_ManageParties_floating_action_button">Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Planlama takvim görünümü</string>
@@ -52,12 +54,12 @@
   <string name="menu_forward_help_text">Sonraki gruba geç. Sağdan sola kaydırarak yapılması da mümkündür.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Seçilen kategorinin altındaki yeni bir kategorinin başlığını belirtmek için diyalog açar.</string>
   <string name="cab_ManageCategories_move_help_text">Alt kategoriler başka bir ana kategoriye taşınabilir ya da ana kategoriye dönüştürülebilir. Alt kategorisi olmayan ana kategoriler başka bir ana kategorinin alt kategorisine dönüştürülebilir.</string>
-  <string name="cab_ManageCategories_select_category_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
+  <string name="cab_ManageCategories_select_help_text">Seçilen kategoriyi muamele ile ilişkilendir ve muamele formuna dön.</string>
   <string name="menu_categories_setup_default_help_text">Bir seri varsayılan kategori içe aktarılacaktır.</string>
   <string name="menu_categories_export_help_text">Kategoriler QIF dosyasına dışa aktarılacaktır.</string>
   <string name="menu_distribution_show_pie_char_help_text">Yuvarlak diyagramın görüntülenmesini aç ya da kapat.</string>
   <string name="menu_distribution_aggreate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem harcamalar hem de gelirleri içerir. Bunların ayrı olarak gösterilmesini seçebilirsiniz, eylem çubuğundaki bir düğme harcamalar ve gelirler arasında geçiş yapmaya imkân verir.</string>
-  <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
   <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
   <string name="cab_ManageCategories_color_help_text">Ana kategorilere renk atayabilirsiniz. Bu renk, kategoriyi grafiklerde temsil etmek için kullanılacaktır. Alt kategoriler, ana kategorinin renginin tonlarını kullanacaktır.</string>
@@ -125,7 +127,7 @@
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">Burada seçtiğiniz klasör yedeklemeleri ve dışa aktarmaları saklamak için kullanılacaktır. İstediğiniz klasöre ulaşana dek klasör hiyerarşisinde gezinebilirsiniz.</string>
   <string name="menu_create_folder_help_text">Güncel klasörün içinde yeni klasör oluştur.</string>
-  <string name="menu_select_folder_help_text">Güncel klasörü dışa aktarmalar ve yedeklemeler için hedef olarak seç.</string>
+  <string name="menu_FolderBrowser_select_help_text">Güncel klasörü dışa aktarmalar ve yedeklemeler için hedef olarak seç.</string>
   <string name="menu_up_help_text">Bu klasörün üst klasörüne git.</string>
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">Bu ekran silinmiş muamelelerden kalan resim dosyalarını yönetmenize izin verir. Silmek ya da (muhtemelen dahili) depolamadan harici depolamada bir yedekleme klasörüne (Android/data/org.totschnig.mxexpenses/files/images.old) taşımak için unsurlara uzun süre dokununuz.</string>
