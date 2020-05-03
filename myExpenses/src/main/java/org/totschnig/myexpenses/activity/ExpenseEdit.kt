@@ -415,8 +415,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     fun updateSplitBalance() {
-        val splitPartList = findSplitPartList()
-        splitPartList?.updateBalance()
+        findSplitPartList()?.updateBalance()
     }
 
     private fun populateFromTask(transaction: Transaction?, task: TransactionViewModel.InstantiationTask) {
@@ -592,15 +591,18 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
     }
 
     override fun doSave(andNew: Boolean) {
-        if (operationType == Transactions.TYPE_SPLIT &&
-                !requireSplitPartList().splitComplete()) {
-            showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT)
-        } else {
-            if (andNew) {
-                createNew = true
-            }
-            super.doSave(andNew)
+        if (operationType == Transactions.TYPE_SPLIT) {
+            findSplitPartList()?.let {
+                if (!it.splitComplete()) {
+                    showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT)
+                    return
+                }
+            } ?: kotlin.run { return }
         }
+        if (andNew) {
+            createNew = true
+        }
+        super.doSave(andNew)
     }
 
     override fun doHome() {
@@ -1036,14 +1038,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         super.onPause()
     }
 
-    fun findSplitPartList(): SplitPartList? {
-        return supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
-    }
-
-    private fun requireSplitPartList(): SplitPartList {
-        return findSplitPartList()
-                ?: throw IllegalStateException("Split part list not found")
-    }
+    fun findSplitPartList() =
+            supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
 
     @SuppressLint("NewApi")
     fun showPicturePopupMenu(v: View?) {

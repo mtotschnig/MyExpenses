@@ -44,8 +44,7 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
 
     override fun prepareForNew() {
         rowId =  SplitTransaction.getNewInstance(accountId!!).id
-        val splitPartList = host.findSplitPartList()
-        splitPartList?.updateParent(rowId!!)
+        host.findSplitPartList()?.updateParent(rowId!!)
         resetAmounts()
     }
 
