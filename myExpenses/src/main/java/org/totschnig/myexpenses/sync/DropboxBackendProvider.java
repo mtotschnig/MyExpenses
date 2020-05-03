@@ -341,6 +341,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     try {
       result = Stream.of(mDbxClient.files().listFolder(basePath).getEntries())
           .filter(metadata -> metadata instanceof FolderMetadata)
+          .filter(metadata -> !metadata.getName().equals(BACKUP_FOLDER_NAME))
           .map(metadata -> basePath + "/" + metadata.getName() + "/" + getAccountMetadataFilename())
           .filter(accountMetadataPath -> {
             try {

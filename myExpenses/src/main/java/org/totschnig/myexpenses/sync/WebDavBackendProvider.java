@@ -35,6 +35,7 @@ import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.LockableDavResource;
 import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.exception.HttpException;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.internal.Util;
@@ -414,11 +415,17 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
+  private String getLastPathSegment(HttpUrl httpUrl) {
+    List<String> segments = httpUrl.pathSegments();
+    return segments.get(segments.size() - 1);
+  }
+
   @NonNull
   @Override
   public Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException {
     return Stream.of(webDavClient.getFolderMembers((String[]) null))
         .filter(LockableDavResource::isCollection)
+        .filter(davResource -> !getLastPathSegment(davResource.location).equals(BACKUP_FOLDER_NAME))
         .map(davResource -> webDavClient.getResource(davResource.location, getAccountMetadataFilename()))
         .filter(LockableDavResource::exists)
         .map(this::getAccountMetaDataFromDavResource);

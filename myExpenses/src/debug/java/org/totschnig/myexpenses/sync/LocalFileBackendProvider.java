@@ -268,6 +268,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public Stream<Exceptional<AccountMetaData>> getRemoteAccountList()  {
     return Stream.of(baseDir.listFiles(File::isDirectory))
+        .filter(directory -> !directory.getName().equals(BACKUP_FOLDER_NAME))
         .map(directory -> new File(directory, getAccountMetadataFilename()))
         .filter(File::exists)
         .map(this::getAccountMetaDataFromFile);
