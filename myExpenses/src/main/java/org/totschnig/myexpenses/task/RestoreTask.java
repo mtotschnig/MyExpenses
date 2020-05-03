@@ -153,7 +153,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
 
       }
     } catch (FileNotFoundException | SecurityException | GeneralSecurityException e) {
-      CrashHandler.report(e, "fileUri", fileUri.toString());
+      CrashHandler.report(e, String.format("fileUri %s, syncAccountName %s, backupFromSync %s", fileUri, syncAccountName, backupFromSync));
       return Result.ofFailure(
           R.string.parse_error_other_exception,
           e.getMessage());
