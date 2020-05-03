@@ -367,6 +367,7 @@
   <string name="save_transaction_template_deleted">Le modèle a été supprimé.</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
+  <string name="select_payee">Sélectionnez un tiers</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="split_parts_heading">Sous-opérations</string>

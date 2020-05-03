@@ -27,6 +27,8 @@
   <string name="help_ManageMethods_info">Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte, Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Verwenden Sie die schwebende Aktionsschaltfläche zum Öffnen des Formulars für die Schaffung einer neuen Zahlungsweise.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Auf diesem Bildschirm wird die Liste der Parteien angezeigt, die für die automatische Komplettierung des Feldes Zahler/Empfänger verwendet wird.</string>
+  <string name="help_ManageParties_select_mapping_info">Wählen Sie eine Partei aus, indem Sie darauf tippen.</string>
+  <string name="help_ManageParties_select_filter_info">Tippen Sie auf eine Partei, um die Buchungsliste zu filtern. Langes Tippen ermöglicht die Auswahl mehrerer Parteien.</string>
   <string name="help_ManageParties_floating_action_button">Verwenden Sie die schwebende Aktionsschaltfläche um einen Eintrag hinzuzufügen.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Plan-Kalender Ansicht</string>

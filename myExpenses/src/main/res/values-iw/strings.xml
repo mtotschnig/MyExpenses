@@ -375,6 +375,7 @@
   <string name="save_transaction_template_deleted">התבנית נמחקה</string>
   <string name="select">בחר</string>
   <string name="select_category">בחר קטגוריה</string>
+  <string name="select_payee">בחר משלם / מקבל תשלום</string>
   <string name="share_scheme_not_supported">תכנית%1$s אינה נתמכת</string>
   <string name="share_sending">שלח קובץ ייצוא</string>
   <string name="split_parts_heading">חלקים מפוצלים</string>

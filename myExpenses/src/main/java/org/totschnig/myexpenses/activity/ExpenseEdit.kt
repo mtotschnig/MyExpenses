@@ -241,7 +241,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
             setTitle()
         } else {
             val extras = intent.extras
-            Utils.getFromExtra(extras, KEY_ROWID, 0L)
+            mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
             var task: TransactionViewModel.InstantiationTask? = null
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)

@@ -27,6 +27,8 @@
   <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. השתמש בלחצן פעולה הצף כדי לפתוח את הטופס ליצירת שיטה חדשה.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של משלם / מקבל התשלום. השתמש בלחצן </string>
+  <string name="help_ManageParties_select_mapping_info">בחר קבוצה על ידי הקשה עליה.</string>
+  <string name="help_ManageParties_select_filter_info">הקש על קבוצה לסינון רשימת העסקאות. לחץ לחיצה ארוכה  לבחירת מספר צדדים.</string>
   <string name="help_ManageParties_floating_action_button">הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>

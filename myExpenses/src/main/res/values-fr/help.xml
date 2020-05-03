@@ -27,6 +27,8 @@
   <string name="help_ManageMethods_info">Cet écran répertorie les méthodes de paiement prédéfinies (chèque, carte de crédit, dépôt, prélèvement) et vous permet d\'en définir de nouvelles. Utilisez le bouton d\'action pour ouvrir le formulaire pour la création d\'un nouveau type.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Cet écran répertorie les parties utilisées pour la complétion automatique du champ payeur/bénéficiaire.</string>
+  <string name="help_ManageParties_select_mapping_info">Sélectionnez un tiers en appuyant dessus.</string>
+  <string name="help_ManageParties_select_filter_info">Appuyez sur un tiers pour filtrer la liste des opérations. Appuyez longuement pour sélectionner plusieurs tiers.</string>
   <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendrier</string>

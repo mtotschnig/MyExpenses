@@ -41,7 +41,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 public class Payee extends Model {
-  public static final String SELECTION = String.format(Locale.ROOT, "%1$s LIKE ? OR %1$s GLOB ?", KEY_PAYEE_NAME_NORMALIZED);
+  public static final String SELECTION = String.format(Locale.ROOT, "(%1$s LIKE ? OR %1$s GLOB ?)", KEY_PAYEE_NAME_NORMALIZED);
   public static String[] SELECTION_ARGS(String search) {
     return new String[] {
         search + "%",

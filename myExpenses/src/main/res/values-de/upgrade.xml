@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_311">
+        <item>Die Liste der Parteien (Zahler und Zahlungsempfänger) kann durchsucht werden</item>
+    </string-array>
     <string-array name="whats_new_310">
         <item>Buchungen können mehreren Markierungen zugeordnet werden</item>
     </string-array>
