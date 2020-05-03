@@ -38,7 +38,7 @@ public interface SyncBackendProvider {
   @NonNull SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
 
   @NonNull
-  Stream<AccountMetaData> getRemoteAccountList() throws IOException;
+  Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException;
 
   Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create);
 
@@ -62,7 +62,7 @@ public interface SyncBackendProvider {
 
   void updateAccount(Account account) throws IOException;
 
-  Optional<AccountMetaData> readAccountMetaData();
+  Exceptional<AccountMetaData> readAccountMetaData();
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {

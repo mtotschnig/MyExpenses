@@ -266,7 +266,9 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         if (PrefKey.NEW_ACCOUNT_ENABLED.getBoolean(true)) {
           newAccount = getListFragment().getAccountForSync(
               ((ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition);
-          startDbWriteTask();
+          if (newAccount != null) {
+            startDbWriteTask();
+          }
         } else {
           contribFeatureRequested(ContribFeature.ACCOUNTS_UNLIMITED, null);
         }

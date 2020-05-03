@@ -45,9 +45,19 @@ public abstract class  AccountMetaData implements Parcelable {
   @Nullable
   public abstract String exchangeRateOtherCurrency();
 
-  public abstract boolean excludeFromTotals();
+  @Nullable
+  abstract Boolean excludeFromTotals();
 
-  public abstract long criterion();
+  @Nullable
+  abstract Long criterion();
+
+  public long _criterion() {
+    return criterion() == null ? 0L : criterion();
+  }
+
+  public boolean _excludeFromTotals() {
+    return excludeFromTotals() != null && excludeFromTotals();
+  }
 
   @Override
   public String toString() {
@@ -106,8 +116,8 @@ public abstract class  AccountMetaData implements Parcelable {
     public abstract Builder setType(String type);
     public abstract Builder setExchangeRate(Double exchangeRate);
     public abstract Builder setExchangeRateOtherCurrency(String otherCurrency);
-    public abstract Builder setExcludeFromTotals(boolean excludeFromTotals);
-    public abstract Builder setCriterion(long criterion);
+    public abstract Builder setExcludeFromTotals(Boolean excludeFromTotals);
+    public abstract Builder setCriterion(Long criterion);
 
     public abstract AccountMetaData build();
   }

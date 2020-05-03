@@ -27,7 +27,7 @@ class FakeSyncBackendViewModel(application: Application) : AbstractSyncBackendVi
             Pair.create(SYNC_ACCOUNT_3, false)
     )
 
-    override fun accountMetadata(accountName: String): LiveData<Exceptional<List<AccountMetaData>>> = liveData {
+    override fun accountMetadata(accountName: String): LiveData<Exceptional<List<Exceptional<AccountMetaData>>>> = liveData {
         val syncedAccount = with(getApplication<TestApp>().fixture) {
             when (accountName) {
                 SYNC_ACCOUNT_1 -> account1
@@ -37,7 +37,7 @@ class FakeSyncBackendViewModel(application: Application) : AbstractSyncBackendVi
             }
         }
         emit(Exceptional.of {
-            listOf<AccountMetaData>(AccountMetaData.from(syncedAccount))
+            listOf<Exceptional<AccountMetaData>>(Exceptional.of { AccountMetaData.from(syncedAccount) })
         })
     }
 }

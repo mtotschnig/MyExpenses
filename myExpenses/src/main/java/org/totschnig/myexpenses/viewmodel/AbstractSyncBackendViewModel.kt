@@ -17,7 +17,7 @@ abstract class AbstractSyncBackendViewModel(application: Application): ContentRe
 
     fun getLocalAccountInfo(): LiveData<Map<String, String?>> = localAccountInfo
 
-    abstract fun accountMetadata(accountName: String): LiveData<Exceptional<List<AccountMetaData>>>
+    abstract fun accountMetadata(accountName: String): LiveData<Exceptional<List<Exceptional<AccountMetaData>>>>
 
     fun loadLocalAccountInfo() {
         disposable = briteContentResolver.createQuery(ACCOUNTS_BASE_URI,

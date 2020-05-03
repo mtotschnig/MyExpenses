@@ -585,7 +585,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList();
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList()
+              .filter(Exceptional::isPresent)
+              .map(Exceptional::get);
           remoteUuidList = remoteAccounStream
               .map(AccountMetaData::uuid)
               .collect(Collectors.toList());
@@ -637,6 +639,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         try {
           if (syncBackendProvider.get().getRemoteAccountList()
+              .filter(Exceptional::isPresent)
+              .map(Exceptional::get)
               .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
             return Result.ofFailure(concatResStrings(application, " ",
                 R.string.link_account_failure_2, R.string.link_account_failure_3)
@@ -683,6 +687,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           List<String> accountUuids = Arrays.asList((String[]) ids);
           int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountList()
+              .filter(Exceptional::isPresent)
+              .map(Exceptional::get)
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
               .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {

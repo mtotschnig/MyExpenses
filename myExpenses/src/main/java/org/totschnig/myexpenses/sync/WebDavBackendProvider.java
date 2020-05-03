@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -98,7 +99,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Optional<AccountMetaData> readAccountMetaData() {
+  public Exceptional<AccountMetaData> readAccountMetaData() {
     return getAccountMetaDataFromDavResource(webDavClient.getResource(getAccountMetadataFilename(), accountUuid));
   }
 
@@ -415,21 +416,19 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
+  public Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException {
     return Stream.of(webDavClient.getFolderMembers((String[]) null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, getAccountMetadataFilename()))
         .filter(LockableDavResource::exists)
-        .map(this::getAccountMetaDataFromDavResource)
-        .filter(Optional::isPresent)
-        .map(Optional::get);
+        .map(this::getAccountMetaDataFromDavResource);
   }
 
-  private Optional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
+  private Exceptional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
     try {
       return getAccountMetaDataFromInputStream(lockableDavResource.get(getMimetypeForData()).byteStream());
     } catch (DavException | HttpException | IOException e) {
-      return Optional.empty();
+      return Exceptional.of(e);
     }
   }
 }

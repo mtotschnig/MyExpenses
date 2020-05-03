@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -67,7 +68,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Optional<AccountMetaData> readAccountMetaData() {
+  public Exceptional<AccountMetaData> readAccountMetaData() {
     return getAccountMetaDataFromFile(new File(accountDir, getAccountMetadataFilename()));
   }
 
@@ -209,14 +210,13 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
         new SequenceNumber(file.first, getSequenceFromFileName(file.second.getName())), inputStream);
   }
 
-  private Optional<AccountMetaData> getAccountMetaDataFromFile(File file) {
+  private Exceptional<AccountMetaData> getAccountMetaDataFromFile(File file) {
     try {
       FileInputStream inputStream = new FileInputStream(file);
-      Optional<AccountMetaData> result = getAccountMetaDataFromInputStream(inputStream);
-      return result;
+      return getAccountMetaDataFromInputStream(inputStream);
     } catch (IOException e) {
       log().e(e);
-      return Optional.empty();
+      return Exceptional.of(e);
     }
   }
 
@@ -266,13 +266,11 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList() {
+  public Stream<Exceptional<AccountMetaData>> getRemoteAccountList()  {
     return Stream.of(baseDir.listFiles(File::isDirectory))
         .map(directory -> new File(directory, getAccountMetadataFilename()))
         .filter(File::exists)
-        .map(this::getAccountMetaDataFromFile)
-        .filter(Optional::isPresent)
-        .map(Optional::get);
+        .map(this::getAccountMetaDataFromFile);
   }
 
   @Override

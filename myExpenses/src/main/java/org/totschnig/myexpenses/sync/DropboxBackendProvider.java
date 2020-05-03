@@ -103,7 +103,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Optional<AccountMetaData> readAccountMetaData() {
+  public Exceptional<AccountMetaData> readAccountMetaData() {
     return getAccountMetaDataFromPath(getResourcePath(getAccountMetadataFilename()));
   }
 
@@ -336,8 +336,8 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
-    Stream<AccountMetaData> result;
+  public Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException  {
+    Stream<Exceptional<AccountMetaData>> result;
     try {
       result = Stream.of(mDbxClient.files().listFolder(basePath).getEntries())
           .filter(metadata -> metadata instanceof FolderMetadata)
@@ -350,20 +350,18 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
               return false;
             }
           })
-          .map(this::getAccountMetaDataFromPath)
-          .filter(Optional::isPresent)
-          .map(Optional::get);
+          .map(this::getAccountMetaDataFromPath);
     } catch (DbxException e) {
       throw new IOException(e);
     }
     return result;
   }
 
-  private Optional<AccountMetaData> getAccountMetaDataFromPath(String path) {
+  private Exceptional<AccountMetaData> getAccountMetaDataFromPath(String path) {
     try {
       return getAccountMetaDataFromInputStream(getInputStream(path));
     } catch (IOException e) {
-      return Optional.empty();
+      return Exceptional.of(e);
     }
   }
 

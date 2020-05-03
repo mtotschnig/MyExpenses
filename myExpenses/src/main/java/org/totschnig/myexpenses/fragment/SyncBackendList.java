@@ -115,10 +115,12 @@ public class SyncBackendList extends Fragment implements
             commandId = R.id.SYNC_DOWNLOAD_COMMAND;
             titleId = R.string.menu_sync_download;
             break;
-          default:
-            throw new IllegalStateException("Unknown state");
+          default://EROR
+            commandId = 0;
+            titleId = 0;
         }
-        menu.add(Menu.NONE, commandId, 0, titleId);
+        if (commandId != 0)
+          menu.add(Menu.NONE, commandId, 0, titleId);
       }
     } else {
       if (isSyncAvailable) {
@@ -144,25 +146,32 @@ public class SyncBackendList extends Fragment implements
         return true;
       }
       case R.id.SYNC_UNLINK_COMMAND: {
-        DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
-            getAccountForSync(packedPosition));
+        final Account accountForSync = getAccountForSync(packedPosition);
+        if (accountForSync != null) {
+          DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
+              accountForSync);
+        }
         return true;
       }
       case R.id.SYNCED_TO_OTHER_COMMAND: {
         Account account = getAccountForSync(packedPosition);
-        ((ProtectedFragmentActivity) getActivity()).showMessage(
-            getString(R.string.dialog_synced_to_other, account.uuid));
+        if (account != null) {
+          ((ProtectedFragmentActivity) getActivity()).showMessage(
+              getString(R.string.dialog_synced_to_other, account.uuid));
+        }
         return true;
       }
       case R.id.SYNC_LINK_COMMAND: {
         Account account = getAccountForSync(packedPosition);
-        MessageDialogFragment.newInstance(
-            R.string.menu_sync_link,
-            getString(R.string.dialog_sync_link, account.uuid),
-            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, account),
-            MessageDialogFragment.Button.nullButton(android.R.string.cancel),
-            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, account))
-            .show(getFragmentManager(), "SYNC_LINK");
+        if (account != null) {
+          MessageDialogFragment.newInstance(
+              R.string.menu_sync_link,
+              getString(R.string.dialog_sync_link, account.uuid),
+              new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, account),
+              MessageDialogFragment.Button.nullButton(android.R.string.cancel),
+              new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, account))
+              .show(getFragmentManager(), "SYNC_LINK");
+        }
         return true;
       }
       case R.id.SYNC_REMOVE_BACKEND_COMMAND: {
@@ -236,6 +245,7 @@ public class SyncBackendList extends Fragment implements
     }
   }
 
+  @Nullable
   public Account getAccountForSync(long packedPosition) {
     return syncBackendAdapter.getAccountForSync(packedPosition);
   }

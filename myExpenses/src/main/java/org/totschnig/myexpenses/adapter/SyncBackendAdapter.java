@@ -10,6 +10,8 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.annimon.stream.Exceptional;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CurrencyContext;
@@ -18,6 +20,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
 public class SyncBackendAdapter extends BaseExpandableListAdapter {
@@ -26,11 +29,12 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     SYNCED_TO_THIS,
     SYNCED_TO_OTHER,
     UNSYNCED,
-    UNKNOWN
+    UNKNOWN,
+    ERROR
   }
 
   private List<Pair<String, Boolean>> syncAccounts;
-  private SparseArray<List<AccountMetaData>> accountMetaDataMap = new SparseArray<>();
+  private SparseArray<List<Exceptional<AccountMetaData>>> accountMetaDataMap = new SparseArray<>();
   private LayoutInflater layoutInflater;
   private Map<String, String> localAccountInfo;
   private CurrencyContext currencyContext;
@@ -43,11 +47,11 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   @Override
   public Object getChild(int groupPosition, int childPosititon) {
-    List<AccountMetaData> childList = getChildList(groupPosition);
+    List<Exceptional<AccountMetaData>> childList = getChildList(groupPosition);
     return childList != null ? childList.get(childPosititon) : null;
   }
 
-  private List<AccountMetaData> getChildList(int groupPosition) {
+  private List<Exceptional<AccountMetaData>> getChildList(int groupPosition) {
     return accountMetaDataMap.get(groupPosition);
   }
 
@@ -59,36 +63,41 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   @Override
   public View getChildView(int groupPosition, final int childPosition,
                            boolean isLastChild, View convertView, ViewGroup parent) {
-    AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
+    Exceptional<AccountMetaData> accountMetaData = (Exceptional<AccountMetaData>) getChild(groupPosition, childPosition);
 
     if (convertView == null) {
       convertView = layoutInflater.inflate(R.layout.sync_account_row, parent, false);
     }
-
-    ((TextView) convertView.findViewById(R.id.label)).setText(accountMetaData.toString());
-    convertView.findViewById(R.id.color1).setBackgroundColor(accountMetaData.color());
     ImageView syncStateView = convertView.findViewById(R.id.state);
-    SyncState syncState = getSyncState(groupPosition, childPosition);
-    switch (syncState) {
-      case UNKNOWN:
-        syncStateView.setVisibility(View.GONE);
-        break;
-      case SYNCED_TO_THIS:
-        syncStateView.setVisibility(View.VISIBLE);
-        syncStateView.setImageResource(R.drawable.ic_sync);
-        break;
-      case UNSYNCED:
-      case SYNCED_TO_OTHER:
-        syncStateView.setVisibility(View.VISIBLE);
-        syncStateView.setImageResource(R.drawable.ic_action_sync_unlink);
-        break;
+    final TextView labelTextView = convertView.findViewById(R.id.label);
+    if (accountMetaData.isPresent()) {
+      labelTextView.setText(accountMetaData.get().toString());
+      convertView.findViewById(R.id.color1).setBackgroundColor(accountMetaData.get().color());
+      SyncState syncState = getSyncState(groupPosition, childPosition);
+      switch (syncState) {
+        case UNKNOWN:
+          syncStateView.setVisibility(View.GONE);
+          break;
+        case SYNCED_TO_THIS:
+          syncStateView.setVisibility(View.VISIBLE);
+          syncStateView.setImageResource(R.drawable.ic_sync);
+          break;
+        case UNSYNCED:
+        case SYNCED_TO_OTHER:
+          syncStateView.setVisibility(View.VISIBLE);
+          syncStateView.setImageResource(R.drawable.ic_action_sync_unlink);
+          break;
+      }
+    } else {
+      syncStateView.setVisibility(View.GONE);
+      labelTextView.setText(accountMetaData.getException().getMessage());
     }
     return convertView;
   }
 
   @Override
   public int getChildrenCount(int groupPosition) {
-    List<AccountMetaData> childList = getChildList(groupPosition);
+    List childList = getChildList(groupPosition);
     return childList != null ? childList.size() : 0;
   }
 
@@ -142,7 +151,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     notifyDataSetChanged();
   }
 
-  public void setAccountMetadata(int groupPosition, List<AccountMetaData> accountMetaDataList) {
+  public void setAccountMetadata(int groupPosition, List<Exceptional<AccountMetaData>> accountMetaDataList) {
     accountMetaDataMap.put(groupPosition, accountMetaDataList);
     notifyDataSetChanged();
   }
@@ -162,24 +171,34 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   private SyncState getSyncState(int groupPosition, int childPosition) {
     String syncAccount = getBackendLabel(groupPosition);
-    AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
-
-    if (localAccountInfo != null && localAccountInfo.containsKey(accountMetaData.uuid())) {
-      if (localAccountInfo.get(accountMetaData.uuid()) == null) {
-        return SyncState.UNSYNCED;
+    Exceptional<AccountMetaData> accountMetaData = (Exceptional<AccountMetaData>) getChild(groupPosition, childPosition);
+    if (accountMetaData.isPresent()) {
+      String uuid = accountMetaData.get().uuid();
+      if (localAccountInfo != null && localAccountInfo.containsKey(uuid)) {
+        if (localAccountInfo.get(uuid) == null) {
+          return SyncState.UNSYNCED;
+        }
+        return syncAccount.equals(localAccountInfo.get(uuid)) ?
+            SyncState.SYNCED_TO_THIS : SyncState.SYNCED_TO_OTHER;
       }
-      return syncAccount.equals(localAccountInfo.get(accountMetaData.uuid())) ?
-          SyncState.SYNCED_TO_THIS : SyncState.SYNCED_TO_OTHER;
+      return SyncState.UNKNOWN;
+    } else {
+      return SyncState.ERROR;
     }
-    return SyncState.UNKNOWN;
   }
 
+  @Nullable
   public Account getAccountForSync(long packedPosition) {
     int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
-    Account account = ((AccountMetaData) getChild(groupPosition,
-        ExpandableListView.getPackedPositionChild(packedPosition))).toAccount(currencyContext);
-    account.setSyncAccountName(getBackendLabel(groupPosition));
-    return account;
+    final Exceptional<AccountMetaData> child = (Exceptional<AccountMetaData>) getChild(groupPosition,
+        ExpandableListView.getPackedPositionChild(packedPosition));
+    if (child.isPresent()) {
+      Account account = child.get().toAccount(currencyContext);
+      account.setSyncAccountName(getBackendLabel(groupPosition));
+      return account;
+    } else {
+      return null;
+    }
   }
 
   public String getSyncAccountName(long packedPosition) {

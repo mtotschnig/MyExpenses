@@ -100,7 +100,10 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
     try {
       syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
           account, create).getOrThrow();
-      final List<AccountMetaData> syncAccounts = shouldReturnRemoteDataList ? syncBackendProvider.getRemoteAccountList().collect(Collectors.toList()) : null;
+      final List<AccountMetaData> syncAccounts = shouldReturnRemoteDataList ? syncBackendProvider.getRemoteAccountList()
+          .filter(Exceptional::isPresent)
+          .map(Exceptional::get)
+          .collect(Collectors.toList()) : null;
       final List<String> backups = shouldReturnRemoteDataList ? syncBackendProvider.getStoredBackups() : null;
       syncBackendProvider.tearDown();
       return Exceptional.of(() -> new Result(accountName, syncAccounts, backups, localUnsynced));

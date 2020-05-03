@@ -385,12 +385,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               if (localMetadataChange.isPresent()) {
                 backend.updateAccount(instanceFromDb);
               } else if (remoteMetadataChange.isPresent()) {
-                final Optional<AccountMetaData> accountMetaDataOptional = backend.readAccountMetaData();
-                if (accountMetaDataOptional.isPresent()) {
-                  if (updateAccountFromMetadata(provider, accountMetaDataOptional.get())) {
+                final Exceptional<AccountMetaData> accountMetaDataExceptional = backend.readAccountMetaData();
+                if (accountMetaDataExceptional.isPresent()) {
+                  if (updateAccountFromMetadata(provider, accountMetaDataExceptional.get())) {
                     successRemote2Local += 1;
                   } else {
-                    appendToNotification("Error while writing account metadata to database", account, false);
+                    appendToNotification("Error while writing account metadata to database: " + accountMetaDataExceptional.getException().getMessage(), account, false);
                   }
                 }
               }
@@ -474,16 +474,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     values.put(KEY_CURRENCY, currency);
     values.put(KEY_TYPE, accountMetaData.type());
     values.put(KEY_COLOR, accountMetaData.color());
-    values.put(KEY_EXCLUDE_FROM_TOTALS, accountMetaData.excludeFromTotals());
-    if (accountMetaData.criterion() != 0L) {
-      values.put(KEY_CRITERION, accountMetaData.criterion());
+    values.put(KEY_EXCLUDE_FROM_TOTALS, accountMetaData._excludeFromTotals());
+    if (accountMetaData._criterion() != 0L) {
+      values.put(KEY_CRITERION, accountMetaData._criterion());
     }
     final long id = dbAccount.get().getId();
     ops.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, id)).withValues(values).build());
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
     final Double exchangeRate = accountMetaData.exchangeRate();
     if (exchangeRate != null && homeCurrency != null && homeCurrency.equals(accountMetaData.exchangeRateOtherCurrency())) {
-      Uri  uri = ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
+      Uri uri = ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
           .appendEncodedPath(currency)
           .appendEncodedPath(homeCurrency).build();
       int minorUnitDelta = Utils.getHomeCurrency().fractionDigits() - MyApplication.getInstance().getAppComponent().currencyContext().get(currency).fractionDigits();

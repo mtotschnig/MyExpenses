@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
@@ -250,16 +249,16 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @NonNull
   protected abstract InputStream getInputStreamForPicture(String relativeUri) throws IOException;
 
-  Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
+  Exceptional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
       final AccountMetaData accountMetaData = gson.fromJson(bufferedReader, AccountMetaData.class);
       if (accountMetaData == null) {
         throw new IOException("accountMetaData not found in input stream");
       }
-      return Optional.of(accountMetaData);
+      return Exceptional.of(() -> accountMetaData);
     } catch (Exception e) {
-      CrashHandler.report(e, SyncAdapter.TAG);
-      return Optional.empty();
+      log().e(e);
+      return Exceptional.of(e);
     }
   }
 
