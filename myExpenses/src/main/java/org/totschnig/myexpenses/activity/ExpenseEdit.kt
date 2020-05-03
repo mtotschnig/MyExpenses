@@ -36,6 +36,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.Nullable
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -536,7 +537,8 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         delegate.linkInputsWithLabels()
     }
 
-    private val currentAccount: Account?
+    @VisibleForTesting
+    val currentAccount: Account?
         get() = if (::delegate.isInitialized) delegate.currentAccount() else null
 
     override fun onTypeChanged(isChecked: Boolean) {
