@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @AutoValue
@@ -59,6 +60,7 @@ public abstract class  AccountMetaData implements Parcelable {
     return excludeFromTotals() != null && excludeFromTotals();
   }
 
+  @NonNull
   @Override
   public String toString() {
     return label() + " (" + currency() + ")";
@@ -74,10 +76,10 @@ public abstract class  AccountMetaData implements Parcelable {
     final CurrencyUnit currency = currencyContext.get(currency());
     Account account = new Account(label(), currency, openingBalance(), description(), accountType, color());
     account.uuid = uuid();
-    if (criterion() != 0) {
-      account.setCriterion(new Money(currency, criterion()));
+    if (_criterion() != 0) {
+      account.setCriterion(new Money(currency, _criterion()));
     }
-    account.excludeFromTotals = excludeFromTotals();
+    account.excludeFromTotals = _excludeFromTotals();
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
     final Double exchangeRate = exchangeRate();
     if (exchangeRate != null && homeCurrency != null && homeCurrency.equals(exchangeRateOtherCurrency())) {
