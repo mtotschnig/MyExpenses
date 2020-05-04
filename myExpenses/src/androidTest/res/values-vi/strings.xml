@@ -12,7 +12,7 @@
   <!--just an example of how one could describe by a comment a specific purchase-->
   <string name="testData_transaction2Comment">Trái cây và rau</string>
   <!--should be the name of a typical restaurant-->
-  <string name="testData_transaction4Payee">Pizza Hut</string>
+  <string name="testData_transaction4Payee">Hanoi Cuisine</string>
   <!--a name typically used as example name-->
   <string name="testData_templatePayee">Nguyễn Văn A</string>
   <string name="testData_tag_project">Dự án chưa có tiêu đề</string>

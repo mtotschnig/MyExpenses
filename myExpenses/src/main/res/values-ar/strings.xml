@@ -248,6 +248,7 @@
   <string name="pref_manage_methods_title">طرق الدفع</string>
   <string name="pref_manage_parties_summary">إضافة، تعديل، حذف الأطراف (المشترين والمستفيدين)</string>
   <string name="pref_manage_parties_title">الأطراف</string>
+  <string name="pref_manage_sync_backends_title">الخلفية المزامنة</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
   <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
@@ -448,6 +449,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">مشفر</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">مت الترجمة بواسطة</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->

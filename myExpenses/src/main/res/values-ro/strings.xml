@@ -280,6 +280,7 @@
   <string name="pref_manage_methods_title">Metode de plată</string>
   <string name="pref_manage_parties_summary">Adaugă, editează, şterge terţi ( plătitori si beneficiari )</string>
   <string name="pref_manage_parties_title">Terţi</string>
+  <string name="pref_manage_sync_backends_title">Backenduri de sincronizare</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
   <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
@@ -531,6 +532,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">criptat</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">Tradus de</string>
   <string name="pref_category_exchange_rates">Cursuri de schim</string>

@@ -275,6 +275,7 @@
   <string name="pref_manage_methods_title">지불 방식</string>
   <string name="pref_manage_parties_summary">구성원을 추가, 편집, 삭제하세요 (수취인/납부인).</string>
   <string name="pref_manage_parties_title">구성원</string>
+  <string name="pref_manage_sync_backends_title">동기화 백엔드</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">라이센스 및 공로</string>
   <string name="pref_password_not_equal">암호가 일치하지 않습니다</string>
@@ -523,6 +524,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">암호화</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">번역</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->

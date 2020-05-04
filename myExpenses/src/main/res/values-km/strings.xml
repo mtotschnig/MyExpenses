@@ -237,6 +237,7 @@
   <string name="pref_manage_methods_title">វិធីសាស្ត្រទូទាត់​ប្រាក់</string>
   <string name="pref_manage_parties_summary">បញ្ចូល កែ លុប ភាគី (អ្នក​បង់​ចំណាយ និង​អ្នក​ទទួល)។</string>
   <string name="pref_manage_parties_title">ភាគី</string>
+  <string name="pref_manage_sync_backends_title">ផ្នែកខាងក្រោយធ្វើសមកាលកម្ម</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">អាជ្ញាប័ណ្ណ &amp; ក្រេឌីត</string>
   <string name="pref_password_not_equal">ពាក្យសម្ងាត់មិនត្រូវគ្នា</string>
@@ -390,6 +391,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">បានអ៊ិនគ្រីប</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->

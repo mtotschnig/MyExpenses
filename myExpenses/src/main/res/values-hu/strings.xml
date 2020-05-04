@@ -218,6 +218,7 @@
   <string name="pref_manage_methods_title">Fizetési módok</string>
   <string name="pref_manage_parties_summary">Résztvevő (kifizető és kedvezményezett) hozzáadása, szerkesztése, törlése</string>
   <string name="pref_manage_parties_title">Résztvevők</string>
+  <string name="pref_manage_sync_backends_title">Szinkronizációs háttérképek</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licensz és Közreműködők</string>
   <string name="pref_password_not_equal">A jelszavak nem egyeznek</string>
@@ -334,6 +335,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">titkosított</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">A fordítást készítette</string>
   <string name="pref_category_exchange_rates">Átváltási árfolyamok</string>

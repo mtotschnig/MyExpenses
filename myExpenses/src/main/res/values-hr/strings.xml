@@ -260,6 +260,7 @@
   <string name="pref_manage_methods_title">Načini plaćanja</string>
   <string name="pref_manage_parties_summary">Dodaj, uredi, briši stranke (platitelji i primaoce).</string>
   <string name="pref_manage_parties_title">Stranke</string>
+  <string name="pref_manage_sync_backends_title">Pomoćni programi za sinkronizaciju</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licence i zasluge</string>
   <string name="pref_password_not_equal">Lozinke nisu iste</string>
@@ -456,6 +457,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Šifrirani</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">Preveo</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->

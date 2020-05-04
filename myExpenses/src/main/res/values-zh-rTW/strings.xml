@@ -206,6 +206,7 @@
   <string name="pref_manage_methods_title">付款方法</string>
   <string name="pref_manage_parties_summary">新增、編輯、刪除貿易夥伴 (付款人和收款人) 。</string>
   <string name="pref_manage_parties_title">貿易夥伴</string>
+  <string name="pref_manage_sync_backends_title">同步後端</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">許可 &amp; 信用</string>
   <string name="pref_password_not_equal">密碼不相符</string>
@@ -323,6 +324,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">加密的</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="pref_category_exchange_rates">匯率</string>
   <string name="pref_exchange_rate_provider_summary">選擇匯率資料的提供者</string>

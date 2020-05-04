@@ -266,6 +266,7 @@
   <string name="pref_manage_methods_title">Betalingsmetoder</string>
   <string name="pref_manage_parties_summary">Tilføj, rediger, slet parter (betalere og modtagere).</string>
   <string name="pref_manage_parties_title">Parter</string>
+  <string name="pref_manage_sync_backends_title">Synkronisering backends</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
   <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
@@ -499,6 +500,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Krypteret</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->

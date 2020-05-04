@@ -284,6 +284,7 @@
   <string name="pref_manage_methods_title">Τρόποι Πληρωμης</string>
   <string name="pref_manage_parties_summary">Προσθήκη, επεξεργασία, διαγραφή μρών (πληρωτές και δικαιούχοι πληρωμής).</string>
   <string name="pref_manage_parties_title">Μέρη</string>
+  <string name="pref_manage_sync_backends_title">Backend συγχρονισμού</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Άδεια &amp; πιστώσεις</string>
   <string name="pref_password_not_equal">Κωδικοί πρόσβασης δεν ταιριάζουν</string>
@@ -597,6 +598,7 @@
   <!--Menu entry for opening a list of all hidden accounts.-->
   <!--Action of showing an account again that had previously been hidden.-->
   <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
+  <string name="content_description_encrypted">Κρυπτογραφημένο</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="translated_by">Μεταφράστηκε από</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->

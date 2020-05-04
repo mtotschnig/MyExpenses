@@ -1,3 +1,5 @@
+# ./gradlew assembleConscriptForTest assembleAndroidTest
+# fastlane screengrab
 app_package_name('org.totschnig.myexpenses.fortest')
 
 use_tests_in_packages(['org.totschnig.myexpenses.test.screenshots'])

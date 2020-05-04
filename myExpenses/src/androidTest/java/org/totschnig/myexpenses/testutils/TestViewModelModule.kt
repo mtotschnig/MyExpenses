@@ -10,9 +10,6 @@ import dagger.Provides
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.di.ViewModelModule
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.testutils.Fixture.SYNC_ACCOUNT_1
-import org.totschnig.myexpenses.testutils.Fixture.SYNC_ACCOUNT_2
-import org.totschnig.myexpenses.testutils.Fixture.SYNC_ACCOUNT_3
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 
 class TestViewModelModule : ViewModelModule() {
@@ -21,18 +18,20 @@ class TestViewModelModule : ViewModelModule() {
 }
 
 class FakeSyncBackendViewModel(application: Application) : AbstractSyncBackendViewModel(application) {
-    override fun getAccounts(context: Context): List<Pair<String, Boolean>> = listOf(
-            Pair.create(SYNC_ACCOUNT_1, true),
-            Pair.create(SYNC_ACCOUNT_2, false),
-            Pair.create(SYNC_ACCOUNT_3, false)
-    )
+    override fun getAccounts(context: Context): List<Pair<String, Boolean>> = with(getApplication<TestApp>().fixture) {
+        listOf(
+                Pair.create(syncAccount1, true),
+                Pair.create(syncAccount2, false),
+                Pair.create(syncAccount3, false)
+        )
+    }
 
     override fun accountMetadata(accountName: String): LiveData<Exceptional<List<Exceptional<AccountMetaData>>>> = liveData {
         val syncedAccount = with(getApplication<TestApp>().fixture) {
             when (accountName) {
-                SYNC_ACCOUNT_1 -> account1
-                SYNC_ACCOUNT_2 -> account2
-                SYNC_ACCOUNT_3 -> account3
+                syncAccount1 -> account1
+                syncAccount2 -> account2
+                syncAccount3 -> account3
                 else -> throw IllegalStateException()
             }
         }

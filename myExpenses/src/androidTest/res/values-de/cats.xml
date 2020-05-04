@@ -11,4 +11,5 @@
     <string name="testData_transaction6MainCat">Geschenke</string>
     <string name="testData_templateMainCat">Wohnung</string>
     <string name="testData_templateSubCat">Miete</string>
+    <string name="testData_sync_backend_2_name">Reisen</string>
 </resources>

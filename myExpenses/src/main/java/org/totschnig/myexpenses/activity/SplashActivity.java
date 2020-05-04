@@ -175,7 +175,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
           if (result.backups != null && result.syncAccounts != null) {
             accountName = result.accountName;
             if (result.backups.size() > 0 || result.syncAccounts.size() > 0) {
-              if (Stream.of(result.syncAccounts).map(accountMetaData -> accountMetaData.uuid()).distinct().count() < result.syncAccounts.size()) {
+              if (Stream.of(result.syncAccounts).map(AccountMetaData::uuid).distinct().count() < result.syncAccounts.size()) {
                 showSnackbar("Found accounts with duplicate uuids");
               } else {
                 RestoreFromCloudDialogFragment.newInstance(result.backups, result.syncAccounts)

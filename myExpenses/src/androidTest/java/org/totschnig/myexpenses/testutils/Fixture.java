@@ -47,9 +47,22 @@ public class Fixture {
   private final Context testContext;
   private final MyApplication appContext;
   private Account account1, account2, account3, account4;
-  public static final String SYNC_ACCOUNT_1 = "Drive - Encrypted";
-  public static final String SYNC_ACCOUNT_2 = "Dropbox - Finanzen";
-  public static final String SYNC_ACCOUNT_3 = "WebDAV - Shared";
+
+  public String getSyncAccount1() {
+    return SYNC_ACCOUNT_1;
+  }
+
+  public String getSyncAccount2() {
+    return SYNC_ACCOUNT_2;
+  }
+
+  public String getSyncAccount3() {
+    return SYNC_ACCOUNT_3;
+  }
+
+  private String SYNC_ACCOUNT_1;
+  private String SYNC_ACCOUNT_2;
+  private String SYNC_ACCOUNT_3;
 
   public Fixture(Instrumentation inst) {
     testContext = inst.getContext();
@@ -69,6 +82,9 @@ public class Fixture {
   }
 
   public void setup(boolean withPicture) {
+    SYNC_ACCOUNT_1 = "Drive - " + appContext.getString(org.totschnig.myexpenses.R.string.content_description_encrypted);
+    SYNC_ACCOUNT_2 = "Dropbox - " + testContext.getString(R.string.testData_sync_backend_2_name);
+    SYNC_ACCOUNT_3 = "WebDAV - https://my.private.cloud/webdav/MyExpenses";
     CurrencyUnit defaultCurrency = Utils.getHomeCurrency();
     CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(defaultCurrency.code().equals("EUR") ? "GBP" : "EUR");
 

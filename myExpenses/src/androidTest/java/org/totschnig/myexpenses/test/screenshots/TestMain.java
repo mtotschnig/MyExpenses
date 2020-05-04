@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses.test.screenshots;
 
 import android.Manifest;
-import android.accounts.Account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -15,14 +13,11 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.testutils.Fixture;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Locale;
-import java.util.stream.Stream;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
@@ -99,6 +94,7 @@ public class TestMain extends BaseUiTest {
         onView(instanceOf(RecyclerView.class))
             .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
                 click()));
+        onView(withText(containsString("Drive"))).perform(click());
         onView(withText(containsString("Dropbox"))).perform(click());
         onView(withText(containsString("WebDAV"))).perform(click());
         takeScreenshot("sync");
