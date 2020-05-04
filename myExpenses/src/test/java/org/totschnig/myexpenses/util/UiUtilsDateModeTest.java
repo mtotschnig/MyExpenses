@@ -56,7 +56,6 @@ public class UiUtilsDateModeTest {
     Assert.assertEquals(DATE_TIME, dateMode(bankAcount));
   }
 
-
   @Test
   public void withoutTimeAndWithValueDate() {
     mockPref(TRANSACTION_WITH_TIME, false);
