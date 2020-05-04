@@ -116,7 +116,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String KEY_NOTIFICATION_CANCELLED = "notification_cancelled";
   private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
       dbAccount = new ThreadLocal<>();
-  public static final int LOCK_TIMEOUT_MINUTES = BuildConfig.DEBUG ? 1 : 30;
+  public static final int LOCK_TIMEOUT_MINUTES = BuildConfig.DEBUG ? 1 : 5;
   private static final long IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5);
   private static final long IO_LOCK_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(LOCK_TIMEOUT_MINUTES);
   private Map<String, Long> categoryToId = new HashMap<>();
