@@ -119,7 +119,7 @@ import javax.inject.Inject
  *
  * @author Michael Totschnig
  */
-class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
+open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     override val amountLabel: TextView
@@ -1150,7 +1150,7 @@ class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, Co
         }
     }
 
-    fun updateSplitPartList(account: Account) {
+    open fun updateSplitPartList(account: Account) {
         findSplitPartList()?.let {
             it.updateAccount(account)
             if (it.splitCount > 0) { //call background task for moving parts to new account

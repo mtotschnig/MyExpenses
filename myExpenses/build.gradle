@@ -11,6 +11,7 @@ buildscript {
 
 repositories {
     mavenCentral()
+    maven { url "https://dl.bintray.com/mockito/maven/" }
 }
 
 apply plugin: 'com.android.application'
@@ -271,11 +272,11 @@ dependencies {
         exclude module: 'accessibility-test-framework'
     }
     //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
-    androidTestImplementation 'org.mockito:mockito-android:2.19.0'
+    androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"
 
     testImplementation 'junit:junit:4.13'
     testImplementation 'pl.pragmatists:JUnitParams:1.1.0'
-    testImplementation 'org.mockito:mockito-core:2.19.0'
+    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
     testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$rootProject.robolectricVersion"
     testImplementation "androidx.test:core:$rootProject.androidSupportTestVersion"
