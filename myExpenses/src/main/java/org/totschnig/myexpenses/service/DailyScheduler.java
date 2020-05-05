@@ -25,7 +25,6 @@ import java.util.Date;
 import androidx.annotation.Nullable;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.annimon.stream.Objects.requireNonNull;
 import static org.totschnig.myexpenses.preference.TimePreference.getScheduledTime;
 import static org.totschnig.myexpenses.service.AutoBackupService.ACTION_AUTO_BACKUP;
 import static org.totschnig.myexpenses.service.PlanExecutor.ACTION_EXECUTE_PLANS;
@@ -61,9 +60,9 @@ public class DailyScheduler {
   }
 
   private static PrefHandler getPrefHandler(Context context) {
-    final MyApplication applicationContext = requireNonNull((MyApplication) context.getApplicationContext());
-    final AppComponent appComponent = requireNonNull(applicationContext.getAppComponent());
-    return requireNonNull(appComponent.prefHandler());
+    final MyApplication applicationContext = (MyApplication) ((context instanceof MyApplication) ? context : context.getApplicationContext());
+    final AppComponent appComponent = applicationContext.getAppComponent();
+    return appComponent.prefHandler();
   }
 
   public static void cancelAutoBackup(Context context) {
