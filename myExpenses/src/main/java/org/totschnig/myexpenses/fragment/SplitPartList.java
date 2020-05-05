@@ -62,7 +62,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 
-//TODO: consider moving to ListFragment
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_PARENT_IS_TEMPLATE = "parentIsTemplate";
   private static final String KEY_ACCOUNT = "account";

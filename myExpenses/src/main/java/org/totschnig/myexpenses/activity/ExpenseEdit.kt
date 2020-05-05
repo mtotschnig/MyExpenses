@@ -38,6 +38,7 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.app.LoaderManager
@@ -1042,6 +1043,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     fun findSplitPartList() =
             supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
+
+    override fun getCurrentFragment() = findSplitPartList()
 
     @SuppressLint("NewApi")
     fun showPicturePopupMenu(v: View?) {
