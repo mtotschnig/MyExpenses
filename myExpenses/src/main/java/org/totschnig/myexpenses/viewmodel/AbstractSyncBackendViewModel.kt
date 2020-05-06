@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
-abstract class AbstractSyncBackendViewModel(application: Application): ContentResolvingAndroidViewModel(application) {
+abstract class AbstractSyncBackendViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     protected val localAccountInfo = MutableLiveData<Map<String, String?>>()
     abstract fun getAccounts(context: Context): List<Pair<String, Boolean>>
 
@@ -23,17 +23,15 @@ abstract class AbstractSyncBackendViewModel(application: Application): ContentRe
         disposable = briteContentResolver.createQuery(ACCOUNTS_BASE_URI,
                 arrayOf(DatabaseConstants.KEY_UUID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME), null, null, null, false)
                 .map(SqlBrite.Query::run)
-                .subscribe { cursor ->
-                    val uuid2syncMap: MutableMap<String, String?> = HashMap()
-                    cursor?.let {
-                        it.use {
-                            it.moveToFirst()
-                            while (!it.isAfterLast) {
-                                val columnIndexUuid = it.getColumnIndex(DatabaseConstants.KEY_UUID)
-                                val columnIndexSyncAccountName = it.getColumnIndex(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
-                                uuid2syncMap[it.getString(columnIndexUuid)] = it.getString(columnIndexSyncAccountName)
-                                it.moveToNext()
-                            }
+                .subscribe {
+                    it?.use { cursor ->
+                        val uuid2syncMap: MutableMap<String, String?> = HashMap()
+                        cursor.moveToFirst()
+                        while (!cursor.isAfterLast) {
+                            val columnIndexUuid = cursor.getColumnIndex(DatabaseConstants.KEY_UUID)
+                            val columnIndexSyncAccountName = cursor.getColumnIndex(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
+                            cursor.getString(columnIndexUuid)?.let { uuid2syncMap[it] = cursor.getString(columnIndexSyncAccountName) }
+                            cursor.moveToNext()
                         }
                         localAccountInfo.postValue(uuid2syncMap)
                     }
