@@ -66,7 +66,7 @@ import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
@@ -102,6 +102,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
@@ -114,8 +115,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
-import static org.totschnig.myexpenses.util.DistribHelper.getMarketSelfUri;
-import static org.totschnig.myexpenses.util.DistribHelper.getVersionInfo;
+import static org.totschnig.myexpenses.util.DistributionHelper.getMarketSelfUri;
+import static org.totschnig.myexpenses.util.DistributionHelper.getVersionInfo;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
@@ -465,13 +466,16 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
             "[" + getString(R.string.app_name) + "] Feedback"
         );
         String messageBody = String.format(Locale.ROOT,
-            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
+            "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
             getVersionInfo(this),
+            getPrefHandler().getInt(PrefKey.FIRST_INSTALL_VERSION, 0),
+            getPrefHandler().getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1),
             Build.VERSION.RELEASE,
             Build.BRAND,
             Build.MODEL,
             ConfigurationHelper.configToJson(getResources().getConfiguration()),
             licenceInfo);
+        Timber.d("Install info: %s", messageBody);
         i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(this, i)) {
           showSnackbar(R.string.no_app_handling_email_available, Snackbar.LENGTH_LONG);
@@ -501,7 +505,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         String extraText = String.format(
             "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
             PrefKey.LICENCE_LEGACY.getString(null), androidId,
-            Locale.getDefault().toString(), DistribHelper.getVersionInfo(this));
+            Locale.getDefault().toString(), DistributionHelper.getVersionInfo(this));
         i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
         if (!Utils.isIntentAvailable(this, i)) {
           showSnackbar(R.string.no_app_handling_email_available, Snackbar.LENGTH_LONG);

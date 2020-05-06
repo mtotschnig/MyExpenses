@@ -54,6 +54,7 @@ public enum PrefKey {
   PLANNER_CALENDAR_PATH("planner_calendar_path"),
   CURRENT_VERSION("currentversion"),
   FIRST_INSTALL_VERSION("first_install_version"),
+  FIRST_INSTALL_DB_SCHEMA_VERSION("first_install_db_schema_version"),
   CURRENT_ACCOUNT("current_account"),
   PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
   APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),

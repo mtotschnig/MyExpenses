@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.ContribUtils;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -75,7 +75,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-    if (DistribHelper.isGithub()) {
+    if (DistributionHelper.isGithub()) {
       if (licenceHandler.getLicenceStatus() != null) {
         final long now = System.currentTimeMillis();
         switch (licenceHandler.getLicenceStatus()) {
@@ -152,7 +152,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
    */
   public void newVersionCheck() {
     int prev_version = getPrefHandler().getInt(CURRENT_VERSION, -1);
-    int current_version = DistribHelper.getVersionNumber();
+    int current_version = DistributionHelper.getVersionNumber();
     if (prev_version < current_version) {
       if (prev_version == -1) {
         return;

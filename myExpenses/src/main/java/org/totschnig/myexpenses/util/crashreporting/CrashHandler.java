@@ -5,7 +5,7 @@ import android.content.Context;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +84,7 @@ public abstract class CrashHandler {
   }
 
   protected void setKeys(Context context) {
-    putCustomData("Distribution", DistribHelper.getVersionInfo(context));
+    putCustomData("Distribution", DistributionHelper.getVersionInfo(context));
     putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
     putCustomData("Locale", Locale.getDefault().toString());
   }

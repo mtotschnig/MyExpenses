@@ -45,7 +45,7 @@ import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.DistribHelper
+import org.totschnig.myexpenses.util.DistributionHelper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
@@ -177,12 +177,12 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 //bother him with a button that is not working
                 setPlannerRowVisibility(View.VISIBLE)
                 val recurrenceAdapter = RecurrenceAdapter(context,
-                        if (DistribHelper.shouldUseAndroidPlatformCalendar()) null else Plan.Recurrence.CUSTOM)
+                        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) null else Plan.Recurrence.CUSTOM)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 planButton.setOnClickListener {
                     planId?.let {
-                        if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
+                        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) {
                             host.launchPlanView(false, it)
                         }
                     } ?: run {

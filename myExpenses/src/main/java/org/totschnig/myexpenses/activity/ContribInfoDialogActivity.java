@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -80,7 +80,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
             .show(getSupportFragmentManager(), "CONTRIB");
         getSupportFragmentManager().executePendingTransactions();
       } else {
-        if (DistribHelper.isGithub()) {
+        if (DistributionHelper.isGithub()) {
           contribBuyDo(Package.valueOf(packageFromExtra));
         }
       }
@@ -105,7 +105,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     Bundle bundle = new Bundle(1);
     bundle.putString(Tracker.EVENT_PARAM_PACKAGE, aPackage.name());
     logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
-    switch (DistribHelper.getDistribution()) {
+    switch (DistributionHelper.getDistribution()) {
       case PLAY:
       case AMAZON:
         try {

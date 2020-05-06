@@ -534,7 +534,7 @@ public class Utils {
   public static CharSequence getTellAFriendMessage(Context ctx) {
     return Phrase.from(ctx, R.string.tell_a_friend_message)
         .put(PLACEHOLDER_APP_NAME, ctx.getString(R.string.app_name))
-        .put("platform", DistribHelper.getPlatform())
+        .put("platform", DistributionHelper.getPlatform())
         .put("website", ctx.getString(R.string.website)).format();
   }
 

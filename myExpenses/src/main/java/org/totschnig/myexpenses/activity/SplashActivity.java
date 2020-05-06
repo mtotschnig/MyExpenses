@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.SyncAccountTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -137,7 +137,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   private void getStarted() {
-    int current_version = DistribHelper.getVersionNumber();
+    int current_version = DistributionHelper.getVersionNumber();
     PrefKey.CURRENT_VERSION.putInt(current_version);
     PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
     Intent intent = new Intent(this, MyExpenses.class);
@@ -276,7 +276,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
     }
 
     private boolean showPrivacyPage() {
-      return DistribHelper.getDistribution().supportsTrackingAndCrashReporting();
+      return DistributionHelper.getDistribution().getSupportsTrackingAndCrashReporting();
     }
   }
 

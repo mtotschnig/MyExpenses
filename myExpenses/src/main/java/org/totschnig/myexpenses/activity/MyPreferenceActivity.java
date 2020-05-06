@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -130,7 +130,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         LayoutInflater li = LayoutInflater.from(this);
         //noinspection InflateParams
         View view = li.inflate(R.layout.more_info, null);
-        ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(DistribHelper.getVersionInfo(this));
+        ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(DistributionHelper.getVersionInfo(this));
         TextView projectContainer = view.findViewById(R.id.project_container);
         projectContainer.setText(Utils.makeBulletList(this,
             Stream.of(Utils.getProjectDependencies(this))

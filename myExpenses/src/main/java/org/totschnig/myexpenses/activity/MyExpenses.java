@@ -78,7 +78,7 @@ import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -435,7 +435,7 @@ public class MyExpenses extends LaunchActivity implements
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-      if (!DistribHelper.isGithub()) {
+      if (!DistributionHelper.isGithub()) {
         long nextReminder = getPrefHandler().getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
         if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
           RemindRateDialogFragment f = new RemindRateDialogFragment();
@@ -844,7 +844,7 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public void contribFeatureNotCalled(ContribFeature feature) {
-    if (!DistribHelper.isGithub() && feature == ContribFeature.AD_FREE) {
+    if (!DistributionHelper.isGithub() && feature == ContribFeature.AD_FREE) {
       finish();
     }
   }

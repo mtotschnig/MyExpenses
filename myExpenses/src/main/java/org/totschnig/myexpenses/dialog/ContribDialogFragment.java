@@ -34,7 +34,7 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -117,7 +117,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     } else {
       CharSequence contribText2 = Utils.getTextWithAppName(getContext(), R.string.dialog_contrib_text_2);
-      if (DistribHelper.isGithub()) {
+      if (DistributionHelper.isGithub()) {
         message = TextUtils.concat(Utils.getTextWithAppName(getContext(), R.string.dialog_contrib_text_1), " ",
             contribText2);
       } else {
@@ -177,7 +177,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
     //FOOTER
     final TextView githubExtraInfo = dialogView.findViewById(R.id.github_extra_info);
-    if (DistribHelper.isGithub()) {
+    if (DistributionHelper.isGithub()) {
       githubExtraInfo.setVisibility(View.VISIBLE);
       githubExtraInfo.setText(concatResStrings(getActivity(),
           ". ", R.string.professional_key_fallback_info, R.string.eu_vat_info));

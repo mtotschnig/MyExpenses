@@ -12,16 +12,16 @@ import java.util.Locale;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class DistribHelperTest {
+public class DistributionHelperTest {
 
   @Test
   public void distributionShouldBeTakenUpFromBuildConfig() {
-    assertEquals(DistribHelper.getDistributionAsString(), BuildConfig.DISTRIBUTION);
+    assertEquals(DistributionHelper.getDistributionAsString(), BuildConfig.DISTRIBUTION);
   }
 
   @Test
   public void shouldReportVersionCodeFromBuildConfig() {
-    assertEquals(DistribHelper.getVersionNumber(), BuildConfig.VERSION_CODE);
+    assertEquals(DistributionHelper.getVersionNumber(), BuildConfig.VERSION_CODE);
   }
 
   @Test
@@ -30,7 +30,7 @@ public class DistribHelperTest {
     String playInstaller = "com.android.vending";
     Context mockContext = mockContextWithInstaller(playInstaller);
     //when
-    String versionInfo = DistribHelper.getVersionInfo(mockContext);
+    String versionInfo = DistributionHelper.getVersionInfo(mockContext);
     //then
     String expected = String.format(Locale.ROOT, "%s (revision %d) %s %s %s",
         BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.BUILD_DATE,
@@ -43,7 +43,7 @@ public class DistribHelperTest {
     //given
     Context mockContext = mockContextWithInstaller(null);
     //when
-    String versionInfo = DistribHelper.getVersionInfo(mockContext);
+    String versionInfo = DistributionHelper.getVersionInfo(mockContext);
     //then
     String expected = String.format(Locale.ROOT, "%s (revision %d) %s %s null",
         BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.BUILD_DATE,

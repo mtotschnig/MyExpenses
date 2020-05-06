@@ -5,16 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.NougatFileProviderException;
 
 import androidx.annotation.NonNull;
 
 public class SystemImageViewIntentProvider implements ImageViewIntentProvider {
   public Intent getViewIntent(Context context, Uri pictureUri) {
-    if (DistribHelper.isBlackberry()) {
-      return getFallbackIntent(context, pictureUri);
-    }
     try {
       pictureUri = AppDirHelper.ensureContentUri(pictureUri);
     } catch (NougatFileProviderException e) {

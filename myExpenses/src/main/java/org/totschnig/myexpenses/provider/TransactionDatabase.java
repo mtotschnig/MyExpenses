@@ -45,7 +45,7 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -122,7 +122,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
@@ -856,6 +855,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     createOrRefreshViews(db);
     //Run on ForTest build type
     //insertTestData(db, 50, 50);
+    PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION);
   }
 
   public void createOrRefreshTransferTagsTriggers(SQLiteDatabase db) {
@@ -1712,7 +1712,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 65) {
-        if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
+        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) {
           //unfortunately we have to drop information about canceled instances
           db.delete("planinstance_transaction", "transaction_id is null", null);
           //we update instance_id to negative numbers, in order to prevent Conflict, which would araise

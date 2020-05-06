@@ -54,7 +54,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -360,7 +360,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }.execute();
 
       final PreferenceCategory privacyCategory = (PreferenceCategory) findPreference(CATEGORY_PRIVACY);
-      if (!DistribHelper.getDistribution().supportsTrackingAndCrashReporting()) {
+      if (!DistributionHelper.getDistribution().getSupportsTrackingAndCrashReporting()) {
         pref = findPreference(TRACKING);
         privacyCategory.removePreference(pref);
         pref = findPreference(CRASHREPORT_SCREEN);
@@ -808,7 +808,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         activity().dispatchCommand(R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
       } else if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
-        if (DistribHelper.isGithub()) {
+        if (DistributionHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
         } else {
           startActivity(i);

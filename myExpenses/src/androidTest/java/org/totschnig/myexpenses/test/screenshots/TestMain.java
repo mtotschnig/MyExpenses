@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Locale;
@@ -133,7 +133,7 @@ public class TestMain extends BaseUiTest {
     app.getLicenceHandler().setLockState(false);
 
     app.fixture.setup(withPicture);
-    int current_version = DistribHelper.getVersionNumber();
+    int current_version = DistributionHelper.getVersionNumber();
     pref.edit()
         .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), app.fixture.getAccount1().getId())
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
