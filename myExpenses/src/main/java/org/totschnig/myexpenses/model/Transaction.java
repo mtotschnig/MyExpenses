@@ -374,7 +374,12 @@ public class Transaction extends AbstractTransaction {
   }
 
   public void setCrStatus(@NonNull CrStatus crStatus) {
-    this.crStatus = crStatus;
+    if (crStatus == null) {
+      Timber.e("Attempt to set crStatus to null");
+      this.crStatus = CrStatus.UNRECONCILED;
+    } else {
+      this.crStatus = crStatus;
+    }
   }
 
   public String getCategoryIcon() {
