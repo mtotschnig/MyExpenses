@@ -159,7 +159,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     } else {
       setTitle(R.string.menu_create_account);
     }
-    amountInput.setFractionDigits(mAccount.getCurrencyUnit().fractionDigits());
+    configureforCurrrency(mAccount.getCurrencyUnit());
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item);
@@ -243,7 +243,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     amountInput.setAmount(mAccount.openingBalance.getAmountMajor());
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
-    setExchangeRateVisibility(mAccount.getCurrencyUnit());
     final Money criterion = mAccount.getCriterion();
     if (criterion != null) {
       this.criterion.setAmount(criterion.getAmountMajor());
@@ -312,9 +311,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       case R.id.Currency:
         try {
           String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
-          CurrencyUnit currencyUnit = currencyContext.get(currency);
-          amountInput.setFractionDigits(currencyUnit.fractionDigits());
-          setExchangeRateVisibility(currencyUnit);
+          configureforCurrrency(currencyContext.get(currency));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
@@ -323,6 +320,12 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
         break;
     }
+  }
+
+  private void configureforCurrrency(CurrencyUnit currencyUnit) {
+    amountInput.setFractionDigits(currencyUnit.fractionDigits());
+    criterion.setFractionDigits(currencyUnit.fractionDigits());
+    setExchangeRateVisibility(currencyUnit);
   }
 
   @Override
