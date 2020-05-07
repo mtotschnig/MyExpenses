@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
 import org.totschnig.myexpenses.util.bundle.LocaleManager
+import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -21,12 +22,16 @@ class UiModule {
     @Provides
     @Singleton
     fun provideAdHandlerFactory(application: MyApplication?, prefHandler: PrefHandler?, @Named(AppComponent.USER_COUNTRY) userCountry: String?): AdHandlerFactory = object : DefaultAdHandlerFactory(application, prefHandler, userCountry) {
-                override fun isAdDisabled() = true
-            }
+        override fun isAdDisabled() = true
+    }
 
     @Provides
     @Singleton
     fun provideLanguageManager(): LocaleManager {
-        return object : LocaleManager {}
+        return object : LocaleManager {
+            override fun requestLocale(locale: Locale, onAvailable: () -> Unit) {
+                onAvailable()
+            }
+        }
     }
 }
