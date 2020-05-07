@@ -27,6 +27,8 @@
   <string name="help_ManageMethods_info">Този екран показва предварително дефинираните начини на плащане (чек, кредитна карта, депозит, директен дебит) и може да дефинирате други. Използвайте плаващия бутон за да отворите бланка за създаване на нов начин на плащане.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Този екран показва списък на страните, който се ползва за автоматично попълване на полето платец/получател.</string>
+  <string name="help_ManageParties_select_mapping_info">Изберете старна (платец/получател), като я докоснете.</string>
+  <string name="help_ManageParties_select_filter_info">Докоснете страна за филтриране на списъка с транзакции. Дълго докосване за избор на няколко страни (платци/получатели).</string>
   <string name="help_ManageParties_floating_action_button">Използвайте плаващия бутон за да добавите нов платец/получател.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Изглед на план-календар</string>

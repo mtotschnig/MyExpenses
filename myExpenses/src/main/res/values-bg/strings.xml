@@ -367,6 +367,7 @@
   <string name="save_transaction_template_deleted">Шаблонът е изтрит</string>
   <string name="select">Избери</string>
   <string name="select_category">Избери категория</string>
+  <string name="select_payee">Изберете платец / получател</string>
   <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
   <string name="share_sending">Избери файл за експорт</string>
   <string name="split_parts_heading">Разпределени суми</string>
