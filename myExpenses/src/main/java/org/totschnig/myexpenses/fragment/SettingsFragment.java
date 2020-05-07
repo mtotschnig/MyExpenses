@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
+import org.totschnig.myexpenses.util.bundle.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -192,6 +193,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   AdHandlerFactory adHandlerFactory;
   @Inject
   CrashHandler crashHandler;
+  @Inject
+  LocaleManager localeManager;
 
   private CurrencyViewModel currencyViewModel;
 
@@ -554,24 +557,29 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    final MyPreferenceActivity activity = activity();
     if (key.equals(getKey(UI_LANGUAGE))) {
-      rebuildDbConstants();
-      activity.restart();
+      localeManager.requestLocale(MyApplication.getUserPreferedLocale(), () -> {
+        rebuildDbConstants();
+        MyPreferenceActivity activity = activity();
+        if (activity != null && !activity.isFinishing()) {
+          activity.restart();
+        }
+        return null;
+      });
     } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
         key.equals(getKey(GROUP_WEEK_STARTS))) {
       rebuildDbConstants();
     } else if (key.equals(getKey(UI_FONTSIZE))) {
       updateAllWidgets();
-      activity.restart();
+      activity().restart();
     } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
       if (sharedPreferences.getBoolean(key, false)) {
-        activity.showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
+        activity().showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
       }
       setProtectionDependentsState();
       updateAllWidgets();
     } else if (key.equals(getKey(UI_THEME_KEY))) {
-      activity.restart();
+      activity().restart();
     } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
       updateWidgets(AccountWidget.class);
@@ -579,16 +587,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       //Log.d("DEBUG","shared preference changed: Template Widget");
       updateWidgets(TemplateWidget.class);
     } else if (key.equals(getKey(AUTO_BACKUP)) || key.equals(getKey(AUTO_BACKUP_TIME))) {
-      DailyScheduler.updateAutoBackupAlarms(activity);
+      DailyScheduler.updateAutoBackupAlarms(activity());
     } else if (key.equals(getKey(SYNC_FREQUCENCY))) {
-      for (Account account : GenericAccountService.getAccountsAsArray(activity)) {
+      for (Account account : GenericAccountService.getAccountsAsArray(activity())) {
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
             prefHandler.getInt(SYNC_FREQUCENCY, GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
     } else if (key.equals(getKey(TRACKING))) {
-      activity.setTrackingEnabled(sharedPreferences.getBoolean(key, false));
+      activity().setTrackingEnabled(sharedPreferences.getBoolean(key, false));
     } else if (key.equals(getKey(PLANNER_EXECUTION_TIME))) {
-      DailyScheduler.updatePlannerAlarms(activity, false, false);
+      DailyScheduler.updatePlannerAlarms(activity(), false, false);
     }
   }
 
