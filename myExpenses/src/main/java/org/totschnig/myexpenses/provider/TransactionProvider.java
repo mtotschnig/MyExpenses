@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentValues;
@@ -75,7 +74,7 @@ import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 
-public class TransactionProvider extends ContentProvider {
+public class TransactionProvider extends BaseTransactionProvider {
 
   private TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
@@ -259,7 +258,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int TAG_ID = 57;
   private static final int TEMPLATES_TAGS = 58;
 
-  private boolean mDirty = false;
   private boolean bulkInProgress = false;
 
   @Inject
@@ -277,13 +275,6 @@ public class TransactionProvider extends ContentProvider {
 
   private void initOpenHelper() {
     mOpenHelper = new TransactionDatabase(getContext());
-  }
-
-  private void setDirty() {
-    if (!mDirty) {
-      mDirty = true;
-      ((MyApplication) getContext().getApplicationContext()).markDataDirty();
-    }
   }
 
   @Override
@@ -979,7 +970,7 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-    setDirty();
+    setDirty(true);
     if (values != null && BuildConfig.DEBUG) {
       Timber.d("INSERT Uri: %s, values: %s", uri, values);
     }
@@ -1122,7 +1113,7 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
-    setDirty();
+    setDirty(true);
     Timber.d("Delete for URL: %s", uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
@@ -1282,7 +1273,7 @@ public class TransactionProvider extends ContentProvider {
   @Override
   public int update(@NonNull Uri uri, ContentValues values, String where,
                     String[] whereArgs) {
-    setDirty();
+    setDirty(true);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
     int count;
@@ -1847,7 +1838,7 @@ public class TransactionProvider extends ContentProvider {
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
           prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false);
-          mDirty = false;
+          setDirty(false);
         }
       }
       return result;
