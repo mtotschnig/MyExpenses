@@ -61,7 +61,7 @@ public class CurrencyFormatter {
         //fallback to default currency instance
       }
     }
-    return NumberFormat.getCurrencyInstance(application.getUserPreferedLocale());
+    return NumberFormat.getCurrencyInstance(application.getUserPreferredLocale());
   }
 
   private NumberFormat getNumberFormat(CurrencyUnit currencyUnit) {

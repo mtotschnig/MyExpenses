@@ -228,7 +228,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(ContextHelper.wrap(newBase, ((MyApplication) newBase.getApplicationContext()).getUserPreferedLocale()));
+    super.attachBaseContext(ContextHelper.wrap(newBase, ((MyApplication) newBase.getApplicationContext()).getUserPreferredLocale()));
     injectDependencies();
     localeManager.initActivity(this);
   }

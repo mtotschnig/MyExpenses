@@ -830,7 +830,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         mSectionCache = new SparseIntArray(count);
         if (c.moveToFirst()) {
           final Calendar cal = Calendar.getInstance();
-          final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", ((MyApplication) requireContext().getApplicationContext()).getUserPreferedLocale());
+          final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", ((MyApplication) requireContext().getApplicationContext()).getUserPreferredLocale());
           do {
             final int year = c.getInt(c.getColumnIndex(KEY_YEAR));
             final int month = c.getInt(c.getColumnIndex(KEY_SECOND_GROUP));

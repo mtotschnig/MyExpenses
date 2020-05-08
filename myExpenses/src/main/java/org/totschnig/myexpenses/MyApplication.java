@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -82,7 +83,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 public class MyApplication extends MultiDexApplication implements
     OnSharedPreferenceChangeListener {
 
-  private static final String DEFAULT_LANGUAGE = "default";
+  public static final String DEFAULT_LANGUAGE = "default";
   private AppComponent appComponent;
   @Inject
   LicenceHandler licenceHandler;
@@ -90,6 +91,8 @@ public class MyApplication extends MultiDexApplication implements
   CrashHandler crashHandler;
   @Inject
   LocaleManager localeManager;
+  @Inject
+  PrefHandler prefHandler;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -205,7 +208,7 @@ public class MyApplication extends MultiDexApplication implements
     mSelf = this;
     //we cannot use the standard way of reading preferences, since this works only after base context
     //has been attached
-    super.attachBaseContext(ContextHelper.wrap(base, getUserPreferedLocale(
+    super.attachBaseContext(ContextHelper.wrap(base, resolveLocale(
         PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE))));
     appComponent = buildAppComponent();
     appComponent.inject(this);
@@ -222,7 +225,7 @@ public class MyApplication extends MultiDexApplication implements
 
   public void setupLogging() {
     Timber.uprootAll();
-    if (PrefKey.DEBUG_LOGGING.getBoolean(BuildConfig.DEBUG)) {
+    if (prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)) {
       Timber.plant(new Timber.DebugTree());
       Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
@@ -285,11 +288,15 @@ public class MyApplication extends MultiDexApplication implements
     AbstractWidgetKt.updateWidgets(mSelf, AccountWidget.class, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
   }
 
-  public Locale getUserPreferedLocale() {
-    return getUserPreferedLocale(PrefKey.UI_LANGUAGE.getString(DEFAULT_LANGUAGE));
+  public String getDefaultLanguage() {
+    return prefHandler.getString(PrefKey.UI_LANGUAGE, DEFAULT_LANGUAGE);
   }
 
-  private Locale getUserPreferedLocale(String language) {
+  public Locale getUserPreferredLocale() {
+    return resolveLocale(getDefaultLanguage());
+  }
+
+  public Locale resolveLocale(String language) {
     Locale l;
     if (language.equals(DEFAULT_LANGUAGE)) {
       l = systemLocale;
@@ -312,8 +319,7 @@ public class MyApplication extends MultiDexApplication implements
       // if we are dealing with an activity called from widget that allows to
       // bypass password protection, we do not reset last pause
       // otherwise user could gain unprotected access to the app
-      boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET
-          .getBoolean(false);
+      boolean isDataEntryEnabled = prefHandler.getBoolean(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
       boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(
           AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
       if (!isDataEntryEnabled || !isStartFromWidget) {
@@ -343,10 +349,8 @@ public class MyApplication extends MultiDexApplication implements
     boolean isProtected = isProtected();
     long lastPause = getLastPause();
     Timber.i("reading last pause : %d", lastPause);
-    boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS
-        .getInt(15) * 1000000000L);
-    boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET
-        .getBoolean(false);
+    boolean isPostDelay = System.nanoTime() - lastPause > (prefHandler.getInt(PrefKey.PROTECTION_DELAY_SECONDS, 15) * 1000000000L);
+    boolean isDataEntryEnabled = prefHandler.getBoolean(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
     if (isProtected && isPostDelay && !(isDataEntryEnabled && isStartFromWidget)) {
       setLocked(true);
       return true;
@@ -355,7 +359,8 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   public boolean isProtected() {
-    return PrefKey.PROTECTION_LEGACY.getBoolean(false) || PrefKey.PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false);
+    return prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
+        prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false);
   }
 
   /**
@@ -378,7 +383,7 @@ public class MyApplication extends MultiDexApplication implements
     } else {
       if (c.moveToFirst()) {
         String found = DbUtils.getString(c, 0);
-        String expected = PrefKey.PLANNER_CALENDAR_PATH.getString("");
+        String expected = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "");
         if (!found.equals(expected)) {
           CrashHandler.report(String.format(
               "found calendar, but path did not match; expected %s ; got %s", expected, found));
@@ -418,7 +423,7 @@ public class MyApplication extends MultiDexApplication implements
    */
   @Nullable
   public String checkPlanner() {
-    mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
+    mPlannerCalendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
     if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
       final String checkedId = checkPlannerInternal(mPlannerCalendarId);
       if (INVALID_CALENDAR_ID.equals(checkedId)) {
@@ -431,9 +436,9 @@ public class MyApplication extends MultiDexApplication implements
 
   public void removePlanner() {
     mSettings.edit()
-        .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
-        .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
-        .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey())
+        .remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
+        .remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
+        .remove(prefHandler.getKey(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP))
         .apply();
   }
 
@@ -500,7 +505,7 @@ public class MyApplication extends MultiDexApplication implements
     }
     if (persistToSharedPref) {
       // onSharedPreferenceChanged should now trigger initPlanner
-      PrefKey.PLANNER_CALENDAR_ID.putString(plannerCalendarId);
+      prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, plannerCalendarId);
     }
     return plannerCalendarId;
   }
@@ -569,14 +574,14 @@ public class MyApplication extends MultiDexApplication implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (!key.equals(PrefKey.AUTO_BACKUP_DIRTY.getKey())) {
+    if (!key.equals(prefHandler.getKey(PrefKey.AUTO_BACKUP_DIRTY))) {
       markDataDirty();
     }
-    if (key.equals(DEBUG_LOGGING.getKey())) {
+    if (key.equals(prefHandler.getKey(DEBUG_LOGGING))) {
       setupLogging();
     }
     // TODO: move to TaskExecutionFragment
-    else if (key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
+    else if (key.equals(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))) {
 
       String oldValue = mPlannerCalendarId;
       boolean safeToMovePlans = true;
@@ -602,13 +607,13 @@ public class MyApplication extends MultiDexApplication implements
         if (c != null && c.moveToFirst()) {
           String path = c.getString(0);
           Timber.i("storing calendar path %s ", path);
-          PrefKey.PLANNER_CALENDAR_PATH.putString(path);
+          prefHandler.putString(PrefKey.PLANNER_CALENDAR_PATH, path);
         } else {
           CrashHandler.report(new IllegalStateException(
               "could not retrieve configured calendar"));
           mPlannerCalendarId = INVALID_CALENDAR_ID;
-          PrefKey.PLANNER_CALENDAR_PATH.remove();
-          PrefKey.PLANNER_CALENDAR_ID.putString(INVALID_CALENDAR_ID);
+          prefHandler.remove(PrefKey.PLANNER_CALENDAR_PATH);
+          prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
         }
         if (c != null) {
           c.close();
@@ -651,7 +656,7 @@ public class MyApplication extends MultiDexApplication implements
           }
         }
       } else {
-        PrefKey.PLANNER_CALENDAR_PATH.remove();
+        prefHandler.remove(PrefKey.PLANNER_CALENDAR_PATH);
       }
     }
   }
@@ -691,8 +696,8 @@ public class MyApplication extends MultiDexApplication implements
    */
   public Result restorePlanner() {
     ContentResolver cr = getContentResolver();
-    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
-    String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
+    String calendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID);
+    String calendarPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "");
     Timber.d("restore plans to calendar with id %s and path %s", calendarId,
         calendarPath);
     int restoredPlansCount = 0;
@@ -704,7 +709,7 @@ public class MyApplication extends MultiDexApplication implements
         if (c.moveToFirst()) {
           mPlannerCalendarId = c.getString(0);
           Timber.d("restorePlaner: found calendar with id %s", mPlannerCalendarId);
-          PrefKey.PLANNER_CALENDAR_ID.putString(mPlannerCalendarId);
+          prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, mPlannerCalendarId);
           ContentValues planValues = new ContentValues(), eventValues = new ContentValues();
           eventValues.put(Events.CALENDAR_ID,
               Long.parseLong(mPlannerCalendarId));
@@ -779,9 +784,9 @@ public class MyApplication extends MultiDexApplication implements
     return Result.ofSuccess(R.string.restore_calendar_success, null, restoredPlansCount);
   }
 
-  public static void markDataDirty() {
-    PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
-    DailyScheduler.updateAutoBackupAlarms(mSelf);
+  public void markDataDirty() {
+    prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, true);
+    DailyScheduler.updateAutoBackupAlarms(this);
   }
 
   private void enableStrictMode() {

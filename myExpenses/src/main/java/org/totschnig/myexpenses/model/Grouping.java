@@ -35,7 +35,7 @@ public enum Grouping {
       return "";
     }
     Calendar cal;
-    final Locale userPreferedLocale = ((MyApplication) ctx.getApplicationContext()).getUserPreferedLocale();
+    final Locale userPreferedLocale = ((MyApplication) ctx.getApplicationContext()).getUserPreferredLocale();
     switch (this) {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);

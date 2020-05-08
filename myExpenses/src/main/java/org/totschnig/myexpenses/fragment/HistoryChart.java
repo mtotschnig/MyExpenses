@@ -202,7 +202,7 @@ public class HistoryChart extends Fragment
       }
       case MONTH:
         return Grouping.getDisplayTitleForMonth((int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), DateFormat.SHORT,
-            ((MyApplication) requireContext().getApplicationContext()).getUserPreferedLocale());
+            ((MyApplication) requireContext().getApplicationContext()).getUserPreferredLocale());
       case YEAR:
         return String.format(Locale.ROOT, "%d", (int) value);
     }

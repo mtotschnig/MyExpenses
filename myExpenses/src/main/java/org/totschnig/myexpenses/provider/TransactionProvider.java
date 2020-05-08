@@ -282,7 +282,7 @@ public class TransactionProvider extends ContentProvider {
   private void setDirty() {
     if (!mDirty) {
       mDirty = true;
-      MyApplication.markDataDirty();
+      ((MyApplication) getContext().getApplicationContext()).markDataDirty();
     }
   }
 
