@@ -3,12 +3,13 @@ package org.totschnig.myexpenses.util;
 import android.content.ContentResolver;
 import android.text.TextUtils;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -23,27 +24,28 @@ import javax.inject.Singleton;
 
 @Singleton
 public class CurrencyFormatter {
-  private MyApplication application;
+  private PrefHandler prefHandler;
+  private UserLocaleProvider userLocaleProvider;
 
   @Inject
-  public CurrencyFormatter(MyApplication application) {
-    this.application = application;
+  public CurrencyFormatter(PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
+    this.prefHandler = prefHandler;
+    this.userLocaleProvider = userLocaleProvider;
   }
 
   private Map<String, NumberFormat> numberFormats = new HashMap<>();
 
-  public void invalidate(String currency) {
+  public void invalidate(String currency, ContentResolver contentResolver) {
     numberFormats.remove(currency);
-    notifyUris();
+    notifyUris(contentResolver);
   }
 
-  public void invalidateAll() {
+  public void invalidateAll(ContentResolver contentResolver) {
     numberFormats.clear();
-    notifyUris();
+    notifyUris(contentResolver);
   }
 
-  private void notifyUris() {
-    ContentResolver contentResolver = application.getContentResolver();
+  private void notifyUris(ContentResolver contentResolver) {
     contentResolver.notifyChange(TransactionProvider.TEMPLATES_URI, null, false);
     contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
     contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
@@ -51,7 +53,7 @@ public class CurrencyFormatter {
   }
 
   private NumberFormat initNumberFormat() {
-    String prefFormat = PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
+    String prefFormat = prefHandler.getString(PrefKey.CUSTOM_DECIMAL_FORMAT, "");
     if (!prefFormat.equals("")) {
       DecimalFormat nf = new DecimalFormat();
       try {
@@ -61,7 +63,7 @@ public class CurrencyFormatter {
         //fallback to default currency instance
       }
     }
-    return NumberFormat.getCurrencyInstance(application.getUserPreferredLocale());
+    return NumberFormat.getCurrencyInstance(userLocaleProvider.getUserPreferredLocale());
   }
 
   private NumberFormat getNumberFormat(CurrencyUnit currencyUnit) {

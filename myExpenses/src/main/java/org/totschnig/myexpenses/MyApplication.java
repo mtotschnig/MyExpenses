@@ -52,11 +52,12 @@ import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.bundle.LocaleManager;
+import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
@@ -93,6 +94,8 @@ public class MyApplication extends MultiDexApplication implements
   LocaleManager localeManager;
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  UserLocaleProvider userLocaleProvider;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -145,12 +148,6 @@ public class MyApplication extends MultiDexApplication implements
    * value
    */
   private String mPlannerCalendarId = INVALID_CALENDAR_ID;
-
-  /**
-   * we store the systemLocale if the user wants to come back to it after having
-   * tried a different locale;
-   */
-  private static Locale systemLocale = Locale.getDefault();
 
   @Override
   public void onCreate() {
@@ -208,12 +205,13 @@ public class MyApplication extends MultiDexApplication implements
     mSelf = this;
     //we cannot use the standard way of reading preferences, since this works only after base context
     //has been attached
-    super.attachBaseContext(ContextHelper.wrap(base, resolveLocale(
-        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE))));
+    super.attachBaseContext(ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
+        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), Locale.getDefault())));
     appComponent = buildAppComponent();
     appComponent.inject(this);
     localeManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
+    DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
   }
 
   @NonNull
@@ -251,8 +249,8 @@ public class MyApplication extends MultiDexApplication implements
     return mSelf;
   }
 
-  public static Locale getSystemLocale() {
-    return systemLocale;
+  public Locale getSystemLocale() {
+    return userLocaleProvider.getSystemLocale();
   }
 
   public SharedPreferences getSettings() {
@@ -284,29 +282,8 @@ public class MyApplication extends MultiDexApplication implements
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    systemLocale = newConfig.locale;
+    userLocaleProvider.setSystemLocale(newConfig.locale);
     AbstractWidgetKt.updateWidgets(mSelf, AccountWidget.class, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
-  }
-
-  public String getDefaultLanguage() {
-    return prefHandler.getString(PrefKey.UI_LANGUAGE, DEFAULT_LANGUAGE);
-  }
-
-  public Locale getUserPreferredLocale() {
-    return resolveLocale(getDefaultLanguage());
-  }
-
-  public Locale resolveLocale(String language) {
-    Locale l;
-    if (language.equals(DEFAULT_LANGUAGE)) {
-      l = systemLocale;
-    } else if (language.contains("-")) {
-      String[] parts = language.split("-");
-      l = new Locale(parts[0], parts[1]);
-    } else {
-      l = new Locale(language);
-    }
-    return l;
   }
 
   public long getLastPause() {

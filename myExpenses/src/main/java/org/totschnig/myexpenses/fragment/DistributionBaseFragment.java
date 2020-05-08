@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.sqlbrite3.QueryObservable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
@@ -20,11 +21,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -80,6 +84,9 @@ public abstract class DistributionBaseFragment extends CategoryList {
   private Disposable sumDisposable;
   private AccountInfo accountInfo;
 
+  @Inject
+  UserLocaleProvider userLocaleProvider;
+
   interface AccountInfo {
     long getId();
 
@@ -89,6 +96,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
     aggregateTypes = prefHandler.getBoolean(getPrefKey(), true);
   }
 
@@ -159,7 +167,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
   }
 
   protected void onDateInfoReceived() {
-    setSubTitle(mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, dateInfo));
+    setSubTitle(mGrouping.getDisplayTitle(getActivity(), mGroupingYear, mGroupingSecond, dateInfo, userLocaleProvider.getUserPreferredLocale()));
   }
 
   protected void setSubTitle(CharSequence title) {

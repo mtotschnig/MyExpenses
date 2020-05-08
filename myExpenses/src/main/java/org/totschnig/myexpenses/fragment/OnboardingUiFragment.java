@@ -16,8 +16,12 @@ import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -31,10 +35,19 @@ public class OnboardingUiFragment extends OnboardingFragment {
   @BindView(R.id.theme)
   SwitchCompat themeSwitch;
 
+  @Inject
+  UserLocaleProvider userLocaleProvider;
+
   private int fontScale;
 
   public static OnboardingUiFragment newInstance() {
     return new OnboardingUiFragment();
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
@@ -47,7 +60,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
     View actionView = menuItem.getActionView();
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
-    ((TextView) actionView).setText(((MyApplication) requireContext().getApplicationContext()).getUserPreferredLocale().getLanguage());
+    ((TextView) actionView).setText(userLocaleProvider.getUserPreferredLocale().getLanguage());
     actionView.setOnClickListener(v -> {
       final Context context = getContext();
       final PopupMenu subMenu;

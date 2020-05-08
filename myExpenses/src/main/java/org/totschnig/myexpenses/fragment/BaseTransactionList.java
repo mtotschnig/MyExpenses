@@ -112,6 +112,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -285,6 +286,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   PrefHandler prefHandler;
   @Inject
   CurrencyContext currencyContext;
+  @Inject
+  UserLocaleProvider userLocaleProvider;
   FilterPersistence filterPersistence;
 
   @State
@@ -830,7 +833,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         mSectionCache = new SparseIntArray(count);
         if (c.moveToFirst()) {
           final Calendar cal = Calendar.getInstance();
-          final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", ((MyApplication) requireContext().getApplicationContext()).getUserPreferredLocale());
+          final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", userLocaleProvider.getUserPreferredLocale());
           do {
             final int year = c.getInt(c.getColumnIndex(KEY_YEAR));
             final int month = c.getInt(c.getColumnIndex(KEY_SECOND_GROUP));
@@ -940,7 +943,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         c.moveToPosition(position);
         fillSums(holder, getHeaderId(position));
         holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
-            DateInfo.fromCursor(c)));
+            DateInfo.fromCursor(c), userLocaleProvider.getUserPreferredLocale()));
       }
       return convertView;
     }

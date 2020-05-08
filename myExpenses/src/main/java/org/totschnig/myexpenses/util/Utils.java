@@ -277,7 +277,7 @@ public class Utils {
   @NonNull
   public static Currency getSaveDefault() {
     try {
-      return Currency.getInstance(MyApplication.getSystemLocale());
+      return Currency.getInstance(MyApplication.getInstance().getSystemLocale());
     } catch (NullPointerException | IllegalArgumentException ex) {
       return Currency.getInstance(new Locale("en", "US"));
     }

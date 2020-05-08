@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
-import org.totschnig.myexpenses.util.bundle.LocaleManager
+import org.totschnig.myexpenses.util.locale.LocaleManager
 import javax.inject.Named
 import javax.inject.Singleton
 

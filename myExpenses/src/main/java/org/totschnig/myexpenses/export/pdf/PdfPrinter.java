@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.io.IOException;
@@ -92,6 +93,8 @@ public class PdfPrinter {
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  UserLocaleProvider userLocaleProvider;
 
   public PdfPrinter(Account account, DocumentFile destDir, WhereFilter filter) {
     this.account = account;
@@ -293,7 +296,7 @@ public class PdfPrinter {
         }
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
+        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor), userLocaleProvider.getUserPreferredLocale()), FontType.HEADER);
         table.addCell(cell);
         long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
         long sumIncome = groupCursor.getLong(columnIndexGroupSumIncome);

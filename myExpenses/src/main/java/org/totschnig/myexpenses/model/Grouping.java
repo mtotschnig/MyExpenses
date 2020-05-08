@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.model;
 
 import android.content.Context;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -27,15 +26,15 @@ public enum Grouping {
    * @param groupYear   the year of the group to display
    * @param groupSecond the number of the group in the second dimension (day, week or month)
    * @param dateInfo           a cursor where we can find information about the current date
+   * @param userPreferredLocale
    * @return a human readable String representing the group as header or activity title
    */
   @NonNull
-  public String getDisplayTitle(@Nullable Context ctx, int groupYear, int groupSecond, DateInfo dateInfo) {
+  public String getDisplayTitle(@Nullable Context ctx, int groupYear, int groupSecond, DateInfo dateInfo, Locale userPreferredLocale) {
     if (ctx == null) {
       return "";
     }
     Calendar cal;
-    final Locale userPreferedLocale = ((MyApplication) ctx.getApplicationContext()).getUserPreferredLocale();
     switch (this) {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
@@ -45,7 +44,7 @@ public enum Grouping {
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-        String title = DateFormat.getDateInstance(DateFormat.FULL, userPreferedLocale).format(cal.getTime());
+        String title = DateFormat.getDateInstance(DateFormat.FULL, userPreferredLocale).format(cal.getTime());
         if (groupYear == this_year) {
           if (groupSecond == this_day)
             return ctx.getString(R.string.grouping_today) + " (" + title + ")";
@@ -72,7 +71,7 @@ public enum Grouping {
         return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
       }
       case MONTH: {
-        return getDisplayTitleForMonth(groupYear, groupSecond, DateFormat.LONG, userPreferedLocale);
+        return getDisplayTitleForMonth(groupYear, groupSecond, DateFormat.LONG, userPreferredLocale);
       }
       case YEAR:
         return String.valueOf(groupYear);

@@ -23,8 +23,6 @@ import java.math.BigDecimal;
 import androidx.annotation.NonNull;
 
 public class Money implements Serializable {
-  private static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
-  private static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
   private CurrencyUnit currencyUnit;
   private Long amountMinor;
 

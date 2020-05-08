@@ -71,7 +71,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
         updateComplete.postValue(updatedAccountsCount);
       }
     };
-    currencyFormatter.invalidate(currency);
+    currencyFormatter.invalidate(currency, getApplication().getContentResolver());
     currencyContext.storeCustomSymbol(currency, symbol);
     if (withUpdate) {
       updateOperationsCount++;

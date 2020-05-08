@@ -19,9 +19,11 @@ import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CurrencyList;
+import org.totschnig.myexpenses.fragment.DistributionBaseFragment;
 import org.totschnig.myexpenses.fragment.HistoryChart;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
+import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
@@ -40,6 +42,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -105,6 +108,8 @@ public interface AppComponent {
 
   void inject(CategoryList categoryList);
 
+  void inject(DistributionBaseFragment categoryList);
+
   void inject(AdHandler adHandler);
 
   void inject(LicenceApiTask licenceApiTask);
@@ -138,6 +143,8 @@ public interface AppComponent {
   CurrencyFormatter currencyFormatter();
 
   ExchangeRateRepository exchangeRateRepository();
+
+  UserLocaleProvider userLocaleProvider();
 
   void inject(DonateDialogFragment donateDialogFragment);
 
@@ -184,4 +191,6 @@ public interface AppComponent {
   void inject(TransactionDetailViewModel transactionDetailViewModel);
 
   void inject(ExchangeRateViewModel exchangeRateViewModel);
+
+  void inject(OnboardingUiFragment onboardingUiFragment);
 }

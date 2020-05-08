@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util.bundle
+package org.totschnig.myexpenses.util.locale
 
 import android.app.Activity
 import android.app.Application

@@ -60,12 +60,13 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
-import org.totschnig.myexpenses.util.bundle.LocaleManager;
+import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -198,6 +199,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   LocaleManager localeManager;
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  UserLocaleProvider userLocaleProvider;
 
   private CurrencyViewModel currencyViewModel;
 
@@ -603,7 +606,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void rebuildDbConstants() {
-    DatabaseConstants.buildLocalized();
+    DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
     Transaction.buildProjection();
   }
 
@@ -779,13 +782,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(pref, CUSTOM_DECIMAL_FORMAT)) {
       if (TextUtils.isEmpty((String) value)) {
-        currencyFormatter.invalidateAll();
+        currencyFormatter.invalidateAll(requireContext().getContentResolver());
         return true;
       }
       try {
         DecimalFormat nf = new DecimalFormat();
         nf.applyLocalizedPattern(((String) value));
-        currencyFormatter.invalidateAll();
+        currencyFormatter.invalidateAll(requireContext().getContentResolver());
       } catch (IllegalArgumentException e) {
         activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;

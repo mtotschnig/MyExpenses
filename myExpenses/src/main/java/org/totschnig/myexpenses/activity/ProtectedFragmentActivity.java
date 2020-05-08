@@ -73,7 +73,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
-import org.totschnig.myexpenses.util.bundle.LocaleManager;
+import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -228,7 +228,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(ContextHelper.wrap(newBase, ((MyApplication) newBase.getApplicationContext()).getUserPreferredLocale()));
+    super.attachBaseContext(ContextHelper.wrap(newBase, ((MyApplication) newBase.getApplicationContext()).getAppComponent().userLocaleProvider().getUserPreferredLocale()));
     injectDependencies();
     localeManager.initActivity(this);
   }
@@ -1022,7 +1022,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void invalidateHomeCurrency() {
     currencyContext.invalidateHomeCurrency();
-    currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
+    currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
     Transaction.buildProjection();
     Account.buildProjection();
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);

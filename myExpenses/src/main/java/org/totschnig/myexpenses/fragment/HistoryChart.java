@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -100,6 +101,8 @@ public class HistoryChart extends Fragment
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  UserLocaleProvider userLocaleProvider;
   @State
   boolean showBalance = true;
   @State
@@ -202,7 +205,7 @@ public class HistoryChart extends Fragment
       }
       case MONTH:
         return Grouping.getDisplayTitleForMonth((int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), DateFormat.SHORT,
-            ((MyApplication) requireContext().getApplicationContext()).getUserPreferredLocale());
+            userLocaleProvider.getUserPreferredLocale());
       case YEAR:
         return String.format(Locale.ROOT, "%d", (int) value);
     }

@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -52,8 +51,7 @@ public class DatabaseConstants {
   private DatabaseConstants() {
   }
 
-  public static void buildLocalized() {
-    Locale locale = MyApplication.getInstance().getUserPreferredLocale();
+  public static void buildLocalized(Locale locale) {
     weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
     monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;
@@ -87,7 +85,7 @@ public class DatabaseConstants {
 
   private static void ensureLocalized() {
     if (!isLocalized) {
-      buildLocalized();
+      throw new IllegalStateException();
     }
   }
 
