@@ -35,6 +35,7 @@ public enum Grouping {
       return "";
     }
     Calendar cal;
+    final Locale userPreferedLocale = ((MyApplication) ctx.getApplicationContext()).getUserPreferedLocale();
     switch (this) {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
@@ -44,7 +45,7 @@ public enum Grouping {
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-        String title = DateFormat.getDateInstance(DateFormat.FULL, MyApplication.getUserPreferedLocale()).format(cal.getTime());
+        String title = DateFormat.getDateInstance(DateFormat.FULL, userPreferedLocale).format(cal.getTime());
         if (groupYear == this_year) {
           if (groupSecond == this_day)
             return ctx.getString(R.string.grouping_today) + " (" + title + ")";
@@ -71,7 +72,7 @@ public enum Grouping {
         return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
       }
       case MONTH: {
-        return getDisplayTitleForMonth(groupYear, groupSecond, DateFormat.LONG);
+        return getDisplayTitleForMonth(groupYear, groupSecond, DateFormat.LONG, userPreferedLocale);
       }
       case YEAR:
         return String.valueOf(groupYear);
@@ -80,8 +81,7 @@ public enum Grouping {
     }
   }
 
-  public static String getDisplayTitleForMonth(int groupYear, int groupSecond, int style) {
-    final Locale userPreferedLocale = MyApplication.getUserPreferedLocale();
+  public static String getDisplayTitleForMonth(int groupYear, int groupSecond, int style, Locale userPreferedLocale) {
     int monthStarts = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     Calendar cal = Calendar.getInstance();
     if (monthStarts == 1) {

@@ -47,7 +47,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
     View actionView = menuItem.getActionView();
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
-    ((TextView) actionView).setText(MyApplication.getUserPreferedLocale().getLanguage());
+    ((TextView) actionView).setText(((MyApplication) requireContext().getApplicationContext()).getUserPreferedLocale().getLanguage());
     actionView.setOnClickListener(v -> {
       final Context context = getContext();
       final PopupMenu subMenu;

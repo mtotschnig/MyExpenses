@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Money
@@ -41,7 +42,7 @@ class AccountRemoteViewsFactory(
         val currentBalance = Money(account.currencyUnit,
                 cursor.getLong(cursor.getColumnIndexOrThrow(KEY_CURRENT_BALANCE)))
         setTextViewText(R.id.line1, account.label)
-        setTextViewText(R.id.note,  CurrencyFormatter.instance().formatCurrency(currentBalance))
+        setTextViewText(R.id.note, (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(currentBalance))
         setOnClickFillInIntent(R.id.object_info, Intent().apply {
             putExtra(KEY_ROWID, account.id)
         })

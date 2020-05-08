@@ -62,6 +62,8 @@ public class PlanExecutor extends JobIntentService {
 
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   /**
    * Unique job ID for this service.
@@ -172,7 +174,7 @@ public class PlanExecutor extends JobIntentService {
                   if (!content.equals("")) {
                     content += " : ";
                   }
-                  content += CurrencyFormatter.instance().formatCurrency(template.getAmount());
+                  content += currencyFormatter.formatCurrency(template.getAmount());
                   builder.setContentText(content);
                   if (template.isPlanExecutionAutomatic()) {
                     Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(template);

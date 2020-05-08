@@ -28,6 +28,8 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
 
   @Inject
   protected CurrencyContext currencyContext;
+  @Inject
+  protected CurrencyFormatter currencyFormatter;
 
   private final DatabaseHandler asyncDatabaseHandler;
   private int updateOperationsCount = 0;
@@ -69,7 +71,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
         updateComplete.postValue(updatedAccountsCount);
       }
     };
-    CurrencyFormatter.instance().invalidate(currency);
+    currencyFormatter.invalidate(currency);
     currencyContext.storeCustomSymbol(currency, symbol);
     if (withUpdate) {
       updateOperationsCount++;

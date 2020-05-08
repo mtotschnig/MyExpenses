@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.AmountInput;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import java.text.DecimalFormat;
 import java.util.Currency;
@@ -237,7 +236,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     Template plan = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
     plan.setTitle("Daily plan");
     plan.setAmount(new Money(currency, 700L));
-    plan.setPlan(new Plan(LocalDate.now(), Plan.Recurrence.DAILY, "Daily", plan.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance())));
+    plan.setPlan(new Plan(LocalDate.now(), Plan.Recurrence.DAILY, "Daily", plan.compileDescription(MyApplication.getInstance())));
     plan.save();
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_TEMPLATEID, plan.getId());

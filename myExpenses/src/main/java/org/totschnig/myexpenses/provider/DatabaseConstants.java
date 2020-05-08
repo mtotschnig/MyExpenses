@@ -53,7 +53,7 @@ public class DatabaseConstants {
   }
 
   public static void buildLocalized() {
-    Locale locale = MyApplication.getUserPreferedLocale();
+    Locale locale = MyApplication.getInstance().getUserPreferedLocale();
     weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
     monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;

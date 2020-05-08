@@ -19,6 +19,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.AccountAdapter
@@ -44,7 +45,6 @@ import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DistributionHelper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
@@ -678,7 +678,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                         this.title = it
                     }
                     this.isPlanExecutionAutomatic = planExecutionButton.isChecked
-                    val description = compileDescription(context, CurrencyFormatter.instance())
+                    val description = compileDescription(context.applicationContext as MyApplication)
                     if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                         plan = Plan(
                                 this@TransactionDelegate.planId ?: 0L,

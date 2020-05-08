@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.bundle.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
@@ -87,6 +88,8 @@ public class MyApplication extends MultiDexApplication implements
   LicenceHandler licenceHandler;
   @Inject
   CrashHandler crashHandler;
+  @Inject
+  LocaleManager localeManager;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -159,7 +162,7 @@ public class MyApplication extends MultiDexApplication implements
     if (!isSyncService()) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      DailyScheduler.updatePlannerAlarms(this,false, false);
+      DailyScheduler.updatePlannerAlarms(this, false, false);
       registerWidgetObservers();
     }
     licenceHandler.init();
@@ -206,6 +209,7 @@ public class MyApplication extends MultiDexApplication implements
         PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE))));
     appComponent = buildAppComponent();
     appComponent.inject(this);
+    localeManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
   }
 
@@ -281,11 +285,11 @@ public class MyApplication extends MultiDexApplication implements
     AbstractWidgetKt.updateWidgets(mSelf, AccountWidget.class, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
   }
 
-  public static Locale getUserPreferedLocale() {
+  public Locale getUserPreferedLocale() {
     return getUserPreferedLocale(PrefKey.UI_LANGUAGE.getString(DEFAULT_LANGUAGE));
   }
 
-  private static Locale getUserPreferedLocale(String language) {
+  private Locale getUserPreferedLocale(String language) {
     Locale l;
     if (language.equals(DEFAULT_LANGUAGE)) {
       l = systemLocale;

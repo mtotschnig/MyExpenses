@@ -201,7 +201,8 @@ public class HistoryChart extends Fragment
             .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
       }
       case MONTH:
-        return Grouping.getDisplayTitleForMonth((int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), DateFormat.SHORT);
+        return Grouping.getDisplayTitleForMonth((int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), DateFormat.SHORT,
+            ((MyApplication) requireContext().getApplicationContext()).getUserPreferedLocale());
       case YEAR:
         return String.format(Locale.ROOT, "%d", (int) value);
     }

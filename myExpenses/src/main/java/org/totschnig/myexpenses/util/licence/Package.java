@@ -2,10 +2,10 @@ package org.totschnig.myexpenses.util.licence;
 
 import android.content.Context;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Preconditions;
 
 import androidx.annotation.NonNull;
@@ -35,7 +35,7 @@ public enum Package {
   }
 
   public String getFormattedPrice(Context context, CurrencyUnit currencyUnit, boolean withExtra) {
-    String formatted = getFormattedPriceRaw(currencyUnit);
+    String formatted = getFormattedPriceRaw(currencyUnit, context);
     return getFormattedPrice(context, formatted, withExtra);
   }
 
@@ -43,9 +43,9 @@ public enum Package {
     return isProfessional() ? formatWithDuration(context, formatted, withExta) : formatted;
   }
 
-  public String getFormattedPriceRaw(CurrencyUnit currencyUnit) {
-    return CurrencyFormatter.instance().formatCurrency(
-        new Money(currencyUnit, getDefaultPrice()));
+  public String getFormattedPriceRaw(CurrencyUnit currencyUnit, Context context) {
+    return ((MyApplication) context.getApplicationContext()).getAppComponent().currencyFormatter()
+        .formatCurrency(new Money(currencyUnit, getDefaultPrice()));
   }
 
   @NonNull

@@ -73,6 +73,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
+import org.totschnig.myexpenses.util.bundle.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -184,6 +185,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Inject
   protected CurrencyContext currencyContext;
 
+  @Inject
+  protected CurrencyFormatter currencyFormatter;
+
+  @Inject
+  protected LocaleManager localeManager;
+
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
   public int getColorIncome() {
@@ -205,7 +212,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    injectDependencies();
     if (MyApplication.getInstance().isProtected()) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
@@ -222,7 +228,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(ContextHelper.wrap(newBase, MyApplication.getUserPreferedLocale()));
+    super.attachBaseContext(ContextHelper.wrap(newBase, ((MyApplication) newBase.getApplicationContext()).getUserPreferedLocale()));
+    injectDependencies();
+    localeManager.initActivity(this);
   }
 
 
@@ -1014,7 +1022,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void invalidateHomeCurrency() {
     currencyContext.invalidateHomeCurrency();
-    CurrencyFormatter.instance().invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
+    currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE);
     Transaction.buildProjection();
     Account.buildProjection();
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);

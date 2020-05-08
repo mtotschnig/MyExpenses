@@ -100,6 +100,7 @@ import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
+import kotlin.Unit;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
@@ -195,6 +196,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   CrashHandler crashHandler;
   @Inject
   LocaleManager localeManager;
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   private CurrencyViewModel currencyViewModel;
 
@@ -546,32 +549,31 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       configureContribPrefs();
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
+    localeManager.onResume(() -> {
+      rebuildDbConstants();
+      activity.recreate();
+      return Unit.INSTANCE;
+    });
   }
 
   @Override
   public void onPause() {
     super.onPause();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
+    localeManager.onPause();
   }
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
     if (key.equals(getKey(UI_LANGUAGE))) {
-      localeManager.requestLocale(MyApplication.getUserPreferedLocale(), () -> {
-        rebuildDbConstants();
-        MyPreferenceActivity activity = activity();
-        if (activity != null && !activity.isFinishing()) {
-          activity.restart();
-        }
-        return null;
-      });
+      localeManager.requestLocale(activity());
     } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
         key.equals(getKey(GROUP_WEEK_STARTS))) {
       rebuildDbConstants();
     } else if (key.equals(getKey(UI_FONTSIZE))) {
       updateAllWidgets();
-      activity().restart();
+      activity().recreate();
     } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
       if (sharedPreferences.getBoolean(key, false)) {
         activity().showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
@@ -579,7 +581,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       setProtectionDependentsState();
       updateAllWidgets();
     } else if (key.equals(getKey(UI_THEME_KEY))) {
-      activity().restart();
+      activity().recreate();
     } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
       updateWidgets(AccountWidget.class);
@@ -777,13 +779,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(pref, CUSTOM_DECIMAL_FORMAT)) {
       if (TextUtils.isEmpty((String) value)) {
-        CurrencyFormatter.instance().invalidateAll();
+        currencyFormatter.invalidateAll();
         return true;
       }
       try {
         DecimalFormat nf = new DecimalFormat();
         nf.applyLocalizedPattern(((String) value));
-        CurrencyFormatter.instance().invalidateAll();
+        currencyFormatter.invalidateAll();
       } catch (IllegalArgumentException e) {
         activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;

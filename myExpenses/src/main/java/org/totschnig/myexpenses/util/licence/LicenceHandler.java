@@ -168,7 +168,7 @@ public class LicenceHandler {
         aPackage.getDuration(false));
     return context.getString(R.string.extend_until,
         Utils.getDateFormatSafe(context).format(extendedDate),
-        aPackage.getFormattedPriceRaw(currencyUnit));
+        aPackage.getFormattedPriceRaw(currencyUnit, context));
   }
 
   @NonNull

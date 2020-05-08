@@ -70,7 +70,7 @@ class TemplatetRemoteViewsFactory(
         val comment = DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT)
         val payee = DbUtils.getString(cursor, DatabaseConstants.KEY_PAYEE_NAME)
         setTextViewText(R.id.line1,
-                title + " : " + CurrencyFormatter.instance().formatCurrency(amount))
+                title + " : " + (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(amount))
         val commentSeparator = " / "
         val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.getAmountMinor()) + label else label)
         if (!TextUtils.isEmpty(comment)) {

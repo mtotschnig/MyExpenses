@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.ui.DiscoveryHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -59,7 +60,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class})
+@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class})
 public interface AppComponent {
   @Singleton
   DiscoveryHelper discoveryHelper();
@@ -133,6 +134,8 @@ public interface AppComponent {
   String userCountry();
 
   CurrencyContext currencyContext();
+
+  CurrencyFormatter currencyFormatter();
 
   ExchangeRateRepository exchangeRateRepository();
 

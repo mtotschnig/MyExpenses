@@ -71,10 +71,11 @@ public class AmountCriteria extends Criteria {
 
   @Override
   public String prettyPrint(Context context) {
+    CurrencyFormatter currencyFormatter = ((MyApplication) context.getApplicationContext()).getAppComponent().currencyFormatter();
     String result = context.getString(type ? R.string.income : R.string.expense) + " ";
     CurrencyContext currencyContext = ((MyApplication) context.getApplicationContext()).getAppComponent().currencyContext();
     CurrencyUnit currencyUnit = currencyContext.get(currency);
-    String amount1 = CurrencyFormatter.instance().formatCurrency(new Money(currencyUnit, Math.abs(origValue1)));
+    String amount1 = currencyFormatter.formatCurrency(new Money(currencyUnit, Math.abs(origValue1)));
     switch (origOperation) {
       case EQ:
         result += "= " + amount1;
@@ -86,7 +87,7 @@ public class AmountCriteria extends Criteria {
         result += "≤ " + amount1;
         break;
       case BTW:
-        String amount2 = CurrencyFormatter.instance().formatCurrency(new Money(currencyUnit, Math.abs(origValue2)));
+        String amount2 = currencyFormatter.formatCurrency(new Money(currencyUnit, Math.abs(origValue2)));
         result += MyApplication.getInstance().getString(R.string.between_and, amount1, amount2);
     }
     return result;

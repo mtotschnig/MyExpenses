@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -255,7 +254,7 @@ public class Fixture {
         LocalDate.now(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
         template.getTitle(),
-        template.compileDescription(appContext, CurrencyFormatter.instance()))
+        template.compileDescription(appContext))
         .save();
     template.planId = ContentUris.parseId(planUri);
     Uri templateuri = template.save();

@@ -115,12 +115,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     return super.onOptionsItemSelected(item);
   }
 
-  public void restart() {
-    Intent intent = getIntent();
-    finish();
-    startActivity(intent);
-  }
-
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {

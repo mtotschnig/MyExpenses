@@ -19,7 +19,6 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -754,7 +753,7 @@ public class Transaction extends AbstractTransaction {
                   MyApplication.getInstance().getString(R.string.menu_create_template) :
                   getComment()) : getLabel()) : getPayee();
       Template originTemplate = new Template(this, title);
-      String description = originTemplate.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance());
+      String description = originTemplate.compileDescription(MyApplication.getInstance());
       originTemplate.setPlanExecutionAutomatic(true);
       originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first, title, description));
       originTemplate.save(getId());
@@ -1097,7 +1096,8 @@ public class Transaction extends AbstractTransaction {
     return result;
   }
 
-  public String compileDescription(Context ctx, CurrencyFormatter currencyFormatter) {
+  public String compileDescription(MyApplication ctx) {
+    CurrencyFormatter currencyFormatter = ctx.getAppComponent().currencyFormatter();
     StringBuilder sb = new StringBuilder();
     sb.append(ctx.getString(R.string.amount));
     sb.append(" : ");

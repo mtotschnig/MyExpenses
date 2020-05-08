@@ -18,15 +18,16 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class CurrencyFormatter {
+  private MyApplication application;
 
-  private static CurrencyFormatter INSTANCE = new CurrencyFormatter();
-
-  public static CurrencyFormatter instance() {
-    return INSTANCE;
-  }
-
-  private CurrencyFormatter() {
+  @Inject
+  public CurrencyFormatter(MyApplication application) {
+    this.application = application;
   }
 
   private Map<String, NumberFormat> numberFormats = new HashMap<>();
@@ -42,7 +43,7 @@ public class CurrencyFormatter {
   }
 
   private void notifyUris() {
-    ContentResolver contentResolver = MyApplication.getInstance().getContentResolver();
+    ContentResolver contentResolver = application.getContentResolver();
     contentResolver.notifyChange(TransactionProvider.TEMPLATES_URI, null, false);
     contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
     contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
@@ -60,7 +61,7 @@ public class CurrencyFormatter {
         //fallback to default currency instance
       }
     }
-    return NumberFormat.getCurrencyInstance(MyApplication.getUserPreferedLocale());
+    return NumberFormat.getCurrencyInstance(application.getUserPreferedLocale());
   }
 
   private NumberFormat getNumberFormat(CurrencyUnit currencyUnit) {
