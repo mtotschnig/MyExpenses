@@ -9,13 +9,11 @@ import javax.inject.Inject
 class UserLocalProviderImpl(private val prefHandler: PrefHandler): UserLocaleProvider {
     override var systemLocale: Locale = Locale.getDefault()
 
-    fun getDefaultLanguage(): String {
+    override fun getDefaultLanguage(): String {
         return prefHandler.getString(PrefKey.UI_LANGUAGE, MyApplication.DEFAULT_LANGUAGE)
     }
 
     override fun getUserPreferredLocale(): Locale {
-        return resolveLocale(getDefaultLanguage())
+        return UserLocaleProvider.resolveLocale(getDefaultLanguage(), systemLocale)
     }
-
-    override fun resolveLocale(language: String): Locale = UserLocaleProvider.resolveLocale(language, systemLocale)
 }

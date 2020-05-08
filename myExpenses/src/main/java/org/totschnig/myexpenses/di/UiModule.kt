@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
 import org.totschnig.myexpenses.util.locale.LocaleManager
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -29,8 +30,10 @@ class UiModule {
 
     @Provides
     @Singleton
-    fun provideLanguageManager(): LocaleManager = try {
-        Class.forName("org.totschnig.myexpenses.util.bundle.PlatformLocaleManager").newInstance() as LocaleManager
+    fun provideLanguageManager(localeProvider: UserLocaleProvider): LocaleManager = try {
+        Class.forName("org.totschnig.myexpenses.util.bundle.PlatformLocaleManager")
+                .getConstructor(UserLocaleProvider.javaClass)
+                .newInstance(localeProvider) as LocaleManager
     } catch (e: Exception) {
         object : LocaleManager {
             var callback: (() -> Unit)? = null
@@ -47,7 +50,7 @@ class UiModule {
             }
 
             override fun onResume(onAvailable: () -> Unit) {
-               this.callback = onAvailable
+                this.callback = onAvailable
             }
 
             override fun onPause() {
