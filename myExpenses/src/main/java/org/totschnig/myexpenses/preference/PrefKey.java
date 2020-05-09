@@ -74,6 +74,7 @@ public enum PrefKey {
   MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
   CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),
   CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key),
+  CUSTOM_DATE_FORMAT(R.string.pref_custom_date_format_key),
   AUTO_BACKUP(R.string.pref_auto_backup_key),
   AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
   AUTO_BACKUP_DIRTY("auto_backup_dirty"),

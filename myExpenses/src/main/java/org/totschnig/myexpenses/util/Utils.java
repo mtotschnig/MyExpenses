@@ -415,7 +415,16 @@ public class Utils {
     return true;
   }
 
+  @SuppressLint("SimpleDateFormat")
   public static DateFormat getDateFormatSafe(Context context) {
+    String custom = ((MyApplication) context.getApplicationContext()).getAppComponent().prefHandler().getString(PrefKey.CUSTOM_DATE_FORMAT,"");
+    if (!"".equals(custom)) {
+      try {
+        return new SimpleDateFormat(custom);
+      } catch (Exception e) {
+        Timber.e(e);
+      }
+    }
     try {
       return android.text.format.DateFormat.getDateFormat(context);
     } catch (Exception e) {

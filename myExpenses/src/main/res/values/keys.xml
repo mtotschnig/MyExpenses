@@ -65,6 +65,7 @@
     <string name="pref_import_csv_key">import_csv</string>
     <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
     <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
+    <string name="pref_custom_date_format_key">custom_date_format</string>
     <string name="pref_ui_home_screen_shortcuts_key">ui_home_screen_shortcuts</string>
     <string name="pref_grouping_start_key">grouping_start</string>
     <string name="pref_group_week_starts_key">group_week_start</string>

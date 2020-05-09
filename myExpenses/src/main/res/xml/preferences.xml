@@ -479,6 +479,10 @@
             android:key="@string/pref_custom_decimal_format_key"
             android:summary="@string/pref_custom_decimal_format_summary"
             android:title="@string/pref_custom_decimal_format_title" />
+        <EditTextPreference
+            android:key="@string/pref_custom_date_format_key"
+            android:summary="@string/pref_custom_decimal_format_summary"
+            android:title="@string/date_format" />
         <ListPreference
             android:key="@string/pref_planner_calendar_id_key"
             android:title="@string/pref_planning_calendar_title" />

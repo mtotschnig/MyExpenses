@@ -60,12 +60,12 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
@@ -75,9 +75,11 @@ import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.net.URI;
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -93,7 +95,6 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
@@ -121,6 +122,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
+import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
@@ -172,7 +174,7 @@ import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CAL
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 @SuppressWarnings("PackageVisibleField")
-public class SettingsFragment extends PreferenceFragmentCompat implements
+public class SettingsFragment extends BaseSettingsFragment implements
     Preference.OnPreferenceChangeListener,
     Preference.OnPreferenceClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener,
@@ -321,6 +323,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref.setOnPreferenceChangeListener(this);
       if (prefHandler.getString(CUSTOM_DECIMAL_FORMAT, "").equals("")) {
         setDefaultNumberFormat(((EditTextPreference) pref));
+      }
+
+      pref = findPreference(CUSTOM_DATE_FORMAT);
+      pref.setOnPreferenceChangeListener(this);
+      if (prefHandler.getString(CUSTOM_DATE_FORMAT, "").equals("")) {
+        DateFormat dateFormat = Utils.getDateFormatSafe(requireContext());
+        if (dateFormat instanceof SimpleDateFormat) {
+          final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
+          final String localized = simpleDateFormat.toPattern();
+          ((EditTextPreference) pref).setText(localized);
+        }
       }
 
       setAppDirSummary();
@@ -793,6 +806,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;
       }
+    } else if (matches(pref, CUSTOM_DATE_FORMAT)) {
+      return validateDateFormat((String) value);
     } else if (matches(pref, EXCHANGE_RATE_PROVIDER)) {
       configureOpenExchangeRatesPreference((String) value);
     } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
@@ -1103,10 +1118,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     }
     return true;
-  }
-
-  private MyPreferenceActivity activity() {
-    return (MyPreferenceActivity) super.getActivity();
   }
 
   public void updateHomeCurrency(String currencyCode) {
