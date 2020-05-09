@@ -432,6 +432,7 @@ public class HistoryChart extends Fragment
         set2.setColor(balanceColor);
         set2.setValueTextColor(textColor);
         set2.setValueFormatter(valueFormatter);
+        set2.setDrawValues(showTotals);
         LineData lineData = new LineData(set2);
         data.setData(lineData);
       }
