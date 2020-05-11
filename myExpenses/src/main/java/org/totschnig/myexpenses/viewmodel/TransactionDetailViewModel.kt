@@ -25,7 +25,7 @@ class TransactionDetailViewModel(application: Application) : TransactionViewMode
         val liveData = MutableLiveData<List<TData>>()
         disposable =  briteContentResolver.createQuery(
                 Transaction.EXTENDED_URI,
-                projection, "%s = ? OR %s = ?".format(KEY_ROWID, KEY_PARENTID), Array(2) { transactionId.toString() }, KEY_PARENTID + " IS NULL DESC", false)
+                projection(application), "%s = ? OR %s = ?".format(KEY_ROWID, KEY_PARENTID), Array(2) { transactionId.toString() }, KEY_PARENTID + " IS NULL DESC", false)
                 .mapToList { fromCursor(it, currencyContext) }
                 .subscribe { list ->
                     liveData.postValue(list)
