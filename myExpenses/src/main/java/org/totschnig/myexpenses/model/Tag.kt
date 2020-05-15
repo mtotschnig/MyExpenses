@@ -49,7 +49,7 @@ fun saveTagLinks(tagIds: List<Long>?, transactionId: Long?, backReference: Int?,
 
 private fun extractTagId(label: String) = find(label).takeIf { it > -1 } ?: write(label)
 
-private fun write(label: String) =
+fun write(label: String) =
         Model.cr().insert(
                 TransactionProvider.TAGS_URI,
                 ContentValues().apply { put(KEY_LABEL, label.trim()) }

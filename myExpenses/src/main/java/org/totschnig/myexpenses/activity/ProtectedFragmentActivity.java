@@ -1024,7 +1024,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void invalidateHomeCurrency() {
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
-    Transaction.buildProjection();
+    Transaction.buildProjection(this);
     Account.buildProjection();
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }

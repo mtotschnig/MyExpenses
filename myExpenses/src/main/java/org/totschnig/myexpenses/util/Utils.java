@@ -238,6 +238,7 @@ public class Utils {
    * currency, and with the given separator, but without the currency
    * symbol appropriate for CSV and QIF export
    */
+  @NonNull
   public static DecimalFormat getDecimalFormat(CurrencyUnit currency, char separator) {
     DecimalFormat nf = new DecimalFormat();
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();

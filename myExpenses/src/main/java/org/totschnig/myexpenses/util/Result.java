@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import kotlin.Unit;
 
 /**
  * represents a tuple of success flag, and message as an R id
@@ -29,8 +30,8 @@ import androidx.annotation.Nullable;
  */
 public class Result<T> {
 
-  public static final Result SUCCESS = new Result(true);
-  public static final Result FAILURE = new Result(false);
+  public static final Result<Unit> SUCCESS = new Result<>(true);
+  public static final Result<Unit> FAILURE = new Result<>(false);
 
   /**
    * true represents success, false failure

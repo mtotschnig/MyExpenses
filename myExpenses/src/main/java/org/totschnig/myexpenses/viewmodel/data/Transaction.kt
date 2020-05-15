@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import org.totschnig.myexpenses.model.Account
@@ -7,8 +8,8 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
@@ -27,17 +28,18 @@ data class Transaction(
         val crStatus: CrStatus, val referenceNumber: String, val originTemplate: Template?,
         val isSealed: Boolean, val accountLabel: String, val accountType: AccountType) {
     val isSameCurrency: Boolean
-        get() = transferAmount?.let { amount.getCurrencyUnit() == it.getCurrencyUnit() } ?: true
+        get() = transferAmount?.let { amount.getCurrencyUnit() == it.currencyUnit } ?: true
     val isTransfer
         get() = transferPeer != null
     val isSplit
         get() = SPLIT_CATID == catId
 
     companion object {
-        val projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
+        fun projection(context: Context) = arrayOf(KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
                 FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY,
                 KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-                KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_EXTENDED), KEY_TEMPLATEID,
+                KEY_PICTURE_URI, PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
+                KEY_STATUS, TRANSFER_AMOUNT(VIEW_EXTENDED), KEY_TEMPLATEID,
                 KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY, KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON,
                 CHECK_SEALED_WITH_ALIAS(VIEW_EXTENDED, TABLE_TRANSACTIONS),
                 getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE, KEY_ACCOUNT_LABEL, KEY_ACCOUNT_TYPE)

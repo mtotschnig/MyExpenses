@@ -774,11 +774,11 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = PaymentMethod.PROJECTION(getContext());
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(getContext()) + " COLLATE LOCALIZED";
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(getContext(), KEY_LABEL) + " COLLATE LOCALIZED";
         }
         break;
       case MAPPED_METHODS:
-        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
+        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext(), KEY_LABEL);
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
@@ -792,7 +792,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
-        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
+        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext(), KEY_LABEL);
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);

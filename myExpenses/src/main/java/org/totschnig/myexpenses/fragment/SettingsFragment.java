@@ -620,7 +620,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
   public void rebuildDbConstants() {
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
-    Transaction.buildProjection();
+    Transaction.buildProjection(requireContext());
   }
 
   private void updateAllWidgets() {

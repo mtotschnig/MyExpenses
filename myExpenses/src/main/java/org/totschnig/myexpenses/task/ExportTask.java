@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.task;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -7,7 +8,9 @@ import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.export.Exporter;
+import org.totschnig.myexpenses.export.AbstractExporter;
+import org.totschnig.myexpenses.export.CsvExporter;
+import org.totschnig.myexpenses.export.QifExporter;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ExportFormat;
@@ -20,8 +23,10 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -161,17 +166,38 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
       if (account == null) continue;
       publishProgress(account.getLabel() + " ...");
       try {
+        boolean append = mergeP && i > 0;
         String fileNameForAccount = oneFile ? fileName :
             String.format(("%s-%s"), Utils.escapeForFileName(account.getLabel()),
                 simpleDateFormat.format(new Date()));
-        Result<Uri> result = new Exporter(account, filter, destDir, fileNameForAccount, format,
-            notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter, mergeP && i > 0, mergeP).export();
-        publishProgress("... " + result.print(application));
+        DocumentFile outputFile = AppDirHelper.buildFile(
+            destDir,
+            fileNameForAccount,
+            format.getMimeType(),
+            format.getMimeType().split("/")[1],
+            append);
+        final Context context = taskExecutionFragment.requireContext();
+        if (outputFile == null) {
+          throw new IOException(context.getString(
+              R.string.io_error_unable_to_create_file,
+              fileName, FileUtils.getPath(MyApplication.getInstance(), destDir.getUri())));
+        }
+        OutputStream outputStream = context.getContentResolver().openOutputStream(outputFile.getUri(), append ? "wa" : "w");
+        if (outputStream == null) {
+          throw new IOException("openOutputStream returned null");
+        }
+        AbstractExporter exporter = format == ExportFormat.CSV ?
+            new CsvExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding, !append, delimiter, mergeP) :
+            new QifExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding);
+        Result result = exporter.export(context, outputStream);
         if (result.isSuccess()) {
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
-            addResult(result.getExtra());
+            addResult(outputFile.getUri());
           }
           successfullyExported.add(account);
+          publishProgress("..." + context.getString(R.string.export_sdcard_success, FileUtils.getPath(context, outputFile.getUri())));
+        } else {
+          publishProgress("... " + result.print(application));
         }
       } catch (IOException e) {
         publishProgress("... " + application.getString(

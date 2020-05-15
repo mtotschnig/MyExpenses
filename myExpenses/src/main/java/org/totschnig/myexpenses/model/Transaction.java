@@ -19,6 +19,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -186,11 +187,7 @@ public class Transaction extends AbstractTransaction {
   private int status = 0;
   public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTON_EXTENDED_HOME;
 
-  static {
-    buildProjection();
-  }
-
-  public static void buildProjection() {
+  public static void buildProjection(Context context) {
     PROJECTION_BASE = new String[]{
         KEY_ROWID,
         KEY_DATE,
@@ -204,7 +201,7 @@ public class Transaction extends AbstractTransaction {
         KEY_TRANSFER_PEER,
         KEY_TRANSFER_ACCOUNT,
         KEY_METHODID,
-        KEY_METHOD_LABEL,
+        PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
         KEY_PICTURE_URI,

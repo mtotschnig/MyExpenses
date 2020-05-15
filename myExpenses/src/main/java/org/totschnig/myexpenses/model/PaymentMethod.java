@@ -59,7 +59,7 @@ public class PaymentMethod extends Model {
     return new String[]{
         KEY_ROWID,
         preDefinedName() + " AS " + KEY_PREDEFINED_METHOD_NAME,
-        localizedLabelSqlColumn(ctx) + " AS " + KEY_LABEL,
+        localizedLabelSqlColumn(ctx, KEY_LABEL) + " AS " + KEY_LABEL,
         KEY_TYPE,
         KEY_IS_NUMBERED,
         "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
@@ -93,14 +93,14 @@ public class PaymentMethod extends Model {
     }
   }
 
-  public static String localizedLabelSqlColumn(Context ctx) {
+  public static String localizedLabelSqlColumn(Context ctx, String keyLabel) {
     StringBuilder sb = new StringBuilder();
-    sb.append("CASE " + KEY_LABEL);
+    sb.append("CASE ").append(keyLabel);
     for (PreDefined method : PreDefined.values()) {
       sb.append(" WHEN '").append(method.name()).append("' THEN ");
       DatabaseUtils.appendEscapedSQLString(sb, ctx.getString(method.resId));
     }
-    sb.append(" ELSE " + KEY_LABEL + " END");
+    sb.append(" ELSE ").append(keyLabel).append(" END");
     return sb.toString();
   }
 
