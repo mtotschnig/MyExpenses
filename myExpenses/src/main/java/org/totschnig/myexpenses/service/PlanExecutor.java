@@ -267,6 +267,4 @@ public class PlanExecutor extends JobIntentService {
   private void log(String message, Object... args) {
     Timber.tag(TAG).i(message, args);
   }
-
-
 }

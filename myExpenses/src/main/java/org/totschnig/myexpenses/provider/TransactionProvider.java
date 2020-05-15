@@ -77,6 +77,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 public class TransactionProvider extends BaseTransactionProvider {
 
   private TransactionDatabase mOpenHelper;
+  public static final String TAG = "TransactionProvider";
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -286,7 +287,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     Cursor c;
 
-    Timber.d("Query for URL: %s", uri);
+    log("Query for URL: %s", uri);
     String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
@@ -680,7 +681,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               subQueries,
               grouping + "," + sortOrder,
               null);
-          Timber.d("Query : %s", sql);
+          log("Query : %s", sql);
           c = db.rawQuery(sql, null);
 
           c.setNotificationUri(getContext().getContentResolver(), uri);
@@ -944,8 +945,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     if (BuildConfig.DEBUG) {
       String qs = qb.buildQuery(projection, selection, groupBy, null, sortOrder, limit);
-      Timber.d("Query : %s", qs);
-      Timber.d("SelectionArgs : %s", Arrays.toString(selectionArgs));
+      log("Query : %s", qs);
+      log("SelectionArgs : %s", Arrays.toString(selectionArgs));
     }
     //long startTime = System.nanoTime();
     c = qb.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
@@ -972,7 +973,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty(true);
     if (values != null && BuildConfig.DEBUG) {
-      Timber.d("INSERT Uri: %s, values: %s", uri, values);
+      log("INSERT Uri: %s, values: %s", uri, values);
     }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id;
@@ -1114,7 +1115,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty(true);
-    Timber.d("Delete for URL: %s", uri);
+    log("Delete for URL: %s", uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
     String segment;
@@ -1280,7 +1281,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     Cursor c;
     if (values != null && BuildConfig.DEBUG) {
-      Timber.d("UPDATE Uri: %s, values: %s", uri, values);
+      log("UPDATE Uri: %s, values: %s", uri, values);
     }
     switch (uriMatch) {
       case TRANSACTIONS:
@@ -1648,7 +1649,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   private void notifyChange(Uri uri, boolean syncToNetwork) {
     if (!bulkInProgress) {
-      Timber.i("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
+      log("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
       getContext().getContentResolver().notifyChange(uri, null,
           syncToNetwork && prefHandler.getBoolean(PrefKey.SYNC_CHANGES_IMMEDIATELY, true));
     }
@@ -1828,7 +1829,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
         if (!sharedPrefFile.exists()) {
           sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
-          Timber.d(sharedPrefFile.getPath());
+          log(sharedPrefFile.getPath());
           if (!sharedPrefFile.exists()) {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
@@ -1908,5 +1909,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     System.arraycopy(baseProjection, 0, projection, 0, baseLength);
     projection[baseLength] = CHECK_SEALED_WITH_ALIAS(baseTable, TABLE_TEMPLATES);
     return projection;
+  }
+
+  private void log(String message, Object... args) {
+    Timber.tag(TAG).i(message, args);
   }
 }

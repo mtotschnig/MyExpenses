@@ -228,6 +228,7 @@ public class MyApplication extends MultiDexApplication implements
       Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
+      Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
     }
     crashHandler.setupLogging(this);
   }
