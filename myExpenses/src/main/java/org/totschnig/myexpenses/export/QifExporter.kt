@@ -20,7 +20,7 @@ class QifExporter(account: Account, filter: WhereFilter?, notYetExportedP: Boole
             .append(account.type.toQifName())
             .append("\n").toString()
 
-    override fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String) = StringBuilderWrapper().apply {
+    override fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String) = StringBuilderWrapper().apply {
         append("D")
                 .append(dateStr)
                 .append("\nT")

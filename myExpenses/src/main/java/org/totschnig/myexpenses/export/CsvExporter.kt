@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
@@ -33,7 +32,7 @@ class CsvExporter(account: Account, filter: WhereFilter?,
     override val format = ExportFormat.CSV
     override fun header(context: Context) = if (withHeader) {
         val columns = intArrayOf(R.string.split_transaction, R.string.date, R.string.payer_or_payee, R.string.income, R.string.expense,
-                R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture)
+                R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture, R.string.tags)
         StringBuilderWrapper().apply {
             if (withAccountColumn) {
                 appendQ(context.getString(R.string.account)).append(delimiter)
@@ -45,7 +44,7 @@ class CsvExporter(account: Account, filter: WhereFilter?,
         }.toString()
     } else null
 
-    override fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String) =
+    override fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String) =
             StringBuilderWrapper().apply {
                 if (withAccountColumn) {
                     appendQ(account.label).append(delimiter)
@@ -75,6 +74,8 @@ class CsvExporter(account: Account, filter: WhereFilter?,
                         .appendQ(referenceNumber)
                         .append(delimiter)
                         .appendQ(pictureFileName)
+                        .append(delimiter)
+                        .appendQ(tagList)
             }.toString()
 
     override fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String) =
@@ -106,6 +107,8 @@ class CsvExporter(account: Account, filter: WhereFilter?,
                         .appendQ("")
                         .append(delimiter)
                         .appendQ(pictureFileName)
+                        .append(delimiter)
+                        .appendQ("")
             }.toString()
 
     }

@@ -14,6 +14,7 @@
  */
 package org.totschnig.myexpenses.export
 
+import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -37,7 +38,9 @@ import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Result
 import java.io.BufferedReader
 import java.io.File
@@ -84,7 +87,8 @@ class ExportTest {
         get() = ApplicationProvider.getApplicationContext()
 
     private fun insertData1(): Account {
-        var op: Transaction?
+        val tag1Id = org.totschnig.myexpenses.model.write("Tag One")
+        val tag2Id = org.totschnig.myexpenses.model.write("Tag Two")
         val account1 = Account("Account 1", openingBalance, "Account 1")
         account1.type = AccountType.BANK
         account1.save()
@@ -92,16 +96,17 @@ class ExportTest {
         account2.save()
         cat1Id = Category.write(0, "Main", null)
         cat2Id = Category.write(0, "Sub", cat1Id)
-        op = Transaction.getNewInstance(account1.id)
-        if (op == null) {
-            throw IllegalStateException()
-        }
+        val op = Transaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         op.amount = Money(account1.currencyUnit, -expense1)
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.setDate(Date(baseSinceEpoch))
         op.save()
+        ArrayList<ContentProviderOperation>().apply {
+            saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, this, true)
+            context.contentResolver.applyBatch(TransactionProvider.AUTHORITY, this)
+        }
         op.amount = (Money(account1.currencyUnit, -expense2))
         op.catId = cat1Id
         op.payee = "N.N."
@@ -123,18 +128,16 @@ class ExportTest {
         op.comment = "Note for myself with \"quote\""
         op.setDate(Date(baseSinceEpoch + 3000))
         op.saveAsNew()
-        op = Transfer.getNewInstance(account1.id, account2.id)
-        if (op == null) {
-            throw IllegalStateException()
-        }
-        op.setAmount(Money(account1.currencyUnit, transferP))
-        op.crStatus = CrStatus.RECONCILED
-        op.setDate(Date(baseSinceEpoch + 4000))
-        op.save()
-        op.crStatus = CrStatus.UNRECONCILED
-        op.setAmount(Money(account1.currencyUnit, -transferN))
-        op.setDate(Date(baseSinceEpoch + 5000))
-        op.saveAsNew()
+        val transfer = Transfer.getNewInstance(account1.id, account2.id)
+                ?: throw IllegalStateException()
+        transfer.setAmount(Money(account1.currencyUnit, transferP))
+        transfer.crStatus = CrStatus.RECONCILED
+        transfer.setDate(Date(baseSinceEpoch + 4000))
+        transfer.save()
+        transfer.crStatus = CrStatus.UNRECONCILED
+        transfer.setAmount(Money(account1.currencyUnit, -transferN))
+        transfer.setDate(Date(baseSinceEpoch + 5000))
+        transfer.saveAsNew()
         val split = SplitTransaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         split.amount = Money(account1.currencyUnit, split1)
         split.setDate(Date(baseSinceEpoch + 6000))
@@ -259,18 +262,18 @@ class ExportTest {
         val linesCSV = arrayOf(
                 csvHeader(';', false),
                 "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
-                        + "\";\"*\";\"1\";\"\"",
+                        + "\";\"*\";\"1\";\"\";\"Tag One, Tag Two\"",
                 "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
-                        + "\";\"\";\"2\";\"\"",
-                "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\"",
-                "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\"",
+                        + "\";\"\";\"2\";\"\";\"\"",
+                "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\";\"\"",
+                "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
                 "\"\";\"" + date + "\";\"\";\"0.50\";\"0\";\"" + context.getString(R.string.transfer)
-                        + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\"",
+                        + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\";\"\"",
                 "\"\";\"" + date + "\";\"\";\"0\";\"0.60\";\"" + context.getString(R.string.transfer)
-                        + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
-                "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-                "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-                "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\"",
+                        + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\"",
+                "\"*\";\"$date\";\"\";\"0.70\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+                "\"-\";\"$date\";\"\";\"0.40\";\"0\";\"Main\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
+                "\"-\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\";\"\"",
                 ""
         )
         try {
@@ -287,18 +290,18 @@ class ExportTest {
         val linesCSV = arrayOf(
                 csvHeader(',', false),
                 "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
-                        + "\",\"*\",\"1\",\"\"",
+                        + "\",\"*\",\"1\",\"\",\"Tag One, Tag Two\"",
                 "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
-                        + "\",\"\",\"2\",\"\"",
-                "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"picture.png\"",
-                "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\"",
+                        + "\",\"\",\"2\",\"\",\"\"",
+                "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"picture.png\",\"\"",
+                "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
                 "\"\",\"" + date + "\",\"\",\"0,50\",\"0\",\"" + context.getString(R.string.transfer)
-                        + "\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\"",
+                        + "\",\"[Account 2]\",\"\",\"\",\"X\",\"\",\"\",\"\"",
                 "\"\",\"" + date + "\",\"\",\"0\",\"0,60\",\"" + context.getString(R.string.transfer)
-                        + "\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\"",
-                "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-                "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\"",
-                "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"\"",
+                        + "\",\"[Account 2]\",\"\",\"\",\"\",\"\",\"\",\"\"",
+                "\"*\",\"$date\",\"\",\"0,70\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"",
+                "\"-\",\"$date\",\"\",\"0,40\",\"0\",\"Main\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"",
+                "\"-\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"\",\"\"",
                 ""
         )
         try {
@@ -315,25 +318,17 @@ class ExportTest {
         val linesCSV = arrayOf(
                 csvHeader(';', false),
                 "\"\";\"" + date + "\";\"\";\"0\";\"1.00\";\"\";\"\";\"Expense inserted after first export\";\""
-                        + context.getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\"",
-                "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\"",
+                        + context.getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\";\"\"",
+                "\"\";\"$date\";\"N.N.\";\"1.00\";\"0\";\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\";\"\"",
                 ""
         )
-        try {
-            val account = insertData1()
-            Assert.assertTrue(exportAll(account, ExportFormat.CSV, notYetExportedP = false, append = false, withAccountColumn = false).isSuccess)
-            account.markAsExported(null)
-            outFile.delete()
-            insertData2(account)
-            Assert.assertTrue(exportAll(account, ExportFormat.CSV, notYetExportedP = true, append = false, withAccountColumn = false).isSuccess)
-            compare(linesCSV)
-        } catch (e: IOException) {
-            Assert.fail("Could not export expenses. Error: " + e.message)
-        } catch (e: OperationApplicationException) {
-            Assert.fail("Could not export expenses. Error: " + e.message)
-        } catch (e: RemoteException) {
-            Assert.fail("Could not export expenses. Error: " + e.message)
-        }
+        val account = insertData1()
+        Assert.assertTrue(exportAll(account, ExportFormat.CSV, notYetExportedP = false, append = false, withAccountColumn = false).isSuccess)
+        account.markAsExported(null)
+        outFile.delete()
+        insertData2(account)
+        Assert.assertTrue(exportAll(account, ExportFormat.CSV, notYetExportedP = true, append = false, withAccountColumn = false).isSuccess)
+        compare(linesCSV)
     }
 
     @Test
@@ -343,9 +338,9 @@ class ExportTest {
         val linesCSV = arrayOf(
                 csvHeader(';', true),
                 "\"" + account1.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
-                        + "\";\"*\";\"1\";\"\"",
+                        + "\";\"*\";\"1\";\"\";\"\"",
                 "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
-                        + "\";\"*\";\"1\";\"\"",
+                        + "\";\"*\";\"1\";\"\";\"\"",
                 ""
         )
         Assert.assertTrue(exportAll(account1, ExportFormat.CSV, notYetExportedP = false, append = false, withAccountColumn = true).isSuccess)
@@ -410,7 +405,8 @@ class ExportTest {
                 R.string.method,
                 R.string.status,
                 R.string.reference_number,
-                R.string.picture)
+                R.string.picture,
+                R.string.tags)
         if (withAccountColumn) {
             sb.append('"').append(context.getString(R.string.account)).append('"').append(separator)
         }

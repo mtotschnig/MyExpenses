@@ -2,9 +2,9 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Category
 import org.totschnig.myexpenses.model.CrStatus
@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.io.FileUtils
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStream
@@ -43,7 +42,7 @@ abstract class AbstractExporter
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
     abstract val format: ExportFormat
     abstract fun header(context: Context): String?
-    abstract fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String): String
+    abstract fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String): String
     abstract fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String): String
 
     @Throws(IOException::class)
@@ -116,8 +115,9 @@ abstract class AbstractExporter
                             val referenceNumber = DbUtils.getString(cursor, DatabaseConstants.KEY_REFERENCE_NUMBER)
                             val methodLabel = cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_METHOD_LABEL))
                             val pictureFileName = StringUtils.substringAfterLast(DbUtils.getString(cursor, DatabaseConstants.KEY_PICTURE_URI), "/")
+                            val tagList: String = DbUtils.getString(cursor, DatabaseConstants.KEY_TAGLIST)
                             out.write(line(isSplit, dateStr, payee, bdAmount, labelMain, labelSub, fullLabel, comment,
-                                    methodLabel, status, referenceNumber, pictureFileName))
+                                    methodLabel, status, referenceNumber, pictureFileName, tagList))
                             out.write("\n")
                             splits?.use {
                                 while (splits.position < splits.count) {
