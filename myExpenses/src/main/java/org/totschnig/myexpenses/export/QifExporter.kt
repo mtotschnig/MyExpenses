@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.Context
-import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
@@ -9,11 +8,9 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
 import java.math.BigDecimal
 
-class QifExporter(account: Account, filter: WhereFilter?, destDir: DocumentFile, fileName: String,
-                  notYetExportedP: Boolean, dateFormat: String,
-                  decimalSeparator: Char, encoding: String, append: Boolean) :
-        AbstractExporter(account, filter, destDir, fileName, notYetExportedP, dateFormat,
-                decimalSeparator, encoding, append) {
+class QifExporter(account: Account, filter: WhereFilter?, notYetExportedP: Boolean, dateFormat: String,
+                  decimalSeparator: Char, encoding: String) :
+        AbstractExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding) {
     override val format = ExportFormat.QIF
     override fun header(context: Context) = StringBuilderWrapper().append("!Account\nN")
             .append(account.label)

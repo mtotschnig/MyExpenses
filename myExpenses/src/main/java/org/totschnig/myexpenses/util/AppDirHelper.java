@@ -81,6 +81,7 @@ public class AppDirHelper {
     return buildFile(parentDir, prefix + "-" + now, mimeType, addExtension, false);
   }
 
+  @Nullable
   public static DocumentFile buildFile(DocumentFile parentDir, String base,
                                        String mimeType, String addExtension, boolean allowExisting) {
     int postfix = 0;

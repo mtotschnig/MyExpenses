@@ -24,14 +24,14 @@ import java.math.BigDecimal
  * @param append          append to file
  * @param withAccountColumn put account in column
  */
-class CsvExporter(account: Account, filter: WhereFilter?, destDir: DocumentFile, fileName: String,
+class CsvExporter(account: Account, filter: WhereFilter?,
                   notYetExportedP: Boolean, dateFormat: String,
-                  decimalSeparator: Char, encoding: String, append: Boolean, val delimiter: Char,
+                  decimalSeparator: Char, encoding: String, val withHeader: Boolean, val delimiter: Char,
                   val withAccountColumn: Boolean) :
-        AbstractExporter(account, filter, destDir, fileName, notYetExportedP, dateFormat,
-                decimalSeparator, encoding, append) {
+        AbstractExporter(account, filter, notYetExportedP, dateFormat,
+                decimalSeparator, encoding) {
     override val format = ExportFormat.CSV
-    override fun header(context: Context) = if (!append) {
+    override fun header(context: Context) = if (withHeader) {
         val columns = intArrayOf(R.string.split_transaction, R.string.date, R.string.payer_or_payee, R.string.income, R.string.expense,
                 R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture)
         StringBuilderWrapper().apply {

@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.export
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
@@ -16,13 +15,13 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.FileUtils
 import timber.log.Timber
 import java.io.IOException
+import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -32,18 +31,15 @@ abstract class AbstractExporter
 /**
  * @param account          Account to print
  * @param filter           only transactions matched by filter will be considered
- * @param destDir          destination directory
- * @param fileName         Filename for exported file
  * @param notYetExportedP  if true only transactions not marked as exported will be handled
  * @param dateFormat       format that can be parsed by SimpleDateFormat class
  * @param decimalSeparator , or .
  * @param encoding         the string describing the desired character encoding.
  * @param delimiter   , or ; or \t
- * @param append          append to file
  * @param withAccountColumn put account in column
- */(val account: Account, private val filter: WhereFilter?, private val destDir: DocumentFile, private val fileName: String,
-    private val notYetExportedP: Boolean, private val dateFormat: String,
-    private val decimalSeparator: Char, private val encoding: String, val append: Boolean) {
+ */(val account: Account, private val filter: WhereFilter?, private val notYetExportedP: Boolean,
+    private val dateFormat: String, private val decimalSeparator: Char,
+    private val encoding: String) {
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
     abstract val format: ExportFormat
     abstract fun header(context: Context): String?
@@ -51,7 +47,7 @@ abstract class AbstractExporter
     abstract fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String): String
 
     @Throws(IOException::class)
-    fun export(context: Context): Result<Uri> {
+    fun export(context: Context, outputStream: OutputStream): Result<Unit> {
         Timber.i("now starting export")
         //first we check if there are any exportable transactions
         var selection = DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " is null"
@@ -61,22 +57,15 @@ abstract class AbstractExporter
             selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
             selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
-        return Model.cr().query(
+        return context.contentResolver.query(
                 Transaction.EXTENDED_URI,
                 null, selection, selectionArgs, DatabaseConstants.KEY_DATE)?.use { cursor ->
 
             if (cursor.count == 0) {
                 Result.ofFailure(R.string.no_exportable_expenses)
             } else {
-                AppDirHelper.buildFile(
-                        destDir,
-                        fileName,
-                        format.mimeType,
-                        format.mimeType.split("/").toTypedArray()[1],
-                        append)?.let { outputFile ->
-                    Model.cr().openOutputStream(outputFile.uri, if (append) "wa" else "w")?.let {
-                        OutputStreamWriter(it, encoding)
-                    }?.let { out ->
+                outputStream.use { outputStream ->
+                    OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
                         val formatter = SimpleDateFormat(dateFormat, Locale.US)
                         header(context)?.let { out.write(it) }
@@ -161,12 +150,9 @@ abstract class AbstractExporter
                             recordDelimiter()?.let { out.write(it) }
                             cursor.moveToNext()
                         }
-                        out.close()
-                        Result.ofSuccess(R.string.export_sdcard_success, outputFile.uri, FileUtils.getPath(context, outputFile.uri))
+                        Result.SUCCESS
                     }
-                } ?: Result.ofFailure(
-                        R.string.io_error_unable_to_create_file,
-                        fileName, FileUtils.getPath(context, destDir.uri))
+                }
             }
         } ?: Result.ofFailure("Cursor is null")
     }
