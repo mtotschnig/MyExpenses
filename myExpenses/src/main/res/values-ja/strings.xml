@@ -363,6 +363,7 @@
   <string name="save_transaction_template_deleted">テンプレートが削除されました。</string>
   <string name="select">選択</string>
   <string name="select_category">分類の選択</string>
+  <string name="select_payee">受取人/支払人の選択</string>
   <string name="share_scheme_not_supported">スキーム %1$s はサポートされていません</string>
   <string name="share_sending">エクスポートファイルを送信</string>
   <string name="split_parts_heading">分割パート</string>
@@ -453,6 +454,7 @@
   <string name="search_status">ステータスの検索</string>
   <string name="search_payee">受取人/支払人の検索</string>
   <string name="search_method">方法の検索</string>
+  <string name="search_tag">タグの検索</string>
   <string name="and">かつ</string>
   <string name="between_and">%1$s から %2$s の間</string>
   <string name="before">%s 以降</string>
@@ -835,6 +837,7 @@
   <string name="budget_filter_all_parties">すべての取引先</string>
   <string name="budget_filter_all_methods">すべての方法</string>
   <string name="budget_filter_all_states">すべての状態</string>
+  <string name="budget_filter_all_tags">すべてのタグ</string>
   <string name="budget_form_label_filter">フィルター</string>
   <string name="dialog_title_warning_delete_budget">予算を削除しますか?</string>
   <string name="warning_delete_budget">予算 \"%1$s\" が削除されます。</string>
@@ -862,6 +865,23 @@
   <string name="pref_clone_with_current_date_summary_on">複製された取引は現在の日付になります</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
+  <string name="pref_protection_screenshot_information">デバイス保護を有効にすると、スクリーンショットのキャプチャが無効になります。</string>
+  <string name="tags_create_or_select">タグの作成または選択</string>
+  <string name="content_description_tags_confirm">確認</string>
+  <string name="tags">タグ</string>
+  <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>
+  <string name="dialog_title_warning_delete_tag">タグを削除しますか?</string>
+  <string name="tag_already_defined">タグはすでに定義されています。</string>
+  <string name="menu_edit_tag">タグを編集</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">タグ</string>
   <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">選択したすべての取引が %s にタグ付けされます。</string>
+  <string name="dialog_multi_tag_clear">選択されたすべての取引から、タグがすべて削除されました。</string>
+  <plurals name="warning_delete_tag">
+    <item quantity="other">タグ %1$s は %2$d 取引に配置されています。 削除してもよろしいですか?</item>
+  </plurals>
+  <string name="dialog_multi_tag_append">既存のタグに新しいタグを追加</string>
+  <string name="dialog_multi_tag_replace">既存のタグを新しいタグで置き換え</string>
+  <string name="new_tag_hint">新しいタグを入力</string>
 </resources>

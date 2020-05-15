@@ -26,7 +26,9 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Esta pantalla muestra las formas de pago predefinidas (cheque, tarjeta de crédito, depósito, tarjeta de débito) y le permitirá definir otras nuevas. Utilice el botón de acción flotante para abrir el formulario para la creación de un nuevo método.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_manage_info">Esta pantalla muestra las partes que se utiliza para el autocompletado del campo ordenante/acreedor.</string>
+  <string name="help_ManageParties_manage_info">Esta pantalla muestra los grupos que se utilizan para el autocompletado del campo ordenante/acreedor.</string>
+  <string name="help_ManageParties_select_mapping_info">Seleccione un grupo pulsando sobre él.</string>
+  <string name="help_ManageParties_select_filter_info">Pulse sobre un grupo para aplicar filtros a la lista de transacciones. Una pulsación larga permitirá seleccionar varios grupos.</string>
   <string name="help_ManageParties_floating_action_button">Utilice el botón de acción flotante para añadir una nueva entrada.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Vista en calendario</string>

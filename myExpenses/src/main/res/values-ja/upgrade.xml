@@ -15,6 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_311">
+        <item>取引先 (受取人/支払人) のリストが検索できます</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>取引が複数のタグに配置できます</item>
+    </string-array>
     <string-array name="whats_new_308">
         <item>複数の勘定を1つのファイルにエクスポートできるようになりました</item>
         <item>勘定のメタデータが同期されるようになりました</item>

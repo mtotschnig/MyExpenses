@@ -27,6 +27,8 @@
   <string name="help_ManageMethods_info">この画面では、あらかじめ定義された支払方法 (小切手/手形、クレジットカード、預金、口座振替) を一覧表示し、新しいものを定義することができます。フローティングアクションボタンを使用すると、新しい方法を作成するためのフォームを開きます。</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">この画面は、支払人/受取人フィールドのオートコンプリート用に使用される取引先/支払先が一覧表示されます。</string>
+  <string name="help_ManageParties_select_mapping_info">取引先をタップして選択してください。</string>
+  <string name="help_ManageParties_select_filter_info">取引先をタップして、取引の一覧をフィルタリングします。 複数の取引先を選択するには長押しします。</string>
   <string name="help_ManageParties_floating_action_button">フローティングアクションボタンを使用して、新しいエントリを追加します。</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">計画カレンダー表示</string>
@@ -177,4 +179,8 @@
   <string name="form_BudgetEdit_type_help_text">予算は、定期的（毎日、毎月、毎週、毎年）または１回限りとして定義されます。 １回限りの予算の場合は、期間の開始と終了を指定します。（フィルター処理されていない）通常の予算をデフォルトとして設定できます：これは、（日、週、月、または年ごとにデータをグループ化するように構成されている場合）取引リストが各期間のこの予算の進行状況を表示します。</string>
   <string name="cab_remap_help_text">選択したすべての取引の特定の属性（勘定、分類、支払元/支払先、または支払方法）を変更する場合は、このサブメニューのコマンドを使用します。</string>
   <!--Tags-->
+  <string name="form_tags_help_text">+ のアイコンを使用すると、既存のタグを選択したり、新しいタグを作成したりできます。 各タグの x アイコンを使用すると、取引とタグの間の配置を削除できます。</string>
+  <string name="help_ManageTags_select_filter_info">タグをタップすると、タグを選択または選択解除して、取引の一覧をフィルタリングします。 フローティングアクションボタンを使用して、選択を確認します。</string>
+  <string name="help_ManageTags_manage_info">テキストフィールドにタグを入力して、新しいタグを作成します。 各タグの x アイコンで、タグをデータベースから削除します。 タグを長押しすると編集することができます。</string>
+  <string name="help_ManageTags_select_mapping_info">タグをタップして、配置または配置の解除をします。 フローティングアクションボタンを使用して、配置を確認します。</string>
 </resources>

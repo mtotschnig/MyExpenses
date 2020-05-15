@@ -97,6 +97,11 @@
   <string name="dialog_title_balance_account">Balancear %1$s</string>
   <string name="dialog_title_contrib_feature">Recurso premium</string>
   <string name="dialog_title_template_title">Defina o título</string>
+  <plurals name="dialog_title_warning_delete_account">
+    <item quantity="one">Excluir a conta?</item>
+    <item quantity="other">Excluir %1$d contas?</item>
+  </plurals>
+  <string name="dialog_title_warning_delete_category">Excluir a categoria?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
   <string name="expense">Despesa</string>
@@ -210,6 +215,7 @@
   <string name="no_parties">Nenhum parceiro.</string>
   <string name="no_split_parts">Nenhuma divisão.</string>
   <string name="no_templates">Nenhum modelo.</string>
+  <string name="no_accounts">Não há contas.</string>
   <string name="no_title_given">Você não digitou nenhum título.</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">O objeto selecionado está mapeado em uma transação e não pode ser excluído.</item>
@@ -361,6 +367,7 @@
   <string name="save_transaction_template_deleted">O modelo foi excluído</string>
   <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
+  <string name="select_payee">Selecionar pagador/beneficiário</string>
   <string name="share_scheme_not_supported">Não há suporte para o esquema %1$s</string>
   <string name="share_sending">Enviar o arquivo de exportação</string>
   <string name="split_parts_heading">Divisões</string>
@@ -455,6 +462,7 @@
   <string name="search_status">Pesquisar status</string>
   <string name="search_payee">Pesquisar beneficiário/pagador</string>
   <string name="search_method">Pesquisar método</string>
+  <string name="search_tag">Pesquisar pela etiqueta</string>
   <string name="and">e</string>
   <string name="between_and">entre %1$s e %2$s</string>
   <string name="before">antes de %s</string>
@@ -600,6 +608,7 @@
   <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
   <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Atualizar</string>
   <string name="pref_backup_cloud_title">Armazenar no servidor de sincronização</string>
   <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o arquivo de backup também pode ser copiado para um servidor remoto.</string>
   <string name="auto_backup_cloud_create_backend">Crie um servidor de sincronização a partir do tela principal de configurações.</string>
@@ -615,6 +624,7 @@
   <string name="sync_io_error_cannot_connect">Não é possível conectar ao servidor de sincronização.</string>
   <string name="sync_error_will_try_again_later">Tentarei novamente mais tarde.</string>
   <string name="sync_io_exception_reset_account_data">Ocorreu um erro ao reiniciar a conta remota.</string>
+  <string name="sync_success_reset_account_data">Os dados remotos para a conta %s foram excluídos.</string>
   <string name="sync_io_exception_setup_remote_account">Erro ao configurar a conta remota.</string>
   <string name="sync_io_exception_syncing">Erro ao sincronizar as alterações com o servidor.</string>
   <string name="sync_io_exception_unlocking">Ocorreu um erro ao remover o bloqueio do servidor remoto.</string>
@@ -631,6 +641,7 @@
   <string name="onboarding_more_options">Mais opções</string>
   <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Backup</string>
   <string name="onboarding_restore_from_local">Restaurar arquivo de backup local</string>
   <string name="dialog_button_add">Adicionar</string>
   <string name="template_create_error">Erro durante o salvamento do modelo</string>
@@ -730,6 +741,7 @@
   <string name="sort_order">Ordem de classificação</string>
   <string name="navigation_drawer_accounts_title">Gerenciar contas</string>
   <string name="pref_sync_wifi_only_summary">Sincronizar somente via wi-fi</string>
+  <string name="pref_sync_changes_immediately_summary">Escreve as alterações locais no servidor imediatamente</string>
   <string name="wifi_not_connected">O dispositivo não está conectado a uma rede wi-fi. A sincronização foi adiada.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
   <string name="pref_translation_title">Tradução</string>
@@ -767,9 +779,14 @@
   <string name="dialog_title_new_currency">Nova moeda</string>
   <string name="currency_code_already_definded">Esse código de moeda já está definido.</string>
   <string name="currency_still_used">Essa moeda está em uso, não pode ser excluída.</string>
+  <string name="unmapped">Não mapeado</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">Um filtro \'não mapeado\' não pode ser incluído em uma seleção múltipla</string>
+  <string name="pref_security_export_passphrase_title">Senha para backups</string>
+  <string name="pref_security_export_passphrase_summary">Os backups serão criptografados com essa senha</string>
+  <string name="backup_is_encrypted">O arquivo de backup está criptografado. Para descriptografá-lo é necessário fornecer sua senha.</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Fechar</string>
