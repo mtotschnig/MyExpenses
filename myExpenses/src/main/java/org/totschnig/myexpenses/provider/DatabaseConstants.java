@@ -412,7 +412,8 @@ public class DatabaseConstants {
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
       KEY_PARENTID + " IS null";
-  public static final String WHERE_IN_PAST = KEY_DATE + " <= strftime('%s','now')";
+  private static final String START_OF_TOMORROW = "strftime('%s','now', 'localtime', 'start of day', '+1 day')";
+  public static final String WHERE_IN_PAST = KEY_DATE + " <= " + START_OF_TOMORROW;
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
@@ -434,7 +435,7 @@ public class DatabaseConstants {
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;
   public static final String HAS_FUTURE =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
-          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_DATE + " > strftime('%s','now')  LIMIT 1)) AS " + KEY_HAS_FUTURE;
+          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_DATE + " > " + START_OF_TOMORROW + "  LIMIT 1)) AS " + KEY_HAS_FUTURE;
   public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
       + VIEW_COMMITTED
       + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID

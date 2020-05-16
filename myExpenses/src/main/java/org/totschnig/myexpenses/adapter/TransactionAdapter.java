@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -100,6 +102,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   private Context context;
 
+  private long startOfNextDay;
+
   protected TransactionAdapter(Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
                                PrefHandler prefHandler, CurrencyContext currencyContext) {
@@ -142,7 +146,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     ViewHolder viewHolder = (ViewHolder) view.getTag();
     viewHolder.date.setEms(dateEms);
     final long date = cursor.getLong(columnIndexDate);
-    ((FrameLayout) view).setForeground(date * 1000L > System.currentTimeMillis() ? new ColorDrawable(getColorForFutureTransactions()) : null);
+    ((FrameLayout) view).setForeground(date  > startOfNextDay ? new ColorDrawable(getColorForFutureTransactions()) : null);
     viewHolder.date.setText(itemDateFormat != null ?
         Utils.convDateTime(date, itemDateFormat) : null);
     final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
@@ -300,6 +304,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   @Override
   public Cursor swapCursor(Cursor cursor) {
+    startOfNextDay = LocalDate.now().plusDays( 1 ).atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond();
     if (!indexesCalculated) {
       columnIndexDate = cursor.getColumnIndex(KEY_DATE);
       columnIndexCurrency = cursor.getColumnIndex(KEY_CURRENCY);
