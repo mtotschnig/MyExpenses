@@ -412,15 +412,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
               if (localChanges.size() > 0) {
                 lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
-                if (!BuildConfig.DEBUG) {
-                  // on debug build for auditing purposes, we keep changes in the table
-                  provider.delete(TransactionProvider.CHANGES_URI,
-                      KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
-                      new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
-                }
                 accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
                 accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
                 successLocal2Remote = localChanges.size();
+              }
+              if (!BuildConfig.DEBUG) {
+                // on debug build for auditing purposes, we keep changes in the table
+                provider.delete(TransactionProvider.CHANGES_URI,
+                    KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                    new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
               }
             }
             completedWithoutError = true;
@@ -639,7 +639,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
       //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
       //we must take care to not decrease it here
-      provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
+      provider.update(TransactionProvider.ACCOUNTS_URI.buildUpon()
+              .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, "1").build(), currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
           new String[]{String.valueOf(accountId), String.valueOf(nextSequence)});
     }
     if (hasLocalChanges) {

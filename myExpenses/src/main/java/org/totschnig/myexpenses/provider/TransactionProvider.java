@@ -972,9 +972,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty(true);
-    if (values != null && BuildConfig.DEBUG) {
-      log("INSERT Uri: %s, values: %s", uri, values);
-    }
+    log("INSERT Uri: %s, values: %s", uri, values);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id;
     String newUri;
@@ -1280,9 +1278,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int count;
     int uriMatch = URI_MATCHER.match(uri);
     Cursor c;
-    if (values != null && BuildConfig.DEBUG) {
-      log("UPDATE Uri: %s, values: %s", uri, values);
-    }
+    log("UPDATE Uri: %s, values: %s", uri, values);
     switch (uriMatch) {
       case TRANSACTIONS:
         count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
@@ -1707,10 +1703,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_BULK_END: {
         bulkInProgress = false;
         notifyChange(TRANSACTIONS_URI, true);
-        notifyChange(ACCOUNTS_URI, true);
-        notifyChange(CATEGORIES_URI, true);
-        notifyChange(PAYEES_URI, true);
-        notifyChange(METHODS_URI, true);
+        notifyChange(ACCOUNTS_URI, false);
+        notifyChange(CATEGORIES_URI, false);
+        notifyChange(PAYEES_URI, false);
+        notifyChange(METHODS_URI, false);
         break;
       }
       case METHOD_SORT_ACCOUNTS: {
@@ -1723,7 +1719,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               values.put(KEY_SORT_KEY, i);
               db.update(TABLE_ACCOUNTS, values, KEY_ROWID + " = ?", new String[]{String.valueOf(sortedIds[i])});
             }
-            notifyChange(ACCOUNTS_URI, true);
+            notifyChange(ACCOUNTS_URI, false);
           }
         }
         break;

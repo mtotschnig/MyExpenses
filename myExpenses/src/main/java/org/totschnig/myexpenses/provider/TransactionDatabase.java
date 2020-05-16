@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 105;
+  public static final int DATABASE_VERSION = 106;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -609,6 +609,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "old")
           + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
           + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + " AND new." + KEY_STATUS + " = " + " old." + KEY_STATUS //we ignore setting of exported flag
           + " AND new." + KEY_ACCOUNTID + " = old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
           + " AND new." + KEY_TRANSFER_PEER + " IS old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, after second one is added, and we can skip this update here
           + " AND new." + KEY_UUID + " IS NOT NULL "  //during transfer update, uuid is temporarily set to null, we need to skip this change here, otherwise we run into SQLiteConstraintException
@@ -2183,6 +2184,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 105) {
         db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
         db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      }
+      if (oldVersion < 106) {
+        db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
+        db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
