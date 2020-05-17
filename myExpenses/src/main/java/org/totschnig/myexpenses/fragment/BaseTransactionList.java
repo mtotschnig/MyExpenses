@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.CheckSealedHandler;
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -376,6 +377,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   private void setGrouping() {
     mAdapter.refreshDateFormat();
+    mListView.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
     restartGroupingLoader();
   }
 
@@ -1150,11 +1152,21 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     final HeaderViewHolder viewHolder = (HeaderViewHolder) header.getTag();
     if (mListView.isHeaderCollapsed(headerId)) {
       mListView.expand(headerId);
+      persistCollapsedHeaderIds();
       viewHolder.dividerBottom.setVisibility(View.VISIBLE);
     } else {
       mListView.collapse(headerId);
+      persistCollapsedHeaderIds();
       viewHolder.dividerBottom.setVisibility(View.GONE);
     }
+  }
+
+  public void persistCollapsedHeaderIds() {
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(),  mListView.getCollapsedHeaderIds());
+  }
+
+  public String collapsedHeaderIdsPrefKey() {
+    return String.format(Locale.ROOT, "collapsedHeaders_%d_%s", mAccount.getId(), mAccount.getGrouping());
   }
 
   @Override

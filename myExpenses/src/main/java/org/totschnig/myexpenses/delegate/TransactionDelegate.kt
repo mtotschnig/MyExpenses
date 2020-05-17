@@ -216,7 +216,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         //when we have a savedInstance, fields have already been populated
         if (savedInstanceState == null) {
             isProcessingLinkedAmountInputs = true
-            populateFields(transaction!!, prefHandler, withAutoFill)
+            populateFields(transaction!!, withAutoFill)
             isProcessingLinkedAmountInputs = false
             if (!isSplitPart) {
                 setLocalDateTime(transaction)
@@ -284,7 +284,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     /**
      * populates the input fields with a transaction from the database or a new one
      */
-    open fun populateFields(transaction: T, prefHandler: PrefHandler, withAutoFill: Boolean) {
+    open fun populateFields(transaction: T, withAutoFill: Boolean) {
         populateStatusSpinner()
         viewBinding.Comment.setText(transaction.comment)
         if (isMainTemplate) {

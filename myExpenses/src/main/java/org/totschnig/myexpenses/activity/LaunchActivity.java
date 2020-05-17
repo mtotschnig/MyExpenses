@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -55,6 +54,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROFESSIONAL_EXPIRATIO
 import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
 import static org.totschnig.myexpenses.preference.PrefKey.SORT_ORDER_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN;
+import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.enableAutoFill;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
@@ -225,7 +225,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
       }
       if (prev_version < 303) {
         if (getPrefHandler().getBoolean(AUTO_FILL_LEGACY, false)) {
-          PreferenceUtils.enableAutoFill();
+          enableAutoFill(getPrefHandler());
         }
         getPrefHandler().remove(AUTO_FILL_LEGACY);
       }

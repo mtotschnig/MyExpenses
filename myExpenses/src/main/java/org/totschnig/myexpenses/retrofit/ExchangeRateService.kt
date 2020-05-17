@@ -9,6 +9,7 @@ import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
@@ -91,11 +92,11 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
 
     fun configure(prefHandler: @NotNull PrefHandler): ExchangeRateSource {
         source = try {
-            ExchangeRateSource.valueOf(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, ExchangeRateSource.RATESAPI.name))
+            ExchangeRateSource.valueOf(prefHandler.requireString(PrefKey.EXCHANGE_RATE_PROVIDER, ExchangeRateSource.RATESAPI.name))
         } catch (e: IllegalArgumentException) {
             ExchangeRateSource.RATESAPI
         }
-        appId = prefHandler.getString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
+        appId = prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
         return source;
     }
 }

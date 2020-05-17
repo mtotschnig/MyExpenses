@@ -76,8 +76,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
     }
 
-    override fun populateFields(transaction: ITransfer, prefHandler: PrefHandler, withAutoFill: Boolean) {
-        super.populateFields(transaction, prefHandler, withAutoFill)
+    override fun populateFields(transaction: ITransfer, withAutoFill: Boolean) {
+        super.populateFields(transaction, withAutoFill)
         transaction.transferAmount?.let {
             viewBinding.TransferAmount.setAmount(it.amountMajor.abs())
             if (!isTemplate) {

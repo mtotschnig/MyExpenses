@@ -1,12 +1,16 @@
 package org.totschnig.myexpenses.preference;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public interface PrefHandler {
+  @NonNull
   String getKey(PrefKey key);
 
+  @Nullable
   String getString(PrefKey key, String defValue);
 
+  @Nullable
   String getString(String key, String defValue);
 
   void putString(PrefKey key, String value);

@@ -38,7 +38,6 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.app.LoaderManager
@@ -76,7 +75,8 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.PreferenceUtils
+import org.totschnig.myexpenses.preference.disableAutoFill
+import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
@@ -1013,7 +1013,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.AUTO_FILL_COMMAND -> {
                 startAutoFill(args.getLong(KEY_ROWID), true)
-                PreferenceUtils.enableAutoFill()
+                enableAutoFill(prefHandler)
             }
             else -> super.onPositive(args)
         }
@@ -1032,7 +1032,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onNegative(args: Bundle) {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE) == R.id.AUTO_FILL_COMMAND) {
-            PreferenceUtils.disableAutoFill()
+            disableAutoFill(prefHandler)
         }
     }
 

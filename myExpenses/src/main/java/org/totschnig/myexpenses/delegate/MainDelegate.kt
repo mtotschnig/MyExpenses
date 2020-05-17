@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.PreferenceUtils
+import org.totschnig.myexpenses.preference.shouldStartAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
@@ -65,8 +65,8 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
         }
     }
 
-    override fun populateFields(transaction: T, prefHandler: PrefHandler, withAutoFill: Boolean) {
-        super.populateFields(transaction, prefHandler, withAutoFill)
+    override fun populateFields(transaction: T, withAutoFill: Boolean) {
+        super.populateFields(transaction, withAutoFill)
         if (!isSplitPart)
             viewBinding.Payee.setText(transaction.payee)
     }
@@ -95,7 +95,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
                 c.getLong(0).let {
                     if (withAutoFill && shouldAutoFill) {
                         if (prefHandler.getBoolean(PrefKey.AUTO_FILL_HINT_SHOWN, false)) {
-                            if (PreferenceUtils.shouldStartAutoFill()) {
+                            if (shouldStartAutoFill(prefHandler)) {
                                 host.startAutoFill(it, false)
                             }
                         } else {

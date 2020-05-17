@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.model
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
@@ -40,30 +41,30 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
         }
 
         @JvmStatic
-        fun preferredOrderByForBudgets(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
+        fun preferredOrderByForBudgets(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, budgetSort)
 
         @JvmStatic
-        fun preferredOrderByForCategories(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
+        fun preferredOrderByForCategories(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, categorySort)
 
         @JvmStatic
-        fun preferredOrderByForTemplates(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
+        fun preferredOrderByForTemplates(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, templateSort)
 
         @JvmStatic
-        fun preferredOrderByForTemplatesWithPlans(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
+        fun preferredOrderByForTemplatesWithPlans(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, templateWithPlansSort)
 
         @JvmStatic
-        fun preferredOrderByForAccounts(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort) =
+        fun preferredOrderByForAccounts(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, accountSort)
 
         //returns null if the preferred Sort has null toOrderBy, otherwise the preferred Sort (with defaultOrderBy as secondary sort), otherwise the defaultOrderBy
-        private fun preferredOrderByRestricted(prefKey: PrefKey?, prefHandler: PrefHandler, defaultSort: Sort, restrictedSet: Array<Sort>): String? {
+        private fun preferredOrderByRestricted(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort, restrictedSet: Array<Sort>): String? {
             if (!restrictedSet.contains(defaultSort)) throw java.lang.IllegalArgumentException(
                     "%s is not part of %s".format(defaultSort, restrictedSet))
-            val configuredOrDefault = prefHandler.getString(prefKey, defaultSort.name).let { pref ->
+            val configuredOrDefault = prefHandler.requireString(prefKey, defaultSort.name).let { pref ->
                 try {
                     valueOf(pref).takeIf { restrictedSet.contains(it) }
                 } catch (e: IllegalArgumentException) {
