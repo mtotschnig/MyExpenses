@@ -12,6 +12,7 @@ public class PrefHandlerImpl implements PrefHandler {
     this.context = context;
   }
 
+  @NonNull
   @Override
   public String getKey(PrefKey key) {
     return key.resId == 0 ? key.key : context.getString(key.resId);
