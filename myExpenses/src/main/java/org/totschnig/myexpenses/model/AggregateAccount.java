@@ -7,7 +7,10 @@ import android.net.Uri;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -28,14 +31,16 @@ public class AggregateAccount extends Account {
     extract(c);
     if (isHomeAggregate()) {
       try {
+        //TODO refactor
         this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
-            GROUPING_AGGREGATE, "NONE")));
+            GROUPING_AGGREGATE, Grouping.NONE.name())));
       } catch (IllegalArgumentException ignored) {
       }
     }
     try {
+      //TODO refactor
       this.setSortDirection(SortDirection.valueOf(MyApplication.getInstance().getSettings().getString(
-          SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), "DESC")));
+          SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), SortDirection.DESC.name())));
     } catch (IllegalArgumentException ignored) {
     }
   }
@@ -58,28 +63,6 @@ public class AggregateAccount extends Account {
     AggregateAccount aa = new AggregateAccount(c);
     c.close();
     return aa;
-  }
-
-  @Override
-  public void persistGrouping(Grouping value) {
-    if (isHomeAggregate()) {
-      this.setGrouping(value);
-      MyApplication.getInstance().getSettings().edit()
-          .putString(GROUPING_AGGREGATE, value.name())
-          .apply();
-      cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
-    } else {
-      super.persistGrouping(value);
-    }
-  }
-
-  @Override
-  public void persistSortDirection(SortDirection value) {
-    this.setSortDirection(value);
-    MyApplication.getInstance().getSettings().edit()
-        .putString(SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), value.name())
-        .apply();
-    cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
   }
 
   @Override
@@ -137,4 +120,17 @@ public class AggregateAccount extends Account {
       return getCurrencyUnit().code();
     }
   }
+
+  public static void persistGroupingHomeAggregate(@NonNull PrefHandler prefHandler, @NonNull Grouping grouping) {
+    prefHandler.putString(GROUPING_AGGREGATE, grouping.name());
+  }
+
+  public static void persistSortDirectionAggregate(@NonNull PrefHandler prefHandler, @NonNull String currency, @NonNull SortDirection value) {
+    prefHandler.putString(SORT_DIRECTION_PREF_PREFIX + currency, value.name());
+  }
+
+  public static void persistSortDirectionHomeAggregate(@NonNull PrefHandler prefHandler, @NonNull SortDirection value) {
+    prefHandler.putString(SORT_DIRECTION_PREF_PREFIX + AGGREGATE_HOME_CURRENCY_CODE, value.name());
+  }
+
 }

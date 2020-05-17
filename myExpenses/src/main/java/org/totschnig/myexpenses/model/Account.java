@@ -783,20 +783,6 @@ public class Account extends Model {
     return filter;
   }
 
-  public void persistGrouping(Grouping value) {
-    setGrouping(value);
-    cr().update(ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, getId()).buildUpon()
-            .appendPath(value.name()).build(),
-        null, null, null);
-  }
-
-  public void persistSortDirection(SortDirection value) {
-    sortDirection = value;
-    cr().update(ContentUris.withAppendedId(CONTENT_URI, getId()).buildUpon().appendPath("sortDirection")
-            .appendPath(value.name()).build(),
-        null, null, null);
-  }
-
   /**
    * Returns the first account which uses the passed in currency, order is undefined
    *

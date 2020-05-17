@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentResolver
 import androidx.lifecycle.AndroidViewModel
 import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
@@ -11,9 +12,14 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
     @Inject
     lateinit var briteContentResolver: BriteContentResolver
     var disposable: Disposable? = null
+
+    val contentResolver: ContentResolver
+        get() = getApplication<MyApplication>().contentResolver
+
     init {
         (application as MyApplication).appComponent.inject(this)
     }
+
     override fun onCleared() {
         dispose()
     }

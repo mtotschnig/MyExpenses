@@ -664,7 +664,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             AccountGrouping accountGrouping;
             try {
               accountGrouping = AccountGrouping.valueOf(prefHandler.getString(
-                  PrefKey.ACCOUNT_GROUPING, "TYPE"));
+                  PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name()));
             } catch (IllegalArgumentException e) {
               accountGrouping = AccountGrouping.TYPE;
             }

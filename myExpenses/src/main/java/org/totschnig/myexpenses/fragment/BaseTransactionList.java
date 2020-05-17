@@ -1161,11 +1161,11 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
   }
 
-  public void persistCollapsedHeaderIds() {
+  private void persistCollapsedHeaderIds() {
     PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(),  mListView.getCollapsedHeaderIds());
   }
 
-  public String collapsedHeaderIdsPrefKey() {
+  private String collapsedHeaderIdsPrefKey() {
     return String.format(Locale.ROOT, "collapsedHeaders_%d_%s", mAccount.getId(), mAccount.getGrouping());
   }
 

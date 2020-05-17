@@ -81,7 +81,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                                 .withSelectionBackReference(0, 0)
                     }
                     ops.add(newUpdate.build())
-                    if (getApplication<MyApplication>().contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
+                    if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
                         successCount++
                     } else {
                         failureCount++
@@ -100,7 +100,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                 selection += " OR %s %s".format(DatabaseConstants.KEY_PARENTID, WhereFilter.Operation.IN.getOp(transactionIds.size))
                 selectionArgs = arrayOf(*selectionArgs, *selectionArgs)
             }
-            getApplication<MyApplication>().contentResolver.update(TRANSACTIONS_URI,
+            contentResolver.update(TRANSACTIONS_URI,
                     ContentValues().apply { put(column, rowId) },
                     selection,
                     selectionArgs)
@@ -115,7 +115,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                 for (id in transactionIds) {
                     saveTagLinks(tagIds, id, null, ops, replace)
                 }
-                getApplication<MyApplication>().contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+                contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
             }
         }
     }

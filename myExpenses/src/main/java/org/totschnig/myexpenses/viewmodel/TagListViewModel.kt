@@ -44,7 +44,7 @@ class TagListViewModel(application: Application,
     }
 
     fun removeTagAndPersist(tag: Tag): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = getApplication<MyApplication>().contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id), null, null)
+        val result = contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id), null, null)
         val success = result == 1
         if (success) {
             removeTag(tag)
@@ -58,7 +58,7 @@ class TagListViewModel(application: Application,
     }
 
     fun addTagAndPersist(label: String): LiveData<Boolean> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = getApplication<MyApplication>().contentResolver.insert(TransactionProvider.TAGS_URI,
+        val result = contentResolver.insert(TransactionProvider.TAGS_URI,
                 ContentValues().apply { put(KEY_LABEL, label) })
         val success = result?.let {
             tags.value?.add(0, Tag(ContentUris.parseId(it), label, true))
@@ -68,7 +68,7 @@ class TagListViewModel(application: Application,
     }
 
     fun updateTag(tag: Tag, newLabel: String) = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = getApplication<MyApplication>().contentResolver.update(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id),
+        val result = contentResolver.update(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id),
                 ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null)
         val success = result == 1
         if (success) {

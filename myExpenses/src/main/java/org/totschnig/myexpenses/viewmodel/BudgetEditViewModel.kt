@@ -22,7 +22,7 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
         disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null, false)
                 .mapToList { cursor ->
                     val id = cursor.getLong(0)
-                    Account(id, if (id == HOME_AGGREGATE_ID.toLong()) getApplication<MyApplication>().getString(R.string.grand_total) else cursor.getString(1), cursor.getString(2))
+                    Account(id, if (id == HOME_AGGREGATE_ID) getApplication<MyApplication>().getString(R.string.grand_total) else cursor.getString(1), cursor.getString(2))
                 }
                 .subscribe {
                     accounts.postValue(it)
