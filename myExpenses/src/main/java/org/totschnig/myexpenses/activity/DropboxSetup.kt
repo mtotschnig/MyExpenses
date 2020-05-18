@@ -27,7 +27,9 @@ class DropboxSetup : AbstractSyncBackup<DropboxSetupViewModel>() {
         val authToken = Auth.getOAuth2Token()
         if (authToken != null) {
             viewModel.initWithAuthToken(authToken)
-            viewModel.query()
+            if (!loadFinished) {
+                viewModel.query()
+            }
         }
     }
 

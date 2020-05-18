@@ -26,11 +26,16 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
     @State
     var idList: ArrayList<String> = ArrayList()
 
+    @JvmField
+    @State
+    var loadFinished: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
         viewModel = instantiateViewModel()
         viewModel.folderList.observe(this, Observer {
+            loadFinished = true
             if (it.size > 0) {
                 showSelectFolderDialog(it)
             } else {
@@ -69,9 +74,9 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
 
     @SuppressLint("BuildNotImplemented")
     protected fun showSelectFolderDialog(pairs: List<Pair<String, String>>) {
-        idList.clear()
-        idList.addAll(pairs.map { pair -> pair.first })
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_SELECT) == null) {
+            idList.clear()
+            idList.addAll(pairs.map { pair -> pair.first })
             SimpleListDialog.build().choiceMode(SINGLE_CHOICE)
                     .title(R.string.synchronization_select_folder_dialog_title)
                     .items(pairs.map { pair -> pair.second }.toTypedArray(), LongArray(pairs.size) { it.toLong() })
