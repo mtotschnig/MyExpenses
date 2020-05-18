@@ -4,7 +4,7 @@ import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import java.util.*
 
 interface UserLocaleProvider {
-    fun getDefaultLanguage(): String
+    fun getPreferredLanguage(): String
     fun getUserPreferredLocale(): Locale
     var systemLocale: Locale
 

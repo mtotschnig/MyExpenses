@@ -31,8 +31,8 @@ class UiModule {
     @Provides
     @Singleton
     fun provideLanguageManager(localeProvider: UserLocaleProvider): LocaleManager = try {
-        Class.forName("org.totschnig.myexpenses.util.bundle.PlatformLocaleManager")
-                .getConstructor(UserLocaleProvider.javaClass)
+        Class.forName("org.totschnig.myexpenses.util.locale.PlatformLocaleManager")
+                .getConstructor(UserLocaleProvider::class.java)
                 .newInstance(localeProvider) as LocaleManager
     } catch (e: Exception) {
         object : LocaleManager {
