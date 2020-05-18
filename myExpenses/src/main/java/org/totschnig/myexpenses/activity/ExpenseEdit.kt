@@ -350,10 +350,14 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
         }
         viewModel.getMethods().observe(this, Observer { paymentMethods ->
-            delegate.setMethods(paymentMethods)
+            if (::delegate.isInitialized) {
+                delegate.setMethods(paymentMethods)
+            }
         })
         currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
-            delegate.setCurrencies(currencies, currencyContext)
+            if (::delegate.isInitialized) {
+                delegate.setCurrencies(currencies, currencyContext)
+            }
         })
         viewModel.getAccounts().observe(this, Observer { accounts ->
             if (accounts.isEmpty()) {
