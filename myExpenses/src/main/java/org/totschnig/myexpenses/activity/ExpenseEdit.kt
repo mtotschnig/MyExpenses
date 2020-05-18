@@ -235,7 +235,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
         if (savedInstanceState != null) {
             Icepick.restoreInstanceState(this, savedInstanceState)
-            mNewInstance = mRowId == 0L
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler)
             loadData()
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)

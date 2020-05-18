@@ -36,12 +36,14 @@ import java.math.BigDecimal;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import icepick.State;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher {
 
   private static final String KEY_IS_DIRTY = "isDirty";
   protected boolean mIsSaving = false;
   private boolean mIsDirty = false;
+  @State
   protected boolean mNewInstance = true;
   private int primaryColor;
   private int accentColor;
