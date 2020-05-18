@@ -27,9 +27,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.Arrays;
 
+import androidx.annotation.Nullable;
+import timber.log.Timber;
+
 public abstract class IdCriteria extends Criteria {
 
-  protected final String label;
+  private final String label;
 
   IdCriteria(String label, long... ids) {
     this(label, longArrayToStringArray(ids));
@@ -85,14 +88,23 @@ public abstract class IdCriteria extends Criteria {
         escapeSeparator(label) + EXTRA_SEPARATOR + TextUtils.join(EXTRA_SEPARATOR, values);
   }
 
+  @Nullable
   public static <T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {
     String[] extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP);
-    String ids[] = Arrays.asList(extraParts).subList(1, extraParts.length).toArray(new String[extraParts.length - 1]);
+    if (extraParts.length < 2) {
+      Timber.e("Unparsable string extra %s for %s", extraParts, clazz.getName());
+      return null;
+    };
+    String[] ids = Arrays.copyOfRange(extraParts, 1, extraParts.length);
     String label = unescapeSeparator(extraParts[0]);
     try {
       return clazz.getConstructor(String.class, String[].class).newInstance(label, ids);
     } catch (Exception e) {
       throw new RuntimeException("Unable to find constructor for class " + clazz.getName());
     }
+  }
+
+  public String getLabel() {
+    return label;
   }
 }

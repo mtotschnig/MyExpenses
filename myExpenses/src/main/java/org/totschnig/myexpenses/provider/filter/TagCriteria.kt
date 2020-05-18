@@ -36,7 +36,7 @@ class TagCriteria(label: String, vararg ids: String) : IdCriteria(label, *ids) {
             return arrayOfNulls(size)
         }
 
-        fun fromStringExtra(extra: String?): TagCriteria? {
+        fun fromStringExtra(extra: String): TagCriteria? {
             return fromStringExtra(extra, TagCriteria::class.java)
         }
     }

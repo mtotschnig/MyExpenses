@@ -2173,7 +2173,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //repair uuids that got lost by bug
         db.execSQL("update accounts set sealed = -1 where sealed = 1");
         try {
-          //this has faiiled for some users, when it was run in update to version 101, possibly this failure was caused by the faulty sealed_account_transaction_update
+          //this has failed for some users, when it was run in update to version 101, possibly this failure was caused by the faulty sealed_account_transaction_update
           //and then it should succeed now
           db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
         } catch (SQLException e) {
