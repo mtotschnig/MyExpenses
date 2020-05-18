@@ -18,8 +18,6 @@ import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.content.OperationApplicationException
-import android.os.RemoteException
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert
@@ -103,10 +101,7 @@ class ExportTest {
         op.referenceNumber = "1"
         op.setDate(Date(baseSinceEpoch))
         op.save()
-        ArrayList<ContentProviderOperation>().apply {
-            saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, this, true)
-            context.contentResolver.applyBatch(TransactionProvider.AUTHORITY, this)
-        }
+        context.contentResolver.applyBatch(TransactionProvider.AUTHORITY, saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true))
         op.amount = (Money(account1.currencyUnit, -expense2))
         op.catId = cat1Id
         op.payee = "N.N."

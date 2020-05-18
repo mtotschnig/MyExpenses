@@ -738,6 +738,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Uri uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI;
     boolean skipped = false;
     int offset = ops.size();
+    int tagOpsCount = 0;
     @Nullable
     List<Long> tagIds = (change.tags() != null) ? extractTagIds(change.tags(), tagToId) : null;
     switch (change.type()) {
@@ -753,14 +754,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transactionId)})
                 .withValueBackReference(KEY_PARENTID, parentOffset)
                 .build());
-            saveTagLinks(tagIds, transactionId, null, ops, true);
+            ArrayList<ContentProviderOperation> tagOps = saveTagLinks(tagIds, transactionId, null, true);
+            ops.addAll(tagOps);
+            tagOpsCount = tagOps.size();
           } else {
             skipped = true;
             log().i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
           }
         } else {
           ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset));
-          saveTagLinks(tagIds, null, offset, ops, true);
+          ArrayList<ContentProviderOperation> tagOps = saveTagLinks(tagIds, null, offset, true);
+          ops.addAll(tagOps);
+          tagOpsCount = tagOps.size();
         }
         break;
       }
@@ -778,7 +783,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             builder.withValueBackReference(KEY_PARENTID, parentOffset);
           }
           ops.add(builder.build());
-          saveTagLinks(tagIds, transactionId, null, ops, true);
+          ArrayList<ContentProviderOperation> tagOps = saveTagLinks(tagIds, transactionId, null, true);
+          ops.addAll(tagOps);
+          tagOpsCount = tagOps.size();
         }
         break;
       }
@@ -798,7 +805,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
     }
     if (change.isCreateOrUpdate() && change.splitParts() != null && !skipped) {
-      final int newParentOffset = ops.size() - 1;
+      final int newParentOffset = ops.size() - 1 - tagOpsCount;
       List<TransactionChange> splitPartsFiltered = filterDeleted(change.splitParts(),
           findDeletedUuids(Stream.of(change.splitParts())));
       Stream.of(splitPartsFiltered).forEach(splitChange -> {

@@ -12,7 +12,6 @@ import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -113,7 +112,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
             withContext(Dispatchers.IO) {
                 val ops = ArrayList<ContentProviderOperation>()
                 for (id in transactionIds) {
-                    saveTagLinks(tagIds, id, null, ops, replace)
+                    ops.addAll(saveTagLinks(tagIds, id, null, replace))
                 }
                 contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
             }
