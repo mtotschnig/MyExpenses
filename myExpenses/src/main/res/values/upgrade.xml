@@ -15,8 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3111">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_312">
+        <item>Custom date format</item>
+        <item>Tags are exported to CSV</item>
+        <item>Collapsed state of groups in transaction list is memorized</item>
     </string-array>
     <string-array name="whats_new_311">
         <item>The list of parties (payers and payees) is searchable</item>
