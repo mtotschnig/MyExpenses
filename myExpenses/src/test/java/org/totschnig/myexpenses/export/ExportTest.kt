@@ -145,7 +145,8 @@ class ExportTest {
         part.amount = Money(account1.currencyUnit, part2)
         part.catId = cat2Id
         part.saveAsNew()
-        split.save()
+        split.status = DatabaseConstants.STATUS_NONE
+        split.save(true)
         return account1
     }
 
