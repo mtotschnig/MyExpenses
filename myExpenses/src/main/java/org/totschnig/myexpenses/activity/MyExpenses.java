@@ -191,10 +191,14 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private void setHelpVariant() {
-    mAccountsCursor.moveToPosition(mCurrentPosition);
-    String accountType = mAccountsCursor.getString(columnIndexType);
-    setHelpVariant(accountType.equals(AccountType.CASH.name()) ?
-        null : HelpVariant.crStatus);
+    if (mCurrentPosition > -1) {
+      mAccountsCursor.moveToPosition(mCurrentPosition);
+      String accountType = mAccountsCursor.getString(columnIndexType);
+      setHelpVariant(accountType.equals(AccountType.CASH.name()) ?
+          null : HelpVariant.crStatus);
+    } else {
+      setHelpVariant(null);
+    }
   }
 
   @BindView(R.id.left_drawer)
@@ -964,6 +968,8 @@ public class MyExpenses extends LaunchActivity implements
         }
         mCurrentPosition = position;
         moveToPosition(mCurrentPosition);
+      } else {
+        mCurrentPosition = -1;
       }
     }
   }
