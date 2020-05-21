@@ -766,9 +766,9 @@ public class Transaction extends AbstractTransaction {
     if (isSplit()) {
       String idStr = String.valueOf(getId());
       ContentValues statusValues = new ContentValues();
-      String statusUncommited = String.valueOf(STATUS_UNCOMMITTED);
+      String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
       final String partOrPeerSelect = getPartOrPeerSelect();
-      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(partOrPeerSelect, statusUncommited, idStr);
+      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(partOrPeerSelect, statusUncommitted, idStr);
       ops.add(ContentProviderOperation.newDelete(uri).withSelection(
           partOrPeerSelect + "  AND " + KEY_STATUS + " != ?", uncommitedPartOrPeerSelectArgs).build());
       statusValues.put(KEY_STATUS, STATUS_NONE);
@@ -778,7 +778,7 @@ public class Transaction extends AbstractTransaction {
       //prevent altering the state of a parent (e.g. from exported to non-exported)
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
           KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
-          new String[]{statusUncommited, idStr}).build());
+          new String[]{statusUncommitted, idStr}).build());
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
           partOrPeerSelect + "  AND " + KEY_STATUS + " = ?",
           uncommitedPartOrPeerSelectArgs).build());

@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.AmountInput;
@@ -192,7 +193,8 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
   @Test
   public void shouldPopulateWithSplitTransactionAndPrepareForm() {
     Transaction splitTransaction = SplitTransaction.getNewInstance(account1.getId());
-    splitTransaction.save();
+    splitTransaction.setStatus(DatabaseConstants.STATUS_NONE);
+    splitTransaction.save(true);
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, splitTransaction.getId());
     launchAndWait(i);

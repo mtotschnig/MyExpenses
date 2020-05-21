@@ -131,7 +131,8 @@ class SplitEditTest: BaseUiTest() {
 
     private fun prepareSplit() = with(SplitTransaction.getNewInstance(account1.id)) {
         amount = Money(CurrencyUnit.create(Currency.getInstance("EUR")), 10000)
-        save()
+        status = DatabaseConstants.STATUS_NONE
+        save(true)
         val part = Transaction.getNewInstance(account1.id, id)
         part.amount = Money(CurrencyUnit.create(Currency.getInstance("EUR")), 5000)
         part.save()

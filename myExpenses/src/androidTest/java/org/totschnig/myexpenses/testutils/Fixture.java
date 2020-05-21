@@ -40,6 +40,7 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 @SuppressLint("InlinedApi")
 public class Fixture {
@@ -218,6 +219,8 @@ public class Fixture {
     //Transaction 8: Split
     Transaction split = SplitTransaction.getNewInstance(account1.getId());
     split.setAmount(new Money(defaultCurrency, -8967L));
+    split.setStatus(STATUS_UNCOMMITTED);
+    split.save(true);
     split.save(true);
     List<Tag> tagList = Collections.singletonList(new Tag(-1, testContext.getString(R.string.testData_tag_project), false, 0));
     split.saveTags(tagList, MyApplication.getInstance().getContentResolver());
