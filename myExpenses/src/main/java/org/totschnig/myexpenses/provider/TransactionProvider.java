@@ -243,7 +243,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
   private static final int CHANGES = 42;
   private static final int SETTINGS = 43;
-  private static final int TEMPLATES_UNCOMMITED = 44;
+  private static final int TEMPLATES_UNCOMMITTED = 44;
   private static final int ACCOUNT_ID_GROUPING = 45;
   private static final int ACCOUNT_ID_SORTDIRECTION = 46;
   private static final int AUTOFILL = 47;
@@ -828,7 +828,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
         }
         break;
-      case TEMPLATES_UNCOMMITED:
+      case TEMPLATES_UNCOMMITTED:
         qb.setTables(VIEW_TEMPLATES_UNCOMMITTED);
         if (projection == null)
           projection = Template.PROJECTION_BASE;
@@ -979,6 +979,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
       case TRANSACTIONS:
+      case UNCOMMITTED:
         id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
         newUri = TRANSACTIONS_URI + "/" + id;
         break;
@@ -1090,7 +1091,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TEMPLATES_TAGS: {
         db.insertWithOnConflict(TABLE_TEMPLATES_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         //the table does not have primary ids, we return the base uri
-        notifyChange(uri, callerIsNotSyncAdatper(uri));
+        notifyChange(uri, false);
         return TEMPLATES_TAGS_URI;
       }
       default:
@@ -1120,6 +1121,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
       case TRANSACTIONS:
+      case UNCOMMITTED:
         count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
         break;
       case TRANSACTION_ID:
@@ -1765,7 +1767,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
-    URI_MATCHER.addURI(AUTHORITY, "templates/uncommitted", TEMPLATES_UNCOMMITED);
+    URI_MATCHER.addURI(AUTHORITY, "templates/uncommitted", TEMPLATES_UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);

@@ -142,7 +142,6 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  * @author Michael Totschnig
  */
 public class Transaction extends AbstractTransaction {
-  public boolean inEditState = false;
   private String comment = "";
   private String payee = "";
   private String referenceNumber = "";

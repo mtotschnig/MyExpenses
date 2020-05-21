@@ -53,6 +53,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 
 public class SplitTransaction extends Transaction implements ISplit {
   public static final String CSV_INDICATOR = "*";
@@ -95,6 +96,11 @@ public class SplitTransaction extends Transaction implements ISplit {
     return getNewInstance(account, forEdit);
   }
 
+  @Override
+  protected Uri getUriForSave(boolean callerIsSyncAdapter) {
+    return getStatus() == STATUS_UNCOMMITTED ? UNCOMMITTED_URI : super.getUriForSave(callerIsSyncAdapter);
+  }
+
   static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.getCurrencyUnit(), 0L));
     if (forEdit) {
@@ -103,11 +109,6 @@ public class SplitTransaction extends Transaction implements ISplit {
       t.save();
     }
     return t;
-  }
-
-  public void persistForEdit() {
-    super.save();
-    inEditState = true;
   }
 
   @Override
@@ -232,6 +233,6 @@ public class SplitTransaction extends Transaction implements ISplit {
   }
 
   public static void cleanupCanceledEdit(Long id) {
-    cleanupCanceledEdit(id, CONTENT_URI, PART_OR_PEER_SELECT);
+    cleanupCanceledEdit(id, UNCOMMITTED_URI, PART_OR_PEER_SELECT);
   }
 }
