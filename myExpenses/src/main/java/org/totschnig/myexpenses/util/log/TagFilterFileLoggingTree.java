@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
+import androidx.annotation.NonNull;
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -80,10 +81,11 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
   }
 
   @Override
-  protected void log(int priority, String tag, String message, Throwable t) {
+  protected void log(int priority, String tag, @NonNull String message, Throwable t) {
     switch (priority) {
       case Log.VERBOSE:
         logger.trace(message);
+        break;
       case Log.DEBUG:
         logger.debug(message);
         break;
