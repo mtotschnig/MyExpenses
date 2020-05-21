@@ -1,9 +1,6 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,7 +19,6 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.FragmentActivity;
 import butterknife.BindView;
@@ -48,40 +44,6 @@ public class OnboardingUiFragment extends OnboardingFragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
-  }
-
-  @Override
-  protected int getMenuResId() {
-    return R.menu.onboarding_ui;
-  }
-
-  @Override
-  protected void setupMenu() {
-    MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
-    View actionView = menuItem.getActionView();
-    String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
-    ((TextView) actionView).setText(userLocaleProvider.getUserPreferredLocale().getLanguage());
-    actionView.setOnClickListener(v -> {
-      final Context context = getContext();
-      final PopupMenu subMenu;
-      if (context != null) {
-        subMenu = new PopupMenu(context, actionView);
-        String[] entries = SettingsFragment.getLocaleArray(context);
-        for (int i = 0; i < entries.length; i++) {
-          subMenu.getMenu().add(Menu.NONE, i, Menu.NONE, entries[i]);
-        }
-        String[] values = getResources().getStringArray(R.array.pref_ui_language_values);
-        subMenu.setOnMenuItemClickListener(item -> {
-          String newValue = values[item.getItemId()];
-          if (!uiLanguage.equals(newValue)) {
-            PrefKey.UI_LANGUAGE.putString(newValue);
-            recreate();
-          }
-          return true;
-        });
-        subMenu.show();
-      }
-    });
   }
 
   @Override
