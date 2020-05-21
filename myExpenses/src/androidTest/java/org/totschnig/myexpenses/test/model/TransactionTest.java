@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 public class TransactionTest extends ModelTest {
@@ -143,7 +144,7 @@ public class TransactionTest extends ModelTest {
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
     split1.save();
-    op1.setStatus(STATUS_UNCOMMITTED);
+    op1.setStatus(STATUS_NONE);
     op1.save(true);
     assertTrue(split1.getId() > 0);
     Transfer splitRestored = (Transfer) Transaction.getInstanceFromDb(split1.getId());
@@ -177,7 +178,7 @@ public class TransactionTest extends ModelTest {
     split2.setStatus(STATUS_UNCOMMITTED);
     split2.save();
     assertTrue(split2.getId() > 0);
-    op1.setStatus(STATUS_UNCOMMITTED);
+    op1.setStatus(STATUS_NONE);
     op1.save(true);
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.getId());
