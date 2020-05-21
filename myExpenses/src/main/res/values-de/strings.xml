@@ -896,4 +896,5 @@
   <string name="dialog_multi_tag_append">Die neuen Markierungen werden zu den bestehenden hinzugefügt</string>
   <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>
   <string name="new_tag_hint">Neue Markierung eingeben</string>
+  <string name="language_download_requested">Übersetzungen für die Sprache %s werden vom Play Store angefordert</string>
 </resources>

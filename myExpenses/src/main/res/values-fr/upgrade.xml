@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>Format de date personnalisé</item>
+        <item>Les étiquettes sont exportées vers CSV</item>
+        <item>L\'état réduit des groupes dans la liste des opérations est mémorisé</item>
+    </string-array>
     <string-array name="whats_new_311">
         <item>On peut chercher dans la liste des tiers (payeurs et bénéficiaires)</item>
     </string-array>

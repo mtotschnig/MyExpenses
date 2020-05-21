@@ -896,4 +896,5 @@
   <string name="dialog_multi_tag_append">Ajouter les nouvelles étiquettes aux étiquettes existantes</string>
   <string name="dialog_multi_tag_replace">Remplacer les étiquettes existantes par les nouvelles étiquettes</string>
   <string name="new_tag_hint">Entrez une nouvelle étiquette</string>
+  <string name="language_download_requested">Les traductions de la langue %s sont demandées au Play Store</string>
 </resources>

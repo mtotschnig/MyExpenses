@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>Benutzerdefiniertes Datumsformat</item>
+        <item>Markierungen werden nach CSV exportiert</item>
+        <item>Der eingeklappte Status von Gruppen in der Buchungsliste wird gespeichert</item>
+    </string-array>
     <string-array name="whats_new_311">
         <item>Die Liste der Parteien (Zahler und Zahlungsempfänger) kann durchsucht werden</item>
     </string-array>

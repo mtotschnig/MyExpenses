@@ -367,6 +367,7 @@
   <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
   <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
+  <string name="select_payee">Ödeyen/alacaklı seçin</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="split_parts_heading">Bölünmüş alt muameleler</string>
@@ -895,4 +896,5 @@
   <string name="dialog_multi_tag_append">Mevcut etiketlere yeni etiket ekle</string>
   <string name="dialog_multi_tag_replace">Mevcut etiketleri yeni etiketlerle değiştir</string>
   <string name="new_tag_hint">Yeni etiket gir</string>
+  <string name="language_download_requested">%s lisanı için tercümeler Play Store\'dan isteniyor</string>
 </resources>
