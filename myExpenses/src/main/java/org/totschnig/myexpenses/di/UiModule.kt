@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
+import org.totschnig.myexpenses.util.locale.Callback
 import org.totschnig.myexpenses.util.locale.LocaleManager
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Named
@@ -36,7 +37,7 @@ class UiModule {
                 .newInstance(localeProvider) as LocaleManager
     } catch (e: Exception) {
         object : LocaleManager {
-            var callback: (() -> Unit)? = null
+            var callback: Callback? = null
             override fun initApplication(application: Application) {
                 //noop
             }
@@ -46,11 +47,11 @@ class UiModule {
             }
 
             override fun requestLocale(context: Context) {
-                callback?.invoke()
+                callback?.onAvailable()
             }
 
-            override fun onResume(onAvailable: () -> Unit) {
-                this.callback = onAvailable
+            override fun onResume(callback: Callback) {
+                this.callback = callback
             }
 
             override fun onPause() {

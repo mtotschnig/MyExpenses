@@ -23,6 +23,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -65,6 +66,7 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.locale.Callback;
 import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
@@ -565,11 +567,28 @@ public class SettingsFragment extends BaseSettingsFragment implements
       configureContribPrefs();
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    localeManager.onResume(() -> {
-      rebuildDbConstants();
-      activity.recreate();
-      return Unit.INSTANCE;
-    });
+    localeManager.onResume(new Callback() {
+                             @Override
+                             public void onAvailable() {
+                               rebuildDbConstants();
+                               activity.recreate();
+                             }
+
+                             @Override
+                             public void onAsyncStarted(@NotNull String displayLanguage) {
+                               activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
+                             }
+
+                             @Override
+                             public void onError(@NotNull Exception exception) {
+                               final String message = exception.getMessage();
+                               if (message != null) {
+                                 activity().showSnackbar(message, Snackbar.LENGTH_LONG);
+                               }
+                             }
+                           }
+
+    );
   }
 
   @Override
