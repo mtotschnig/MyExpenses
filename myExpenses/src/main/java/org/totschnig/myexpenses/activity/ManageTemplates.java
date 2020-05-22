@@ -49,6 +49,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener, ContribIFace {
 
   public static final int NOT_CALLED = -1;
+  public static final String TEMPLATE_CLICK_ACTION_SAVE = "SAVE";
+  public static final String TEMPLATE_CLICK_ACTION_EDIT = "EDIT";
   private long calledFromCalendarWithId = NOT_CALLED;
 
   @Override
@@ -161,15 +163,13 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     long id = args.getLong(DatabaseConstants.KEY_ROWID);
     boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    switch (command) {
-      case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-        PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
-        if (isSplit) {
-          mListFragment.requestSplitTransaction(new Long[]{id});
-        } else {
-          mListFragment.dispatchCreateInstanceSaveDo(new Long[]{id});
-        }
-        break;
+    if (command == R.id.CREATE_INSTANCE_SAVE_COMMAND) {
+      getPrefHandler().putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_SAVE);
+      if (isSplit) {
+        mListFragment.requestSplitTransaction(new Long[]{id});
+      } else {
+        mListFragment.dispatchCreateInstanceSaveDo(new Long[]{id});
+      }
     }
   }
 
@@ -178,15 +178,13 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     long id = args.getLong(DatabaseConstants.KEY_ROWID);
     boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
-    switch (command) {
-      case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-        PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
-        if (isSplit) {
-          mListFragment.requestSplitTransaction(id);
-        } else {
-          mListFragment.dispatchCreateInstanceEditDo(id);
-        }
-        break;
+    if (command == R.id.CREATE_INSTANCE_EDIT_COMMAND) {
+      getPrefHandler().putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_EDIT);
+      if (isSplit) {
+        mListFragment.requestSplitTransaction(id);
+      } else {
+        mListFragment.dispatchCreateInstanceEditDo(id);
+      }
     }
   }
 

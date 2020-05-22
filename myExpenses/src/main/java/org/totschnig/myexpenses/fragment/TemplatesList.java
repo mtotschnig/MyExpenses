@@ -78,6 +78,7 @@ import androidx.loader.content.Loader;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.activity.ManageTemplates.TEMPLATE_CLICK_ACTION_SAVE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -182,8 +183,8 @@ public class TemplatesList extends SortableListFragment
             dispatchCreateInstanceEditDo(id);
           } else {
             boolean splitAtPosition = isSplitAtPosition(position);
-            if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
-              if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
+            if (prefHandler.getBoolean(PrefKey.TEMPLATE_CLICK_HINT_SHOWN, false)) {
+              if (TEMPLATE_CLICK_ACTION_SAVE.equals(prefHandler.getString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_SAVE))) {
                 if (splitAtPosition) {
                   requestSplitTransaction(new Long[]{id});
                 } else {

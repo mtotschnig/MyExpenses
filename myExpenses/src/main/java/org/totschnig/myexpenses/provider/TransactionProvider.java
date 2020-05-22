@@ -258,6 +258,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int TRANSACTIONS_TAGS = 56;
   private static final int TAG_ID = 57;
   private static final int TEMPLATES_TAGS = 58;
+  private static final int UNCOMMITTED_ID = 59;
 
   private boolean bulkInProgress = false;
 
@@ -1283,9 +1284,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     log("UPDATE Uri: %s, values: %s", uri, values);
     switch (uriMatch) {
       case TRANSACTIONS:
+      case UNCOMMITTED:
         count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
         break;
       case TRANSACTION_ID:
+      case UNCOMMITTED_ID:
         count = db.update(TABLE_TRANSACTIONS, values,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
             whereArgs);
@@ -1642,6 +1645,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
       notifyChange(ACCOUNTS_BASE_URI, false);
     }
+    if (uriMatch == UNCOMMITTED_ID || uriMatch == UNCOMMITTED) {
+      notifyChange(UNCOMMITTED_URI, false);
+    }
     return count;
   }
 
@@ -1744,6 +1750,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccounts", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED + "/#" , UNCOMMITTED_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);

@@ -135,6 +135,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
+import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 
 /**
  * Domain class for transactions
@@ -548,7 +549,7 @@ public class Transaction extends AbstractTransaction {
         break;
       case TYPE_SPLIT:
         tr = new SplitTransaction(te.getAccountId(), te.getAmount());
-        tr.status = STATUS_UNCOMMITTED;
+        tr.setStatus(STATUS_UNCOMMITTED);
         tr.setMethodId(te.getMethodId());
         tr.setMethodLabel(te.getMethodLabel());
         break;
@@ -888,7 +889,9 @@ public class Transaction extends AbstractTransaction {
   }
 
   protected Uri getUriForSave(boolean callerIsSyncAdapter) {
-    return callerIsSyncAdapter ? CALLER_IS_SYNC_ADAPTER_URI : CONTENT_URI;
+    if (getStatus() == STATUS_UNCOMMITTED) return UNCOMMITTED_URI;
+    if (callerIsSyncAdapter) return CALLER_IS_SYNC_ADAPTER_URI;
+    return CONTENT_URI;
   }
 
   protected void addOriginPlanInstance(ArrayList<ContentProviderOperation> ops) {

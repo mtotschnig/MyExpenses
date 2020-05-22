@@ -76,6 +76,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
@@ -132,6 +133,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               t.setDate(new Date(extraInfo2d[i][1]));
               t.originPlanInstanceId = extraInfo2d[i][0];
             }
+            t.setStatus(STATUS_NONE);
             if (t.save(true) != null && t.saveTags(pair.second, cr)) {
               successCount++;
             }
