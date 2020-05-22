@@ -59,7 +59,7 @@ public abstract class BaseUiTest {
     onData(dataMatcher).inAdapterView(getWrappedList()).atPosition(0).perform(click());
   }
 
-  private void clickOnListEntry(int atPosition) {
+  protected void clickOnListEntry(int atPosition) {
     waitForAdapter();
     onData(anything()).inAdapterView(isAssignableFrom(AdapterView.class)).atPosition(atPosition).perform(click());
   }

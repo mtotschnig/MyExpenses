@@ -182,7 +182,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     handleContribDialog(ContribFeature.SPLIT_TRANSACTION);
     onView(withText(R.string.menu_split_transaction)).perform(click());
     onView(withText(R.string.split_transaction)).check(matches(isDisplayed()));
-    //CursoMatchers class does not allow to distinguish between null and 0 in database
+    //CursorMatchers class does not allow to distinguish between null and 0 in database
 /*    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_CATID, DatabaseConstants.SPLIT_CATID))
         .inAdapterView(allOf(
             isAssignableFrom(AdapterView.class),
