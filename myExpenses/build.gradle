@@ -189,7 +189,7 @@ dependencies {
 
     kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.8'
 
-    implementation 'com.github.mtotschnig:StickyListHeaders:2.7.2.1'
+    implementation 'com.github.mtotschnig:StickyListHeaders:2.7.2.2'
     implementation 'com.github.mtotschnig:MaterialSeekBarPreference:bc211774e5'
     implementation project(':PlayLicensingOrig')
     implementation('com.gitlab.mtotschn:dav4android:fbaa5b51') {
