@@ -923,6 +923,35 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
 
     @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+      if (!mListView.isHeaderCollapsed(headerId(cursor)))
+        super.bindView(view, context, cursor);
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+      if (mListView.isHeaderCollapsed(headerId(cursor))) {
+        return new View(context);
+      } else {
+        return super.newView(context, cursor, parent);
+      }
+    }
+
+    private int headerId(Cursor cursor) {
+      return calculateHeaderId(cursor.getInt(getColumnIndexForYear()), getSecond(cursor));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+      return mListView.isHeaderCollapsed(getHeaderId(position)) ? 0 : 1;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+      return 2;
+    }
+
+    @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       HeaderViewHolder holder = null;
       final boolean withBudget = BaseTransactionList.this.getFilter().isEmpty() &&
@@ -1152,6 +1181,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     final HeaderViewHolder viewHolder = (HeaderViewHolder) header.getTag();
     if (mListView.isHeaderCollapsed(headerId)) {
       mListView.expand(headerId);
+      mAdapter.notifyDataSetChanged();
       persistCollapsedHeaderIds();
       viewHolder.dividerBottom.setVisibility(View.VISIBLE);
     } else {
