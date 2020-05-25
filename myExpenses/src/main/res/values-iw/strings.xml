@@ -922,4 +922,5 @@
   <string name="dialog_multi_tag_append">הוסף תגים חדשים לתגים קיימים</string>
   <string name="dialog_multi_tag_replace">החלף תגים קיימים בתגים חדשים</string>
   <string name="new_tag_hint">הכנס תג חדש</string>
+  <string name="language_download_requested">תרגום משפה %s נדרש מחנות האפליקציות</string>
 </resources>

@@ -884,4 +884,5 @@
   <string name="dialog_multi_tag_append">既存のタグに新しいタグを追加</string>
   <string name="dialog_multi_tag_replace">既存のタグを新しいタグで置き換え</string>
   <string name="new_tag_hint">新しいタグを入力</string>
+  <string name="language_download_requested">言語 %s の翻訳が Play ストアからリクエストされました</string>
 </resources>

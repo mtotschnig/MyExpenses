@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>カスタムデータ形式</item>
+        <item>タグが CSV にエクスポートされます</item>
+        <item>取引リストのグループの折りたたみ状態が記憶されます</item>
+    </string-array>
     <string-array name="whats_new_311">
         <item>取引先 (受取人/支払人) のリストが検索できます</item>
     </string-array>

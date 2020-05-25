@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_3121">
+        <item>@string/performance_enhancement</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Custom date format</item>
         <item>Tags are exported to CSV</item>

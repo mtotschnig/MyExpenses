@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>פורמט תאריך מותאם אישית</item>
+        <item>התגים מיוצאים ל- CSV</item>
+        <item>שונן מצב של קבוצות מכווצות ברשימת העסקאות</item>
+    </string-array>
     <string-array name="whats_new_311">
         <item>ניתן לחפש ברשימת הצדדים (משלמים ומשלמים)</item>
     </string-array>
