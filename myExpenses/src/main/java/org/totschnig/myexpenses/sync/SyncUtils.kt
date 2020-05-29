@@ -6,7 +6,7 @@ fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
         input.groupBy(TransactionChange::uuid).map { entry -> mergeUpdates(entry.value) }
 
 fun mergeUpdates(changeList: List<TransactionChange>): TransactionChange {
-    check(changeList.size == 0) { "nothing to merge" }
+    check(changeList.size > 0) { "nothing to merge" }
     return changeList
             .sortedBy { obj: TransactionChange -> obj.timeStamp() }
             .reduce { initial: TransactionChange, change: TransactionChange -> mergeUpdate(initial, change) }
