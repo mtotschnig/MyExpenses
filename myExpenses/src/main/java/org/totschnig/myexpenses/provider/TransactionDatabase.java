@@ -2191,7 +2191,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
       }
       if (oldVersion < 107) {
-        "UPDATE transactions set date = (select date from transactions parents where _id = transactions.parent_id) where parent_id is not null"
+        db.execSQL("UPDATE transactions set date = (select date from transactions parents where _id = transactions.parent_id) where parent_id is not null");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
