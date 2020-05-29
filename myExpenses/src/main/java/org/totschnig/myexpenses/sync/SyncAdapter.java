@@ -106,6 +106,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeChanges;
 import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeUpdates;
@@ -861,9 +862,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (change.date() != null) {
       Long date = change.date();
-      assert date != null;
-      t.setDate(new Date(date * 1000));
+      t.setDate(date);
     }
+    t.setValueDate(change.valueDate() == null ? t.getDate() : change.valueDate());
 
     if (change.payeeName() != null) {
       long id = Payee.extractPayeeId(change.payeeName(), payeeToId);
@@ -913,6 +914,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (change.date() != null) {
       values.put(KEY_DATE, change.date());
+    }
+    if (change.valueDate() != null) {
+      values.put(KEY_VALUE_DATE, change.valueDate());
     }
     if (change.amount() != null) {
       values.put(KEY_AMOUNT, change.amount());

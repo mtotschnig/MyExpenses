@@ -640,8 +640,9 @@ public class Transaction extends AbstractTransaction {
   }
 
   public Transaction() {
-    setDate(ZonedDateTime.now());
-    setValueDate(ZonedDateTime.now());
+    final ZonedDateTime now = ZonedDateTime.now();
+    setDate(now);
+    setValueDate(now);
   }
 
   public Transaction(long accountId, Money amount) {

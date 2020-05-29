@@ -25,6 +25,9 @@ fun mergeUpdate(initial: TransactionChange, change: TransactionChange): Transact
     if (change.date() != null) {
         builder.setDate(change.date())
     }
+    if (change.valueDate() != null) {
+        builder.setDate(change.valueDate())
+    }
     if (change.amount() != null) {
         builder.setAmount(change.amount())
     }

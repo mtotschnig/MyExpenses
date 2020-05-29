@@ -35,6 +35,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUUID;
 
 @AutoValue
@@ -47,6 +48,7 @@ public abstract class TransactionChange {
       KEY_PARENT_UUID,
       "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
       KEY_DATE,
+      KEY_VALUE_DATE,
       KEY_AMOUNT,
       KEY_ORIGINAL_AMOUNT,
       KEY_ORIGINAL_CURRENCY,
@@ -108,6 +110,10 @@ public abstract class TransactionChange {
   @ColumnName(KEY_DATE)
   @Nullable
   public abstract Long date();
+
+  @ColumnName(KEY_VALUE_DATE)
+  @Nullable
+  public abstract Long valueDate();
 
   @ColumnName(KEY_AMOUNT)
   @Nullable
@@ -225,6 +231,8 @@ public abstract class TransactionChange {
     public abstract Builder setEquivalentCurrency(String value);
 
     public abstract Builder setDate(Long value);
+
+    public abstract Builder setValueDate(Long value);
 
     public abstract Builder setLabel(String value);
 
