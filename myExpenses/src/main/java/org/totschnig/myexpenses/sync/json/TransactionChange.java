@@ -248,7 +248,7 @@ public abstract class TransactionChange {
       if (Stream.of(value).allMatch(value1 -> value1.parentUuid().equals(uuid()))) {
         return setSplitParts(value);
       } else {
-        throw new IllegalStateException("parts parentUuid does not mactch parents uuid");
+        throw new IllegalStateException("parts parentUuid does not match parents uuid");
       }
     }
 
