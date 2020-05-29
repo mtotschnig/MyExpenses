@@ -97,6 +97,7 @@ class SplitEditTest: BaseUiTest() {
     }
 
     @Test
+    //TODO fails on Pixel 2XL API 28 emulator ( split partlist update is called twice )
     fun createPartAndSave() {
         mActivityRule.launchActivity(baseIntent)
         assertThat(splitPartListUpdateCalled).isEqualTo(1)
