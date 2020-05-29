@@ -412,7 +412,7 @@ public class DatabaseConstants {
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
       KEY_PARENTID + " IS null";
-  private static final String START_OF_TOMORROW = "strftime('%s','now', 'localtime', 'start of day', '+1 day')";
+  private static final String START_OF_TOMORROW = "strftime('%s', 'now', 'localtime', 'start of day', '+1 day', 'utc')";
   public static final String WHERE_IN_PAST = KEY_DATE + " <= " + START_OF_TOMORROW;
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
