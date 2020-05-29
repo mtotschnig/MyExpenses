@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 106;
+  public static final int DATABASE_VERSION = 107;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -921,6 +921,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     try {
+      TransactionProvider.pauseChangeTrigger(db);
       Timber.i("Upgrading database from version %d to %d", oldVersion, newVersion);
       if (oldVersion < 17) {
         db.execSQL("drop table accounts");
@@ -2189,6 +2190,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
         db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
       }
+      if (oldVersion < 107) {
+        "UPDATE transactions set date = (select date from transactions parents where _id = transactions.parent_id) where parent_id is not null"
+      }
+      TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :

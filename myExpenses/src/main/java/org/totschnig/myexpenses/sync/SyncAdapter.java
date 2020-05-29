@@ -107,6 +107,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeChanges;
+import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeUpdates;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
@@ -771,21 +773,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
       case updated: {
         ContentValues values = toContentValues(change);
-        if (values.size() > 0 || parentOffset != -1) {
+        if (values.size() > 0) {
           long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
-          final ContentProviderOperation.Builder builder = ContentProviderOperation.newUpdate(uri)
-              .withSelection(KEY_ROWID + " = ?",
-                  new String[]{String.valueOf(transactionId)});
-          if (values.size() > 0) {
-            builder.withValues(values);
+          if (transactionId == -1) {
+            CrashHandler.reportWithTag("Change for transaction that could not be found", TAG);
+          } else {
+            final ContentProviderOperation.Builder builder = ContentProviderOperation.newUpdate(uri)
+                .withSelection(KEY_ROWID + " = ?",
+                    new String[]{String.valueOf(transactionId)});
+            if (values.size() > 0) {
+              builder.withValues(values);
+            }
+            ops.add(builder.build());
+            ArrayList<ContentProviderOperation> tagOps = saveTagLinks(tagIds, transactionId, null, true);
+            ops.addAll(tagOps);
+            tagOpsCount = tagOps.size();
           }
-          if (parentOffset != -1) {
-            builder.withValueBackReference(KEY_PARENTID, parentOffset);
-          }
-          ops.add(builder.build());
-          ArrayList<ContentProviderOperation> tagOps = saveTagLinks(tagIds, transactionId, null, true);
-          ops.addAll(tagOps);
-          tagOpsCount = tagOps.size();
         }
         break;
       }
@@ -806,9 +809,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (change.isCreateOrUpdate() && change.splitParts() != null && !skipped) {
       final int newParentOffset = ops.size() - 1 - tagOpsCount;
-      List<TransactionChange> splitPartsFiltered = filterDeleted(change.splitParts(),
-          findDeletedUuids(Stream.of(change.splitParts())));
-      Stream.of(splitPartsFiltered).forEach(splitChange -> {
+      List<TransactionChange> splitPartsFilteredAndMerged = mergeChanges(filterDeleted(change.splitParts(),
+          findDeletedUuids(Stream.of(change.splitParts()))));
+
+      Stream.of(splitPartsFilteredAndMerged).forEach(splitChange -> {
         if (!change.uuid().equals(splitChange.parentUuid())) throw new AssertionError();
         //back reference is only used when we insert a new split,
         //for updating an existing split we search for its _id via its uuid
@@ -1025,61 +1029,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return Stream.of(input).map(change -> change.isCreateOrUpdate()
         && mergedMap.containsKey(change.uuid()) ? mergedMap.get(change.uuid()) : change)
         .distinct().collect(Collectors.toList());
-  }
-
-  @VisibleForTesting
-  public TransactionChange mergeUpdates(List<TransactionChange> changeList) {
-    if (changeList.size() < 2) {
-      throw new IllegalStateException("nothing to merge");
-    }
-    return Stream.of(changeList).sortBy(TransactionChange::timeStamp).reduce(this::mergeUpdate).get();
-  }
-
-  private TransactionChange mergeUpdate(TransactionChange initial, TransactionChange change) {
-    if (!(change.isCreateOrUpdate() && initial.isCreateOrUpdate())) {
-      throw new IllegalStateException("Can only merge creates and updates");
-    }
-    if (!initial.uuid().equals(change.uuid())) {
-      throw new IllegalStateException("Can only merge changes with same uuid");
-    }
-    TransactionChange.Builder builder = initial.toBuilder();
-    if (change.parentUuid() != null) {
-      builder.setParentUuid(change.parentUuid());
-    }
-    if (change.comment() != null) {
-      builder.setComment(change.comment());
-    }
-    if (change.date() != null) {
-      builder.setDate(change.date());
-    }
-    if (change.amount() != null) {
-      builder.setAmount(change.amount());
-    }
-    if (change.label() != null) {
-      builder.setLabel(change.label());
-    }
-    if (change.payeeName() != null) {
-      builder.setPayeeName(change.payeeName());
-    }
-    if (change.transferAccount() != null) {
-      builder.setTransferAccount(change.transferAccount());
-    }
-    if (change.methodLabel() != null) {
-      builder.setMethodLabel(change.methodLabel());
-    }
-    if (change.crStatus() != null) {
-      builder.setCrStatus(change.crStatus());
-    }
-    if (change.referenceNumber() != null) {
-      builder.setReferenceNumber(change.referenceNumber());
-    }
-    if (change.pictureUri() != null) {
-      builder.setPictureUri(change.pictureUri());
-    }
-    if (change.splitParts() != null) {
-      builder.setSplitParts(change.splitParts());
-    }
-    return builder.setCurrentTimeStamp().build();
   }
 
   private Uri buildChangesUri(long current_sync, long accountId) {

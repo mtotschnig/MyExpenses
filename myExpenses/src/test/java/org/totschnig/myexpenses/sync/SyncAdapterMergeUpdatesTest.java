@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeUpdates;
 
 public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
 
@@ -36,7 +37,7 @@ public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
 
   private void mergeUpdatesAndExpectIllegalStateExpection(List<TransactionChange> changes) {
     try {
-      syncAdapter.mergeUpdates(changes);
+      mergeUpdates(changes);
       fail("Expected IllegalStateEception to be thrown");
     } catch (IllegalStateException expected) {
       //expected
@@ -51,7 +52,7 @@ public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
     Long amount = 123L;
     changes.add(buildUpdated().setUuid(uuid).setComment(comment).build());
     changes.add(buildUpdated().setUuid(uuid).setAmount(amount).build());
-    TransactionChange merge = syncAdapter.mergeUpdates(changes);
+    TransactionChange merge = mergeUpdates(changes);
     assertEquals(comment, merge.comment());
     assertEquals(amount, merge.amount());
   }
@@ -66,7 +67,7 @@ public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
     Long earlier = later - 10000;
     changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setTimeStamp(later).setComment(comment2).build());
     changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setTimeStamp(earlier).setComment(comment1).build());
-    TransactionChange merge = syncAdapter.mergeUpdates(changes);
+    TransactionChange merge = mergeUpdates(changes);
     assertEquals(comment2, merge.comment());
   }
 }

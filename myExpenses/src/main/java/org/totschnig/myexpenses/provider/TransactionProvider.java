@@ -1891,7 +1891,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         .build();
   }
 
-  private int resumeChangeTrigger(SQLiteDatabase db) {
+  static int resumeChangeTrigger(SQLiteDatabase db) {
     return db.delete(TABLE_SYNC_STATE, null, null);
   }
 
@@ -1902,7 +1902,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         .build();
   }
 
-  private long pauseChangeTrigger(SQLiteDatabase db) {
+  static long pauseChangeTrigger(SQLiteDatabase db) {
     ContentValues values = new ContentValues(1);
     values.put(KEY_STATUS, "1");
     return db.insertOrThrow(TABLE_SYNC_STATE, null, values);
