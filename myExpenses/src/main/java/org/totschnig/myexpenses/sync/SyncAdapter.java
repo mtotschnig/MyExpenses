@@ -776,9 +776,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ContentValues values = toContentValues(change);
         if (values.size() > 0) {
           long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
-          if (transactionId == -1) {
-            CrashHandler.reportWithTag("Change for transaction that could not be found", TAG);
-          } else {
+          if (transactionId != -1) {
             final ContentProviderOperation.Builder builder = ContentProviderOperation.newUpdate(uri)
                 .withSelection(KEY_ROWID + " = ?",
                     new String[]{String.valueOf(transactionId)});
@@ -794,10 +792,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         break;
       }
       case deleted: {
-        ops.add(ContentProviderOperation.newDelete(uri)
-            .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?",
-                new String[]{change.uuid(), String.valueOf(accountId)})
-            .build());
+        long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
+        if (transactionId != -1) {
+          ops.add(ContentProviderOperation.newDelete(ContentUris.withAppendedId(uri, transactionId))
+              .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?",
+                  new String[]{change.uuid(), String.valueOf(accountId)})
+              .build());
+        }
         break;
       }
       case unsplit: {
