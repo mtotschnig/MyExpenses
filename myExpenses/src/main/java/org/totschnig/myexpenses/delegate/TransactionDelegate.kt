@@ -122,7 +122,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     var pictureUri: Uri? = null
     @JvmField
     @State
-    var crStatus: CrStatus = CrStatus.UNRECONCILED
+    var _crStatus: CrStatus? = CrStatus.UNRECONCILED
     @JvmField
     @State
     var parentId: Long? = null
@@ -135,6 +135,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     @JvmField
     @State
     var originTemplateId: Long? = null
+
+    val crStatus
+        get() = _crStatus ?: CrStatus.UNRECONCILED
 
     protected var mAccounts = mutableListOf<Account>()
 
@@ -155,7 +158,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             methodId = transaction.methodId
             setPicture(transaction.pictureUri)
             planId = (transaction as? Template)?.plan?.id
-            crStatus = transaction.crStatus
+            _crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
             //Setting this early instead of waiting for call to setAccounts
             //works around a bug in some legagy virtual keyboards where configuring the
@@ -447,7 +450,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         val sAdapter: CrStatusAdapter = object : CrStatusAdapter(context) {
             override fun isEnabled(position: Int): Boolean { //if the transaction is reconciled, the status can not be changed
                 //otherwise only unreconciled and cleared can be set
-                return crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal
+                return _crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal
             }
         }
         statusSpinner.adapter = sAdapter
@@ -558,7 +561,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             }
             R.id.Status -> {
                 (parent.selectedItem as? CrStatus)?.let {
-                    crStatus = it
+                    _crStatus = it
                 }
             }
         }
