@@ -13,9 +13,17 @@ import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeUpdates;
 public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
 
   @Test
-  public void shouldThrowOnListWithOnlyOneElement() {
+  public void shouldReturnSameElement() {
     List<TransactionChange> changes = new ArrayList<>();
-    changes.add(buildUpdated().setUuid("random").build());
+    final TransactionChange change = buildUpdated().setUuid("random").build();
+    changes.add(change);
+    TransactionChange merge = mergeUpdates(changes);
+    assertEquals(change, merge);
+  }
+
+  @Test
+  public void shouldThrowOnEmptyList() {
+    List<TransactionChange> changes = new ArrayList<>();
     mergeUpdatesAndExpectIllegalStateExpection(changes);
   }
 
