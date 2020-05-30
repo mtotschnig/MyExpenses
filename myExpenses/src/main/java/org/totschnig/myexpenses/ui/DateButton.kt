@@ -15,6 +15,7 @@ import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -24,7 +25,12 @@ class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(cont
     @State @JvmField
     var date: LocalDate = LocalDate.now()
 
-    private val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+    private val formatter : DateTimeFormatter
+
+    init {
+        formatter = (Utils.getDateFormatSafe(context) as? SimpleDateFormat)?.let { DateTimeFormatter.ofPattern(it.toPattern()) } ?:
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+    }
 
     private val isBrokenSamsungDevice: Boolean
         get() = Build.MANUFACTURER.equals("samsung", ignoreCase = true) && isBetweenAndroidVersions(
@@ -99,6 +105,6 @@ class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(cont
     }
 
     override fun update() {
-        text = date.format(dateFormat)
+        text = date.format(formatter)
     }
 }
