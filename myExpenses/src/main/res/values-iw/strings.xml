@@ -906,7 +906,6 @@
   <string name="tags">תגים</string>
   <string name="pref_manage_tags_summary">הוסף, ערוך, מחק תגים</string>
   <string name="dialog_title_warning_delete_tag">האם למחוק תג?</string>
-  <string name="tag_already_defined">התג כבר מוגדר</string>
   <string name="menu_edit_tag">ערוך תג</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <string name="menu_tag">תג</string>

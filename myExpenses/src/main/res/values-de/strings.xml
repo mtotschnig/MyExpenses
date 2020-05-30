@@ -882,7 +882,6 @@
   <string name="tags">Markierungen</string>
   <string name="pref_manage_tags_summary">Markierungen hinzufügen, bearbeiten, löschen.</string>
   <string name="dialog_title_warning_delete_tag">Markierung löschen?</string>
-  <string name="tag_already_defined">Markierung bereits definiert.</string>
   <string name="menu_edit_tag">Markierung bearbeiten</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <string name="menu_tag">Markieren</string>

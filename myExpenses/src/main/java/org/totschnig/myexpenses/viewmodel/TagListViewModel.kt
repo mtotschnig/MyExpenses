@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -68,8 +69,12 @@ class TagListViewModel(application: Application,
     }
 
     fun updateTag(tag: Tag, newLabel: String) = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        val result = contentResolver.update(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id),
-                ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null)
+        val result = try {
+            contentResolver.update(ContentUris.withAppendedId(TransactionProvider.TAGS_URI, tag.id),
+                    ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null)
+        } catch (e: SQLiteConstraintException) {
+            0
+        }
         val success = result == 1
         if (success) {
             tags.value?.let { list ->

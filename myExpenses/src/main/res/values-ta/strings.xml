@@ -881,7 +881,6 @@
   <string name="tags">குறிச்சொற்கள்</string>
   <string name="pref_manage_tags_summary">குறிச்சொற்களைச் சேர்க்கவும், திருத்தவும், நீக்கவும்.</string>
   <string name="dialog_title_warning_delete_tag">குறிச்சொல்லை நீக்கவா?</string>
-  <string name="tag_already_defined">குறிச்சொல் ஏற்கனவே வரையறுக்கப்பட்டுள்ளது.</string>
   <string name="menu_edit_tag">குறிச்சொல்லைத் திருத்து</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <string name="menu_tag">குறிச்சொல்</string>

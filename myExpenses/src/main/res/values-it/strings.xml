@@ -881,7 +881,6 @@
   <string name="tags">Categorie</string>
   <string name="pref_manage_tags_summary">Aggiungi, modifica, o elimina categorie.</string>
   <string name="dialog_title_warning_delete_tag">Eliminare la categoria?</string>
-  <string name="tag_already_defined">Categoria già impostata.</string>
   <string name="menu_edit_tag">Modifica la categoria</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <string name="menu_tag">Categoria</string>

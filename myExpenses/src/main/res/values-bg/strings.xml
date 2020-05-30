@@ -882,7 +882,6 @@
   <string name="tags">Маркери</string>
   <string name="pref_manage_tags_summary">Добавяне, редактиране, изтриване на маркери.</string>
   <string name="dialog_title_warning_delete_tag">Да се изтрие ли маркерът?</string>
-  <string name="tag_already_defined">Маркерът вече е дефиниран.</string>
   <string name="menu_edit_tag">Редактиране на маркер</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <string name="menu_tag">Маркер</string>
@@ -896,4 +895,5 @@
   <string name="dialog_multi_tag_append">Добавяне на нови към съществуващите маркери</string>
   <string name="dialog_multi_tag_replace">Замяна на съществуващи маркери с нови</string>
   <string name="new_tag_hint">Въведете нов маркер</string>
+  <string name="language_download_requested">Превод от %s език е заявен в Play Store</string>
 </resources>
