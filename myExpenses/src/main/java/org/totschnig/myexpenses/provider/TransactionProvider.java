@@ -1537,6 +1537,9 @@ public class TransactionProvider extends BaseTransactionProvider {
             currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
             db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
             db.setTransactionSuccessful();
+          } catch (Exception e) {
+            CrashHandler.report(e);
+            throw e;
           } finally {
             db.endTransaction();
           }
