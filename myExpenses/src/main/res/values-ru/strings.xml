@@ -375,6 +375,7 @@
   <string name="save_transaction_template_deleted">Шаблон удалён</string>
   <string name="select">Выбрать</string>
   <string name="select_category">Выбрать категорию</string>
+  <string name="select_payee">Выберите плательщика / получателя</string>
   <string name="share_scheme_not_supported">Схема %1$s не поддерживается</string>
   <string name="share_sending">Отправить экспортированный файл</string>
   <string name="split_parts_heading">Разделённые части</string>
@@ -501,6 +502,7 @@
   <string name="import_source_file">Файл</string>
   <string name="restore_calendar_handling">Работа с календарем</string>
   <string name="restore_calendar_handling_configured">Восстановить планы на текущий настроенный календарь</string>
+  <string name="restore_calendar_handling_backup">Восстановлите планы календаря, установленных в резервной копии, если доступно</string>
   <string name="restore_calendar_handling_ignore">Не восстанавливайте планы </string>
   <string name="restore_not_possible_target_calendar_missing">Календарь %s, установленный в архиве резервных копий, не существует локально. Восстановление было прервано.</string>
   <string name="restore_not_possible_local_calendar_missing">Текущий календарь планирования недоступен.</string>
@@ -636,25 +638,43 @@
   <string name="number_of_fraction_digits">Число дробных знаков</string>
   <string name="warning_auto_backup_deactivated">Авто-резервное копирование было отключено. Вы можете включить его снова из настроек после решения проблемы (например, выбрав другую папку для резервных копий).</string>
   <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
+  <string name="pref_tracking_title">Сбор данных об использовании</string>
+  <string name="sync_database_error">Во время синхронизации произошла ошибка базы данных.</string>
+  <string name="sync_io_error_cannot_connect">Не удается подключиться к серверной части синхронизации.</string>
+  <string name="sync_error_will_try_again_later">Попробует еще раз попозже.</string>
+  <string name="sync_io_exception_reset_account_data">Ошибка при сбросе удаленной учетной записи.</string>
+  <string name="sync_success_reset_account_data">Удаленные данные для учетной записи %s были удалены.</string>
+  <string name="sync_io_exception_setup_remote_account">Ошибка при настройке удаленной учетной записи.</string>
+  <string name="sync_io_exception_syncing">Ошибка при синхронизации изменений с сервером.</string>
+  <string name="sync_io_exception_unlocking">Ошибка при снятии блокировки с удаленного бэкэнда.</string>
+  <string name="sync_io_exception_locking">Удаленный бэкэнд заблокирован или не может быть заблокирован.</string>
   <string name="synchronization_start">Начинается синхронизация для счета %s.</string>
+  <string name="synchronization_end_success">%1$d удаленные изменения были записаны в локальную базу данных. %2$d локальные изменения были записаны в удаленный бэкэнд.</string>
   <string name="synchronization_end_success_none">Нет изменений для синхронизации.</string>
   <string name="pref_webdav_timeout_title">Время ожидания WebDAV (в секундах)</string>
+  <string name="sync_state_restored">Состояние синхронизации было восстановлено для учетных записей %d.</string>
+  <string name="sync_state_could_not_be_restored">Не удалось восстановить состояние синхронизации для учетных записей %d.</string>
+  <string name="onboarding_ui_title">{app_name} адаптируется к вашим предпочтениям</string>
   <string name="onboarding_data_title">Давайте настроим ваш первый счет</string>
   <string name="onboarding_get_started">Начало</string>
   <string name="onboarding_more_options">Больше опций</string>
   <string name="onboarding_restore_from_cloud">Восстановить из облака</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Резервные копии</string>
   <string name="onboarding_restore_from_local">Восстановить из локального файла</string>
   <string name="dialog_button_add">Добавить</string>
   <string name="template_create_error">Ошибка при сохранении шаблона</string>
   <string name="contributed_by">Вклад внесен %s</string>
   <string name="pref_sync_notification_summary">Уведомить о состоянии синхронизации</string>
   <string name="pref_debug_logging_summary">Записывать отладочную информацию в системный лог</string>
+  <string name="plan_custom_recurrence_info">Пожалуйста, сначала сохраните шаблон. Затем план будет открыт в приложении календаря, где вы можете установить привычное повторение.</string>
+  <string name="storage_permission_required">Выбранный вами источник может быть прочитан, только если вы предоставите разрешение на чтение из внешнего хранилища.</string>
   <string name="picture">Изображение</string>
   <string name="menu_create_template_for_split">Новый разделенный шаблон</string>
   <string name="progress_validating_licence">Проверить лицензию</string>
   <string name="licence_validation_error_expired">Лицензия истекла</string>
   <string name="licence_validation_error_device_limit_exceeded">Превышен лимит устройств. Пожалуйста, отключите лицензию на одном из устройств.</string>
+  <string name="error">Ошибка (%s)</string>
   <string name="button_validate">Проверить</string>
   <string name="licence_key">Лицензионный ключ</string>
   <string name="licence_removal_information">Если Вам более не требуется премиальные функции на этом устройстве, Вы можете деактивировать ключ. Это позволит активировать его повторно на другом устройстве. Ключ может быть активирован на максимум %d устройствах.</string>
@@ -663,26 +683,37 @@
   <string name="professional_key">Professional-ключ</string>
   <string name="n_months">%d месяцев</string>
   <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС</string>
+  <string name="licence_migration_info">{app_name} реализует новый механизм проверки лицензии. Пожалуйста, запросите новый ключ.</string>
   <string name="valid_until">До %s</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продлите до %1$s за %2$s</string>
   <string name="extended_upgrade_goodie_github">Было предоставлено %d месяцев пользователям с действующей Расширенной лицензией</string>
+  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Пользователи, которые уже владеют Расширенной Лицензией, платят 50%% от обычной цены (%s) в первый год.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Пользователи, которые уже владеют Расширенной лицензией, имеют право на скидку %1$d%% от обычной цены (%2$s) годовой подписки.</string>
   <string name="switch_to_yearly" tools:ignore="UnusedResources">Переход на ежегодную подписку</string>
   <string name="switch_to_monthly" tools:ignore="UnusedResources">Переход на ежемесячную подписку</string>
   <string name="extend_validity">Продлить действительность</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Выборка данных из удаленного бэкэнда. Это может занять некоторое время.</string>
   <string name="donate_button_invoice">Счёт-фактура</string>
   <string name="menu_sort_direction">Направление сортировки</string>
   <string name="sort_direction_ascending">по возрастанию</string>
   <string name="sort_direction_descending">по убыванию</string>
   <string name="never">никогда</string>
   <string name="always">всегда</string>
+  <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>
   <string name="sync_auth_exception_login_again">Авторизация провалена. Пожалуйста, представьтесь повторно.</string>
+  <string name="sync_loading_accounts_from_backend">Загрузка доступных аккаунтов из бэкэнда.</string>
   <plurals name="delete_success">
     <item quantity="one">Объект был успешно удален.</item>
     <item quantity="few">%d объектов было успешно удалено.</item>
     <item quantity="many">%d объектов было успешно удалено.</item>
     <item quantity="other">%d объектов было успешно удалено.</item>
   </plurals>
+  <string name="feature_deprecated">Устаревшее</string>
+  <string name="pref_protection_device_lock_screen_title">Экран блокировки устройства</string>
+  <string name="pref_warning_only_one_protection">Прежде чем вы сможете использовать защиту с помощью %1$s, вы должны отключить защиту с помощью %2$s.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">Безопасный экран блокировки устройства не настроен.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Перейдите в «Настройки -&gt; Безопасность -&gt; Блокировка экрана», чтобы настроить экран блокировки.</string>
   <string name="snackbar_dismiss">Отменить</string>
   <string name="menu_history_show_balance">Отобразить баланс</string>
   <string name="menu_history_transfers">Включать переводы</string>
@@ -695,6 +726,7 @@
   <string name="pref_home_currency_title">Внутренняя валюта</string>
   <string name="grand_total">Общий итог</string>
   <string name="menu_original_amount">Начальный баланс</string>
+  <string name="menu_equivalent_amount">Эквивалентное количество</string>
   <string name="home_currency_change_warning">При смене внутренней валюты, соответствующие ей суммы и обменные курсы будут утеряны, и должны быть установлены вновь.</string>
   <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
   <string name="warning_ungroup_split_transactions">Выбранные дробные операции будут разгруппированы, т.е. их составные части станут обычными операциями.</string>
@@ -706,36 +738,95 @@
     <item quantity="many">%1$d дробных операций было успешно разгруппировано.</item>
     <item quantity="other">%1$d дробных операций было успешно разгруппировано.</item>
   </plurals>
+  <string name="ungroup_split_transaction_failure">Во время разгруппировки раздельеных транзакций,  %1$d из %2$d не удачно произошло. </string>
   <string name="split_transaction_one_success">Операция успешно превращена в расщепленную.</string>
   <string name="split_transaction_one_error">Невозможно преобразовать операцию в разделенную.</string>
   <string name="split_transaction_group_success">%1$d операций было успешно сгруппировано в одну дробную операцию.</string>
   <string name="split_transaction_group_error">Операции не были сгруппированы в расщепленную</string>
   <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
+  <string name="pref_transaction_time_summary">Позвольте установить точное время транзакции.  </string>
+  <string name="pref_value_date_summary">Установите дату стоимости в дополнение к дате бронирования. Время транзакции будет скрыто. Эта установка не применяется к кассовым счетам.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Дата бронирования</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Дата стоимости </string>
+  <string name="licence_expires_n_days">Срок действия вашего профессионального ключа истекает через %d дней</string>
+  <string name="licence_expires_tomorrow">Ваш профессиональный ключ истекает завтра</string>
   <string name="licence_expires_today">Ваш тариф \"профессиональный\" заканчивается сегодня</string>
   <string name="licence_expired_yesterday">Ваш тариф \"профессиональный\" закончился вчера</string>
+  <string name="licence_has_expired_n_days">Срок действия вашего профессионального ключа истек %d дней назад</string>
+  <string name="pref_category_title_privacy">Конфиденциальность</string>
   <string name="pref_ad_consent_title">Персонализированная реклама</string>
   <string name="ad_consent_non_personalized">Не персонализированная реклама</string>
+  <string name="gdpr_consent_message">Мы сотрудничаем с {ad_provider}, чтобы через показ рекламы обеспечать поддержку, обслуживание и разработку {app_name}. Мы хотели бы попросить вашего согласия. Если вы предпочитаете не видеть рекламу, пожалуйста, платите за версию без рекламы.</string>
   <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Да, продолжить видеть рекламу</string>
   <string name="gdpr_consent_button_no">Оплатить за версию без рекламы</string>
   <string name="sort_order">Направление сортировки</string>
+  <string name="navigation_drawer_accounts_title">Управление аккаунтами </string>
   <string name="pref_sync_wifi_only_summary">Синхронизироваться только по Wi-Fi</string>
+  <string name="pref_sync_changes_immediately_summary">Пишите локальные изменения немедленно в бэкэнд</string>
+  <string name="wifi_not_connected">Устройство не подключено к Wi-Fi. Синхронизация откладывается.</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Перевод</string>
   <!--Content description for accessibility on image that allows to collapse content-->
+  <string name="content_description_collapse">Коллапс</string>
   <!--Content description for accessibility on image that allows to expand content-->
+  <string name="content_description_expand">Расширять</string>
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Цель / Лимит</string>
+  <string name="saving_goal">Сохранение цели</string>
+  <string name="credit_limit">Кредитный лимит</string>
+  <string name="clear_all_filters">Очистите все фильтры</string>
+  <string name="pref_scroll_to_current_date_summary">После запуска приложения прокрутите список транзакций до текущей даты.</string>
+  <string name="professional_key_fallback_info">Подписка на Профессиональный ключ, действующая не менее одного года и которая не продлена, будет автоматически преобразована в неограниченный продленный ключ.</string>
+  <string name="menu_budget">составление бюджета</string>
+  <string name="dialog_title_edit_budget">Изменить бюджет</string>
+  <string name="budget_table_header_budgeted">в бюджете</string>
+  <string name="budget_table_header_allocated">Выделено</string>
+  <string name="budget_table_header_spent">потраченный</string>
+  <string name="budget_table_header_remainder">остаток</string>
+  <string name="budget_allocated_amount">Выделенная сумма</string>
+  <string name="budget_exceeded_error_1_1">Все, кроме %s вашего бюджета были распределены на другие категории.</string>
+  <string name="budget_exceeded_error_1_2">Весь ваш бюджет был выделен на другие категории.</string>
+  <string name="budget_exceeded_error_2">Увеличьте заложенную в бюджет сумму или уберите деньги из других категорий.</string>
+  <string name="budget_under_allocated_error">%s уже распределены по категориям. Если вы не снимаете с них деньги, то вы должны выделить бюджет на эту сумму.</string>
+  <string name="sub_budget_exceeded_error_1_1">Все, кроме %s суммы, выделенной для основной категории, были распределены на другие подкатегории.</string>
+  <string name="sub_budget_exceeded_error_1_2">Вся сумма, выделенная для основной категории, была распределена на другие подкатегории.</string>
+  <string name="sub_budget_exceeded_error_2">Увеличьте сумму, выделенную для основной категории, или удалите деньги из других подкатегорий.</string>
+  <string name="sub_budget_under_allocated_error">%s уже распределены по подкатегориям. Если вы не снимаете с них деньги, вы должны как минимум распределить эту сумму по основной категории.</string>
   <!--Description for button that allows to clear the selected method-->
+  <string name="content_description_clear_method">Очистить метод</string>
   <!--Description for button that allows to clear the selected category-->
+  <string name="content_description_clear_category">Очистить категорию</string>
+  <string name="currency_code">Код</string>
   <string name="dialog_title_new_currency">Новая валюта</string>
+  <string name="currency_code_already_definded">Код валюты уже определен.</string>
+  <string name="currency_still_used">Валюта используется, и не может быть удалена.</string>
+  <string name="unmapped">не нанесенный на карту</string>
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="upgrade_information_cloud_sync_storage_format">В версии 2.9.8, был изменен способ хранения данных в бэкэндах синхронизации. Пожалуйста обновите эту версию на всех синхронизированных устройствах, прежде чем вводить какие-либо новые записи на любом из них.</string>
+  <string name="pref_security_export_passphrase_title">Парольная фраза для резервных копий</string>
+  <string name="pref_security_export_passphrase_summary">Резервные копии будут зашифрованы этой парольной фразой</string>
+  <string name="backup_is_encrypted">Файл резервной копии зашифрован. Чтобы расшифровать его, вам нужно указать его парольную фразу. </string>
+  <string name="backup_wrong_password">Файл резервной копии кажется зашифрован с другой парольной фразой.</string>
+  <string name="passphrase_for_synchronization">Введите парольную фразу, если вы хотите, чтобы данные синхронизации на этом бэкенде были зашифрованы.</string>
+  <string name="sync_backend_is_encrypted">Удаленный бэкенд зашифрован. Вам нужно указать парольную фразу.</string>
+  <string name="sync_backend_wrong_passphrase">Удаленный бэкенд кажется зашифрован с другой парольной фразой.</string>
+  <string name="sync_backend_is_not_encrypted">Удаленный бэкенд не зашифрован.</string>
+  <string name="warning_backup_protected">Архив будет защищен вашей парольной фразой.</string>
+  <string name="dialog_title_backup_protected">Резервное копирование (в зашифрованном виде)</string>
+  <string name="input_label_passphrase">Парольная фраза </string>
+  <string name="button_label_no_encryption">Без шифрования</string>
   <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
+  <string name="joining_or">или</string>
+  <string name="pref_account_list_fast_scroll_summary">Включите быструю прокрутку для листа учетных записей. Может привести к некорректному отображению на некоторых устройствах</string>
   <string name="menu_hide">Скрыть</string>
   <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
   <string name="menu_close">Закрыть</string>
   <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
+  <string name="menu_reopen">Открыть вновь </string>
   <!--Menu entry for opening a list of all hidden accounts.-->
   <string name="menu_hidden_accounts">Скрытые аккаунты</string>
   <!--Action of showing an account again that had previously been hidden.-->
@@ -744,23 +835,67 @@
   <string name="content_description_encrypted">Зашифрован</string>
   <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
   <string name="content_description_closed">Закрыт</string>
+  <string name="warning_synced_account_cannot_be_closed">Аккаунт, связанный с синхронизационым бэкендом, не может быть закрыт</string>
   <string name="translated_by">Перевод</string>
+  <string name="warning_no_account">Как минимум один аккаунт должен быть видимым и открыт для создания новых транзакций.</string>
+  <string name="content_description_dates_are_linked">Дата бронирования и дата стоимости обновятся вместе</string>
+  <string name="content_description_dates_are_not_linked">Дата бронирования и дата стоимости не обновятся вместе</string>
+  <string name="icon">Значок</string>
   <string name="pref_debug_title">Отладка</string>
+  <string name="roadmap_vote">Дорожная карта действия </string>
+  <string name="warning_account_for_transaction_is_closed">По крайней мере, одна из выбранных транзакций не может быть отредактирована:</string>
+  <string name="object_sealed">Объект относится к закрытому аккаунту.</string>
+  <string name="content_description_download_exchange_rate">Скачать курс обмена</string>
   <string name="pref_category_exchange_rates">Курсы валют</string>
   <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
   <string name="pref_exchange_rate_provider_title">Поставщик курсов валют</string>
   <string name="pref_openexchangerates_app_id_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе OpenExchangeRates и введите ваш App ID</string>
+  <string name="pref_plan_executor_time_title">Время оповещения плановика</string>
+  <string name="synchronization_select_folder_dialog_title">Выберите существующую папку или создайте новую</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
+  <string name="discover_feature_expense_income_switch">Используйте этот переключатель для записи поступлений.</string>
   <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
+  <string name="discover_feature_operation_type_select">Используйте это раскрывающееся меню для записи переводов между счетами или разделяемых транзакций.</string>
+  <string name="menu_create_budget">Новый бюджет</string>
+  <string name="budget_onetime">Одноразовый </string>
+  <string name="dialog_confirm_discard_new_budget">Удалить новый бюджет?</string>
   <string name="budget_duration_from">С</string>
   <string name="budget_duration_to">До</string>
+  <string name="no_budgets">Определите свой первый бюджет, нажав кнопку +.</string>
+  <string name="budget_date_end_after_start">Дата окончания бюджета должна следовать после даты начала.</string>
+  <string name="menu_budget_allocated_only">Показавать только категории с распределением</string>
+  <string name="budget_filter_all_categories">Все категории</string>
+  <string name="budget_filter_all_parties">Все участники</string>
+  <string name="budget_filter_all_methods">Все методы</string>
+  <string name="budget_filter_all_states">Все статусы</string>
+  <string name="budget_filter_all_tags">Все теги</string>
+  <string name="budget_form_label_filter">Фильтр</string>
+  <string name="dialog_title_warning_delete_budget">Удалить бюджет?</string>
+  <string name="warning_delete_budget">Бюджет \"%1$s\" будет удален.</string>
+  <string name="menu_edit_budget">Изменить бюджет</string>
+  <string name="onboarding_privacy_title">Ваши данные остаются в ваших руках</string>
+  <string name="onboarding_privacy_intro">Ваши финансовые данные не пересылаются ни на какой сервер, как находящийся под нашим контролем, так и под контролем какой-либо третьей стороны. </string>
+  <string name="app_restart_required">Для вступления в силу новой конфигурации требуется перезапуск приложения.</string>
   <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
+  <string name="checkbox_is_default">По умолчанию</string>
   <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
+  <string name="menu_remap">Переоформления</string>
+  <string name="dialog_title_confirm_remap">Изменить сопоставление (%s)?</string>
+  <string name="remap_category">Все выбранные транзакции будут сопоставлены с категорией %s.</string>
+  <string name="remap_payee">Все выбранные транзакции будут сопоставлены плательщику / получателю платежа %s.</string>
+  <string name="remap_method">Все выбранные транзакции будут сопоставлены с методом %s.</string>
+  <string name="remap_account">Все выбранные транзакции будут сопоставлены с аккаунтом %s.</string>
+  <string name="remapping_result">Выбранные транзакции были переоформлены.</string>
+  <string name="clone_and_remap_result">Выбранные транзакции были клонированы и переоформлены.</string>
   <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
+  <string name="remap_empty_list">Не найден ни один элемент, который может быть сопоставлен со всеми выбранными транзакциями.</string>
   <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
+  <string name="button_label_clone_and_remap">Клонировать и переоформить </string>
   <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
+  <string name="pref_clone_with_current_date_summary_on">Клонированные транзакции имеют текущую дату</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
+  <string name="pref_clone_with_current_date_summary_off">Клонированные транзакции сохраняют исходную дату</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <!--%s will be replaced with the labels of all tags that user has selected.-->
 </resources>
