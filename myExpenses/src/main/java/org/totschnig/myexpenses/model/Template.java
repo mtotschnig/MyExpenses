@@ -161,6 +161,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
       template = new Transaction(t.getAccountId(), t.getAmount());
     }
     setCatId(t.getCatId());
+    setLabel(t.getLabel());
     setComment(t.getComment());
     setMethodId(t.getMethodId());
     setMethodLabel(t.getMethodLabel());

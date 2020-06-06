@@ -57,6 +57,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override fun buildMainTransaction(accountId: Long): ITransaction =
             (if (isTemplate) buildTemplate(accountId) else Transaction(accountId, parentId)).apply {
                 this.catId = this@CategoryDelegate.catId
+                this.label = this@CategoryDelegate.label
             }
 
     override fun configureType() {
