@@ -1,39 +1,33 @@
 package org.totschnig.myexpenses.test.sync;
 
 import android.content.ContentProviderOperation;
-import android.content.Context;
-import android.os.Build;
 
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.sync.SyncDelegate;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import androidx.annotation.RequiresApi;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
+//@RequiresApi(api = Build.VERSION_CODES.M)
 public class SyncAdapterWriteToDbTest {
-  private SyncAdapter syncAdapter;
+  private SyncDelegate syncDelegate;
   private ArrayList<ContentProviderOperation> ops;
 
   @Before
   public void setup() {
-    Assume.assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
+    //Assume.assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
 
-    syncAdapter = spy(new SyncAdapter(mock(Context.class), true, true));
-    when(syncAdapter.getAccount()).thenReturn(new Account());
+    syncDelegate = new SyncDelegate(mock(CurrencyContext.class));
+    syncDelegate.account = new Account();
     ops = new ArrayList<>();
   }
 
@@ -45,7 +39,7 @@ public class SyncAdapterWriteToDbTest {
         .setCurrentTimeStamp()
         .setAmount(123L)
         .build();
-    syncAdapter.collectOperations(change, 0, ops, -1);
+    syncDelegate.collectOperations(change, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isInsert());
   }
@@ -58,7 +52,7 @@ public class SyncAdapterWriteToDbTest {
         .setCurrentTimeStamp()
         .setAmount(123L)
         .build();
-    syncAdapter.collectOperations(change, 0, ops, -1);
+    syncDelegate.collectOperations(change, ops, -1);
     assertEquals(2, ops.size());
     assertTrue(ops.get(0).isUpdate());
     assertTrue(ops.get(1).isDelete());
@@ -74,7 +68,7 @@ public class SyncAdapterWriteToDbTest {
         .setAmount(123L)
         .setTags(Collections.singletonList("tag"))
         .build();
-    syncAdapter.collectOperations(change, 0, ops, -1);
+    syncDelegate.collectOperations(change, ops, -1);
 
     assertEquals(2, ops.size());
     assertTrue(ops.get(0).isInsert());
@@ -89,7 +83,7 @@ public class SyncAdapterWriteToDbTest {
         .setUuid("any")
         .setCurrentTimeStamp()
         .build();
-    syncAdapter.collectOperations(change, 0, ops, -1);
+    syncDelegate.collectOperations(change, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isDelete());
   }
