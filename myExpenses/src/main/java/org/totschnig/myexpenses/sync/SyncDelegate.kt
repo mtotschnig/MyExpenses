@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
 
-class SyncDelegate(val currencyContext: CurrencyContext) {
+class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContext, val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid ) {
 
     private val categoryToId: MutableMap<String, Long> = HashMap()
     private val payeeToId: MutableMap<String, Long> = HashMap()
@@ -203,7 +203,7 @@ class SyncDelegate(val currencyContext: CurrencyContext) {
         @Suppress("NON_EXHAUSTIVE_WHEN")
         when (change.type()) {
             TransactionChange.Type.created -> {
-                val transactionId = Transaction.findByAccountAndUuid(account.id, change.uuid())
+                val transactionId = resolver(account.id, change.uuid())
                 if (transactionId > -1) {
                     if (parentOffset > -1) {
                         //if we find a split part that already exists, we need to assume that it has already been synced
@@ -231,7 +231,7 @@ class SyncDelegate(val currencyContext: CurrencyContext) {
             TransactionChange.Type.updated -> {
                 val values: ContentValues = toContentValues(change)
                 if (values.size() > 0) {
-                    val transactionId = Transaction.findByAccountAndUuid(account.id, change.uuid())
+                    val transactionId = resolver(account.id, change.uuid())
                     if (transactionId != -1L) {
                         val builder = ContentProviderOperation.newUpdate(uri)
                                 .withSelection(DatabaseConstants.KEY_ROWID + " = ?", arrayOf(transactionId.toString()))
@@ -246,7 +246,7 @@ class SyncDelegate(val currencyContext: CurrencyContext) {
                 }
             }
             TransactionChange.Type.deleted -> {
-                val transactionId = Transaction.findByAccountAndUuid(account.id, change.uuid())
+                val transactionId = resolver(account.id, change.uuid())
                 if (transactionId != -1L) {
                     ops.add(ContentProviderOperation.newDelete(ContentUris.withAppendedId(uri, transactionId))
                             .withSelection(DatabaseConstants.KEY_UUID + " = ? AND " + DatabaseConstants.KEY_ACCOUNTID + " = ?", arrayOf(change.uuid(), account.id.toString()))
@@ -339,7 +339,7 @@ class SyncDelegate(val currencyContext: CurrencyContext) {
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
-                findTransferAccount(transferAccount).let { accountId -> Transaction.findByAccountAndUuid(accountId, change.uuid()).takeIf { it != -1L }?.let { Transfer(account.id, money, it) } }
+                findTransferAccount(transferAccount).let { accountId -> resolver(accountId, change.uuid()).takeIf { it != -1L }?.let { Transfer(account.id, money, it) } }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
                     change.label()?.let { label ->
@@ -360,12 +360,14 @@ class SyncDelegate(val currencyContext: CurrencyContext) {
         }
         change.crStatus()?.let { t.crStatus = CrStatus.valueOf(it) }
         t.referenceNumber = change.referenceNumber()
-        if (parentOffset == -1 && change.parentUuid() != null) {
-            val parentId = Transaction.findByAccountAndUuid(account.id, change.parentUuid())
-            if (parentId == -1L) {
-                return ArrayList() //if we fail to link a split part to a parent, we need to ignore it
+        if (parentOffset == -1) {
+            change.parentUuid()?.let {
+                val parentId = resolver(account.id, it)
+                if (parentId == -1L) {
+                    return ArrayList() //if we fail to link a split part to a parent, we need to ignore it
+                }
+                t.parentId = parentId
             }
-            t.parentId = parentId
         }
         change.pictureUri()?.let { t.pictureUri = Uri.parse(it) }
         change.originalAmount()?.let { originalAmount ->
