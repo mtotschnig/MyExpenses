@@ -28,6 +28,5 @@
     </issue>
     <!-- TODO verify this issue once there is some documentation about it -->
     <issue id="InvalidVectorPath" severity="ignore" />
-    <issue id="MissingRegistered" severity="warning" />
     <issue id="BuildNotImplemented" severity="ignore" />
 </lint>
