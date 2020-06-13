@@ -204,8 +204,9 @@ public class MyExpenses extends LaunchActivity implements
   @BindView(R.id.left_drawer)
   ExpandableStickyListHeadersListView mDrawerList;
   @Nullable
-  @BindView(R.id.drawer_layout)
-  DrawerLayout mDrawerLayout;
+  @BindView(R.id.root_layout)
+  ViewGroup rootLayout;
+  private DrawerLayout mDrawerLayout;
   @BindView(R.id.viewpager)
   ViewPager myPager;
   @BindView(R.id.expansionContent)
@@ -252,6 +253,7 @@ public class MyExpenses extends LaunchActivity implements
     adHandler.maybeRequestNewInterstitial();
 
     ButterKnife.bind(this);
+    mDrawerLayout = rootLayout instanceof DrawerLayout ? ((DrawerLayout) rootLayout) : null;
 
     mToolbar = setupToolbar(false);
     mToolbar.setOnClickListener(v -> copyToClipBoard());
