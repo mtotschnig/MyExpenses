@@ -390,4 +390,14 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
     private fun filterDeleted(input: List<TransactionChange>, deletedUuids: List<String>): List<TransactionChange> {
         return input.filter { change: TransactionChange -> change.isDelete || !deletedUuids.contains(change.uuid()) }
     }
+
+    fun findMetadataChange(input: List<TransactionChange>) =
+            input.findLast { value: TransactionChange -> value.type() == TransactionChange.Type.metadata  }
+
+    fun removeMetadataChange(input: List<TransactionChange>) =
+            input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata  }
+
+    fun concat(contentBuilders: List<StringBuilder>) =
+            contentBuilders.reduce { sum, element -> sum.append("\n").append(element) }.toString()
+
 }

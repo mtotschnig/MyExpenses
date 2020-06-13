@@ -26,10 +26,8 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.SparseArray;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
-import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -329,24 +327,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (localChanges.size() > 0 || remoteChanges.size() > 0) {
 
-              Optional<TransactionChange> localMetadataChange = Stream.of(localChanges).filter(value -> value.type() == TransactionChange.Type.metadata).findLast();
-              Optional<TransactionChange> remoteMetadataChange = Stream.of(remoteChanges).filter(value -> value.type() == TransactionChange.Type.metadata).findLast();
-              if (remoteMetadataChange.isPresent()) {
-                remoteChanges = Stream.of(remoteChanges).filter(value -> value.type() != TransactionChange.Type.metadata).collect(Collectors.toList());
+              TransactionChange localMetadataChange = syncDelegate.findMetadataChange(localChanges);
+              TransactionChange remoteMetadataChange = syncDelegate.findMetadataChange(remoteChanges);
+              if (remoteMetadataChange != null) {
+                remoteChanges = syncDelegate.removeMetadataChange(remoteChanges);
               }
 
-              if (localMetadataChange.isPresent() && remoteMetadataChange.isPresent()) {
-                if (localMetadataChange.get().timeStamp() > remoteMetadataChange.get().timeStamp()) {
-                  remoteMetadataChange = Optional.empty();
+              if (localMetadataChange != null && remoteMetadataChange != null) {
+                if (localMetadataChange.timeStamp() > remoteMetadataChange.timeStamp()) {
+                  remoteMetadataChange = null;
                 } else {
-                  localMetadataChange = Optional.empty();
-                  localChanges = Stream.of(localChanges).filter(value -> value.type() != TransactionChange.Type.metadata).collect(Collectors.toList());
+                  localMetadataChange = null;
+                  localChanges = syncDelegate.removeMetadataChange(localChanges);
                 }
               }
 
-              if (localMetadataChange.isPresent()) {
+              if (localMetadataChange != null) {
                 backend.updateAccount(instanceFromDb);
-              } else if (remoteMetadataChange.isPresent()) {
+              } else if (remoteMetadataChange != null) {
                 final Exceptional<AccountMetaData> accountMetaDataExceptional = backend.readAccountMetaData();
                 if (accountMetaDataExceptional.isPresent()) {
                   if (updateAccountFromMetadata(provider, accountMetaDataExceptional.get())) {
@@ -529,7 +527,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
       contentBuilder.append(content);
       notifyUser(getNotificationTitle(),
-          Stream.of(contentBuilders).map(StringBuilder::toString).collect(Collectors.joining("\n")),
+          syncDelegate.concat(contentBuilders),
           account, null);
     }
   }
