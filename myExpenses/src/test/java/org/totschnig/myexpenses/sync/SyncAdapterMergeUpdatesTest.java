@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.sync;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 import java.util.ArrayList;
@@ -8,16 +10,21 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.totschnig.myexpenses.sync.SyncUtilsKt.mergeUpdates;
+import static org.mockito.Mockito.mock;
 
 public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
+  private SyncDelegate syncDelegate;
+  @Before
+  public void setUp() {
+    syncDelegate = new SyncDelegate(mock(CurrencyContext.class));
+  }
 
   @Test
   public void shouldReturnSameElement() {
     List<TransactionChange> changes = new ArrayList<>();
     final TransactionChange change = buildUpdated().setUuid("random").build();
     changes.add(change);
-    TransactionChange merge = mergeUpdates(changes);
+    TransactionChange merge = syncDelegate.mergeUpdates(changes);
     assertEquals(change, merge);
   }
 
@@ -45,7 +52,7 @@ public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
 
   private void mergeUpdatesAndExpectIllegalStateExpection(List<TransactionChange> changes) {
     try {
-      mergeUpdates(changes);
+      syncDelegate.mergeUpdates(changes);
       fail("Expected IllegalStateEception to be thrown");
     } catch (IllegalStateException expected) {
       //expected
@@ -60,7 +67,7 @@ public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
     Long amount = 123L;
     changes.add(buildUpdated().setUuid(uuid).setComment(comment).build());
     changes.add(buildUpdated().setUuid(uuid).setAmount(amount).build());
-    TransactionChange merge = mergeUpdates(changes);
+    TransactionChange merge = syncDelegate.mergeUpdates(changes);
     assertEquals(comment, merge.comment());
     assertEquals(amount, merge.amount());
   }
@@ -75,7 +82,7 @@ public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
     Long earlier = later - 10000;
     changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setTimeStamp(later).setComment(comment2).build());
     changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setTimeStamp(earlier).setComment(comment1).build());
-    TransactionChange merge = mergeUpdates(changes);
+    TransactionChange merge = syncDelegate.mergeUpdates(changes);
     assertEquals(comment2, merge.comment());
   }
 }

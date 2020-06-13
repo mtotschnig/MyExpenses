@@ -1,21 +1,22 @@
 package org.totschnig.myexpenses.sync;
 
-import android.content.Context;
-import androidx.annotation.NonNull;
-
 import org.junit.Before;
-import org.mockito.Mockito;
+import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
+import androidx.annotation.NonNull;
+
+import static org.mockito.Mockito.mock;
+
 class SyncAdapterBaseTest {
-  SyncAdapter syncAdapter;
+  SyncDelegate syncDelegate;
 
   @Before
   public void setup() {
-    syncAdapter = new SyncAdapter(Mockito.mock(Context.class), true, true);
+    syncDelegate = new SyncDelegate(mock(CurrencyContext.class));
   }
 
-  protected TransactionChange.Builder buildCreated() {
+  TransactionChange.Builder buildCreated() {
     return buildWithTimestamp().setType(TransactionChange.Type.created);
   }
 
@@ -24,11 +25,11 @@ class SyncAdapterBaseTest {
     return TransactionChange.builder().setCurrentTimeStamp();
   }
 
-  protected TransactionChange.Builder buildDeleted() {
+  TransactionChange.Builder buildDeleted() {
     return buildWithTimestamp().setType(TransactionChange.Type.deleted);
   }
 
-  protected TransactionChange.Builder buildUpdated() {
+  TransactionChange.Builder buildUpdated() {
     return buildWithTimestamp().setType(TransactionChange.Type.updated);
   }
 }
