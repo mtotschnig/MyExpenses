@@ -8,8 +8,9 @@
 
     <application
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:targetApi="m">
+        tools:targetApi="q">
         <receiver
             android:name=".sync.SyncTrigger"
             tools:ignore="ExportedReceiver">
