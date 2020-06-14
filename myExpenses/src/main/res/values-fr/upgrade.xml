@@ -58,69 +58,6 @@
         <item>Traduction ukrainienne</item>
         <item>Exportation CSV: séparateur de champ configurable</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Cryptage des sauvegardes et des données de synchronisation</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Filtrer les opérations qui ne sont pas liées aux catégories, bénéficiaires ou méthodes</item>
-        <item>Stockage optimisé des données synchronisées</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Devises personnalisées</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Couleurs personnalisées pour les catégories principales</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Objectifs d\'économie et limites de crédit</item>
-        <item>Les groupes de comptes (par type ou devise) peuvent être réduits</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Refonte de la liste des comptes</item>
-        <item>La synchronisation peut être limitée au Wi-Fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>L\'heure de l\'opération est maintenant optionnelle</item>
-        <item>Possibilité de distinguer entre la date d\'enregistrement et la date de valeur</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Plusieurs opérations peuvent être regroupées en une seule opération ventilée.</item>
-        <item>L\'opération ventilée peut être dissociée.</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Conversion entre devises étrangères et monnaie locale</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Graphique historique (flux de trésorerie)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Protection par écran de verrouillage de l\'appareil</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>Le ficher exporté PDF (Impression) peut être partagé</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Synchronisation avec Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Remplissage automatique configurable</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Direction de tri ascendante (les plus anciennes transactions en haut)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Modèles et échéances pour les opérations ventilées</item>
-        <item>Présentation de la clé de licence professionnelle</item>
-        <item>Les widgets de l\'écran d\'accueil s\'adaptent à la taille de police préférée par l\'utilisateur</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Option pour les échéances personnalisées</item>
-        <item>Correction du stockage dans le cloud de sauvegardes volumineuses</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Traduction en hébreu</item>
-        <item>Choix personnalisé pour la couleur du compte</item>
-    </string-array>
     <string name="bug_fixes">Corrections des erreurs</string>
     <string name="performance_enhancement">Amélioration de performance</string>
     <string name="stability_improvements">Améliorations de la stabilité</string>

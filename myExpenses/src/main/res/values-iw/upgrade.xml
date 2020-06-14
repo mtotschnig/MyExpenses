@@ -58,69 +58,6 @@
         <item>תרגום אוקראיני</item>
         <item>ייצוא CSV: Delimiter הפך להגדרה</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>הצפנה עבור גיבויים ונתוני סנכרון</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>סינון עבור עסקאות ללא מיפוי לקטגוריות, למשלמים או לשיטות</item>
-        <item>אחסון אופטימלי של נתונים מסונכרנים</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>מטבעות מותאמים אישית</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>צבעים מותאמים אישית עבור קטגוריות עיקריות</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>שמירת יעדים ומגבלות אשראי</item>
-        <item>ניתן לצמצם קבוצות חשבון (לפי סוג או מטבע)</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>עצוב מחדש של רשימת החשבונות</item>
-        <item>סנכרון יכול להיות מוגבל לרשת Wi-Fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>זמן העסקה אופציונלי כעת</item>
-        <item>לחלופין, הבחן בין תאריך ההזמנה לבין תאריך הערך</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>עסקאות מרובות ניתן לקבץ לעסקה ספליט אחד</item>
-        <item>ניתן לפצל את העסקה המפוצלת</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>המרה בין מטבעות זרים למטבע ביתי</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>תרשים היסטוריה (תזרים מזומנים)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>הגנה על ידי נעילת מסך המכשיר</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>ייצוא PDF (הדפסה) ניתן לשתף</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>סינכרון באמצעות Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>מילוי אוטומטי ניתן להגדרה</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>מיון בסדר עולה (הישן ביותר בראש)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>תבניות ותוכניות לעסקאות מפוצלות</item>
-        <item>היכרות עם מפתח רישיון מקצועי</item>
-        <item>ווידג\'טים של מסך הבית מתאימים לגודל גופנים מועדף</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>אפשרות לתוכניות מותאמות אישית</item>
-        <item>תקן אחסון ענן של גיבויים גדולים</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>תרגום לעברית</item>
-        <item>בחירת צבע חשבון מותאם אישית</item>
-    </string-array>
     <string name="bug_fixes">תיקוני באגים</string>
     <string name="performance_enhancement">שיפור בעיצועים</string>
     <string name="stability_improvements">שיפורים ביציבות</string>

@@ -18,62 +18,6 @@
     <string-array name="whats_new_306">
         <item>Orçamento 2.0</item>
     </string-array>
-    <string-array name="whats_new_297">
-        <item>Moedas personalizadas</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Cores personalizadas nas categorias principais</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Metas de poupança e limites de crédito</item>
-        <item>Grupos de contas (por tipo ou por moeda) podem ser retraídos</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Redesenho da lista de contas</item>
-        <item>A sincronização pode ser limitada ao wi-fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>A data da transação agora é opcional</item>
-        <item>Distinção opcional entre a data do pagamento e a data da contabilização</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Múltiplas transações podem ser agrupadas em uma transação dividida</item>
-        <item>Transações divididas podem ser desagrupadas</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Conversão entre moedas estrangeiras e a moeda local</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Diagrama histórico (fluxo de caixa)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Proteção pelo travamento de tela do dispositivo</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>A exportação para PDF (impressão) pode ser compartilhada</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Sincronização via Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Preenchimento automático se tornou configurável</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Ordenação ascendente (as transações mais antigas no topo)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Modelos e planos para transações divididas</item>
-        <item>Introdução da Chave de Licença Profissional</item>
-        <item>Os widgets da tela inicial se adaptam ao tamanho de fonte definido pelo usuário</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Opção para planos personalizados</item>
-        <item>Corrigir o armazenamento na nuvem de backups grandes</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Tradução hebraica</item>
-        <item>Selecionador de cores personalizadas para a conta</item>
-    </string-array>
     <string name="bug_fixes">Correções de erros</string>
     <string name="performance_enhancement">Melhoria de performance</string>
     <string name="stability_improvements">Melhorias de estabilidade</string>

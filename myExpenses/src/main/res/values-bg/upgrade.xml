@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>Избираем формат за дата</item>
+        <item>Експорт на етикетите в CSV</item>
+        <item>Запомняне на свитото състояние на групите в списъка с транзакции</item>
+    </string-array>
     <string-array name="whats_new_311">
         <item>Може да се търси в списъка на страните (платци и получатели)</item>
     </string-array>
@@ -52,69 +57,6 @@
     <string-array name="whats_new_300">
         <item>Превод на украйнски</item>
         <item>Избор на символа-разделител при CSV експорт</item>
-    </string-array>
-    <string-array name="whats_new_299">
-        <item>Шифроване на данните за архивиране и синхронизиране</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Филтър за транзакции без зададена категория, получател или метод на плащане</item>
-        <item>Оптимизиран e начинa на съхранение на данните за синхронизация</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Валути, дефинирани от потребителя</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Избор на цвят за главните категории</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Цел за спестяване и кредитен лимит</item>
-        <item>Групи от сметки (по тип или валута) могат да бъдат намалени</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Обновен дизайн на списъка на сметките</item>
-        <item>Синхронизирането може да се ограничи до Wi-Fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>Времето на транзакцията вече е по избор</item>
-        <item>По желание можете да направите разлика между датата на резервацията и датата на вальора</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Няколко транзакции могат да бъдат групирани в една разпределена транзакция</item>
-        <item>Разпределена транзакция може да се раздели на отделни транзакции</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Конвертиране между чуждестранни и национална валути</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Графика на историята (паричен поток)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Защита чрез екрана за заключване на устройството</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>PDF експорт (Печат) може да бъде споделен</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Синхронизация чрез Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Автоматичното попълване вече е конфигурируемо</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Възходящо сортиране (най-старите транзакции отгоре)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Шаблони и планове за разпределени транзакции</item>
-        <item>Представяне на нов лицензен ключ - Професионален</item>
-        <item>Уиджетите на начален екран се приспособяват към предпочитания от потребителя размер на шрифта</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Възможност за потребителски планове</item>
-        <item>Отстранен проблем при съхраняване на голям бекъп на отдалечено място за съхранение</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Превод на еврейски език </item>
-        <item>Палитра за избор на цвят на сметка</item>
     </string-array>
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>

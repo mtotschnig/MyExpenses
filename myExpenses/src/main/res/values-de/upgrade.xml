@@ -58,69 +58,6 @@
         <item>Ukrainische Übersetzung</item>
         <item>CSV-Export: Trennzeichen konfigurierbar gemacht</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Verschlüsselung für Backups und Synchronisationsdaten</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Filter für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden</item>
-        <item>Optimierte Speicherung synchronisierter Daten</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Benutzerdefinierte Währungen</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Benutzerdefinierte Farben für Hauptkategorien</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Sparziele und Kreditlimits</item>
-        <item>Kontogruppen (pro Typ oder Währung) können zugeklappt werden</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Neugestaltung der Kontoliste</item>
-        <item>Die Synchronisierung kann auf WLAN beschränkt werden</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>Buchungszeit ist jetzt optional</item>
-        <item>Optional kann zwischen Buchungsdatum und Wertstellung unterscheiden werden</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Mehrere Buchungen können zu einer mehrteiligen Buchung zusammengefasst werden</item>
-        <item>Die Gruppierung einer mehrteiligen Buchung kann aufgelöst werden</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Umrechnung zwischen Fremdwährung und Heimatwährung</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Verlaufsdiagramm (Cashflow)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Schutz durch Geräteschutzbildschirm</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>Die PDF-Export-Datei (Drucken) kann geteilt werden</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Synchronisation über Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Automatisches Ausfüllen konfigurierbar gemacht</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Aufsteigende Sortierrichtung (älteste Transaktionen oben)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Vorlagen und Pläne für mehrteilige Buchungen</item>
-        <item>Einführung des Professionellen Lizenzschlüssels</item>
-        <item>Widgets für den Startbildschirm passen sich an die benutzerdefinierte Schriftgröße an</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Option für benutzerdefinierte Pläne</item>
-        <item>Cloud-Speicherung von großen Backups wurde repariert</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Hebräische Übersetzung</item>
-        <item>Auswahl einer benutzerdefinierten Farbe für Konten</item>
-    </string-array>
     <string name="bug_fixes">Bugs behoben</string>
     <string name="performance_enhancement">Performance-Verbesserung</string>
     <string name="stability_improvements">Stabilitätsverbesserungen</string>

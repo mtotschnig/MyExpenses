@@ -39,69 +39,6 @@
         <item>Terjemahan bahasa Ukraine</item>
         <item>Eksport CSV: Pembatas boleh dikonfigur</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Penyulitan untuk sandar dan penyegerakan data</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Tapisan untuk transaksi tanpa pemetaan dengan kategori, penerima atau kaedah</item>
-        <item>Storan dioptimumkan untuk data tersegerak</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Matawang suai</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Warna suai untuk kategori utama</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Matlamat simpanan dan had kredit</item>
-        <item>Kumpulan akaun (per jenis atau matawang) boleh dikuncupkan</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Senarai akaun direka semula</item>
-        <item>Penyegerakan boleh dihadkan dengan Wi-Fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>Masa transaksi kini adalah pilihan</item>
-        <item>Boleh bezakan di antara tarikh tempahan dengan tarikh nilai secara pilihan</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Transaksi berbilang boleh dikumpulkan menjadi satu transaksi pengasingan</item>
-        <item>Transaksi pengasingan boleh dinyahkumpulkan</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Pertukaran diantara matawang asing dengan matawang negara sendiri</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Carta sejarah (Aliran tunai)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Dilindungi oleh skrin kunci peranti</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>Eksport PDF (Cetak) boleh dikongsi</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Penyegerakan melalui Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Auto-isi boleh dikonfigurasikan</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Arah isih menaik (transaksi paling lama di bahagian teratas)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Templat dan plan untuk transaksi berasingan</item>
-        <item>Memperkenalkan Kunci Lesen Profesional</item>
-        <item>Widjet skrin rumah diadaptasi dengan saiz fon yang dikehendaki pengguna</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Pilihan untuk plan suai</item>
-        <item>Baiki storan awan untuk sandar bersaiz besar</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Terjemahan bahasa Ibrani</item>
-        <item>Pemilih untuk warna akaun suai</item>
-    </string-array>
     <string name="bug_fixes">Pembaikan pepijat</string>
     <string name="performance_enhancement">Penambahbaikan prestasi</string>
     <string name="stability_improvements">Penambahbaikan kestabilan</string>

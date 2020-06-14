@@ -64,69 +64,6 @@
         <item>Ukrainian translation</item>
         <item>CSV export: Delimiter made configurable</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Encryption for backups and synchronization data</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Filter for transactions without mapping to categories, payees or methods</item>
-        <item>Optimized storage of synchronized data</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Custom currencies</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Custom colors for main categories</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Saving goals and credit limits</item>
-        <item>Account groups (per type or currency) can be collapsed</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Account list redesign</item>
-        <item>Synchronization can be limited to Wi-Fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>Transaction time is now optional</item>
-        <item>Optionally distinguish between booking date and value date</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Multiple transactions can be grouped into one split transaction</item>
-        <item>Split transaction can be ungrouped</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Conversion between foreign currencies and home currency</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>History chart (Cash flow)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Protection by device lock screen</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>PDF export (Print) can be shared</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Synchronization via Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Auto-fill made configurable</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Ascending sort direction (oldest transactions on top)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Templates and plans for split transactions</item>
-        <item>Introducing Professional Licence Key</item>
-        <item>Home screen widgets adapt to user-preferred font size</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Option for custom plans</item>
-        <item>Fix cloud storage of large backups</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Hebrew translation</item>
-        <item>Picker for custom account color</item>
-    </string-array>
     <string name="bug_fixes">Bug fixes</string>
     <string name="performance_enhancement">Performance enhancement</string>
     <string name="stability_improvements">Stability improvements</string>

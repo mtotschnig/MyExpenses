@@ -15,10 +15,5 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_282">
-        <item>Modelos e planos para operações divididas</item>
-        <item>Introdução da chave de licença profissional</item>
-        <item>Os widgets da tela inicial se adaptam ao tamanho de fonte preferido pelo usuário</item>
-    </string-array>
     <string name="bug_fixes">Correções de erros</string>
     </resources>

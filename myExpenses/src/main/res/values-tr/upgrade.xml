@@ -58,69 +58,6 @@
         <item>Ukraynaca tercüme</item>
         <item>CSV dışa aktarımı: Sınırlayıcı artık yapılandırılabilir</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Yedeklemeler ve eşleşme verileri için şifreleme</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Muameleler, kategoriler, alacaklılar veya metotlarla eşleşmeden filtrelenebilir</item>
-        <item>Eşleştirilen verilerin optimize edilmiş depolanması</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Özel para birimleri</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Ana kategoriler için özel renkler</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Tasarruf hedefleri ve kredi limitleri</item>
-        <item>Hesap grupları (tür veya para birimine göre) küçültülebilir</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Hesap listesi yeniden tasarlandı</item>
-        <item>Eşleşme sadece Wi-Fi ile sınırlanabilir</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>Muamele zamanı artık seçime dayalıdır</item>
-        <item>Seçime dayalı olarak muamele tarihi ve değer tarihi arasında ayrım yapabilirsiniz</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Birden fazla muamele bir bölünmüş muamele içinde gruplandırılabilir</item>
-        <item>Bölünmüş muameleler gruplanmamış yapılabilir</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Yabancı dövizler ile yerel para birimi arasında dönüşüm</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Tarihçe grafiği (Nakit akışı)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Cihaz ekranı kilitlemeyle koruma</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>PDF dışa aktarımı (Yazdırma) paylaşılabilir</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Dropbox vasıtasıyla eşleşme</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Otomatik doldurma yapılandırılabilir yapıldı</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Eskiden yeniye sıralama yönü (en eski işlemler en üstte)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Bölünmüş muameleler için şablonlar ve planlamalar</item>
-        <item>Profesyonel Lisans Anahtarı</item>
-        <item>Ana ekran widget\'ları kullanıcının tercih ettiği yazı tipi boyutuna uyarlanır</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Özel planlamalar için seçenek</item>
-        <item>Büyük yedeklemeler için bulut depolamasını düzelt</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>İbranice tercüme</item>
-        <item>Özel hesap rengi için seçici</item>
-    </string-array>
     <string name="bug_fixes">Hata düzeltmeleri</string>
     <string name="performance_enhancement">Performans arttırıldı</string>
     <string name="stability_improvements">Kararlılık geliştirmeleri</string>

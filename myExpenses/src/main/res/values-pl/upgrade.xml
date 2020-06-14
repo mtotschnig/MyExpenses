@@ -22,24 +22,5 @@
         <item>Tłumaczenie na ukraiński</item>
         <item>Eksport CSV: Konfigurowalny separator pól</item>
     </string-array>
-    <string-array name="whats_new_288">
-        <item>Wykres historii (przepływ gotówki)</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Rosnący kierunek sortowania (najstarsze transakcje u góry)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Szablony i plany dla transakcji podzielonych</item>
-        <item>Przedstawiamy Profesjonalny Klucz Licencyjny</item>
-        <item>Widżety ekranu głównego dostosowują się do preferowanego przez użytkownika rozmiaru czcionki</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Opcja dla niestandardowych planów</item>
-        <item>Naprawiono dysk w chmurze dla dużych kopii zapasowych</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Tłumaczenie hebrajskie</item>
-        <item>Wybór dla niestandardowego koloru konta</item>
-    </string-array>
     <string name="bug_fixes">Poprawki błędów</string>
     </resources>

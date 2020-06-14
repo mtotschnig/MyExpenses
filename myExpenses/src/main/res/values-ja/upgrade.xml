@@ -58,69 +58,6 @@
         <item>ウクライナ語翻訳</item>
         <item>CSV エクスポート: 区切り文字が設定可能です</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>バックアップと同期データの暗号化</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>分類、支払先、または方法に配置せずに取引をフィルタリング</item>
-        <item>同期データのストレージを最適化</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>通貨のカスタマイズ</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>主分類の色をカスタム</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>貯蓄目標とクレジット限度</item>
-        <item>勘定科目グループ (種類または通貨単位) を折りたたむことができます</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>勘定リストの再設計</item>
-        <item>同期を Wi-Fi 接続時に限定</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>取引時刻がオプションになりました</item>
-        <item>オプションで、予約日と実行日を区別できます</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>複数の取引を1つの分割取引にグループ化できます</item>
-        <item>分割取引がグループ化解除できます</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>外貨と自国通貨間の換算</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>履歴チャート (キャッシュフロー)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>デバイスのロック画面による保護</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>PDF エクスポート (印刷) が共有できます</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Dropboxで同期</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>設定可能な自動入力</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>昇順のソート (古い取引が先頭)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>分割取引用のテンプレートと計画</item>
-        <item>プロフェッショナルライセンスキーの導入</item>
-        <item>ホーム画面ウィジェットは、ユーザーが好みのフォントサイズに適応します</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>カスタム計画のオプション</item>
-        <item>大規模バックアップのクラウドストレージを修正</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>ヘブライ語翻訳</item>
-        <item>カスタムアカウント色の選択</item>
-    </string-array>
     <string name="bug_fixes">バグ修正</string>
     <string name="performance_enhancement">パフォーマンスの向上</string>
     <string name="stability_improvements">安定性の向上</string>

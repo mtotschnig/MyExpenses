@@ -18,29 +18,5 @@
     <string-array name="whats_new_306">
         <item>Ngân quỹ 2.0</item>
     </string-array>
-    <string-array name="whats_new_287">
-        <item>Bảo vệ bằng cách khoá màn hình</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>Tập tin PDF được xuất ra hoặc in có thể được chia sẻ</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Đồng bộ qua Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Chức năng tự điền có thể cấu hình được</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Sắp xếp tăng dần (giao dịch cũ nhất ở trên cùng)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Bản mẫu và kế hoạch cho các giao dịch chia tách</item>
-        <item>Có thêm khoá bản quyền Cao cấp</item>
-        <item>Tiện ích màn hình chủ tự co giãn cho phù hợp với cỡ phông chữ (do người dùng quyết định)</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Có thể cài đặt các kế hoạch tuỳ ý</item>
-        <item>Khắc phục sự cố lưu trữ đám mây các bản sao lưu lớn</item>
-    </string-array>
     <string name="stability_improvements">Cải thiện độ ổn định</string>
 </resources>

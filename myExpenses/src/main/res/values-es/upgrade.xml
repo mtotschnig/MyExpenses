@@ -53,69 +53,6 @@
         <item>Traducción a Ucraniano</item>
         <item>Exportación a CSV: delimitador configurable</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Encriptación para copias de seguridad y sincronización de datos</item>
-    </string-array>
-    <string-array name="whats_new_298">
-        <item>Filtrar las transacciones sin asignar a categorías, acreedor o métodos</item>
-        <item>Almacenamiento de datos sincronizados optimizado</item>
-    </string-array>
-    <string-array name="whats_new_297">
-        <item>Divisas personalizadas</item>
-    </string-array>
-    <string-array name="whats_new_295">
-        <item>Colores personalizados para categorías principales</item>
-    </string-array>
-    <string-array name="whats_new_293">
-        <item>Objetivos de ahorro y límites de crédito</item>
-        <item>Grupo de cuentas (por tipo y divisa) pueden agruparse</item>
-    </string-array>
-    <string-array name="whats_new_292">
-        <item>Lista de cuenta rediseñada</item>
-        <item>La sincronización puede limitarse a vía Wi-Fi</item>
-    </string-array>
-    <string-array name="whats_new_291">
-        <item>La hora de transacción ahora es opcional</item>
-        <item>Se diferencia entre fecha de reserva y fecha de valor de forma opcional</item>
-    </string-array>
-    <string-array name="whats_new_290">
-        <item>Múltiple transacciones puedes agruparte en una transacción dividida</item>
-        <item>Las transacciones divididas pueden desagruparse</item>
-    </string-array>
-    <string-array name="whats_new_289">
-        <item>Conversión entre monedas extranjeras y monedas locales</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Gráfico de historial (flujo de efectivo)</item>
-    </string-array>
-    <string-array name="whats_new_287">
-        <item>Protección por bloqueo de pantalla</item>
-    </string-array>
-    <string-array name="whats_new_286">
-        <item>La exportación en PDF (Impresión) puede compartirse</item>
-    </string-array>
-    <string-array name="whats_new_285">
-        <item>Sincronización por Dropbox</item>
-    </string-array>
-    <string-array name="whats_new_284">
-        <item>Auto-relleno configurable</item>
-    </string-array>
-    <string-array name="whats_new_283">
-        <item>Elegir dirección ascendente (las transacciones más antiguas arriba)</item>
-    </string-array>
-    <string-array name="whats_new_282">
-        <item>Plantillas y proyectos para transacciones divididas</item>
-        <item>Introduciendo licencia de llave Profesional</item>
-        <item>Los widgets de la pantalla de inicio se adaptan al tamaño de fuente elegida</item>
-    </string-array>
-    <string-array name="whats_new_281">
-        <item>Opción para proyectos personalizados</item>
-        <item>Arreglar almacenamiento en la nube para copias de seguridad grandes</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Traducción a Hebreo</item>
-        <item>Seleccionar un color de cuenta personalizado</item>
-    </string-array>
     <string name="bug_fixes">Corrección de errores</string>
     <string name="performance_enhancement">Mejora de rendimiento</string>
     <string name="stability_improvements">Mejoras en la estabilidad</string>

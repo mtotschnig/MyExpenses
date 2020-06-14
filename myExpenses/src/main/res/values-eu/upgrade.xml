@@ -15,9 +15,5 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_280">
-        <item>Hebreerara itzulpena</item>
-        <item>Hautatzailea kontu kolore pertsonalizatuarentzat</item>
-    </string-array>
     <string name="bug_fixes">Konpondutako akatsak</string>
     </resources>

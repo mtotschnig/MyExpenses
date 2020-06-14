@@ -15,8 +15,5 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_288">
-        <item>Graf historie (Hotovost)</item>
-    </string-array>
     <string name="bug_fixes">Opravy chyb</string>
     </resources>

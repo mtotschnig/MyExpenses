@@ -22,16 +22,6 @@
         <item>Переклад українською</item>
         <item>Експорт CSV: можливість задати розділовий знак</item>
     </string-array>
-    <string-array name="whats_new_299">
-        <item>Шифрування резервних копій та даних синхронізації</item>
-    </string-array>
-    <string-array name="whats_new_288">
-        <item>Історія (Рух коштів)</item>
-    </string-array>
-    <string-array name="whats_new_280">
-        <item>Переклад на іврит</item>
-        <item>Вибір кольору власного облікового запису</item>
-    </string-array>
     <string name="bug_fixes">Виправлення помилок</string>
     <string name="performance_enhancement">Покращення швидкодії</string>
     <string name="stability_improvements">Покращення стабільності</string>
