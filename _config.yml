@@ -121,6 +121,126 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.1.2
+    - "2020-05-23"
+    -
+      en: |
+        Custom date format. Tags are exported to CSV. Collapsed state of groups in transaction list is memorized.
+      fr: |
+        Format de date personnalisé. Les étiquettes sont exportées vers CSV. L'état réduit des groupes dans la liste des opérations est mémorisé.
+      de: |
+        Benutzerdefiniertes Datumsformat. Markierungen werden nach CSV exportiert. Der eingeklappte Status von Gruppen in der Buchungsliste wird gespeichert.
+      tr: |
+        Özel tarih biçimi. Etiketler CSV olarak dışa aktarılabilir. Muamele listesindeki grupların daraltılmış durumu hatırlanır.
+      bg: |
+        Избираем формат за дата. Експорт на етикетите в CSV. Запомняне на свитото състояние на групите в списъка с транзакции.
+      ja: |
+        カスタムデータ形式. タグが CSV にエクスポートされます. 取引リストのグループの折りたたみ状態が記憶されます.
+      iw: |
+        פורמט תאריך מותאם אישית. התגים מיוצאים ל- CSV. שונן מצב של קבוצות מכווצות ברשימת העסקאות.
+  -
+    - 3.1.1
+    - "2020-05-03"
+    -
+      en: |
+        The list of parties (payers and payees) is searchable.
+      fr: |
+        On peut chercher dans la liste des tiers (payeurs et bénéficiaires).
+      de: |
+        Die Liste der Parteien (Zahler und Zahlungsempfänger) kann durchsucht werden.
+      es: |
+        Se puede buscar entre las listas de grupos (ordenantes y acreedores).
+      tr: |
+        Tarafların (ödeme yapanlar ve alacaklılar) listesi aranabilir.
+      bg: |
+        Може да се търси в списъка на страните (платци и получатели).
+      ja: |
+        取引先 (受取人/支払人) のリストが検索できます.
+      iw: |
+        ניתן לחפש ברשימת הצדדים (משלמים ומשלמים).
+  -
+    - 3.1.0
+    - "2020-04-21"
+    -
+      en: |
+        Transactions can be mapped to multiple tags.
+      fr: |
+        Les opérations peuvent être mises en correspondance avec plusieurs étiquettes.
+      de: |
+        Buchungen können mehreren Markierungen zugeordnet werden.
+      it: |
+        Le transazioni possono essere associate a più tag.
+      es: |
+        Las transacciones pueden asignarse a varias etiquetas.
+      tr: |
+        Muameleler çoklu etiketlerle eşleştirilebilir..
+      bg: |
+        Транзакциите може да бъдат отбелязани с множество маркери.
+      ja: |
+        取引が複数のタグに配置できます.
+      iw: |
+        ניתן למפות עסקאות לתגיות מרובות.
+      ta: |
+        பரிவர்த்தனைகளை பல குறிச்சொற்களுடன் தொடற்பு படுத்தலாம்.
+  -
+    - 3.0.9
+    - "2020-03-21"
+    -
+        de: |
+          Alles auswählen. Klonen und neu zuordnen
+        en: |
+          Select all. Clone and remap
+        it: |
+          Seleziona tutto. Clona e riassegna
+        fr: |
+          Tout sélectionner. Cloner et réaffecter
+        pt: |
+          Selecionar tudo
+        es: |
+          Seleccionar todo. Clonar y reasignar
+        pl: |
+          Zaznacz wszystko
+        ru: |
+          Выбрать все. Клонировать и переоформить
+        ar: |
+          تحديد الكل
+        cs: |
+          Vybrat vše
+        vi: |
+          Chọn tất cả
+        hu: |
+          Összes kijelölése
+        tr: |
+          Tümünü seç. Klonla ve yeniden eşleştir
+        zh-tw:
+          全部選取
+        ca: |
+          Selecciona-ho tot
+        ro: |
+          Selectați-le pe toate
+        ja: |
+          すべて選択. 複製と再配置
+        ms: |
+          Pilih semua
+        hr: |
+          Odaberi sve
+        eu: |
+          Hautatu guztiak
+        da: |
+          Markér alt
+        bg: |
+          Избиране на всичко. Клонирай и промени
+        el: |
+          Επιλογή όλων
+        iw: |
+          בחר הכל. הועתק ומופה מחדש
+        uk: |
+          Вибрати все
+        ta: |
+          அனைத்தையும் தேர்ந்தெடு. நகல் எடுத்து மறு தொடற்புப்படுத்து
+        ko: |
+          모두 선택
+  -
     - 3.0.8
     - "2020-03-09"
     -
@@ -328,12 +448,20 @@ versions:
         Crittografia per i backup e per i dati di sincronizzazione.
       es: |
         Encriptación para copias de seguridad y sincronización de datos.
+      tr: |
+        Yedeklemeler ve eşleşme verileri için şifreleme.
       bg: |
         Шифроване на данните за архивиране и синхронизиране.
+      ru: |
+        Шифрование для резервных копий и синхронизации.
+      ms: |
+        Penyulitan untuk sandar dan penyegerakan data.
       ja: |
         バックアップと同期データの暗号化.
       iw: |
         הצפנה עבור גיבויים ונתוני סנכרון.
+      ta: |
+        காப்புப்பிரதிகள் மற்றும் ஒத்திசைவு தரவுகளுக்கான மறையாக்கம்.
   -
     - 2.9.8
     - "2018-12-24"
@@ -341,15 +469,25 @@ versions:
       en: |
         Filter for transactions without mapping to categories, payees or methods. Optimized storage of synchronized data.
       fr: |
-        Filtrer les opérations qui ne sont pas liées à des catégories, des bénéficiaires ou des méthodes. Stockage optimisé des données synchronisées.
+        Filtrer les opérations qui ne sont pas liées aux catégories, bénéficiaires ou méthodes. Stockage optimisé des données synchronisées.
       de: |
         Filter für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden. Optimierte Speicherung synchronisierter Daten.
+      it: |
+        Filtro per le transazioni senza categoria, beneficiario o metodo di pagamento. Ottimizzata la memorizzazione dei dati sincronizzati.
+      es: |
+        Filtrar las transacciones sin asignar a categorías, acreedor o métodos. Almacenamiento de datos sincronizados optimizado.
+      tr: |
+        Muameleler, kategoriler, alacaklılar veya metotlarla eşleşmeden filtrelenebilir. Eşleştirilen verilerin optimize edilmiş depolanması.
       bg: |
         Филтър за транзакции без зададена категория, получател или метод на плащане. Оптимизиран e начинa на съхранение на данните за синхронизация.
+      ms: |
+        Tapisan untuk transaksi tanpa pemetaan dengan kategori, penerima atau kaedah. Storan dioptimumkan untuk data tersegerak.
       ja: |
         分類、支払先、または方法に配置せずに取引をフィルタリング. 同期データのストレージを最適化.
       iw: |
         סינון עבור עסקאות ללא מיפוי לקטגוריות, למשלמים או לשיטות. אחסון אופטימלי של נתונים מסונכרנים.
+      ta: |
+        வகைகள், பணம் பெறுபவர் அல்லது முறைகளுடன் தொடற்பு படுத்தப்படாத பரிவர்த்தனைகளுக்கான வடிகட்டி. ஒத்திசைக்கப்பட்ட தரவின் உகந்த சேமிப்பகம்.
   -
     - 2.9.7
     - "2018-11-29"
@@ -360,16 +498,26 @@ versions:
         Devises personnalisées.
       de: |
         Benutzerdefinierte Währungen.
+      it: |
+        Personalizza le valute.
       es: |
         Divisas personalizadas.
       pt: |
         Moedas personalizadas.
+      tr: |
+        Özel para birimleri.
       bg: |
         Валути, дефинирани от потребителя.
+      ru: |
+        Свои валюты.
+      ms: |
+        Matawang suai.
       ja: |
         通貨のカスタマイズ.
       iw: |
         מטבעות מותאמים אישית.
+      ta: |
+        தனி விருப்ப நாணயங்கள்.
   -
     - 2.9.6
     - "2018-11-15"
@@ -388,6 +536,24 @@ versions:
         תקצוב.
       pl: |
         Przydzielanie budżetu.
+      tr: |
+        Bütçeleme
+      uk: |
+        Бюджетування
+      pt: |
+        Orçamento
+      ta: |
+        வரவு செலவுத் திட்டம்
+      vi: |
+        Ngân quỹ
+      ru: |
+        составление бюджета
+      ms: |
+        Pembelanjawan
+      it: |
+        Bilancio
+      es: |
+        Presupuestar
   -
     - 2.9.5
     - "2018-09-27"
@@ -398,18 +564,26 @@ versions:
         Couleurs personnalisées pour les catégories principales.
       de: |
         Benutzerdefinierte Farben für Hauptkategorien.
+      it: |
+        Colori personalizzati per le categorie principali.
       es: |
         Colores personalizados para categorías principales.
+      pt: |
+        Cores personalizadas nas categorias principais.
       tr: |
         Ana kategoriler için özel renkler.
       bg: |
         Избор на цвят за главните категории.
+      ru: |
+        Свои цвета для главных категорий.
       ms: |
         Warna suai untuk kategori utama.
       ja: |
         主分類の色をカスタム.
       iw: |
         צבעים מותאמים אישית עבור קטגוריות עיקריות.
+      ta: |
+        முக்கிய பிரிவுகளில் தனி விருப்ப வண்ணங்கள்.
   -
     - 2.9.4
     - "2018-09-20"
@@ -436,6 +610,14 @@ versions:
         Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty.
       es: |
         Al iniciar la aplicación, desplazar la lista de transacciones hasta la fecha actual
+      pt: |
+        Ao iniciar o aplicativo, role a lista de transações até a data atual    
+      ta: |
+        செயலியை தொடங்கும் போது, நடப்பு தேதியின் பரிவர்த்தனை பட்டியலை காட்டு
+      ru: |
+        После запуска приложения прокрутите список транзакций до текущей даты.
+      uk: |
+        Після запуску програми прокручувати список операцій до поточної дати
   -
     - 2.9.3
     - "2018-09-16"
@@ -446,8 +628,12 @@ versions:
         Objectifs d'économie et limites de crédit. Les groupes de comptes (par type ou devise) peuvent être réduits.
       de: |
         Sparziele und Kreditlimits. Kontogruppen (pro Typ oder Währung) können zugeklappt werden.
+      it: |
+        Obiettivi di risparmio e limiti di credito. Gruppi di conti (per tipo o valuta) possono essere collassati.
       es: |
         Objetivos de ahorro y límites de crédito. Grupo de cuentas (por tipo y divisa) pueden agruparse.
+      pt: |
+        Metas de poupança e limites de crédito. Grupos de contas (por tipo ou por moeda) podem ser retraídos.
       tr: |
         Tasarruf hedefleri ve kredi limitleri. Hesap grupları (tür veya para birimine göre) küçültülebilir.
       bg: |
@@ -458,6 +644,8 @@ versions:
         貯蓄目標とクレジット限度. 勘定科目グループ (種類または通貨単位) を折りたたむことができます.
       iw: |
         שמירת יעדים ומגבלות אשראי. ניתן לצמצם קבוצות חשבון (לפי סוג או מטבע).
+      ta: |
+        சேமிப்பு இலக்குகள் மற்றும் கடன் வரம்புகள். கணக்கு குழுக்களை (வகை அல்லது நாணயம் ஒன்றிற்கு) சுருக்கலாம்.
   -
     - 2.9.2
     - "2018-09-07"
@@ -472,6 +660,8 @@ versions:
         Riprogettazione dell'elenco degli conti. La sincronizzazione può essere limitata al Wi-Fi.
       es: |
         Lista de cuenta rediseñada. La sincronización puede limitarse a vía Wi-Fi.
+      pt: |
+        Redesenho da lista de contas. A sincronização pode ser limitada ao wi-fi.
       tr: |
         Hesap listesi yeniden tasarlandı. Eşleşme sadece Wi-Fi ile sınırlanabilir.
       bg: |
@@ -482,6 +672,8 @@ versions:
         勘定リストの再設計. 同期を Wi-Fi 接続時に限定.
       iw: |
         עצוב מחדש של רשימת החשבונות. סנכרון יכול להיות מוגבל לרשת Wi-Fi.
+      ta: |
+        கணக்குப் பட்டியல் மறுவடிவமைப்பு. ஒத்திசைவை வைஃபையில் (Wi-Fi) மட்டும் நிகழச்செய்.
   -
     - 2.9.1
     - "2018-05-28"
@@ -492,8 +684,12 @@ versions:
         L'heure de l'opération est maintenant optionnelle. Possibilité de distinguer entre la date d'enregistrement et la date de valeur.
       de: |
         Buchungszeit ist jetzt optional. Optional kann zwischen Buchungsdatum und Wertstellung unterscheiden werden.
+      it: |
+        La data delle transazioni è ora opzionale. Facoltativamente, distinguere fra la data di prenotazione e la data di valuta.
       es: |
         La hora de transacción ahora es opcional. Se diferencia entre fecha de reserva y fecha de valor de forma opcional.
+      pt: |
+        A data da transação agora é opcional. Distinção opcional entre a data do pagamento e a data da contabilização.
       tr: |
         Muamele zamanı artık seçime dayalıdır. Seçime dayalı olarak muamele tarihi ve değer tarihi arasında ayrım yapabilirsiniz.
       bg: |
@@ -504,6 +700,8 @@ versions:
         取引時刻がオプションになりました. オプションで、予約日と実行日を区別できます.
       iw: |
         זמן העסקה אופציונלי כעת. לחלופין, הבחן בין תאריך ההזמנה לבין תאריך הערך.
+      ta: |
+        பரிவர்த்தனையின் நேரம் இப்போது விருப்பத்தேர்வானது. விருப்பத்தேர்வாக பதிவு தேதி மற்றும் மதிப்பு தேதியை வேறுபடுத்தலாம்.
   -
     - 2.9.0
     - "2018-04-07"
@@ -514,8 +712,12 @@ versions:
         Plusieurs opérations peuvent être regroupées en une seule opération ventilée.. L'opération ventilée peut être dissociée..
       de: |
         Mehrere Buchungen können zu einer mehrteiligen Buchung zusammengefasst werden. Die Gruppierung einer mehrteiligen Buchung kann aufgelöst werden.
+      it: |
+        Diverse transazioni possono essere raggruppate in una operazione frazionata. Transazioni frazionate possono essere separate.
       es: |
         Múltiple transacciones puedes agruparte en una transacción dividida. Las transacciones divididas pueden desagruparse.
+      pt: |
+        Múltiplas transações podem ser agrupadas em uma transação dividida. Transações divididas podem ser desagrupadas.
       tr: |
         Birden fazla muamele bir bölünmüş muamele içinde gruplandırılabilir. Bölünmüş muameleler gruplanmamış yapılabilir.
       bg: |
@@ -528,6 +730,8 @@ versions:
         複数の取引を1つの分割取引にグループ化できます. 分割取引がグループ化解除できます.
       iw: |
         עסקאות מרובות ניתן לקבץ לעסקה ספליט אחד. ניתן לפצל את העסקה המפוצלת.
+      ta: |
+        பல பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கலாம். பிரிவு பரிவர்த்தனையை பிரிக்கலாம்.
   -
     - 2.8.9
     - "2018-03-19"
@@ -538,12 +742,26 @@ versions:
         Conversion entre devises étrangères et monnaie locale.
       de: |
         Umrechnung zwischen Fremdwährung und Heimatwährung.
+      it: |
+        Conversione tra valute straniere e valuta domestica.
       es: |
         Conversión entre monedas extranjeras y monedas locales.
+      pt: |
+        Conversão entre moedas estrangeiras e a moeda local.
+      tr: |
+        Yabancı dövizler ile yerel para birimi arasında dönüşüm.
       bg: |
         Конвертиране между чуждестранни и национална валути.
+      ru: |
+        Конверсия иностранных и национальных валют.
+      ms: |
+        Pertukaran diantara matawang asing dengan matawang negara sendiri.
+      ja: |
+        外貨と自国通貨間の換算.
       iw: |
         המרה בין מטבעות זרים למטבע ביתי.
+      ta: |
+        வெளிநாட்டு நாணயங்களுக்கும் வீட்டு நாணயத்திற்கும் இடையில் மாற்றம்.
   -
     - 2.8.8
     - "2018-02-24"
@@ -554,6 +772,8 @@ versions:
         Graphique historique (flux de trésorerie).
       de: |
         Verlaufsdiagramm (Cashflow).
+      it: |
+        Grafico storico (flusso di cassa).
       es: |
         Gráfico de historial (flujo de efectivo).
       pt: |
@@ -562,12 +782,20 @@ versions:
         Tarihçe grafiği (Nakit akışı).
       bg: |
         Графика на историята (паричен поток).
+      cs: |
+        Graf historie (Hotovost).
       ru: |
         История (Cash flow).
+      ms: |
+        Carta sejarah (Aliran tunai).
       ja: |
         履歴チャート (キャッシュフロー).
+      pl: |
+        Wykres historii (przepływ gotówki).
       iw: |
         תרשים היסטוריה (תזרים מזומנים).
+      ta: |
+        வரலாற்று விளக்கப்படம் (பணப்பாய்வு).
   -
     - 2.8.7
     - "2018-02-01"
@@ -582,16 +810,22 @@ versions:
         Protezione tramite blocco schermo.
       es: |
         Protección por bloqueo de pantalla.
+      pt: |
+        Proteção pelo travamento de tela do dispositivo.
       tr: |
         Cihaz ekranı kilitlemeyle koruma.
       bg: |
-        Защита чрез заключване екрана на устройството.
+        Защита чрез екрана за заключване на устройството.
+      ru: |
+        Защита данных (блокировка экрана).
       ms: |
         Dilindungi oleh skrin kunci peranti.
       ja: |
         デバイスのロック画面による保護.
       iw: |
         הגנה על ידי נעילת מסך המכשיר.
+      ta: |
+        கருவியின் பூட்டு திரையின் மூலம் பாதுகாப்பு.
   -
     - 2.8.6
     - "2018-01-25"
@@ -602,18 +836,26 @@ versions:
         Le ficher exporté PDF (Impression) peut être partagé.
       de: |
         Die PDF-Export-Datei (Drucken) kann geteilt werden.
+      it: |
+        Il PDF esportato (Stampa) può essere condiviso.
       es: |
         La exportación en PDF (Impresión) puede compartirse.
+      pt: |
+        A exportação para PDF (impressão) pode ser compartilhada.
       tr: |
         PDF dışa aktarımı (Yazdırma) paylaşılabilir.
       bg: |
         PDF експорт (Печат) може да бъде споделен.
+      ru: |
+        Возможность делиться экспортированными данными (PDF).
       ms: |
         Eksport PDF (Cetak) boleh dikongsi.
       ja: |
         PDF エクスポート (印刷) が共有できます.
       iw: |
         ייצוא PDF (הדפסה) ניתן לשתף.
+      ta: |
+        PDF ஏற்றுமதியை (அச்சு) பகிர்ந்து கொள்ளலாம்.
   -
     - 2.8.5
     - "2018-01-13"
@@ -621,15 +863,29 @@ versions:
       en: |
         Synchronization via Dropbox.
       fr: |
-        Synchronisation via Dropbox.
+        Synchronisation avec Dropbox.
       de: |
         Synchronisation über Dropbox.
+      it: |
+        Sincronizzazione tramite Dropbox.
+      es: |
+        Sincronización por Dropbox.
+      pt: |
+        Sincronização via Dropbox.
       tr: |
         Dropbox vasıtasıyla eşleşme.
       bg: |
         Синхронизация чрез Dropbox.
+      ru: |
+        Синхронизация через Dropbox.
+      ms: |
+        Penyegerakan melalui Dropbox.
       ja: |
         Dropboxで同期.
+      iw: |
+        סינכרון באמצעות Dropbox.
+      ta: |
+        டிராப்பாக்ஸ் (Dropbox) வழியாக ஒத்திசைவு.
   -
     - 2.8.4
     - "2017-11-23"
@@ -640,18 +896,26 @@ versions:
         Remplissage automatique configurable.
       de: |
         Automatisches Ausfüllen konfigurierbar gemacht.
+      it: |
+        La compilazione automatica può essere configurata.
       es: |
         Auto-relleno configurable.
+      pt: |
+        Preenchimento automático se tornou configurável.
       tr: |
         Otomatik doldurma yapılandırılabilir yapıldı.
       bg: |
         Автоматичното попълване вече е конфигурируемо.
+      ru: |
+        Настройки автозаполнения.
       ms: |
         Auto-isi boleh dikonfigurasikan.
       ja: |
         設定可能な自動入力.
       iw: |
         מילוי אוטומטי ניתן להגדרה.
+      ta: |
+        தன்னிரப்பியை (Auto-fill) விருப்பமைக்கலாம்.
   -
     - 2.8.3
     - "2017-11-05"
@@ -662,18 +926,28 @@ versions:
         Direction de tri ascendante (les plus anciennes transactions en haut).
       de: |
         Aufsteigende Sortierrichtung (älteste Transaktionen oben).
+      it: |
+        Ordine ascendente (transazioni più vecchie prima).
       es: |
         Elegir dirección ascendente (las transacciones más antiguas arriba).
+      pt: |
+        Ordenação ascendente (as transações mais antigas no topo).
       tr: |
         Eskiden yeniye sıralama yönü (en eski işlemler en üstte).
       bg: |
         Възходящо сортиране (най-старите транзакции отгоре).
+      ru: |
+        Сортировка в возрастающем порядке (самые старые операции - наверху).
+      ms: |
+        Arah isih menaik (transaksi paling lama di bahagian teratas).
       ja: |
         昇順のソート (古い取引が先頭).
       pl: |
         Rosnący kierunek sortowania (najstarsze transakcje u góry).
       iw: |
         מיון בסדר עולה (הישן ביותר בראש).
+      ta: |
+        ஏறுவரிசையின் திசை (பழமையான பரிமாற்றங்கள் மேலே).
   -
     - 2.8.2
     - "2017-10-14"
@@ -685,19 +959,27 @@ versions:
       de: |
         Vorlagen und Pläne für mehrteilige Buchungen. Einführung des Professionellen Lizenzschlüssels. Widgets für den Startbildschirm passen sich an die benutzerdefinierte Schriftgröße an.
       it: |
-        Modelli e piani per le operazioni frazionate. Introdurre la chiave di licenza professionale. I widget della schermata iniziale si adattano alle dimensioni del carattere preferite dall'utente.
+        Modelli e piani per le operazioni frazionate. Introduzione della Licenza Professionale. I widget della schermata iniziale si adattano alle dimensioni del carattere preferite dall'utente.
       es: |
         Plantillas y proyectos para transacciones divididas. Introduciendo licencia de llave Profesional. Los widgets de la pantalla de inicio se adaptan al tamaño de fuente elegida.
+      pt: |
+        Modelos e planos para transações divididas. Introdução da Chave de Licença Profissional. Os widgets da tela inicial se adaptam ao tamanho de fonte definido pelo usuário.
       tr: |
         Bölünmüş muameleler için şablonlar ve planlamalar. Profesyonel Lisans Anahtarı. Ana ekran widget'ları kullanıcının tercih ettiği yazı tipi boyutuna uyarlanır.
       bg: |
         Шаблони и планове за разпределени транзакции. Представяне на нов лицензен ключ - Професионален. Уиджетите на начален екран се приспособяват към предпочитания от потребителя размер на шрифта.
+      ru: |
+        Шаблоны и планы дробных операций. Представляем лицензионный ключ Professional. Виджеты домашнего экрана подстраиваются под размер шрифта пользователя.
+      ms: |
+        Templat dan plan untuk transaksi berasingan. Memperkenalkan Kunci Lesen Profesional. Widjet skrin rumah diadaptasi dengan saiz fon yang dikehendaki pengguna.
       ja: |
         分割取引用のテンプレートと計画. プロフェッショナルライセンスキーの導入. ホーム画面ウィジェットは、ユーザーが好みのフォントサイズに適応します.
       pl: |
         Szablony i plany dla transakcji podzielonych. Przedstawiamy Profesjonalny Klucz Licencyjny. Widżety ekranu głównego dostosowują się do preferowanego przez użytkownika rozmiaru czcionki.
       iw: |
         תבניות ותוכניות לעסקאות מפוצלות. היכרות עם מפתח רישיון מקצועי. ווידג'טים של מסך הבית מתאימים לגודל גופנים מועדף.
+      ta: |
+        பிளவு பரிவர்த்தனைகளுக்கான வார்ப்புருக்கள் மற்றும் திட்டங்கள். நிபுணத்துவ உரிம திறவுகோல் அறிமுகப்படுத்துகிறது. முகப்புத் திரை நிரல் பலகைகள், பயனரின் விருப்ப எழுத்துரு அளவில் காட்டப்படும்.
   -
     - 2.8.1
     - "2017-09-07"
@@ -713,17 +995,23 @@ versions:
       es: |
         Opción para proyectos personalizados. Arreglar almacenamiento en la nube para copias de seguridad grandes.
       pt: |
-        Opção para planos personalizados. Corrigir o armazenamento na nuvem de backups de tamanho grande.
+        Opção para planos personalizados. Corrigir o armazenamento na nuvem de backups grandes.
       tr: |
         Özel planlamalar için seçenek. Büyük yedeklemeler için bulut depolamasını düzelt.
       bg: |
         Възможност за потребителски планове. Отстранен проблем при съхраняване на голям бекъп на отдалечено място за съхранение.
+      ru: |
+        Настраиваемые планы. Облачное хранение больших объемов данных.
+      ms: |
+        Pilihan untuk plan suai. Baiki storan awan untuk sandar bersaiz besar.
       ja: |
         カスタム計画のオプション. 大規模バックアップのクラウドストレージを修正.
       pl: |
         Opcja dla niestandardowych planów. Naprawiono dysk w chmurze dla dużych kopii zapasowych.
       iw: |
         אפשרות לתוכניות מותאמות אישית. תקן אחסון ענן של גיבויים גדולים.
+      ta: |
+        தனி விருப்ப திட்டங்களுக்கான விருப்பத்தேர்வு. பெரிய காப்புப்பிரதிகளை மேகக்கணினியில் சேமிப்பது சரிசெய்யப்படும்.
   -
     - 2.8.0
     - "2017-08-27"
@@ -739,19 +1027,25 @@ versions:
       es: |
         Traducción a Hebreo. Seleccionar un color de cuenta personalizado.
       pt: |
-        Tradução hebraica. Picker para cores de conta personalizada.
+        Tradução hebraica. Selecionador de cores personalizadas para a conta.
       tr: |
         İbranice tercüme. Özel hesap rengi için seçici.
       eu: |
         Hebreerara itzulpena. Hautatzailea kontu kolore pertsonalizatuarentzat.
       bg: |
         Превод на еврейски език . Палитра за избор на цвят на сметка.
+      ru: |
+        Перевод на иврит. Выбор уникального цвета счета.
+      ms: |
+        Terjemahan bahasa Ibrani. Pemilih untuk warna akaun suai.
       ja: |
         ヘブライ語翻訳. カスタムアカウント色の選択.
       pl: |
         Tłumaczenie hebrajskie. Wybór dla niestandardowego koloru konta.
       iw: |
         תרגום לעברית. בחירת צבע חשבון מותאם אישית.
+      ta: |
+        ஹீப்ரு மொழிபெயர்ப்பு. கணக்கிற்கான தனி விருப்ப வண்ணத்தை தேர்வு செய்யலாம்.
   -
     - 2.7.9
     - "2017-04-14"
