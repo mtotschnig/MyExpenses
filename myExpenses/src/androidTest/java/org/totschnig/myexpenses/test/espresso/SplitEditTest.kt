@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Context
 import android.content.Intent
 import android.content.OperationApplicationException
+import android.os.Bundle
 import android.os.RemoteException
 import android.widget.ListView
 import androidx.test.espresso.Espresso
@@ -47,12 +48,23 @@ import java.util.*
 @RunWith(AndroidJUnit4::class)
 class SplitEditTest: BaseUiTest() {
     var splitPartListUpdateCalled = 0
+    var activityIsRecreated = false
     var activityFactory: SingleActivityFactory<ExpenseEdit> = object : SingleActivityFactory<ExpenseEdit>(ExpenseEdit::class.java) {
         override fun create(intent: Intent): ExpenseEdit {
             return object: ExpenseEdit() {
+                override fun onCreate(savedInstanceState: Bundle?) {
+                    super.onCreate(savedInstanceState)
+                    if (savedInstanceState != null) {
+                        activityIsRecreated = true
+                    }
+                }
                 override fun updateSplitPartList(account: org.totschnig.myexpenses.viewmodel.data.Account) {
                     super.updateSplitPartList(account)
-                    splitPartListUpdateCalled++
+                    if (activityIsRecreated) {
+                        activityIsRecreated = false
+                    } else {
+                        splitPartListUpdateCalled++
+                    }
                 }
             }
         }
@@ -97,7 +109,6 @@ class SplitEditTest: BaseUiTest() {
     }
 
     @Test
-    //TODO fails on Pixel 2XL API 28 emulator ( split partlist update is called twice )
     fun createPartAndSave() {
         mActivityRule.launchActivity(baseIntent)
         assertThat(splitPartListUpdateCalled).isEqualTo(1)
