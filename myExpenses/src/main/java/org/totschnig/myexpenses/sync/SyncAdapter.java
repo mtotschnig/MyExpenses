@@ -701,10 +701,4 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } catch (RemoteException ignored) {
     }
   }
-
-  @Override
-  public void onSyncCanceled() {
-    super.onSyncCanceled();
-    CrashHandler.reportWithTag("SyncAdapter has been canceled", TAG);
-  }
 }
