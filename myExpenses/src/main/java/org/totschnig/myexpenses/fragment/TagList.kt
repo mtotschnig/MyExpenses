@@ -153,10 +153,12 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     fun confirm() {
-        addTag(Runnable { activity?.run {
-            setResult(Activity.RESULT_OK, resultIntent())
-            finish()
-        } })
+        if (::adapter.isInitialized ) {
+            addTag(Runnable { activity?.run {
+                setResult(Activity.RESULT_OK, resultIntent())
+                finish()
+            } })
+        }
     }
 
     fun resultIntent() = Intent().apply {
