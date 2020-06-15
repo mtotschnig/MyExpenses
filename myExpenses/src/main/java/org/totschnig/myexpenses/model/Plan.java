@@ -173,6 +173,9 @@ public class Plan extends Model implements Serializable {
       }
       values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
       String calendarId = MyApplication.getInstance().checkPlanner();
+      if (calendarId == null) {
+        throw new CalendarIntegrationNotAvailableException();
+      }
       if (MyApplication.INVALID_CALENDAR_ID.equals(calendarId)) {
         calendarId = MyApplication.getInstance().createPlanner(true);
         if (calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
