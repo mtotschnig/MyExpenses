@@ -144,6 +144,9 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   @Override
   public void bindView(View view, Context context, Cursor cursor) {
     ViewHolder viewHolder = (ViewHolder) view.getTag();
+    if (viewHolder == null) {
+      return;
+    }
     viewHolder.date.setEms(dateEms);
     final long date = cursor.getLong(columnIndexDate);
     ((FrameLayout) view).setForeground(date  > startOfNextDay ? new ColorDrawable(getColorForFutureTransactions()) : null);
