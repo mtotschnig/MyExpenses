@@ -204,9 +204,8 @@ public class MyExpenses extends LaunchActivity implements
   @BindView(R.id.left_drawer)
   ExpandableStickyListHeadersListView mDrawerList;
   @Nullable
-  @BindView(R.id.root_layout)
-  ViewGroup rootLayout;
-  private DrawerLayout mDrawerLayout;
+  @BindView(R.id.drawer)
+  DrawerLayout mDrawerLayout;
   @BindView(R.id.viewpager)
   ViewPager myPager;
   @BindView(R.id.expansionContent)
@@ -253,7 +252,6 @@ public class MyExpenses extends LaunchActivity implements
     adHandler.maybeRequestNewInterstitial();
 
     ButterKnife.bind(this);
-    mDrawerLayout = rootLayout instanceof DrawerLayout ? ((DrawerLayout) rootLayout) : null;
 
     mToolbar = setupToolbar(false);
     mToolbar.setOnClickListener(v -> copyToClipBoard());
@@ -362,7 +360,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(getPrefHandler(), collapsedHeaderIdsPrefKey(),  mDrawerList.getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(getPrefHandler(), collapsedHeaderIdsPrefKey(), mDrawerList.getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
@@ -379,7 +377,7 @@ public class MyExpenses extends LaunchActivity implements
     myPager.addOnPageChangeListener(this);
     myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
     myPager.setPageMarginDrawable(margin.resourceId);
-    mManager =  LoaderManager.getInstance(this);
+    mManager = LoaderManager.getInstance(this);
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
 
@@ -705,7 +703,7 @@ public class MyExpenses extends LaunchActivity implements
         getCurrentFragment().clearFilter();
         return true;
       }
-      case R.id.ROADMAP_COMMAND : {
+      case R.id.ROADMAP_COMMAND: {
         Intent intent = new Intent(this, RoadmapVoteActivity.class);
         startActivity(intent);
         return true;
@@ -715,7 +713,7 @@ public class MyExpenses extends LaunchActivity implements
         //do nothing if accidentally we are positioned at an aggregate account
         if (accountId > 0) {
           mAccountsCursor.moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
-          if (mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null ) {
+          if (mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null) {
             startTaskExecution(
                 TASK_SET_ACCOUNT_SEALED,
                 new Long[]{accountId},
@@ -1108,7 +1106,7 @@ public class MyExpenses extends LaunchActivity implements
   private void setBalance() {
     long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_CURRENT_BALANCE));
     String label = mAccountsCursor.getString(columnIndexLabel);
-    boolean isHome  = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
+    boolean isHome = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
     mCurrentBalance = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
         currencyFormatter.formatCurrency(new Money(currencyContext.get(currentCurrency), balance)));
     setTitle(isHome ? getString(R.string.grand_total) : label);

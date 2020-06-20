@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/root_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:layout_height="match_parent">
 
-    <!-- The navigation drawer -->
-    <include layout="@layout/account_list"/>
-    <!-- The main content view -->
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-        <include layout="@layout/toolbar"/>
+        <!-- The navigation drawer -->
+        <include layout="@layout/account_list" />
+        <!-- The main content view -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <include layout="@layout/toolbar" />
 
-            <include layout="@layout/viewpager_main"/>
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <include layout="@layout/floating_action_button"/>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <include layout="@layout/viewpager_main" />
+
+                <include layout="@layout/floating_action_button" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/root_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="InconsistentLayout">
-    <!-- The main content view -->
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/toolbar"/>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/fragment_container"
+        tools:ignore="InconsistentLayout">
+        <!-- The main content view -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <include layout="@layout/viewpager_main"/>
+            <include layout="@layout/toolbar" />
 
-            <include layout="@layout/floating_action_button"/>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </LinearLayout>
-    <!-- The navigation drawer -->
-    <include layout="@layout/account_list"/>
-</androidx.drawerlayout.widget.DrawerLayout>
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/viewpager_main" />
+
+                <include layout="@layout/floating_action_button" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+        <!-- The navigation drawer -->
+        <include layout="@layout/account_list" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</FrameLayout>
