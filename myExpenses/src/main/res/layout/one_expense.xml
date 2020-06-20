@@ -363,10 +363,39 @@
                     android:labelFor="@+id/PB"
                     android:text="@string/plan" />
 
-                <include
-                    android:id="@+id/RR"
-                    style="@style/FormField"
-                    layout="@layout/recurrence_row" />
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/FormField">
+
+                    <Spinner
+                        android:id="@+id/Recurrence"
+                        style="@style/ReccurrenceRowReccurence"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <org.totschnig.myexpenses.ui.DateButton
+                        android:id="@+id/PB"
+                        style="@style/ReccurenceRowDateButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/TB"
+                        tools:ignore="MissingConstraints" />
+
+                    <ToggleButton
+                        android:id="@+id/TB"
+                        style="@style/ReccurrenceRowToggleButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textOff="@string/plan_manual"
+                        android:textOn="@string/plan_automatic"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/PB"
+                        app:layout_constraintTop_toBottomOf="@id/Recurrence" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </TableRow>
         </TableLayout>
     </ScrollView>

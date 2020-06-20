@@ -63,7 +63,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     val accountSpinner = SpinnerHelper(viewBinding.Account)
     private val statusSpinner = SpinnerHelper(viewBinding.Status)
     private val operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
-    val recurrenceSpinner = SpinnerHelper(viewBinding.RR.Recurrence.Recurrence)
+    val recurrenceSpinner = SpinnerHelper(viewBinding.Recurrence)
     lateinit var accountsAdapter: AccountAdapter
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var operationTypeAdapter: OperationTypeAdapter
@@ -142,9 +142,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     protected var mAccounts = mutableListOf<Account>()
 
     private val planButton: DateButton
-        get() = viewBinding.RR.PB.root as DateButton
+        get() = viewBinding.PB
     private val planExecutionButton: ToggleButton
-        get() = viewBinding.RR.TB.root as ToggleButton
+        get() = viewBinding.TB
 
     fun bindUnsafe(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
         bind(transaction as T?, isCalendarPermissionPermanentlyDeclined, newInstance, savedInstanceState, recurrence, withAutoFill)
@@ -607,9 +607,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             linkInputWithLabel(viewBinding.Category, viewBinding.CategoryLabel)
             linkInputWithLabel(methodSpinner.spinner, viewBinding.MethodLabel)
             linkInputWithLabel(viewBinding.Number, viewBinding.MethodLabel)
-            linkInputWithLabel(viewBinding.RR.PB.root, viewBinding.PlanLabel)
+            linkInputWithLabel(viewBinding.PB, viewBinding.PlanLabel)
             linkInputWithLabel(recurrenceSpinner.spinner, viewBinding.PlanLabel)
-            linkInputWithLabel(viewBinding.RR.TB.root, viewBinding.PlanLabel)
+            linkInputWithLabel(viewBinding.TB, viewBinding.PlanLabel)
             linkInputWithLabel(viewBinding.TransferAmount, viewBinding.TransferAmountLabel)
             linkInputWithLabel(viewBinding.OriginalAmount, viewBinding.OriginalAmountLabel)
             linkInputWithLabel(viewBinding.EquivalentAmount, viewBinding.EquivalentAmountLabel)
