@@ -239,6 +239,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             loadData()
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
             setTitle()
+            refreshPlanData()
         } else {
             val extras = intent.extras
             mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
