@@ -30,8 +30,7 @@
 
             <Spinner
                 style="@style/FormField"
-                android:id="@+id/select_backup"
-                android:layout_gravity="center_vertical"/>
+                android:id="@+id/select_backup" />
         </TableRow>
 
         <include layout="@layout/backup_restore_calendar"/>

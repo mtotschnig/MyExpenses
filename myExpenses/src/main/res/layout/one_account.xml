@@ -53,7 +53,6 @@
                     android:id="@+id/Label"
                     style="@style/FormField"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"/>
             </TableRow>
 
@@ -69,7 +68,6 @@
                     android:id="@+id/Description"
                     style="@style/FormField"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"/>
             </TableRow>
 
@@ -98,7 +96,6 @@
                 <Spinner
                     android:id="@+id/Currency"
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:prompt="@string/currency"/>
             </TableRow>
 
@@ -113,7 +110,6 @@
                 <Spinner
                     android:id="@+id/AccountType"
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:prompt="@string/type"/>
             </TableRow>
 
@@ -140,7 +136,6 @@
 
                 <LinearLayout
                     style="@style/FormField"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <Spinner

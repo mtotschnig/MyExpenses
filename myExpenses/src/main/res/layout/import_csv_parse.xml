@@ -41,7 +41,6 @@
             <Spinner
                 style="@style/FormField"
                 android:id="@+id/Delimiter"
-                android:layout_gravity="center_vertical"
                 android:entries="@array/pref_csv_import_delimiter_entries"/>
         </TableRow>
 

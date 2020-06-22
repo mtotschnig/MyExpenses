@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.util.Pair
@@ -71,6 +72,19 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     init {
         createAccountAdapter()
         createMethodAdapter()
+        viewBinding.advanceExecutionSeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                seekBar.requestFocusFromTouch() //prevent jump to first EditText https://stackoverflow.com/a/6177270/1199911
+                viewBinding.advanceExecutionValue.setText(progress.toString())
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
     }
 
     open val helpVariant: ExpenseEdit.HelpVariant
@@ -516,8 +530,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                     }
                 }
                 if (isTemplate) {
-                    planButton.visibility = planVisibilty
-                    planExecutionButton.visibility = planVisibilty
+                    configurePlanDependents(planVisibilty)
                 }
             }
             R.id.Method -> {
@@ -792,11 +805,15 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         plan?.let { plan ->
             planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
             if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(plan.title)
-            planExecutionButton.visibility = View.VISIBLE
             recurrenceSpinner.spinner.visibility = View.GONE
-            planButton.visibility = View.VISIBLE
+            configurePlanDependents(View.VISIBLE)
             host.observePlan(plan.id)
         }
+    }
+    private fun configurePlanDependents(visibility: Int) {
+        planButton.visibility = visibility
+        planExecutionButton.visibility = visibility
+        viewBinding.advanceExecutionRow.visibility = visibility
     }
 
     open fun onSaveInstanceState(outState: Bundle) {
@@ -852,8 +869,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     fun onCalendarPermissionsResult(granted: Boolean) {
         if (granted) {
             if (isTemplate) {
-                planButton.visibility = View.VISIBLE
-                planExecutionButton.visibility = View.VISIBLE
+                configurePlanDependents(View.VISIBLE)
                 showCustomRecurrenceInfo()
             }
         } else {

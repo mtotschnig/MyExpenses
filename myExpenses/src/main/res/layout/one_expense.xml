@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_form"
             android:paddingRight="@dimen/padding_form"
+            android:paddingBottom="@dimen/padding_form"
             android:shrinkColumns="1"
             android:stretchColumns="1">
 
@@ -56,7 +57,6 @@
                     android:id="@+id/Title"
                     style="@style/FormField"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"
                     android:maxLines="1" />
             </TableRow>
@@ -71,8 +71,7 @@
 
                 <Spinner
                     android:id="@+id/Account"
-                    style="@style/FormField"
-                    android:layout_gravity="center_vertical" />
+                    style="@style/FormField" />
             </TableRow>
 
 
@@ -158,8 +157,7 @@
 
                 <Spinner
                     android:id="@+id/TransferAccount"
-                    style="@style/FormField"
-                    android:layout_gravity="center_vertical" />
+                    style="@style/FormField" />
             </TableRow>
 
             <TableRow android:id="@+id/DateTimeRow">
@@ -170,7 +168,6 @@
 
                 <LinearLayout
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <include layout="@layout/date_edit" />
@@ -189,7 +186,6 @@
                     android:id="@+id/Payee"
                     style="@style/FormField"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:completionThreshold="1"
                     android:inputType="textPersonName|textCapWords" />
             </TableRow>
@@ -204,7 +200,6 @@
 
                 <LinearLayout
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <Button
@@ -239,7 +234,6 @@
 
                 <LinearLayout
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <com.google.android.material.chip.ChipGroup
@@ -271,7 +265,6 @@
 
                 <LinearLayout
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <EditText
@@ -316,7 +309,6 @@
 
                 <LinearLayout
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <Spinner
@@ -396,6 +388,33 @@
                         app:layout_constraintStart_toEndOf="@+id/PB"
                         app:layout_constraintTop_toBottomOf="@id/Recurrence" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/advanceExecutionRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/advanceExecutionLabel"
+                    style="@style/FormLabel"
+                    android:text="Advance exexcution (in days)" />
+
+                <LinearLayout style="@style/FormField">
+
+                    <SeekBar
+                        android:id="@+id/advanceExecutionSeek"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:max="30"
+                        android:min="0" />
+
+                    <TextView
+                        android:id="@+id/advanceExecutionValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+                </LinearLayout>
             </TableRow>
         </TableLayout>
     </ScrollView>
