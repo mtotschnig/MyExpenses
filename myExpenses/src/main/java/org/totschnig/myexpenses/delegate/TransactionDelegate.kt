@@ -116,36 +116,47 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         get() = isTemplate && !isSplitPart
 
     var isProcessingLinkedAmountInputs = false
+
     @JvmField
     @State
     var originalAmountVisible = false
+
     @JvmField
     @State
     var equivalentAmountVisible = false
+
     @JvmField
     @State
     var originalCurrencyCode: String? = null
+
     @JvmField
     @State
     var accountId: Long? = null
+
     @JvmField
     @State
     var methodId: Long? = null
+
     @JvmField
     @State
     var pictureUri: Uri? = null
+
     @JvmField
     @State
     var _crStatus: CrStatus? = CrStatus.UNRECONCILED
+
     @JvmField
     @State
     var parentId: Long? = null
+
     @JvmField
     @State
     var rowId: Long? = null
+
     @JvmField
     @State
     var planId: Long? = null
+
     @JvmField
     @State
     var originTemplateId: Long? = null
@@ -305,8 +316,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         populateStatusSpinner()
         viewBinding.Comment.setText(transaction.comment)
         if (isMainTemplate) {
-            viewBinding.Title.setText((transaction as Template).title)
-            planExecutionButton.isChecked = (transaction as Template).isPlanExecutionAutomatic
+            (transaction as Template).let { template ->
+                viewBinding.Title.setText(template.title)
+                planExecutionButton.isChecked = template.isPlanExecutionAutomatic
+                viewBinding.advanceExecutionSeek.progress = template.planExecutionAdvance
+            }
         } else {
             viewBinding.Number.setText(transaction.referenceNumber)
         }
@@ -694,6 +708,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                         this.title = it
                     }
                     this.isPlanExecutionAutomatic = planExecutionButton.isChecked
+                    this.planExecutionAdvance = viewBinding.advanceExecutionSeek.progress
                     val description = compileDescription(context.applicationContext as MyApplication)
                     if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                         plan = Plan(
@@ -810,6 +825,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             host.observePlan(plan.id)
         }
     }
+
     private fun configurePlanDependents(visibility: Int) {
         planButton.visibility = visibility
         planExecutionButton.visibility = visibility
