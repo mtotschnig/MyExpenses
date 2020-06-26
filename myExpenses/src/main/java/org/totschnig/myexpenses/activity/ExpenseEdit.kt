@@ -575,8 +575,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (!isNoMainTransaction && !(operationType == Transactions.TYPE_SPLIT &&
-                        !(applicationContext as MyApplication).licenceHandler.isContribEnabled)) {
+        if (!isNoMainTransaction) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                     .setIcon(R.drawable.ic_action_save_new)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
