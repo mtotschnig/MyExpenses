@@ -128,7 +128,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     var parentId: Long? = null
     @JvmField
     @State
-    var rowId: Long? = null
+    var rowId: Long = 0L
     @JvmField
     @State
     var planId: Long? = null

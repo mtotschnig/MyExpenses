@@ -58,8 +58,8 @@ class SplitEditTest : BaseUiTest() {
                     }
                 }
 
-                override fun updateSplitPartList(account: org.totschnig.myexpenses.viewmodel.data.Account) {
-                    super.updateSplitPartList(account)
+                override fun updateSplitPartList(account: org.totschnig.myexpenses.viewmodel.data.Account, rowId: Long) {
+                    super.updateSplitPartList(account, rowId)
                     if (activityIsRecreated) {
                         activityIsRecreated = false
                     } else {
