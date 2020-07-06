@@ -319,6 +319,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return transactionChange;
   }
 
+  @NonNull
   @Override
   public SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException {
     SequenceNumber nextSequence = getLastSequence(lastSequenceNumber).next();
