@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+    <string name="Main_1">ಇತರೆ ಆದಾಯ</string>
+    <!-- Subcategories under "Other income" -->
+    <string-array name="Sub_1">
+        <item>ನಿರುದ್ಯೋಗ ಲಾಭ</item>
+        <item>ಕುಟುಂಬ ಭತ್ಯೆ</item>
+        <item>ತೆರಿಗೆ ಕ್ರೆಡಿಟ್</item>
+        <item>ಜೂಜು</item>
+        <item>ಪರಸ್ಪರ ವಿಮೆ</item>
+        <item>ಸಾಮಾಜಿಕ ಭದ್ರತೆ</item>
+    </string-array>
+    <string name="Main_2">ನಿವೃತ್ತಿ</string>
+    <!-- Subcategories under "Retirement" -->
+    <string-array name="Sub_2">
+        <item>ನಿವೃತ್ತಿ ನಿಧಿ</item>
+        <item>ಪಿಂಚಣಿ</item>
+        <item>ಪೂರಕ ಪಿಂಚಣಿ</item>
+    </string-array>
+    <string name="Main_3">ಹೂಡಿಕೆ ಆದಾಯ</string>
+    <!-- Subcategories under "Investment income" -->
+    <string-array name="Sub_3">
+        <item>ಲಾಭಾಂಶ</item>
+        <item>ಆಸಕ್ತಿ</item>
+        <item>ಬಂಡವಾಳ ಲಾಭ</item>
+    </string-array>
+    <string name="Main_4">ಸಂಬಳ</string>
+    <!-- Subcategories under "Salary" -->
+    <string-array name="Sub_4">
+        <item>ಹೆಚ್ಚುವರಿ ಸಮಯ</item>
+        <item>ಭತ್ಯೆ ಬಿಡಿ</item>
+        <item>ಇತರೆ. ಪ್ರೀಮಿಯಂಗಳು</item>
+        <item>ಯಶಸ್ಸಿನ ಶುಲ್ಕ</item>
+        <item>ನಿವ್ವಳ ಸಂಬಳ</item>
+    </string-array>
+    <string name="Main_5">ಇತರೆ. ಆದಾಯ</string>
+    <!-- Subcategories under "Misc. income" -->
+    <string-array name="Sub_5">
+        <item>ಉಡುಗೊರೆಗಳು</item>
+        <item>ಮರುಪಾವತಿ</item>
+        <item>ಸೆಕೆಂಡ್ ಹ್ಯಾಂಡ್ ಮಾರಾಟ</item>
+    </string-array>
+    <string name="Main_6">ಆಹಾರ</string>
+    <!-- Subcategories under "Food" -->
+    <string-array name="Sub_6">
+        <item>ಬಾರ್</item>
+        <item>ಬೇಕರ್</item>
+        <item>ಕ್ಯಾಂಟೀನ್</item>
+        <item>ಸಿಹಿತಿಂಡಿಗಳು</item>
+        <item>ದಿನಸಿ</item>
+        <item>ಉಪಹಾರ ಗೃಹ</item>
+        <item>ಸ್ವ ಸಹಾಯ</item>
+        <item>ಸೂಪರ್ಮಾರ್ಕೆಟ್</item>
+    </string-array>
+    <string name="Main_7">ಸಾಕುಪ್ರಾಣಿಗಳು</string>
+    <!-- Subcategories under "Pets" -->
+    <string-array name="Sub_7">
+        <item>ಆಹಾರ</item>
+        <item>ವಿವಿಧ ಸರಬರಾಜು</item>
+        <item>ಶೃಂಗಾರ</item>
+        <item>ಪಶು ವೈದ್ಯ</item>
+    </string-array>
+    <string name="Main_8">ವಿಮೆ</string>
+    <!-- Subcategories under "Insurance" -->
+    <string-array name="Sub_8">
+        <item>ಕಾರು</item>
+        <item>ಆರೋಗ್ಯ</item>
+        <item>ಮನೆ</item>
+        <item>ನಾಗರಿಕ ಹೊಣೆಗಾರಿಕೆ</item>
+        <item>ಜೀವನ</item>
+    </string-array>
+    <string name="Main_9">ಕಾರು</string>
+    <!-- Subcategories under "Car" -->
+    <string-array name="Sub_9">
+        <item>ಇಂಧನ</item>
+        <item>ರಿಪೇರಿ</item>
+        <item>ನಿರ್ವಹಣೆ</item>
+        <item>ಪಾರ್ಕಿಂಗ್</item>
+        <item>ದಂಡ</item>
+    </string-array>
+    <string name="Main_10">ಉಡುಗೊರೆಗಳು</string>
+    <string name="Main_11">ಮಕ್ಕಳು</string>
+    <!-- Subcategories under "Children" -->
+    <string-array name="Sub_11">
+        <item>ನರ್ಸ್</item>
+        <item>ಅಧ್ಯಯನಗಳು</item>
+    </string-array>
+    <string name="Main_12">ಅಧ್ಯಯನಗಳು</string>
+    <!-- Subcategories under "Studies" -->
+    <string-array name="Sub_12">
+        <item>ಪಾಠಗಳು</item>
+        <item>ಶಾಲಾ ಶುಲ್ಕ</item>
+        <item>ಪುಸ್ತಕಗಳು</item>
+    </string-array>
+    <string name="Main_13">ಹಣಕಾಸಿನ ವೆಚ್ಚಗಳು</string>
+    <!-- Subcategories under "Financial expenses" -->
+    <string-array name="Sub_13">
+        <item>ಬ್ಯಾಂಕ್ ಶುಲ್ಕಗಳು</item>
+        <item>ಸಾಲ / ಅಡಮಾನ</item>
+        <item>ಶುಲ್ಕಗಳು</item>
+        <item>ಮರುಪಾವತಿ</item>
+    </string-array>
+    <string name="Main_14">ವೃತ್ತಿಪರ ವೆಚ್ಚಗಳು</string>
+    <!-- Subcategories under "Professional expenses" -->
+    <string-array name="Sub_14">
+        <item>ಮರುಪಾವತಿಸಲಾಗುವುದಿಲ್ಲ</item>
+        <item>ಮರುಪಾವತಿಸಬಹುದಾಗಿದೆ</item>
+    </string-array>
+    <string name="Main_15">ತೆರಿಗೆಗಳು</string>
+    <!-- Subcategories under "Taxes" -->
+    <string-array name="Sub_15">
+        <item>ಆದಾಯ ತೆರಿಗೆ</item>
+        <item>ಭೂ ತೆರಿಗೆ</item>
+        <item>ಮಾರಾಟ ತೆರಿಗೆ</item>
+    </string-array>
+    <string name="Main_16">ವಸತಿ</string>
+    <!-- Subcategories under "Housing" -->
+    <string-array name="Sub_16">
+        <item>ಹೋಟೆಲ್</item>
+        <item>ಬಾಡಿಗೆ</item>
+        <item>ಟಿವಿ</item>
+        <item>ಪೀಠೋಪಕರಣಗಳು</item>
+        <item>ಶುಲ್ಕಗಳು</item>
+        <item>ಬಿಸಿ</item>
+        <item>ಅಲಂಕಾರ</item>
+        <item>ನೀರು</item>
+        <item>ವಿದ್ಯುತ್</item>
+        <item>ಬಿಳಿ ಸರಕುಗಳು</item>
+        <item>ಉಪಕರಣ</item>
+        <item>ಅನಿಲ</item>
+        <item>ಉದ್ಯಾನ</item>
+        <item>ಮನೆ ಕೀಪರ್</item>
+        <item>ದೂರವಾಣಿ</item>
+        <item>ಮೊಬೈಲ್ ಫೋನ್</item>
+    </string-array>
+    <string name="Main_17">ವಿರಾಮಗಳು</string>
+    <!-- Subcategories under "Leisures" -->
+    <string-array name="Sub_17">
+        <item>ಸ್ನೂಕರ್</item>
+        <item>ಬೌಲಿಂಗ್</item>
+        <item>ಚಲನಚಿತ್ರಗಳು</item>
+        <item>ರಾತ್ರಿ ಕೂಟ</item>
+        <item>ಐಟಿ</item>
+        <item>ಆಟಗಳು</item>
+        <item>ಪುಸ್ತಕಗಳು</item>
+        <item>ಉದ್ಯಾನಗಳು</item>
+        <item>ಗೋಷ್ಠಿಗಳು</item>
+        <item>ಕ್ರೀಡೆ</item>
+        <item>ವೀಡಿಯೊ</item>
+        <item>ಟ್ರಾವೆಲ್ಸ್</item>
+        <item>ಉಪಕರಣ</item>
+        <item>ವಸ್ತು ಸಂಗ್ರಹಾಲಯಗಳು / ಪ್ರದರ್ಶನಗಳು</item>
+    </string-array>
+    <string name="Main_18">ಸಾಲ / ಅಡಮಾನ</string>
+    <!-- Subcategories under "Loan/Mortgage" -->
+    <string-array name="Sub_18">
+        <item>ರಾಜಧಾನಿ</item>
+    </string-array>
+    <string name="Main_19">ಆರೋಗ್ಯ</string>
+    <!-- Subcategories under "Health" -->
+    <string-array name="Sub_19">
+        <item>ವಿಮೆ</item>
+        <item>ದಂತವೈದ್ಯರು</item>
+        <item>ಆಸ್ಪತ್ರೆ</item>
+        <item>ಕಿನಿಸಿತೆರಪಿಸ್ಟ್</item>
+        <item>ಡಾಕ್ಟರ್</item>
+        <item>ನೇತ್ರಶಾಸ್ತ್ರಜ್ಞ</item>
+        <item>ಆಸ್ಟಿಯೋಪಥ್</item>
+        <item>ರಸಾಯನಶಾಸ್ತ್ರಜ್ಞ</item>
+        <item>ಸಾಮಾಜಿಕ ಭದ್ರತೆ</item>
+    </string-array>
+    <string name="Main_20">ಆರೈಕೆ</string>
+    <!-- Subcategories under "Care" -->
+    <string-array name="Sub_20">
+        <item>ಕೇಶ ವಿನ್ಯಾಸಕಿ</item>
+        <item>ಉಡುಪು</item>
+    </string-array>
+    <string name="Main_21">ಸಾರಿಗೆ</string>
+    <!-- Subcategories under "Transport" -->
+    <string-array name="Sub_21">
+        <item>ಬಸ್</item>
+        <item>ಮೆಟ್ರೋ</item>
+        <item>ಟೋಲ್</item>
+        <item>ರೈಲು</item>
+        <item>ಟ್ರಾಮ್ವೇ</item>
+        <item>ವಿಮಾನ</item>
+    </string-array>
+    <string name="Main_22">ರಜಾದಿನಗಳು</string>
+    <!-- Subcategories under "Holidays" -->
+    <string-array name="Sub_22">
+        <item>ವಸತಿ</item>
+        <item>ಭೇಟಿಗಳು</item>
+        <item>ಟ್ರಾವೆಲ್ಸ್</item>
+    </string-array>
+</resources>
