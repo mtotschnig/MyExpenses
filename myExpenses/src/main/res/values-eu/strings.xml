@@ -38,6 +38,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Zatiketa txantiloi kopuru mugagabea</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Garapen ibilbidean</b> bozkatzeko aukera</string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Historikoaren diagrama (Cash flow)</string>
   <string name="licence_status_free">Doan</string>
   <string name="contrib_key">Kontribuzio Gakoa</string>
   <string name="extended_key">Gako hedatua</string>
@@ -63,6 +64,7 @@
   <string name="dialog_command_disabled_reset_account">Ez dago transakziorik esportatzeko</string>
   <string name="dialog_command_disabled_distribution">Ez da transakziorik lotu kategorietara kontu honetan.</string>
   <!--Button for accessing trial of premium feature-->
+  <string name="dialog_contrib_no">Probatu</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>{app_name}</i> bertsio-berrituz.</string>
@@ -73,6 +75,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">%1$d egunez erabil dezakezu zure uneko lizentziaren egoerarekin (%2$s).</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Zure uneko lizentziak (%2$s) %1$d kontu sortzen uzten dizu.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Zure uneko lizentziaren egoerak (%2$s) %1$d plan sortzen uzten dizu.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Zure oraingo lizentzia egoerak (%1$s) baimentzen dizu zatitze txantiloi bat sortzea.</string>
   <string name="dialog_export_delete">Ezabatu esportatutako transakzioak</string>
   <string name="dialog_export_not_yet_exported">Esportatu soilik oraindik esportatu ez diren transakzioak</string>
   <string name="dialog_password_activate_protection">Aktibatu pasahitz bidezko babesa</string>
@@ -98,6 +101,7 @@
     <item quantity="one">Ezabatu kontua?</item>
     <item quantity="other">Ezabatu %1$d kontu?</item>
   </plurals>
+  <string name="dialog_title_warning_delete_category">Kategoria ezabatuko?</string>
   <string name="dialog_title_warning_delete_template">Ezabatu txantiloia?</string>
   <string name="dialog_title_warning_delete_transaction">Ezabatu transakzioa?</string>
   <string name="expense">Gastua</string>
@@ -211,6 +215,7 @@
   <string name="no_parties">Onuradun/ordaintzailerik ez</string>
   <string name="no_split_parts">Ez dago banaketaren zatirik</string>
   <string name="no_templates">Txantiloirik ez.</string>
+  <string name="no_accounts">Konturik ez.</string>
   <string name="no_title_given">Ez duzu izenbururik idatzi</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Aukeratutako objektua transakzio batetara lotuta dago eta ezin da ezabatu.</item>
@@ -361,6 +366,7 @@
   <string name="save_transaction_template_deleted">Txantiloia ezabatu da</string>
   <string name="select">Aukeratu</string>
   <string name="select_category">Aukeratu kategoria</string>
+  <string name="select_payee">Hautatu ordaintzailea/onuraduna</string>
   <string name="share_scheme_not_supported">%1$s eskema ez da onartzen</string>
   <string name="share_sending">Bidali esportazio fitxategia</string>
   <string name="split_parts_heading">Banaketaren zatiak</string>
@@ -455,6 +461,7 @@
   <string name="search_status">Bilatu egoera</string>
   <string name="search_payee">Bilatu onuraduna/ordaintzailea</string>
   <string name="search_method">Bilatu metodoa</string>
+  <string name="search_tag">Bilatu etiketa</string>
   <string name="and">eta</string>
   <string name="between_and">%1$s eta %2$s bitartean</string>
   <string name="before">%s baino lehenago</string>
@@ -599,6 +606,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinkronizazioa hodeian</string>
   <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
   <!--button leading user to purchase flow for licence keys-->
+  <string name="upgrade_now">Eguneratu</string>
   <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
   <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
   <string name="auto_backup_cloud_create_backend">Sortu sinkronizazio atzealdeko bat ezaugarri nagusien pantailatik.</string>
@@ -628,6 +636,7 @@
   <string name="onboarding_more_options">Aukera gehiago</string>
   <string name="onboarding_restore_from_cloud">Leheneratu hodeiko sinkronizaziotik</string>
   <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
+  <string name="onboarding_restore_from_cloud_backup">Babeskopiak</string>
   <string name="onboarding_restore_from_local">Leheneratu babeskopia fitxategi lokala</string>
   <string name="dialog_button_add">Gehitu</string>
   <string name="template_create_error">Errorea txantiloia gordetzean</string>
@@ -637,9 +646,12 @@
   <string name="plan_custom_recurrence_info">Gorde txantiloia aurrena. plana egutegi aplikazioan irekiko da, errepikatze pertsonalizatu bat ezartzen duzunean. </string>
   <string name="storage_permission_required">Hautatu duzun iturria irakurtzeko kanpo biltegiratzea atzitzeko baimena behar da.</string>
   <string name="picture">Irudia</string>
+  <string name="menu_create_template_for_split">Banaketa txantiloi berria</string>
+  <string name="licence_validation_error_expired">Lizentzia iraungita</string>
   <string name="error">Errorea (%s)</string>
   <string name="button_validate">Balioztatu</string>
   <string name="licence_key">Lizentzia-gakoa</string>
+  <string name="progress_removing_licence">Ezabatzen lizentzia</string>
   <string name="professional_key">Gako profesionala</string>
   <string name="n_months">%d hilabete</string>
   <string name="valid_until">%s arte</string>

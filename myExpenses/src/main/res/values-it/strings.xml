@@ -367,6 +367,7 @@
   <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
   <string name="select">Selezionare</string>
   <string name="select_category">Selezionare una categoria</string>
+  <string name="select_payee">Seleziona pagatore/beneficiario</string>
   <string name="share_scheme_not_supported">Schema %1$s non supportato</string>
   <string name="share_sending">Invia file export</string>
   <string name="split_parts_heading">Frazionamenti</string>
@@ -462,7 +463,7 @@
   <string name="search_status">Cerca per stato</string>
   <string name="search_payee">Cerca per beneficiario/pagatore</string>
   <string name="search_method">Cerca per metodo.</string>
-  <string name="search_tag">Cerca per categoria</string>
+  <string name="search_tag">Cerca per tag</string>
   <string name="and">e</string>
   <string name="between_and">tra %1$s e %2$s</string>
   <string name="before">prima di %s</string>
@@ -847,7 +848,7 @@
   <string name="budget_filter_all_parties">Tutti i beneficiari</string>
   <string name="budget_filter_all_methods">Tutti i metodi</string>
   <string name="budget_filter_all_states">Tutti gli stati</string>
-  <string name="budget_filter_all_tags">Tutte le categorie</string>
+  <string name="budget_filter_all_tags">Tutti i tag</string>
   <string name="budget_form_label_filter">Filtro</string>
   <string name="dialog_title_warning_delete_budget">Elimina il budget?</string>
   <string name="warning_delete_budget">Il budget \"%1$s\" verrà eliminato.</string>
@@ -876,22 +877,23 @@
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">Le transazioni clonate manterranno la data originaria</string>
   <string name="pref_protection_screenshot_information">Attivando la protezione del dispositivo, l\'acquisizione di screenshot sarà disattivata all\'interno dell\'applicazione.</string>
-  <string name="tags_create_or_select">Crea o seleziona categorie</string>
+  <string name="tags_create_or_select">Crea o seleziona tag</string>
   <string name="content_description_tags_confirm">Conferma</string>
-  <string name="tags">Categorie</string>
-  <string name="pref_manage_tags_summary">Aggiungi, modifica, o elimina categorie.</string>
-  <string name="dialog_title_warning_delete_tag">Eliminare la categoria?</string>
-  <string name="menu_edit_tag">Modifica la categoria</string>
+  <string name="tags">Tag</string>
+  <string name="pref_manage_tags_summary">Aggiungi, modifica, elimina tag.</string>
+  <string name="dialog_title_warning_delete_tag">Eliminare il tag?</string>
+  <string name="menu_edit_tag">Modifica il tag</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <string name="menu_tag">Categoria</string>
+  <string name="menu_tag">Tag</string>
   <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <string name="dialog_multi_tag">Tutte le transazioni selezionate saranno categorizzate come %s.</string>
-  <string name="dialog_multi_tag_clear">Tutte le categorie saranno rimosse dalle transazioni selezionate.</string>
+  <string name="dialog_multi_tag">Tutte le transazioni selezionate saranno taggate con %s.</string>
+  <string name="dialog_multi_tag_clear">Tutti i tag saranno rimossi dalle transazioni selezionate.</string>
   <plurals name="warning_delete_tag">
     <item quantity="one">Il tag %1$s è associato a una transazione. Dovrebbe essere cancellato?</item>
-    <item quantity="other">La categoria %1$s è assegnata a %2$d transazioni. Vuoi eliminarla?</item>
+    <item quantity="other">Il tag %1$s è assegnata a %2$d transazioni. Vuoi eliminarla?</item>
   </plurals>
-  <string name="dialog_multi_tag_append">Aggiungi nuove categorie</string>
-  <string name="dialog_multi_tag_replace">Sostituisci categorie esistenti con nuove categorie</string>
-  <string name="new_tag_hint">Inserisci una nuova categoria</string>
+  <string name="dialog_multi_tag_append">Aggiungi nuovi tag ai tag esistenti</string>
+  <string name="dialog_multi_tag_replace">Sostituisci tag esistenti con nuovi tag</string>
+  <string name="new_tag_hint">Inserisci un nuovo tag</string>
+  <string name="language_download_requested">Le traduzioni per la lingua %s sono richieste dal Play Store</string>
 </resources>

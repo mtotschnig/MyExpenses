@@ -806,6 +806,7 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
+  <string name="unmapped_filter_only_single">Фильтр «ненанесенный на карту » не может быть включен в множественный выбор</string>
   <string name="upgrade_information_cloud_sync_storage_format">В версии 2.9.8, был изменен способ хранения данных в бэкэндах синхронизации. Пожалуйста обновите эту версию на всех синхронизированных устройствах, прежде чем вводить какие-либо новые записи на любом из них.</string>
   <string name="pref_security_export_passphrase_title">Парольная фраза для резервных копий</string>
   <string name="pref_security_export_passphrase_summary">Резервные копии будут зашифрованы этой парольной фразой</string>
@@ -896,6 +897,26 @@
   <string name="pref_clone_with_current_date_summary_on">Клонированные транзакции имеют текущую дату</string>
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <string name="pref_clone_with_current_date_summary_off">Клонированные транзакции сохраняют исходную дату</string>
+  <string name="pref_protection_screenshot_information">При активации защиты устройства захват снимков экрана отключается.</string>
+  <string name="tags_create_or_select">Создать или выбрать теги</string>
+  <string name="content_description_tags_confirm">Подтверждение</string>
+  <string name="tags">Теги</string>
+  <string name="pref_manage_tags_summary">Добавить, изменить, удалить теги.</string>
+  <string name="dialog_title_warning_delete_tag">Удалить тег?</string>
+  <string name="menu_edit_tag">Изменить тег</string>
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
+  <string name="menu_tag">Добавить тег</string>
   <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <string name="dialog_multi_tag">Все выбранные транзакции будут помечены «тегом» %s.</string>
+  <string name="dialog_multi_tag_clear">Все теги будут удалены из выбранных трансакций.</string>
+  <plurals name="warning_delete_tag">
+    <item quantity="one">Тег %1$s сопоставлен с одной транзакцией. Должен ли он быть удален?</item>
+    <item quantity="few">Тег %1$s сопоставлен с транзакциями %2$d. Должен ли он быть удален?</item>
+    <item quantity="many">Тег %1$s сопоставлен с транзакциями %2$d. Должен ли он быть удален?</item>
+    <item quantity="other">Тег %1$s связаный с трансакциями %2$d. Должен ли он быть удален?</item>
+  </plurals>
+  <string name="dialog_multi_tag_append">Добавить новые теги к существующим тегам</string>
+  <string name="dialog_multi_tag_replace">Заменить существующие теги новыми </string>
+  <string name="new_tag_hint">Введите новый тег</string>
+  <string name="language_download_requested">Переводы для языка %s запрашиваются в Play Store</string>
 </resources>

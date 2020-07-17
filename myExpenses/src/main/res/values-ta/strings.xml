@@ -367,6 +367,7 @@
   <string name="save_transaction_template_deleted">வார்ப்புரு நீக்கப்பட்டது</string>
   <string name="select">தேர்வு செய்க</string>
   <string name="select_category">வகையைத் தேர்வு செய்க</string>
+  <string name="select_payee">பணம் செலுத்துபவர்/பெறுபவரை தேர்ந்தெடுக்கவும்</string>
   <string name="share_scheme_not_supported">ஆதரிக்கப்படாதத் திட்டம்: %1$s</string>
   <string name="share_sending">ஏற்றுமதி கோப்பை பகிர்</string>
   <string name="split_parts_heading">பிரிவு பகுதிகள்</string>
@@ -894,4 +895,5 @@
   <string name="dialog_multi_tag_append">இருக்கும் குறிச்சொற்களுடன் புதிய குறிச்சொற்களைச் சேர்</string>
   <string name="dialog_multi_tag_replace">இருக்கும் குறிச்சொற்களை புதிய குறிச்சொற்களை கொண்டு மாற்றவும்</string>
   <string name="new_tag_hint">புதிய குறிச்சொல்லை உள்ளிடவும்</string>
+  <string name="language_download_requested">%s மொழிக்கான மொழிபெயர்ப்புகள் Play Store-ல் இருந்து கோரப்படுகின்றன</string>
 </resources>
