@@ -129,6 +129,7 @@ public class DatabaseConstants {
   public static final String KEY_IS_NUMBERED = "is_numbered";
   public static final String KEY_PLANID = "plan_id";
   public static final String KEY_PLAN_EXECUTION = "plan_execution";
+  public static final String KEY_PLAN_EXECUTION_ADVANCE = "plan_execution_advance";
   public static final String KEY_TEMPLATEID = "template_id";
   public static final String KEY_INSTANCEID = "instance_id";
   public static final String KEY_CODE = "code";

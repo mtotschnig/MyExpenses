@@ -138,6 +138,17 @@ public class NotificationBuilderWrapper {
     return this;
   }
 
+  public NotificationBuilderWrapper setWhen(long when) {
+    if (shouldUseNative()) {
+      api23Builder.setWhen(when);
+      api23Builder.setShowWhen(true);
+    } else {
+      compatBuilder.setWhen(when);
+      compatBuilder.setShowWhen(true);
+    }
+    return this;
+  }
+
   public NotificationBuilderWrapper addAction(int iconCompat, int iconApi23, String title, PendingIntent intent) {
     if (shouldUseNative()) {
       api23Builder.addAction(new Notification.Action.Builder(

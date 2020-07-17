@@ -12,11 +12,16 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="q">
         <receiver
-            android:name=".sync.SyncTrigger"
+            android:exported="true"
+            android:name=".ExecutionTrigger"
             tools:ignore="ExportedReceiver">
-            <!-- adb shell am broadcast -a TRIGGER_SYNC -e ACCOUNT accountName -->
+            <!-- adb shell am broadcast -n org.totschnig.myexpenses.debug/org.totschnig.myexpenses.ExecutionTrigger -a TRIGGER_SYNC -e ACCOUNT accountName -->
             <intent-filter>
                 <action android:name="TRIGGER_SYNC"/>
+            </intent-filter>
+            <!-- adb shell am broadcast -n org.totschnig.myexpenses.debug/org.totschnig.myexpenses.ExecutionTrigger -a TRIGGER_PLANNER -->
+            <intent-filter>
+                <action android:name="TRIGGER_PLANNER"/>
             </intent-filter>
         </receiver>
     </application>

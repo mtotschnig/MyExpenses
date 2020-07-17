@@ -59,11 +59,11 @@
     <style name="FormField">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">@dimen/form_table_ratio</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="FormField.Dialog">
         <item name="android:layout_weight">2</item>
-        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="FormLabel.Condensed">

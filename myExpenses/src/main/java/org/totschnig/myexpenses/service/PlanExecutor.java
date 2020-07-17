@@ -8,13 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -59,6 +63,7 @@ public class PlanExecutor extends JobIntentService {
   private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
   public static final String TAG = "PlanExecutor";
   public static final String KEY_FORCE_IMMEDIATE = "force_immediate";
+  public static final int ADVANCE_DAYS = 30;
 
   @Inject
   PrefHandler prefHandler;
@@ -122,20 +127,20 @@ public class PlanExecutor extends JobIntentService {
         return;
       }
       if (intent.getBooleanExtra(KEY_FORCE_IMMEDIATE, false) || beginningOfDay > lastExecution) {
-
         log("now %d compared to end of day %d", now, endOfDay);
-        log("executing plans from %d to %d", instancesFrom, endOfDay);
+        long instancesUntil = endOfDay + ADVANCE_DAYS * H24;
+        log("executing plans from %d to %d", instancesFrom, instancesUntil);
 
         Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
         ContentUris.appendId(eventsUriBuilder, instancesFrom);
-        ContentUris.appendId(eventsUriBuilder, endOfDay);
+        ContentUris.appendId(eventsUriBuilder, instancesUntil);
         Uri eventsUri = eventsUriBuilder.build();
         Cursor cursor;
         try {
           cursor = getContentResolver().query(eventsUri, null,
               Events.CALENDAR_ID + " = " + plannerCalendarId,
               null,
-              null);
+              CalendarContractCompat.Instances.BEGIN + " ASC");
         } catch (Exception e) {
           //} catch (SecurityException | IllegalArgumentException e) {
           CrashHandler.report(e);
@@ -146,9 +151,13 @@ public class PlanExecutor extends JobIntentService {
         }
         if (cursor != null) {
           if (cursor.moveToFirst()) {
+            LocalDate today = LocalDate.now();
             while (!cursor.isAfterLast()) {
               long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
               long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+              LocalDate localDate = ZonedDateTime.ofInstant(
+                  Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate();
+              long diff = ChronoUnit.DAYS.between(today, localDate);
               long instanceId = CalendarProviderProxy.calculateId(date);
               //2) check if they are part of a plan linked to a template
               //3) execute the template
@@ -156,86 +165,93 @@ public class PlanExecutor extends JobIntentService {
               //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
               Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId);
               if (!(template == null || template.isSealed())) {
-                Account account = Account.getInstanceFromDb(template.getAccountId());
-                if (account != null) {
-                  log("belongs to template %d", template.getId());
-                  Notification notification;
-                  int notificationId = (int) ((instanceId * planId) % Integer.MAX_VALUE);
-                  log("notification id %d", notificationId);
-                  PendingIntent resultIntent;
-                  NotificationManager notificationManager =
-                      (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                  String title = account.getLabel() + " : " + template.getTitle();
-                  NotificationBuilderWrapper builder =
-                      new NotificationBuilderWrapper(this, NotificationBuilderWrapper.CHANNEL_ID_PLANNER)
-                          .setSmallIcon(R.drawable.ic_stat_notification_sigma)
-                          .setContentTitle(title);
-                  String content = template.getLabel();
-                  if (!content.equals("")) {
-                    content += " : ";
-                  }
-                  content += currencyFormatter.formatCurrency(template.getAmount());
-                  builder.setContentText(content);
-                  if (template.isPlanExecutionAutomatic()) {
-                    Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(template);
-                    Transaction t = pair.first;
-                    t.originPlanInstanceId = instanceId;
-                    t.setDate(new Date(date));
-                    if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
-                      Intent displayIntent = new Intent(this, MyExpenses.class)
-                          .putExtra(KEY_ROWID, template.getAccountId())
-                          .putExtra(KEY_TRANSACTIONID, t.getId());
-                      resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
-                          FLAG_UPDATE_CURRENT);
-                      builder.setContentIntent(resultIntent);
+                if (template.getPlanExecutionAdvance() >= diff) {
+                  Account account = Account.getInstanceFromDb(template.getAccountId());
+                  if (account != null) {
+                    log("belongs to template %d", template.getId());
+                    Notification notification;
+                    int notificationId = (int) ((instanceId * planId) % Integer.MAX_VALUE);
+                    log("notification id %d", notificationId);
+                    PendingIntent resultIntent;
+                    NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    String title = account.getLabel() + " : " + template.getTitle();
+                    NotificationBuilderWrapper builder =
+                        new NotificationBuilderWrapper(this, NotificationBuilderWrapper.CHANNEL_ID_PLANNER)
+                            .setSmallIcon(R.drawable.ic_stat_notification_sigma)
+                            .setContentTitle(title);
+                    builder.setWhen(date);
+                    String content = template.getLabel();
+                    if (TextUtils.isEmpty(content)) {
+                      content = "";
                     } else {
-                      builder.setContentText(getString(R.string.save_transaction_error));
+                      content += " : ";
                     }
-                    builder.setAutoCancel(true);
-                    notification = builder.build();
+                    content += currencyFormatter.formatCurrency(template.getAmount());
+                    builder.setContentText(content);
+                    if (template.isPlanExecutionAutomatic()) {
+                      Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(template);
+                      Transaction t = pair.first;
+                      t.originPlanInstanceId = instanceId;
+                      t.setDate(new Date(date));
+                      if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
+                        Intent displayIntent = new Intent(this, MyExpenses.class)
+                            .putExtra(KEY_ROWID, template.getAccountId())
+                            .putExtra(KEY_TRANSACTIONID, t.getId());
+                        resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
+                            FLAG_UPDATE_CURRENT);
+                        builder.setContentIntent(resultIntent);
+                      } else {
+                        builder.setContentText(getString(R.string.save_transaction_error));
+                      }
+                      builder.setAutoCancel(true);
+                      notification = builder.build();
+                    } else {
+                      Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class)
+                          .setAction(ACTION_CANCEL)
+                          .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
+                          .putExtra(KEY_TEMPLATEID, template.getId())
+                          .putExtra(KEY_INSTANCEID, instanceId)
+                          //we also put the title in the intent, because we need it while we update the notification
+                          .putExtra(KEY_TITLE, title);
+                      builder.addAction(
+                          android.R.drawable.ic_menu_close_clear_cancel,
+                          R.drawable.ic_menu_close_clear_cancel,
+                          getString(android.R.string.cancel),
+                          PendingIntent.getService(this, notificationId, cancelIntent, FLAG_UPDATE_CURRENT));
+                      Intent editIntent = new Intent(this, ExpenseEdit.class)
+                          .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
+                          .putExtra(KEY_TEMPLATEID, template.getId())
+                          .putExtra(KEY_INSTANCEID, instanceId)
+                          .putExtra(KEY_DATE, date);
+                      resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, FLAG_UPDATE_CURRENT);
+                      builder.addAction(
+                          android.R.drawable.ic_menu_edit,
+                          R.drawable.ic_menu_edit,
+                          getString(R.string.menu_edit),
+                          resultIntent);
+                      Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
+                      applyIntent.setAction(ACTION_APPLY)
+                          .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
+                          .putExtra(KEY_TITLE, title)
+                          .putExtra(KEY_TEMPLATEID, template.getId())
+                          .putExtra(KEY_INSTANCEID, instanceId)
+                          .putExtra(KEY_DATE, date);
+                      builder.addAction(
+                          android.R.drawable.ic_menu_save,
+                          R.drawable.ic_menu_save,
+                          getString(R.string.menu_apply_template),
+                          PendingIntent.getService(this, notificationId, applyIntent, FLAG_UPDATE_CURRENT));
+                      builder.setContentIntent(resultIntent);
+                      notification = builder.build();
+                      notification.flags |= Notification.FLAG_NO_CLEAR;
+                    }
+                    notificationManager.notify(notificationId, notification);
                   } else {
-                    Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class)
-                        .setAction(ACTION_CANCEL)
-                        .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                        .putExtra(KEY_TEMPLATEID, template.getId())
-                        .putExtra(KEY_INSTANCEID, instanceId)
-                        //we also put the title in the intent, because we need it while we update the notification
-                        .putExtra(KEY_TITLE, title);
-                    builder.addAction(
-                        android.R.drawable.ic_menu_close_clear_cancel,
-                        R.drawable.ic_menu_close_clear_cancel,
-                        getString(android.R.string.cancel),
-                        PendingIntent.getService(this, notificationId, cancelIntent, FLAG_UPDATE_CURRENT));
-                    Intent editIntent = new Intent(this, ExpenseEdit.class)
-                        .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                        .putExtra(KEY_TEMPLATEID, template.getId())
-                        .putExtra(KEY_INSTANCEID, instanceId)
-                        .putExtra(KEY_DATE, date);
-                    resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, FLAG_UPDATE_CURRENT);
-                    builder.addAction(
-                        android.R.drawable.ic_menu_edit,
-                        R.drawable.ic_menu_edit,
-                        getString(R.string.menu_edit),
-                        resultIntent);
-                    Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
-                    applyIntent.setAction(ACTION_APPLY)
-                        .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                        .putExtra(KEY_TITLE, title)
-                        .putExtra(KEY_TEMPLATEID, template.getId())
-                        .putExtra(KEY_INSTANCEID, instanceId)
-                        .putExtra(KEY_DATE, date);
-                    builder.addAction(
-                        android.R.drawable.ic_menu_save,
-                        R.drawable.ic_menu_save,
-                        getString(R.string.menu_apply_template),
-                        PendingIntent.getService(this, notificationId, applyIntent, FLAG_UPDATE_CURRENT));
-                    builder.setContentIntent(resultIntent);
-                    notification = builder.build();
-                    notification.flags |= Notification.FLAG_NO_CLEAR;
+                    log("Account.getInstanceFromDb returned null");
                   }
-                  notificationManager.notify(notificationId, notification);
                 } else {
-                  log("Account.getInstanceFromDb returned null");
+                  log("Instance is not ready yet (%d days in the future), advance execution is %d", diff, template.getPlanExecutionAdvance());
                 }
               } else {
                 log(template == null ? "Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with" : "Plan refers to a closed account");

@@ -59,6 +59,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -79,6 +80,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
   private String title;
   public Long planId;
   private boolean planExecutionAutomatic = false;
+
+  private int planExecutionAdvance = 0;
 
   public Transaction getTemplate() {
     return template;
@@ -133,7 +136,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_PLANID,
         KEY_PLAN_EXECUTION,
         KEY_UUID,
-        KEY_PARENTID
+        KEY_PARENTID,
+        KEY_PLAN_EXECUTION_ADVANCE
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 3];
@@ -315,6 +319,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
     setParentId(DbUtils.getLongOrNull(c, KEY_PARENTID));
     setPlanExecutionAutomatic(c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0);
+    planExecutionAdvance = c.getInt(c.getColumnIndex(KEY_PLAN_EXECUTION_ADVANCE));
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
       uuid = generateUuid();
@@ -443,6 +448,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     initialValues.put(KEY_TITLE, getTitle());
     initialValues.put(KEY_PLANID, planId);
     initialValues.put(KEY_PLAN_EXECUTION, isPlanExecutionAutomatic());
+    initialValues.put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance);
     initialValues.put(KEY_ACCOUNTID, getAccountId());
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     if (getId() == 0) {
@@ -604,6 +610,14 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   public void setPlanExecutionAutomatic(boolean planExecutionAutomatic) {
     this.planExecutionAutomatic = planExecutionAutomatic;
+  }
+
+  public int getPlanExecutionAdvance() {
+    return planExecutionAdvance;
+  }
+
+  public void setPlanExecutionAdvance(int planExecutionAdvance) {
+    this.planExecutionAdvance = planExecutionAdvance;
   }
 
   public String getTitle() {

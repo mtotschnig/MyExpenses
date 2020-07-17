@@ -234,6 +234,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             loadData()
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
             setTitle()
+            refreshPlanData()
         } else {
             val extras = intent.extras
             var mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
@@ -462,9 +463,13 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             transaction.crStatus = cached.crStatus
             transaction.comment = cached.comment
             transaction.payee = cached.payee
-            (transaction as? Template)?.let {
-                it.title = (cached as? Template)?.title
-                it.isPlanExecutionAutomatic = (cached as? Template)?.isPlanExecutionAutomatic == true
+            (transaction as? Template)?.let { template ->
+                (cached as? Template)?.let { cachedTemplate ->
+                    template.title = cachedTemplate.title
+                    template.isPlanExecutionAutomatic = cachedTemplate.isPlanExecutionAutomatic
+                    template.planExecutionAdvance = cachedTemplate.planExecutionAdvance
+
+                }
             }
             transaction.referenceNumber = cached.referenceNumber
             transaction.amount = cached.amount

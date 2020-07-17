@@ -99,6 +99,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION_ADVANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
@@ -156,7 +157,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 107;
+  public static final int DATABASE_VERSION = 108;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -369,7 +370,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_UUID + " text, "
           + KEY_LAST_USED + " datetime,"
           + KEY_PARENTID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_STATUS + " integer default 0);";
+          + KEY_STATUS + " integer default 0,"
+          + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0);";
 
   private static final String EVENT_CACHE_CREATE =
       "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
@@ -2194,6 +2196,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("update accounts set sealed = -1 where sealed = 1");
         db.execSQL("UPDATE transactions set date = (select date from transactions parents where _id = transactions.parent_id) where parent_id is not null");
         db.execSQL("update accounts set sealed = 1 where sealed = -1");
+      }
+      if (oldVersion < 108) {
+        db.execSQL("ALTER TABLE templates add column plan_execution_advance integer default 0");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

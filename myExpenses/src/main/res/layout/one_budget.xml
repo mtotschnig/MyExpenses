@@ -69,7 +69,6 @@
                     android:id="@+id/Description"
                     style="@style/FormField"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:importantForAutofill="no"
                     android:inputType="textCapWords"
                     android:maxLines="1"
@@ -102,7 +101,6 @@
                 <Spinner
                     android:id="@+id/Accounts"
                     style="@style/FormField"
-                    android:layout_gravity="center_vertical"
                     android:prompt="@string/pref_manage_accounts_title" />
             </TableRow>
 
@@ -162,13 +160,11 @@
                     style="@style/FormField">
                     <Spinner
                         android:id="@+id/Type"
-                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/type" />
                     <CheckBox
                         android:id="@+id/DefaultBudget"
-                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/checkbox_is_default" />
