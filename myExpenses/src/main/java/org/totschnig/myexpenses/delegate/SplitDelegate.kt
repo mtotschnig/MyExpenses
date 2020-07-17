@@ -43,9 +43,9 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
     override fun buildMainTransaction(accountId: Long): ISplit = if (isTemplate) buildTemplate(accountId) else SplitTransaction(accountId)
 
     override fun prepareForNew() {
+        super.prepareForNew()
         rowId =  SplitTransaction.getNewInstance(accountId!!).id
         host.findSplitPartList()?.updateParent(rowId!!)
-        resetAmounts()
     }
 
     override fun configureType() {
@@ -55,12 +55,12 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
 
     override fun setAccounts(data: List<Account>, currencyExtra: String?) {
         super.setAccounts(data, currencyExtra)
-        host.addSplitPartList()
+        host.addSplitPartList(rowId)
     }
 
     override fun updateAccount(account: Account) {
         super.updateAccount(account)
-        host.updateSplitPartList(account)
+        host.updateSplitPartList(account, rowId)
     }
 
     fun onUncommitedSplitPartsMoved(success: Boolean) {

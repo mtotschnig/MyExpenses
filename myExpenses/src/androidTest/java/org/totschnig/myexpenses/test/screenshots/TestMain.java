@@ -62,9 +62,9 @@ public class TestMain extends BaseUiTest {
     sleep();
     switch (BuildConfig.TEST_SCENARIO) {
       case 1: {
-        onView(withId(R.id.root_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.drawer)).perform(DrawerActions.open());
         takeScreenshot("summarize");
-        onView(withId(R.id.root_layout)).perform(DrawerActions.close());
+        onView(withId(R.id.drawer)).perform(DrawerActions.close());
         takeScreenshot("group");
         clickMenuItem(R.id.RESET_COMMAND, R.string.menu_reset);
         Espresso.closeSoftKeyboard();

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_312">
+        <item>ಕಸ್ಟಮ್ ದಿನಾಂಕ ಸ್ವರೂಪ</item>
+        <item>ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸಿಎಸ್‌ವಿಗೆ ರಫ್ತು ಮಾಡಲಾಗುತ್ತದೆ</item>
+        <item>ವಹಿವಾಟು ಪಟ್ಟಿಯಲ್ಲಿನ ಗುಂಪುಗಳ ಕುಸಿದ ಸ್ಥಿತಿಯನ್ನು ಕಂಠಪಾಠ ಮಾಡಲಾಗುತ್ತದೆ</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>ಪಕ್ಷಗಳ ಪಟ್ಟಿಯನ್ನು (ಪಾವತಿಸುವವರು ಮತ್ತು ಪಾವತಿಸುವವರು) ಹುಡುಕಬಹುದು</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>ವಹಿವಾಟುಗಳನ್ನು ಬಹು ಟ್ಯಾಗ್‌ಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಬಹುದು</item>
+    </string-array>
+    <string-array name="whats_new_308">
+        <item>ಬಹು ಖಾತೆಗಳನ್ನು ಈಗ ಒಂದು ಫೈಲ್‌ಗೆ ರಫ್ತು ಮಾಡಬಹುದು</item>
+        <item>ಖಾತೆ ಮೆಟಾಡೇಟಾವನ್ನು ಈಗ ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲಾಗಿದೆ</item>
+        <item>ಸುಧಾರಿತ ಹೋಮ್‌ಸ್ಕ್ರೀನ್ ವಿಜೆಟ್‌ಗಳು</item>
+    </string-array>
+    <string-array name="whats_new_307">
+        <item>ಬೃಹತ್ ಸಂಪಾದನೆ</item>
+    </string-array>
+    <string-array name="whats_new_306">
+        <item>ಬಜೆಟ್ 2.0</item>
+    </string-array>
+    <string-array name="whats_new_305">
+        <item>ಡ್ರಾಪ್‌ಬಾಕ್ಸ್ ಮತ್ತು ಡ್ರೈವ್ ಮೂಲಕ ಸಿಂಕ್ರೊನೈಸೇಶನ್ಗಾಗಿ ಹೊಸ ಅನುಷ್ಠಾನ</item>
+    </string-array>
+    <string-array name="whats_new_304">
+        <item>ವಿನಿಮಯ ದರಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</item>
+    </string-array>
+    <string-array name="whats_new_303">
+        <item>ತಮಿಳು ಅನುವಾದ</item>
+        <item>ಮುಖ್ಯ ಮೆನುವಿನಲ್ಲಿ ಈಗ ಬಟನ್ ಸಿಂಕ್ ಮಾಡಿ</item>
+        <item>ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳ ನಂತರ ತಕ್ಷಣದ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಬಹುದು</item>
+    </string-array>
+    <string-array name="whats_new_302">
+        <item>ವರ್ಗಗಳಿಗೆ ಚಿಹ್ನೆಗಳು</item>
+    </string-array>
+    <string-array name="whats_new_301">
+        <item>ಖಾತೆಗಳನ್ನು ಮುಚ್ಚಬಹುದು ಮತ್ತು / ಅಥವಾ ಮರೆಮಾಡಬಹುದು</item>
+    </string-array>
+    <string-array name="whats_new_300">
+        <item>ಉಕ್ರೇನಿಯನ್ ಅನುವಾದ</item>
+        <item>CSV ರಫ್ತು: ಡಿಲಿಮಿಟರ್ ಅನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡಬಹುದಾಗಿದೆ</item>
+    </string-array>
+    <string name="bug_fixes">ದೋಷ ಪರಿಹಾರಗಳನ್ನು</string>
+    <string name="performance_enhancement">ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆ</string>
+    <string name="stability_improvements">ಸ್ಥಿರತೆ ಸುಧಾರಣೆಗಳು</string>
+</resources>

@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -319,23 +320,27 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return transactionChange;
   }
 
+  @NonNull
   @Override
   public SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException {
+    ArrayList<TransactionChange> changeSetMutable = new ArrayList<>(changeSet);
     SequenceNumber nextSequence = getLastSequence(lastSequenceNumber).next();
-    for (int i = 0; i < changeSet.size(); i++) {
-      TransactionChange mappedChange = mapPictureDuringWrite(changeSet.get(i));
+    for (int i = 0; i < changeSetMutable.size(); i++) {
+      TransactionChange mappedChange = mapPictureDuringWrite(changeSetMutable.get(i));
       if (appInstance != null) {
         mappedChange = mappedChange.toBuilder().setAppInstance(appInstance).build();
       }
       if (mappedChange.splitParts() != null) {
-        for (int j = 0; j < mappedChange.splitParts().size(); j++) {
-          mappedChange.splitParts().set(j, mapPictureDuringWrite(mappedChange.splitParts().get(j)));
+        ArrayList<TransactionChange> splitPartsMutable = new ArrayList<>(mappedChange.splitParts());
+        for (int j = 0; j < splitPartsMutable.size(); j++) {
+          splitPartsMutable.set(j, mapPictureDuringWrite(splitPartsMutable.get(j)));
         }
+        mappedChange = mappedChange.toBuilder().setSplitParts(splitPartsMutable).build();
       }
-      changeSet.set(i, mappedChange);
+      changeSetMutable.set(i, mappedChange);
     }
     String fileName = String.format(Locale.ROOT, "_%d.%s", nextSequence.number, getExtensionForData());
-    String fileContents = gson.toJson(changeSet);
+    String fileContents = gson.toJson(changeSetMutable);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
     saveFileContentsToAccountDir(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, getMimetypeForData(), true);

@@ -49,6 +49,7 @@
         <item>iw</item>
         <item>ja</item>
         <item>km</item>
+        <item>kn</item>
         <item>ko</item>
         <item>ms</item>
         <item>pl</item>
@@ -511,26 +512,6 @@
         <item>372;3.0.2</item>
         <item>365;3.0.1</item>
         <item>362;3.0.0</item>
-        <item>360;2.9.9</item>
-        <item>357;2.9.8</item>
-        <item>351;2.9.7</item>
-        <item>346;2.9.6</item>
-        <item>343;2.9.5</item>
-        <item>341;2.9.4</item>
-        <item>339;2.9.3</item>
-        <item>336;2.9.2</item>
-        <item>328;2.9.1</item>
-        <item>323;2.9.0</item>
-        <item>318;2.8.9</item>
-        <item>314;2.8.8</item>
-        <item>312;2.8.7</item>
-        <item>310;2.8.6</item>
-        <item>308;2.8.5</item>
-        <item>304;2.8.4</item>
-        <item>300;2.8.3</item>
-        <item>297;2.8.2</item>
-        <item>294;2.8.1</item>
-        <item>291;2.8.0</item>
     </string-array>
 
     <string-array name="contributors_303" tools:ignore="UnusedResources">

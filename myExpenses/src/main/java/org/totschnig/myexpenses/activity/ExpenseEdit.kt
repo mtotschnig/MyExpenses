@@ -71,7 +71,6 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan.Recurrence
-import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
@@ -133,10 +132,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         get() = rootBinding.Amount
     override val exchangeRateEdit: ExchangeRateEdit
         get() = rootBinding.ERR.ExchangeRate
-
-    @JvmField
-    @State
-    var mRowId = 0L
 
     @JvmField
     @State
@@ -242,7 +237,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             refreshPlanData()
         } else {
             val extras = intent.extras
-            mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
+            var mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
             var task: TransactionViewModel.InstantiationTask? = null
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
@@ -430,9 +425,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
             } else {
                 if (task != TRANSACTION_FROM_TEMPLATE) {
-                    viewModel.loadOriginalTags(mRowId, it.linkedTagsUri(), it.linkColumn())
+                    viewModel.loadOriginalTags(transaction.id, it.linkedTagsUri(), it.linkColumn())
                 }
-                mRowId = it.id
                 populate(it)
 
             }
@@ -454,7 +448,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     private fun populate(transaction: Transaction) {
         if (isClone) {
-            mRowId = if (transaction is SplitTransaction) transaction.id else 0L
             transaction.crStatus = CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE
             transaction.uuid = Model.generateUuid()
@@ -580,8 +573,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (!isNoMainTransaction && !(operationType == Transactions.TYPE_SPLIT &&
-                        !(applicationContext as MyApplication).licenceHandler.isContribEnabled)) {
+        if (!isNoMainTransaction) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                     .setIcon(R.drawable.ic_action_save_new)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
@@ -657,7 +649,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         forwardDataEntryFromWidget(i)
         i.putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.id)
-        i.putExtra(DatabaseConstants.KEY_PARENTID, mRowId)
+        i.putExtra(DatabaseConstants.KEY_PARENTID, delegate.rowId)
         i.putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
         startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST)
     }
@@ -782,9 +774,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun cleanup(onComplete: () -> Unit) {
-        if (operationType == Transactions.TYPE_SPLIT) {
-            if (mRowId != 0L) {
-                viewModel.cleanupSplit(mRowId, isTemplate).observe(this, Observer {
+        if (operationType == Transactions.TYPE_SPLIT && ::delegate.isInitialized) {
+            delegate.rowId?.let {
+                viewModel.cleanupSplit(it, isTemplate).observe(this, Observer {
                     onComplete()
                 })
             }
@@ -1129,7 +1121,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         super.onRestoreInstanceState(savedInstanceState)
         exchangeRateEdit.setBlockWatcher(false)
         delegate.isProcessingLinkedAmountInputs = false
-        if (mRowId == 0L) {
+        if (delegate.rowId == 0L) {
             (delegate as? TransferDelegate)?.configureTransferDirection()
         }
     }
@@ -1151,22 +1143,22 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
     }
 
-    fun addSplitPartList() {
+    fun addSplitPartList(rowId: Long) {
         val fm = supportFragmentManager
         if (findSplitPartList() == null && !fm.isStateSaved) {
             fm.beginTransaction()
-                    .add(R.id.edit_container, SplitPartList.newInstance(mRowId, isTemplate, currentAccount!!), SPLIT_PART_LIST)
+                    .add(R.id.edit_container, SplitPartList.newInstance(rowId, isTemplate, currentAccount!!), SPLIT_PART_LIST)
                     .commit()
             fm.executePendingTransactions()
         }
     }
 
-    open fun updateSplitPartList(account: Account) {
+    open fun updateSplitPartList(account: Account, rowId: Long) {
         findSplitPartList()?.let {
             it.updateAccount(account)
             if (it.splitCount > 0) { //call background task for moving parts to new account
                 startTaskExecution(
-                        TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(mRowId),
+                        TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(rowId),
                         account.id,
                         R.string.progress_dialog_updating_split_parts)
                 return

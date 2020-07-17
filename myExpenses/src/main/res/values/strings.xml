@@ -406,6 +406,7 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_from_account">From</string>
     <string name="transfer_to_account">To</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Type</string>
     <string name="unsplit_amount">Unsplit amount</string>
     <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>

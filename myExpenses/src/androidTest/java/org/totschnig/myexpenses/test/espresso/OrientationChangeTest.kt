@@ -89,6 +89,7 @@ class OrientationChangeTest: BaseUiTest() {
         rotate()
         Espresso.onIdle()
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
+        rotate()
     }
 
     @Test
@@ -109,6 +110,7 @@ class OrientationChangeTest: BaseUiTest() {
         rotate()
         Espresso.onIdle()
         onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
+        rotate()
     }
 
 
@@ -132,6 +134,7 @@ class OrientationChangeTest: BaseUiTest() {
         rotate()
         Espresso.onIdle()
         onView(withId(R.id.Status)).check(matches(withSpinnerText(`is`(string))))
+        rotate()
     }
 
     @Test
@@ -144,6 +147,7 @@ class OrientationChangeTest: BaseUiTest() {
         Espresso.onIdle()
         toolbarTitle().check(doesNotExist())
         checkEffectiveVisible(R.id.OperationType)
+        rotate()
     }
 
     @Test
@@ -162,6 +166,7 @@ class OrientationChangeTest: BaseUiTest() {
         Espresso.onIdle()
         checkEffectiveGone(R.id.OperationType)
         toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
+        rotate()
     }
 
     override fun getTestRule() = mActivityRule

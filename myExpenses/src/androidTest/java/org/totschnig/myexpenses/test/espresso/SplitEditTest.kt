@@ -21,7 +21,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.intercepting.SingleActivityFactory
 import junit.framework.TestCase
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.anything
 import org.junit.After
@@ -46,20 +45,21 @@ import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import java.util.*
 
 @RunWith(AndroidJUnit4::class)
-class SplitEditTest: BaseUiTest() {
+class SplitEditTest : BaseUiTest() {
     var splitPartListUpdateCalled = 0
     var activityIsRecreated = false
     var activityFactory: SingleActivityFactory<ExpenseEdit> = object : SingleActivityFactory<ExpenseEdit>(ExpenseEdit::class.java) {
         override fun create(intent: Intent): ExpenseEdit {
-            return object: ExpenseEdit() {
+            return object : ExpenseEdit() {
                 override fun onCreate(savedInstanceState: Bundle?) {
                     super.onCreate(savedInstanceState)
                     if (savedInstanceState != null) {
                         activityIsRecreated = true
                     }
                 }
-                override fun updateSplitPartList(account: org.totschnig.myexpenses.viewmodel.data.Account) {
-                    super.updateSplitPartList(account)
+
+                override fun updateSplitPartList(account: org.totschnig.myexpenses.viewmodel.data.Account, rowId: Long) {
+                    super.updateSplitPartList(account, rowId)
                     if (activityIsRecreated) {
                         activityIsRecreated = false
                     } else {
@@ -69,6 +69,7 @@ class SplitEditTest: BaseUiTest() {
             }
         }
     }
+
     @get:Rule
     var mActivityRule = ActivityTestRule(activityFactory, false, false)
     private val accountLabel1 = "Test label 1"
@@ -112,18 +113,23 @@ class SplitEditTest: BaseUiTest() {
     fun createPartAndSave() {
         mActivityRule.launchActivity(baseIntent)
         assertThat(splitPartListUpdateCalled).isEqualTo(1)
-        repeat(5) {
-            onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
-            onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("50"))
-            onView(withId(R.id.SAVE_COMMAND)).perform(ViewActions.click())//save part
-            assertThat(splitPartListUpdateCalled).isEqualTo(1)
-        }
+        createParts(5)
         onView(withId(R.id.SAVE_COMMAND)).perform(ViewActions.click())//save parent fails with unsplit amount
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.unsplit_amount_greater_than_zero)))
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("250"))
         onView(withId(R.id.SAVE_COMMAND)).perform(ViewActions.click())//save parent succeeds
         TestCase.assertTrue(mActivityRule.activity.isFinishing)
+    }
+
+    private fun createParts(times: Int) {
+        assertThat(splitPartListUpdateCalled).isEqualTo(1)
+        repeat(times) {
+            onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
+            onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("50"))
+            onView(withId(R.id.SAVE_COMMAND)).perform(ViewActions.click())//save part
+            assertThat(splitPartListUpdateCalled).isEqualTo(1)
+        }
     }
 
     @Test
@@ -161,5 +167,17 @@ class SplitEditTest: BaseUiTest() {
         Espresso.closeSoftKeyboard()
         Espresso.pressBackUnconditionally()
         assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
+    }
+
+    @Test
+    fun create_and_save() {
+        mActivityRule.launchActivity(baseIntent)
+        createParts(1)
+        onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("50"))
+        onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(ViewActions.click())
+        createParts(1)
+        onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("50"))
+        onView(withId(R.id.SAVE_COMMAND)).perform(ViewActions.click())//save parent succeeds
+        assertThat(mActivityRule.activity.isFinishing).isTrue()
     }
 }

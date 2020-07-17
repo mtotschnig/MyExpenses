@@ -62,7 +62,7 @@ android {
         testProguardFile "proguard-test.txt"
 
         vectorDrawables.useSupportLibrary = true
-        resConfigs "en", "ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "ko", "ms", "pl", "pt", "ro", "ru", "si", "ta", "tr", "uk", "vi", "pt_PT", "zh_CN", "zh_TW"
+        resConfigs "en", "ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "kn", "ko", "ms", "pl", "pt", "ro", "ru", "si", "ta", "tr", "uk", "vi", "pt_PT", "zh_CN", "zh_TW"
 
         javaCompileOptions {
             annotationProcessorOptions {
