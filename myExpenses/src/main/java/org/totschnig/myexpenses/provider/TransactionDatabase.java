@@ -923,7 +923,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     try {
-      TransactionProvider.pauseChangeTrigger(db);
       Timber.i("Upgrading database from version %d to %d", oldVersion, newVersion);
       if (oldVersion < 17) {
         db.execSQL("drop table accounts");
@@ -1707,6 +1706,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE _sync_state (status integer)");
         //createOrRefreshChangelogTriggers(db);
       }
+      TransactionProvider.pauseChangeTrigger(db);
 
       if (oldVersion < 64) {
         ContentValues initialValues = new ContentValues();
