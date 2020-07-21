@@ -9,7 +9,6 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
@@ -31,7 +30,7 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
         disposable = briteContentResolver.createQuery(builder.build(), null,
                 CalendarContractCompat.Events.CALENDAR_ID + " = " + plannerCalendarId,
                 null, CalendarContractCompat.Instances.BEGIN + " ASC", false)
-                .mapToList(PlanInstance.Companion::fromCursor)
+                .mapToList(PlanInstance.Companion::fromEventCursor)
                 .subscribe {
                     instances.postValue(it.filterNotNull())
                 }

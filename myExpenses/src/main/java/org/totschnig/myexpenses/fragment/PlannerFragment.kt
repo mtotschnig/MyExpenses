@@ -79,6 +79,6 @@ class PlannerAdapter: RecyclerView.Adapter<PlanInstanceViewHolder>() {
 class PlanInstanceViewHolder(private val itemBinding: PlanInstanceBinding): RecyclerView.ViewHolder(itemBinding.root) {
     fun bind(planInstance: PlanInstance) {
         itemBinding.date.text = planInstance.date.toString()
-        itemBinding.label.text = planInstance.title + " " + planInstance.transactionID
+        itemBinding.label.text = planInstance.title + " " + planInstance.state
     }
 }

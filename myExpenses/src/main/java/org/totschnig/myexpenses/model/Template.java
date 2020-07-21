@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -404,7 +405,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   public static PlanInstance getPlanInstance(long planId, long date) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
-        new String[] {KEY_TITLE, KEY_TRANSACTIONID},
+        new String[] {KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID},
         KEY_PLANID + "= ?",
         new String[]{String.valueOf(planId)},
         null);
@@ -416,8 +417,12 @@ public class Template extends Transaction implements ITransfer, ISplit {
       return null;
     }
     c.moveToFirst();
+    final Long instanceId = getLongOrNull(c, 1);
+    final Long transactionId = getLongOrNull(c, 2);
+    final PlanInstanceState state = instanceId == null ? PlanInstanceState.open :
+        (transactionId == null ? PlanInstanceState.cancelled : PlanInstanceState.applied);
     PlanInstance planInstance = new PlanInstance(c.getString(0), ZonedDateTime.ofInstant(
-        Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate(), DbUtils.getLongOrNull(c, 1));
+        Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate(), state);
     c.close();
     return planInstance;
   }

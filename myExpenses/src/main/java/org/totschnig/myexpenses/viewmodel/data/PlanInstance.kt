@@ -5,12 +5,14 @@ import com.android.calendar.CalendarContractCompat
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.model.Template
 
-data class PlanInstance(val title: String, val date: LocalDate, val transactionID: Long?) {
+enum class PlanInstanceState {
+    open, applied, cancelled
+}
+
+data class PlanInstance(val title: String, val date: LocalDate, val state: PlanInstanceState) {
     companion object {
-        fun fromCursor(cursor: Cursor): PlanInstance? {
-            return Template.getPlanInstance(
-                    cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID)),
-                    cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN)))
-        }
+        fun fromEventCursor(cursor: Cursor) = Template.getPlanInstance(
+                cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID)),
+                cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN)))
     }
 }
