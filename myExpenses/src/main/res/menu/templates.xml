@@ -16,4 +16,8 @@
             </group>
         </menu>
     </item>
+    <item android:id="@id/PLANNER_COMMAND"
+        android:title="@string/planner_notification_channel_name"
+        android:icon="@drawable/ic_event"
+        app:showAsAction="ifRoom"/>
 </menu>

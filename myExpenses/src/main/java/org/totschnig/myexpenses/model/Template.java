@@ -25,6 +25,9 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
@@ -32,6 +35,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -394,6 +398,28 @@ public class Template extends Transaction implements ITransfer, ISplit {
     Template t = new Template(c);
     c.close();
     return t;
+  }
+
+  @Nullable
+  public static PlanInstance getPlanInstance(long planId, long date) {
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
+        new String[] {KEY_TITLE, KEY_TRANSACTIONID},
+        KEY_PLANID + "= ?",
+        new String[]{String.valueOf(planId)},
+        null);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
+    }
+    c.moveToFirst();
+    PlanInstance planInstance = new PlanInstance(c.getString(0), ZonedDateTime.ofInstant(
+        Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate(), DbUtils.getLongOrNull(c, 1));
+    c.close();
+    return planInstance;
   }
 
   @androidx.annotation.Nullable

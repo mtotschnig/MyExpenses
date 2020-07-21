@@ -309,6 +309,9 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
+    //implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"
+
 }
 
 def getDate() {

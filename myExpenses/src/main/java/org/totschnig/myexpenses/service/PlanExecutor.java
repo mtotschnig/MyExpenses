@@ -59,7 +59,7 @@ public class PlanExecutor extends JobIntentService {
   public static final String ACTION_CANCEL = "Cancel";
   public static final String ACTION_APPLY = "Apply";
   public static final String KEY_TITLE = "title";
-  private static final long H24 = 24 * 60 * 60 * 1000;
+  public static final long H24 = 24 * 60 * 60 * 1000;
   private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
   public static final String TAG = "PlanExecutor";
   public static final String KEY_FORCE_IMMEDIATE = "force_immediate";

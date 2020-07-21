@@ -183,6 +183,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
   public static final String QUERY_PARAMETER_WITH_COUNT ="count";
+  public static final String QUERY_PARAMETER_WITH_INSTANCE ="withInstance";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -824,7 +825,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(TABLE_ACCOUNTTYES_METHODS);
         break;
       case TEMPLATES:
-        qb.setTables(VIEW_TEMPLATES_EXTENDED);
+        String instanceId =uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
+        qb.setTables(VIEW_TEMPLATES_EXTENDED + (instanceId == null ? "" :
+            String.format(" left join %s on %s = %s and %s = %s", TABLE_PLAN_INSTANCE_STATUS, KEY_ROWID, KEY_TEMPLATEID, KEY_INSTANCEID, instanceId)));
         if (projection == null) {
           projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
         }

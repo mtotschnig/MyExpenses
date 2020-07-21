@@ -665,6 +665,10 @@ public class TemplatesList extends SortableListFragment
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.PLANNER_COMMAND) {
+      new PlannerFragment().show(getChildFragmentManager(), "PLANNER");
+      return true;
+    }
     return handleSortOption(item);
   }
 
