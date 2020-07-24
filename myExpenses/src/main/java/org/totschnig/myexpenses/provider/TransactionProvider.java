@@ -1034,10 +1034,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = db.insertOrThrow(TABLE_PAYEES, null, values);
         newUri = PAYEES_URI + "/" + id;
         break;
-      case PLANINSTANCE_TRANSACTION_STATUS:
+      case PLANINSTANCE_TRANSACTION_STATUS: {
         id = db.insertWithOnConflict(TABLE_PLAN_INSTANCE_STATUS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        newUri = PLAN_INSTANCE_STATUS_URI + "/" + id;
-        break;
+        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + id);
+        notifyChange(changeUri, false);
+        return changeUri;
+      }
       case EVENT_CACHE:
         id = db.insertOrThrow(TABLE_EVENT_CACHE, null, values);
         newUri = EVENT_CACHE_URI + "/" + id;

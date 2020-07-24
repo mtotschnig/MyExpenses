@@ -25,9 +25,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
@@ -405,7 +402,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   public static PlanInstance getPlanInstance(long planId, long date) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
-        new String[] {KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID},
+        new String[] {KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY, KEY_AMOUNT, KEY_ROWID},
         KEY_PLANID + "= ?",
         new String[]{String.valueOf(planId)},
         null);
@@ -419,10 +416,11 @@ public class Template extends Transaction implements ITransfer, ISplit {
     c.moveToFirst();
     final Long instanceId = getLongOrNull(c, 1);
     final Long transactionId = getLongOrNull(c, 2);
-    final PlanInstanceState state = instanceId == null ? PlanInstanceState.open :
-        (transactionId == null ? PlanInstanceState.cancelled : PlanInstanceState.applied);
-    PlanInstance planInstance = new PlanInstance(c.getString(0), ZonedDateTime.ofInstant(
-        Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate(), state);
+    final long templateId = c.getLong(6);
+    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+    CurrencyUnit currency = currencyContext.get(c.getString(4));
+    Money amount = new Money(currency, c.getLong(5));
+    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(0), date, c.getInt(3), amount);
     c.close();
     return planInstance;
   }

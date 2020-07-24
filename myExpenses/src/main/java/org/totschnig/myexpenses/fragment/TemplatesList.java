@@ -84,6 +84,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
@@ -342,7 +343,7 @@ public class TemplatesList extends SortableListFragment
   }
 
   public void dispatchCreateInstanceSaveDo(Long[] itemIds) {
-    ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+    ((ProtectedFragmentActivity) requireActivity()).startTaskExecution(
         TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
         itemIds,
         null,
@@ -350,9 +351,23 @@ public class TemplatesList extends SortableListFragment
   }
 
   public void dispatchCreateInstanceEditDo(long itemId) {
-    Intent intent = new Intent(getActivity(), ExpenseEdit.class);
+    Intent intent = new Intent(requireActivity(), ExpenseEdit.class);
     intent.putExtra(KEY_TEMPLATEID, itemId);
     intent.putExtra(KEY_INSTANCEID, -1L);
+    startActivity(intent);
+  }
+
+  public void dispatchCreateInstanceEdit(long templateId, long instanceId, long date) {
+    Intent intent = new Intent(requireActivity(), ExpenseEdit.class);
+    intent.putExtra(KEY_TEMPLATEID, templateId);
+    intent.putExtra(KEY_INSTANCEID, instanceId);
+    intent.putExtra(KEY_DATE , date);
+    startActivity(intent);
+  }
+
+  public void dispatchEditInstance(Long transactionId) {
+    Intent intent = new Intent(requireActivity(), ExpenseEdit.class);
+    intent.putExtra(KEY_ROWID, transactionId);
     startActivity(intent);
   }
 

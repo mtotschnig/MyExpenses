@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
@@ -52,6 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.util.DateUtilsKt.epochMillis2LocalDate;
 
 public class PlanExecutor extends JobIntentService {
   public static final String ACTION_EXECUTE_PLANS = BuildConfig.APPLICATION_ID + ".ACTION_EXECUTE_PLANS";
@@ -155,8 +155,7 @@ public class PlanExecutor extends JobIntentService {
             while (!cursor.isAfterLast()) {
               long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
               long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
-              LocalDate localDate = ZonedDateTime.ofInstant(
-                  Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate();
+              LocalDate localDate = epochMillis2LocalDate(date);
               long diff = ChronoUnit.DAYS.between(today, localDate);
               long instanceId = CalendarProviderProxy.calculateId(date);
               //2) check if they are part of a plan linked to a template

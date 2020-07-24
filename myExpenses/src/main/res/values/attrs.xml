@@ -19,6 +19,7 @@
     <attr name="colorExpense" format="color" />
     <attr name="colorAggregate" format="color" />
     <attr name="drawerBackground" format="color" />
+    <attr name="cardBackground" format="color" />
     <attr name="drawerWidth" format="dimension" />
     <attr name="pageMargin" format="reference" />
     <attr name="colorContainerOuter" format="dimension" />

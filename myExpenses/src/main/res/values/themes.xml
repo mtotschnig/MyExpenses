@@ -191,6 +191,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
+        <item name="cardBackground">#555555</item>
         <item name="md_color_button_text">?colorAccent</item>
     </style>
 
@@ -215,6 +216,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
+        <item name="cardBackground">#f0f0f0</item>
         <item name="md_color_button_text">?colorAccent</item>
     </style>
 
