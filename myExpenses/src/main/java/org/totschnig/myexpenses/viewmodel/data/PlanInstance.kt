@@ -28,4 +28,4 @@ data class PlanInstance(val templateId: Long, val transactionId: Long?, val titl
     }
 }
 
-data class PlanInstanceUpdate(val templateId: Long, val instanceId: Long, val newState: PlanInstanceState, val transactionId: Long?)
+data class PlanInstanceUpdate(val templateId: Long, val instanceId: Long, val newState: PlanInstanceState, val transactionId: Long?, val amount: Long?)

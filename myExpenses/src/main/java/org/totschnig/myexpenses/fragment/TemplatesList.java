@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -33,12 +34,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -62,6 +65,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
@@ -72,6 +76,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -105,6 +110,7 @@ public class TemplatesList extends SortableListFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
   protected static final int SORTABLE_CURSOR = -1;
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
+  public static final String PLANNER_FRAGMENT_TAG = "PLANNER_FRAGMENT";
   public static final String KEY_IS_SPLIT = "isSplit";
   private ListView mListView;
 
@@ -459,11 +465,29 @@ public class TemplatesList extends SortableListFragment
   }
 
   public void showSnackbar(String msg, int length) {
-    PlanMonthFragment planMonthFragment = getPlanMonthFragment();
-    if (planMonthFragment != null) {
-      planMonthFragment.showSnackbar(msg, length);
+    DialogFragment childFragment = getPlanMonthFragment();
+    if (childFragment == null) {
+      childFragment = getPlannerFragment();
+    }
+    if (childFragment != null) {
+      showSnackbar(childFragment, msg, length);
     } else {
       ((ProtectedFragmentActivity) getActivity()).showSnackbar(msg, length);
+    }
+  }
+
+  public void showSnackbar(DialogFragment dialogFragment, String msg, int length) {
+    final Dialog dialog = dialogFragment.getDialog();
+    if (dialog != null) {
+      final Window window = dialog.getWindow();
+      if (window != null) {
+        View view = window.getDecorView();
+        Snackbar snackbar = Snackbar.make(view, msg, length);
+        UiUtils.configureSnackbarForDarkTheme(snackbar, ((ProtectedFragmentActivity) getContext()).getThemeType());
+        snackbar.show();
+        return;
+      }
+      Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
     }
   }
 
@@ -509,6 +533,11 @@ public class TemplatesList extends SortableListFragment
   @Nullable
   private PlanMonthFragment getPlanMonthFragment() {
     return (PlanMonthFragment) getChildFragmentManager().findFragmentByTag(CALDROID_DIALOG_FRAGMENT_TAG);
+  }
+
+  @Nullable
+  private PlannerFragment getPlannerFragment() {
+    return (PlannerFragment) getChildFragmentManager().findFragmentByTag(PLANNER_FRAGMENT_TAG);
   }
 
   private class MyAdapter extends SimpleCursorAdapter {
@@ -685,7 +714,7 @@ public class TemplatesList extends SortableListFragment
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.PLANNER_COMMAND) {
-      new PlannerFragment().show(getChildFragmentManager(), "PLANNER");
+      new PlannerFragment().show(getChildFragmentManager(), PLANNER_FRAGMENT_TAG);
       return true;
     }
     return handleSortOption(item);

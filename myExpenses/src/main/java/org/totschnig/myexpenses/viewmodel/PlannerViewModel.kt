@@ -14,6 +14,7 @@ import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.service.PlanExecutor
@@ -77,10 +78,11 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
         val mapper = {cursor: Cursor ->
             val transactionId = DbUtils.getLongOrNull(cursor, KEY_TRANSACTIONID)
             val newState = if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
-            PlanInstanceUpdate(templateId, instanceId, newState, transactionId)
+            val amount = cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT))
+            PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
         }
         updateDisposable = briteContentResolver.createQuery(uri, null, null, null, null, false)
-                .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null))
+                .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
                 .subscribe {
                     updates.postValue(it)
                     updateDisposable?.dispose()

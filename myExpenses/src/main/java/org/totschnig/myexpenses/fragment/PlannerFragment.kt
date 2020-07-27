@@ -16,16 +16,19 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import org.threeten.bp.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.CalendarProviderProxy.calculateId
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlannerViewModell
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
@@ -61,6 +64,7 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
 
     val model: PlannerViewModell by viewModels()
 
+    var instanceUriToUpdate: Uri? = null
 
     lateinit var stateObserver: ContentObserver
 
@@ -160,8 +164,10 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
             data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && calculateId(planInstance.date) == update.instanceId   }
                     .takeIf { it != -1 }?.let { index ->
                         val oldInstance = data[index]
+                        val amount = update.amount?.let { Money(oldInstance.amount.currencyUnit, it) } ?: oldInstance.amount
                         data.set(index,
-                                PlanInstance(oldInstance.templateId, update.transactionId, oldInstance.title, oldInstance.date, oldInstance.color, oldInstance.amount, update.newState))
+                                PlanInstance(oldInstance.templateId, update.transactionId, oldInstance.title, oldInstance.date, oldInstance.color,
+                                        amount, update.newState))
                         notifyItemChanged(index)
                     }
         }
@@ -170,15 +176,15 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
     inner class PlanInstanceViewHolder(private val itemBinding: PlanInstanceBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         @Inject
         lateinit var currencyFormatter: CurrencyFormatter
+        private val formatter : DateTimeFormatter = getDateTimeFormatter(itemBinding.root.context)
 
         init {
-            MyApplication.getInstance().appComponent.inject(this)
+            (itemBinding.root.context.applicationContext as MyApplication).appComponent.inject(this)
         }
 
         fun bind(planInstance: PlanInstance) {
             with(itemBinding) {
-                //TODO format
-                date.text = planInstance.localDate.toString()
+                date.text = planInstance.localDate.format(formatter)
                 label.text = planInstance.title
                 state.setImageResource(when (planInstance.state) {
                     PlanInstanceState.OPEN -> R.drawable.ic_stat_open
@@ -189,12 +195,10 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
                 amount.setText(currencyFormatter.formatCurrency(planInstance.amount))
                 amount.setTextColor(UiUtils.themeIntAttr(root.context,
                         if (planInstance.amount.amountMinor < 0) R.attr.colorExpense else R.attr.colorIncome))
-                root.setOnClickListener { //creating a popup menu
+                root.setOnClickListener {
                     val popup = PopupMenu(root.context, root)
-                    //inflating menu from xml resource
                     popup.inflate(R.menu.planlist_context)
                     configureMenuInternalPlanInstances(popup.menu, planInstance.state)
-                    //adding click listener
                     popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                         override fun onMenuItemClick(item: MenuItem): Boolean {
                             val templatesList = parentFragment as? TemplatesList
@@ -212,6 +216,7 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
 
                                 }
                                 R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
+                                    instanceUriToUpdate = TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, instanceId)
                                     templatesList?.dispatchEditInstance(planInstance.transactionId)
                                     true
                                 }

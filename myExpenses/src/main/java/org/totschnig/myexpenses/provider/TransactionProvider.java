@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
@@ -117,6 +118,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
   public static final Uri PLAN_INSTANCE_STATUS_URI =
       Uri.parse("content://" + AUTHORITY + "/planinstance_transaction");
+  public static final Uri PLAN_INSTANCE_SINGLE_URI(long templateId, long instanceId) {
+    return ContentUris.appendId(ContentUris.appendId(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), instanceId)
+        .build();
+  }
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
@@ -828,11 +834,24 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case TEMPLATES:
         String instanceId = uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
-        qb.setTables(VIEW_TEMPLATES_EXTENDED + (instanceId == null ? "" :
-            String.format(" left join %s on %s = %s and %s = %s", TABLE_PLAN_INSTANCE_STATUS, KEY_ROWID, KEY_TEMPLATEID, KEY_INSTANCEID, instanceId)));
-        if (projection == null) {
-          projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
+        //LEFT JOIN transactions on transactions._id = planinstance_transaction.transaction_id
+        if (instanceId == null) {
+          qb.setTables(VIEW_TEMPLATES_EXTENDED);
+          if (projection == null) {
+            projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);
+          }
+        } else {
+          qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %1$s.%3$s = %4$s AND %5$s = %6$s LEFT JOIN %7$s ON %7$s.%3$s = %2$s.%8$s",
+              VIEW_TEMPLATES_EXTENDED, TABLE_PLAN_INSTANCE_STATUS, KEY_ROWID, KEY_TEMPLATEID, KEY_INSTANCEID, instanceId,
+              TABLE_TRANSACTIONS, KEY_TRANSACTIONID));
+          if (projection != null) {
+            CrashHandler.report("When calling templates cursor with QUERY_PARAMETER_WITH_INSTANCE, projection is ignored ");
+          }
+          projection = new String[] {KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY,
+              String.format(Locale.ROOT, "coalesce(%1$s.%2$s, %3$s.%2$s)", TABLE_TRANSACTIONS, KEY_AMOUNT, VIEW_TEMPLATES_EXTENDED),
+              VIEW_TEMPLATES_EXTENDED + "." + KEY_ROWID};
         }
+
         break;
       case TEMPLATES_UNCOMMITTED:
         qb.setTables(VIEW_TEMPLATES_UNCOMMITTED);
@@ -856,9 +875,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
         break;
       case PLANINSTANCE_STATUS_SINGLE:
-        qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
+        qb.setTables(String.format(Locale.ROOT, "%1$s LEFT JOIN %2$s ON %3$s = %4$s", TABLE_PLAN_INSTANCE_STATUS, TABLE_TRANSACTIONS, KEY_ROWID, KEY_TRANSACTIONID));
         qb.appendWhere(String.format(Locale.ROOT, "%s = %s AND %s = %s", KEY_TEMPLATEID,
             uri.getPathSegments().get(1), KEY_INSTANCEID, uri.getPathSegments().get(2)));
+        projection = new String[]{KEY_TRANSACTIONID, KEY_AMOUNT};
         break;
       //only called from unit test
       case CURRENCIES:

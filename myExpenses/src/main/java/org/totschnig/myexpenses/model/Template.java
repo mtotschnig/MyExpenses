@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
-import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -402,8 +401,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   public static PlanInstance getPlanInstance(long planId, long date) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
-        new String[] {KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY, KEY_AMOUNT, KEY_ROWID},
-        KEY_PLANID + "= ?",
+        null, KEY_PLANID + "= ?",
         new String[]{String.valueOf(planId)},
         null);
     if (c == null) {
