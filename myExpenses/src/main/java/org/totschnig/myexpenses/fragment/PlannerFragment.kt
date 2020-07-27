@@ -21,13 +21,15 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment
-import org.totschnig.myexpenses.provider.CalendarProviderProxy
+import org.totschnig.myexpenses.provider.CalendarProviderProxy.calculateId
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.viewmodel.PlannerViewModell
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,13 +50,6 @@ fun configureMenuInternalPlanInstances(menu: Menu, count: Int, withOpen: Boolean
     menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).isVisible = withApplied || withCancelled
     //state applied
     menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).isVisible = count == 1 && withApplied
-}
-
-internal class StateObserver : ContentObserver(Handler()) {
-    override fun onChange(selfChange: Boolean, uri: Uri?) {
-        super.onChange(selfChange, uri)
-        Timber.d("received state change for uri: %s", uri)
-    }
 }
 
 class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListener {
@@ -100,6 +95,9 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         model.getTitle().observe(this, Observer { title ->
             binding.Title.setText(title)
         })
+        model.getUpdates().observe(this, Observer { update ->
+            plannerAdapter.postUpdate(update)
+        })
         if (savedInstanceState == null) {
             model.loadInstances()
         }
@@ -129,6 +127,13 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         model.loadInstances(which == AlertDialog.BUTTON_POSITIVE)
     }
 
+    inner class StateObserver : ContentObserver(Handler()) {
+        override fun onChange(selfChange: Boolean, uri: Uri) {
+            Timber.d("received state change for uri: %s", uri)
+            model.getUpdateFor(uri)
+        }
+    }
+
     inner class PlannerAdapter : RecyclerView.Adapter<PlanInstanceViewHolder>() {
         val data = mutableListOf<PlanInstance>()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanInstanceViewHolder {
@@ -149,6 +154,16 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
 
         override fun onBindViewHolder(holder: PlanInstanceViewHolder, position: Int) {
             holder.bind(data[position])
+        }
+
+        fun postUpdate(update: PlanInstanceUpdate) {
+            data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && calculateId(planInstance.date) == update.instanceId   }
+                    .takeIf { it != -1 }?.let { index ->
+                        val oldInstance = data[index]
+                        data.set(index,
+                                PlanInstance(oldInstance.templateId, update.transactionId, oldInstance.title, oldInstance.date, oldInstance.color, oldInstance.amount, update.newState))
+                        notifyItemChanged(index)
+                    }
         }
     }
 
@@ -183,15 +198,29 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
                     popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                         override fun onMenuItemClick(item: MenuItem): Boolean {
                             val templatesList = parentFragment as? TemplatesList
+                            val instanceId = calculateId(planInstance.date)
                             return when (item.getItemId()) {
                                 R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
                                     templatesList?.dispatchCreateInstanceEdit(
-                                            planInstance.templateId, CalendarProviderProxy.calculateId(planInstance.date),
+                                            planInstance.templateId, instanceId,
                                             planInstance.date)
                                     true
                                 }
+                                R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
+                                    templatesList?.dispatchCreateInstanceSaveDo(arrayOf(planInstance.templateId), arrayOf(arrayOf(instanceId, planInstance.date)))
+                                    true
+
+                                }
                                 R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
                                     templatesList?.dispatchEditInstance(planInstance.transactionId)
+                                    true
+                                }
+                                R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
+                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                    true
+                                }
+                                R.id.RESET_PLAN_INSTANCE_COMMAND -> {
+                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
                                     true
                                 }
                                 else -> false

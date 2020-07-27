@@ -5,6 +5,7 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
@@ -296,9 +297,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (transactionId != null && transactionId > 0L) {
             Transaction.delete(transactionId, false);
           } else {
-            cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-                KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = ?",
-                new String[]{String.valueOf(ids[i]), String.valueOf(templateId)});
+            cr.delete(ContentUris.appendId(ContentUris.appendId(
+                TransactionProvider.PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), (Long) ids[i])
+                .build(), null, null);
           }
           values = new ContentValues();
           values.putNull(KEY_TRANSACTIONID);
@@ -315,9 +316,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (transactionId != null && transactionId > 0L) {
             Transaction.delete(transactionId, false);
           }
-          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-              KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = ?",
-              new String[]{String.valueOf(ids[i]), String.valueOf(templateId)});
+          cr.delete(ContentUris.appendId(ContentUris.appendId(
+              TransactionProvider.PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), (Long) ids[i])
+              .build(), null, null);
         }
         return null;
       case TaskExecutionFragment.TASK_BACKUP:

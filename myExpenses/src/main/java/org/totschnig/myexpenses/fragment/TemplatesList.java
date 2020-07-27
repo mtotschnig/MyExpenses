@@ -189,7 +189,7 @@ public class TemplatesList extends SortableListFragment
                 if (splitAtPosition) {
                   requestSplitTransaction(new Long[]{id});
                 } else {
-                  dispatchCreateInstanceSaveDo(new Long[]{id});
+                  dispatchCreateInstanceSaveDo(new Long[]{id}, null);
                 }
               } else {
                 if (splitAtPosition) {
@@ -263,7 +263,7 @@ public class TemplatesList extends SortableListFragment
         if (hasSplitAtPositions(positions)) {
           requestSplitTransaction(itemIds);
         } else {
-          dispatchCreateInstanceSaveDo(itemIds);
+          dispatchCreateInstanceSaveDo(itemIds, null);
         }
         finishActionMode();
         return true;
@@ -342,11 +342,15 @@ public class TemplatesList extends SortableListFragment
     ((ProtectedFragmentActivity) getActivity()).contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, tag);
   }
 
-  public void dispatchCreateInstanceSaveDo(Long[] itemIds) {
+  public void dispatchCreateInstanceSaveDo(Long[] itemIds, Long[][] extra) {
+   dispatchTask(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE, itemIds, extra);
+  }
+
+  public void dispatchTask(int taskId, Long[] itemIds, Long[][] extra) {
     ((ProtectedFragmentActivity) requireActivity()).startTaskExecution(
-        TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+        taskId,
         itemIds,
-        null,
+        extra,
         0);
   }
 

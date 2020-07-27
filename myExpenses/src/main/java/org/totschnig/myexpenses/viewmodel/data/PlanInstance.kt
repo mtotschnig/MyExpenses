@@ -11,12 +11,15 @@ enum class PlanInstanceState {
     OPEN, APPLIED, CANCELLED
 }
 
-data class PlanInstance(val templateId: Long, val instanceId: Long?, val transactionId: Long?, val title: String, val date: Long, val color: Int, val amount: Money) {
+data class PlanInstance(val templateId: Long, val transactionId: Long?, val title: String, val date: Long, val color: Int, val amount: Money, val state: PlanInstanceState) {
+    constructor(templateId: Long, instanceId: Long?, transactionId: Long?, title: String, date: Long, color: Int, amount: Money) :
+            this(templateId, transactionId, title, date, color, amount,
+                    if (instanceId == null) PlanInstanceState.OPEN else
+                        if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED)
     val localDate: LocalDate
-    val state: PlanInstanceState
+
     init {
         localDate = epochMillis2LocalDate(date)
-        state = if (instanceId == null) PlanInstanceState.OPEN else if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
     }
     companion object {
         fun fromEventCursor(cursor: Cursor) = Template.getPlanInstance(
@@ -24,3 +27,5 @@ data class PlanInstance(val templateId: Long, val instanceId: Long?, val transac
                 cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN)))
     }
 }
+
+data class PlanInstanceUpdate(val templateId: Long, val instanceId: Long, val newState: PlanInstanceState, val transactionId: Long?)

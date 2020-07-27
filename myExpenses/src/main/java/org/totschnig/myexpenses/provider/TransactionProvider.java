@@ -182,8 +182,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
   public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
-  public static final String QUERY_PARAMETER_WITH_COUNT ="count";
-  public static final String QUERY_PARAMETER_WITH_INSTANCE ="withInstance";
+  public static final String QUERY_PARAMETER_WITH_COUNT = "count";
+  public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
 
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -260,6 +260,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int TAG_ID = 57;
   private static final int TEMPLATES_TAGS = 58;
   private static final int UNCOMMITTED_ID = 59;
+  private static final int PLANINSTANCE_STATUS_SINGLE = 60;
 
   private boolean bulkInProgress = false;
 
@@ -808,7 +809,8 @@ public class TransactionProvider extends BaseTransactionProvider {
             typeSelect = "< 1";
             break;
           }
-          default: typeSelect = "= 0";
+          default:
+            typeSelect = "= 0";
         }
         selection = String.format("%s.%s %s", TABLE_METHODS, KEY_TYPE, typeSelect);
         String[] accountTypes = uri.getQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST).split(";");
@@ -819,13 +821,13 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = localizedLabel + " COLLATE LOCALIZED";
         }
         groupBy = KEY_ROWID;
-        having = "count(*) = " +accountTypes.length;
+        having = "count(*) = " + accountTypes.length;
         break;
       case ACCOUNTTYPES_METHODS:
         qb.setTables(TABLE_ACCOUNTTYES_METHODS);
         break;
       case TEMPLATES:
-        String instanceId =uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
+        String instanceId = uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
         qb.setTables(VIEW_TEMPLATES_EXTENDED + (instanceId == null ? "" :
             String.format(" left join %s on %s = %s and %s = %s", TABLE_PLAN_INSTANCE_STATUS, KEY_ROWID, KEY_TEMPLATEID, KEY_INSTANCEID, instanceId)));
         if (projection == null) {
@@ -852,6 +854,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case PLANINSTANCE_TRANSACTION_STATUS:
         qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
+        break;
+      case PLANINSTANCE_STATUS_SINGLE:
+        qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
+        qb.appendWhere(String.format(Locale.ROOT, "%s = %s AND %s = %s", KEY_TEMPLATEID,
+            uri.getPathSegments().get(1), KEY_INSTANCEID, uri.getPathSegments().get(2)));
         break;
       //only called from unit test
       case CURRENCIES:
@@ -931,7 +938,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case TAGS:
         boolean withCount = uri.getQueryParameter(QUERY_PARAMETER_WITH_COUNT) != null;
-        qb.setTables(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID  + " = " + KEY_TAGID + ")" : TABLE_TAGS);
+        qb.setTables(withCount ? TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")" : TABLE_TAGS);
         if (withCount) {
           projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
           groupBy = KEY_ROWID;
@@ -1035,8 +1042,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = PAYEES_URI + "/" + id;
         break;
       case PLANINSTANCE_TRANSACTION_STATUS: {
-        id = db.insertWithOnConflict(TABLE_PLAN_INSTANCE_STATUS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + id);
+        long templateId = values.getAsLong(KEY_TEMPLATEID);
+        long instancId = values.getAsLong(KEY_INSTANCEID);
+        db.insertWithOnConflict(TABLE_PLAN_INSTANCE_STATUS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        Uri changeUri = Uri.parse(PLAN_INSTANCE_STATUS_URI + "/" + templateId + "/" + instancId);
         notifyChange(changeUri, false);
         return changeUri;
       }
@@ -1195,9 +1204,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = db.delete(TABLE_METHODS,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
-      case PLANINSTANCE_TRANSACTION_STATUS:
-        count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
-        break;
+      case PLANINSTANCE_STATUS_SINGLE:
+        count = db.delete(TABLE_PLAN_INSTANCE_STATUS,
+            String.format(Locale.ROOT, "%s = ? AND %s = ?", KEY_TEMPLATEID, KEY_INSTANCEID),
+            new String[] {uri.getPathSegments().get(1), uri.getPathSegments().get(2)});
+        notifyChange(uri, false);
+        return count;
       case EVENT_CACHE:
         count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
         break;
@@ -1406,9 +1418,6 @@ public class TransactionProvider extends BaseTransactionProvider {
                 " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
             new String[]{target, target, segment, target});
         count = 1;
-        break;
-      case PLANINSTANCE_TRANSACTION_STATUS:
-        count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
         break;
       case TRANSACTION_TOGGLE_CRSTATUS:
         db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
@@ -1753,12 +1762,12 @@ public class TransactionProvider extends BaseTransactionProvider {
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED , UNCOMMITTED);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED, UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccounts", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED + "/#" , UNCOMMITTED_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED + "/#", UNCOMMITTED_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
@@ -1787,6 +1796,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
+    URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction/#/#", PLANINSTANCE_STATUS_SINGLE);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);

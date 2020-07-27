@@ -284,12 +284,13 @@ public class PlanMonthFragment extends CaldroidFragment
     Intent i;
     long instanceId = getPlanInstanceForPosition(position);
     final FragmentActivity activity = getActivity();
-    if (activity == null) return;
+    final Bundle arguments = getArguments();
+    final TemplatesList templatesList = (TemplatesList) getParentFragment();
+    if (activity == null || arguments == null || templatesList == null) return;
     if (instanceId != -1) {
-      final TemplatesList templatesList = (TemplatesList) getParentFragment();
       switch (command) {
         case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-          templatesList.dispatchCreateInstanceEdit(getArguments().getLong(KEY_ROWID), instanceId, getDateForPosition(position));
+          templatesList.dispatchCreateInstanceEdit(arguments.getLong(KEY_ROWID), instanceId, getDateForPosition(position));
           break;
         case R.id.EDIT_PLAN_INSTANCE_COMMAND:
           templatesList.dispatchEditInstance(instance2TransactionMap.get(instanceId));
@@ -303,7 +304,8 @@ public class PlanMonthFragment extends CaldroidFragment
     ArrayList<Long> objectIdsAL = new ArrayList<>();
     final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
     final Bundle arguments = getArguments();
-    if (activity == null || arguments == null) return;
+    final TemplatesList templatesList = (TemplatesList) getParentFragment();
+    if (activity == null || arguments == null || templatesList == null) return;
     switch (command) {
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
         for (int i = 0; i < positions.size(); i++) {
@@ -318,11 +320,8 @@ public class PlanMonthFragment extends CaldroidFragment
             objectIdsAL.add(arguments.getLong(KEY_ROWID));
           }
         }
-        activity.startTaskExecution(
-            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-            objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
-            0);
+        templatesList.dispatchCreateInstanceSaveDo(objectIdsAL.toArray(new Long[0]),
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
         break;
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
         for (int i = 0; i < positions.size(); i++) {
@@ -336,11 +335,10 @@ public class PlanMonthFragment extends CaldroidFragment
                 instance2TransactionMap.get(instanceId)});
           }
         }
-        activity.startTaskExecution(
+        templatesList.dispatchTask(
             TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
             objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
-            0);
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
         break;
       case R.id.RESET_PLAN_INSTANCE_COMMAND:
         for (int i = 0; i < positions.size(); i++) {
@@ -355,11 +353,10 @@ public class PlanMonthFragment extends CaldroidFragment
                 instance2TransactionMap.get(instanceId)});
           }
         }
-        activity.startTaskExecution(
+        templatesList.dispatchTask(
             TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
             objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
-            0);
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
         break;
     }
   }
