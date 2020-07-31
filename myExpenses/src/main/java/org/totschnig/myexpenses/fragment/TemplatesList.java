@@ -107,6 +107,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
+import static org.totschnig.myexpenses.util.Utils.menuItemSetEnabledAndVisible;
 
 public class TemplatesList extends SortableListFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -129,6 +130,7 @@ public class TemplatesList extends SortableListFragment
       columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId,
       columnIndexTitle, columnIndexRowId, columnIndexPlanInfo, columnIndexIsSealed;
   private boolean indexesCalculated = false;
+  private boolean hasPlans = false;
   /**
    * if we are called from the calendar app, we only need to handle display of plan once
    */
@@ -433,18 +435,23 @@ public class TemplatesList extends SortableListFragment
         }
         mAdapter.swapCursor(mTemplatesCursor);
         invalidateCAB();
+        hasPlans = false;
         if (isCalendarPermissionGranted() &&
             mTemplatesCursor != null && mTemplatesCursor.moveToFirst()) {
           long needToExpand = expandedHandled ? ManageTemplates.NOT_CALLED :
               ctx.getCalledFromCalendarWithId();
           PlanMonthFragment planMonthFragment = null;
           while (!mTemplatesCursor.isAfterLast()) {
+            long planId = mTemplatesCursor.getLong(columnIndexPlanId);
+            if (planId != 0) {
+              hasPlans = true;
+            }
             long templateId = mTemplatesCursor.getLong(columnIndexRowId);
             if (needToExpand == templateId) {
               planMonthFragment = PlanMonthFragment.newInstance(
                   mTemplatesCursor.getString(columnIndexTitle),
                   templateId,
-                  mTemplatesCursor.getLong(columnIndexPlanId),
+                  planId,
                   mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0, ctx.getThemeType());
             }
             mTemplatesCursor.moveToNext();
@@ -473,6 +480,7 @@ public class TemplatesList extends SortableListFragment
             }
           }
         }
+        requireActivity().invalidateOptionsMenu();
         break;
     }
   }
@@ -722,6 +730,15 @@ public class TemplatesList extends SortableListFragment
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.templates, menu);
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(@NonNull Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    MenuItem menuItem = menu.findItem(R.id.PLANNER_COMMAND);
+    if (menuItem != null) {
+      menuItemSetEnabledAndVisible(menuItem, hasPlans);
+    }
   }
 
   @Override
