@@ -83,7 +83,9 @@ import androidx.loader.content.Loader;
 import icepick.Icepick;
 import icepick.State;
 
+import static android.app.Activity.RESULT_OK;
 import static org.totschnig.myexpenses.activity.ManageTemplates.TEMPLATE_CLICK_ACTION_SAVE;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.EDIT_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -378,7 +380,18 @@ public class TemplatesList extends SortableListFragment
   public void dispatchEditInstance(Long transactionId) {
     Intent intent = new Intent(requireActivity(), ExpenseEdit.class);
     intent.putExtra(KEY_ROWID, transactionId);
-    startActivity(intent);
+    startActivityForResult(intent, EDIT_REQUEST);
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
+      PlannerFragment fragment = getPlannerFragment();
+      if (fragment != null) {
+        fragment.onEditRequestOk();
+      }
+    }
   }
 
   @NonNull

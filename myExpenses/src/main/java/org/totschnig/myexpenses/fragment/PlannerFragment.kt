@@ -16,6 +16,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import icepick.Icepick
+import icepick.State
 import org.threeten.bp.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -64,15 +66,22 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
 
     val model: PlannerViewModell by viewModels()
 
+    @State @JvmField
     var instanceUriToUpdate: Uri? = null
 
     lateinit var stateObserver: ContentObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Icepick.restoreInstanceState(this, savedInstanceState)
         stateObserver = StateObserver()
         context?.contentResolver?.registerContentObserver(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
                 true, stateObserver)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
     }
 
     override fun onDestroy() {
@@ -129,6 +138,12 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
         model.loadInstances(which == AlertDialog.BUTTON_POSITIVE)
+    }
+
+    fun onEditRequestOk() {
+        instanceUriToUpdate?.let {
+            model.getUpdateFor(it)
+        }
     }
 
     inner class StateObserver : ContentObserver(Handler()) {
