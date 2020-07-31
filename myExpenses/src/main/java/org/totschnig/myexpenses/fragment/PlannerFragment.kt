@@ -21,6 +21,8 @@ import icepick.State
 import org.threeten.bp.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment
@@ -124,6 +126,9 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
             disableDismiss(alertDialog, AlertDialog.BUTTON_NEGATIVE)
         }
         binding.CloseDialog.setOnClickListener { view -> dismiss() }
+        binding.HELPCOMMAND.setOnClickListener { view ->
+            (activity as? ProtectedFragmentActivity)?.dispatchCommand(view.id,
+                    ManageTemplates.HelpVariant.planner.name) }
         return alertDialog
     }
 

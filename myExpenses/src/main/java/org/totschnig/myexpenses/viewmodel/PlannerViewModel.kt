@@ -8,77 +8,116 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.calendar.CalendarContractCompat
 import io.reactivex.disposables.Disposable
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
-import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.temporal.TemporalAdjusters
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.service.PlanExecutor
-import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
+import org.totschnig.myexpenses.util.localDateTime2EpochMillis
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
 
 class PlannerViewModell(application: Application) : ContentResolvingAndroidViewModel(application) {
-    var min: Long
-    var max: Long
+    data class Month(val year: Int, val month: Int) {
+        init {
+            if (month < 0 || month > 12) throw IllegalArgumentException()
+        }
 
-    private val formatter : DateTimeFormatter
+        fun next(): Month {
+            var nextMonth = month + 1
+            val nextYear = if (nextMonth > 12) {
+                nextMonth = 1
+                year + 1
+            } else year
+            return Month(nextYear, nextMonth)
+        }
+
+        fun prev(): Month {
+            var prevMonth = month - 1
+            val prevYear = if (prevMonth < 1) {
+                prevMonth = 12
+                year - 1
+            } else year
+            return Month(prevYear, prevMonth)
+        }
+
+        fun startMillis() = localDateTime2EpochMillis(startDate().atTime(LocalTime.MIN))
+
+        fun endMillis() = localDateTime2EpochMillis(endDate().atTime(LocalTime.MAX))
+
+        fun endDate() = startDate().with(TemporalAdjusters.lastDayOfMonth())
+
+        fun startDate() = LocalDate.of(year, month, 1)
+    }
+
+    var first: Month
+    var last: Month
+
+    private val formatter: DateTimeFormatter
 
     private var updateDisposable: Disposable? = null
 
     init {
-        val nowZDT = ZonedDateTime.now()
-        min = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MIN), ZoneId.systemDefault()).toEpochSecond() * 1000
-        max = min
+        val nowZDT = ZonedDateTime.now().toLocalDate()
+        first = Month(nowZDT.year, nowZDT.monthValue)
+        last = first.next()
         formatter = getDateTimeFormatter(application)
     }
+
     private val instances = MutableLiveData<Pair<Boolean, List<PlanInstance>>>()
     private val title = MutableLiveData<String>()
     private val updates = MutableLiveData<PlanInstanceUpdate>()
     fun getInstances(): LiveData<Pair<Boolean, List<PlanInstance>>> = instances
     fun getTitle(): LiveData<String> = title
     fun getUpdates(): LiveData<PlanInstanceUpdate> = updates
-    fun loadInstances(later: Boolean = true) {
+    fun loadInstances(later: Boolean? = null) {
         // Construct the query with the desired date range.
-        val start: Long
-        val end: Long
-        if (later) {
-            start = max
-            max = max + 30 * PlanExecutor.H24
-            end = max
+        val startMonth: Month
+        val endMonth: Month
+        if (later == null) {
+            //first call
+            startMonth = first
+            endMonth = last
         } else {
-            end = min
-            min = min - 30 * PlanExecutor.H24
-            start = min
+            if (later) {
+                last = last.next()
+                startMonth = last
+                endMonth = last
+            } else {
+                first = first.prev()
+                startMonth = first
+                endMonth = first
+            }
         }
         val builder = CalendarProviderProxy.INSTANCES_URI.buildUpon()
-        ContentUris.appendId(builder, start)
-        ContentUris.appendId(builder, end)
+        ContentUris.appendId(builder, startMonth.startMillis())
+        ContentUris.appendId(builder, endMonth.endMillis())
         val plannerCalendarId = MyApplication.getInstance().checkPlanner()
         disposable = briteContentResolver.createQuery(builder.build(), null,
                 CalendarContractCompat.Events.CALENDAR_ID + " = " + plannerCalendarId,
                 null, CalendarContractCompat.Instances.BEGIN + " ASC", false)
                 .mapToList(PlanInstance.Companion::fromEventCursor)
                 .subscribe {
-                    title.postValue("%s - %s".format(epochMillis2LocalDate(min).format(formatter),
-                            epochMillis2LocalDate(max).format(formatter)))
-                    instances.postValue(Pair(later, it.filterNotNull()))
+                    title.postValue("%s - %s".format(first.startDate().format(formatter),
+                            last.endDate().format(formatter)))
+                    instances.postValue(Pair(later ?: false, it.filterNotNull()))
                 }
     }
 
     fun getUpdateFor(uri: Uri) {
         val templateId = uri.pathSegments[1].toLong()
         val instanceId = uri.pathSegments[2].toLong()
-        val mapper = {cursor: Cursor ->
+        val mapper = { cursor: Cursor ->
             val transactionId = DbUtils.getLongOrNull(cursor, KEY_TRANSACTIONID)
             val newState = if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
-            val amount = cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT))
+            val amount = DbUtils.getLongOrNull(cursor, KEY_AMOUNT)
             PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
         }
         updateDisposable = briteContentResolver.createQuery(uri, null, null, null, null, false)

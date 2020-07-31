@@ -51,8 +51,10 @@
   
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Plan calendar view</string>
+  <string name="help_ManageTemplates_planner_title">Upcoming recurrences</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers) by clicking on the floating action button. Clicking on a template, will create an instance for it.<br><img src="ic_event">A plan is a template for which you have created an event (one-time or recurring) in the planner calendar. Clicking on a plan, will open a calendar view, which displays past and upcoming instances of a plan.]]></string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[Each highlighted date represents an instance of the plan. The state of an instance is indicated by the following icons:<br><img src="ic_stat_open"> The instance has not yet been applied.<br><img src="ic_stat_applied"> The instance has been applied.<br><img src="ic_stat_cancelled"> The instance has been cancelled, i.e. you have flaged it to be skipped. No transaction will be created for this instance.]]></string>
+  <string name="help_ManageTemplates_plans_intro">Each highlighted date represents an instance of the plan.</string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[The state of an instance is indicated by the following icons:<br><img src="ic_stat_open"> The instance has not yet been applied.<br><img src="ic_stat_applied"> The instance has been applied.<br><img src="ic_stat_cancelled"> The instance has been cancelled, i.e. you have flaged it to be skipped. No transaction will be created for this instance.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiate the selected templates and save them immediately.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantiate the selected template and enter its editing form where you can modify it before saving.</string>
   <string name="cab_ManageTemplates_delete_help_text">Delete the selected templates and any associated plans.</string>

@@ -62,7 +62,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   private TemplatesList mListFragment;
 
   public enum HelpVariant {
-    templates, plans
+    templates, plans, planner
   }
 
   public long getCalledFromCalendarWithId() {

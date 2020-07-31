@@ -118,11 +118,13 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
   public static final Uri PLAN_INSTANCE_STATUS_URI =
       Uri.parse("content://" + AUTHORITY + "/planinstance_transaction");
+
   public static final Uri PLAN_INSTANCE_SINGLE_URI(long templateId, long instanceId) {
     return ContentUris.appendId(ContentUris.appendId(
         TransactionProvider.PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), instanceId)
         .build();
   }
+
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
@@ -847,7 +849,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           if (projection != null) {
             CrashHandler.report("When calling templates cursor with QUERY_PARAMETER_WITH_INSTANCE, projection is ignored ");
           }
-          projection = new String[] {KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY,
+          projection = new String[]{KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY,
               String.format(Locale.ROOT, "coalesce(%1$s.%2$s, %3$s.%2$s)", TABLE_TRANSACTIONS, KEY_AMOUNT, VIEW_TEMPLATES_EXTENDED),
               VIEW_TEMPLATES_EXTENDED + "." + KEY_ROWID};
         }
@@ -1224,10 +1226,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = db.delete(TABLE_METHODS,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
+      case PLANINSTANCE_TRANSACTION_STATUS:
+        count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
+        break;
       case PLANINSTANCE_STATUS_SINGLE:
         count = db.delete(TABLE_PLAN_INSTANCE_STATUS,
             String.format(Locale.ROOT, "%s = ? AND %s = ?", KEY_TEMPLATEID, KEY_INSTANCEID),
-            new String[] {uri.getPathSegments().get(1), uri.getPathSegments().get(2)});
+            new String[]{uri.getPathSegments().get(1), uri.getPathSegments().get(2)});
         notifyChange(uri, false);
         return count;
       case EVENT_CACHE:

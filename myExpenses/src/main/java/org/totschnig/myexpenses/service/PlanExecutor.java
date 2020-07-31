@@ -15,7 +15,6 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.BuildConfig;
@@ -52,6 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.util.DateUtilsKt.epochMillis2LocalDate;
+import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2EpochMillis;
 
 public class PlanExecutor extends JobIntentService {
   public static final String ACTION_EXECUTE_PLANS = BuildConfig.APPLICATION_ID + ".ACTION_EXECUTE_PLANS";
@@ -94,8 +94,8 @@ public class PlanExecutor extends JobIntentService {
     if (ACTION_EXECUTE_PLANS.equals(action)) {
       String plannerCalendarId;
       ZonedDateTime nowZDT = ZonedDateTime.now();
-      final long beginningOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MIN), ZoneId.systemDefault()).toEpochSecond() * 1000;
-      final long endOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MAX), ZoneId.systemDefault()).toEpochSecond() * 1000;
+      final long beginningOfDay = localDateTime2EpochMillis(nowZDT.toLocalDate().atTime(LocalTime.MIN));
+      final long endOfDay = localDateTime2EpochMillis(nowZDT.toLocalDate().atTime(LocalTime.MAX));
       long now = nowZDT.toEpochSecond() * 1000;
       final long lastExecution = prefHandler.getLong(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP, now - H24);
       log("now %d compared to System.currentTimeMillis %d", now, System.currentTimeMillis());
