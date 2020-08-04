@@ -691,7 +691,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
         return buildTransaction(forSave, currencyContext, currentAccount()!!.id)?.apply {
             originTemplateId = this@TransactionDelegate.originTemplateId
-            uuid = this@TransactionDelegate.uuid!!
+            uuid = this@TransactionDelegate.uuid
             id = rowId
             if (isSplitPart) {
                 status = DatabaseConstants.STATUS_UNCOMMITTED

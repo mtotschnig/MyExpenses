@@ -2,12 +2,16 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.DateCriteria
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import timber.log.Timber
+import java.util.*
 
 class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     fun upgrade(fromVersion: Int, toVersion: Int) {
@@ -55,6 +59,17 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                     prefHandler.putString(it, Sort.LABEL.name)
                 }
             }
+        }
+        if (true) {
+            disposable = briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is not null",
+                    DatabaseConstants.KEY_PLANID), null, null, false)
+                    .mapToList { cursor -> Template(cursor) }
+                    .subscribe { list ->
+                        for (template in list) {
+                            Plan.updateDescription(template.planId, template.compileDescription(getApplication()))
+                        }
+                        dispose()
+                    }
         }
     }
 }

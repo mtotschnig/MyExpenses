@@ -579,7 +579,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     int result = this.getTitle() != null ? this.getTitle().hashCode() : 0;
     result = 31 * result + (this.planId != null ? this.planId.hashCode() : 0);
     result = 31 * result + (this.isPlanExecutionAutomatic() ? 1 : 0);
-    result = 31 * result + this.getUuid().hashCode();
+    result = 31 * result + (this.getUuid() != null ? this.getUuid().hashCode() : 0);
     return result;
   }
 

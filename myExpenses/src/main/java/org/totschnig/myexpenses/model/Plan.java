@@ -261,6 +261,12 @@ public class Plan extends Model implements Serializable {
     }
   }
 
+  public static void updateDescription(Long id, String description) {
+    ContentValues values = new ContentValues();
+    values.put(Events.DESCRIPTION, description);
+    cr().update(ContentUris.withAppendedId(Events.CONTENT_URI, id), values, null, null);
+  }
+
   public static class CalendarIntegrationNotAvailableException extends IllegalStateException {
   }
 }
