@@ -46,7 +46,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
-    accountDir = new File(baseDir, account.uuid);
+    accountDir = new File(baseDir, account.getUuid());
     //noinspection ResultOfMethodCallIgnored
     accountDir.mkdir();
     if (accountDir.isDirectory()) {

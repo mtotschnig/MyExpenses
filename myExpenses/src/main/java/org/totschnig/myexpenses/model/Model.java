@@ -25,8 +25,8 @@ import java.util.UUID;
 import androidx.annotation.VisibleForTesting;
 
 public abstract class Model implements IModel {
-  public String uuid;
   private long id = 0L;
+  private String uuid;
   private static ContentResolver cr;
 
   @Override
@@ -37,6 +37,16 @@ public abstract class Model implements IModel {
   @Override
   public void setId(long id) {
     this.id = id;
+  }
+
+  @Override
+  public String getUuid() {
+    return uuid;
+  }
+
+  @Override
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
   }
 
   public static ContentResolver cr() {

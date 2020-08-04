@@ -553,7 +553,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putString(KEY_UUID, account.uuid);
+        bundle.putString(KEY_UUID, account.getUuid());
         bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
         ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
             TransactionProvider.AUTHORITY, bundle);
@@ -562,7 +562,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_LINK_REMOTE: {
         Account remoteAccount = (Account) this.mExtra;
-        if (!deleteAccount(Account.findByUuid(remoteAccount.uuid))) {
+        if (!deleteAccount(Account.findByUuid(remoteAccount.getUuid()))) {
           return Result.FAILURE;
         }
         remoteAccount.save();

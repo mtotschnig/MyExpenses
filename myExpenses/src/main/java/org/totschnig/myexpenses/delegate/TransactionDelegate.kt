@@ -161,6 +161,10 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     @State
     var originTemplateId: Long? = null
 
+    @JvmField
+    @State
+    var uuid: String? = null
+
     val crStatus
         get() = _crStatus ?: CrStatus.UNRECONCILED
 
@@ -185,6 +189,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             planId = (transaction as? Template)?.plan?.id
             _crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
+            uuid = transaction.uuid
             //Setting this early instead of waiting for call to setAccounts
             //works around a bug in some legagy virtual keyboards where configuring the
             //edittext too late corrupt inputType
@@ -686,7 +691,8 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
         return buildTransaction(forSave, currencyContext, currentAccount()!!.id)?.apply {
             originTemplateId = this@TransactionDelegate.originTemplateId
-            id = rowId ?: 0L
+            uuid = this@TransactionDelegate.uuid!!
+            id = rowId
             if (isSplitPart) {
                 status = DatabaseConstants.STATUS_UNCOMMITTED
             }

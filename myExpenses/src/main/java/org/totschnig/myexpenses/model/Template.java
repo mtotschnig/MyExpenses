@@ -115,10 +115,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
-  public String getUuid() {
-    return uuid;
-  }
-
   static {
     PROJECTION_BASE = new String[]{
         KEY_ROWID,
@@ -322,9 +318,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
     planExecutionAdvance = c.getInt(c.getColumnIndex(KEY_PLAN_EXECUTION_ADVANCE));
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
-      uuid = generateUuid();
+      setUuid(generateUuid());
     } else {
-      uuid = DbUtils.getString(c, KEY_UUID);
+      setUuid(DbUtils.getString(c, KEY_UUID));
     }
     setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
   }
@@ -566,12 +562,12 @@ public class Template extends Transaction implements ITransfer, ISplit {
       Timber.d("Template differs %d" , 7);
       return false;
     }
-    if (uuid == null) {
-      if (other.uuid != null) {
+    if (getUuid() == null) {
+      if (other.getUuid() != null) {
         Timber.d("Template differs %d" , 8);
         return false;
       }
-    } else if (!uuid.equals(other.uuid)) {
+    } else if (!getUuid().equals(other.getUuid())) {
       Timber.d("Template differs %d" , 9);
       return false;
     }
@@ -583,7 +579,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     int result = this.getTitle() != null ? this.getTitle().hashCode() : 0;
     result = 31 * result + (this.planId != null ? this.planId.hashCode() : 0);
     result = 31 * result + (this.isPlanExecutionAutomatic() ? 1 : 0);
-    result = 31 * result + (this.uuid != null ? this.uuid.hashCode() : 0);
+    result = 31 * result + this.getUuid().hashCode();
     return result;
   }
 

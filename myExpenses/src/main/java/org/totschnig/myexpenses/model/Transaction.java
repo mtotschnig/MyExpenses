@@ -523,7 +523,7 @@ public class Transaction extends AbstractTransaction {
 
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
     t.originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
-    t.uuid = DbUtils.getString(c, KEY_UUID);
+    t.setUuid(DbUtils.getString(c, KEY_UUID));
     t.setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
     c.close();
     return t;
@@ -838,7 +838,7 @@ public class Transaction extends AbstractTransaction {
       }
     } else if (clone) {
       setId(0);
-      uuid = null;
+      setUuid(null);
     }
   }
 
@@ -998,7 +998,7 @@ public class Transaction extends AbstractTransaction {
 
   public void saveAsNew() {
     setId(0L);
-    uuid = null;
+    setUuid(null);
     save();
   }
 

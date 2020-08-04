@@ -430,7 +430,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         mAccount.setSyncAccountName(null);
         startTaskExecution(
             TASK_SYNC_UNLINK,
-            new String[]{mAccount.uuid}, null, 0);
+            new String[]{mAccount.getUuid()}, null, 0);
         return true;
       case R.id.SYNC_SETTINGS_COMMAND:
         Intent i = new Intent(this, ManageSyncBackends.class);
@@ -476,7 +476,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     if (!mNewInstance) {
       startTaskExecution(
           TASK_SYNC_CHECK,
-          new String[]{mAccount.uuid},
+          new String[]{mAccount.getUuid()},
           (String) mSyncSpinner.getSelectedItem(),
           R.string.progress_dialog_checking_sync_backend);
     }

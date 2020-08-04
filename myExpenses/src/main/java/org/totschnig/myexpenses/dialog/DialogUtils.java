@@ -361,7 +361,7 @@ public class DialogUtils {
     Bundle b = new Bundle();
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
         context.getString(R.string.dialog_confirm_sync_unlink, account.getSyncAccountName()));
-    b.putString(DatabaseConstants.KEY_UUID, account.uuid);
+    b.putString(DatabaseConstants.KEY_UUID, account.getUuid());
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_UNLINK_COMMAND);
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_sync_unlink);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);

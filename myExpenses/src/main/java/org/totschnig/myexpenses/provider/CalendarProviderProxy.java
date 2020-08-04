@@ -28,14 +28,15 @@ public class CalendarProviderProxy extends ContentProvider {
   public static final Uri INSTANCES_URI = Uri.parse("content://" + AUTHORITY + "/instances/when");
   private static final String[] INSTANCE_PROJECTION = new String[]{
       CalendarContractCompat.Instances.EVENT_ID,
-      CalendarContractCompat.Instances.BEGIN
+      CalendarContractCompat.Instances.BEGIN,
+      CalendarContractCompat.Instances.TITLE
   };
 
   private static final UriMatcher URI_MATCHER;
 
   private static final int INSTANCES_WHEN = 1;
   private static final int EVENTS = 2; //currently not used, but possibly in the future we provide
-                                       //an implementation that does not need the platform calendar
+  //an implementation that does not need the platform calendar
 
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);

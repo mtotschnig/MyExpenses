@@ -136,7 +136,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       case R.id.SYNC_LINK_COMMAND_LOCAL_DO: {
         Account account = (Account) args.getSerializable(KEY_ACCOUNT);
         startTaskExecution(TASK_SYNC_LINK_LOCAL,
-            new String[]{account.uuid}, account.getSyncAccountName(), 0);
+            new String[]{account.getUuid()}, account.getSyncAccountName(), 0);
         return;
       }
       case R.id.SYNC_LINK_COMMAND_REMOTE_DO: {

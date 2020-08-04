@@ -408,7 +408,7 @@ public class Account extends Model {
 
     this.syncAccountName = c.getString(c.getColumnIndex(KEY_SYNC_ACCOUNT_NAME));
 
-    this.uuid = c.getString(c.getColumnIndex(KEY_UUID));
+    this.setUuid(c.getString(c.getColumnIndex(KEY_UUID)));
 
     try {
       this.sortDirection = SortDirection.valueOf(c.getString(c.getColumnIndex(KEY_SORT_DIRECTION)));
@@ -869,7 +869,7 @@ public class Account extends Model {
       Bundle bundle = new Bundle();
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-      bundle.putString(DatabaseConstants.KEY_UUID, uuid);
+      bundle.putString(DatabaseConstants.KEY_UUID, getUuid());
       ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
           TransactionProvider.AUTHORITY, bundle);
     }

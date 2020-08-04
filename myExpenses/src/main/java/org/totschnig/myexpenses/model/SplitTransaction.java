@@ -224,7 +224,7 @@ public class SplitTransaction extends Transaction implements ISplit {
     MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
     ContentValues values = new ContentValues(1);
-    values.put(KEY_UUID, uuid);
+    values.put(KEY_UUID, getUuid());
     return cr.update(
         TransactionProvider.TRANSACTIONS_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT)

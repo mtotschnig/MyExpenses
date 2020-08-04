@@ -106,7 +106,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   public void setAccountUuid(Account account) {
-    this.accountUuid = account.uuid;
+    this.accountUuid = account.getUuid();
   }
 
   @NonNull
