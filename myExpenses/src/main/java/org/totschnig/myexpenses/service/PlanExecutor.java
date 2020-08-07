@@ -13,10 +13,8 @@ import android.text.TextUtils;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.BuildConfig;
@@ -52,6 +50,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.util.DateUtilsKt.epochMillis2LocalDate;
+import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2EpochMillis;
 
 public class PlanExecutor extends JobIntentService {
   public static final String ACTION_EXECUTE_PLANS = BuildConfig.APPLICATION_ID + ".ACTION_EXECUTE_PLANS";
@@ -59,7 +59,7 @@ public class PlanExecutor extends JobIntentService {
   public static final String ACTION_CANCEL = "Cancel";
   public static final String ACTION_APPLY = "Apply";
   public static final String KEY_TITLE = "title";
-  private static final long H24 = 24 * 60 * 60 * 1000;
+  public static final long H24 = 24 * 60 * 60 * 1000;
   private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
   public static final String TAG = "PlanExecutor";
   public static final String KEY_FORCE_IMMEDIATE = "force_immediate";
@@ -94,8 +94,8 @@ public class PlanExecutor extends JobIntentService {
     if (ACTION_EXECUTE_PLANS.equals(action)) {
       String plannerCalendarId;
       ZonedDateTime nowZDT = ZonedDateTime.now();
-      final long beginningOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MIN), ZoneId.systemDefault()).toEpochSecond() * 1000;
-      final long endOfDay = ZonedDateTime.of(nowZDT.toLocalDate().atTime(LocalTime.MAX), ZoneId.systemDefault()).toEpochSecond() * 1000;
+      final long beginningOfDay = localDateTime2EpochMillis(nowZDT.toLocalDate().atTime(LocalTime.MIN));
+      final long endOfDay = localDateTime2EpochMillis(nowZDT.toLocalDate().atTime(LocalTime.MAX));
       long now = nowZDT.toEpochSecond() * 1000;
       final long lastExecution = prefHandler.getLong(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP, now - H24);
       log("now %d compared to System.currentTimeMillis %d", now, System.currentTimeMillis());
@@ -155,8 +155,7 @@ public class PlanExecutor extends JobIntentService {
             while (!cursor.isAfterLast()) {
               long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
               long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
-              LocalDate localDate = ZonedDateTime.ofInstant(
-                  Instant.ofEpochMilli(date), ZoneId.systemDefault()).toLocalDate();
+              LocalDate localDate = epochMillis2LocalDate(date);
               long diff = ChronoUnit.DAYS.between(today, localDate);
               long instanceId = CalendarProviderProxy.calculateId(date);
               //2) check if they are part of a plan linked to a template

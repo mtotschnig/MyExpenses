@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -24,6 +25,7 @@ import org.totschnig.myexpenses.fragment.HistoryChart;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
+import org.totschnig.myexpenses.fragment.PlannerFragment;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
@@ -196,4 +198,6 @@ public interface AppComponent {
   void inject(ExchangeRateViewModel exchangeRateViewModel);
 
   void inject(OnboardingUiFragment onboardingUiFragment);
+
+  void inject(@NotNull PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
 }

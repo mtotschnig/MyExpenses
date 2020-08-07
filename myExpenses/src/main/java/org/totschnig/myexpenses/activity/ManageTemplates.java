@@ -62,7 +62,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   private TemplatesList mListFragment;
 
   public enum HelpVariant {
-    templates, plans
+    templates, plans, planner
   }
 
   public long getCalledFromCalendarWithId() {
@@ -168,7 +168,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       if (isSplit) {
         mListFragment.requestSplitTransaction(new Long[]{id});
       } else {
-        mListFragment.dispatchCreateInstanceSaveDo(new Long[]{id});
+        mListFragment.dispatchCreateInstanceSaveDo(new Long[]{id}, null);
       }
     }
   }
@@ -211,7 +211,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       if (tag instanceof Long) {
         mListFragment.dispatchCreateInstanceEditDo((Long) tag);
       } else if (tag instanceof Long[]) {
-        mListFragment.dispatchCreateInstanceSaveDo((Long[]) tag);
+        mListFragment.dispatchCreateInstanceSaveDo((Long[]) tag, null);
       }
     }
   }

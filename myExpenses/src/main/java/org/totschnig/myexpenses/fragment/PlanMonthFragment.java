@@ -22,10 +22,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat;
-import com.google.android.material.snackbar.Snackbar;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CaldroidListener;
@@ -33,7 +31,6 @@ import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
@@ -43,6 +40,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,7 +60,7 @@ import hirondelle.date4j.DateTime;
 import icepick.Icepick;
 import icepick.State;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.fragment.PlannerFragmentKt.configureMenuInternalPlanInstances;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -84,26 +82,6 @@ public class PlanMonthFragment extends CaldroidFragment
 
   private ProtectedFragmentActivity.ThemeType getThemeType() {
     return ((ProtectedFragmentActivity) getContext()).getThemeType();
-  }
-
-  public void showSnackbar(String msg, int length) {
-    final Dialog dialog = getDialog();
-    if (dialog != null) {
-      final Window window = dialog.getWindow();
-      if (window != null) {
-        View view = window.getDecorView();
-        Snackbar snackbar = Snackbar.make(view, msg, length);
-        UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
-        snackbar.show();
-        return;
-      }
-      Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-    }
-
-  }
-
-  private enum PlanInstanceState {
-    OPEN, APPLIED, CANCELLED
   }
 
   @State
@@ -288,31 +266,28 @@ public class PlanMonthFragment extends CaldroidFragment
     Intent i;
     long instanceId = getPlanInstanceForPosition(position);
     final FragmentActivity activity = getActivity();
-    if (activity == null) return;
+    final Bundle arguments = getArguments();
+    final TemplatesList templatesList = (TemplatesList) getParentFragment();
+    if (activity == null || arguments == null || templatesList == null) return;
     if (instanceId != -1) {
       switch (command) {
         case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-          i = new Intent(activity, ExpenseEdit.class);
-          i.putExtra(KEY_TEMPLATEID, getArguments().getLong(KEY_ROWID));
-          i.putExtra(KEY_INSTANCEID, instanceId);
-          i.putExtra(KEY_DATE, getDateForPosition(position));
-          startActivityForResult(i, 0);
+          templatesList.dispatchCreateInstanceEdit(arguments.getLong(KEY_ROWID), instanceId, getDateForPosition(position));
           break;
         case R.id.EDIT_PLAN_INSTANCE_COMMAND:
-          i = new Intent(activity, ExpenseEdit.class);
-          i.putExtra(KEY_ROWID, instance2TransactionMap.get(instanceId));
-          startActivity(i);
+          templatesList.dispatchEditInstance(instance2TransactionMap.get(instanceId));
           break;
       }
     }
   }
 
   public void dispatchCommandMultiple(int command, SparseBooleanArray positions) {
-    ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
-    ArrayList<Long> objectIdsAL = new ArrayList<Long>();
+    ArrayList<Long[]> extra2dAL = new ArrayList<>();
+    ArrayList<Long> objectIdsAL = new ArrayList<>();
     final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
     final Bundle arguments = getArguments();
-    if (activity == null || arguments == null) return;
+    final TemplatesList templatesList = (TemplatesList) getParentFragment();
+    if (activity == null || arguments == null || templatesList == null) return;
     switch (command) {
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
         for (int i = 0; i < positions.size(); i++) {
@@ -327,11 +302,8 @@ public class PlanMonthFragment extends CaldroidFragment
             objectIdsAL.add(arguments.getLong(KEY_ROWID));
           }
         }
-        activity.startTaskExecution(
-            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-            objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
-            0);
+        templatesList.dispatchCreateInstanceSaveDo(objectIdsAL.toArray(new Long[0]),
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
         break;
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
         for (int i = 0; i < positions.size(); i++) {
@@ -345,11 +317,10 @@ public class PlanMonthFragment extends CaldroidFragment
                 instance2TransactionMap.get(instanceId)});
           }
         }
-        activity.startTaskExecution(
+        templatesList.dispatchTask(
             TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
             objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
-            0);
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
         break;
       case R.id.RESET_PLAN_INSTANCE_COMMAND:
         for (int i = 0; i < positions.size(); i++) {
@@ -364,11 +335,10 @@ public class PlanMonthFragment extends CaldroidFragment
                 instance2TransactionMap.get(instanceId)});
           }
         }
-        activity.startTaskExecution(
+        templatesList.dispatchTask(
             TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
             objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
-            0);
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
         break;
     }
   }
@@ -408,21 +378,9 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   public void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
-    boolean withOpen = false, withApplied = false, withCancelled = false;
     long instanceId = getPlanInstanceForPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
     if (instanceId != -1) {
-      switch (getState(instanceId)) {
-        case APPLIED:
-          withApplied = true;
-          break;
-        case CANCELLED:
-          withCancelled = true;
-          break;
-        case OPEN:
-          withOpen = true;
-          break;
-      }
-      configureMenuInternalPlanInstances(menu, 1, withOpen, withApplied, withCancelled);
+      configureMenuInternalPlanInstances(menu, getState(instanceId));
     }
   }
 
@@ -435,19 +393,6 @@ public class PlanMonthFragment extends CaldroidFragment
     } else {
       return PlanInstanceState.CANCELLED;
     }
-  }
-
-  private void configureMenuInternalPlanInstances(Menu menu, int count, boolean withOpen,
-                                                  boolean withApplied, boolean withCancelled) {
-    //state open
-    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).setVisible(withOpen);
-    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).setVisible(count == 1 && withOpen);
-    //state open or applied
-    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(withOpen || withApplied);
-    //state cancelled or applied
-    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(withApplied || withCancelled);
-    //state applied
-    menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).setVisible(count == 1 && withApplied);
   }
 
   private class CaldroidCustomAdapter extends CaldroidGridAdapter {

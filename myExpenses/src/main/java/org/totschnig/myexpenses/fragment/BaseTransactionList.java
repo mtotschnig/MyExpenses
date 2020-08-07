@@ -58,8 +58,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -204,6 +202,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
@@ -852,7 +851,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     int dateColumn = c.getColumnIndex(KEY_DATE);
     switch (mAccount.getSortDirection()) {
       case ASC:
-        long startOfToday = ZonedDateTime.of(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS), ZoneId.systemDefault()).toEpochSecond();
+        long startOfToday = localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
         if (c.moveToLast()) {
           do {
             if (c.getLong(dateColumn) <= startOfToday) {
@@ -862,7 +861,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
         break;
       case DESC:
-        long endOfDay = ZonedDateTime.of(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1), ZoneId.systemDefault()).toEpochSecond();
+        long endOfDay = localDateTime2Epoch(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).plusDays(1));
         if (c.moveToFirst()) {
           do {
             if (c.getLong(dateColumn) < endOfDay) {

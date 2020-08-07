@@ -15,6 +15,7 @@ import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.getDateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,8 +29,7 @@ class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(cont
     private val formatter : DateTimeFormatter
 
     init {
-        formatter = (Utils.getDateFormatSafe(context) as? SimpleDateFormat)?.let { DateTimeFormatter.ofPattern(it.toPattern()) } ?:
-                DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+        formatter = getDateTimeFormatter(context)
     }
 
     private val isBrokenSamsungDevice: Boolean

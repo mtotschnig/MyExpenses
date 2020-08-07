@@ -136,10 +136,12 @@ public class DbUtils {
    * @param field
    * @return Long that is null if field is null in db
    */
+  @Nullable
   public static Long getLongOrNull(Cursor c, String field) {
     return getLongOrNull(c, c.getColumnIndexOrThrow(field));
   }
 
+  @Nullable
   public static Long getLongOrNull(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
       return null;
