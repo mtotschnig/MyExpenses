@@ -60,7 +60,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                 }
             }
         }
-        if (true) {
+        if (fromVersion < 417) {
             disposable = briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is not null",
                     DatabaseConstants.KEY_PLANID), null, null, false)
                     .mapToList { cursor -> Template(cursor) }
