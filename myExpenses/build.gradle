@@ -13,7 +13,6 @@ buildscript {
 repositories {
 //    mavenLocal()
     mavenCentral()
-    maven { url "https://dl.bintray.com/mockito/maven/" }
 }
 
 apply plugin: 'com.android.application'

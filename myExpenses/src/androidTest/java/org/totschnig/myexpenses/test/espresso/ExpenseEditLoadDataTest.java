@@ -126,13 +126,13 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
   public void shouldKeepStatusAndUuidAfterSave() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transaction.getId());
-    String uuid = transaction.uuid;
+    String uuid = transaction.getUuid();
     int status = transaction.getStatus();
     launchAndWait(i);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     Transaction t = Transaction.getInstanceFromDb(transaction.getId());
     assertThat(t.getStatus()).isEqualTo(status);
-    assertThat(t.uuid).isEqualTo(uuid);
+    assertThat(t.getUuid()).isEqualTo(uuid);
   }
 
   @Test

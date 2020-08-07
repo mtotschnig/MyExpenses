@@ -131,11 +131,11 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction restored = Transaction.getInstanceFromDb(op.getId());
     assertEquals(restored.getAccountId(), mAccount2.getId());
     assertEquals(restored.getTransferAccountId().longValue(), mAccount3.getId());
-    assertEquals(restored.uuid, op.uuid);
+    assertEquals(restored.getUuid(), op.getUuid());
     Transaction peer = Transaction.getInstanceFromDb(op.getTransferPeer());
     assertEquals(peer.getAccountId(), mAccount3.getId());
     assertEquals(peer.getTransferAccountId().longValue(), mAccount2.getId());
-    assertEquals(peer.uuid, op.uuid);
+    assertEquals(peer.getUuid(), op.getUuid());
   }
 
   /**

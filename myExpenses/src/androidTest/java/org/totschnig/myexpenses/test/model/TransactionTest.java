@@ -124,12 +124,12 @@ public class TransactionTest extends ModelTest {
     assertNotNull(restored);
     assertEquals(restored.getAccountId(), mAccount2.getId());
     assertEquals(restored.getTransferAccountId().longValue(), mAccount3.getId());
-    assertEquals(restored.uuid, op.uuid);
+    assertEquals(restored.getUuid(), op.getUuid());
     Transaction peer = Transaction.getInstanceFromDb(op.getTransferPeer());
     assertNotNull(peer);
     assertEquals(peer.getAccountId(), mAccount3.getId());
     assertEquals(peer.getTransferAccountId().longValue(), mAccount2.getId());
-    assertEquals(peer.uuid, op.uuid);
+    assertEquals(peer.getUuid(), op.getUuid());
   }
 
   public void testSplitWithTransfer() {
