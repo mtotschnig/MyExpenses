@@ -169,6 +169,13 @@
         <item>reset_plan_instance</item>
         <item>edit_plan_instance</item>
     </string-array>
+    <string-array name="ManageTemplates_planner_cabitems" tools:ignore="UnusedResources">
+        <item>create_instance_save</item>
+        <item>create_instance_edit</item>
+        <item>cancel_plan_instance</item>
+        <item>reset_plan_instance</item>
+        <item>edit_plan_instance</item>
+    </string-array>
 
     <string-array name="ManageCategories_manage_menuitems" tools:ignore="UnusedResources">
         <item>sort</item>
@@ -429,6 +436,15 @@
         <item>help_ManageSyncBackends_webdav</item>
         <item>help_ManageSyncBackends_drive</item>
         <item>help_ManageSyncBackends_encryption</item>
+    </string-array>
+
+    <string-array name="help_ManageTemplates_planner_info">
+        <item>help_ManageTemplates_plans_info</item>
+    </string-array>
+
+    <string-array name="help_ManageTemplates_plans_info">
+        <item>help_ManageTemplates_plans_intro</item>
+        <item>help_ManageTemplates_plans_info</item>
     </string-array>
 
     <string-array name="ManageSyncBackends_cabitems" tools:ignore="UnusedResources">

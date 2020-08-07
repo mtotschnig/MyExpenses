@@ -16,8 +16,6 @@ import com.android.calendarcommon2.EventRecurrence;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -34,6 +32,7 @@ import androidx.annotation.Nullable;
 import timber.log.Timber;
 
 import static org.threeten.bp.temporal.ChronoField.DAY_OF_WEEK;
+import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2EpochMillis;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 /**
@@ -106,7 +105,7 @@ public class Plan extends Model implements Serializable {
   }
 
   private Plan(long id, LocalDate localDate, String rrule, String title, String description) {
-    this(id, ZonedDateTime.of(localDate, LocalTime.of(12, 0), ZoneId.systemDefault()).toEpochSecond() * 1000, rrule, title, description);
+    this(id, localDateTime2EpochMillis(localDate.atTime(LocalTime.of(12, 0))), rrule, title, description);
   }
 
   public Plan(LocalDate localDate, String rrule, String title, String description) {

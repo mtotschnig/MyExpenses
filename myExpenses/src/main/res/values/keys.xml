@@ -224,4 +224,9 @@
     </string-array>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->
     <string name="onboarding_restore_from_cloud_sync_accounts">@string/pref_manage_accounts_title</string>
+    <string name="cab_ManageTemplates_planner_create_instance_save_help_text">@string/cab_ManageTemplates_plans_create_instance_save_help_text</string>
+    <string name="cab_ManageTemplates_planner_create_instance_edit_help_text">@string/cab_ManageTemplates_plans_create_instance_edit_help_text</string>
+    <string name="cab_ManageTemplates_planner_cancel_plan_instance_help_text">@string/cab_ManageTemplates_plans_cancel_plan_instance_help_text</string>
+    <string name="cab_ManageTemplates_planner_reset_plan_instance_help_text">@string/cab_ManageTemplates_plans_reset_plan_instance_help_text</string>
+    <string name="cab_ManageTemplates_planner_edit_plan_instance_help_text">@string/cab_ManageTemplates_plans_edit_plan_instance_help_text</string>
 </resources>

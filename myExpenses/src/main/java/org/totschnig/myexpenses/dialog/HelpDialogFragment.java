@@ -178,8 +178,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       // Form entries
-      final int formResId = variant != null ? resolveArray(context + "_" + variant + "_formfields") :
-          resolveArray(context + "_formfields");
+      final int formResId = resolveArray(buildComponentName("formfields"));
       ArrayList<String> menuItems = new ArrayList<>();
       if (formResId != 0) {
         menuItems.addAll(Arrays.asList(res.getStringArray(formResId)));
@@ -191,8 +190,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       // Menu items
-      final int menuResId = variant != null ? resolveArray(context + "_" + variant + "_menuitems") :
-          resolveArray(context + "_menuitems");
+      final int menuResId = resolveArray(buildComponentName("menuitems"));
       menuItems.clear();
       if (menuResId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(menuResId)));
@@ -203,16 +201,18 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       // Contextual action bar
-      final int cabResId = variant != null ? resolveArray(context + "_" + variant + "_cabitems") :
-          resolveArray(context + "_cabitems");
+      final String componentName = buildComponentName("cabitems");
+      final int cabResId = resolveArray(componentName);
       menuItems.clear();
       if (cabResId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(cabResId)));
       if (menuItems.isEmpty()) {
         view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
-        view.findViewById(R.id.cab_commands_help).setVisibility(View.GONE);
       } else {
         handleMenuItems(menuItems, "cab", view.findViewById(R.id.cab_commands_container));
+      }
+      if (menuItems.isEmpty() || !showLongTapHint(componentName)) {
+        view.findViewById(R.id.cab_commands_help).setVisibility(View.GONE);
       }
 
       final int titleResId = variant != null ? resolveString("help_" + context + "_" + variant + "_title") : 0;
@@ -247,6 +247,14 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           getActivity().finish();
         })
         .create();
+  }
+
+  private boolean showLongTapHint(String componentName) {
+    return !componentName.equals("ManageTemplates_planner_cabitems");
+  }
+
+  private String buildComponentName(String type) {
+    return variant != null ? (context + "_" + variant + "_" + type) : (context + "_" + type);
   }
 
   /**

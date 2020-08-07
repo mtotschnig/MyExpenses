@@ -296,9 +296,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (transactionId != null && transactionId > 0L) {
             Transaction.delete(transactionId, false);
           } else {
-            cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-                KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = ?",
-                new String[]{String.valueOf(ids[i]), String.valueOf(templateId)});
+            cr.delete(TransactionProvider.PLAN_INSTANCE_SINGLE_URI(templateId, (Long) ids[i]), null, null);
           }
           values = new ContentValues();
           values.putNull(KEY_TRANSACTIONID);
@@ -315,9 +313,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (transactionId != null && transactionId > 0L) {
             Transaction.delete(transactionId, false);
           }
-          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-              KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = ?",
-              new String[]{String.valueOf(ids[i]), String.valueOf(templateId)});
+          cr.delete(TransactionProvider.PLAN_INSTANCE_SINGLE_URI(templateId, (Long) ids[i]), null, null);
         }
         return null;
       case TaskExecutionFragment.TASK_BACKUP:

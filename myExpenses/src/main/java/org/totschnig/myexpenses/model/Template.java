@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -390,6 +391,32 @@ public class Template extends Transaction implements ITransfer, ISplit {
     Template t = new Template(c);
     c.close();
     return t;
+  }
+
+  @Nullable
+  public static PlanInstance getPlanInstance(long planId, long date) {
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
+        null, KEY_PLANID + "= ?",
+        new String[]{String.valueOf(planId)},
+        null);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
+    }
+    c.moveToFirst();
+    final Long instanceId = getLongOrNull(c, 1);
+    final Long transactionId = getLongOrNull(c, 2);
+    final long templateId = c.getLong(6);
+    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+    CurrencyUnit currency = currencyContext.get(c.getString(4));
+    Money amount = new Money(currency, c.getLong(5));
+    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(0), date, c.getInt(3), amount);
+    c.close();
+    return planInstance;
   }
 
   @androidx.annotation.Nullable

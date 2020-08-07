@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Menuko komandoak</string>
   <string name="help_contextual_actions">Testuinguruko ekintzak</string>
+  <string name="help_contextual_actions_help">Testuinguruko ekintzen menua bistaratzen da zerrendako sarrera batean luze sakatuz.</string>
   <string name="help_form_fields">Formularioaren eremuak</string>
   <string name="cab_delete_help_text">Ezabatu aukeratutako elementuak.</string>
   <string name="cab_edit_help_text">Editatu aukeratutako elementua.</string>
@@ -11,22 +12,29 @@
   <string name="help_MyExpenses_crStatus_info">Transakzioaren egoera kolorezko lauki baten bidez adierazten da: grisa berdikatu gabea, urdina kitatua, berdea berdinkatuta. Sakatu laukia egoera aldatzeko.</string>
   <string name="menu_reset_help_text">Komando honek uneko kontuaren transakzio guztiak SD txarteleko fitxategi batetara esportatzen ditu QIF edo CSV formatuan. Esportatutako transakzioak ezabatzea aukeratu dezakezu, kasu horretan irekiera saldoa automatikoki doituko da. Ordea, transakzioak ez badira ezabatzen esportatuta gisa markatuko dira. Nire Gastuak esportatu eta jarraian fitxategia elkarbanatu dezake FTP, posta elektronikoa edo fitxategiak elkarbanatzeko bestelako edozein aplikazio erabilita, horrela egin dezan konfiguratzen baduzu ezarpenetan. Iragazki bat gaituta badago iragazkiak hautatutako transakzioak besterik ez dita hartuko aintzat.</string>
   <string name="menu_grouping_help_text">Transakzioak taldekatu ditzakezu eguneko, asteko, hilabeteko eta urteko. Talde bakoitzean diru-sarreren, gastuen eta transferentzien guztirakoa kalkulatzen eta bistaratzen da. Taldearen goiburuan sakatzean transakzio taldea tolestu egiten da eta soilik goiburua erakusten da. Sakatu berriro taldea destolesteko.</string>
+  <string name="menu_sort_direction_help_text">Transakzioak zerrendatu daitezke behetik gora (zaharrena goian) edo goitik behera (azkena goian).</string>
   <string name="menu_distribution_help_text">Bistaratu zure gastuen distribuzioa kategoriako. Luze sakatu dezakezu talde goiburu batean epe zehatz horren distribuzioa ikuskatzeko.</string>
+  <string name="menu_budget_help_text">Kudeatu eguneroko, asteroko, hileroko, edo urteroko aurrekontuak orain bistaratzen den kontuan.</string>
+  <string name="menu_history_help_text">Bistaratu cash flow diagrama bat: nolako bilakaera izan zuten zure gastuek eta diru-sarrerek egun, aste, hilabete edo urteetan?</string>
   <string name="menu_manage_plans_help_text">Txantiloi eta planen zerrenda irekitzen du, han aplikatu, editatu edo ezabatu ditzakezu, bai eta etorkizunerako planak eta transakzio errepikakorrak zehaztu. </string>
   <string name="menu_balance_help_text">Komando honek berdinkatutako azken saldoa eta kitatutako saldoa bistaratzen dien elkarrizketa-koadro bat irekitzen du. Zure bankuko saldoarekin konparatu dezakezu eta kitatutako transakzioak berdinkatuta gisa markatu. Aukeran berdinkatutako transakzioak ezabatzea erabaki dezakezu.</string>
   <string name="menu_print_help_text">Unean bistaratuta dauden transakzioen inprimatzeko ikuspegi bat sortzen du.</string>
   <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
   <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
   <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
+  <string name="cab_split_help_text">Transakzioa beranduago editatzea duzu zati gehigarriak behar dituzun neurrian sortzeko.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txekea, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. Erabili ekintza botoi flotatzailea metodo berri bat sortzeko formularioa irekitzeko.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_manage_info">Pantaila honek Ordaintzailea/Onuraduna eremua automatikoki betetzeko erabiltzen diren balioak zerrendatzen ditu.</string>
+  <string name="help_ManageParties_select_mapping_info">Hautatu balio bat gainean sakatuz.</string>
+  <string name="help_ManageParties_select_filter_info">Sakatu balio batean transakzio zerrenda iragazteko. Sakatze luzea balio sortak hautatzeko.</string>
   <string name="help_ManageParties_floating_action_button">Erabili ekintza botoi mugikorra sarrera berri bat gehitzeko.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Egutegi ikuspegia</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Txantiloiak transakzioetatik erator daitezke beraien laster-menuaren bidez, hemen txantiloi berriak sor ditzakezu hutsetik (transakzioetarako edo transferentzietarako) ekintza botoi mugikorrean klik eginez. Txantiloi batean klik eginez, horretarako instantzia bat sortzen da.<br><img src=\"ic_event\">Plan bat egutegiaren antolatzailean berarentzako gertaera bat (behin edo errepikakorra) sortu duzun txantiloi bat da. Plan batean klik egiteak egutegi ikuspegia irekiko du, zeinak plan baten iraganeko eta hurrengo instantziak bistaratuko dituen.]]></string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[Nabarmendutako data bakoitzak planeko instantzia bat adierazten du. Instantzia baten egoera ondorengo ikonoekin adierazita dago:<br><img src=\"ic_stat_open\">Instantzia oraindik ez da aplikatua izan.<br><img src=\"ic_stat_applied\">Instantzia aplikatua izan da.<br><img src=\"ic_stat_cancelled\"> Instantzia utzia izan da, adib. saltatua izateko markatu baduzu. Ez da transakziorik sortuko instantzia honetarako.]]></string>
+  <string name="help_ManageTemplates_plans_intro">Nabarmendutako data bakoitzak planeko instantzia bat adierazten du.</string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[Instantzia baten egoera ondorengo ikonoekin adierazita dago:<br><img src=\"ic_stat_open\">Instantzia oraindik ez da aplikatua izan.<br><img src=\"ic_stat_applied\">Instantzia aplikatua izan da.<br><img src=\"ic_stat_cancelled\"> Instantzia utzia izan da, adib. saltatua izateko markatu baduzu. Ez da transakziorik sortuko instantzia honetarako.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Aukeratutako txantiloien instantziak sortu eta gorde berehala. </string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Aukeratutako txantiloiaren instantzia bat sortu eta sartu edizio formularioan gorde aurretik aldatzeko.</string>
   <string name="cab_ManageTemplates_delete_help_text">Ezabatu aukeratutako txantiloiak eta hauei lotutako planak.</string>
@@ -55,6 +63,7 @@
   <string name="cab_ManageCategories_select_filter_select_help_text">Aukeratutako kategoria transakzioen zerrenda iragazteko erabiliko da.</string>
   <string name="menu_ManageCategories_search_help_text">Zure kontsultarekin bat datozen kategoria nagusiak eta azpikategoriak bakarrik bistaratuko dira.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategoria zerrenda izenburuaren (alfabetikoki), erabilera maiztasunaren edo transakzio bat esleitua izan den azken aldiaren arabera ordenatu daiteke.</string>
+  <string name="cab_ManageCategories_color_help_text">Kolore bat kategoria nagusiei eslei diezaiekezu. Kolore hau erabiliko da kategoria grafikoetan irudikatzeko. Azpikategoriek bere kategoria nagusiaren kolorearen itzalak erabiliko ditu. </string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Transakzioen formularioa</string>
   <string name="help_ExpenseEdit_transfer_title">Transferentzien formularioa</string>
@@ -66,6 +75,7 @@
   <string name="help_ExpenseEdit_transaction_info">Erabili inprimaki hau transakzio berri bat sartzeko edo existitzen den bat editatzeko. Erabili ekintza-barrako goitibeherako menua transferentzia edo transferentzia banatu berri bat gehitzeko inprimakira aldatzeko.</string>
   <string name="help_ExpenseEdit_split_info">Transferentzia banatu bat zatitan banatutako transferentzia bakarra da, non zati bakoitza kategoria desberdin batera eslei edo kontu desberdin batera transferi daiteke.</string>
   <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
+  <string name="form_date_time_help_text">Sartu noiz egin zen transakzioa, eguna eta ordua.</string>
   <string name="form_payer_or_payee_help_text">Eremu honek sartu dituzun balioak gogoratuko ditu eta hauek etorkizunean iradokiko ditu.</string>
   <string name="form_amount_switch_help_text">Erabili etengailua gastu eta irabazi artean txandakatzeko.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> botoiak kalkulagailua irekitzen du.]]></string>

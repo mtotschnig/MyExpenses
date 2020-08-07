@@ -33,7 +33,8 @@
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">計画カレンダー表示</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">テンプレートは、取引のコンテキストメニューから導出することができますが、フローティングアクションボタンをクリックして、ここで最初から (取引または振替用の) 新しいテンプレートを作成することができます。テンプレートをクリックすると、そのためのインスタンスを作成します。<br><img src=\"ic_event\">計画はプランナーカレンダーに (1回限りまたは定期的) イベントを作成するためのテンプレートです。計画をクリックすると、過去と今後の計画インスタンスを表示するカレンダービューを開きます。]]></string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[それぞれの強調表示された日付は、計画のインスタンスを表します。インスタンスの状態は次のアイコンで示されています: <br><img src=\"ic_stat_open\"> まだ適用されていないインスタンス。<br><img src=\"ic_stat_applied\"> 適用されたインスタンス。<br><img src=\"ic_stat_cancelled\"> キャンセルされたインスタンス。すなわち、あなたがスキップとしてフラグを付けたもの。このインスタンスの取引は作成しません。]]></string>
+  <string name="help_ManageTemplates_plans_intro">それぞれの強調表示された日付は、計画のインスタンスを表します。</string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[インスタンスの状態は次のアイコンで示されています: <br><img src=\"ic_stat_open\"> まだ適用されていないインスタンス。<br><img src=\"ic_stat_applied\"> 適用されたインスタンス。<br><img src=\"ic_stat_cancelled\"> キャンセルされたインスタンス。すなわち、あなたがスキップとしてフラグを付けたもの。このインスタンスの取引は作成しません。]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">選択したテンプレートをインスタンス化し、すぐに保存します。</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">選択したテンプレートをインスタンス化し、保存する前にその編集フォームの入力項目に入力することができます。</string>
   <string name="cab_ManageTemplates_delete_help_text">選択したテンプレートおよびすべての関連した計画を削除します。</string>

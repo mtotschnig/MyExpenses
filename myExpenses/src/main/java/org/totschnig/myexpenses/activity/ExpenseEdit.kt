@@ -914,8 +914,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     })
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
-                    val intent = Intent()
-                    setResult(RESULT_OK, intent)
+                    setResult(RESULT_OK)
                     finish()
                     //no need to call super after finish
                     return

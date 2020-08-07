@@ -15,6 +15,7 @@
   <string name="menu_sort_direction_help_text">Transacțiile pot fi sortate în ordine crescătoare (cea mai vechie sus) sau descendentă (cea mai nouă sus).</string>
   <string name="menu_distribution_help_text">Afişează distribuţia cheltuielilor pe categorii. De asemenea, clic  lung pe un antet de grup pentru a inspecta distribuţia pe o anumită perioadă de timp.</string>
   <string name="menu_budget_help_text">Gestionează bugetele zilnice, săptămânale, lunare sau anuale pentru contul afișat.</string>
+  <string name="menu_history_help_text">Afișați o diagramă a fluxurilor de bani: Cum au evoluat cheltuielile și veniturile peste zile, săptămâni, luni sau ani?</string>
   <string name="menu_manage_plans_help_text">Deschide lista de şabloane şi scadenţe, de unde le puteţi aplica, edita sau şterge, sau defini scadenţe  pentru tranzacţii viitoare şi periodice.</string>
   <string name="menu_balance_help_text">Această comandă deschide o fereastra de dialog care afişează ultimul sold decontat şi soldul procesat. Puteţi compara aceasta cu extrasul dvs bancar, şi marca toate  tranzacţiile procesate ca decontate. Opţional puteţi decide să ştergeţi tranzacţii decontate.</string>
   <string name="menu_print_help_text">Generează o vedere imprimabilă  a tranzacţiilor afişate în momentul respectiv.</string>
@@ -25,6 +26,10 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Acest ecran listează metodele de plată predefinite (Cec, Card de credit, Depozit, Debit direct) și vă permite și să definiți altele noi. Folosiți butonul de acțiune flotant pentru a deschide formularul creări unei noi metode de plată.</string>
   <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_manage_info">Acest ecran listează persoanele utilizate pentru completarea automată a câmpului Plătitor / Beneficiar.</string>
+  <string name="help_ManageParties_select_mapping_info">Selectați o persoana apăsând pe ea.</string>
+  <string name="help_ManageParties_select_filter_info">Atingeți o persoana pentru filtrarea listei de tranzacții. Atingeți lung pentru a selecta mai multe persoane.</string>
+  <string name="help_ManageParties_floating_action_button">Utilizați butonul de acțiune flotant pentru a adăuga o nouă transacție.</string>
   <!--ManageTemplates title is in keys-->
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instanţiaţi şabloanele selectate şi salvaţi-le imediat.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instanţiaţi  şablonul selectat şi introduceţi formularul de editare unde se pot modifica înainte de salvare.</string>
