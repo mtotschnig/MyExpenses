@@ -178,7 +178,7 @@ public class Transaction extends AbstractTransaction {
   /**
    * id of an instance of the event (plan) for which this transaction has been created
    */
-  public Long originPlanInstanceId = null;
+  private Long originPlanInstanceId = null;
   /**
    * 0 = is normal, special states are
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and

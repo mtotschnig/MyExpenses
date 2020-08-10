@@ -224,11 +224,11 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 }
             }
             viewBinding.AttachImage.visibility = View.GONE
-        } else if (!isSplitPart) { //Transfer or Transaction, we can suggest to create a plan
+        } else if (!isSplitPart) {
             if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
 //after SAVE_AND_NEW action
                 val recurrenceAdapter = RecurrenceAdapter(context,
-                        Plan.Recurrence.ONETIME, Plan.Recurrence.CUSTOM)
+                        Plan.Recurrence.ONETIME)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 if (missingRecurrenceFeature() == null) {
                     recurrence?.let {
@@ -610,7 +610,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     private fun showCustomRecurrenceInfo() {
         if (recurrenceSpinner.selectedItem === Plan.Recurrence.CUSTOM) {
-            (context as ExpenseEdit).showSnackbar(R.string.plan_custom_recurrence_info, Snackbar.LENGTH_LONG)
+            (context as ExpenseEdit).showDismissableSnackbar(R.string.plan_custom_recurrence_info)
         }
     }
 

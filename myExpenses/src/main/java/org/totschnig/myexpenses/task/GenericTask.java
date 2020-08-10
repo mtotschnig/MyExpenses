@@ -131,7 +131,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             if (mExtra != null) {
               extraInfo2d = (Long[][]) mExtra;
               t.setDate(new Date(extraInfo2d[i][1]));
-              t.originPlanInstanceId = extraInfo2d[i][0];
+              t.setOriginPlanInstanceId(extraInfo2d[i][0]);
             }
             t.setStatus(STATUS_NONE);
             if (t.save(true) != null && t.saveTags(pair.second, cr)) {

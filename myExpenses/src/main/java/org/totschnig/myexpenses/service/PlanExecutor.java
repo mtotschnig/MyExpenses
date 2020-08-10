@@ -191,7 +191,7 @@ public class PlanExecutor extends JobIntentService {
                     if (template.isPlanExecutionAutomatic()) {
                       Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(template);
                       Transaction t = pair.first;
-                      t.originPlanInstanceId = instanceId;
+                      t.setOriginPlanInstanceId(instanceId);
                       t.setDate(new Date(date));
                       if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
                         Intent displayIntent = new Intent(this, MyExpenses.class)

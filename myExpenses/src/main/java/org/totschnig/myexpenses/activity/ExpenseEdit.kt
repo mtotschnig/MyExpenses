@@ -909,9 +909,13 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    viewModel.transaction(result, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer {
-                        it?.let { launchPlanView(true, (it as Template).planId) }
-                    })
+                    if (isTemplate) {
+                        launchPlanViewForTemplate(result)
+                    } else {
+                        viewModel.transaction(result, TRANSACTION, clone = false, forEdit = false, extras = null).observe(this, Observer {
+                            it?.originTemplateId?.let { launchPlanViewForTemplate(it) }
+                        })
+                    }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     setResult(RESULT_OK)
@@ -922,6 +926,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
         }
         mIsSaving = false
+    }
+
+    private fun launchPlanViewForTemplate(templateId: Long) {
+        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer {
+            it?.let { launchPlanView(true, (it as Template).planId) }
+        })
     }
 
     private fun hideKeyboard() {

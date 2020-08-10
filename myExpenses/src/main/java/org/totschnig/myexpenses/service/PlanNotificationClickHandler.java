@@ -61,7 +61,7 @@ public class PlanNotificationClickHandler extends IntentService {
         } else {
           Transaction t = pair.first;
           t.setDate(new Date(extras.getLong(DatabaseConstants.KEY_DATE)));
-          t.originPlanInstanceId = instanceId;
+          t.setOriginPlanInstanceId(instanceId);
           if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
             message = getResources().getQuantityString(
                 R.plurals.save_transaction_from_template_success, 1, 1);
