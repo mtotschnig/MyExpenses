@@ -359,6 +359,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       LayoutInflater inflater = LayoutInflater.from(RoadmapVoteActivity.this);
       View row = inflater.inflate(R.layout.roadmap_list_item, parent, false);
+      row.setOnClickListener(RoadmapVoteActivity.this::openContextMenu);
       return new ViewHolder(row);
     }
 
