@@ -1,12 +1,11 @@
 package org.totschnig.myexpenses.util
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -31,6 +30,9 @@ class CurrencyFormatterTest {
     fun testMoneyFormatGermany() {
         val eur = CurrencyUnit.create("EUR", "€", 2)
         Mockito.`when`(userLocaleProvider.getUserPreferredLocale()).thenReturn(Locale.GERMANY)
-        Assertions.assertThat(currencyFormatter.formatCurrency(Money(eur, 150))).isEqualTo("1,50 €")
+
+        val javaVersion = System.getProperty("java.version")!!.split('.')[0].toInt()
+        //newer Java version uses non-breaking space
+        assertThat(currencyFormatter.formatCurrency(Money(eur, 150))).isEqualTo(if (javaVersion >= 10) "1,50 €" else "1,50 €")
     }
 }
