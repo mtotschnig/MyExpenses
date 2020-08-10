@@ -61,10 +61,10 @@
             android:key="manage_tags"
             android:summary="@string/pref_manage_tags_summary"
             android:title="@string/tags">
-        <intent
-            android:action="MANAGE"
-            android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
-            android:targetPackage="@string/application_id" />
+            <intent
+                android:action="MANAGE"
+                android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
+                android:targetPackage="@string/application_id" />
         </Preference>
     </PreferenceCategory>
 
@@ -483,12 +483,22 @@
             android:key="@string/pref_custom_date_format_key"
             android:summary="@string/pref_custom_decimal_format_summary"
             android:title="@string/date_format" />
-        <ListPreference
-            android:key="@string/pref_planner_calendar_id_key"
-            android:title="@string/pref_planning_calendar_title" />
-        <org.totschnig.myexpenses.preference.TimePreference
-            android:key="@string/pref_plan_executor_time_key"
-            android:title="@string/pref_plan_executor_time_title" />
+        <PreferenceScreen
+            android:key="@string/pref_planner_advanced_key"
+            android:title="@string/planner_notification_channel_name">
+            <ListPreference
+                android:key="@string/pref_planner_calendar_id_key"
+                android:title="@string/pref_planning_calendar_title" />
+            <org.totschnig.myexpenses.preference.TimePreference
+                android:key="@string/pref_plan_executor_time_key"
+                android:title="@string/pref_plan_executor_time_title" />
+            <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+                android:defaultValue="noon"
+                android:title="@string/pref_planner_manual_time_title"
+                android:key="@string/pref_planner_manual_time_key"
+                android:entries="@array/pref_planner_manual_time_entries"
+                android:entryValues="@array/pref_planner_manual_time_values" />
+        </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_webdav_key"
             android:title="WebDAV">

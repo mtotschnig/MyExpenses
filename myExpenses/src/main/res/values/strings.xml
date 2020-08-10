@@ -911,4 +911,10 @@
     <string name="dialog_multi_tag_replace">Replace existing tags by new tags</string>
     <string name="new_tag_hint">Enter new tag</string>
     <string name="language_download_requested">Translations for language %s are requested from Play Store</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">Time for manually applied scheduled transaction</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">12 pm (noon)</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_current">Time of creation</string>
 </resources>

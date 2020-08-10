@@ -716,4 +716,13 @@
         <item>@string/dialog_multi_tag_append</item>
         <item>@string/dialog_multi_tag_replace</item>
     </string-array>
+
+    <string-array name="pref_planner_manual_time_values">
+        <item>noon</item>
+        <item>current</item>
+    </string-array>
+    <string-array name="pref_planner_manual_time_entries">
+        <item>@string/pref_planner_manual_time_noon</item>
+        <item>@string/pref_planner_manual_time_current</item>
+    </string-array>
 </resources>
