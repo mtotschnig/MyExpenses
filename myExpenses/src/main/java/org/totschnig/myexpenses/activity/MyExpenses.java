@@ -86,6 +86,7 @@ import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
@@ -249,7 +250,11 @@ public class MyExpenses extends LaunchActivity implements
           }
         });
 
-    adHandler.maybeRequestNewInterstitial();
+    try {
+      adHandler.maybeRequestNewInterstitial();
+    } catch (Exception e) {
+      CrashHandler.report(e);
+    }
 
     ButterKnife.bind(this);
 
