@@ -45,6 +45,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
+import androidx.fragment.app.Fragment;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
@@ -319,8 +320,10 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
         if (!PermissionHelper.allGranted(grantResults)) {
-          ((DialogUtils.CalendarRestoreStrategyChangedListener)
-              getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).onCalendarPermissionDenied();
+          final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+          if (fragment instanceof DialogUtils.CalendarRestoreStrategyChangedListener) {
+            ((DialogUtils.CalendarRestoreStrategyChangedListener) fragment).onCalendarPermissionDenied();
+          }
         }
         return;
     }
