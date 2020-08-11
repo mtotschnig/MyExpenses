@@ -826,7 +826,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         return false;
       }
     } else if (matches(pref, CUSTOM_DATE_FORMAT)) {
-      return validateDateFormat((String) value);
+      return validateDateFormatWithFeedback((String) value);
     } else if (matches(pref, EXCHANGE_RATE_PROVIDER)) {
       configureOpenExchangeRatesPreference((String) value);
     } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
