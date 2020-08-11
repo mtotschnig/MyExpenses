@@ -86,6 +86,10 @@
         <item>Pongsametrey</item>
     </string-array>
 
+    <string-array name="translators_kn">
+        <item>Vishwa Prakash HV</item>
+    </string-array>
+
     <string-array name="translators_ko">
         <item>halcyonest</item>
     </string-array>

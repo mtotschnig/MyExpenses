@@ -513,8 +513,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>416;3.1.2.2</item>
-        <item>414;3.1.2.1</item>
+        <item>417;3.1.3</item>
         <item>413;3.1.2</item>
         <item>409;3.1.1</item>
         <item>403;3.1.0</item>
@@ -530,17 +529,17 @@
         <item>362;3.0.0</item>
     </string-array>
 
+    <string-array name="contributors_313" tools:ignore="UnusedResources">
+        <item />
+        <item>Vishwa Prakash HV</item>
+    </string-array>
+
     <string-array name="contributors_303" tools:ignore="UnusedResources">
         <item>Kaartic Sivaraam</item>
     </string-array>
 
     <string-array name="contributors_300" tools:ignore="UnusedResources">
         <item>volodymyr.gz et al.</item>
-    </string-array>
-
-    <string-array name="contributors_280" tools:ignore="UnusedResources">
-        <item>Zvi  P.</item>
-        <item>eltos</item>
     </string-array>
 
     <!-- first member is Facebook post id -->
