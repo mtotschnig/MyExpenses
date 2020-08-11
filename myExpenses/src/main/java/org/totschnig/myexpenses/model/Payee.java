@@ -62,8 +62,8 @@ public class Payee extends Model {
   public static final String[] PROJECTION = new String[]{
       KEY_ROWID,
       KEY_PAYEE_NAME,
-      "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
-      "(select count(*) from " + TABLE_TEMPLATES + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES
+      "exists (select 1 from " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
+      "exists (select 1 from " + TABLE_TEMPLATES + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES
   };
   public static final Uri CONTENT_URI = TransactionProvider.PAYEES_URI;
 

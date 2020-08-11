@@ -157,7 +157,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 108;
+  public static final int DATABASE_VERSION = 109;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -826,6 +826,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     //Index
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
+    db.execSQL("CREATE INDEX transactions_payee_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_PAYEEID + ")");
+    db.execSQL("CREATE INDEX templates_payee_id_index on " + TABLE_TEMPLATES + "(" + KEY_PAYEEID + ")");
 
     // Triggers
     createOrRefreshTransactionTriggers(db);
@@ -871,10 +873,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 /*  private void insertTestData(SQLiteDatabase db, int countGroup, int countChild) {
     long date = System.currentTimeMillis() / 1000;
     for (int i = 1; i <= countGroup; i++) {
-      long payeeId = db.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo("Payee " + i).getContentValues());
       AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.CASH, 0);
       long testAccountId = db.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
+        long payeeId = db.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
         date -= 60 * 60 * 24;
         TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, date, 0, testAccountId, payeeId);
         db.insertOrThrow(
@@ -2199,6 +2201,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 108) {
         db.execSQL("ALTER TABLE templates add column plan_execution_advance integer default 0");
+      }
+      if (oldVersion < 109) {
+        db.execSQL("CREATE INDEX transactions_payee_id_index on transactions(payee_id)");
+        db.execSQL("CREATE INDEX templates_payee_id_index on templates(payee_id)");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

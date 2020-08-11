@@ -126,18 +126,18 @@ public class PartiesList extends ContextualActionBarFragment {
     ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
     switch (command) {
       case R.id.DELETE_COMMAND: {
-        int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
+        int hasMappedTransactionsCount = 0, hasMappedTemplatesCount = 0;
         ArrayList<Long> idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           if (positions.valueAt(i)) {
             boolean deletable = true;
             Party party = mAdapter.getItem(positions.keyAt(i));
-            if (party.getMappedTransactions() > 0) {
-              mappedTransactionsCount++;
+            if (party.getMappedTransactions()) {
+              hasMappedTransactionsCount++;
               deletable = false;
             }
-            if (party.getMappedTemplates() > 0) {
-              mappedTemplatesCount++;
+            if (party.getMappedTemplates()) {
+              hasMappedTemplatesCount++;
               deletable = false;
             }
             if (deletable) {
@@ -152,19 +152,19 @@ public class PartiesList extends ContextualActionBarFragment {
               null,
               R.string.progress_dialog_deleting);
         }
-        if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
+        if (hasMappedTransactionsCount > 0 || hasMappedTemplatesCount > 0) {
           String message = "";
-          if (mappedTransactionsCount > 0) {
+          if (hasMappedTransactionsCount > 0) {
             message += getResources().getQuantityString(
                 R.plurals.not_deletable_mapped_transactions,
-                mappedTransactionsCount,
-                mappedTransactionsCount);
+                hasMappedTransactionsCount,
+                hasMappedTransactionsCount);
           }
-          if (mappedTemplatesCount > 0) {
+          if (hasMappedTemplatesCount > 0) {
             message += getResources().getQuantityString(
                 R.plurals.not_deletable_mapped_templates,
-                mappedTemplatesCount,
-                mappedTemplatesCount);
+                hasMappedTemplatesCount,
+                hasMappedTemplatesCount);
           }
           activity.showSnackbar(message, Snackbar.LENGTH_LONG);
         }
@@ -265,7 +265,7 @@ public class PartiesList extends ContextualActionBarFragment {
     viewModel.getParties().observe(getViewLifecycleOwner(), parties -> {
       mAdapter.clear();
       if (getAction().equals(ACTION_SELECT_FILTER)) {
-        mAdapter.add(new Party(NULL_ITEM_ID, getString(R.string.unmapped), 0, 0));
+        mAdapter.add(new Party(NULL_ITEM_ID, getString(R.string.unmapped), false, false));
       }
       mAdapter.addAll(parties);
       mAdapter.notifyDataSetChanged();
