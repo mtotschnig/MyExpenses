@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import java.util.concurrent.TimeUnit
 
 class TransactionListViewModel(application: Application) : BudgetViewModel(application) {
     val budgetAmount = MutableLiveData<Money>()
@@ -38,6 +39,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
         accuntDisposable = briteContentResolver.createQuery(ContentUris.withAppendedId(base, accountId),
                         Account.PROJECTION_BASE, null, null, null, true)
                 .mapToOne { Account.fromCursor(it) }
+                .throttleFirst(100, TimeUnit.MILLISECONDS)
                 .subscribe {
                     liveData.postValue(it)
                     loadBudget(it)
