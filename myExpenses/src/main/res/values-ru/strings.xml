@@ -847,6 +847,7 @@
   <string name="warning_account_for_transaction_is_closed">По крайней мере, одна из выбранных транзакций не может быть отредактирована:</string>
   <string name="object_sealed">Объект относится к закрытому аккаунту.</string>
   <string name="content_description_download_exchange_rate">Скачать курс обмена</string>
+  <string name="exchange_rate_not_supported">Сконфигурированный поставщик обменного курса не предоставляет курс %1$s: %2$s. Вы можете попробовать выбрать другой в настройках.</string>
   <string name="pref_category_exchange_rates">Курсы валют</string>
   <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
   <string name="pref_exchange_rate_provider_title">Поставщик курсов валют</string>

@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>ಮರುಕಳಿಸುವ ವಹಿವಾಟಿನ ವರ್ಧಿತ ನಿರ್ವಹಣೆ</item>
+        <item>ಕನ್ನಡ ಅನುವಾದ</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>ಕಸ್ಟಮ್ ದಿನಾಂಕ ಸ್ವರೂಪ</item>
         <item>ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸಿಎಸ್‌ವಿಗೆ ರಫ್ತು ಮಾಡಲಾಗುತ್ತದೆ</item>

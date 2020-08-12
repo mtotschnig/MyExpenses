@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>தேதி வடிவை தனிப்பயனாக்குதல்</item>
+        <item>குறிச்சொற்கள் CSV க்கு ஏற்றுமதி செய்யப்படுகின்றன</item>
+        <item>பரிவர்த்தனை பட்டியலில் உள்ள குழுக்களின் சுருக்கு நிலை நினைவில் கொள்ளப்படுகின்றன</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>தரப்புகளின் பட்டியலை (செலுத்துபவர் மற்றும் பெறுபவர்) தேட முடியும்</item>
+    </string-array>
     <string-array name="whats_new_310">
         <item>பரிவர்த்தனைகளை பல குறிச்சொற்களுடன் தொடற்பு படுத்தலாம்</item>
     </string-array>

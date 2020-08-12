@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_312">
+        <item>Formato della data personalizzato</item>
+        <item>I tag vengono esportati nel file CSV</item>
+        <item>Lo stato dei gruppi, espanso o collassato, all\'interno dell\'elenco delle transazioni viene memorizzato</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>L\'elenco delle parti (pagatori e beneficiari) è ricercabile</item>
+    </string-array>
     <string-array name="whats_new_310">
         <item>Le transazioni possono essere associate a più tag</item>
     </string-array>

@@ -94,7 +94,7 @@
   <string name="dialog_title_attention">ಗಮನ</string>
   <string name="dialog_title_information">ಮಾಹಿತಿ</string>
   <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">ಸಮತೋಲನ %1$s</string>
+  <string name="dialog_title_balance_account">ಬಾಕಿ ಮೊತ್ತ %1$s</string>
   <string name="dialog_title_contrib_feature">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯ</string>
   <string name="dialog_title_template_title">ಶೀರ್ಷಿಕೆಯನ್ನು ಹೊಂದಿಸಿ</string>
   <plurals name="dialog_title_warning_delete_account">
@@ -142,7 +142,7 @@
   <string name="menu_back">ಹಿಂದೆ</string>
   <string name="menu_backup">ಬ್ಯಾಕಪ್</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">ಖಾತೆಯನ್ನು ಸಮತೋಲನಗೊಳಿಸಿ</string>
+  <string name="menu_balance">ಬಾಕಿ ಮೊತ್ತ ಖಾತೆ</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">ರದ್ದುಮಾಡಿ</string>
   <string name="menu_clone_transaction">ಕ್ಲೋನ್</string>
@@ -226,7 +226,7 @@
     <item quantity="other">%1$d ವಸ್ತುಗಳನ್ನು ಟೆಂಪ್ಲೇಟ್‌ಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
   </plurals>
   <string name="numbered">ಸಂಖ್ಯೆಯ</string>
-  <string name="opening_balance">ಓಪನಿಂಗ್ ಬ್ಯಾಲೆನ್ಸ್</string>
+  <string name="opening_balance">ಆರಂಭ ಶಿಲ್ಕು</string>
   <string name="parse_error_file_not_found">%1$s ಫೈಲ್ ಅನ್ನು ಕಂಡುಹಿಡಿಯಲಾಗಲಿಲ್ಲ</string>
   <string name="parse_error_grisbi_version_not_supported">ಬೆಂಬಲಿಸದ ಗ್ರಿಸ್ಬಿ ಫೈಲ್ ಆವೃತ್ತಿ: %1$s</string>
   <string name="parse_error_no_data_found">ಫೈಲ್‌ನಲ್ಲಿ ಯಾವುದೇ ಆಮದು ಮಾಡಬಹುದಾದ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.</string>
@@ -499,7 +499,7 @@
   <string name="transaction_deleted">ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
   <string name="dialog_export_applied_to_filter">ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.</string>
   <string name="export_handle_deleted_create_helper">ಸಹಾಯಕ ವ್ಯವಹಾರವನ್ನು ರಚಿಸಿ</string>
-  <string name="export_handle_deleted_update_balance">ಆರಂಭಿಕ ಸಮತೋಲನವನ್ನು ನವೀಕರಿಸಿ</string>
+  <string name="export_handle_deleted_update_balance">ಆರಂಭ ಶಿಲ್ಕುವನ್ನು ನವೀಕರಿಸಿ</string>
   <string name="file_name">ಕಡತದ ಹೆಸರು</string>
   <string name="folder_name">ಫೋಲ್ಡರ್ ಹೆಸರು</string>
   <string name="mark_void_instead_of_delete">ವಹಿವಾಟನ್ನು ಅಳಿಸಬೇಡಿ, ಬದಲಿಗೆ ಅನೂರ್ಜಿತ ಎಂದು ಗುರುತಿಸಿ.</string>
@@ -695,7 +695,7 @@
   <string name="warning_device_lock_screen_not_set_up_1">ಸುರಕ್ಷಿತ ಸಾಧನ ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ.</string>
   <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು \'ಸೆಟ್ಟಿಂಗ್‌ಗಳು -&gt; ಭದ್ರತೆ -&gt; ಸ್ಕ್ರೀನ್‌ಲಾಕ್\' ಗೆ ಹೋಗಿ.</string>
   <string name="snackbar_dismiss">ವಜಾಗೊಳಿಸಿ</string>
-  <string name="menu_history_show_balance">ಸಮತೋಲನವನ್ನು ತೋರಿಸಿ</string>
+  <string name="menu_history_show_balance">ಬಾಕಿ ಮೊತ್ತ ತೋರಿಸಿ</string>
   <string name="menu_history_transfers">ವರ್ಗಾವಣೆಗಳನ್ನು ಸೇರಿಸಿ</string>
   <string name="menu_history">ಇತಿಹಾಸ</string>
   <!--A label indicating the color for the sum of expenses-->
