@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>Gestion améliorée des opérations récurrentes</item>
+        <item>Traduction en Kannada</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Format de date personnalisé</item>
         <item>Les étiquettes sont exportées vers CSV</item>

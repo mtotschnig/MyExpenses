@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>Verbesserte Verwaltung wiederkehrender Buchungen</item>
+        <item>Kannada Übersetzung</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Benutzerdefiniertes Datumsformat</item>
         <item>Markierungen werden nach CSV exportiert</item>
