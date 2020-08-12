@@ -31,22 +31,25 @@ class ExchangeRateViewModel(application: MyApplication) {
     fun loadExchangeRate(other: String, base: String, date: LocalDate) {
         bgScope.launch {
             try {
-                val rate = repository.loadExchangeRate(other, base, date)
-                withContext(Dispatchers.Main) {
-                    exchangeRate.postValue(rate)
-                }
+                postResult(repository.loadExchangeRate(other, base, date))
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    when (e) {
-                        is IOException, is UnsupportedOperationException, is MissingAppIdException -> {
-                        }
-                        else -> CrashHandler.report(e)
-
-                    }
-                    error.postValue(e)
-                }
+                postException(e)
             }
         }
+    }
+
+    private suspend fun postResult(rate: Float) = withContext(Dispatchers.Main) {
+        exchangeRate.postValue(rate)
+    }
+
+    private suspend fun postException(exception: java.lang.Exception) = withContext(Dispatchers.Main) {
+        when (exception) {
+            is IOException, is UnsupportedOperationException, is MissingAppIdException -> {
+            }
+            else -> CrashHandler.report(exception)
+
+        }
+        error.postValue(exception)
     }
 
     fun clear() {
