@@ -14,11 +14,11 @@
         android:layout_height="48dp"
         android:contentDescription="@string/content_description_expand"
         android:src="@drawable/expander_close_mtrl_alpha"
-        android:tint="?colorControlNormal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/color1"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?colorControlNormal" />
 
     <View
         android:id="@+id/color1"

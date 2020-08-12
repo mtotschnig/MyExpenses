@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/explist_indicator"
     android:layout_width="48dp"
     android:layout_height="48dp"
@@ -8,4 +9,4 @@
     android:layout_centerVertical="true"
     android:contentDescription="@string/content_description_expand"
     android:src="@drawable/expander_close_mtrl_alpha"
-    android:tint="?colorControlNormal" />
+    app:tint="?colorControlNormal" />

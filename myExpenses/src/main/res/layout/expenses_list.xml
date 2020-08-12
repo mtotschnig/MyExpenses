@@ -44,8 +44,8 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
                 android:contentDescription="@string/menu_search"
-                android:tint="#FF00FF00"
-                app:srcCompat="@drawable/ic_menu_search"/>
+                app:srcCompat="@drawable/ic_menu_search"
+                app:tint="#FF00FF00" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/filter"
