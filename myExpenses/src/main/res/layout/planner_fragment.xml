@@ -7,10 +7,15 @@
     <TextView
         android:id="@+id/Title"
         style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_form"
-        app:layout_constraintEnd_toStartOf="@+id/CloseDialog"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/padding_form"
+        android:layout_marginLeft="@dimen/padding_form"
+        android:layout_marginTop="@dimen/padding_form"
+        android:layout_marginBottom="@dimen/padding_form"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:layout_constraintEnd_toStartOf="@id/HELP_COMMAND"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="true"
-        android:contentDescription="Close Dialog"
+        android:contentDescription="@string/button_label_close"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -51,5 +56,5 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_default="wrap"
-        app:layout_constraintTop_toBottomOf="@id/CloseDialog" />
+        app:layout_constraintTop_toBottomOf="@id/Title" />
 </androidx.constraintlayout.widget.ConstraintLayout>
