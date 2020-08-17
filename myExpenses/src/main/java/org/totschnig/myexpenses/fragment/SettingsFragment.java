@@ -1097,9 +1097,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
         //we try to determine if we get here due to abnormal failure (observed on Xiaomi) of request, or if user canceled
         long pickFolderRequestDuration = System.currentTimeMillis() - pickFolderRequestStart;
         if (pickFolderRequestDuration < 250) {
-          //String error = String.format(Locale.ROOT, "PICK_FOLDER_REQUEST returned after %d millis with request code %d",
-          //    pickFolderRequestDuration, requestCode);
-          //AcraHelper.report(new Exception(error));
+          CrashHandler.report(String.format(Locale.ROOT, "PICK_FOLDER_REQUEST returned after %d millis with request code %d",
+              pickFolderRequestDuration, requestCode));
           DocumentFile appDir = AppDirHelper.getAppDir(getActivity());
           if (appDir != null) {
             startLegacyFolderRequest(appDir);

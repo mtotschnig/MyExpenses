@@ -154,7 +154,7 @@ public class FolderList extends ListFragment {
   }
 
   private void browseToRoot() {
-    browseTo(new File("/"));
+    browseTo(getContext().getExternalFilesDir(null));
   }
 
   private void browseTo(File current) {
