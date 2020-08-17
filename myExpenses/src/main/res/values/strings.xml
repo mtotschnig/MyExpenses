@@ -917,4 +917,8 @@
     <string name="pref_planner_manual_time_noon">12 pm (noon)</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_current">Time of creation</string>
+    <!-- Button on the list of upcoming recurring transactions that allows to extend the list towards the future -->
+    <string name="pref_planner_button_later">Later</string>
+    <!-- Button on the list of upcoming recurring transactions that allows to extend the list towards the past -->
+    <string name="pref_planner_button_earlier">Earlier</string>
 </resources>

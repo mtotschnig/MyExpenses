@@ -118,8 +118,8 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         }
         val alertDialog = AlertDialog.Builder(requireContext())
                 .setView(binding.root)
-                .setPositiveButton("Later", this)
-                .setNegativeButton("Earlier", this)
+                .setPositiveButton(R.string.pref_planner_button_later, this)
+                .setNegativeButton(R.string.pref_planner_button_earlier, this)
                 .create()
         alertDialog.setOnShowListener { dialog ->
             disableDismiss(alertDialog, AlertDialog.BUTTON_POSITIVE)
