@@ -10,11 +10,11 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.CurrencyFormatter
 
 
 class AccountWidgetService : RemoteViewsService() {
@@ -33,7 +33,7 @@ class AccountRemoteViewsFactory(
         val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1")
         return context.getContentResolver().query(
-                builder.build(), null, null, null, null)
+                builder.build(), null, DatabaseConstants.KEY_HIDDEN + " = 0", null, null)
     }
 
     override fun RemoteViews.populate(cursor: Cursor) {
