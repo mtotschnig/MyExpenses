@@ -112,6 +112,7 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
     }
 
     fun getUpdateFor(uri: Uri) {
+        updateDisposable?.dispose()
         val templateId = uri.pathSegments[1].toLong()
         val instanceId = uri.pathSegments[2].toLong()
         val mapper = { cursor: Cursor ->
