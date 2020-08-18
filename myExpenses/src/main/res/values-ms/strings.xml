@@ -386,6 +386,7 @@
   <string name="transfer">Pemindahan</string>
   <string name="transfer_from_account">Daripada</string>
   <string name="transfer_to_account">Kepada</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Jenis</string>
   <string name="unsplit_amount">Jangan asingkan amaun</string>
   <string name="unsplit_amount_greater_than_zero">Masih terdapat beberapa amaun yang belum diasingkan.</string>
@@ -820,4 +821,7 @@
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

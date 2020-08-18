@@ -392,6 +392,7 @@
   <string name="transfer">Transfert</string>
   <string name="transfer_from_account">Depuis</string>
   <string name="transfer_to_account">Vers</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Type</string>
   <string name="unsplit_amount">Montant non attribué</string>
   <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
@@ -896,4 +897,9 @@
   <string name="dialog_multi_tag_replace">Remplacer les étiquettes existantes par les nouvelles étiquettes</string>
   <string name="new_tag_hint">Entrez une nouvelle étiquette</string>
   <string name="language_download_requested">Les traductions de la langue %s sont demandées au Play Store</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">Heure de l\'opération planifiée appliquée manuellement</string>
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12 h (midi)</string>
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

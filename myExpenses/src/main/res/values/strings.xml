@@ -915,6 +915,6 @@
     <string name="pref_planner_manual_time_title">Time for manually applied scheduled transaction</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_noon">12 pm (noon)</string>
-    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
-    <string name="pref_planner_manual_time_current">Time of creation</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
+    <string name="pref_planner_manual_time_current">Time of application</string>
 </resources>

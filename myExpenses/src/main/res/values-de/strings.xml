@@ -392,6 +392,7 @@
   <string name="transfer">Umbuchung</string>
   <string name="transfer_from_account">Von</string>
   <string name="transfer_to_account">Nach</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
@@ -896,4 +897,10 @@
   <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>
   <string name="new_tag_hint">Neue Markierung eingeben</string>
   <string name="language_download_requested">Übersetzungen für die Sprache %s werden vom Play Store angefordert</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">Zeit für manuell angewendete geplante Buchung</string>
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12 Uhr (Mittag)</string>
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">Zeit der Anwendung</string>
 </resources>

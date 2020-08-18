@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>ניהול משופר של עסקאות חוזרות</item>
+        <item>תרגום קנאדה</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>פורמט תאריך מותאם אישית</item>
         <item>התגים מיוצאים ל- CSV</item>

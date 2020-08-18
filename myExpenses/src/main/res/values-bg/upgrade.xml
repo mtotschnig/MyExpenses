@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>Подобрено управление на повтарящи се транзакции</item>
+        <item>Превод на език каннада (Индия)</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Избираем формат за дата</item>
         <item>Експорт на етикетите в CSV</item>

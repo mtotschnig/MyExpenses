@@ -388,6 +388,7 @@
   <string name="transfer">振替</string>
   <string name="transfer_from_account">元</string>
   <string name="transfer_to_account">先</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">種類</string>
   <string name="unsplit_amount">未分割金額</string>
   <string name="unsplit_amount_greater_than_zero">まだ分割されていない金額が残っています。</string>
@@ -884,4 +885,7 @@
   <string name="dialog_multi_tag_replace">既存のタグを新しいタグで置き換え</string>
   <string name="new_tag_hint">新しいタグを入力</string>
   <string name="language_download_requested">言語 %s の翻訳が Play ストアからリクエストされました</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

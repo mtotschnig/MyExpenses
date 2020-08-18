@@ -391,6 +391,7 @@
   <string name="transfer">Transferentzia</string>
   <string name="transfer_from_account">Nork</string>
   <string name="transfer_to_account">Nori</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Mota</string>
   <string name="unsplit_amount">Kopuruaren zatiak batu</string>
   <string name="unsplit_amount_greater_than_zero">Badago batu gabeko kopuruaren zati bat oraindik</string>
@@ -611,6 +612,7 @@
   <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
   <string name="auto_backup_cloud_create_backend">Sortu sinkronizazio atzealdeko bat ezaugarri nagusien pantailatik.</string>
   <string name="auto_backup_cloud_failure">Errore bat gertatu da %1$s babeskopia fitxategia %2$s atzealdekoan biltegiratzen saiatzean:</string>
+  <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
   <string name="home_screen_shortcuts_nougate_info">Lasterbideak gehitu daitezke Hasiera Pantailatik aplikazioaren ikonoa luze sakatuz.</string>
   <string name="currency_symbol">Moneta-ikurra</string>
   <string name="number_of_fraction_digits">Frakzio zenbaki kopurua</string>
@@ -647,28 +649,59 @@
   <string name="storage_permission_required">Hautatu duzun iturria irakurtzeko kanpo biltegiratzea atzitzeko baimena behar da.</string>
   <string name="picture">Irudia</string>
   <string name="menu_create_template_for_split">Banaketa txantiloi berria</string>
+  <string name="progress_validating_licence">Lizentzia balioesten</string>
   <string name="licence_validation_error_expired">Lizentzia iraungita</string>
   <string name="error">Errorea (%s)</string>
   <string name="button_validate">Balioztatu</string>
   <string name="licence_key">Lizentzia-gakoa</string>
   <string name="progress_removing_licence">Ezabatzen lizentzia</string>
+  <string name="licence_removal_success">Lizentzia-gakoa onik liberatu da gailu honetatik.</string>
   <string name="professional_key">Gako profesionala</string>
   <string name="n_months">%d hilabete</string>
   <string name="valid_until">%s arte</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Luzatu  %1$s -raino %2$s-rentzat</string>
+  <string name="switch_to_yearly" tools:ignore="UnusedResources">Aldatu urteroko harpidetzara</string>
+  <string name="switch_to_monthly" tools:ignore="UnusedResources">Aldatu hileroko harpidetzara</string>
+  <string name="extend_validity">Luzatu balio-epea</string>
   <string name="donate_button_invoice">Faktura</string>
+  <string name="sort_direction_ascending">gorantz</string>
+  <string name="sort_direction_descending">beherantz</string>
   <string name="never">inoiz ez</string>
   <string name="always">beti</string>
+  <string name="menu_history_show_balance">Erakutsi balantzea</string>
+  <string name="menu_history">Historia</string>
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <string name="menu_history_totals">Erakutsi guztizkoak</string>
+  <string name="grand_total">Guztizko osoa</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Ezin izan da transakzioa banaketara bihurtu</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Balioaren data</string>
+  <string name="licence_expires_n_days">Zure gako profesionala %d egunetan bertan behera geratuko da</string>
+  <string name="licence_expires_tomorrow">Zure gako profesionala bihar bertan behera geratuko da</string>
+  <string name="licence_expires_today">Zure gako profesionala gaur bertan behera geratuko da</string>
+  <string name="licence_has_expired_n_days">Zure gako profesionala duela%d egun bertan behera geratu zen</string>
+  <string name="pref_category_title_privacy">Pribatutasuna</string>
+  <string name="pref_ad_consent_title">Iragarki pertsonalizatuak</string>
+  <string name="ad_consent_non_personalized">Iragarki ez pertsonalizatuak</string>
+  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Bai, aurrera iragarkiekin</string>
+  <string name="gdpr_consent_button_no">Ordaindu iragarkiak ez ikusteko</string>
+  <string name="sort_order">Sailkatze ordena</string>
+  <string name="navigation_drawer_accounts_title">Kudeatu kontuak</string>
+  <string name="pref_sync_wifi_only_summary">Sinkronizatu bakarrik Wi-Fi konexio ona dagoenean</string>
   <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
+  <string name="pref_translation_title">Itzulpena</string>
   <!--Content description for accessibility on image that allows to collapse content-->
   <!--Content description for accessibility on image that allows to expand content-->
   <!--Short label for the amount input where user can set either saving goal or credit limit-->
+  <string name="goal_or_limit">Helburua / Muga</string>
+  <string name="saving_goal">Gordetzen helburua</string>
+  <string name="credit_limit">Kreditu muga</string>
+  <string name="clear_all_filters">Kendu iragazkiak</string>
+  <string name="budget_table_header_remainder">Hondarra</string>
   <!--Description for button that allows to clear the selected method-->
   <!--Description for button that allows to clear the selected category-->
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
@@ -694,4 +727,7 @@
   <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
   <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
   <!--%s will be replaced with the labels of all tags that user has selected.-->
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

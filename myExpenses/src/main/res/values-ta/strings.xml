@@ -231,7 +231,7 @@
   <string name="parse_error_grisbi_version_not_supported">ஆதரிக்கப்படாத Grisbi கோப்பு பதிப்பு: %1$s</string>
   <string name="parse_error_no_data_found">இறக்குமதி செய்யக்கூடிய தரவு ஏதும் கோப்பில் இல்லை.</string>
   <string name="parse_error_other_exception">ஒரு பிழை ஏற்பட்டது: %1$s</string>
-  <string name="parse_error_parse_exception">கோப்பை அலச முடியவில்லை</string>
+  <string name="parse_error_parse_exception">கோப்பை பாகுபடுத்த முடியவில்லை</string>
   <string name="password_disabled_reenable">கடவுச்சொல் பாதுகாப்பு முடக்கப்பட்டுள்ளது. நீங்கள் அமைப்புகளில் இதை மீண்டும் இயக்கலாம்.</string>
   <string name="password_lost">கடவுச்சொல்லை இழந்தீர்களா?</string>
   <string name="password_not_valid">கடவுச்சொல் தவறானது. மீண்டும் முயற்சி செய்க!</string>
@@ -392,6 +392,7 @@
   <string name="transfer">பரிமாற்றம்</string>
   <string name="transfer_from_account">இதிலிருந்து</string>
   <string name="transfer_to_account">இதற்கு</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">வகை</string>
   <string name="unsplit_amount">பிரிக்கப்படாத தொகை</string>
   <string name="unsplit_amount_greater_than_zero">இன்னும் பிரிக்கப்படாமல் கொஞ்சம் தொகை மீதம் உள்ளது</string>
@@ -784,15 +785,15 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
-  <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்பட்டாதது\' வடிப்பான் பல தேர்வுகளில் சேர்க்க முடியாது</string>
+  <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்பட்டாதது\' வடிப்பானை பல தேர்வுகளில் சேர்க்க முடியாது</string>
   <string name="upgrade_information_cloud_sync_storage_format">பதிப்பு 2.9.8 உடன், ஒத்திசைவு பின்தளத்தில் தரவு சேமிக்ககும் விதம் மாற்றப்பட்டது. எந்தவொரு புதிய பதிவையும் உள்ளிடுவதற்கு முன், ஒத்திசைக்கப்பட்ட எல்லா கருவிகளையும் இந்த பதிப்பிற்கு மேம்படுத்தவும்.</string>
   <string name="pref_security_export_passphrase_title">காப்புப்பிரதிகளுக்கான கடவுச்சொற்றொடர்</string>
-  <string name="pref_security_export_passphrase_summary">இந்த கடவுச்சொற்றை கொண்டு காப்புப்பிரதிகள் மறையாக்கம் செய்யப்படும்</string>
-  <string name="backup_is_encrypted">காப்புப்பிரதி கோப்பு மறையாக்கப்பட்டுள்ளது. அதை மறையீடு நீக்க, நீங்கள் அதன் கடவுச்சொல்லை குறிப்பிட வேண்டும்.</string>
-  <string name="backup_wrong_password">காப்புப்பிரதி கோப்பு வேறு கடவுச்சொல்லைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தோன்றுகிறது.</string>
+  <string name="pref_security_export_passphrase_summary">இந்த கடவுச்சொற்றொடரை கொண்டு காப்புப்பிரதிகள் மறையாக்கம் செய்யப்படும்</string>
+  <string name="backup_is_encrypted">காப்புப்பிரதி கோப்பு மறையாக்கப்பட்டுள்ளது. அதை மறையீடு நீக்க, நீங்கள் அதன் கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
+  <string name="backup_wrong_password">காப்புப்பிரதி கோப்பு வேறு கடவுச்சொல்லைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தெரிகிறது.</string>
   <string name="passphrase_for_synchronization">இந்த பின்தளத்தில் உள்ள ஒத்திசைவுத் தரவை மறையாக்க வேண்டுமெனில் கடவுச்சொற்றொடரை உள்ளிடவும்.</string>
   <string name="sync_backend_is_encrypted">தொலை பின்தளம் மறையாக்கம் செய்யப்பட்டது. கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
-  <string name="sync_backend_wrong_passphrase">தொலை பின்தளம் வேறு கடவுச்சொல்லைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தோன்றுகிறது.</string>
+  <string name="sync_backend_wrong_passphrase">தொலை பின்தளம் வேறு கடவுச்சொற்றொடரைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தெரிகிறது.</string>
   <string name="sync_backend_is_not_encrypted">தொலை பின்தளம் மறையாக்கப்படவில்லை.</string>
   <string name="warning_backup_protected">இந்த ஆவணக்கிடங்கு உங்கள் கடவுச்சொற்றொடரால் பாதுகாக்கப்படும்.</string>
   <string name="dialog_title_backup_protected">காப்புப்பிரதி (மறையாக்கப்பட்டது)</string>
@@ -896,4 +897,7 @@
   <string name="dialog_multi_tag_replace">இருக்கும் குறிச்சொற்களை புதிய குறிச்சொற்களை கொண்டு மாற்றவும்</string>
   <string name="new_tag_hint">புதிய குறிச்சொல்லை உள்ளிடவும்</string>
   <string name="language_download_requested">%s மொழிக்கான மொழிபெயர்ப்புகள் Play Store-ல் இருந்து கோரப்படுகின்றன</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

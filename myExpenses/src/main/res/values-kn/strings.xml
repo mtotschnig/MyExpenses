@@ -392,6 +392,7 @@
   <string name="transfer">ವರ್ಗಾವಣೆ</string>
   <string name="transfer_from_account">ಇಂದ</string>
   <string name="transfer_to_account">ಗೆ</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">ಮಾದರಿ</string>
   <string name="unsplit_amount">ಬೇರ್ಪಡಿಸದ ಮೊತ್ತ</string>
   <string name="unsplit_amount_greater_than_zero">ಇನ್ನೂ ಕೆಲವು ಮೊತ್ತವನ್ನು ಬಿಚ್ಚಿಡಲಾಗಿದೆ.</string>
@@ -896,4 +897,7 @@
   <string name="dialog_multi_tag_replace">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಟ್ಯಾಗ್‌ಗಳನ್ನು ಹೊಸ ಟ್ಯಾಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಿ</string>
   <string name="new_tag_hint">ಹೊಸ ಟ್ಯಾಗ್ ನಮೂದಿಸಿ</string>
   <string name="language_download_requested">%s ಭಾಷೆಯ ಅನುವಾದಗಳನ್ನು ಪ್ಲೇ ಸ್ಟೋರ್‌ನಿಂದ ವಿನಂತಿಸಲಾಗಿದೆ</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

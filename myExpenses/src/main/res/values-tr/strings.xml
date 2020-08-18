@@ -392,6 +392,7 @@
   <string name="transfer">Transfer</string>
   <string name="transfer_from_account">Buradan</string>
   <string name="transfer_to_account">Buraya</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Tip</string>
   <string name="unsplit_amount">Atanmamış meblağ</string>
   <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
@@ -896,4 +897,7 @@
   <string name="dialog_multi_tag_replace">Mevcut etiketleri yeni etiketlerle değiştir</string>
   <string name="new_tag_hint">Yeni etiket gir</string>
   <string name="language_download_requested">%s lisanı için tercümeler Play Store\'dan isteniyor</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

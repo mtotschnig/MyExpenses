@@ -400,6 +400,7 @@
   <string name="transfer">העברה</string>
   <string name="transfer_from_account">מ-</string>
   <string name="transfer_to_account">אל</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">סוג</string>
   <string name="unsplit_amount">סכום לא מפוצל</string>
   <string name="unsplit_amount_greater_than_zero">יש עדיין כסכום שנותר לא מפוצל.</string>
@@ -922,4 +923,7 @@
   <string name="dialog_multi_tag_replace">החלף תגים קיימים בתגים חדשים</string>
   <string name="new_tag_hint">הכנס תג חדש</string>
   <string name="language_download_requested">תרגום משפה %s נדרש מחנות האפליקציות</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

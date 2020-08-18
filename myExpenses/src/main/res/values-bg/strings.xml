@@ -392,6 +392,7 @@
   <string name="transfer">Превод</string>
   <string name="transfer_from_account">От</string>
   <string name="transfer_to_account">Към</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Тип</string>
   <string name="unsplit_amount">Неразпределена сума</string>
   <string name="unsplit_amount_greater_than_zero">Останала е неразпределена сума.</string>
@@ -896,4 +897,7 @@
   <string name="dialog_multi_tag_replace">Замяна на съществуващи маркери с нови</string>
   <string name="new_tag_hint">Въведете нов маркер</string>
   <string name="language_download_requested">Превод от %s език е заявен в Play Store</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>

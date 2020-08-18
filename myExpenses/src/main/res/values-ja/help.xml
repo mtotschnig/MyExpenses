@@ -32,6 +32,7 @@
   <string name="help_ManageParties_floating_action_button">フローティングアクションボタンを使用して、新しいエントリを追加します。</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">計画カレンダー表示</string>
+  <string name="help_ManageTemplates_planner_title">今後の繰り返し</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">テンプレートは、取引のコンテキストメニューから導出することができますが、フローティングアクションボタンをクリックして、ここで最初から (取引または振替用の) 新しいテンプレートを作成することができます。テンプレートをクリックすると、そのためのインスタンスを作成します。<br><img src=\"ic_event\">計画はプランナーカレンダーに (1回限りまたは定期的) イベントを作成するためのテンプレートです。計画をクリックすると、過去と今後の計画インスタンスを表示するカレンダービューを開きます。]]></string>
   <string name="help_ManageTemplates_plans_intro">それぞれの強調表示された日付は、計画のインスタンスを表します。</string>
   <string name="help_ManageTemplates_plans_info"><![CDATA[インスタンスの状態は次のアイコンで示されています: <br><img src=\"ic_stat_open\"> まだ適用されていないインスタンス。<br><img src=\"ic_stat_applied\"> 適用されたインスタンス。<br><img src=\"ic_stat_cancelled\"> キャンセルされたインスタンス。すなわち、あなたがスキップとしてフラグを付けたもの。このインスタンスの取引は作成しません。]]></string>

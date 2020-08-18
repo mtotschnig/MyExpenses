@@ -392,6 +392,7 @@
   <string name="transfer">Trasferimento</string>
   <string name="transfer_from_account">Da</string>
   <string name="transfer_to_account">A</string>
+  <!--Type refers to the type of an account, eg. Cash account, bank account-->
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importo non frazionato</string>
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
@@ -896,4 +897,7 @@
   <string name="dialog_multi_tag_replace">Sostituisci tag esistenti con nuovi tag</string>
   <string name="new_tag_hint">Inserisci un nuovo tag</string>
   <string name="language_download_requested">Le traduzioni per la lingua %s sono richieste dal Play Store</string>
+  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
 </resources>
