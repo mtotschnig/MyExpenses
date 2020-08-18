@@ -6,6 +6,7 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.ViewGroup
@@ -105,6 +106,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
         _binding = PlannerFragmentBinding.inflate(LayoutInflater.from(activity), null, false)
         val plannerAdapter = PlannerAdapter()
         binding.recyclerView.adapter = plannerAdapter
+        binding.Title.movementMethod = LinkMovementMethod.getInstance()
         model.getInstances().observe(this, Observer { list ->
             val previousCount = plannerAdapter.itemCount
             plannerAdapter.addData(list)
@@ -133,7 +135,6 @@ class PlannerFragment : CommitSafeDialogFragment() {
             configureBulkApplyButton()
 
         }
-        binding.CloseDialog.setOnClickListener { dismiss() }
         binding.HELPCOMMAND.setOnClickListener { view ->
             (activity as? ProtectedFragmentActivity)?.dispatchCommand(view.id,
                     ManageTemplates.HelpVariant.planner.name)

@@ -4,10 +4,15 @@ import android.app.Application
 import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextUtils
+import android.text.style.ClickableSpan
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.calendar.CalendarContractCompat
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZonedDateTime
@@ -62,7 +67,7 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
 
     private val formatter: DateTimeFormatter
 
-    private var updateDisposable: Disposable? = null
+    private var updateDisposables = CompositeDisposable()
 
     init {
         val nowZDT = ZonedDateTime.now().toLocalDate()
@@ -72,10 +77,10 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
     }
 
     private val instances = MutableLiveData<Pair<Boolean, List<PlanInstance>>>()
-    private val title = MutableLiveData<String>()
+    private val title = MutableLiveData<CharSequence>()
     private val updates = MutableLiveData<PlanInstanceUpdate>()
     fun getInstances(): LiveData<Pair<Boolean, List<PlanInstance>>> = instances
-    fun getTitle(): LiveData<String> = title
+    fun getTitle(): LiveData<CharSequence> = title
     fun getUpdates(): LiveData<PlanInstanceUpdate> = updates
     fun loadInstances(later: Boolean? = null) {
         // Construct the query with the desired date range.
@@ -105,14 +110,22 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
                 null, CalendarContractCompat.Instances.BEGIN + " ASC", false)
                 .mapToList(PlanInstance.Companion::fromEventCursor)
                 .subscribe {
-                    title.postValue("%s - %s".format(first.startDate().format(formatter),
-                            last.endDate().format(formatter)))
+                    val start = SpannableString(first.startDate().format(formatter))
+                    val end = SpannableString(last.startDate().format(formatter))
+                    start.setSpan(ClickableDateSpan(false), 0, start.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    end.setSpan(ClickableDateSpan(true), 0, end.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    title.postValue(TextUtils.concat(start, " - ", end))
                     instances.postValue(Pair(later ?: false, it.filterNotNull()))
                 }
     }
 
+    inner class ClickableDateSpan(val later: Boolean): ClickableSpan() {
+        override fun onClick(widget: View) {
+            loadInstances(later)
+        }
+    }
+
     fun getUpdateFor(uri: Uri) {
-        updateDisposable?.dispose()
         val templateId = uri.pathSegments[1].toLong()
         val instanceId = uri.pathSegments[2].toLong()
         val mapper = { cursor: Cursor ->
@@ -121,11 +134,15 @@ class PlannerViewModell(application: Application) : ContentResolvingAndroidViewM
             val amount = DbUtils.getLongOrNull(cursor, KEY_AMOUNT)
             PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
         }
-        updateDisposable = briteContentResolver.createQuery(uri, null, null, null, null, false)
+        updateDisposables.add(briteContentResolver.createQuery(uri, null, null, null, null, false)
                 .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
                 .subscribe {
                     updates.postValue(it)
-                    updateDisposable?.dispose()
-                }
+                })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        updateDisposables.dispose()
     }
 }
