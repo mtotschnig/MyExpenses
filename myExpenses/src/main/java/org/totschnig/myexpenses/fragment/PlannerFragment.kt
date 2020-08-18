@@ -6,10 +6,9 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
@@ -59,7 +58,7 @@ fun configureMenuInternalPlanInstances(menu: Menu, count: Int, withOpen: Boolean
     menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).isVisible = count == 1 && withApplied
 }
 
-class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListener {
+class PlannerFragment : CommitSafeDialogFragment() {
 
     private var _binding: PlannerFragmentBinding? = null
 
@@ -68,10 +67,15 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
 
     val model: PlannerViewModell by viewModels()
 
-    @State @JvmField
+    @State
+    @JvmField
     var instanceUriToUpdate: Uri? = null
 
-    lateinit var stateObserver: ContentObserver
+    @State
+    @JvmField
+    var selectedInstances: HashSet<PlanInstance> = HashSet()
+
+    private lateinit var stateObserver: ContentObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,10 +99,14 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         }
     }
 
+    private val adapter
+        get() = _binding?.recyclerView?.adapter
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = PlannerFragmentBinding.inflate(LayoutInflater.from(activity), null, false)
         val plannerAdapter = PlannerAdapter()
         binding.recyclerView.adapter = plannerAdapter
+        binding.Title.movementMethod = LinkMovementMethod.getInstance()
         model.getInstances().observe(this, Observer { list ->
             val previousCount = plannerAdapter.itemCount
             plannerAdapter.addData(list)
@@ -108,9 +116,10 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
             }
         })
         model.getTitle().observe(this, Observer { title ->
-            binding.Title.setText(title)
+            binding.Title.text = title
         })
         model.getUpdates().observe(this, Observer { update ->
+            //Timber.d("Update posted")
             plannerAdapter.postUpdate(update)
         })
         if (savedInstanceState == null) {
@@ -118,22 +127,19 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         }
         val alertDialog = AlertDialog.Builder(requireContext())
                 .setView(binding.root)
-                .setPositiveButton(R.string.pref_planner_button_later, this)
-                .setNegativeButton(R.string.pref_planner_button_earlier, this)
+                .setPositiveButton(R.string.menu_close, null)
+                .setNeutralButton(R.string.menu_create_instance_save, null)
                 .create()
-        alertDialog.setOnShowListener { dialog ->
-            disableDismiss(alertDialog, AlertDialog.BUTTON_POSITIVE)
-            disableDismiss(alertDialog, AlertDialog.BUTTON_NEGATIVE)
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { onBulkApply() }
+            configureBulkApplyButton()
+
         }
-        binding.CloseDialog.setOnClickListener { view -> dismiss() }
         binding.HELPCOMMAND.setOnClickListener { view ->
             (activity as? ProtectedFragmentActivity)?.dispatchCommand(view.id,
-                    ManageTemplates.HelpVariant.planner.name) }
+                    ManageTemplates.HelpVariant.planner.name)
+        }
         return alertDialog
-    }
-
-    private fun disableDismiss(alertDialog: AlertDialog, which: Int) {
-        alertDialog.getButton(which).setOnClickListener { v: View? -> onClick(alertDialog, which) }
     }
 
     override fun onDestroyView() {
@@ -141,8 +147,12 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         _binding = null
     }
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        model.loadInstances(which == AlertDialog.BUTTON_POSITIVE)
+    fun onBulkApply() {
+        (parentFragment as? TemplatesList)?.dispatchCreateInstanceSaveDo(
+                selectedInstances.map { planInstance -> planInstance.templateId }.toTypedArray(),
+                selectedInstances.map { planInstance -> arrayOf(calculateId(planInstance.date), planInstance.date) }.toTypedArray())
+        selectedInstances.clear()
+        configureBulkApplyButton()
     }
 
     fun onEditRequestOk() {
@@ -177,17 +187,17 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
         }
 
         override fun onBindViewHolder(holder: PlanInstanceViewHolder, position: Int) {
-            holder.bind(data[position])
+            holder.bind(data[position], position)
         }
 
         fun postUpdate(update: PlanInstanceUpdate) {
-            data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && calculateId(planInstance.date) == update.instanceId   }
+            data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && calculateId(planInstance.date) == update.instanceId }
                     .takeIf { it != -1 }?.let { index ->
                         val oldInstance = data[index]
-                        val amount = update.amount?.let { Money(oldInstance.amount.currencyUnit, it) } ?: oldInstance.amount
-                        data.set(index,
-                                PlanInstance(oldInstance.templateId, update.transactionId, oldInstance.title, oldInstance.date, oldInstance.color,
-                                        amount, update.newState))
+                        val amount = update.amount?.let { Money(oldInstance.amount.currencyUnit, it) }
+                                ?: oldInstance.amount
+                        data[index] = PlanInstance(oldInstance.templateId, update.transactionId, oldInstance.title, oldInstance.date, oldInstance.color,
+                                amount, update.newState)
                         notifyItemChanged(index)
                     }
         }
@@ -196,14 +206,15 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
     inner class PlanInstanceViewHolder(private val itemBinding: PlanInstanceBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         @Inject
         lateinit var currencyFormatter: CurrencyFormatter
-        private val formatter : DateTimeFormatter = getDateTimeFormatter(itemBinding.root.context)
+        private val formatter: DateTimeFormatter = getDateTimeFormatter(itemBinding.root.context)
 
         init {
             (itemBinding.root.context.applicationContext as MyApplication).appComponent.inject(this)
         }
 
-        fun bind(planInstance: PlanInstance) {
+        fun bind(planInstance: PlanInstance, position: Int) {
             with(itemBinding) {
+                root.isSelected = selectedInstances.contains(planInstance)
                 date.text = planInstance.localDate.format(formatter)
                 label.text = planInstance.title
                 state.setImageResource(when (planInstance.state) {
@@ -212,51 +223,77 @@ class PlannerFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListe
                     PlanInstanceState.CANCELLED -> R.drawable.ic_stat_cancelled
                 })
                 colorAccount.setBackgroundColor(planInstance.color)
-                amount.setText(currencyFormatter.formatCurrency(planInstance.amount))
+                amount.text = currencyFormatter.formatCurrency(planInstance.amount)
                 amount.setTextColor(UiUtils.themeIntAttr(root.context,
                         if (planInstance.amount.amountMinor < 0) R.attr.colorExpense else R.attr.colorIncome))
+                root.setOnLongClickListener {
+                    return@setOnLongClickListener onSelection(planInstance, position)
+                }
                 root.setOnClickListener {
+                    if (selectedInstances.size > 0) {
+                        if (onSelection(planInstance, position))
+                            return@setOnClickListener
+                    }
                     val popup = PopupMenu(root.context, root)
                     popup.inflate(R.menu.planlist_context)
                     configureMenuInternalPlanInstances(popup.menu, planInstance.state)
-                    popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-                        override fun onMenuItemClick(item: MenuItem): Boolean {
-                            val templatesList = parentFragment as? TemplatesList
-                            val instanceId = calculateId(planInstance.date)
-                            return when (item.getItemId()) {
-                                R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
-                                    templatesList?.dispatchCreateInstanceEdit(
-                                            planInstance.templateId, instanceId,
-                                            planInstance.date)
-                                    true
-                                }
-                                R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
-                                    templatesList?.dispatchCreateInstanceSaveDo(arrayOf(planInstance.templateId), arrayOf(arrayOf(instanceId, planInstance.date)))
-                                    true
-
-                                }
-                                R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
-                                    instanceUriToUpdate = TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, instanceId)
-                                    templatesList?.dispatchEditInstance(planInstance.transactionId)
-                                    true
-                                }
-                                R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
-                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
-                                    true
-                                }
-                                R.id.RESET_PLAN_INSTANCE_COMMAND -> {
-                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
-                                    true
-                                }
-                                else -> false
+                    popup.setOnMenuItemClickListener { item ->
+                        val templatesList = parentFragment as? TemplatesList
+                        val instanceId = calculateId(planInstance.date)
+                        when (item.itemId) {
+                            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
+                                templatesList?.dispatchCreateInstanceEdit(
+                                        planInstance.templateId, instanceId,
+                                        planInstance.date)
+                                true
                             }
+                            R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
+                                templatesList?.dispatchCreateInstanceSaveDo(arrayOf(planInstance.templateId), arrayOf(arrayOf(instanceId, planInstance.date)))
+                                true
+
+                            }
+                            R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
+                                instanceUriToUpdate = TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, instanceId)
+                                templatesList?.dispatchEditInstance(planInstance.transactionId)
+                                true
+                            }
+                            R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
+                                templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                true
+                            }
+                            R.id.RESET_PLAN_INSTANCE_COMMAND -> {
+                                templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                true
+                            }
+                            else -> false
                         }
-                    })
+                    }
                     //displaying the popup
                     popup.show()
                 }
             }
+        }
 
+        private fun onSelection(planInstance: PlanInstance, position: Int) =
+                if (planInstance.state == PlanInstanceState.OPEN) {
+                    if (selectedInstances.contains(planInstance)) {
+                        selectedInstances.remove(planInstance)
+                    } else {
+                        selectedInstances.add(planInstance)
+                    }
+                    adapter?.notifyItemChanged(position)
+                    configureBulkApplyButton()
+                    true
+                } else {
+                    false
+                }
+    }
+
+    private fun configureBulkApplyButton() {
+        (dialog as? AlertDialog)?.getButton(AlertDialog.BUTTON_NEUTRAL)?.let {
+            val enabled = selectedInstances.size > 0
+            it.isEnabled = enabled
+            it.text = if (enabled) "%s (%d)".format(getString(R.string.menu_create_instance_save), selectedInstances.size) else ""
         }
     }
 

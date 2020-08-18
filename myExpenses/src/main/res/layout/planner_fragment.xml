@@ -29,22 +29,9 @@
         android:clickable="true"
         android:contentDescription="@string/menu_help"
         android:focusable="true"
-        app:layout_constraintEnd_toStartOf="@id/CloseDialog"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu_help" />
-
-    <ImageView
-        android:id="@+id/CloseDialog"
-        style="?actionButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:contentDescription="@string/button_label_close"
-        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
+        app:srcCompat="@drawable/ic_menu_help" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
