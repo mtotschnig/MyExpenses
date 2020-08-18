@@ -15,6 +15,7 @@
         android:layout_marginBottom="@dimen/padding_form"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="30sp"
         app:layout_constraintEnd_toStartOf="@id/HELP_COMMAND"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"

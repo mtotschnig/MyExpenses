@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
@@ -32,7 +31,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.getDateTimeFormatter
-import org.totschnig.myexpenses.viewmodel.PlannerViewModell
+import org.totschnig.myexpenses.viewmodel.PlannerViewModel
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
@@ -65,7 +64,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
     // This property is only valid between onCreateDialog and onDestroyView.
     private val binding get() = _binding!!
 
-    val model: PlannerViewModell by viewModels()
+    val model: PlannerViewModel by viewModels()
 
     @State
     @JvmField
@@ -127,7 +126,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
         }
         val alertDialog = AlertDialog.Builder(requireContext())
                 .setView(binding.root)
-                .setPositiveButton(R.string.menu_close, null)
+                .setPositiveButton(android.R.string.ok, null)
                 .setNeutralButton(R.string.menu_create_instance_save, null)
                 .create()
         alertDialog.setOnShowListener {
