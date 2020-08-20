@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
 
-class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContext, val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid ) {
+class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContext, val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid) {
 
     private val categoryToId: MutableMap<String, Long> = HashMap()
     private val payeeToId: MutableMap<String, Long> = HashMap()
@@ -193,8 +193,8 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
 
     @VisibleForTesting
     fun collectOperations(change: TransactionChange,
-                                  ops: ArrayList<ContentProviderOperation>,
-                                  parentOffset: Int) {
+                          ops: ArrayList<ContentProviderOperation>,
+                          parentOffset: Int) {
         val uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI
         var skipped = false
         val offset = ops.size
@@ -392,12 +392,16 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
     }
 
     fun findMetadataChange(input: List<TransactionChange>) =
-            input.findLast { value: TransactionChange -> value.type() == TransactionChange.Type.metadata  }
+            input.findLast { value: TransactionChange -> value.type() == TransactionChange.Type.metadata }
 
     fun removeMetadataChange(input: List<TransactionChange>) =
-            input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata  }
+            input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata }
 
-    fun concat(contentBuilders: List<StringBuilder>) =
-            contentBuilders.reduce { sum, element -> sum.append("\n").append(element) }.toString()
-
+    fun concat(contentBuilders: List<CharSequence>) =
+            contentBuilders.foldIndexed(StringBuilder(), { index, sum, element ->
+                if (index > 0) {
+                    sum.append("\n")
+                }
+                sum.append(element)
+            })
 }

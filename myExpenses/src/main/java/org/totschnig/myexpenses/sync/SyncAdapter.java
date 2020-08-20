@@ -546,7 +546,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
+  private void notifyUser(String title, CharSequence content, @Nullable Account account, @Nullable Intent intent) {
     NotificationBuilderWrapper builder = NotificationBuilderWrapper.bigTextStyleBuilder(
         getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content);
     if (intent != null) {
