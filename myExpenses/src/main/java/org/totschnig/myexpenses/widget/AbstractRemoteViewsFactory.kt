@@ -47,10 +47,7 @@ abstract class AbstractRemoteViewsFactory(
     }
 
     override fun onDataSetChanged() {
-        Timber.w("onDataSetchanged")
         cursor?.close()
-        val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
-        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1")
         val token = Binder.clearCallingIdentity();
         try {
             cursor = buildCursor()
