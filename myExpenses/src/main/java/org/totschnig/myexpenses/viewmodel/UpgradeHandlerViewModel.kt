@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.DateCriteria
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
 import java.util.*
@@ -74,8 +75,14 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                     DatabaseConstants.KEY_PLANID), null, null, false)
                     .mapToList { cursor -> Template(cursor) }
                     .subscribe { list ->
-                        for (template in list) {
-                            Plan.updateDescription(template.planId, template.compileDescription(getApplication()))
+                        try {
+                            for (template in list) {
+                                Plan.updateDescription(template.planId, template.compileDescription(getApplication()))
+                            }
+                        } catch (e: SecurityException) {
+                            //permission missing
+                            CrashHandler.report(e)
+
                         }
                         dispose()
                     }
