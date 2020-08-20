@@ -318,7 +318,7 @@
             <SeekBarPreference
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"
-                android:max="90"
+                android:max="300"
                 android:summary="@string/pref_protection_delay_seconds_summary"
                 android:title="@string/pref_protection_delay_seconds_title"
                 my:min="1"
