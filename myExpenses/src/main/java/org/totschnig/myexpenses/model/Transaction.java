@@ -534,6 +534,12 @@ public class Transaction extends AbstractTransaction {
     return te == null ? null : getInstanceFromTemplate(te);
   }
 
+  @Nullable
+  public static Pair<Transaction, List<Tag>> getInstanceFromTemplateIfOpen(long id, long instanceId) {
+    Template te = Template.getInstanceFromDbIfInstanceIsOpen(id, instanceId);
+    return te == null ? null : getInstanceFromTemplate(te);
+  }
+
   public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(Template te) {
     Transaction tr;
     switch (te.operationType()) {

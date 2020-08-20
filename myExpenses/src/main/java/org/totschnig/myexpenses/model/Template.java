@@ -408,13 +408,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
       return null;
     }
     c.moveToFirst();
-    final Long instanceId = getLongOrNull(c, 1);
-    final Long transactionId = getLongOrNull(c, 2);
-    final long templateId = c.getLong(6);
+    final Long instanceId = getLongOrNull(c, KEY_INSTANCEID);
+    final Long transactionId = getLongOrNull(c, KEY_TRANSACTIONID);
+    final long templateId = c.getLong(c.getColumnIndex(KEY_ROWID));
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
-    CurrencyUnit currency = currencyContext.get(c.getString(4));
-    Money amount = new Money(currency, c.getLong(5));
-    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(0), date, c.getInt(3), amount);
+    CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndex(KEY_CURRENCY)));
+    Money amount = new Money(currency, c.getLong(c.getColumnIndex(KEY_AMOUNT)));
+    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndex(KEY_TITLE)), date, c.getInt(c.getColumnIndex(KEY_COLOR)), amount);
     c.close();
     return planInstance;
   }
@@ -436,6 +436,27 @@ public class Template extends Transaction implements ITransfer, ISplit {
     if (t.planId != null) {
       t.plan = Plan.getInstanceFromDb(t.planId);
     }
+    return t;
+  }
+
+  public static Template getInstanceFromDbIfInstanceIsOpen(long id, long instanceId) {
+    Cursor c = cr().query(
+        CONTENT_URI,
+        null,
+        KEY_ROWID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
+            + " WHERE " + KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = " + KEY_ROWID + ")",
+        new String[]{String.valueOf(id), String.valueOf(instanceId)},
+        null);
+    if (c == null) {
+      return null;
+    }
+    if (c.getCount() == 0) {
+      c.close();
+      return null;
+    }
+    c.moveToFirst();
+    Template t = new Template(c);
+    c.close();
     return t;
   }
 

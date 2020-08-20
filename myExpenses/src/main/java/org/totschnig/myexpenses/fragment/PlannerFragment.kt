@@ -25,13 +25,13 @@ import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.CalendarProviderProxy.calculateId
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
+import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
@@ -106,7 +106,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
         val plannerAdapter = PlannerAdapter()
         binding.recyclerView.adapter = plannerAdapter
         binding.Title.movementMethod = LinkMovementMethod.getInstance()
-        model.getInstances().observe(this, Observer { list ->
+        model.getInstances().observe(this, EventObserver { list ->
             val previousCount = plannerAdapter.itemCount
             plannerAdapter.addData(list)
             val itemCount = plannerAdapter.itemCount
@@ -121,9 +121,12 @@ class PlannerFragment : CommitSafeDialogFragment() {
             //Timber.d("Update posted")
             plannerAdapter.postUpdate(update)
         })
-        if (savedInstanceState == null) {
-            model.loadInstances()
-        }
+        model.getBulkCompleted().observe(this, EventObserver { list ->
+            list.forEach { planInstance ->
+                model.getUpdateFor(TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, planInstance.instanceId))
+            }
+        })
+        model.loadInstances()
         val alertDialog = AlertDialog.Builder(requireContext())
                 .setView(binding.root)
                 .setPositiveButton(android.R.string.ok, null)
@@ -147,9 +150,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
     }
 
     fun onBulkApply() {
-        (parentFragment as? TemplatesList)?.dispatchCreateInstanceSaveDo(
-                selectedInstances.map { planInstance -> planInstance.templateId }.toTypedArray(),
-                selectedInstances.map { planInstance -> arrayOf(calculateId(planInstance.date), planInstance.date) }.toTypedArray())
+        model.applyBulk(selectedInstances.toList())
         selectedInstances.clear()
         configureBulkApplyButton()
     }
@@ -190,7 +191,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
         }
 
         fun postUpdate(update: PlanInstanceUpdate) {
-            data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && calculateId(planInstance.date) == update.instanceId }
+            data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && planInstance.instanceId == update.instanceId }
                     .takeIf { it != -1 }?.let { index ->
                         val oldInstance = data[index]
                         val amount = update.amount?.let { Money(oldInstance.amount.currencyUnit, it) }
@@ -238,7 +239,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
                     configureMenuInternalPlanInstances(popup.menu, planInstance.state)
                     popup.setOnMenuItemClickListener { item ->
                         val templatesList = parentFragment as? TemplatesList
-                        val instanceId = calculateId(planInstance.date)
+                        val instanceId = planInstance.instanceId
                         when (item.itemId) {
                             R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
                                 templatesList?.dispatchCreateInstanceEdit(
@@ -247,7 +248,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
                                 true
                             }
                             R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
-                                templatesList?.dispatchCreateInstanceSaveDo(arrayOf(planInstance.templateId), arrayOf(arrayOf(instanceId, planInstance.date)))
+                                model.applyBulk(listOf(planInstance))
                                 true
 
                             }

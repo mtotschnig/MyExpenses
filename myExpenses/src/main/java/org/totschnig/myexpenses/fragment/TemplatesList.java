@@ -353,7 +353,7 @@ public class TemplatesList extends SortableListFragment
   }
 
   public void dispatchCreateInstanceSaveDo(Long[] itemIds, Long[][] extra) {
-   dispatchTask(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE, itemIds, extra);
+    dispatchTask(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE, itemIds, extra);
   }
 
   public void dispatchTask(int taskId, Long[] itemIds, Long[][] extra) {
@@ -375,7 +375,7 @@ public class TemplatesList extends SortableListFragment
     Intent intent = new Intent(requireActivity(), ExpenseEdit.class);
     intent.putExtra(KEY_TEMPLATEID, templateId);
     intent.putExtra(KEY_INSTANCEID, instanceId);
-    intent.putExtra(KEY_DATE , date);
+    intent.putExtra(KEY_DATE, date);
     startActivity(intent);
   }
 

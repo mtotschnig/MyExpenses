@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.android.calendar.CalendarContractCompat
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,12 +24,15 @@ import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.TemporalAdjusters
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDateTime2EpochMillis
+import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
@@ -80,12 +84,14 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
         formatter = getDateTimeFormatter(application)
     }
 
-    private val instances = MutableLiveData<Pair<Boolean, List<PlanInstance>>>()
+    private val instances = MutableLiveData<Event<Pair<Boolean, List<PlanInstance>>>>()
     private val title = MutableLiveData<CharSequence>()
     private val updates = MutableLiveData<PlanInstanceUpdate>()
-    fun getInstances(): LiveData<Pair<Boolean, List<PlanInstance>>> = instances
+    private val bulkCompleted = MutableLiveData<Event<List<PlanInstance>>>()
+    fun getInstances(): LiveData<Event<Pair<Boolean, List<PlanInstance>>>> = instances
     fun getTitle(): LiveData<CharSequence> = title
     fun getUpdates(): LiveData<PlanInstanceUpdate> = updates
+    fun getBulkCompleted(): LiveData<Event<List<PlanInstance>>> = bulkCompleted
     fun loadInstances(later: Boolean? = null) {
         // Construct the query with the desired date range.
         val startMonth: Month
@@ -122,7 +128,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                         start.setSpan(ClickableDateSpan(false), 0, start.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         end.setSpan(ClickableDateSpan(true), 0, end.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         title.postValue(TextUtils.concat(start, " - ", end))
-                        instances.postValue(Pair(later ?: false, it.filterNotNull()))
+                        instances.postValue(Event(Pair(later ?: false, it.filterNotNull())))
                     }
         }
     }
@@ -144,13 +150,34 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
         updateDisposables.add(briteContentResolver.createQuery(uri, null, null, null, null, false)
                 .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    updates.postValue(it)
+                    updates.value = it
                 })
     }
 
     override fun onCleared() {
         super.onCleared()
         updateDisposables.dispose()
+    }
+
+    fun applyBulk(selectedInstances: List<PlanInstance>) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                selectedInstances.forEach { planInstance ->
+                    val instanceId = planInstance.instanceId
+                    val pair = Transaction.getInstanceFromTemplateIfOpen(planInstance.templateId, instanceId)
+                    pair?.first?.let {
+                        it.date = planInstance.date / 1000
+                        it.originPlanInstanceId = instanceId
+                        it.status = DatabaseConstants.STATUS_NONE
+                        if (it.save(true) != null) {
+                            it.saveTags(pair.second, contentResolver)
+                        }
+                    }
+                }
+            }
+            bulkCompleted.postValue(Event(selectedInstances))
+        }
     }
 }

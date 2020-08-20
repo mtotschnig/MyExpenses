@@ -836,7 +836,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case TEMPLATES:
         String instanceId = uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
-        //LEFT JOIN transactions on transactions._id = planinstance_transaction.transaction_id
         if (instanceId == null) {
           qb.setTables(VIEW_TEMPLATES_EXTENDED);
           if (projection == null) {
@@ -850,7 +849,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             CrashHandler.report("When calling templates cursor with QUERY_PARAMETER_WITH_INSTANCE, projection is ignored ");
           }
           projection = new String[]{KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY,
-              String.format(Locale.ROOT, "coalesce(%1$s.%2$s, %3$s.%2$s)", TABLE_TRANSACTIONS, KEY_AMOUNT, VIEW_TEMPLATES_EXTENDED),
+              String.format(Locale.ROOT, "coalesce(%1$s.%2$s, %3$s.%2$s) AS %2$s", TABLE_TRANSACTIONS, KEY_AMOUNT, VIEW_TEMPLATES_EXTENDED),
               VIEW_TEMPLATES_EXTENDED + "." + KEY_ROWID};
         }
 
