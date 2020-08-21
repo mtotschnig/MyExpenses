@@ -898,6 +898,9 @@
   <string name="new_tag_hint">Inserisci un nuovo tag</string>
   <string name="language_download_requested">Le traduzioni per la lingua %s sono richieste dal Play Store</string>
   <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">Tempo per la transazione pianificata manualmente</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12:00 (mezzogiorno)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">Tempo di applicazione</string>
 </resources>

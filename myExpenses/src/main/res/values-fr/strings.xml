@@ -902,4 +902,5 @@
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
   <string name="pref_planner_manual_time_noon">12 h (midi)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">Heure de la mise en application</string>
 </resources>

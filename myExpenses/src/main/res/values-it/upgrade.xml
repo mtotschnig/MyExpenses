@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>Migliorata la gestione delle transazioni ricorrenti</item>
+        <item>Traduzione in Kannada</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Formato della data personalizzato</item>
         <item>I tag vengono esportati nel file CSV</item>

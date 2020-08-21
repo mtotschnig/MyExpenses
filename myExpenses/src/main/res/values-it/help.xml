@@ -32,7 +32,9 @@
   <string name="help_ManageParties_floating_action_button">Utilizzare il pulsante di azione galleggiante per aggiungere una nuova voce.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendario</string>
+  <string name="help_ManageTemplates_planner_title">Prossime ricorrenze</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Mentre i modelli possono essere derivati da transazioni attraverso i menu di scelta rapida, qui è possibile creare nuovi modelli dal niente (per transazioni o trasferimenti) facendo clic sul pulsante azione galleggiante. Se si fa clic su una voce dell\'elenco, è possibile creare istanze del modello. Facendo clic su un modello, verrà creata un\'istanza per esso.<br><img src=\"ic_event\">Un piano è un modello per cui è stato creato un evento (unico o ricorrente) sul calendario. Cliccando su un piano, si aprirà una visualizzazione del calendario, che visualizza istanze passate o imminenti di un piano.]]></string>
+  <string name="help_ManageTemplates_planner_intro">Toccando a lungo un\'istanza aperta si avvia la selezione multipla. Toccando l\'inizio o la fine dell\'intervallo di date è possibile estendere l\'intervallo nel passato o nel futuro.</string>
   <string name="help_ManageTemplates_plans_intro">Ogni data evidenziata rappresenta un\'istanza del piano.</string>
   <string name="help_ManageTemplates_plans_info"><![CDATA[Lo stato di un\'istanza è indicato dalle seguenti icone: <br><img src=\"ic_stat_open\">L\'istanza non è stata ancora applicata.<br><img src=\"ic_stat_applied\">L\'istanza è stata applicata.<br><img src=\"ic_stat_cancelled\">L\'istanza è stata cancellata, ovvero si è deciso di ignorarla. Nessuna transazione verrà creata per questa istanza.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Esemplificare i modelli selezionati e salvarli immediatamente.</string>
