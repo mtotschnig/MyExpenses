@@ -33,7 +33,7 @@ ext {
     androidSupportTestVersion = "1.2.0"
     daggerVersion = "2.28.3"
     okHttpVersion = "3.12.12"
-    acraVersion = "5.5.0"
+    acraVersion = "5.7.0"
     butterknifeVersion = "10.2.1"
     robolectricVersion = "4.3.1"
     roomVersion = "2.2.5"
