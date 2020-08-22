@@ -881,6 +881,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     open fun prepareForNew() {
         rowId = 0L
+        uuid = null
         resetRecurrence()
         resetAmounts()
     }

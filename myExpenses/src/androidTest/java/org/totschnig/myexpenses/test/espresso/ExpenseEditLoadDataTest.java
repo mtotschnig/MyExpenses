@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.ui.AmountInput;
 import java.text.DecimalFormat;
 import java.util.Currency;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 

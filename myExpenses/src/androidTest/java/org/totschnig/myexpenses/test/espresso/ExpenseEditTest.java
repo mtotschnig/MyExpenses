@@ -14,7 +14,9 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
@@ -33,12 +35,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.totschnig.myexpenses.activity.ExpenseEdit.KEY_NEW_TEMPLATE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
@@ -153,6 +157,20 @@ public class ExpenseEditTest extends BaseUiTest {
       assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrency());
       mActivityRule.getActivity().finish();
     }
+  }
+
+  @Test
+  public void saveAsNewFromExistingTransaction() {
+    Transaction transaction = Transaction.getNewInstance(account1.getId());
+    transaction.setAmount(new Money(currency1, 500L));
+    transaction.save();
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    i.putExtra(KEY_ROWID, transaction.getId());
+    mActivityRule.launchActivity(i);
+    onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
+    onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("2"));
+    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    assertThat(mActivityRule.getActivity().isFinishing()).isTrue();
   }
 
   @Test
