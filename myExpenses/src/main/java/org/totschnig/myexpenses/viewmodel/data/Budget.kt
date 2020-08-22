@@ -94,7 +94,7 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
 fun Grouping.getLabelForBudgetType() = when (this) {
     Grouping.DAY -> R.string.daily_plain
     Grouping.WEEK -> R.string.weekly_plain
-    Grouping.MONTH -> R.string.monthly
+    Grouping.MONTH -> R.string.monthly_plain
     Grouping.YEAR -> R.string.yearly_plain
     Grouping.NONE -> R.string.budget_onetime
 }

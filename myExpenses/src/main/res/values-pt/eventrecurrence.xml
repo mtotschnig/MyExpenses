@@ -31,9 +31,17 @@
     <item quantity="one" msgid="5463021019301453273">"A cada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     <item quantity="other" msgid="2857390143157377867">"<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g> a cada <xliff:g id="NUMBER">%1$d</xliff:g> semanas"</item>
   </plurals>
-    <string name="monthly" msgid="4587116285383048586">"Mensalmente"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"Mensalmente (no dia <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly" msgid="8576208380302949002">"Anualmente (em <xliff:g id="DATES">%s</xliff:g>)"</string>
+  <plurals name="monthly">
+    <item quantity="one">Mensalmente</item>
+    <item quantity="other">A cada <xliff:g id="COUNT">%d</xliff:g> meses</item>
+  </plurals>
+  <plurals name="yearly">
+    <item quantity="one">Anualmente</item>
+    <item quantity="other">A cada <xliff:g id="COUNT">%d</xliff:g> anos</item>
+  </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"Mensalmente"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (no dia <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (em <xliff:g id="DATES">%s</xliff:g>)"</string>
   <string name="yearly_plain">Anualmente</string>
   <string name="daily_plain">Diariamente</string>
   <string name="weekly_plain">Semanalmente</string>

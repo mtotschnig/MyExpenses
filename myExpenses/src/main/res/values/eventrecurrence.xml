@@ -44,15 +44,23 @@
 
     <!-- The common portion of a string describing how often an event repeats,
          example: 'Monthly (on day 2)' -->
-    <string name="monthly">Monthly</string>
+    <plurals name="monthly">
+        <item quantity="one">Monthly</item>
+        <item quantity="other">Every <xliff:g id="count">%d</xliff:g> months</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">Yearly</item>
+        <item quantity="other">Every <xliff:g id="count">%d</xliff:g> years</item>
+    </plurals>
     <!-- Example: "Monthly (on day 15)" -->
-    <string name="monthly_on_day">"Monthly (on day <xliff:g id="day_of_month">%s</xliff:g>)"</string>
+    <string name="monthly_on_day">" (on day <xliff:g id="day_of_month">%s</xliff:g>)"</string>
     <!-- Example: "Yearly (on April 15)" -->
-    <string name="yearly">"Yearly (on <xliff:g id="dates">%s</xliff:g>)"</string>
+    <string name="yearly_on_day">" (on <xliff:g id="dates">%s</xliff:g>)"</string>
 
     <string name="yearly_plain">Yearly</string>
     <string name="daily_plain">Daily</string>
     <string name="weekly_plain">Weekly</string>
+    <string name="monthly_plain">Monthly</string>
 
         <!-- The following sets of strings describe a monthly recurring event, which will repeat
          on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or

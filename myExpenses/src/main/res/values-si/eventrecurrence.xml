@@ -30,10 +30,18 @@
         <item quantity="one" msgid="5463021019301453273">"සතිපතාම <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g> දින"</item>
         <item quantity="other" msgid="2857390143157377867">"සෑම සති <xliff:g id="NUMBER">%1$d</xliff:g> කට වරක් <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g> දින"</item>
     </plurals>
-    <string name="monthly" msgid="4587116285383048586">"මාසිකව"</string>
+    <plurals name="monthly">
+        <item quantity="one">මාසිකව</item>
+        <item quantity="other">"සෑම මාස <xliff:g id="COUNT">%d</xliff:g> කට"</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">වාර්ෂිකව</item>
+        <item quantity="other">"සෑම වසර <xliff:g id="COUNT">%d</xliff:g> කට"</item>
+    </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"මාසිකව"</string>
     <string name="yearly_plain" msgid="3652692085322162449">"වාර්ෂිකව"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"මාසිකව (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> දින)"</string>
-    <string name="yearly" msgid="8576208380302949002">"වාර්ෂිකව (<xliff:g id="DATES">%s</xliff:g> දින)"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> දින)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (<xliff:g id="DATES">%s</xliff:g> දින)"</string>
 
     <string name="daily_plain">දිනපතා</string>
     <string name="weekly_plain">සතිපතාම</string>

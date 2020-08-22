@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--  Copyright (C) 2006 The Android Open Source Project
+<?xml version="1.0" encoding="UTF-8"?><!--  Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,29 +13,36 @@
      limitations under the License.
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="does_not_repeat" msgid="1877681921029738999">"Aldi bakarreko gertaera"</string>
     <string name="endByDate" msgid="7654221304929538201">"; <xliff:g id="DATE">%s</xliff:g> arte"</string>
-  <plurals name="endByCount">
-    <item quantity="one" msgid="3727754565990691816">"; behin"</item>
-    <item quantity="other" msgid="4855496837834652446">"; <xliff:g id="NUMBER">%d</xliff:g> aldiz"</item>
-  </plurals>
-  <plurals name="daily">
-    <item quantity="one" msgid="5169052946627480942">"Egunero"</item>
-    <item quantity="other" msgid="5455230727715859264">"<xliff:g id="NUMBER">%d</xliff:g> egunez behin"</item>
-  </plurals>
+    <plurals name="endByCount">
+        <item msgid="3727754565990691816" quantity="one">"; behin"</item>
+        <item msgid="4855496837834652446" quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> aldiz"</item>
+    </plurals>
+    <plurals name="daily">
+        <item msgid="5169052946627480942" quantity="one">"Egunero"</item>
+        <item msgid="5455230727715859264" quantity="other">"<xliff:g id="NUMBER">%d</xliff:g> egunez behin"</item>
+    </plurals>
     <string name="every_weekday" msgid="5896574838353902978">"Astegun guztietan (al.-ol.)"</string>
-  <plurals name="weekly">
-    <item quantity="one" msgid="5463021019301453273">"Astero, egun honetan: <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-    <item quantity="other" msgid="2857390143157377867">"<xliff:g id="NUMBER">%1$d</xliff:g> astez behin, egun honetan: <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-  </plurals>
-    <string name="monthly" msgid="4587116285383048586">"Hilero"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"Hilero (<xliff:g id="DAY_OF_MONTH">%s</xliff:g>. egunean)"</string>
-    <string name="yearly" msgid="8576208380302949002">"Urtero (data honetan: <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <plurals name="weekly">
+        <item msgid="5463021019301453273" quantity="one">"Astero, egun honetan: <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="2857390143157377867" quantity="other">"<xliff:g id="NUMBER">%1$d</xliff:g> astez behin, egun honetan: <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+    </plurals>
+    <plurals name="monthly">
+        <item quantity="one">Hilero</item>
+        <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> hilabetez behin</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">Urtero</item>
+        <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> urtez behin</item>
+    </plurals>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (<xliff:g id="DAY_OF_MONTH">%s</xliff:g>. egunean)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (data honetan: <xliff:g id="DATES">%s</xliff:g>)"</string>
     <string name="yearly_plain" msgid="3652692085322162449">"Urtero"</string>
     <string name="daily_plain">Egunero</string>
     <string name="weekly_plain">Astero</string>
+    <string name="monthly_plain">"Hilero"</string>
 
     <string-array name="repeat_by_nth_sun">
         <item msgid="143841313172233420">"hilaren lehen igandean"</item>

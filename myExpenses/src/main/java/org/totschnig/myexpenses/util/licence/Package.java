@@ -56,7 +56,7 @@ public enum Package {
     String format = "%s (%s)";
     switch (duration) {
       case 1:
-        formattedDuration = context.getString(R.string.monthly);
+        formattedDuration = context.getString(R.string.monthly_plain);
         break;
       case 12:
         formattedDuration = context.getString(R.string.yearly_plain);

@@ -80,7 +80,7 @@ public class Plan extends Model implements Serializable {
         case WEEKLY:
           return context.getString(R.string.weekly_plain);
         case MONTHLY:
-          return context.getString(R.string.monthly);
+          return context.getString(R.string.monthly_plain);
         case YEARLY:
           return context.getString(R.string.yearly_plain);
         case CUSTOM:

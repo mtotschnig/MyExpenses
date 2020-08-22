@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2006 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -18,24 +17,32 @@
     <string name="does_not_repeat" msgid="1877681921029738999">"Én gang"</string>
     <string name="endByDate" msgid="7654221304929538201">", indtil den <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
-        <item quantity="one" msgid="3727754565990691816">", én gang"</item>
-        <item quantity="other" msgid="4855496837834652446">", <xliff:g id="NUMBER">%d</xliff:g> gange"</item>
+        <item msgid="3727754565990691816" quantity="one">", én gang"</item>
+        <item msgid="4855496837834652446" quantity="other">", <xliff:g id="NUMBER">%d</xliff:g> gange"</item>
     </plurals>
     <plurals name="daily">
-        <item quantity="one" msgid="5169052946627480942">"Dagligt"</item>
-        <item quantity="other" msgid="5455230727715859264">"Hver <xliff:g id="NUMBER">%d</xliff:g>. dag"</item>
+        <item msgid="5169052946627480942" quantity="one">"Dagligt"</item>
+        <item msgid="5455230727715859264" quantity="other">"Hver <xliff:g id="NUMBER">%d</xliff:g>. dag"</item>
     </plurals>
     <string name="every_weekday" msgid="5896574838353902978">"Hverdage (man.-fre.)"</string>
     <plurals name="weekly">
-        <item quantity="one" msgid="5463021019301453273">"Ugentligt om <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-        <item quantity="other" msgid="2857390143157377867">"Hver <xliff:g id="NUMBER">%1$d</xliff:g>. uge om <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="5463021019301453273" quantity="one">"Ugentligt om <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="2857390143157377867" quantity="other">"Hver <xliff:g id="NUMBER">%1$d</xliff:g>. uge om <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
-    <string name="monthly" msgid="4587116285383048586">"Månedligt"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"Månedligt (den <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly" msgid="8576208380302949002">"Årligt (den <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <plurals name="monthly">
+        <item quantity="one">Månedligt</item>
+        <item quantity="other">Hver <xliff:g id="COUNT">%d</xliff:g>. måned</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">Årligt</item>
+        <item quantity="other">Hvert <xliff:g id="COUNT">%d</xliff:g>. år</item>
+    </plurals>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (den <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (den <xliff:g id="DATES">%s</xliff:g>)"</string>
     <string name="yearly_plain" msgid="3652692085322162449">"Årligt"</string>
     <string name="daily_plain">Dagligt</string>
     <string name="weekly_plain">Ugentligt</string>
+    <string name="monthly_plain">"Månedligt"</string>
 
     <string-array name="repeat_by_nth_sun">
         <item msgid="143841313172233420">"hver første søndag i måneden"</item>

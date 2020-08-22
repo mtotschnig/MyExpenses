@@ -30,9 +30,17 @@
     <item quantity="one" msgid="5463021019301453273">"Mingguan pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     <item quantity="other" msgid="2857390143157377867">"Setiap <xliff:g id="NUMBER">%1$d</xliff:g> minggu pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
   </plurals>
-    <string name="monthly" msgid="4587116285383048586">"Bulanan"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"Bulanan (pada hari ke-<xliff:g id="DAY_OF_MONTH">%s</xliff:g> )"</string>
-    <string name="yearly" msgid="8576208380302949002">"Tahunan (pada <xliff:g id="DATES">%s</xliff:g>)"</string>
+  <plurals name="monthly">
+    <item quantity="one">Bulanan</item>
+    <item quantity="other">Setiap <xliff:g id="COUNT">%d</xliff:g> bulan</item>
+  </plurals>
+  <plurals name="yearly">
+    <item quantity="one">Tahunan</item>
+    <item quantity="other">Setiap <xliff:g id="COUNT">%d</xliff:g> tahun</item>
+  </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"Bulanan"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (pada hari ke-<xliff:g id="DAY_OF_MONTH">%s</xliff:g> )"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (pada <xliff:g id="DATES">%s</xliff:g>)"</string>
   <string name="yearly_plain">Tahunan</string>
   <string name="daily_plain">Harian</string>
   <string name="weekly_plain">Mingguan</string>

@@ -2,21 +2,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="endByDate" msgid="7654221304929538201">"; até <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
-        <item quantity="one" msgid="3727754565990691816">"; evento único"</item>
-        <item quantity="other" msgid="4855496837834652446">"; <xliff:g id="NUMBER">%d</xliff:g> vezes"</item>
+        <item msgid="3727754565990691816" quantity="one">"; evento único"</item>
+        <item msgid="4855496837834652446" quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> vezes"</item>
     </plurals>
     <plurals name="daily">
-        <item quantity="one" msgid="5169052946627480942">"Diariamente"</item>
-        <item quantity="other" msgid="5455230727715859264">"A cada <xliff:g id="NUMBER">%d</xliff:g> dias"</item>
+        <item msgid="5169052946627480942" quantity="one">"Diariamente"</item>
+        <item msgid="5455230727715859264" quantity="other">"A cada <xliff:g id="NUMBER">%d</xliff:g> dias"</item>
     </plurals>
     <string name="every_weekday" msgid="5896574838353902978">"Todos os dias úteis (Seg-Sex)"</string>
     <plurals name="weekly">
-        <item quantity="one" msgid="5463021019301453273">"A cada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-        <item quantity="other" msgid="2857390143157377867">"A cada <xliff:g id="NUMBER">%1$d</xliff:g> semanas, às <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="5463021019301453273" quantity="one">"A cada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="2857390143157377867" quantity="other">"A cada <xliff:g id="NUMBER">%1$d</xliff:g> semanas, às <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
-    <string name="monthly" msgid="4587116285383048586">"Mensalmente"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"Mensalmente (no dia <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly" msgid="8576208380302949002">"Anualmente (em <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <plurals name="monthly">
+        <item quantity="one">Mensalmente</item>
+        <item quantity="other">A cada <xliff:g id="COUNT">%d</xliff:g> meses</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">Anualmente</item>
+        <item quantity="other">A cada <xliff:g id="COUNT">%d</xliff:g> anos</item>
+    </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"Mensalmente"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (no dia <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (em <xliff:g id="DATES">%s</xliff:g>)"</string>
     <string-array name="repeat_by_nth_sun">
         <item msgid="143841313172233420">"em cada primeiro domingo"</item>
         <item msgid="2557379346106451363">"em cada segundo domingo"</item>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2006 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -18,31 +17,39 @@
     <string name="does_not_repeat" msgid="1877681921029738999">"אירוע חד-פעמי"</string>
     <string name="endByDate" msgid="7654221304929538201">"; עד <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
-        <item quantity="one" msgid="3727754565990691816">"; פעם אחת"</item>
-        <item quantity="other" msgid="4855496837834652446">"; <xliff:g id="NUMBER">%d</xliff:g> פעמים"</item>
+        <item msgid="3727754565990691816" quantity="one">"; פעם אחת"</item>
+        <item msgid="4855496837834652446" quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> פעמים"</item>
     </plurals>
     <plurals name="daily">
-        <item quantity="one" msgid="5169052946627480942">"יומי"</item>
-        <item quantity="other" msgid="5455230727715859264">"כל <xliff:g id="NUMBER">%d</xliff:g> ימים"</item>
+        <item msgid="5169052946627480942" quantity="one">"יומי"</item>
+        <item msgid="5455230727715859264" quantity="other">"כל <xliff:g id="NUMBER">%d</xliff:g> ימים"</item>
     </plurals>
     <string name="every_weekday" msgid="5896574838353902978">"כל יום חול (ראשון-חמישי)"</string>
     <plurals name="weekly">
-        <item quantity="one" msgid="5463021019301453273">"שבועי ביום <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-        <item quantity="other" msgid="2857390143157377867">"כל <xliff:g id="NUMBER">%1$d</xliff:g> שבועות ביום <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="5463021019301453273" quantity="one">"שבועי ביום <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="2857390143157377867" quantity="other">"כל <xliff:g id="NUMBER">%1$d</xliff:g> שבועות ביום <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
-    <string name="monthly" msgid="4587116285383048586">"כל חודש"</string>
+    <plurals name="monthly">
+        <item quantity="one">"כל חודש</item>
+        <item quantity="other">כל <xliff:g id="COUNT">%d</xliff:g> חודשים</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">כל שנה</item>
+        <item quantity="other">כל <xliff:g id="COUNT">%d</xliff:g> שנים</item>
+    </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"כל חודש"</string>
     <string name="yearly_plain" msgid="3652692085322162449">"כל שנה"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"מדי חודש (ביום <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly" msgid="8576208380302949002">"מדי שנה (בתאריכים <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156"> (ביום <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002"> (בתאריכים <xliff:g id="DATES">%s</xliff:g>)"</string>
 
     <string name="daily_plain">"יומי"</string>
     <string name="weekly_plain">"שבועי"</string>
 
-        <!-- The following sets of strings describe a monthly recurring event, which will repeat
-         on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
-         the last Sunday. These are set up like this to resolve any gender-matching issues
-         that were present in some languages.
-     -->
+    <!-- The following sets of strings describe a monthly recurring event, which will repeat
+     on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
+     the last Sunday. These are set up like this to resolve any gender-matching issues
+     that were present in some languages.
+ -->
     <string-array name="repeat_by_nth_sun">
         <item msgid="143841313172233420">"בכל יום ראשון הראשון בכל חודש"</item>
         <item msgid="2557379346106451363">"בכל יום ראשון השני בכל חודש"</item>

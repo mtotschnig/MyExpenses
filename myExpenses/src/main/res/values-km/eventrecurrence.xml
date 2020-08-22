@@ -30,10 +30,18 @@
         <item quantity="one" msgid="5463021019301453273">"សប្ដាហ៍​នៃ <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
         <item quantity="other" msgid="2857390143157377867">"រាល់ <xliff:g id="NUMBER">%1$d</xliff:g> សប្ដាហ៍​នៃ <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
-    <string name="monthly" msgid="4587116285383048586">"ប្រចាំខែ"</string>
+    <plurals name="monthly">
+        <item quantity="one">ប្រចាំខែ</item>
+        <item quantity="other">"រាល់ <xliff:g id="COUNT">%d</xliff:g> ខែ"</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">ប្រចាំ​ឆ្នាំ</item>
+        <item quantity="other">ឆ្នាំ <xliff:g id="COUNT">%d</xliff:g> ឆ្នាំ</item>
+    </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"ប្រចាំខែ"</string>
     <string name="yearly_plain" msgid="3652692085322162449">"ប្រចាំ​ឆ្នាំ"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"ប្រចាំខែ (នៅ​ថ្ងៃ <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly" msgid="8576208380302949002">"ប្រចាំ​ឆ្នាំ (នៅ <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (នៅ​ថ្ងៃ <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (នៅ <xliff:g id="DATES">%s</xliff:g>)"</string>
     <string name="daily_plain">"ប្រចាំថ្ងៃ"</string>
     <string name="weekly_plain">សប្ដាហ៍​នៃ</string>
     <string-array name="repeat_by_nth_sun">

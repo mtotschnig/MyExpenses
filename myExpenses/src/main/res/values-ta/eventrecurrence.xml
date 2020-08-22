@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-           xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="does_not_repeat" msgid="1877681921029738999">"ஒரு முறை நிகழ்வு"</string>
     <string name="endByDate" msgid="7654221304929538201">"; <xliff:g id="DATE">%s</xliff:g> வரை"</string>
     <plurals name="endByCount">
-        <item quantity="one" msgid="3727754565990691816">"; ஒரு முறை"</item>
-        <item quantity="other" msgid="4855496837834652446">"; <xliff:g id="NUMBER">%d</xliff:g> முறைகள்"</item>
+        <item msgid="3727754565990691816" quantity="one">"; ஒரு முறை"</item>
+        <item msgid="4855496837834652446" quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> முறைகள்"</item>
     </plurals>
     <plurals name="daily">
-        <item quantity="one" msgid="5169052946627480942">"தினசரி"</item>
-        <item quantity="other" msgid="5455230727715859264">"ஒவ்வொரு <xliff:g id="NUMBER">%d</xliff:g> நாட்கள்"</item>
+        <item msgid="5169052946627480942" quantity="one">"தினசரி"</item>
+        <item msgid="5455230727715859264" quantity="other">"ஒவ்வொரு <xliff:g id="NUMBER">%d</xliff:g> நாட்கள்"</item>
     </plurals>
     <string name="every_weekday" msgid="5896574838353902978">"எல்லா வாரநாட்கள் (திங்கள்–வெள்ளி)"</string>
     <plurals name="weekly">
-        <item quantity="one" msgid="5463021019301453273">"வாரந்தோறும் - <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-        <item quantity="other" msgid="2857390143157377867">"ஒவ்வொரு <xliff:g id="NUMBER">%1$d</xliff:g> வாரங்களில் - <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="5463021019301453273" quantity="one">"வாரந்தோறும் - <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item msgid="2857390143157377867" quantity="other">"ஒவ்வொரு <xliff:g id="NUMBER">%1$d</xliff:g> வாரங்களில் - <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
-    <string name="monthly" msgid="4587116285383048586">"மாதந்தோறும்"</string>
+    <plurals name="monthly">
+        <item quantity="one">மாதந்தோறும்</item>
+        <item quantity="other">"ஒவ்வொரு <xliff:g id="COUNT">%d</xliff:g> மாதங்கள்"</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">ஆண்டுதோறும்</item>
+        <item quantity="other">"ஒவ்வொரு <xliff:g id="COUNT">%d</xliff:g> ஆண்டுகள்"</item>
+    </plurals>
+    <string name="monthly_plain" msgid="4587116285383048586">"மாதந்தோறும்"</string>
     <string name="yearly_plain" msgid="3652692085322162449">"ஆண்டுதோறும்"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">"மாதந்தோறும் (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> அன்று)"</string>
-    <string name="yearly" msgid="8576208380302949002">"ஆண்டுந்தோறும் (<xliff:g id="DATES">%s</xliff:g> அன்று)"</string>
+    <string name="monthly_on_day" msgid="5370155265278821156">" (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> அன்று)"</string>
+    <string name="yearly_on_day" msgid="8576208380302949002">" (<xliff:g id="DATES">%s</xliff:g> அன்று)"</string>
     <string name="daily_plain">தினசரி</string>
     <string name="weekly_plain">வாரந்தோறும்</string>
 
