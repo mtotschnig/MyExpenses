@@ -55,8 +55,8 @@ public class PdfHelper {
             //BaseFont.charExists finds chars that are not visible in PDF
             //NotoColorEmoji.ttf and SamsungColorEmoji.ttf are known not to work
             && !filename.contains("ColorEmoji")
-            //vivo devices
-            && !filename.equals("NEX-Bold.ttf")
+            //vivo devices report 43653f0a14cf41b707579c51642b7046
+            && !filename.startsWith("NEX-")
             //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
             && !filename.equals("Kindle_Symbol.ttf"));
         Arrays.sort(files, (f1, f2) -> {
