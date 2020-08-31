@@ -48,8 +48,8 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     override val helpVariant: ExpenseEdit.HelpVariant
         get() = when {
             isTemplate -> ExpenseEdit.HelpVariant.templateTransfer
-            isSplitPart -> ExpenseEdit.HelpVariant.transfer
-            else -> ExpenseEdit.HelpVariant.splitPartTransfer
+            isSplitPart -> ExpenseEdit.HelpVariant.splitPartTransfer
+            else -> ExpenseEdit.HelpVariant.transfer
         }
 
     override val typeResId = R.string.transfer
