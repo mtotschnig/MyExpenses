@@ -157,7 +157,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 109;
+  public static final int DATABASE_VERSION = 110;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -245,6 +245,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       stringBuilder.append(", ")
           .append(KEY_COLOR).append(", ")
           .append(KEY_CURRENCY).append(", ")
+          .append(KEY_SEALED).append(", ")
           .append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
           .append(TABLE_ACCOUNTS).append(".").append(KEY_TYPE).append(" AS ").append(KEY_ACCOUNT_TYPE).append(", ")
           .append(TABLE_ACCOUNTS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_ACCOUNT_LABEL);
@@ -2205,6 +2206,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 109) {
         db.execSQL("CREATE INDEX transactions_payee_id_index on transactions(payee_id)");
         db.execSQL("CREATE INDEX templates_payee_id_index on templates(payee_id)");
+      }
+      if (oldVersion < 110) {
+        createOrRefreshTemplateViews(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

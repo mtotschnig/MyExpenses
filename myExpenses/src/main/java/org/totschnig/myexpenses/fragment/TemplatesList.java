@@ -485,25 +485,25 @@ public class TemplatesList extends SortableListFragment
     }
   }
 
-  public void showSnackbar(String msg, int length) {
+  public void showSnackbar(String msg) {
     DialogFragment childFragment = getPlanMonthFragment();
     if (childFragment == null) {
       childFragment = getPlannerFragment();
     }
     if (childFragment != null) {
-      showSnackbar(childFragment, msg, length);
+      showSnackbar(childFragment, msg);
     } else {
-      ((ProtectedFragmentActivity) getActivity()).showSnackbar(msg, length);
+      ((ProtectedFragmentActivity) getActivity()).showSnackbar(msg, Snackbar.LENGTH_LONG);
     }
   }
 
-  public void showSnackbar(DialogFragment dialogFragment, String msg, int length) {
+  public void showSnackbar(DialogFragment dialogFragment, String msg) {
     final Dialog dialog = dialogFragment.getDialog();
     if (dialog != null) {
       final Window window = dialog.getWindow();
       if (window != null) {
         View view = window.getDecorView();
-        Snackbar snackbar = Snackbar.make(view, msg, length);
+        Snackbar snackbar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
         UiUtils.configureSnackbarForDarkTheme(snackbar, ((ProtectedFragmentActivity) getContext()).getThemeType());
         snackbar.show();
         return;

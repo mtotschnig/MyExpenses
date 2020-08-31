@@ -414,7 +414,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndex(KEY_CURRENCY)));
     Money amount = new Money(currency, c.getLong(c.getColumnIndex(KEY_AMOUNT)));
-    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndex(KEY_TITLE)), date, c.getInt(c.getColumnIndex(KEY_COLOR)), amount);
+    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndex(KEY_TITLE)), date, c.getInt(c.getColumnIndex(KEY_COLOR)), amount,
+        c.getInt(c.getColumnIndex(KEY_SEALED)) == 1);
     c.close();
     return planInstance;
   }

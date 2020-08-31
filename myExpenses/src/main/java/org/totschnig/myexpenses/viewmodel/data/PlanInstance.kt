@@ -12,11 +12,11 @@ enum class PlanInstanceState {
     OPEN, APPLIED, CANCELLED
 }
 
-data class PlanInstance(val templateId: Long, val transactionId: Long?, val title: String, val date: Long, val color: Int, val amount: Money, val state: PlanInstanceState) {
-    constructor(templateId: Long, instanceId: Long?, transactionId: Long?, title: String, date: Long, color: Int, amount: Money) :
+data class PlanInstance(val templateId: Long, val transactionId: Long?, val title: String, val date: Long, val color: Int, val amount: Money, val state: PlanInstanceState, val sealed: Boolean) {
+    constructor(templateId: Long, instanceId: Long?, transactionId: Long?, title: String, date: Long, color: Int, amount: Money, sealed: Boolean) :
             this(templateId, transactionId, title, date, color, amount,
                     if (instanceId == null) PlanInstanceState.OPEN else
-                        if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED)
+                        if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED, sealed)
     val localDate: LocalDate
 
     val instanceId: Long
