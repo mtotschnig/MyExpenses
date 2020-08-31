@@ -30,6 +30,7 @@ import java.util.Currency;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.CursorMatchers;
@@ -151,16 +152,22 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void newAccountFormIsOpened() {
-    onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    openDrawer();
     onView(withId(R.id.expansionTrigger)).perform(click());
     onView(withText(R.string.menu_create_account)).perform(click());
     intended(allOf(hasComponent(AccountEdit.class.getName()),
         not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))));
   }
 
+  public void openDrawer() {
+    try {
+      onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    } catch (NoMatchingViewException e) { /*drawerless layout*/ }
+  }
+
   @Test
   public void editAccountFormIsOpened() {
-    onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    openDrawer();
     onData(anything()).inAdapterView(allOf(
         isAssignableFrom(AdapterView.class),
         isDescendantOfA(withId(R.id.left_drawer)),
@@ -177,7 +184,7 @@ public final class MyExpensesTest extends BaseUiTest {
     Account account2 = new Account("Test account 2", 0, "");
     account2.save();
     Thread.sleep(500);
-    onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
@@ -202,7 +209,7 @@ public final class MyExpensesTest extends BaseUiTest {
     // only if there are two accounts, the delete functionality is availalbe
     Account account2 = new Account("Test account 2", 0, "");
     account2.save();
-    onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
@@ -229,7 +236,7 @@ public final class MyExpensesTest extends BaseUiTest {
     account2.save();
 
     //we try to delete acccount 1
-    onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account1.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
@@ -242,7 +249,7 @@ public final class MyExpensesTest extends BaseUiTest {
         withText(android.R.string.cancel))).perform(click());
 
     //we try to delete acccount 2
-    onView(withId(R.id.drawer)).perform(DrawerActions.open());
+    openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
             isDescendantOfA(withId(R.id.left_drawer)),
