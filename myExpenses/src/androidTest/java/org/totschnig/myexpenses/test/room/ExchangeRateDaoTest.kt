@@ -4,17 +4,16 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.room.ExchangeRate
 import org.totschnig.myexpenses.room.ExchangeRateDao
 import org.totschnig.myexpenses.room.ExchangeRateDatabase
+import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -46,7 +45,6 @@ class ExchangeRateDaoTest {
 
         exchangeRateDao = mDatabase.exchangeRateDao()
 
-        AndroidThreeTen.init(ApplicationProvider.getApplicationContext())
         localDate = LocalDate.now()
     }
 

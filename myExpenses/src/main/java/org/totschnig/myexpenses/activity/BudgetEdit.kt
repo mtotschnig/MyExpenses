@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import icepick.Icepick
 import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
-import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.AccountAdapter
@@ -46,6 +45,7 @@ import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForC
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
+import java.time.LocalDate
 
 class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicker.OnDateChangedListener,
         SelectFilterDialog.Host {

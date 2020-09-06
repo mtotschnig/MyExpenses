@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.provider
 
 import org.jetbrains.annotations.NotNull
-import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.room.ExchangeRate
 import org.totschnig.myexpenses.room.ExchangeRateDao
 import java.io.IOException
+import java.time.LocalDate
 
 class ExchangeRateRepository(val dao: @NotNull ExchangeRateDao, val prefHandler: @NotNull PrefHandler,
                              val service: @NotNull ExchangeRateService) {

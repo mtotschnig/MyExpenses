@@ -21,8 +21,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
 
-import org.threeten.bp.DayOfWeek;
-
+import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;

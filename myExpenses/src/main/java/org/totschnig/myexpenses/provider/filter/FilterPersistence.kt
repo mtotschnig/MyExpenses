@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.provider.filter
 
 import android.os.Bundle
-import org.threeten.bp.format.DateTimeParseException
 import org.totschnig.myexpenses.preference.PrefHandler
 import timber.log.Timber
+import java.time.format.DateTimeParseException
 
 const val KEY_FILTER = "filter"
 

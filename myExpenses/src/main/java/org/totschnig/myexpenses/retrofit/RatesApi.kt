@@ -1,11 +1,11 @@
 package org.totschnig.myexpenses.retrofit
 
 import androidx.annotation.Keep
-import org.threeten.bp.LocalDate
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.time.LocalDate
 
 interface RatesApi {
     @GET("api/{date}")

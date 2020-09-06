@@ -3,12 +3,12 @@ package org.totschnig.myexpenses.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
-import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.retrofit.MissingAppIdException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
+import java.time.LocalDate
 import javax.inject.Inject
 
 class ExchangeRateViewModel(application: MyApplication) {

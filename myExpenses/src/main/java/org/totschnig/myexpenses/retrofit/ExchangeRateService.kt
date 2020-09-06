@@ -2,10 +2,6 @@ package org.totschnig.myexpenses.retrofit
 
 import org.jetbrains.annotations.NotNull
 import org.json.JSONObject
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -13,6 +9,10 @@ import org.totschnig.myexpenses.preference.requireString
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 enum class ExchangeRateSource {
     RATESAPI, OPENEXCHANGERATES;

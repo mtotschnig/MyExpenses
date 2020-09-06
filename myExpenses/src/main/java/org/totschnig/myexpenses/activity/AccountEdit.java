@@ -37,7 +37,6 @@ import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
-import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -62,6 +61,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;

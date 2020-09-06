@@ -13,9 +13,6 @@ import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendarcommon2.EventRecurrence;
 
-import org.threeten.bp.DayOfWeek;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -24,6 +21,10 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoField;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -31,7 +32,6 @@ import java.util.TimeZone;
 import androidx.annotation.Nullable;
 import timber.log.Timber;
 
-import static org.threeten.bp.temporal.ChronoField.DAY_OF_WEEK;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2EpochMillis;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
@@ -55,7 +55,7 @@ public class Plan extends Model implements Serializable {
           return String.format(Locale.US, "FREQ=DAILY;INTERVAL=1;WKST=%s", wkst);
         case WEEKLY:
           return String.format(Locale.US, "FREQ=WEEKLY;INTERVAL=1;WKST=%s;BYDAY=%s", wkst,
-              calendarDay2String(localDate.get(DAY_OF_WEEK)));
+              calendarDay2String(localDate.get(ChronoField.DAY_OF_WEEK)));
         case MONTHLY:
           return String.format(Locale.US, "FREQ=MONTHLY;INTERVAL=1;WKST=%s", wkst);
         case YEARLY:
