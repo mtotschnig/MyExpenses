@@ -63,7 +63,6 @@ import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistributionHelper;
@@ -73,10 +72,10 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
+import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
@@ -90,6 +89,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StyleRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
@@ -229,21 +229,20 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(ContextHelper.wrap(newBase, ((MyApplication) newBase.getApplicationContext()).getAppComponent().userLocaleProvider().getUserPreferredLocale()));
+    super.attachBaseContext(newBase);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      applyOverrideConfiguration(updateConfiguration());
+    }
     injectDependencies();
     localeManager.initActivity(this);
   }
 
-
-  @Override
-  public void applyOverrideConfiguration(Configuration overrideConfiguration) {
-    if (overrideConfiguration != null && Build.VERSION.SDK_INT >= 21
-        && Build.VERSION.SDK_INT <= 25) {
-      int uiMode = overrideConfiguration.uiMode;
-      overrideConfiguration.setTo(getBaseContext().getResources().getConfiguration());
-      overrideConfiguration.uiMode = uiMode;
-    }
-    super.applyOverrideConfiguration(overrideConfiguration);
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+  private Configuration updateConfiguration() {
+    Configuration config = new Configuration();
+    Locale locale = ((MyApplication) getApplicationContext()).getAppComponent().userLocaleProvider().getUserPreferredLocale();
+    config.setLocale(locale);
+    return config;
   }
 
   protected void injectDependencies() {
