@@ -132,7 +132,9 @@ public enum PrefKey {
   PLANNER_EXECUTION_TIME(R.string.pref_plan_executor_time_key),
   WEBDAV_ALLOW_UNVERIFIED_HOST(R.string.pref_webdav_allow_unverified_host_key),
   CLONE_WITH_CURRENT_DATE(R.string.pref_clone_with_current_date_key),
-  PLANNER_MANUAL_TIME(R.string.pref_planner_manual_time_key);
+  PLANNER_MANUAL_TIME(R.string.pref_planner_manual_time_key),
+  OCR(R.string.pref_ocr_key),
+  OCR_TOTAL_INDICATORS(R.string.pref_ocr_total_indicators_key);
 
   int resId = 0;
   String key = null;

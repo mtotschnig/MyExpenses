@@ -404,7 +404,7 @@
     <PreferenceCategory android:title="@string/feedback">
         <Preference
             android:key="@string/pref_rate_key"
-            android:title="@string/help_button_rate"></Preference>
+            android:title="@string/help_button_rate" />
         <Preference
             android:key="@string/pref_send_feedback_key"
             android:title="@string/pref_send_feedback_title" />
@@ -450,19 +450,31 @@
             android:title="@string/pref_ad_consent_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_category_exchange_rates">
-        <ListPreference
-            android:defaultValue="RATESAPI"
-            android:entries="@array/exchange_rate_provider_entries"
-            android:entryValues="@array/exchange_rate_provider_values"
-            android:key="@string/pref_exchange_rate_provider_key"
-            android:summary="@string/pref_exchange_rate_provider_summary"
-            android:title="@string/pref_exchange_rate_provider_title" />
-        <EditTextPreference
-            android:enabled="false"
-            android:key="@string/pref_openexchangerates_app_id_key"
-            android:summary="@string/pref_openexchangerates_app_id_summary"
-            android:title="OpenExchangeRates App ID" />
+    <PreferenceCategory android:title="features">
+        <PreferenceScreen
+            android:key="exchange_rates"
+            android:title="@string/pref_category_exchange_rates">
+            <ListPreference
+                android:defaultValue="RATESAPI"
+                android:entries="@array/exchange_rate_provider_entries"
+                android:entryValues="@array/exchange_rate_provider_values"
+                android:key="@string/pref_exchange_rate_provider_key"
+                android:summary="@string/pref_exchange_rate_provider_summary"
+                android:title="@string/pref_exchange_rate_provider_title" />
+            <EditTextPreference
+                android:enabled="false"
+                android:key="@string/pref_openexchangerates_app_id_key"
+                android:summary="@string/pref_openexchangerates_app_id_summary"
+                android:title="OpenExchangeRates App ID" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="@string/pref_ocr_key"
+            android:title="OCR">
+            <EditTextPreference
+                android:defaultValue="@string/pref_ocr_total_indicators_default"
+                android:key="@string/pref_ocr_total_indicators_key"
+                android:title="Indicators for total amount" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -494,10 +506,10 @@
                 android:title="@string/pref_plan_executor_time_title" />
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
                 android:defaultValue="noon"
-                android:title="@string/pref_planner_manual_time_title"
-                android:key="@string/pref_planner_manual_time_key"
                 android:entries="@array/pref_planner_manual_time_entries"
-                android:entryValues="@array/pref_planner_manual_time_values" />
+                android:entryValues="@array/pref_planner_manual_time_values"
+                android:key="@string/pref_planner_manual_time_key"
+                android:title="@string/pref_planner_manual_time_title" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_webdav_key"

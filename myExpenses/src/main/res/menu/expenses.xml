@@ -126,4 +126,9 @@
         android:orderInCategory="30"
         android:title="@string/menu_print"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/SCAN_MODE_COMMAND"
+        android:title="Scan mode"
+        android:checkable="true"
+        app:showAsAction="never" />
 </menu>

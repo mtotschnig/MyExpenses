@@ -106,6 +106,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
+import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
@@ -350,12 +351,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 delegate.setMethods(paymentMethods)
             }
         })
-        currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
+        currencyViewModel.getCurrencies().observe(this, { currencies ->
             if (::delegate.isInitialized) {
                 delegate.setCurrencies(currencies, currencyContext)
             }
         })
-        viewModel.getAccounts().observe(this, Observer { accounts ->
+        viewModel.getAccounts().observe(this, { accounts ->
             if (accounts.isEmpty()) {
                 abortWithMessage(getString(R.string.warning_no_account))
             } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
@@ -369,7 +370,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
         })
         if (!isSplitPart) {
-            viewModel.getTags().observe(this, Observer { tags ->
+            viewModel.getTags().observe(this, { tags ->
                 tagsLoaded = true
                 delegate.showTags(tags) { tag ->
                     viewModel.removeTag(tag)
@@ -377,6 +378,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             })
         }
+        viewModel.getOcrResult().observe(this, EventObserver { list ->
+            list.getOrNull(0)?.let { amountInput.setRaw(it) }
+        })
     }
 
     private fun loadData() {
@@ -709,52 +713,49 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST && intent != null) {
-            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
-                    intent.getStringExtra(DatabaseConstants.KEY_ICON),
-                    intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
-            setDirty()
-        }
-        if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
-            val uri: Uri?
-            val errorMsg: String
-            when {
-                intent == null -> {
-                    uri = pictureUriTemp
-                    Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", pictureUriTemp)
-                }
-                intent.data != null -> {
-                    uri = intent.data
-                    Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
-                }
-                else -> {
-                    Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", pictureUriTemp)
-                    uri = pictureUriTemp
-                }
+        when (requestCode) {
+            ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST -> if (intent != null) {
+                (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
+                        intent.getStringExtra(DatabaseConstants.KEY_ICON),
+                        intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
+                setDirty()
             }
-            if (uri != null) {
-                if (PermissionHelper.canReadUri(uri, this)) {
-                    setPicture(uri)
-                    setDirty()
+            ProtectedFragmentActivity.PICTURE_REQUEST_CODE -> if (resultCode == RESULT_OK) {
+                val uri: Uri?
+                when {
+                    intent == null -> {
+                        uri = pictureUriTemp
+                        Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", pictureUriTemp)
+                    }
+                    intent.data != null -> {
+                        uri = intent.data
+                        Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
+                    }
+                    else -> {
+                        Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", pictureUriTemp)
+                        uri = pictureUriTemp
+                    }
+                }
+                if (uri != null) {
+                    if (PermissionHelper.canReadUri(uri, this)) {
+                        setPicture(uri)
+                        setDirty()
+                        viewModel.runTextRecognition(uri)
+                    } else {
+                        pictureUriTemp = uri
+                        requestStoragePermission()
+                    }
                 } else {
-                    pictureUriTemp = uri
-                    requestStoragePermission()
+                    val errorMsg = "Error while retrieving image: No data found."
+                    CrashHandler.report(errorMsg)
+                    showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
                 }
-                return
-            } else {
-                errorMsg = "Error while retrieving image: No data found."
             }
-            CrashHandler.report(errorMsg)
-            showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
-        }
-        if (requestCode == ProtectedFragmentActivity.PLAN_REQUEST) {
-            finish()
-        }
-        if (requestCode == ProtectedFragmentActivity.EDIT_REQUEST && resultCode == RESULT_OK) {
-            setDirty()
-        }
-        if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST) {
-            intent?.also {
+            ProtectedFragmentActivity.PLAN_REQUEST -> finish()
+            ProtectedFragmentActivity.EDIT_REQUEST -> if (resultCode == RESULT_OK) {
+                setDirty()
+            }
+            ProtectedFragmentActivity.SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
                     (intent.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
                         viewModel.updateTags(it)
@@ -1084,17 +1085,16 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun startMediaChooserDo() {
-        val outputMediaUri = cameraUri
         val gallIntent = Intent(PictureDirHelper.getContentIntentAction())
         gallIntent.type = "image/*"
         val chooserIntent = Intent.createChooser(gallIntent, null)
         //if external storage is not available, camera capture won't work
-        if (outputMediaUri != null) {
+        cameraUri?.let {
             val camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            camIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputMediaUri)
+            camIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(camIntent))
+            Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", it)
         }
-        Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", outputMediaUri)
         startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE)
     }
 

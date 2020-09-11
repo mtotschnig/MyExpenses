@@ -231,6 +231,8 @@
     <string name="cab_ManageTemplates_planner_edit_plan_instance_help_text">@string/cab_ManageTemplates_plans_edit_plan_instance_help_text</string>
     <string name="pref_planner_advanced_key">planner_advanced</string>
     <string name="pref_planner_manual_time_key">planner_manual_time</string>
+    <string name="pref_ocr_total_indicators_key">ocr_total_indicators</string>
+    <string name="pref_ocr_key">ocr</string>
     <string name="date_format_unsupported_character">Only Day (d), Month (M), and Year (y) can be used.</string>
     <string name="date_format_specifier_missing">You need to use Day (d), Month (M), and Year (y)</string>
 </resources>

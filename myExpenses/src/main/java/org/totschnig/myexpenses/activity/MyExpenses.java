@@ -124,6 +124,7 @@ import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
@@ -186,6 +187,10 @@ public class MyExpenses extends LaunchActivity implements
   private String mCurrentBalance;
   private AccountGrouping accountGrouping;
   private Sort accountSort;
+
+  public void updateFab(boolean scanMode) {
+    floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
+  }
 
   public enum HelpVariant {
     crStatus
@@ -329,7 +334,9 @@ public class MyExpenses extends LaunchActivity implements
     registerForContextMenu(mDrawerList);
     mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
-    requireFloatingActionButtonWithContentDescription(TextUtils.concatResStrings(this, ". ",
+    boolean scanMode = isScanMode();
+    updateFab(scanMode);
+    requireFloatingActionButtonWithContentDescription(scanMode ? "Scan" : TextUtils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
@@ -546,7 +553,11 @@ public class MyExpenses extends LaunchActivity implements
         if (mAccountCount == 0) {
           showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
         } else {
-          createRow();
+          if (isScanMode()) {
+            //TODO
+          } else {
+            createRow();
+          }
         }
         return true;
       case R.id.BALANCE_COMMAND:
@@ -758,6 +769,10 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     return false;
+  }
+
+  public boolean isScanMode() {
+    return getPrefHandler().getBoolean(OCR, false);
   }
 
   public String getShareTarget() {
