@@ -9,6 +9,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.squareup.picasso.Picasso;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -47,6 +48,11 @@ import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
 @Module
 class NetworkModule {
+
+  @Provides
+  static Picasso providePicasso() {
+    return Picasso.get();
+  }
 
   @Provides
   static OkHttpClient.Builder provideOkHttpClientBuilder(@Nullable HttpLoggingInterceptor loggingInterceptor,

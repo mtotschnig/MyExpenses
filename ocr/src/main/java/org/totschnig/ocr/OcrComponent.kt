@@ -16,25 +16,24 @@
  */
 package org.totschnig.ocr
 
-import android.content.ContentResolver
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import org.totschnig.myexpenses.feature.OcrFeature
-import org.totschnig.myexpenses.preference.PrefHandler
-import javax.inject.Singleton
+import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.di.FeatureScope
 
-@Singleton
+@FeatureScope
 @Component(
-    modules = [OcrModule::class],
-    dependencies = [ContentResolver::class, PrefHandler::class]
+        modules = [OcrModule::class],
+        dependencies = [AppComponent::class]
 )
 interface OcrComponent {
-    fun ocrFeature(): OcrFeature
+    fun inject(scanPreviewFragment: ScanPreviewFragment)
 }
 
 @Module
 class OcrModule {
     @Provides
     internal fun bindOcrFeatureImpl(ocrFeatureImpl: OcrFeatureImpl): OcrFeature = ocrFeatureImpl
+
 }

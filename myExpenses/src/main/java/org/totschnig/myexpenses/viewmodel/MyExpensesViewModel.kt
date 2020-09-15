@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
@@ -16,6 +18,8 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.PictureDirHelper
+import java.io.File
 import javax.inject.Inject
 
 class MyExpensesViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -72,5 +76,18 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
         AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
+    }
+
+    fun startOcrFeature(scanFile: File, fragmentManager: FragmentManager) {
+        val ocrProvider = Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
+        ocrProvider.start(scanFile, fragmentManager)
+    }
+
+    fun getScanFile(action: (file: File) -> Unit) {
+        viewModelScope.launch {
+            action(withContext(Dispatchers.IO) {
+                PictureDirHelper.getOutputMediaFile("SCAN", true, false)
+            })
+        }
     }
 }

@@ -28,6 +28,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'androidx.exifinterface:exifinterface:1.2.0'
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.1'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     compileOnly 'javax.annotation:jsr250-api:1.0'

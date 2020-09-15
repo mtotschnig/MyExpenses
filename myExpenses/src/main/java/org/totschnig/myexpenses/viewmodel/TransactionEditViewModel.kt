@@ -7,12 +7,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -155,15 +150,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun newSplit(accountId: Long): LiveData<SplitTransaction?> = liveData(context = coroutineContext()) {
         emit(SplitTransaction.getNewInstance(accountId))
-    }
-
-    fun runTextRecognition(imageUri: Uri) {
-        val ocrProvider = Class.forName("org.totschnig.ocr.OcrFeatureImpl\$Provider").kotlin.objectInstance as OcrFeature.Provider
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                ocrResult.postValue(Event(ocrProvider.get(contentResolver, prefHandler).runTextRecognition(imageUri)))
-            }
-        }
     }
 }
 

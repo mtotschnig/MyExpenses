@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.ClipboardManager;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -90,6 +91,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -116,6 +118,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.list.MenuDialog;
+import icepick.Icepick;
+import icepick.State;
+import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import timber.log.Timber;
@@ -178,7 +183,8 @@ public class MyExpenses extends LaunchActivity implements
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
-  private long mAccountId = 0;
+  @State
+  long mAccountId = 0;
   private String currentCurrency;
   private int mAccountCount = 0;
 
@@ -187,6 +193,9 @@ public class MyExpenses extends LaunchActivity implements
   private String mCurrentBalance;
   private AccountGrouping accountGrouping;
   private Sort accountSort;
+
+  @State
+  File scanFile;
 
   public void updateFab(boolean scanMode) {
     floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
@@ -220,8 +229,10 @@ public class MyExpenses extends LaunchActivity implements
 
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexLabel, columnIndexType, columnIndexGrouping;
   boolean indexesCalculated = false;
-  private long idFromNotification = 0;
-  private String mExportFormat = null;
+  @State
+  long idFromNotification = 0;
+  @State
+  String mExportFormat = null;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -260,6 +271,8 @@ public class MyExpenses extends LaunchActivity implements
     } catch (Exception e) {
       CrashHandler.report(e);
     }
+
+    Icepick.restoreInstanceState(this, savedInstanceState);
 
     ButterKnife.bind(this);
 
@@ -335,9 +348,9 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     boolean scanMode = isScanMode();
-    updateFab(scanMode);
     requireFloatingActionButtonWithContentDescription(scanMode ? "Scan" : TextUtils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
+    updateFab(scanMode);
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
       mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
@@ -485,6 +498,9 @@ public class MyExpenses extends LaunchActivity implements
       //since its implementation is based on MutableLiveData
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
+    if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
+      viewModel.startOcrFeature(scanFile, getSupportFragmentManager());
+    }
   }
 
   @Override
@@ -554,7 +570,13 @@ public class MyExpenses extends LaunchActivity implements
           showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
         } else {
           if (isScanMode()) {
-            //TODO
+            viewModel.getScanFile(file -> {
+              scanFile = file;
+              Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+              intent.putExtra(MediaStore.EXTRA_OUTPUT, AppDirHelper.getContentUriForFile(scanFile));
+              startActivityForResult(intent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
+              return Unit.INSTANCE;
+            });
           } else {
             createRow();
           }
@@ -1143,12 +1165,7 @@ public class MyExpenses extends LaunchActivity implements
 
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    //detail fragment from notification should only be shown once
-    if (idFromNotification != 0) {
-      outState.putLong("idFromNotification", 0);
-    }
-    outState.putString("exportFormat", mExportFormat);
-    outState.putLong(KEY_ACCOUNTID, mAccountId);
+    Icepick.saveInstanceState(this, outState);
   }
 
   @Override

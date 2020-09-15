@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -74,13 +75,13 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDexApplication;
+import androidx.multidex.MultiDex;
 import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 
-public class MyApplication extends MultiDexApplication implements
+public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
 
   public static final String DEFAULT_LANGUAGE = "default";
@@ -199,6 +200,7 @@ public class MyApplication extends MultiDexApplication implements
     final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
         PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), Locale.getDefault()));
     super.attachBaseContext(wrapped);
+    MultiDex.install(this);
     appComponent = buildAppComponent();
     appComponent.inject(this);
     localeManager.initApplication(this);

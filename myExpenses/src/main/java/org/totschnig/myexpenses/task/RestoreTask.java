@@ -359,7 +359,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           Uri restored = null;
           if (backupImage.exists()) {
             File restoredImage = PictureDirHelper.getOutputMediaFile(
-                fileName.substring(0, fileName.lastIndexOf('.')), false, application.isProtected());
+                fileName.substring(0, fileName.lastIndexOf('.')), false, true);
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
               CrashHandler.report(String.format("Could not restore file %s from backup", fromBackup.toString()));
             } else {

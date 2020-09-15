@@ -1,42 +1,28 @@
 package org.totschnig.ocr
 
-import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
-import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import timber.log.Timber
+import java.io.File
 import java.text.NumberFormat
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.absoluteValue
 
-@Singleton
-class OcrFeatureImpl @Inject constructor(
-    private val contentResolver: ContentResolver, private val prefHandler: PrefHandler) : OcrFeature {
+class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler) : OcrFeature {
 
     private val numberFormat = NumberFormat.getInstance()
 
-    companion object Provider : OcrFeature.Provider {
-
-        override fun get(contentResolver: ContentResolver, prefHandler: PrefHandler): OcrFeature {
-            return DaggerOcrComponent.builder().contentResolver(contentResolver).prefHandler(prefHandler).build().ocrFeature()
-        }
-    }
-
-    override suspend fun runTextRecognition(imageUri: Uri) = runTextRecognition(imageUri, contentResolver)
-
-    suspend fun runTextRecognition(imageUri: Uri, contentResolver: ContentResolver) : List<String> {
-        val imageRotation = getImageRotation(contentResolver, imageUri)
-        Timber.d("OCR: ImageRotation %d", imageRotation)
-        val image = InputImage.fromBitmap(MediaStore.Images.Media.getBitmap(contentResolver, imageUri), imageRotation)
+    override suspend fun runTextRecognition(file: File, context: Context) : List<String> {
+        val image = InputImage.fromFilePath(context, Uri.fromFile(file))
         return suspendCoroutine { cont ->
             TextRecognition.getClient().process(image)
                     .addOnSuccessListener { texts ->

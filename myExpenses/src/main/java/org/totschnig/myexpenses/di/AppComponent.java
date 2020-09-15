@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.di;
 
+import com.squareup.picasso.Picasso;
+
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -87,6 +89,29 @@ public interface AppComponent {
     AppComponent build();
   }
 
+  CrashHandler crashHandler();
+
+  Tracker tracker();
+
+  PrefHandler prefHandler();
+
+  @VisibleForTesting
+  LicenceHandler licenceHandler();
+
+  @Named(USER_COUNTRY)
+  String userCountry();
+
+  CurrencyContext currencyContext();
+
+  CurrencyFormatter currencyFormatter();
+
+  ExchangeRateRepository exchangeRateRepository();
+
+  UserLocaleProvider userLocaleProvider();
+
+  Picasso picasso();
+
+
   void inject(MyApplication application);
 
   void inject(ExpenseEdit expenseEdit);
@@ -128,26 +153,6 @@ public interface AppComponent {
   void inject(HistoryChart historyChart);
 
   void inject(TransactionViewModel transactionEditViewModel);
-
-  CrashHandler crashHandler();
-
-  Tracker tracker();
-
-  PrefHandler prefHandler();
-
-  @VisibleForTesting
-  LicenceHandler licenceHandler();
-
-  @Named(USER_COUNTRY)
-  String userCountry();
-
-  CurrencyContext currencyContext();
-
-  CurrencyFormatter currencyFormatter();
-
-  ExchangeRateRepository exchangeRateRepository();
-
-  UserLocaleProvider userLocaleProvider();
 
   void inject(DonateDialogFragment donateDialogFragment);
 

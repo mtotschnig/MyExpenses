@@ -740,7 +740,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     if (PermissionHelper.canReadUri(uri, this)) {
                         setPicture(uri)
                         setDirty()
-                        viewModel.runTextRecognition(uri)
                     } else {
                         pictureUriTemp = uri
                         requestStoragePermission()

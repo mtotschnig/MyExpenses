@@ -2,6 +2,11 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="org.totschnig.ocr">
 
+    <application>
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
+    </application>
     <dist:module
         dist:instant="false"
         dist:title="OCR">

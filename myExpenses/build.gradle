@@ -201,7 +201,7 @@ dependencies {
     //noinspection GradleDependency
     implementation 'org.apache.commons:commons-lang3:3.5'
     implementation 'org.apache.commons:commons-csv:1.5'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
@@ -230,7 +230,7 @@ dependencies {
         exclude group: 'com.google.android', module: 'android'
     }
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -303,14 +303,15 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.archLifecycleVersion"
 
-    api 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.1'
-
     // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
     //implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"
+
+    //needed for mlkit
+    implementation "com.google.android.gms:play-services-base:17.4.0"
 
 }
 
