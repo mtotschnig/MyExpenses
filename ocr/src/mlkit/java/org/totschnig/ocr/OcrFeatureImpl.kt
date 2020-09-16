@@ -2,7 +2,6 @@ package org.totschnig.ocr
 
 import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -28,7 +27,8 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler) :
                     .addOnSuccessListener { texts ->
                         cont.resume(processTextRecognitionResult(texts, prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "Total")!!.lines()))
                     }
-                    .addOnFailureListener { e -> cont.resumeWithException(e as Throwable)
+                    .addOnFailureListener { e ->
+                        cont.resumeWithException(e as Throwable)
                     }
         }
     }

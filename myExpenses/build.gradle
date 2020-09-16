@@ -110,11 +110,17 @@ android {
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
-    flavorDimensions "security"
+    flavorDimensions "security", "textRecognition"
 
     productFlavors {
         conscript {
             dimension "security"
+        }
+        mlkit {
+            dimension "textRecognition"
+        }
+        stub {
+            dimension "textRecognition"
         }
     }
 

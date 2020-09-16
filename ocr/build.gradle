@@ -19,6 +19,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    flavorDimensions "textRecognition"
+
+    productFlavors {
+        mlkit {
+            dimension "textRecognition"
+        }
+        stub {
+            dimension "textRecognition"
+        }
+    }
 }
 
 dependencies {
@@ -31,7 +42,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.1'
+    mlkitImplementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.1'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
