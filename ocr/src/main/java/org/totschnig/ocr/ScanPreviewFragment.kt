@@ -45,8 +45,12 @@ class ScanPreviewFragment : DialogFragment() {
                 getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                     lifecycleScope.launch {
                         withContext(Dispatchers.Default) {
-                            ocrFeature.runTextRecognition(scanFile, requireContext())
-                        }.forEach { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
+                            try {
+                                ocrFeature.runTextRecognition(scanFile, requireContext()).get(0)
+                            } catch (e: Throwable) {
+                                e.toString()
+                            }
+                        }.let { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
                     }
                 }
             }
