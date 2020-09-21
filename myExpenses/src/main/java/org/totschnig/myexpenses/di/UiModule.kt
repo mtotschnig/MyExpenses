@@ -8,6 +8,7 @@ import dagger.Provides
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
@@ -56,6 +57,21 @@ class UiModule {
 
             override fun onPause() {
                 this.callback = null
+            }
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideFeatureManager(): FeatureManager = try {
+        Class.forName("org.totschnig.myexpenses.util.locale.PlatformFeatureManager")
+                .newInstance() as FeatureManager
+    } catch (e: Exception) {
+        object : FeatureManager {
+            override fun isFeatureInstalled(feature: FeatureManager.Feature) = false
+
+            override fun requestFeature(feature: FeatureManager.Feature, callback: org.totschnig.myexpenses.feature.Callback) {
+                callback.onError(NotImplementedError())
             }
         }
     }

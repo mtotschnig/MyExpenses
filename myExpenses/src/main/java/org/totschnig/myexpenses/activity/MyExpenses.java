@@ -197,7 +197,26 @@ public class MyExpenses extends LaunchActivity implements
   @State
   File scanFile;
 
-  public void updateFab(boolean scanMode) {
+  public void updateFab() {
+    updateFab(isScanMode());
+  }
+
+  public void toggleScanMode() {
+    final boolean oldMode = getPrefHandler().getBoolean(OCR, false);
+    if (oldMode) {
+      getPrefHandler().putBoolean(OCR, false);
+    } else if (viewModel.isOcrAvailable()) {
+      getPrefHandler().putBoolean(OCR, true);
+      updateFab();
+      invalidateOptionsMenu();
+    } else {
+      viewModel.requestOcrFeature();
+    }
+  }
+
+  private void updateFab(boolean scanMode) {
+    requireFloatingActionButtonWithContentDescription(scanMode ? "Scan" : TextUtils.concatResStrings(this, ". ",
+      R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
     floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
   }
 
@@ -347,10 +366,7 @@ public class MyExpenses extends LaunchActivity implements
     registerForContextMenu(mDrawerList);
     mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
-    boolean scanMode = isScanMode();
-    requireFloatingActionButtonWithContentDescription(scanMode ? "Scan" : TextUtils.concatResStrings(this, ". ",
-        R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
-    updateFab(scanMode);
+    updateFab(false);
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
       mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
@@ -378,6 +394,19 @@ public class MyExpenses extends LaunchActivity implements
     viewModel.getHasHiddenAccounts().observe(this,
         result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     viewModel.loadHiddenAccountCount();
+    viewModel.getFeatureState().observe(this, featureState -> {
+      switch (featureState.getFirst()) {
+        case LOADING:
+          showSnackbar("loading", Snackbar.LENGTH_LONG);
+          break;
+        case AVAILABLE:
+          updateFab();
+          break;
+        case ERROR:
+          showSnackbar(featureState.getSecond(), Snackbar.LENGTH_LONG);
+          break;
+      }
+    });
     setup();
     /*if (savedInstanceState == null) {
       voteReminderCheck();

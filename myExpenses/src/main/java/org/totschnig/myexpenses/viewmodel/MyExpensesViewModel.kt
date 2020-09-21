@@ -10,6 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.feature.Callback
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -29,12 +31,25 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     }
 
     @Inject
+    lateinit var featureManager: FeatureManager
+
+    @Inject
     lateinit var prefHandler: PrefHandler
+
+    enum class FeatureState {
+        LOADING, AVAILABLE, ERROR;
+    }
+
+    private val featureState = MutableLiveData<Pair<FeatureState, String?>>()
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
+    }
+
+    fun getFeatureState(): LiveData<Pair<FeatureState, String?>> {
+        return featureState
     }
 
     fun loadHiddenAccountCount() {
@@ -82,6 +97,23 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         val ocrProvider = Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
         ocrProvider.start(scanFile, fragmentManager)
     }
+
+    fun isOcrAvailable() = featureManager.isFeatureInstalled(FeatureManager.Feature.OCR)
+
+    fun requestOcrFeature() = featureManager.requestFeature(FeatureManager.Feature.OCR, object : Callback {
+        override fun onAvailable() {
+            featureState.postValue(Pair(FeatureState.AVAILABLE, null))
+        }
+
+        override fun onAsyncStarted(feature: FeatureManager.Feature) {
+            featureState.postValue(Pair(FeatureState.LOADING, null))
+        }
+
+        override fun onError(throwable: Throwable) {
+            featureState.postValue(Pair(FeatureState.ERROR, throwable.message))
+        }
+
+    })
 
     fun getScanFile(action: (file: File) -> Unit) {
         viewModelScope.launch {

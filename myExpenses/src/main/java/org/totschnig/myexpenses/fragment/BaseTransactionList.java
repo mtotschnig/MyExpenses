@@ -1537,10 +1537,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         return true;
       }
       case R.id.SCAN_MODE_COMMAND: {
-        boolean newMode = !prefHandler.getBoolean(OCR, false);
-        prefHandler.putBoolean(OCR, newMode);
-        ((MyExpenses) getActivity()).updateFab(newMode);
-        getActivity().invalidateOptionsMenu();
+        ((MyExpenses) getActivity()).toggleScanMode();
       }
       default:
         return super.onOptionsItemSelected(item);
