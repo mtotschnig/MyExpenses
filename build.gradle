@@ -36,7 +36,7 @@ ext {
     okHttpVersion = "3.12.12"
     acraVersion = "5.7.0"
     butterknifeVersion = "10.2.1"
-    robolectricVersion = "4.3.1"
+    robolectricVersion = "4.4"
     roomVersion = "2.2.5"
     archLifecycleVersion = '2.2.0'
     androidxArchVersion = '2.1.0'
