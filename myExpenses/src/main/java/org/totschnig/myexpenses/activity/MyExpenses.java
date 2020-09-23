@@ -528,7 +528,7 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
-      viewModel.startOcrFeature(scanFile, getSupportFragmentManager());
+      viewModel.startOcrFeature(scanFile, this);
     }
   }
 

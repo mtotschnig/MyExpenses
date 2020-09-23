@@ -1,19 +1,16 @@
 package org.totschnig.ocr
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import java.io.File
@@ -21,14 +18,20 @@ import javax.inject.Inject
 
 class ScanPreviewFragment : DialogFragment() {
     @Inject
-    lateinit var ocrFeature: OcrFeature
-
-    @Inject
     lateinit var picasso: Picasso
     lateinit var imageView: ImageView
+    lateinit var viewModel: ScanPreviewViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerOcrComponent.builder().appComponent(MyApplication.getInstance().appComponent).build().inject(this)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        DaggerOcrComponent.builder().appComponent(MyApplication.getInstance().appComponent).build().inject(this)
+        viewModel = ViewModelProvider(this).get(ScanPreviewViewModel::class.java)
+        viewModel.getResult().observe(this) {
+            it.map { it?.amount ?: "No Data" }.recover { it.message }.getOrNull().let { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
+        }
         val inflater: LayoutInflater = requireActivity().getLayoutInflater()
         val view: View = inflater.inflate(R.layout.scan_preview, null)
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
@@ -43,36 +46,14 @@ class ScanPreviewFragment : DialogFragment() {
                 view.findViewById<ImageView>(R.id.RotateRight).setOnClickListener { rotate(true) }
                 view.findViewById<ImageView>(R.id.RotateLeft).setOnClickListener { rotate(false) }
                 getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                    lifecycleScope.launch {
-                        withContext(Dispatchers.Default) {
-                            try {
-                                ocrFeature.runTextRecognition(scanFile, requireContext()).get(0)
-                            } catch (e: Throwable) {
-                                e.toString()
-                            }
-                        }.let { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
-                    }
+                    viewModel.runTextRecognition(scanFile)
                 }
             }
         }
     }
 
-    private fun rotate(right: Boolean) {
-        lifecycleScope.launch {
-            withContext(Dispatchers.Default) {
-                val exif = ExifInterface(scanFile.path)
-                when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
-                    ExifInterface.ORIENTATION_NORMAL -> if (right) ExifInterface.ORIENTATION_ROTATE_90 else ExifInterface.ORIENTATION_ROTATE_270
-                    ExifInterface.ORIENTATION_ROTATE_90 -> if (right) ExifInterface.ORIENTATION_ROTATE_180 else ExifInterface.ORIENTATION_NORMAL
-                    ExifInterface.ORIENTATION_ROTATE_180 -> if (right) ExifInterface.ORIENTATION_ROTATE_270 else ExifInterface.ORIENTATION_ROTATE_90
-                    ExifInterface.ORIENTATION_ROTATE_270 -> if (right) ExifInterface.ORIENTATION_NORMAL else ExifInterface.ORIENTATION_ROTATE_180
-                    else -> 0
-                }.takeIf { it != 0 }?.also {
-                    exif.setAttribute(ExifInterface.TAG_ORIENTATION, it.toString())
-                    exif.saveAttributes()
-                }
-            }?.run { loadImage() }
-        }
+    private fun rotate(right: Boolean)  {
+        viewModel.rotate(true, scanFile.path) { loadImage() }
     }
 
     private fun loadImage() {

@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
+import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -57,7 +58,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -91,7 +91,7 @@ public class MyApplication extends Application implements
   @Inject
   CrashHandler crashHandler;
   @Inject
-  LocaleManager localeManager;
+  FeatureManager featureManager;
   @Inject
   PrefHandler prefHandler;
   @Inject
@@ -203,7 +203,7 @@ public class MyApplication extends Application implements
     MultiDex.install(this);
     appComponent = buildAppComponent();
     appComponent.inject(this);
-    localeManager.initApplication(this);
+    featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
     Transaction.buildProjection(wrapped);

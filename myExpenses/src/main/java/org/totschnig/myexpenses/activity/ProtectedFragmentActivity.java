@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -75,7 +76,6 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
@@ -190,7 +190,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected CurrencyFormatter currencyFormatter;
 
   @Inject
-  protected LocaleManager localeManager;
+  protected FeatureManager featureManager;
 
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
@@ -234,7 +234,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       applyOverrideConfiguration(updateConfiguration());
     }
     injectDependencies();
-    localeManager.initActivity(this);
+    featureManager.initActivity(this);
   }
 
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

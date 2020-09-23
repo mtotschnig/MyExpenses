@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.di.FeatureScope
 )
 interface OcrComponent {
     fun inject(scanPreviewFragment: ScanPreviewFragment)
+    fun inject(scanPreviewViewModel: ScanPreviewViewModel)
 }
 
 @Module

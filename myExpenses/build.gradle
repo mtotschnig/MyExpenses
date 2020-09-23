@@ -177,7 +177,7 @@ dependencies {
     implementation 'com.squareup.phrase:phrase:1.1.0'
     kapt "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    api "com.google.dagger:dagger:$rootProject.daggerVersion"
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
@@ -309,9 +309,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.archLifecycleVersion"
 
-    // Coroutines
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
     //implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"

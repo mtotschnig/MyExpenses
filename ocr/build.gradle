@@ -7,6 +7,8 @@ android {
     compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
+        missingDimensionStrategy 'distribution', 'play'
+        missingDimensionStrategy 'security', 'gms'
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode 1
@@ -41,9 +43,11 @@ dependencies {
     implementation 'androidx.exifinterface:exifinterface:1.2.0'
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
     mlkitImplementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.1'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
     testImplementation 'junit:junit:4.12'

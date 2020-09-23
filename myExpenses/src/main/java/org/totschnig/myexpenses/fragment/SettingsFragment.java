@@ -32,6 +32,8 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.feature.Callback;
+import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -66,8 +68,6 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.locale.Callback;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
@@ -104,7 +104,6 @@ import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import kotlin.Unit;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
@@ -200,7 +199,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   @Inject
   CrashHandler crashHandler;
   @Inject
-  LocaleManager localeManager;
+  FeatureManager featureManager;
   @Inject
   CurrencyFormatter currencyFormatter;
   @Inject
@@ -567,26 +566,30 @@ public class SettingsFragment extends BaseSettingsFragment implements
       configureContribPrefs();
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    localeManager.onResume(new Callback() {
-                             @Override
-                             public void onAvailable() {
-                               rebuildDbConstants();
-                               activity.recreate();
-                             }
+    featureManager.registerCallback(
+        new Callback() {
+          @Override
+          public void onAsyncStarted(@NotNull FeatureManager.Feature feature) { }
 
-                             @Override
-                             public void onAsyncStarted(@NotNull String displayLanguage) {
-                               activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
-                             }
+          @Override
+          public void onAvailable() {
+            rebuildDbConstants();
+            activity.recreate();
+          }
 
-                             @Override
-                             public void onError(@NotNull Exception exception) {
-                               final String message = exception.getMessage();
-                               if (message != null) {
-                                 activity().showSnackbar(message, Snackbar.LENGTH_LONG);
-                               }
-                             }
-                           }
+          @Override
+          public void onAsyncStarted(@NotNull String displayLanguage) {
+            activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
+          }
+
+          @Override
+          public void onError(@NotNull Throwable exception) {
+            final String message = exception.getMessage();
+            if (message != null) {
+              activity().showSnackbar(message, Snackbar.LENGTH_LONG);
+            }
+          }
+        }
 
     );
   }
@@ -595,14 +598,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public void onPause() {
     super.onPause();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    localeManager.onPause();
+    featureManager.unregister();
   }
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
     if (key.equals(getKey(UI_LANGUAGE))) {
-      localeManager.requestLocale(activity());
+      featureManager.requestLocale(activity());
     } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
         key.equals(getKey(GROUP_WEEK_STARTS))) {
       rebuildDbConstants();

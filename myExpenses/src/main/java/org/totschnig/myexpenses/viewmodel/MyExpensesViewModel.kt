@@ -2,13 +2,14 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -21,6 +22,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.File
 import javax.inject.Inject
 
@@ -28,6 +30,20 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
 
     init {
         (application as MyApplication).appComponent.inject(this)
+        featureManager.registerCallback(object : Callback {
+            override fun onAvailable() {
+                featureState.postValue(Pair(FeatureState.AVAILABLE, null))
+            }
+
+            override fun onAsyncStarted(feature: FeatureManager.Feature) {
+                featureState.postValue(Pair(FeatureState.LOADING, null))
+            }
+
+            override fun onError(throwable: Throwable) {
+                featureState.postValue(Pair(FeatureState.ERROR, throwable.message))
+            }
+
+        })
     }
 
     @Inject
@@ -93,27 +109,18 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 
-    fun startOcrFeature(scanFile: File, fragmentManager: FragmentManager) {
-        val ocrProvider = Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
-        ocrProvider.start(scanFile, fragmentManager)
+    fun startOcrFeature(scanFile: @NotNull File, fragmentActivity: FragmentActivity) {
+        try {
+            val ocrProvider = Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
+            ocrProvider.start(scanFile, fragmentActivity)
+        } catch (e: ClassNotFoundException) {
+            CrashHandler.report(e)
+        }
     }
 
     fun isOcrAvailable() = featureManager.isFeatureInstalled(FeatureManager.Feature.OCR)
 
-    fun requestOcrFeature() = featureManager.requestFeature(FeatureManager.Feature.OCR, object : Callback {
-        override fun onAvailable() {
-            featureState.postValue(Pair(FeatureState.AVAILABLE, null))
-        }
-
-        override fun onAsyncStarted(feature: FeatureManager.Feature) {
-            featureState.postValue(Pair(FeatureState.LOADING, null))
-        }
-
-        override fun onError(throwable: Throwable) {
-            featureState.postValue(Pair(FeatureState.ERROR, throwable.message))
-        }
-
-    })
+    fun requestOcrFeature() = featureManager.requestFeature(FeatureManager.Feature.OCR)
 
     fun getScanFile(action: (file: File) -> Unit) {
         viewModelScope.launch {
