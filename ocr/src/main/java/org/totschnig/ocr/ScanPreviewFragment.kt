@@ -1,7 +1,6 @@
 package org.totschnig.ocr
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +28,11 @@ class ScanPreviewFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         viewModel = ViewModelProvider(this).get(ScanPreviewViewModel::class.java)
-        viewModel.getResult().observe(this) {
-            it.map { it?.amount ?: "No Data" }.recover { it.message }.getOrNull().let { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
+        viewModel.getResult().observe(this) { result ->
+            result.map {
+                (if (it.amountCandidates.isEmpty()) "No Amount" else it.amountCandidates.joinToString("; ")) +
+                        (if (it.dateCandidates.isEmpty()) "No Date" else it.dateCandidates.joinToString("; "))
+            }.recover { it.message }.getOrNull()?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
         }
         val inflater: LayoutInflater = requireActivity().getLayoutInflater()
         val view: View = inflater.inflate(R.layout.scan_preview, null)
@@ -52,8 +54,8 @@ class ScanPreviewFragment : DialogFragment() {
         }
     }
 
-    private fun rotate(right: Boolean)  {
-        viewModel.rotate(true, scanFile.path) { loadImage() }
+    private fun rotate(right: Boolean) {
+        viewModel.rotate(right, scanFile.path) { loadImage() }
     }
 
     private fun loadImage() {

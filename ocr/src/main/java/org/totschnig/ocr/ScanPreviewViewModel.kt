@@ -18,9 +18,9 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     @Inject
     lateinit var ocrFeature: OcrFeature
 
-    private val result = MutableLiveData<Result<OcrResult?>>()
+    private val result = MutableLiveData<Result<OcrResult>>()
 
-    fun getResult(): LiveData<Result<OcrResult?>> = result
+    fun getResult(): LiveData<Result<OcrResult>> = result
 
     init {
         DaggerOcrComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
