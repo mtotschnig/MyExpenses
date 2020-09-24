@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.OperationApplicationException
 import android.os.RemoteException
-import android.widget.CheckedTextView
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click

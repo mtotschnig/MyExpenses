@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.feature.OcrHost
 import java.io.File
 import javax.inject.Inject
 
@@ -29,10 +29,8 @@ class ScanPreviewFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         viewModel = ViewModelProvider(this).get(ScanPreviewViewModel::class.java)
         viewModel.getResult().observe(this) { result ->
-            result.map {
-                (if (it.amountCandidates.isEmpty()) "No Amount" else it.amountCandidates.joinToString("; ")) +
-                        (if (it.dateCandidates.isEmpty()) "No Date" else it.dateCandidates.joinToString("; "))
-            }.recover { it.message }.getOrNull()?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() }
+            (activity as? OcrHost)?.processOcrResult(result)
+            dismiss()
         }
         val inflater: LayoutInflater = requireActivity().getLayoutInflater()
         val view: View = inflater.inflate(R.layout.scan_preview, null)

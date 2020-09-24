@@ -7,8 +7,11 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import org.totschnig.myexpenses.feature.OcrResult
+import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import timber.log.Timber
 import java.io.File
 import java.text.NumberFormat
@@ -31,10 +34,20 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler) :
 
     override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
         val image = InputImage.fromFilePath(context, Uri.fromFile(file))
+        val payeeList = mutableListOf<Payee>()
+        context.contentResolver.query(TransactionProvider.PAYEES_URI,
+                arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
+                null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                do {
+                    payeeList.add(Payee(cursor.getLong(0), cursor.getString(1)))
+                } while (cursor.moveToNext());
+            }
+        }
         return suspendCoroutine { cont ->
             TextRecognition.getClient().process(image)
                     .addOnSuccessListener { texts ->
-                        cont.resume(processTextRecognitionResult(texts, prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "Total")!!.lines()))
+                        cont.resume(processTextRecognitionResult(texts, prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "Total")!!.lines(), payeeList))
                     }
                     .addOnFailureListener { e ->
                         cont.resumeWithException(e as Throwable)
@@ -48,7 +61,7 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler) :
     fun Text.Element.bOr0() = boundingBox.bOr0()
     fun Text.Element.tOr0() = boundingBox.tOr0()
 
-    private fun processTextRecognitionResult(texts: Text, totalIndicators: List<String>): OcrResult {
+    private fun processTextRecognitionResult(texts: Text, totalIndicators: List<String>, payeeList: MutableList<Payee>): OcrResult {
         val blocks = texts.textBlocks
         val lines = mutableListOf<Text.Line>()
         for (i in blocks.indices) {
@@ -109,7 +122,11 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler) :
             null
         }.filterNotNull()
 
-        return OcrResult(amountCandidates, dateCandidates)
+        val payee = lines.map { line ->
+            payeeList.find { payee -> payee.name.startsWith(line.text, ignoreCase = true) }
+        }.first()
+
+        return OcrResult(amountCandidates, dateCandidates, payee)
     }
 
     fun extractAmount(line: Text.Line): String? = line.elements.filter { element ->

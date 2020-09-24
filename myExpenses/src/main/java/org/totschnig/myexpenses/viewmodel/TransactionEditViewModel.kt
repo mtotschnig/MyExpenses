@@ -48,13 +48,10 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
     private val accounts = MutableLiveData<List<Account>>()
-    private val ocrResult = MutableLiveData<Event<List<String>>>()
 
     fun getMethods(): LiveData<List<PaymentMethod>> = methods
 
     fun getAccounts(): LiveData<List<Account>> = accounts
-
-    fun getOcrResult(): LiveData<Event<List<String>>> = ocrResult
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))

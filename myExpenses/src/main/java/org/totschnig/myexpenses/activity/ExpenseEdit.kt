@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
 import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
@@ -78,6 +79,7 @@ import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -378,9 +380,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             })
         }
-        viewModel.getOcrResult().observe(this, EventObserver { list ->
-            list.getOrNull(0)?.let { amountInput.setRaw(it) }
-        })
     }
 
     private fun loadData() {
@@ -447,6 +446,15 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         transaction?.let { populate(it) } ?: run {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
+        }
+        intent.getParcelableExtra<OcrResult>(KEY_OCR_RESULT)?.let {
+            it.amountCandidates.getOrNull(0)?.let {  amountInput.setRaw(it) }
+            it.dateCandidates.getOrNull(0)?.let { datepair ->
+                dateEditBinding.DateButton.date = datepair.first
+                datepair.second?.let { dateEditBinding.TimeButton.time = it }
+            }
+            rootBinding.Payee.setText(it.payee?.name)
+            delegate.setPicture(intent.getParcelableExtra(KEY_PICTURE_URI))
         }
     }
 
@@ -912,7 +920,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     if (isTemplate) {
                         launchPlanViewForTemplate(result)
                     } else {
-                        viewModel.transaction(result, TRANSACTION, clone = false, forEdit = false, extras = null).observe(this, Observer {
+                        viewModel.transaction(result, TRANSACTION, clone = false, forEdit = false, extras = null).observe(this, {
                             it?.originTemplateId?.let { launchPlanViewForTemplate(it) }
                         })
                     }
@@ -929,7 +937,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun launchPlanViewForTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer {
+        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, {
             it?.let { launchPlanView(true, (it as Template).planId) }
         })
     }
@@ -1196,6 +1204,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         private const val KEY_CACHED_RECURRENCE = "cachedRecurrence"
         private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
+        const val KEY_OCR_RESULT = "ocrResult"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
         const val AUTOFILL_CURSOR = 8
     }
