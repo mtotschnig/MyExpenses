@@ -474,6 +474,14 @@
                 android:defaultValue="@string/pref_ocr_total_indicators_default"
                 android:key="@string/pref_ocr_total_indicators_key"
                 android:title="Indicators for total amount" />
+            <EditTextPreference
+                android:key="@string/pref_ocr_date_formats_key"
+                android:summary="@string/pref_custom_decimal_format_summary"
+                android:title="Date Formats" />
+            <EditTextPreference
+                android:key="@string/pref_ocr_time_formats_key"
+                android:summary="@string/pref_custom_decimal_format_summary"
+                android:title="Time Formats" />
         </PreferenceScreen>
     </PreferenceCategory>
 

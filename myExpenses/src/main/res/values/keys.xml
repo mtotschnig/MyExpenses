@@ -232,6 +232,8 @@
     <string name="pref_planner_advanced_key">planner_advanced</string>
     <string name="pref_planner_manual_time_key">planner_manual_time</string>
     <string name="pref_ocr_total_indicators_key">ocr_total_indicators</string>
+    <string name="pref_ocr_time_formats_key">ocr_time_formats</string>
+    <string name="pref_ocr_date_formats_key">ocr_date_formats</string>
     <string name="pref_ocr_key">ocr</string>
     <string name="date_format_unsupported_character">Only Day (d), Month (M), and Year (y) can be used.</string>
     <string name="date_format_specifier_missing">You need to use Day (d), Month (M), and Year (y)</string>

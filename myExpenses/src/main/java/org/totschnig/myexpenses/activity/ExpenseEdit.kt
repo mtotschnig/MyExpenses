@@ -449,9 +449,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         }
         intent.getParcelableExtra<OcrResult>(KEY_OCR_RESULT)?.let {
             it.amountCandidates.getOrNull(0)?.let {  amountInput.setRaw(it) }
-            it.dateCandidates.getOrNull(0)?.let { datepair ->
-                dateEditBinding.DateButton.date = datepair.first
-                datepair.second?.let { dateEditBinding.TimeButton.time = it }
+            it.dateCandidates.getOrNull(0)?.let { pair ->
+                dateEditBinding.DateButton.setDate(pair.first)
+                pair.second?.let { dateEditBinding.TimeButton.time = it }
             }
             rootBinding.Payee.setText(it.payee?.name)
             delegate.setPicture(intent.getParcelableExtra(KEY_PICTURE_URI))
