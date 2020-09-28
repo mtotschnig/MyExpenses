@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
@@ -98,6 +99,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun startEditFromOcrResult(result: OcrResultFlat) {
+        recordUsage(ContribFeature.OCR)
         startEdit(
                 createRowIntent().apply {
                     putExtra(KEY_OCR_RESULT, result)

@@ -571,13 +571,7 @@ public class MyExpenses extends BaseMyExpenses implements
           showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
         } else {
           if (isScanMode()) {
-            viewModel.getScanFile(file -> {
-              scanFile = file;
-              Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-              intent.putExtra(MediaStore.EXTRA_OUTPUT, AppDirHelper.getContentUriForFile(scanFile));
-              startActivityForResult(intent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
-              return Unit.INSTANCE;
-            });
+            contribFeatureRequested(ContribFeature.OCR, null);
           } else {
             createRow();
           }
@@ -904,6 +898,15 @@ public class MyExpenses extends BaseMyExpenses implements
           startActivity(i);
         }
         break;
+      }
+      case OCR: {
+        viewModel.getScanFile(file -> {
+          scanFile = file;
+          Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+          intent.putExtra(MediaStore.EXTRA_OUTPUT, AppDirHelper.getContentUriForFile(scanFile));
+          startActivityForResult(intent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
+          return Unit.INSTANCE;
+        });
       }
     }
   }
