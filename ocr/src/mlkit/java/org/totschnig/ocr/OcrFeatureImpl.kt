@@ -140,11 +140,11 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
                 ?: lines.map { line -> extractDate(line, timeCandidates, 2) }.filterNotNull().takeIf { !it.isEmpty() }
                 ?: lines.map { line -> extractDate(line, timeCandidates, 3) }.filterNotNull()
 
-        val payee = lines.map { line ->
-            payeeList.find { payee -> payee.name.startsWith(line.text, ignoreCase = true) }
-        }.first()
+        val payeeCandidates = lines.map { line ->
+            payeeList.find { payee -> payee.name.startsWith(line.text, ignoreCase = true) || line.text.startsWith(payee.name, ignoreCase = true) }
+        }.filterNotNull()
 
-        return OcrResult(amountCandidates, dateCandidates, payee)
+        return OcrResult(amountCandidates, dateCandidates, payeeCandidates)
     }
 
     val List<Text.Element>.text: String

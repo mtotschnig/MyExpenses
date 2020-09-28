@@ -65,12 +65,12 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
         .show(this, DIALOG_NEW_CATEGORY);
   }
 
-  private FormElement buildLabelField(String text) {
+  private Input buildLabelField(String text) {
     return Input.plain(KEY_LABEL).required().hint(R.string.label).text(text)
         .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
   }
 
-  private FormElement buildIconField(String preset) {
+  private SelectIconField buildIconField(String preset) {
     return SelectIconField.picker(KEY_ICON).icons(BuildConfig.CATEGORY_ICONS).preset(preset).label(R.string.icon);
   }
 

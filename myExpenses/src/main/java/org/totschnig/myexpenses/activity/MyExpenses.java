@@ -91,7 +91,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -116,7 +115,6 @@ import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.list.MenuDialog;
 import icepick.Icepick;
 import icepick.State;
@@ -166,7 +164,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
 public class MyExpenses extends BaseMyExpenses implements
     ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener,
+    ConfirmationDialogListener, ContribIFace,
     SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   public static final int ACCOUNTS_CURSOR = -1;
@@ -1048,7 +1046,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (DIALOG_TAG_GROUPING.equals(dialogTag)) {
       return handleAccountsGrouping((int) extras.getLong(SELECTED_SINGLE_ID));
     }
-    return false;
+    return super.onResult(dialogTag, which, extras);
   }
 
   @Override

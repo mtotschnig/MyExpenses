@@ -211,7 +211,7 @@ dependencies {
     implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
-    implementation 'com.github.mtotschnig:SimpleDialogFragments:0e6ab5bc05'
+    implementation 'com.github.eltos:simpledialogfragments:v3.2'
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
 

@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.feature.OcrResult
+import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
 import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
@@ -107,8 +108,6 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Currency
-import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
@@ -447,13 +446,13 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
         }
-        intent.getParcelableExtra<OcrResult>(KEY_OCR_RESULT)?.let {
-            it.amountCandidates.getOrNull(0)?.let {  amountInput.setRaw(it) }
-            it.dateCandidates.getOrNull(0)?.let { pair ->
+        intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let {
+            it.amount?.let { amountInput.setRaw(it) }
+            it.date?.let { pair ->
                 dateEditBinding.DateButton.setDate(pair.first)
                 pair.second?.let { dateEditBinding.TimeButton.time = it }
             }
-            rootBinding.Payee.setText(it.payee?.name)
+            it.payee?.let { rootBinding.Payee.setText(it.name) }
             delegate.setPicture(intent.getParcelableExtra(KEY_PICTURE_URI))
         }
     }
