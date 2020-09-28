@@ -922,4 +922,6 @@
 Summe
 Zu zahlen
 Zahlbetrag"</string>
+    <string name="feature_download_requested">Feature %s is requested from Play Store.</string>
+    <string name="feature_downloaded">Feature %s has been installed.</string>
 </resources>

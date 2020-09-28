@@ -188,26 +188,21 @@ public class MyExpenses extends BaseMyExpenses implements
   private Sort accountSort;
 
   public void updateFab() {
-    updateFab(isScanMode());
+    boolean scanMode = isScanMode();
+    requireFloatingActionButtonWithContentDescription(scanMode ? getString(R.string.contrib_feature_ocr_label) : TextUtils.concatResStrings(this, ". ",
+        R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
+    floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
   }
 
   public void toggleScanMode() {
     final boolean oldMode = getPrefHandler().getBoolean(OCR, false);
-    if (oldMode) {
-      getPrefHandler().putBoolean(OCR, false);
-    } else if (viewModel.isOcrAvailable()) {
-      getPrefHandler().putBoolean(OCR, true);
-      updateFab();
-      invalidateOptionsMenu();
-    } else {
+    final boolean newMode = !oldMode;
+    getPrefHandler().putBoolean(OCR, newMode);
+    updateFab();
+    invalidateOptionsMenu();
+    if (newMode && !viewModel.isOcrAvailable()) {
       viewModel.requestOcrFeature();
     }
-  }
-
-  private void updateFab(boolean scanMode) {
-    requireFloatingActionButtonWithContentDescription(scanMode ? "Scan" : TextUtils.concatResStrings(this, ". ",
-      R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
-    floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
   }
 
   public enum HelpVariant {
@@ -356,7 +351,7 @@ public class MyExpenses extends BaseMyExpenses implements
     registerForContextMenu(mDrawerList);
     mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
-    updateFab(false);
+    updateFab();
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
@@ -387,10 +382,10 @@ public class MyExpenses extends BaseMyExpenses implements
     viewModel.getFeatureState().observe(this, featureState -> {
       switch (featureState.getFirst()) {
         case LOADING:
-          showSnackbar("loading", Snackbar.LENGTH_LONG);
+          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_ocr)), Snackbar.LENGTH_LONG);
           break;
         case AVAILABLE:
-          updateFab();
+          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_ocr)), Snackbar.LENGTH_LONG);
           break;
         case ERROR:
           showSnackbar(featureState.getSecond(), Snackbar.LENGTH_LONG);
@@ -571,7 +566,11 @@ public class MyExpenses extends BaseMyExpenses implements
           showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
         } else {
           if (isScanMode()) {
-            contribFeatureRequested(ContribFeature.OCR, null);
+            if (viewModel.isOcrAvailable()) {
+              contribFeatureRequested(ContribFeature.OCR, null);
+            } else {
+              viewModel.requestOcrFeature();
+            }
           } else {
             createRow();
           }
