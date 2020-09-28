@@ -903,4 +903,8 @@
   <string name="pref_planner_manual_time_noon">12 Uhr (Mittag)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
   <string name="pref_planner_manual_time_current">Zeit der Anwendung</string>
+  <string name="pref_ocr_total_indicators_default">"Total
+Summe
+Zu zahlen
+Zahlbetrag"</string>
 </resources>
