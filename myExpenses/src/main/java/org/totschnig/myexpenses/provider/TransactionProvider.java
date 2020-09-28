@@ -850,7 +850,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           projection = new String[]{KEY_TITLE, KEY_INSTANCEID, KEY_TRANSACTIONID, KEY_COLOR, KEY_CURRENCY,
               String.format(Locale.ROOT, "coalesce(%1$s.%2$s, %3$s.%2$s) AS %2$s", TABLE_TRANSACTIONS, KEY_AMOUNT, VIEW_TEMPLATES_EXTENDED),
-              VIEW_TEMPLATES_EXTENDED + "." + KEY_ROWID, KEY_SEALED};
+              VIEW_TEMPLATES_EXTENDED + "." + KEY_ROWID + " AS " + KEY_ROWID, KEY_SEALED};
         }
 
         break;

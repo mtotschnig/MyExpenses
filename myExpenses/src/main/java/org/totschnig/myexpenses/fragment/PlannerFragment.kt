@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment
 
 import android.app.Dialog
+import android.content.res.ColorStateList
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
@@ -74,6 +75,8 @@ class PlannerFragment : CommitSafeDialogFragment() {
     @JvmField
     var selectedInstances: HashSet<PlanInstance> = HashSet()
 
+    private lateinit var backgroundColor: ColorStateList
+
     private lateinit var stateObserver: ContentObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +85,16 @@ class PlannerFragment : CommitSafeDialogFragment() {
         stateObserver = StateObserver()
         context?.contentResolver?.registerContentObserver(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
                 true, stateObserver)
+        backgroundColor = ColorStateList(
+                arrayOf(
+                        intArrayOf(android.R.attr.state_selected),
+                        intArrayOf()
+                ),
+                intArrayOf(
+                        UiUtils.themeIntAttr(requireContext(), R.attr.colorControlActivated),
+                        UiUtils.themeIntAttr(requireContext(), R.attr.cardBackground)
+                )
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -149,7 +162,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
         _binding = null
     }
 
-    fun onBulkApply() {
+    private fun onBulkApply() {
         model.applyBulk(selectedInstances.toList())
         selectedInstances.clear()
         configureBulkApplyButton()
@@ -172,6 +185,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
         val data = mutableListOf<PlanInstance>()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanInstanceViewHolder {
             val itemBinding = PlanInstanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            itemBinding.root.setCardBackgroundColor(backgroundColor)
             return PlanInstanceViewHolder(itemBinding)
         }
 

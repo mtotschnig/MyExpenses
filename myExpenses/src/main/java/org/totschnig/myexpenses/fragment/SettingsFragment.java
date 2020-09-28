@@ -672,6 +672,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       actionBar.setCustomView(actionBarSwitch);
       actionBarSwitch.setChecked(status);
       actionBarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        //TODO factor out to call site
         if (prefKey.equals(AUTO_BACKUP)) {
           if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
             activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);

@@ -629,7 +629,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) info;
-    MyExpenses ctx = (MyExpenses) getActivity();
+    MyExpenses ctx = (MyExpenses) requireActivity();
     mTransactionsCursor.moveToPosition(acmi.position);
     switch (command) {
       case R.id.EDIT_COMMAND:
