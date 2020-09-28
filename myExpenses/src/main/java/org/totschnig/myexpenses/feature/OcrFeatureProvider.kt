@@ -9,6 +9,9 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 interface OcrFeatureProvider {
+    companion object {
+        const val TAG = "OcrFeature"
+    }
     fun start(scanFile: File, fragmentActivity: FragmentActivity)
 }
 

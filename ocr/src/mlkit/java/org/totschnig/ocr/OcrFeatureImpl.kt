@@ -6,6 +6,7 @@ import android.net.Uri
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -15,7 +16,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.io.File
-import java.lang.IllegalStateException
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.LocalTime
@@ -98,9 +98,9 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
             lines.addAll(blocks[i].lines)
         }
         for (line in lines) {
-            Timber.d("OCR: Line: %s %s", line.text, line.boundingBox)
+            log("OCR: Line: %s %s", line.text, line.boundingBox)
             for (element in line.elements) {
-                Timber.d("OCR: Element: %s %s", element.text, element.boundingBox)
+                log("OCR: Element: %s %s", element.text, element.boundingBox)
             }
         }
         val amountCandidates = lines.filter { line ->
@@ -185,4 +185,8 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
             false
         }
     }.map { it.text }.takeIf { !it.isEmpty() }?.joinToString(separator = "")
+
+    private fun log(message: String, vararg args: Any?) {
+        Timber.tag(OcrFeatureProvider.TAG).i(message, *args)
+    }
 }

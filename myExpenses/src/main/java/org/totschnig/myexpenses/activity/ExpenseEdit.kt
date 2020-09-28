@@ -60,7 +60,6 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
-import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
 import org.totschnig.myexpenses.fragment.KEY_TAGLIST
@@ -129,7 +128,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     override val amountRow: ViewGroup
         get() = rootBinding.AmountRow
     override val exchangeRateRow: ViewGroup
-        get() = rootBinding.ERR.root as ViewGroup
+        get() = rootBinding.ERR.root
     override val amountInput: AmountInput
         get() = rootBinding.Amount
     override val exchangeRateEdit: ExchangeRateEdit
@@ -452,7 +451,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 dateEditBinding.DateButton.setDate(pair.first)
                 pair.second?.let { dateEditBinding.TimeButton.time = it }
             }
-            it.payee?.let { rootBinding.Payee.setText(it.name) }
+            it.payee?.let {
+                rootBinding.Payee.setText(it.name)
+                startAutoFill(it.id, true)
+            }
             delegate.setPicture(intent.getParcelableExtra(KEY_PICTURE_URI))
         }
     }

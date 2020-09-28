@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
 import org.totschnig.myexpenses.feature.FeatureManager;
+import org.totschnig.myexpenses.feature.OcrFeatureProvider;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -224,6 +225,7 @@ public class MyApplication extends Application implements
       Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
+      Timber.plant(new TagFilterFileLoggingTree(this, OcrFeatureProvider.TAG));
     }
     crashHandler.setupLogging(this);
   }
