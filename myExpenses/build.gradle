@@ -314,8 +314,7 @@ dependencies {
     //implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"
 
-    //needed for mlkit
-    implementation "com.google.android.gms:play-services-base:17.4.0"
+    mlkitImplementation "com.google.android.gms:play-services-base:17.4.0"
 
 }
 
