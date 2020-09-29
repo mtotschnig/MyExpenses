@@ -15,6 +15,7 @@ public class TestMyApplication extends MyApplication {
     return DaggerAppComponent.builder()
         .licenceModule(new MockLicenceModule())
         .applicationContext(this)
+        .systemLocale(systemLocale)
         .build();
   }
 

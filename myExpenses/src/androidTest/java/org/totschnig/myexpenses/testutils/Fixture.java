@@ -12,7 +12,7 @@ import junit.framework.Assert;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.fortest.test.R;
+import org.totschnig.myexpenses.debug.test.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;

@@ -94,12 +94,6 @@ android {
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
-        }
-        forTest {
-            initWith debug
-            applicationIdSuffix ".fortest"
-            manifestPlaceholders = [appName: "My Expenses Test", debug: "true"]
-            matchingFallbacks = ['debug']
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
         }
     }
@@ -145,7 +139,6 @@ android {
         exclude 'META-INF/proguard/androidx-annotations.pro'
         exclude 'META-INF/gradle/incremental.annotation.processors'
     }
-    testBuildType "forTest"
 
     variantFilter { variant ->
         if (project.hasProperty("buildType") && variant.buildType.name != project.ext.buildType) {

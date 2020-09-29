@@ -17,5 +17,6 @@ class TestApp: MyApplication() {
             .coroutineModule(TestCoroutineModule())
             .viewModelModule(TestViewModelModule())
             .applicationContext(this)
+            .systemLocale(systemLocale)
             .build()
 }
