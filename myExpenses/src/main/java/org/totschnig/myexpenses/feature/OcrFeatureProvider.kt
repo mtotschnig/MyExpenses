@@ -15,9 +15,10 @@ interface OcrFeatureProvider {
     fun start(scanFile: File, fragmentActivity: FragmentActivity)
 }
 
-data class OcrResult(val amountCandidates: List<String>, val dateCandidates: List<Pair<LocalDate, LocalTime?>>, val payeeCandidates: List<Payee>) {
+@Parcelize
+data class OcrResult(val amountCandidates: List<String>, val dateCandidates: List<Pair<LocalDate, LocalTime?>>, val payeeCandidates: List<Payee>): Parcelable {
     fun isEmpty() = amountCandidates.isEmpty() && dateCandidates.isEmpty() && payeeCandidates.isEmpty()
-    fun needsDisambiguation() = if (BuildConfig.DEBUG) true else (amountCandidates.size > 1 || dateCandidates.size > 1 || payeeCandidates.size > 1)
+    fun needsDisambiguation() = amountCandidates.size > 1 || dateCandidates.size > 1 || payeeCandidates.size > 1
     fun selectCandidates(amountIndex: Int = 0, dateIndex: Int = 0, payeeIndex: Int = 0) =
             OcrResultFlat(amountCandidates.getOrNull(amountIndex), dateCandidates.getOrNull(dateIndex), payeeCandidates.getOrNull(payeeIndex))
 }

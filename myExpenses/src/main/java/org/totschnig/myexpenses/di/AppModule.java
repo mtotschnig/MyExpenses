@@ -32,6 +32,12 @@ public class AppModule {
 
   @Provides
   @Singleton
+  static Context provideContext(MyApplication myApplication) {
+    return myApplication;
+  }
+
+  @Provides
+  @Singleton
   static CrashHandler providesCrashHandler() {
     return (MyApplication.isInstrumentationTest()) ? CrashHandler.NO_OP : new AcraCrashHandler();
   }

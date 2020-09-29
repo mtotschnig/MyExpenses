@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.di;
 
+import android.content.Context;
+
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -116,6 +118,7 @@ public interface AppComponent {
 
   Picasso picasso();
 
+  Context context();
 
   void inject(MyApplication application);
 

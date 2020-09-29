@@ -3,9 +3,15 @@ package org.totschnig.ocr
 import android.content.Context
 import android.graphics.Rect
 import android.net.Uri
+import android.text.TextUtils
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.Payee
@@ -17,44 +23,43 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.io.File
 import java.text.NumberFormat
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.absoluteValue
 
-class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, private val userLocaleProvider: UserLocaleProvider) : OcrFeature {
+class OcrFeatureImpl @Inject constructor(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, context: Context) : OcrFeature {
 
     private val numberFormat = NumberFormat.getInstance()
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
+    private val totalIndicators: List<String>
 
     init {
         val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(userLocaleProvider.systemLocale) }
-        dateFormatterList = prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.map {
+        dateFormatterList = prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.mapNotNull {
             try {
                 DateTimeFormatter.ofPattern(it, userLocaleProvider.systemLocale)
             } catch (e: Exception) {
                 null
             }
-        }?.filterNotNull() ?: listOf(
+        } ?: listOf(
                 DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT),
                 DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
                 .map(withSystemLocale)
-        timeFormatterList = prefHandler.getString(PrefKey.OCR_TIME_FORMATS, null)?.lines()?.map {
+        timeFormatterList = prefHandler.getString(PrefKey.OCR_TIME_FORMATS, null)?.lines()?.mapNotNull {
             try {
                 DateTimeFormatter.ofPattern(it, userLocaleProvider.systemLocale)
             } catch (e: Exception) {
                 null
             }
-        }?.filterNotNull() ?: listOf(
+        } ?: listOf(
                 DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT),
                 DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM))
                 .map(withSystemLocale)
+        totalIndicators = (prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, null).takeIf { !TextUtils.isEmpty(it) }
+                ?: context.getString(R.string.pref_ocr_total_indicators_default)).lines()
     }
 
     override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
@@ -64,7 +69,7 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
         if (timeFormatterList.isEmpty()) {
             throw IllegalStateException("Empty time format list")
         }
-        val image = InputImage.fromFilePath(context, Uri.fromFile(file))
+        @Suppress("BlockingMethodInNonBlockingContext") val image = InputImage.fromFilePath(context, Uri.fromFile(file))
         val payeeList = mutableListOf<Payee>()
         context.contentResolver.query(TransactionProvider.PAYEES_URI,
                 arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
@@ -72,13 +77,13 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
             if (cursor.moveToFirst()) {
                 do {
                     payeeList.add(Payee(cursor.getLong(0), cursor.getString(1)))
-                } while (cursor.moveToNext());
+                } while (cursor.moveToNext())
             }
         }
         return suspendCoroutine { cont ->
             TextRecognition.getClient().process(image)
                     .addOnSuccessListener { texts ->
-                        cont.resume(processTextRecognitionResult(texts, prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "Total")!!.lines(), payeeList))
+                        cont.resume(processTextRecognitionResult(texts, payeeList))
                     }
                     .addOnFailureListener { e ->
                         cont.resumeWithException(e as Throwable)
@@ -86,12 +91,12 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
         }
     }
 
-    fun Rect?.bOr0() = this?.bottom ?: 0
-    fun Rect?.tOr0() = this?.top ?: 0
-    fun Text.Line.bOr0() = boundingBox.bOr0()
-    fun Text.Line.tOr0() = boundingBox.tOr0()
+    private fun Rect?.bOr0() = this?.bottom ?: 0
+    private fun Rect?.tOr0() = this?.top ?: 0
+    private fun Text.Line.bOr0() = boundingBox.bOr0()
+    private fun Text.Line.tOr0() = boundingBox.tOr0()
 
-    private fun processTextRecognitionResult(texts: Text, totalIndicators: List<String>, payeeList: MutableList<Payee>): OcrResult {
+    private fun processTextRecognitionResult(texts: Text, payeeList: MutableList<Payee>): OcrResult {
         val blocks = texts.textBlocks
         val lines = mutableListOf<Text.Line>()
         for (i in blocks.indices) {
@@ -103,53 +108,54 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
                 log("OCR: Element: %s %s", element.text, element.boundingBox)
             }
         }
-        val amountCandidates = lines.filter { line ->
-            for (totalIndicator in totalIndicators) {
-                if (line.text.filter { c -> c.isLetter() }.startsWith(totalIndicator.replace(" ", ""))) return@filter true
-                var matchesAllSplits = true
-                for (split in totalIndicator.split(' ')) {
-                    var found = false
-                    for (element in line.elements) {
-                        val filter = element.text.filter { c -> c.isLetter() }
-                        if (filter.startsWith(split, ignoreCase = true)) {
-                            found = true
-                            break
+        val amountCandidates = //find amount in the total line itself or in the nearest line
+                lines.filter { line ->
+                    for (totalIndicator in totalIndicators) {
+                        if (line.text.filter { c -> c.isLetter() }.startsWith(totalIndicator.replace(" ", ""))) return@filter true
+                        var matchesAllSplits = true
+                        for (split in totalIndicator.split(' ')) {
+                            var found = false
+                            for (element in line.elements) {
+                                val filter = element.text.filter { c -> c.isLetter() }
+                                if (filter.startsWith(split, ignoreCase = true)) {
+                                    found = true
+                                    break
+                                }
+                            }
+                            if (!found) {
+                                matchesAllSplits = false
+                                break
+                            }
                         }
+                        if (matchesAllSplits) return@filter true
                     }
-                    if (!found) {
-                        matchesAllSplits = false
-                        break
-                    }
+                    false
+                }.mapNotNull { totalBlock ->
+                    //find amount in the total line itself or in the nearest line
+                    extractAmount(totalBlock)
+                            ?: lines.minus(totalBlock).minByOrNull { (it.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((it.tOr0() - totalBlock.tOr0()).absoluteValue) }?.let {
+                                extractAmount(it)
+                            }
                 }
-                if (matchesAllSplits) return@filter true
-            }
-            false
-        }.map { totalBlock ->
-            //find amount in the total line itself or in the nearest line
-            extractAmount(totalBlock)
-                    ?: lines.minus(totalBlock).minByOrNull { (it.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((it.tOr0() - totalBlock.tOr0()).absoluteValue) }?.let {
-                        extractAmount(it)
-                    }
-        }.filterNotNull()
         // We might receive data or time values split into adjacent elements, which prevents us from finding them, if we work on elements alone
         // if we do not find any data by working on individual elements, we iterate again over pairs, then triples of elements
-        val timeCandidates: List<Pair<LocalTime, Rect?>> = lines.map { line -> extractTime(line, 1) }.filterNotNull().takeIf { !it.isEmpty() }
-                ?: lines.map { line -> extractTime(line, 2) }.filterNotNull().takeIf { !it.isEmpty() }
-                ?: lines.map { line -> extractTime(line, 3) }.filterNotNull()
-        val dateCandidates: List<Pair<LocalDate, LocalTime?>> = lines.map { line -> extractDate(line, timeCandidates, 1) }.filterNotNull().takeIf { !it.isEmpty() }
-                ?: lines.map { line -> extractDate(line, timeCandidates, 2) }.filterNotNull().takeIf { !it.isEmpty() }
-                ?: lines.map { line -> extractDate(line, timeCandidates, 3) }.filterNotNull()
+        val timeCandidates: List<Pair<LocalTime, Rect?>> = lines.mapNotNull { line -> extractTime(line, 1) }.takeIf { it.isNotEmpty() }
+                ?: lines.mapNotNull { line -> extractTime(line, 2) }.takeIf { it.isNotEmpty() }
+                ?: lines.mapNotNull { line -> extractTime(line, 3) }
+        val dateCandidates: List<Pair<LocalDate, LocalTime?>> = lines.mapNotNull { line -> extractDate(line, timeCandidates, 1) }.takeIf { it.isNotEmpty() }
+                ?: lines.mapNotNull { line -> extractDate(line, timeCandidates, 2) }.takeIf { it.isNotEmpty() }
+                ?: lines.mapNotNull { line -> extractDate(line, timeCandidates, 3) }
 
-        val payeeCandidates = lines.map { line ->
+        val payeeCandidates = lines.mapNotNull { line ->
             payeeList.find { payee -> payee.name.startsWith(line.text, ignoreCase = true) || line.text.startsWith(payee.name, ignoreCase = true) }
-        }.filterNotNull()
+        }
 
         return OcrResult(amountCandidates, dateCandidates, payeeCandidates)
     }
 
-    val List<Text.Element>.text: String
-        get() = map { it.text }.joinToString(separator = "")
-    val List<Text.Element>.boundingBox: Rect
+    private val List<Text.Element>.text: String
+        get() = joinToString(separator = "") { it.text }
+    private val List<Text.Element>.boundingBox: Rect
         get() = Rect().apply { map { it.boundingBox }.forEach { it?.let { union(it) } } }
 
     private fun extractTime(line: Text.Line, windowSize: Int): Pair<LocalTime, Rect?>? {
@@ -184,7 +190,7 @@ class OcrFeatureImpl @Inject constructor(private val prefHandler: PrefHandler, p
         } catch (e: Exception) {
             false
         }
-    }.map { it.text }.takeIf { !it.isEmpty() }?.joinToString(separator = "")
+    }.map { it.text }.takeIf { it.isNotEmpty() }?.joinToString(separator = "")
 
     private fun log(message: String, vararg args: Any?) {
         Timber.tag(OcrFeatureProvider.TAG).i(message, *args)

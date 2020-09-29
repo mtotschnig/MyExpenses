@@ -382,10 +382,10 @@ public class MyExpenses extends BaseMyExpenses implements
     viewModel.getFeatureState().observe(this, featureState -> {
       switch (featureState.getFirst()) {
         case LOADING:
-          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_ocr)), Snackbar.LENGTH_LONG);
+          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_scan_receipt_feature)), Snackbar.LENGTH_LONG);
           break;
         case AVAILABLE:
-          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_ocr)), Snackbar.LENGTH_LONG);
+          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_scan_receipt_feature)), Snackbar.LENGTH_LONG);
           break;
         case ERROR:
           showSnackbar(featureState.getSecond(), Snackbar.LENGTH_LONG);

@@ -3,7 +3,7 @@
     package="org.totschnig.ocr">
     <dist:module
         dist:instant="false"
-        dist:title="@string/title_ocr">
+        dist:title="@string/title_scan_receipt_feature">
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>

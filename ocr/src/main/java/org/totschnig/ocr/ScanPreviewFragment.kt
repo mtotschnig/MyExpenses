@@ -38,7 +38,7 @@ class ScanPreviewFragment : DialogFragment() {
                 .setView(view)
                 .setCancelable(false)
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton("Process", null)
+                .setPositiveButton(R.string.button_scan, null)
         imageView = view.findViewById(R.id.imageView)
         return builder.create().apply {
             setOnShowListener {

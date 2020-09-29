@@ -149,6 +149,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_DATE_FORMATS;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_TIME_FORMATS;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR_TOTAL_INDICATORS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
@@ -517,6 +518,10 @@ public class SettingsFragment extends BaseSettingsFragment implements
       findPreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
       findPreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
     } else if (rootKey.equals(getKey(OCR))) {
+      pref = findPreference(OCR_TOTAL_INDICATORS);
+      if ("".equals(prefHandler.getString(OCR_TOTAL_INDICATORS, ""))) {
+        ((EditTextPreference) pref).setText(getString(R.string.pref_ocr_total_indicators_default));
+      }
       pref = findPreference(OCR_DATE_FORMATS);
       pref.setOnPreferenceChangeListener(this);
       if ("".equals(prefHandler.getString(OCR_DATE_FORMATS, ""))) {
