@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDateTime2EpochMillis
 import org.totschnig.myexpenses.viewmodel.data.Event
@@ -140,20 +141,24 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
     }
 
     fun getUpdateFor(uri: Uri) {
-        val templateId = uri.pathSegments[1].toLong()
-        val instanceId = uri.pathSegments[2].toLong()
-        val mapper = { cursor: Cursor ->
-            val transactionId = DbUtils.getLongOrNull(cursor, KEY_TRANSACTIONID)
-            val newState = if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
-            val amount = DbUtils.getLongOrNull(cursor, KEY_AMOUNT)
-            PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
+        try {
+            val templateId = uri.pathSegments[1].toLong()
+            val instanceId = uri.pathSegments[2].toLong()
+            val mapper = { cursor: Cursor ->
+                val transactionId = DbUtils.getLongOrNull(cursor, KEY_TRANSACTIONID)
+                val newState = if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
+                val amount = DbUtils.getLongOrNull(cursor, KEY_AMOUNT)
+                PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
+            }
+            updateDisposables.add(briteContentResolver.createQuery(uri, null, null, null, null, false)
+                    .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        updates.value = it
+                    })
+        } catch (e: Exception) {
+            CrashHandler.report(java.lang.IllegalArgumentException("Cannot provide update for uri $uri"))
         }
-        updateDisposables.add(briteContentResolver.createQuery(uri, null, null, null, null, false)
-                .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    updates.value = it
-                })
     }
 
     override fun onCleared() {
