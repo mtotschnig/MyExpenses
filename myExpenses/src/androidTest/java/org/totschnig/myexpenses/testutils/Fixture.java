@@ -9,6 +9,8 @@ import android.net.Uri;
 
 import junit.framework.Assert;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.DateTimeFormatter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.fortest.test.R;
 import org.totschnig.myexpenses.model.Account;
@@ -29,8 +31,6 @@ import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +41,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 @SuppressLint("InlinedApi")
 public class Fixture {

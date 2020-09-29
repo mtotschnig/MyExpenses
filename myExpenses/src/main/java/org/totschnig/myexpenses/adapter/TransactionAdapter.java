@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -36,8 +38,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 import androidx.cursoradapter.widget.ResourceCursorAdapter;
 import butterknife.BindView;

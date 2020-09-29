@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -33,7 +34,6 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.AmountInput;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.Currency;
 
 import androidx.test.platform.app.InstrumentationRegistry;

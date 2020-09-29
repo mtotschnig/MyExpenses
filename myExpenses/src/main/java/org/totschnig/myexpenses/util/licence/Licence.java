@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.util.licence;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.time.LocalDate;
+import org.threeten.bp.LocalDate;
 
 public class Licence {
   public LocalDate getValidSince() {

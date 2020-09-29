@@ -47,6 +47,7 @@ import com.android.calendar.CalendarContractCompat
 import com.google.android.material.snackbar.Snackbar
 import icepick.Icepick
 import icepick.State
+import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -111,7 +112,6 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
 import java.io.Serializable
-import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 

@@ -8,6 +8,7 @@ import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.android.calendar.CalendarContractCompat
 import org.assertj.core.api.Assertions.assertThat
+import org.threeten.bp.LocalDateTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -15,7 +16,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import timber.log.Timber
-import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 

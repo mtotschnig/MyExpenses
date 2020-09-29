@@ -2,11 +2,11 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
 import com.android.calendar.CalendarContractCompat
+import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
-import java.time.LocalDate
 
 enum class PlanInstanceState {
     OPEN, APPLIED, CANCELLED

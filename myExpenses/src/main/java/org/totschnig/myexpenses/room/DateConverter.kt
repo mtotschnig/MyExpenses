@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.room
 
 import androidx.room.TypeConverter
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 class DateConverter {
     @TypeConverter

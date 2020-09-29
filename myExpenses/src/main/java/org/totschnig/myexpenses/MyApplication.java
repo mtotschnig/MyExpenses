@@ -33,6 +33,7 @@ import android.os.StrictMode;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
@@ -55,6 +56,7 @@ import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
@@ -69,6 +71,7 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -157,6 +160,7 @@ public class MyApplication extends Application implements
     }
     super.onCreate();
     checkAppReplacingState();
+    initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     setupLogging();
     if (!isSyncService()) {
@@ -169,6 +173,13 @@ public class MyApplication extends Application implements
     NotificationBuilderWrapper.createChannels(this);
     PRNGFixes.apply();
     SecurityProvider.init(this);
+  }
+
+  private void initThreeTen() {
+    if ("Asia/Hanoi".equals(TimeZone.getDefault().getID())) {
+      TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+    }
+    AndroidThreeTen.init(this);
   }
 
   private void checkAppReplacingState() {

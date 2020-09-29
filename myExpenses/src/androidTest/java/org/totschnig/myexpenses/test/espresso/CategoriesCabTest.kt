@@ -18,6 +18,7 @@ import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
+import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -34,7 +35,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.viewmodel.data.Budget
-import java.time.LocalDate
 import java.util.*
 
 class CategoriesCabTest : BaseUiTest() {

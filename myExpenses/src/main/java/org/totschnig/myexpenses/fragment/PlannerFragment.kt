@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import icepick.Icepick
 import icepick.State
+import org.threeten.bp.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTemplates
@@ -36,7 +37,6 @@ import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
 import timber.log.Timber
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 fun configureMenuInternalPlanInstances(menu: Menu, state: PlanInstanceState) {

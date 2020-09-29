@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -19,7 +20,6 @@ import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

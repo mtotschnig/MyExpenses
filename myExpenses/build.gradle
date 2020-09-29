@@ -70,7 +70,6 @@ android {
     }
 
     compileOptions {
-        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -171,7 +170,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
     implementation project(':transactionscontract')
     implementation "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
     implementation 'com.squareup.phrase:phrase:1.1.0'
@@ -254,6 +252,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     //noinspection GradleDependency
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 

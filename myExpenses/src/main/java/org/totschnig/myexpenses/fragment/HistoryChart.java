@@ -29,6 +29,10 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.temporal.JulianFields;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -46,10 +50,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.time.temporal.JulianFields;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;

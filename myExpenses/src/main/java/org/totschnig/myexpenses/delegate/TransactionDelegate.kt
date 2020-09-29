@@ -16,6 +16,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -52,10 +56,6 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
-import java.time.Instant
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.*
 
 abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler, val isTemplate: Boolean) : AdapterView.OnItemSelectedListener {
