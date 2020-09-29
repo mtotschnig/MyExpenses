@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,7 +14,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/SEARCH_COMMAND"
         android:checkable="true"
@@ -27,34 +26,34 @@
             <group android:checkableBehavior="all">
                 <item
                     android:id="@id/FILTER_CATEGORY_COMMAND"
-                    android:title="@string/category"/>
+                    android:title="@string/category" />
                 <item
                     android:id="@id/FILTER_AMOUNT_COMMAND"
-                    android:title="@string/amount"/>
+                    android:title="@string/amount" />
                 <item
                     android:id="@id/FILTER_COMMENT_COMMAND"
-                    android:title="@string/comment"/>
+                    android:title="@string/comment" />
                 <item
                     android:id="@id/FILTER_STATUS_COMMAND"
                     android:enabled="false"
-                    android:title="@string/status"/>
+                    android:title="@string/status" />
                 <item
                     android:id="@id/FILTER_PAYEE_COMMAND"
                     android:enabled="false"
-                    android:title="@string/payer_or_payee"/>
+                    android:title="@string/payer_or_payee" />
                 <item
                     android:id="@id/FILTER_METHOD_COMMAND"
                     android:enabled="false"
-                    android:title="@string/method"/>
+                    android:title="@string/method" />
                 <item
                     android:id="@id/FILTER_DATE_COMMAND"
-                    android:title="@string/date"/>
+                    android:title="@string/date" />
                 <item
                     android:id="@id/FILTER_TRANSFER_COMMAND"
-                    android:title="@string/transfer"/>
+                    android:title="@string/transfer" />
                 <item
                     android:id="@id/FILTER_TAG_COMMAND"
-                    android:title="@string/tags"/>
+                    android:title="@string/tags" />
             </group>
         </menu>
     </item>
@@ -63,60 +62,63 @@
         android:icon="@drawable/ic_menu_template"
         android:orderInCategory="10"
         android:title="@string/menu_manage_plans"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/BUDGET_COMMAND"
         android:icon="@drawable/ic_budget"
         android:orderInCategory="10"
         android:title="@string/menu_budget"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/DISTRIBUTION_COMMAND"
         android:icon="@drawable/ic_menu_chart"
         android:orderInCategory="10"
         android:title="@string/menu_distribution"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/HISTORY_COMMAND"
         android:icon="@drawable/ic_history"
         android:orderInCategory="10"
         android:title="@string/menu_history"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/SCAN_MODE_COMMAND"
+        android:checkable="true"
+        android:orderInCategory="10"
+        android:title="@string/menu_scan_mode"
+        app:showAsAction="never" />
     <item
         android:id="@id/RESET_COMMAND"
         android:icon="@drawable/ic_menu_download"
         android:orderInCategory="10"
         android:title="@string/menu_reset"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/SYNC_COMMAND"
         android:icon="@drawable/ic_sync"
         android:orderInCategory="10"
         android:title="@string/menu_sync_now"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/BALANCE_COMMAND"
         android:icon="@drawable/ic_action_balance"
         android:orderInCategory="10"
         android:title="@string/menu_balance"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/SORT_DIRECTION_COMMAND"
+        android:icon="@drawable/ic_menu_sort"
         android:orderInCategory="20"
         android:title="@string/menu_sort_direction"
-        android:icon="@drawable/ic_menu_sort"
         app:showAsAction="ifRoom">
         <menu>
             <group android:checkableBehavior="single">
-                <item android:id="@id/SORT_DIRECTION_ASCENDING_COMMAND" android:title="@string/sort_direction_ascending"/>
-                <item android:id="@id/SORT_DIRECTION_DESCENDING_COMMAND" android:title="@string/sort_direction_descending"/>
+                <item
+                    android:id="@id/SORT_DIRECTION_ASCENDING_COMMAND"
+                    android:title="@string/sort_direction_ascending" />
+                <item
+                    android:id="@id/SORT_DIRECTION_DESCENDING_COMMAND"
+                    android:title="@string/sort_direction_descending" />
             </group>
         </menu>
     </item>
@@ -125,5 +127,5 @@
         android:icon="@drawable/ic_menu_print"
         android:orderInCategory="30"
         android:title="@string/menu_print"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>

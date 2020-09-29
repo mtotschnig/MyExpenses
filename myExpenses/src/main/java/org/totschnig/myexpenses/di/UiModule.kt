@@ -8,11 +8,11 @@ import dagger.Provides
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
+import org.totschnig.myexpenses.feature.Callback
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
-import org.totschnig.myexpenses.util.locale.Callback
-import org.totschnig.myexpenses.util.locale.LocaleManager
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Named
 import javax.inject.Singleton
@@ -31,12 +31,12 @@ class UiModule {
 
     @Provides
     @Singleton
-    fun provideLanguageManager(localeProvider: UserLocaleProvider): LocaleManager = try {
-        Class.forName("org.totschnig.myexpenses.util.locale.PlatformLocaleManager")
+    fun provideFeatureManager(localeProvider: UserLocaleProvider): FeatureManager = try {
+        Class.forName("org.totschnig.myexpenses.util.locale.PlatformSplitManager")
                 .getConstructor(UserLocaleProvider::class.java)
-                .newInstance(localeProvider) as LocaleManager
+                .newInstance(localeProvider) as FeatureManager
     } catch (e: Exception) {
-        object : LocaleManager {
+        object : FeatureManager {
             var callback: Callback? = null
             override fun initApplication(application: Application) {
                 //noop
@@ -46,15 +46,20 @@ class UiModule {
                 //noop
             }
 
+            override fun isFeatureInstalled(feature: FeatureManager.Feature) = true
+            override fun requestFeature(feature: FeatureManager.Feature) {
+                callback?.onAvailable()
+            }
+
             override fun requestLocale(context: Context) {
                 callback?.onAvailable()
             }
 
-            override fun onResume(callback: Callback) {
+            override fun registerCallback(callback: Callback) {
                 this.callback = callback
             }
 
-            override fun onPause() {
+            override fun unregister() {
                 this.callback = null
             }
         }

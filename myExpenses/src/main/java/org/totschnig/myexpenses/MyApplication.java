@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -38,6 +39,8 @@ import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
+import org.totschnig.myexpenses.feature.FeatureManager;
+import org.totschnig.myexpenses.feature.OcrFeatureProvider;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -56,7 +59,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -74,13 +76,13 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDexApplication;
+import androidx.multidex.MultiDex;
 import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 
-public class MyApplication extends MultiDexApplication implements
+public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
 
   public static final String DEFAULT_LANGUAGE = "default";
@@ -90,7 +92,7 @@ public class MyApplication extends MultiDexApplication implements
   @Inject
   CrashHandler crashHandler;
   @Inject
-  LocaleManager localeManager;
+  FeatureManager featureManager;
   @Inject
   PrefHandler prefHandler;
   @Inject
@@ -199,9 +201,10 @@ public class MyApplication extends MultiDexApplication implements
     final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
         PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), Locale.getDefault()));
     super.attachBaseContext(wrapped);
+    MultiDex.install(this);
     appComponent = buildAppComponent();
     appComponent.inject(this);
-    localeManager.initApplication(this);
+    featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
     Transaction.buildProjection(wrapped);
@@ -222,6 +225,7 @@ public class MyApplication extends MultiDexApplication implements
       Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
+      Timber.plant(new TagFilterFileLoggingTree(this, OcrFeatureProvider.TAG));
     }
     crashHandler.setupLogging(this);
   }

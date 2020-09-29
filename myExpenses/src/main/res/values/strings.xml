@@ -917,4 +917,11 @@
     <string name="pref_planner_manual_time_noon">12 pm (noon)</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
     <string name="pref_planner_manual_time_current">Time of application</string>
+    <string name="title_ocr">Scan receipt</string>
+    <!-- A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line  -->
+    <string name="pref_ocr_total_indicators_default">"Total"</string>
+    <string name="feature_download_requested">Feature %s is requested from Play Store.</string>
+    <string name="feature_downloaded">Feature %s has been installed.</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">Scan mode</string>
 </resources>

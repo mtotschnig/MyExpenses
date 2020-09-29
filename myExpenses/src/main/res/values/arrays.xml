@@ -88,6 +88,7 @@
         <item>budget</item>
         <item>distribution</item>
         <item>history</item>
+        <item>scan_mode</item>
         <item>reset</item>
         <item>grouping</item>
         <item>sort_direction</item>
@@ -99,6 +100,7 @@
         <item>budget</item>
         <item>distribution</item>
         <item>history</item>
+        <item>scan_mode</item>
         <item>reset</item>
         <item>grouping</item>
         <item>sort_direction</item>

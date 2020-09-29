@@ -184,4 +184,5 @@
     <item name="REMAP_COMMAND" type="id" />
     <item name="MAP_TAG_COMMAND" type="id" />
     <item name="PLANNER_COMMAND" type="id" />
+    <item name="SCAN_MODE_COMMAND" type="id"/>
 </resources>

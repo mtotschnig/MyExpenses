@@ -32,6 +32,8 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.feature.Callback;
+import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -66,8 +68,6 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.locale.Callback;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
@@ -82,6 +82,9 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -104,8 +107,10 @@ import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import kotlin.Unit;
 
+import static java.time.format.DateTimeFormatterBuilder.getLocalizedDateTimePattern;
+import static java.time.format.FormatStyle.MEDIUM;
+import static java.time.format.FormatStyle.SHORT;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
@@ -141,6 +146,9 @@ import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
 import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR_DATE_FORMATS;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR_TIME_FORMATS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
@@ -200,7 +208,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   @Inject
   CrashHandler crashHandler;
   @Inject
-  LocaleManager localeManager;
+  FeatureManager featureManager;
   @Inject
   CurrencyFormatter currencyFormatter;
   @Inject
@@ -508,6 +516,21 @@ public class SettingsFragment extends BaseSettingsFragment implements
       findPreference(getString(R.string.pre_acra_info_key)).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
       findPreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
       findPreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
+    } else if (rootKey.equals(getKey(OCR))) {
+      pref = findPreference(OCR_DATE_FORMATS);
+      pref.setOnPreferenceChangeListener(this);
+      if ("".equals(prefHandler.getString(OCR_DATE_FORMATS, ""))) {
+        String shortFormat = getLocalizedDateTimePattern(SHORT, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
+        String mediumFormat = getLocalizedDateTimePattern(MEDIUM, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
+        ((EditTextPreference) pref).setText(shortFormat + "\n" + mediumFormat);
+      }
+      pref = findPreference(OCR_TIME_FORMATS);
+      pref.setOnPreferenceChangeListener(this);
+      if ("".equals(prefHandler.getString(OCR_TIME_FORMATS, ""))) {
+        String shortFormat = getLocalizedDateTimePattern(null, SHORT, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
+        String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
+        ((EditTextPreference) pref).setText(shortFormat + "\n" + mediumFormat);
+      }
     }
   }
 
@@ -567,26 +590,31 @@ public class SettingsFragment extends BaseSettingsFragment implements
       configureContribPrefs();
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    localeManager.onResume(new Callback() {
-                             @Override
-                             public void onAvailable() {
-                               rebuildDbConstants();
-                               activity.recreate();
-                             }
+    featureManager.registerCallback(
+        new Callback() {
+          @Override
+          public void onAsyncStarted(@NotNull FeatureManager.Feature feature) {
+          }
 
-                             @Override
-                             public void onAsyncStarted(@NotNull String displayLanguage) {
-                               activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
-                             }
+          @Override
+          public void onAvailable() {
+            rebuildDbConstants();
+            activity.recreate();
+          }
 
-                             @Override
-                             public void onError(@NotNull Exception exception) {
-                               final String message = exception.getMessage();
-                               if (message != null) {
-                                 activity().showSnackbar(message, Snackbar.LENGTH_LONG);
-                               }
-                             }
-                           }
+          @Override
+          public void onAsyncStarted(@NotNull String displayLanguage) {
+            activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
+          }
+
+          @Override
+          public void onError(@NotNull Throwable exception) {
+            final String message = exception.getMessage();
+            if (message != null) {
+              activity().showSnackbar(message, Snackbar.LENGTH_LONG);
+            }
+          }
+        }
 
     );
   }
@@ -595,14 +623,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public void onPause() {
     super.onPause();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    localeManager.onPause();
+    featureManager.unregister();
   }
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
     if (key.equals(getKey(UI_LANGUAGE))) {
-      localeManager.requestLocale(activity());
+      featureManager.requestLocale(activity());
     } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
         key.equals(getKey(GROUP_WEEK_STARTS))) {
       rebuildDbConstants();
@@ -834,6 +862,28 @@ public class SettingsFragment extends BaseSettingsFragment implements
       crashHandler.setUserEmail((String) value);
     } else if (matches(pref, CRASHREPORT_ENABLED)) {
       activity().showSnackbar(R.string.app_restart_required, Snackbar.LENGTH_LONG);
+    } else if (matches(pref, OCR_DATE_FORMATS)) {
+      if (!TextUtils.isEmpty((String) value)) {
+        try {
+          for (String line : kotlin.text.StringsKt.lines(((String) value))) {
+            LocalDate.now().format(DateTimeFormatter.ofPattern(line));
+          }
+        } catch (Exception e) {
+          activity().showSnackbar(R.string.date_format_illegal, Snackbar.LENGTH_LONG);
+          return false;
+        }
+      }
+    } else if (matches(pref, OCR_TIME_FORMATS)) {
+      if (!TextUtils.isEmpty((String) value)) {
+        try {
+          for (String line : kotlin.text.StringsKt.lines(((String) value))) {
+            LocalDate.now().format(DateTimeFormatter.ofPattern(line));
+          }
+        } catch (Exception e) {
+          activity().showSnackbar(R.string.date_format_illegal, Snackbar.LENGTH_LONG);
+          return false;
+        }
+      }
     }
     return true;
   }
@@ -844,7 +894,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
   private void setDefaultNumberFormat(EditTextPreference pref) {
     String pattern = ((DecimalFormat) NumberFormat.getCurrencyInstance()).toLocalizedPattern();
-    //Log.d(MyApplication.TAG,pattern);
     pref.setText(pattern);
   }
 

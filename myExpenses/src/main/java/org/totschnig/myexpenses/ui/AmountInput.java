@@ -237,6 +237,10 @@ public class AmountInput extends ConstraintLayout {
     }
   }
 
+  public void setRaw(String text) {
+    amountEditText.setText(text);
+  }
+
   public void clear() {
     amountEditText.setText("");
   }

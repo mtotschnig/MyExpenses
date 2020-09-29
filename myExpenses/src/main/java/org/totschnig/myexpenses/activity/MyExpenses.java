@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.ClipboardManager;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -114,16 +115,17 @@ import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.list.MenuDialog;
+import icepick.Icepick;
+import icepick.State;
+import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
@@ -159,10 +161,10 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
  * From the menu sub activities (Insert, Reset, SelectAccount, Help, Settings)
  * are called
  */
-public class MyExpenses extends LaunchActivity implements
+public class MyExpenses extends BaseMyExpenses implements
     ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener,
+    ConfirmationDialogListener, ContribIFace,
     SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   public static final int ACCOUNTS_CURSOR = -1;
@@ -177,8 +179,6 @@ public class MyExpenses extends LaunchActivity implements
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
-  private long mAccountId = 0;
-  private String currentCurrency;
   private int mAccountCount = 0;
 
   private AdHandler adHandler;
@@ -186,6 +186,24 @@ public class MyExpenses extends LaunchActivity implements
   private String mCurrentBalance;
   private AccountGrouping accountGrouping;
   private Sort accountSort;
+
+  public void updateFab() {
+    boolean scanMode = isScanMode();
+    requireFloatingActionButtonWithContentDescription(scanMode ? getString(R.string.contrib_feature_ocr_label) : TextUtils.concatResStrings(this, ". ",
+        R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
+    floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
+  }
+
+  public void toggleScanMode() {
+    final boolean oldMode = getPrefHandler().getBoolean(OCR, false);
+    final boolean newMode = !oldMode;
+    getPrefHandler().putBoolean(OCR, newMode);
+    updateFab();
+    invalidateOptionsMenu();
+    if (newMode && !viewModel.isOcrAvailable()) {
+      viewModel.requestOcrFeature();
+    }
+  }
 
   public enum HelpVariant {
     crStatus
@@ -215,8 +233,10 @@ public class MyExpenses extends LaunchActivity implements
 
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexLabel, columnIndexType, columnIndexGrouping;
   boolean indexesCalculated = false;
-  private long idFromNotification = 0;
-  private String mExportFormat = null;
+  @State
+  long idFromNotification = 0;
+  @State
+  String mExportFormat = null;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -255,6 +275,8 @@ public class MyExpenses extends LaunchActivity implements
     } catch (Exception e) {
       CrashHandler.report(e);
     }
+
+    Icepick.restoreInstanceState(this, savedInstanceState);
 
     ButterKnife.bind(this);
 
@@ -321,7 +343,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     });
     mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
-      if (mAccountId != id) {
+      if (accountId != id) {
         moveToPosition(position);
         closeDrawer();
       }
@@ -329,15 +351,14 @@ public class MyExpenses extends LaunchActivity implements
     registerForContextMenu(mDrawerList);
     mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
-    requireFloatingActionButtonWithContentDescription(TextUtils.concatResStrings(this, ". ",
-        R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
+    updateFab();
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
-      mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
+      accountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
     } else {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
-        mAccountId = Utils.getFromExtra(extras, KEY_ROWID, 0);
+        accountId = Utils.getFromExtra(extras, KEY_ROWID, 0);
         idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
         //detail fragment from notification should only be shown upon first instantiation from notification
         if (idFromNotification != 0) {
@@ -350,14 +371,27 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
     }
-    if (mAccountId == 0) {
-      mAccountId = getPrefHandler().getLong(PrefKey.CURRENT_ACCOUNT, 0L);
+    if (accountId == 0) {
+      accountId = getPrefHandler().getLong(PrefKey.CURRENT_ACCOUNT, 0L);
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     viewModel = new ViewModelProvider(this).get(MyExpensesViewModel.class);
     viewModel.getHasHiddenAccounts().observe(this,
         result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     viewModel.loadHiddenAccountCount();
+    viewModel.getFeatureState().observe(this, featureState -> {
+      switch (featureState.getFirst()) {
+        case LOADING:
+          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_ocr)), Snackbar.LENGTH_LONG);
+          break;
+        case AVAILABLE:
+          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_ocr)), Snackbar.LENGTH_LONG);
+          break;
+        case ERROR:
+          showSnackbar(featureState.getSecond(), Snackbar.LENGTH_LONG);
+          break;
+      }
+    });
     setup();
     /*if (savedInstanceState == null) {
       voteReminderCheck();
@@ -476,7 +510,10 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
       //navigating to the new account currently does not work, due to the way LoaderManager behaves
       //since its implementation is based on MutableLiveData
-      mAccountId = intent.getLongExtra(KEY_ROWID, 0);
+      accountId = intent.getLongExtra(KEY_ROWID, 0);
+    }
+    if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
+      viewModel.startOcrFeature(scanFile, this);
     }
   }
 
@@ -486,24 +523,6 @@ public class MyExpenses extends LaunchActivity implements
     if (tl != null) {
       tl.addFilterCriteria(c);
     }
-  }
-
-  /**
-   * start ExpenseEdit Activity for a new transaction/transfer/split
-   * Originally the form for transaction is rendered, user can change from spinner in toolbar
-   */
-  private void createRow() {
-    Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
-    //if we are called from an aggregate cursor, we also hand over the currency
-    if (mAccountId < 0) {
-      i.putExtra(KEY_CURRENCY, currentCurrency);
-      i.putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
-    } else {
-      //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-      i.putExtra(KEY_ACCOUNTID, mAccountId);
-    }
-    startActivityForResult(i, EDIT_REQUEST);
   }
 
   @Override
@@ -546,14 +565,22 @@ public class MyExpenses extends LaunchActivity implements
         if (mAccountCount == 0) {
           showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
         } else {
-          createRow();
+          if (isScanMode()) {
+            if (viewModel.isOcrAvailable()) {
+              contribFeatureRequested(ContribFeature.OCR, null);
+            } else {
+              viewModel.requestOcrFeature();
+            }
+          } else {
+            createRow();
+          }
         }
         return true;
       case R.id.BALANCE_COMMAND:
         tl = getCurrentFragment();
         if (tl != null && hasCleared()) {
           mAccountsCursor.moveToPosition(mCurrentPosition);
-          CurrencyUnit currency = currencyContext.get(currentCurrency);
+          CurrencyUnit currency = currencyContext.get(getCurrentCurrency());
           Bundle bundle = new Bundle();
           bundle.putLong(KEY_ROWID,
               mAccountsCursor.getLong(columnIndexRowId));
@@ -577,7 +604,7 @@ public class MyExpenses extends LaunchActivity implements
         if (tl != null && tl.hasItems()) {
           Result appDirStatus = AppDirHelper.checkAppDir(this);
           if (appDirStatus.isSuccess()) {
-            ExportDialogFragment.newInstance(mAccountId, tl.isFiltered())
+            ExportDialogFragment.newInstance(accountId, tl.isFiltered())
                 .show(this.getSupportFragmentManager(), "WARNING_RESET");
           } else {
             showSnackbar(appDirStatus.print(this), Snackbar.LENGTH_LONG);
@@ -614,8 +641,8 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.DELETE_ACCOUNT_COMMAND_DO:
         //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
         final Long[] accountIds = (Long[]) tag;
-        if (Stream.of(accountIds).anyMatch(id -> id == mAccountId)) {
-          mAccountId = 0;
+        if (Stream.of(accountIds).anyMatch(id -> id == accountId)) {
+          accountId = 0;
         }
         final Fragment manageHiddenFragment = getSupportFragmentManager().findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG);
         if (manageHiddenFragment != null) {
@@ -760,6 +787,10 @@ public class MyExpenses extends LaunchActivity implements
     return false;
   }
 
+  public boolean isScanMode() {
+    return getPrefHandler().getBoolean(OCR, false);
+  }
+
   public String getShareTarget() {
     return requireString(getPrefHandler(), PrefKey.SHARE_TARGET, "").trim();
   }
@@ -814,7 +845,7 @@ public class MyExpenses extends LaunchActivity implements
         mAccountsCursor.moveToPosition(mCurrentPosition);
         recordUsage(feature);
         Intent i = new Intent(this, Distribution.class);
-        i.putExtra(KEY_ACCOUNTID, mAccountId);
+        i.putExtra(KEY_ACCOUNTID, accountId);
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);
           int groupingSecond = (int) ((Long) tag % 1000);
@@ -828,7 +859,7 @@ public class MyExpenses extends LaunchActivity implements
       case HISTORY: {
         recordUsage(feature);
         Intent i = new Intent(this, HistoryActivity.class);
-        i.putExtra(KEY_ACCOUNTID, mAccountId);
+        i.putExtra(KEY_ACCOUNTID, accountId);
         startActivity(i);
         break;
       }
@@ -849,7 +880,7 @@ public class MyExpenses extends LaunchActivity implements
         if (tl != null) {
           Bundle args = new Bundle();
           args.putParcelableArrayList(TransactionList.KEY_FILTER, tl.getFilterCriteria());
-          args.putLong(KEY_ROWID, mAccountId);
+          args.putLong(KEY_ROWID, accountId);
           if (!getSupportFragmentManager().isStateSaved()) {
             getSupportFragmentManager().beginTransaction()
                 .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
@@ -860,12 +891,21 @@ public class MyExpenses extends LaunchActivity implements
         break;
       }
       case BUDGET: {
-        if (mAccountId != 0 && currentCurrency != null) {
+        if (accountId != 0 && getCurrentCurrency() != null) {
           recordUsage(feature);
           Intent i = new Intent(this, ManageBudgets.class);
           startActivity(i);
         }
         break;
+      }
+      case OCR: {
+        viewModel.getScanFile(file -> {
+          scanFile = file;
+          Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+          intent.putExtra(MediaStore.EXTRA_OUTPUT, AppDirHelper.getContentUriForFile(scanFile));
+          startActivityForResult(intent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
+          return Unit.INSTANCE;
+        });
       }
     }
   }
@@ -902,7 +942,7 @@ public class MyExpenses extends LaunchActivity implements
   private void setCurrentAccount(int position) {
     mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
-    if (mAccountId != newAccountId) {
+    if (accountId != newAccountId) {
       getPrefHandler().putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
     int color = newAccountId < 0 ? colorAggregate : mAccountsCursor.getInt(columnIndexColor);
@@ -921,8 +961,8 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
-    mAccountId = newAccountId;
-    currentCurrency = mAccountsCursor.getString(columnIndexCurrency);
+    accountId = newAccountId;
+    setCurrentCurrency(mAccountsCursor.getString(columnIndexCurrency));
     setBalance();
     if (mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_SEALED)) == 1) {
       floatingActionButton.hide();
@@ -947,9 +987,9 @@ public class MyExpenses extends LaunchActivity implements
       mDrawerListAdapter.swapCursor(mAccountsCursor);
       //swapping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
-      long cacheAccountId = mAccountId;
+      long cacheAccountId = accountId;
       mViewPagerAdapter.swapCursor(cursor);
-      mAccountId = cacheAccountId;
+      accountId = cacheAccountId;
       if (!indexesCalculated) {
         columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
         columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);
@@ -963,7 +1003,7 @@ public class MyExpenses extends LaunchActivity implements
         int position = 0;
         while (!mAccountsCursor.isAfterLast()) {
           long accountId = mAccountsCursor.getLong(columnIndexRowId);
-          if (accountId == mAccountId) {
+          if (accountId == this.accountId) {
             position = mAccountsCursor.getPosition();
           }
           if (accountId > 0) {
@@ -1008,7 +1048,7 @@ public class MyExpenses extends LaunchActivity implements
     if (DIALOG_TAG_GROUPING.equals(dialogTag)) {
       return handleAccountsGrouping((int) extras.getLong(SELECTED_SINGLE_ID));
     }
-    return false;
+    return super.onResult(dialogTag, which, extras);
   }
 
   @Override
@@ -1113,7 +1153,7 @@ public class MyExpenses extends LaunchActivity implements
     String label = mAccountsCursor.getString(columnIndexLabel);
     boolean isHome = mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME;
     mCurrentBalance = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
-        currencyFormatter.formatCurrency(new Money(currencyContext.get(currentCurrency), balance)));
+        currencyFormatter.formatCurrency(new Money(currencyContext.get(getCurrentCurrency()), balance)));
     setTitle(isHome ? getString(R.string.grand_total) : label);
     mToolbar.setSubtitle(mCurrentBalance);
     mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
@@ -1128,12 +1168,7 @@ public class MyExpenses extends LaunchActivity implements
 
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    //detail fragment from notification should only be shown once
-    if (idFromNotification != 0) {
-      outState.putLong("idFromNotification", 0);
-    }
-    outState.putString("exportFormat", mExportFormat);
-    outState.putLong(KEY_ACCOUNTID, mAccountId);
+    Icepick.saveInstanceState(this, outState);
   }
 
   @Override
@@ -1305,7 +1340,7 @@ public class MyExpenses extends LaunchActivity implements
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
       if (!item.isChecked()) {
-        viewModel.persistGrouping(mAccountId, newGrouping);
+        viewModel.persistGrouping(accountId, newGrouping);
       }
       return true;
     }
@@ -1316,12 +1351,12 @@ public class MyExpenses extends LaunchActivity implements
     SortDirection newSortDirection = Utils.getSortDirectionFromMenuItemId(item.getItemId());
     if (newSortDirection != null) {
       if (!item.isChecked()) {
-        if (mAccountId == Account.HOME_AGGREGATE_ID) {
+        if (accountId == Account.HOME_AGGREGATE_ID) {
           viewModel.persistSortDirectionHomeAggregate(newSortDirection);
-        } else if (mAccountId < 0) {
-          viewModel.persistSortDirectionAggregate(currentCurrency, newSortDirection);
+        } else if (accountId < 0) {
+          viewModel.persistSortDirectionAggregate(getCurrentCurrency(), newSortDirection);
         } else {
-          viewModel.persistSortDirection(mAccountId, newSortDirection);
+          viewModel.persistSortDirection(accountId, newSortDirection);
         }
       }
       return true;

@@ -3,11 +3,11 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.database.Cursor
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import io.reactivex.disposables.CompositeDisposable
-import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -32,9 +32,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.io.Serializable
 import java.util.*
 
 const val ERROR_UNKNOWN = -1L
@@ -49,13 +49,9 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     private val methods = MutableLiveData<List<PaymentMethod>>()
     private val accounts = MutableLiveData<List<Account>>()
 
-    fun getMethods(): LiveData<List<PaymentMethod>> {
-        return methods
-    }
+    fun getMethods(): LiveData<List<PaymentMethod>> = methods
 
-    fun getAccounts(): LiveData<List<Account>> {
-        return accounts
-    }
+    fun getAccounts(): LiveData<List<Account>> = accounts
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))
@@ -134,19 +130,19 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     fun removeTags(tagIds: LongArray) {
-        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id)  }.toMutableList())  }
+        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id) }.toMutableList()) }
     }
 
-    fun newTemplate(operationType: Int, accountId: Long, parentId : Long?): LiveData<Template?> = liveData(context = coroutineContext()) {
+    fun newTemplate(operationType: Int, accountId: Long, parentId: Long?): LiveData<Template?> = liveData(context = coroutineContext()) {
         emit(Template.getTypedNewInstance(operationType, accountId, true, parentId))
     }
 
-    fun newTransaction(accountId: Long, parentId : Long?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+    fun newTransaction(accountId: Long, parentId: Long?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         emit(Transaction.getNewInstance(accountId, parentId))
     }
 
-    fun newTransfer(accountId: Long, transferAcountId: Long?, parentId : Long?): LiveData<Transfer?> = liveData(context = coroutineContext()) {
-        emit(Transfer.getNewInstance(accountId, transferAcountId, parentId))
+    fun newTransfer(accountId: Long, transferAccountId: Long?, parentId: Long?): LiveData<Transfer?> = liveData(context = coroutineContext()) {
+        emit(Transfer.getNewInstance(accountId, transferAccountId, parentId))
     }
 
     fun newSplit(accountId: Long): LiveData<SplitTransaction?> = liveData(context = coroutineContext()) {

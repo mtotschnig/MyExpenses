@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
 import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
@@ -78,6 +79,7 @@ import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -105,7 +107,6 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
@@ -127,7 +128,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     override val amountRow: ViewGroup
         get() = rootBinding.AmountRow
     override val exchangeRateRow: ViewGroup
-        get() = rootBinding.ERR.root as ViewGroup
+        get() = rootBinding.ERR.root
     override val amountInput: AmountInput
         get() = rootBinding.Amount
     override val exchangeRateEdit: ExchangeRateEdit
@@ -350,12 +351,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 delegate.setMethods(paymentMethods)
             }
         })
-        currencyViewModel.getCurrencies().observe(this, Observer<List<Currency?>> { currencies ->
+        currencyViewModel.getCurrencies().observe(this, { currencies ->
             if (::delegate.isInitialized) {
                 delegate.setCurrencies(currencies, currencyContext)
             }
         })
-        viewModel.getAccounts().observe(this, Observer { accounts ->
+        viewModel.getAccounts().observe(this, { accounts ->
             if (accounts.isEmpty()) {
                 abortWithMessage(getString(R.string.warning_no_account))
             } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
@@ -371,7 +372,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
         })
         if (!isSplitPart) {
-            viewModel.getTags().observe(this, Observer { tags ->
+            viewModel.getTags().observe(this, { tags ->
                 if (::delegate.isInitialized) {
                     tagsLoaded = true
                     delegate.showTags(tags) { tag ->
@@ -447,6 +448,18 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         transaction?.let { populate(it) } ?: run {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
+        }
+        intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let {
+            it.amount?.let { amountInput.setRaw(it) }
+            it.date?.let { pair ->
+                dateEditBinding.DateButton.setDate(pair.first)
+                pair.second?.let { dateEditBinding.TimeButton.time = it }
+            }
+            it.payee?.let {
+                rootBinding.Payee.setText(it.name)
+                startAutoFill(it.id, true)
+            }
+            delegate.setPicture(intent.getParcelableExtra(KEY_PICTURE_URI))
         }
     }
 
@@ -713,52 +726,48 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST && intent != null) {
-            (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
-                    intent.getStringExtra(DatabaseConstants.KEY_ICON),
-                    intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
-            setDirty()
-        }
-        if (requestCode == ProtectedFragmentActivity.PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
-            val uri: Uri?
-            val errorMsg: String
-            when {
-                intent == null -> {
-                    uri = pictureUriTemp
-                    Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", pictureUriTemp)
-                }
-                intent.data != null -> {
-                    uri = intent.data
-                    Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
-                }
-                else -> {
-                    Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", pictureUriTemp)
-                    uri = pictureUriTemp
-                }
+        when (requestCode) {
+            ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST -> if (intent != null) {
+                (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
+                        intent.getStringExtra(DatabaseConstants.KEY_ICON),
+                        intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
+                setDirty()
             }
-            if (uri != null) {
-                if (PermissionHelper.canReadUri(uri, this)) {
-                    setPicture(uri)
-                    setDirty()
+            ProtectedFragmentActivity.PICTURE_REQUEST_CODE -> if (resultCode == RESULT_OK) {
+                val uri: Uri?
+                when {
+                    intent == null -> {
+                        uri = pictureUriTemp
+                        Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", pictureUriTemp)
+                    }
+                    intent.data != null -> {
+                        uri = intent.data
+                        Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
+                    }
+                    else -> {
+                        Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", pictureUriTemp)
+                        uri = pictureUriTemp
+                    }
+                }
+                if (uri != null) {
+                    if (PermissionHelper.canReadUri(uri, this)) {
+                        setPicture(uri)
+                        setDirty()
+                    } else {
+                        pictureUriTemp = uri
+                        requestStoragePermission()
+                    }
                 } else {
-                    pictureUriTemp = uri
-                    requestStoragePermission()
+                    val errorMsg = "Error while retrieving image: No data found."
+                    CrashHandler.report(errorMsg)
+                    showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
                 }
-                return
-            } else {
-                errorMsg = "Error while retrieving image: No data found."
             }
-            CrashHandler.report(errorMsg)
-            showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
-        }
-        if (requestCode == ProtectedFragmentActivity.PLAN_REQUEST) {
-            finish()
-        }
-        if (requestCode == ProtectedFragmentActivity.EDIT_REQUEST && resultCode == RESULT_OK) {
-            setDirty()
-        }
-        if (requestCode == ProtectedFragmentActivity.SELECT_TAGS_REQUEST) {
-            intent?.also {
+            ProtectedFragmentActivity.PLAN_REQUEST -> finish()
+            ProtectedFragmentActivity.EDIT_REQUEST -> if (resultCode == RESULT_OK) {
+                setDirty()
+            }
+            ProtectedFragmentActivity.SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
                     (intent.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
                         viewModel.updateTags(it)
@@ -916,7 +925,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     if (isTemplate) {
                         launchPlanViewForTemplate(result)
                     } else {
-                        viewModel.transaction(result, TRANSACTION, clone = false, forEdit = false, extras = null).observe(this, Observer {
+                        viewModel.transaction(result, TRANSACTION, clone = false, forEdit = false, extras = null).observe(this, {
                             it?.originTemplateId?.let { launchPlanViewForTemplate(it) }
                         })
                     }
@@ -933,7 +942,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun launchPlanViewForTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer {
+        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, {
             it?.let { launchPlanView(true, (it as Template).planId) }
         })
     }
@@ -1088,17 +1097,16 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun startMediaChooserDo() {
-        val outputMediaUri = cameraUri
         val gallIntent = Intent(PictureDirHelper.getContentIntentAction())
         gallIntent.type = "image/*"
         val chooserIntent = Intent.createChooser(gallIntent, null)
         //if external storage is not available, camera capture won't work
-        if (outputMediaUri != null) {
+        cameraUri?.let {
             val camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            camIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputMediaUri)
+            camIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(camIntent))
+            Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", it)
         }
-        Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", outputMediaUri)
         startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE)
     }
 
@@ -1201,6 +1209,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         private const val KEY_CACHED_RECURRENCE = "cachedRecurrence"
         private const val KEY_CACHED_PICTURE_URI = "cachedPictureUri"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"
+        const val KEY_OCR_RESULT = "ocrResult"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
         const val AUTOFILL_CURSOR = 8
     }
