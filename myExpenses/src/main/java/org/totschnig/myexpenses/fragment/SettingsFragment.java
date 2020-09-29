@@ -82,9 +82,9 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatter;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.chrono.IsoChronology;
+import org.threeten.bp.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -108,9 +108,9 @@ import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
-import static java.time.format.DateTimeFormatterBuilder.getLocalizedDateTimePattern;
-import static java.time.format.FormatStyle.MEDIUM;
-import static java.time.format.FormatStyle.SHORT;
+import static org.threeten.bp.format.DateTimeFormatterBuilder.getLocalizedDateTimePattern;
+import static org.threeten.bp.format.FormatStyle.MEDIUM;
+import static org.threeten.bp.format.FormatStyle.SHORT;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;

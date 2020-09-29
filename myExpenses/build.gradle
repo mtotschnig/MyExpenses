@@ -253,7 +253,7 @@ dependencies {
     //noinspection GradleDependency
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
+    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 

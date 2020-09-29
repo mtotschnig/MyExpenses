@@ -52,6 +52,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     compileOnly 'javax.annotation:jsr250-api:1.0'
+    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
