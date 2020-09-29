@@ -24,11 +24,11 @@ import android.text.TextUtils;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Arrays;
 
 import androidx.annotation.Nullable;
-import timber.log.Timber;
 
 public abstract class IdCriteria extends Criteria {
 
@@ -92,7 +92,7 @@ public abstract class IdCriteria extends Criteria {
   public static <T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {
     String[] extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP);
     if (extraParts.length < 2) {
-      Timber.e("Unparsable string extra %s for %s", extraParts, clazz.getName());
+      CrashHandler.report(String.format("Unparsable string extra %s for %s", Arrays.toString(extraParts), clazz.getName()));
       return null;
     };
     String[] ids = Arrays.copyOfRange(extraParts, 1, extraParts.length);

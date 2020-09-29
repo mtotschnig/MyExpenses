@@ -362,19 +362,23 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
                 abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
             } else {
-                delegate.setAccounts(accounts, if (savedInstanceState != null) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
+                if (::delegate.isInitialized) {
+                    delegate.setAccounts(accounts, if (savedInstanceState != null) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
 
-                linkInputsWithLabels()
-                accountsLoaded = true
-                if (mIsResumed) setupListeners()
+                    linkInputsWithLabels()
+                    accountsLoaded = true
+                    if (mIsResumed) setupListeners()
+                }
             }
         })
         if (!isSplitPart) {
             viewModel.getTags().observe(this, { tags ->
-                tagsLoaded = true
-                delegate.showTags(tags) { tag ->
-                    viewModel.removeTag(tag)
-                    setDirty()
+                if (::delegate.isInitialized) {
+                    tagsLoaded = true
+                    delegate.showTags(tags) { tag ->
+                        viewModel.removeTag(tag)
+                        setDirty()
+                    }
                 }
             })
         }

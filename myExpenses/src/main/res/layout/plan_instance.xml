@@ -7,7 +7,6 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/cardview_selectable_background"
     app:cardCornerRadius="3dp"
     app:cardUseCompatPadding="true">
 

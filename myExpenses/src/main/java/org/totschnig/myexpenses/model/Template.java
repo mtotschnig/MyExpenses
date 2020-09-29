@@ -395,28 +395,23 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   @Nullable
   public static PlanInstance getPlanInstance(long planId, long date) {
-    Cursor c = cr().query(
+    PlanInstance planInstance = null;
+    try (Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
         null, KEY_PLANID + "= ?",
         new String[]{String.valueOf(planId)},
-        null);
-    if (c == null) {
-      return null;
+        null)) {
+      if (c != null && c.moveToFirst()) {
+        final Long instanceId = getLongOrNull(c, KEY_INSTANCEID);
+        final Long transactionId = getLongOrNull(c, KEY_TRANSACTIONID);
+        final long templateId = c.getLong(c.getColumnIndex(KEY_ROWID));
+        final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+        CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndex(KEY_CURRENCY)));
+        Money amount = new Money(currency, c.getLong(c.getColumnIndex(KEY_AMOUNT)));
+        planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndex(KEY_TITLE)), date, c.getInt(c.getColumnIndex(KEY_COLOR)), amount,
+            c.getInt(c.getColumnIndex(KEY_SEALED)) == 1);
+      }
     }
-    if (c.getCount() == 0) {
-      c.close();
-      return null;
-    }
-    c.moveToFirst();
-    final Long instanceId = getLongOrNull(c, KEY_INSTANCEID);
-    final Long transactionId = getLongOrNull(c, KEY_TRANSACTIONID);
-    final long templateId = c.getLong(c.getColumnIndex(KEY_ROWID));
-    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
-    CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndex(KEY_CURRENCY)));
-    Money amount = new Money(currency, c.getLong(c.getColumnIndex(KEY_AMOUNT)));
-    PlanInstance planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndex(KEY_TITLE)), date, c.getInt(c.getColumnIndex(KEY_COLOR)), amount,
-        c.getInt(c.getColumnIndex(KEY_SEALED)) == 1);
-    c.close();
     return planInstance;
   }
 
