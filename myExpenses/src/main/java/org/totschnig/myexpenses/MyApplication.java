@@ -56,7 +56,6 @@ import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.locale.LocaleManager;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
 import org.totschnig.myexpenses.util.io.StreamReader;
@@ -209,11 +208,12 @@ public class MyApplication extends Application implements
     mSelf = this;
     //we cannot use the standard way of reading preferences, since this works only after base context
     //has been attached
+    final Locale systemLocale = Locale.getDefault();
     final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
-        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), Locale.getDefault()));
+        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
     super.attachBaseContext(wrapped);
     MultiDex.install(this);
-    appComponent = buildAppComponent();
+    appComponent = buildAppComponent(systemLocale);
     appComponent.inject(this);
     featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
@@ -222,8 +222,9 @@ public class MyApplication extends Application implements
   }
 
   @NonNull
-  protected AppComponent buildAppComponent() {
+  protected AppComponent buildAppComponent(Locale systemLocale) {
     return DaggerAppComponent.builder()
+        .systemLocale(systemLocale)
         .applicationContext(this)
         .build();
   }

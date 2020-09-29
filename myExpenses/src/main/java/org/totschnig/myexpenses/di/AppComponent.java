@@ -60,6 +60,8 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplatetRemoteViewsFactory;
 
+import java.util.Locale;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -77,6 +79,9 @@ public interface AppComponent {
 
   @Component.Builder
   interface Builder {
+    @BindsInstance
+    Builder systemLocale(Locale locale);
+
     @BindsInstance
     Builder applicationContext(MyApplication applicationContext);
 
