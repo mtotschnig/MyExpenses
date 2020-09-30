@@ -129,6 +129,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
+import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
@@ -637,7 +638,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     if (key.equals(getKey(UI_LANGUAGE))) {
       featureManager.requestLocale(activity());
     } else if (key.equals(getKey(GROUP_MONTH_STARTS)) ||
-        key.equals(getKey(GROUP_WEEK_STARTS))) {
+        key.equals(getKey(GROUP_WEEK_STARTS)) || key.equals(getKey(CRITERION_FUTURE))) {
       rebuildDbConstants();
     } else if (key.equals(getKey(UI_FONTSIZE))) {
       updateAllWidgets();
@@ -673,6 +674,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public void rebuildDbConstants() {
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
     Transaction.buildProjection(requireContext());
+    org.totschnig.myexpenses.model.Account.buildProjection();
   }
 
   private void updateAllWidgets() {

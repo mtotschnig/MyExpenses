@@ -51,7 +51,6 @@ import androidx.annotation.VisibleForTesting;
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
@@ -93,7 +92,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSFER;
 
@@ -156,15 +154,15 @@ public class Account extends Model {
   }
 
   public static String[] PROJECTION_BASE, PROJECTION_FULL;
-  public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
-      + " AND " + WHERE_IN_PAST + " )";
-
+  public static String CURRENT_BALANCE_EXPR;
 
   static {
     buildProjection();
   }
 
   public static void buildProjection() {
+    CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
+        + " AND " + DatabaseConstants.getWhereInPast() + " )";
     PROJECTION_BASE = new String[]{
         TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
         KEY_LABEL,
@@ -207,7 +205,7 @@ public class Account extends Model {
             " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'  ) AS " + KEY_RECONCILED_TOTAL;
     PROJECTION_FULL[baseLength + 7] = KEY_USAGES;
     PROJECTION_FULL[baseLength + 8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first
-    PROJECTION_FULL[baseLength + 9] = HAS_FUTURE;
+    PROJECTION_FULL[baseLength + 9] = DatabaseConstants.getHasFuture();
     PROJECTION_FULL[baseLength + 10] = HAS_CLEARED;
     PROJECTION_FULL[baseLength + 11] = AccountType.sqlOrderExpression();
     PROJECTION_FULL[baseLength + 12] = KEY_LAST_USED;

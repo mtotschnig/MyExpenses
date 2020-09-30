@@ -44,6 +44,8 @@ public class DatabaseConstants {
   private static String WEEK_START_JULIAN;
   private static String WEEK_MAX;
   private static String WEEK_MIN;
+  private static String WHERE_IN_PAST;
+  private static String HAS_FUTURE;
 
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
@@ -52,6 +54,11 @@ public class DatabaseConstants {
   }
 
   public static void buildLocalized(Locale locale) {
+    boolean futureStartsNow = PrefKey.CRITERION_FUTURE.getString("end_of_day").equals("current");
+    String futureCriterion = futureStartsNow ? "strftime('%s','now')" :  "strftime('%s', 'now', 'localtime', 'start of day', '+1 day', 'utc')";
+    WHERE_IN_PAST = KEY_DATE + " <= " + futureCriterion;
+    HAS_FUTURE = "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
+            + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_DATE + " > " + futureCriterion + "  LIMIT 1)) AS " + KEY_HAS_FUTURE;
     weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
     monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;
@@ -413,8 +420,6 @@ public class DatabaseConstants {
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
       KEY_PARENTID + " IS null";
-  private static final String START_OF_TOMORROW = "strftime('%s', 'now', 'localtime', 'start of day', '+1 day', 'utc')";
-  public static final String WHERE_IN_PAST = KEY_DATE + " <= " + START_OF_TOMORROW;
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
@@ -434,9 +439,6 @@ public class DatabaseConstants {
   public static final String HAS_EXPORTED =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;
-  public static final String HAS_FUTURE =
-      "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
-          + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_DATE + " > " + START_OF_TOMORROW + "  LIMIT 1)) AS " + KEY_HAS_FUTURE;
   public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
       + VIEW_COMMITTED
       + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID
@@ -456,9 +458,6 @@ public class DatabaseConstants {
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
-  ;
-
-  public static final String WHERE_RELATED = KEY_TRANSFER_PEER + " = ? OR " + WHERE_DEPENDENT;
 
   public static final String WHERE_SELF_OR_PEER = KEY_TRANSFER_PEER + " = ? OR " + KEY_ROWID + " = ?";
 
@@ -470,6 +469,16 @@ public class DatabaseConstants {
   public static String getYearOfWeekStart() {
     ensureLocalized();
     return YEAR_OF_WEEK_START;
+  }
+
+  public static String getWhereInPast() {
+    ensureLocalized();
+    return WHERE_IN_PAST;
+  }
+
+  public static String getHasFuture() {
+    ensureLocalized();
+    return HAS_FUTURE;
   }
 
   public static String getYearOfMonthStart() {

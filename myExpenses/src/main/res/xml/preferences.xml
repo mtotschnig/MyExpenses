@@ -450,7 +450,7 @@
             android:title="@string/pref_ad_consent_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="features">
+    <PreferenceCategory android:title="@string/pref_category_title_features">
         <PreferenceScreen
             android:key="exchange_rates"
             android:title="@string/pref_category_exchange_rates">
@@ -519,6 +519,12 @@
                 android:key="@string/pref_planner_manual_time_key"
                 android:title="@string/pref_planner_manual_time_title" />
         </PreferenceScreen>
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:defaultValue="end_of_day"
+            android:entries="@array/pref_criterion_future_entries"
+            android:entryValues="@array/pref_criterion_future_values"
+            android:key="@string/pref_criterion_future_key"
+            android:title="@string/pref_criterion_futur_title" />
         <PreferenceScreen
             android:key="@string/pref_webdav_key"
             android:title="WebDAV">

@@ -44,6 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -102,7 +103,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   private Context context;
 
-  private long startOfNextDay;
+  private long futureCriterion;
 
   protected TransactionAdapter(Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
@@ -149,7 +150,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     }
     viewHolder.date.setEms(dateEms);
     final long date = cursor.getLong(columnIndexDate);
-    ((FrameLayout) view).setForeground(date  > startOfNextDay ? new ColorDrawable(getColorForFutureTransactions()) : null);
+    ((FrameLayout) view).setForeground(date  > futureCriterion ? new ColorDrawable(getColorForFutureTransactions()) : null);
     viewHolder.date.setText(itemDateFormat != null ?
         Utils.convDateTime(date, itemDateFormat) : null);
     final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
@@ -307,7 +308,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   @Override
   public Cursor swapCursor(Cursor cursor) {
-    startOfNextDay = LocalDate.now().plusDays( 1 ).atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond();
+    futureCriterion = "current".equals(prefHandler.getString(CRITERION_FUTURE, "end_of_day")) ? System.currentTimeMillis() / 1000 :  LocalDate.now().plusDays( 1 ).atStartOfDay().atZone(ZoneId.systemDefault()).toEpochSecond();
     if (!indexesCalculated) {
       columnIndexDate = cursor.getColumnIndex(KEY_DATE);
       columnIndexCurrency = cursor.getColumnIndex(KEY_CURRENCY);

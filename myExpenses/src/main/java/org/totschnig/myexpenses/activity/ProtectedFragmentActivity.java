@@ -106,6 +106,7 @@ import androidx.fragment.app.FragmentTransaction;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
@@ -400,7 +401,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
     if (getPrefHandler().matches(key, UI_THEME_KEY, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
-        PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT)) {
+        PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT, CRITERION_FUTURE)) {
       scheduledRestart = true;
     }
   }

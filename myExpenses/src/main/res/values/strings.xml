@@ -931,4 +931,12 @@
     <string name="pref_ocr_total_indicators_summary">A list of strings, which identify the total value in a receipt. Put each value on a new line. Leave empty to restore the default value.</string>
     <string name="pref_ocr_date_formats_title">Date Formats</string>
     <string name="pref_ocr_time_formats_title">Time Formats</string>
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future  -->
+    <string name="pref_criterion_futur_title">Criterion for future transactions</string>
+    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
+    <string name="pref_criterion_future_end_of_day">End of day</string>
+    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
+    <string name="pref_criterion_future_current">Current time</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Features</string>
 </resources>

@@ -731,4 +731,13 @@
         <item>@string/pref_planner_manual_time_noon</item>
         <item>@string/pref_planner_manual_time_current</item>
     </string-array>
+
+    <string-array name="pref_criterion_future_values">
+        <item>end_of_day</item>
+        <item>current</item>
+    </string-array>
+    <string-array name="pref_criterion_future_entries">
+        <item>@string/pref_criterion_future_end_of_day</item>
+        <item>@string/pref_criterion_future_current</item>
+    </string-array>
 </resources>
