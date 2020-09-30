@@ -516,7 +516,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>422;3.1.3.1</item>
+        <item>425;3.1.4</item>
         <item>421;3.1.3</item>
         <item>413;3.1.2</item>
         <item>409;3.1.1</item>
@@ -546,106 +546,24 @@
         <item>volodymyr.gz et al.</item>
     </string-array>
 
-    <!-- first member is Facebook post id -->
-    <string-array name="version_more_info_280" tools:ignore="UnusedResources">
-        <item>1948276905433778</item>
-    </string-array>
-    <string-array name="version_more_info_281" tools:ignore="UnusedResources">
-        <item>1952456441682491</item>
-    </string-array>
-    <string-array name="version_more_info_282" tools:ignore="UnusedResources">
-        <item>1967469653514503</item>
-    </string-array>
-    <string-array name="version_more_info_284" tools:ignore="UnusedResources">
-        <item>1983867061874762</item>
-    </string-array>
-    <string-array name="version_more_info_285" tools:ignore="UnusedResources">
-        <item>2005941416333993</item>
-    </string-array>
-    <string-array name="version_more_info_286" tools:ignore="UnusedResources">
-        <item>2011905835737551</item>
-    </string-array>
-    <string-array name="version_more_info_287" tools:ignore="UnusedResources">
-        <item>2015787268682741</item>
-    </string-array>
-    <string-array name="version_more_info_288" tools:ignore="UnusedResources">
-        <item>2025818994346235</item>
-    </string-array>
-    <string-array name="version_more_info_289" tools:ignore="UnusedResources">
-        <item>2035974853330649</item>
-    </string-array>
-    <string-array name="version_more_info_290" tools:ignore="UnusedResources">
-        <item>2045407622387372</item>
-    </string-array>
-    <string-array name="version_more_info_291" tools:ignore="UnusedResources">
-        <item>2068809903380477</item>
-    </string-array>
-    <string-array name="version_more_info_292" tools:ignore="UnusedResources">
-        <item>327179561182858</item>
-    </string-array>
-    <string-array name="version_more_info_293" tools:ignore="UnusedResources">
-        <item>2162839063977560</item>
-    </string-array>
-    <string-array name="version_more_info_294" tools:ignore="UnusedResources">
-        <item>2164440550484078</item>
-    </string-array>
-    <string-array name="version_more_info_295" tools:ignore="UnusedResources">
-        <item>2167854050142728</item>
-    </string-array>
-    <string-array name="version_more_info_296" tools:ignore="UnusedResources">
-        <item>2193911547536978</item>
-    </string-array>
-    <string-array name="version_more_info_297" tools:ignore="UnusedResources">
-        <item>2202670783327721</item>
-    </string-array>
-    <string-array name="version_more_info_298" tools:ignore="UnusedResources">
-        <item>2211908312403968</item>
-    </string-array>
-    <string-array name="version_more_info_299" tools:ignore="UnusedResources">
-        <item>2230558760538923</item>
-    </string-array>
-    <string-array name="version_more_info_300" tools:ignore="UnusedResources">
-        <item>2235563440038455</item>
-    </string-array>
-    <string-array name="version_more_info_301" tools:ignore="UnusedResources">
-        <item>2251226531805479</item>
-    </string-array>
-    <string-array name="version_more_info_302" tools:ignore="UnusedResources">
-        <item>2315430588718406</item>
-    </string-array>
-    <string-array name="version_more_info_303" tools:ignore="UnusedResources">
-        <item>2326085587652906</item>
-    </string-array>
-    <string-array name="version_more_info_304" tools:ignore="UnusedResources">
-        <item>2381168955477902</item>
-    </string-array>
-    <string-array name="version_more_info_305" tools:ignore="UnusedResources">
-        <item>2389599737968157</item>
-    </string-array>
-    <string-array name="version_more_info_306" tools:ignore="UnusedResources">
-        <item>2425861011008696</item>
-    </string-array>
-    <string-array name="version_more_info_307" tools:ignore="UnusedResources">
-        <item>2466674333594030</item>
-    </string-array>
-    <string-array name="version_more_info_308" tools:ignore="UnusedResources">
-        <item>2544644459130350</item>
-    </string-array>
-    <string-array name="version_more_info_309" tools:ignore="UnusedResources">
-        <item>234664937664973</item>
-    </string-array>
-    <string-array name="version_more_info_310" tools:ignore="UnusedResources">
-        <item>793834357808329</item>
-    </string-array>
-    <string-array name="version_more_info_311" tools:ignore="UnusedResources">
-        <item>2590210351240427</item>
-    </string-array>
-    <string-array name="version_more_info_312" tools:ignore="UnusedResources">
-        <item>2604944273100368</item>
-    </string-array>
-    <string-array name="version_more_info_313" tools:ignore="UnusedResources">
-        <item>2677572629170865</item>
-    </string-array>
+    <!-- Facebook -->
+    <string name="version_more_info_300" tools:ignore="UnusedResources">2235563440038455</string>
+    <string name="version_more_info_301" tools:ignore="UnusedResources">2251226531805479</string>
+    <string name="version_more_info_302" tools:ignore="UnusedResources">2315430588718406</string>
+    <string name="version_more_info_303" tools:ignore="UnusedResources">2326085587652906</string>
+    <string name="version_more_info_304" tools:ignore="UnusedResources">2381168955477902</string>
+    <string name="version_more_info_305" tools:ignore="UnusedResources">2389599737968157</string>
+    <string name="version_more_info_306" tools:ignore="UnusedResources">2425861011008696</string>
+    <string name="version_more_info_307" tools:ignore="UnusedResources">2466674333594030</string>
+    <string name="version_more_info_308" tools:ignore="UnusedResources">2544644459130350</string>
+    <string name="version_more_info_309" tools:ignore="UnusedResources">234664937664973</string>
+    <string name="version_more_info_310" tools:ignore="UnusedResources">793834357808329</string>
+    <string name="version_more_info_311" tools:ignore="UnusedResources">2590210351240427</string>
+    <string name="version_more_info_312" tools:ignore="UnusedResources">2604944273100368</string>
+    <string name="version_more_info_313" tools:ignore="UnusedResources">2677572629170865</string>
+
+    <!-- Github -->
+    <string name="project_board_314">30#column-10686300</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>

@@ -221,6 +221,9 @@
         <item>@android:string/selectAll</item>
         <item>@string/button_label_clone_and_remap</item>
     </string-array>
+    <string-array name="whats_new_314">
+        <item>@string/title_scan_receipt_feature</item>
+    </string-array>
     <string-array name="Sub_10" tools:ignore="InconsistentArrays">
     </string-array>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->

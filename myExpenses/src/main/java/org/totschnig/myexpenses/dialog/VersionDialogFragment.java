@@ -25,16 +25,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,6 +45,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 
 public class VersionDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
@@ -90,7 +86,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       @NonNull
       @Override
       public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        LinearLayout row = (LinearLayout) super.getView(position, convertView, parent);
+        ViewGroup row = (ViewGroup) super.getView(position, convertView, parent);
         VersionInfo version = versions.get(position);
         final TextView heading = row.findViewById(R.id.versionInfoName);
         heading.setText(version.name);
@@ -98,18 +94,8 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         ((TextView) row.findViewById(R.id.versionInfoChanges))
             .setText(changes != null ? ("\u25b6 " + TextUtils.join("\n\u25b6 ", changes)) : "");
 
-        TextView learn_more = row.findViewById(R.id.versionInfoLearnMore);
-        final int resId = getResources().getIdentifier("version_more_info_" + version.nameCondensed.replace(".", ""), "array", ctx.getPackageName());
-        if (resId == 0) {
-          learn_more.setVisibility(View.GONE);
-        } else {
-          makeVisibleAndClickable(learn_more, R.string.learn_more, new ClickableSpan() {
-            @Override
-            public void onClick(View v) {
-              showMoreInfo(getResources().getStringArray(resId)[0]);
-            }
-          });
-        }
+        configureMoreInfo(row.findViewById(R.id.versionInfoFacebook), version, "version_more_info_", "https://www.facebook.com/MyExpenses/posts/");
+        configureMoreInfo(row.findViewById(R.id.versionInfoGithub), version, "project_board_", "https://github.com/mtotschnig/MyExpenses/projects/");
         return row;
       }
     };
@@ -138,16 +124,17 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     return builder.create();
   }
 
-  void makeVisibleAndClickable(TextView textView, int resId, ClickableSpan clickableSpan) {
-    textView.setVisibility(View.VISIBLE);
-    Spannable span = Spannable.Factory.getInstance().newSpannable(getString(resId));
-    span.setSpan(clickableSpan, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-    textView.setText(span);
-    textView.setMovementMethod(LinkMovementMethod.getInstance());
+  private void configureMoreInfo(View imageButton, VersionInfo version, String resPrefix, String baseUri) {
+    final int resId = getResources().getIdentifier(resPrefix + version.nameCondensed, "string", requireContext().getPackageName());
+    if (resId == 0) {
+      imageButton.setVisibility(View.GONE);
+    } else {
+      imageButton.setVisibility(View.VISIBLE);
+      imageButton.setOnClickListener(v -> showMoreInfo(baseUri + getString(resId)));
+    }
   }
 
-  void showMoreInfo(String postId) {
-    String uri = "https://www.facebook.com/MyExpenses/posts/" + postId;
+  void showMoreInfo(String uri) {
     Intent i = new Intent(Intent.ACTION_VIEW);
     i.setData(Uri.parse(uri));
     try {
@@ -166,6 +153,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null);
   }
 
+  @VisibleForTesting
   public static class VersionInfo {
     private int code;
     private String name;

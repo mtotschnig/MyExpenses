@@ -15,9 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3131">
-        <item>@string/bug_fixes</item>
-    </string-array>
     <string-array name="whats_new_313">
         <item>Enhanced management of recurring transactions</item>
         <item>Kannada translation</item>
