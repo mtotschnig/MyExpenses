@@ -47,7 +47,7 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium  (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> s\'ofereix sense publicitat i és de codi obert.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> és de codi obert.</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
   <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
   <string name="dialog_password_activate_protection">Activa la protecció amb contrasenya</string>

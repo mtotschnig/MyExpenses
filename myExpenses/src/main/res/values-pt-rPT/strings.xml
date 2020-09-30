@@ -61,7 +61,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação e tenha acesso a mais funcionalidades ao atualizar o <i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido sem anúncios e em código aberto.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido com o código aberto.</string>
   <string name="dialog_contrib_text_2">Contribua ao atualizar o <i>{app_name}</i> e tenha acesso sem restrições às seguintes funcionalidades:</string>
   <string name="dialog_contrib_usage_count">Utilizações gratuitas restantes</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Pode usar até %1$d vezes com a sua licença atual (%2$s).</string>

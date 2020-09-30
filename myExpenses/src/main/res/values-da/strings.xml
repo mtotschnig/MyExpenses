@@ -52,7 +52,7 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt annonce gratis og open source.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt open source.</string>
   <string name="dialog_export_delete">Slet eksporterede posteringer</string>
   <string name="dialog_export_not_yet_exported">Eksporter kun posteringer der ikke blev eksporteret endnu</string>
   <string name="dialog_password_activate_protection">Aktivere beskyttelse med adgangskode</string>

@@ -32,7 +32,9 @@
   <string name="help_ManageParties_floating_action_button">Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Planlama takvim görünümü</string>
+  <string name="help_ManageTemplates_planner_title">Gelecek tekrarlamalar</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Şablonlar muamelelerin bağlam menülerinden elde edilebilir olsa da, burada yeni şablonları (muameleler ya da transferler için) eylem düğmesine tıklayarak sıfırdan oluşturabilirsiniz. Şablona tıklamak onun bir örneklendirmesini oluşturacaktır.<br><img src=\"ic_event\">Bir planlama, planlama takviminde (bir seferlik ya da tekrarlanan) bir olay oluşturduğunuz bir şablondur. Herhangi bir planlamaya tıklamanız planlamanın geçmiş ve gelecekteki örneklemelerini gösteren takvim görünümünü açacaktır.]]></string>
+  <string name="help_ManageTemplates_planner_intro">Açık bir örneklemeye uzun dokunmak çoklu seçimi başlatır. Tarih aralığının başına veya sonuna dokunmak, bu aralığı geçmişe veya geleceğe doğru genişletmeye imkân sağlar.</string>
   <string name="help_ManageTemplates_plans_intro">Her vurgulanan tarih planlamanın bir örneklemesini temsil eder.</string>
   <string name="help_ManageTemplates_plans_info"><![CDATA[Örneklemelerin durumu aşağıdaki ikonlarla gösterilir:<br><img src=\"ic_stat_open\"> Örnekleme henüz uygulanmamıştır. <br><img src=\"ic_stat_applied\"> Örnekleme uygulanmıştır.<br><img src=\"ic_stat_cancelled\"> Örnekleme iptal edilmiştir, yani onu atlanması için işaretlemişsinizdir. Bu örnekleme için hiçbir muamele oluşturulmayacaktır.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Seçilen şablonları örneklendir ve derhal kaydet.</string>

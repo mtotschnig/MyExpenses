@@ -45,7 +45,7 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> reklám mentes és nyitott forráskódú.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> nyitott forráskódú.</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>
   <string name="dialog_password_activate_protection">Jelszóvédelem aktiválása</string>

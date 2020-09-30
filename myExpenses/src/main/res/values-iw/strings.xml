@@ -68,7 +68,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s היא תכונת פרימיום (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i>מוצאת ללא פרסומות וכקוד פתוח.</string>
+  <string name="dialog_contrib_text_1">קוד פתוח מוצע <i>{app_name}</i> .</string>
   <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:</string>
   <string name="dialog_contrib_usage_count">נותרו שימושים בחינם</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה עד %1$dפעמים במצב הנוכחי של רשיונך (%2$s).</string>
@@ -924,6 +924,9 @@
   <string name="new_tag_hint">הכנס תג חדש</string>
   <string name="language_download_requested">תרגום משפה %s נדרש מחנות האפליקציות</string>
   <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">זמן לביצוע עסקה מתוזמנת המיושמת ידנית</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12 בערב (צהריים)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">זמן היישום</string>
 </resources>

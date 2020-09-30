@@ -48,7 +48,7 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s mogu koristiti samo premium korisnici (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> ne sarži reklame i otvorenog je koda.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> otvorenog je koda.</string>
   <string name="dialog_export_delete">Obriši eksportirane transakcije</string>
   <string name="dialog_export_not_yet_exported">Eksportiraj samo one trasakcije koje još nisu bile eksportirane</string>
   <string name="dialog_password_activate_protection">Aktiviraj zaštitu s lozinkom</string>

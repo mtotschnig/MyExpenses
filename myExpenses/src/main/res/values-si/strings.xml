@@ -39,7 +39,6 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
   <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
   <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
   <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>

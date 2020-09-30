@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>Manejo de transacciones recurrentes mejorado</item>
+        <item>Traducción a Canarés</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Formato de fecha personalizado</item>
         <item>Las etiquetas podrán exportarse a CSV</item>

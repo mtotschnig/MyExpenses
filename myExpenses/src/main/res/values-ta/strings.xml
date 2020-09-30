@@ -709,7 +709,7 @@
   <string name="menu_original_amount">அசல் தொகை</string>
   <string name="menu_equivalent_amount">நிகரான தொகை</string>
   <string name="home_currency_change_warning">நீங்கள் உங்கள் வீட்டு நாணயத்தை மாற்றினால், நிகரான தொகை மற்றும் மாற்று விகிதங்கள் இழக்கப்படும், மேலும் அவை மீண்டும் வரையறுக்கப்பட வேண்டும்.</string>
-  <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிரிவு பரிவர்த்தனையாக குழுவமைக்கப்படும். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியால் மாற்றி வைக்கப்படும்</string>
+  <string name="warning_split_transactions">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகள் ஒரு பிரிவு பரிவர்த்தனையாக குழுவமைக்கப்படும். அவைகளின் தேதி விவரம் இழக்கப்படும், அதாவது அவைகளின் சராசரியாக மாற்றப்படும்.</string>
   <string name="warning_ungroup_split_transactions">தேர்ந்தெடுக்கப்பட்ட பிரிவு பரிவர்த்தனைகள் கலைக்கப்படும், அதாவது அவற்றின் பிளவுப் பகுதிகள் சாதாரண பரிவர்த்தனைகளாக மாற்றப்படும்.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">பிரிவை கலை</string>
@@ -785,14 +785,14 @@
   <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.-->
-  <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்பட்டாதது\' வடிப்பானை பல தேர்வுகளில் சேர்க்க முடியாது</string>
+  <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்படாதது\' வடிப்பானை பல தேர்வுகளில் சேர்க்க முடியாது</string>
   <string name="upgrade_information_cloud_sync_storage_format">பதிப்பு 2.9.8 உடன், ஒத்திசைவு பின்தளத்தில் தரவு சேமிக்ககும் விதம் மாற்றப்பட்டது. எந்தவொரு புதிய பதிவையும் உள்ளிடுவதற்கு முன், ஒத்திசைக்கப்பட்ட எல்லா கருவிகளையும் இந்த பதிப்பிற்கு மேம்படுத்தவும்.</string>
   <string name="pref_security_export_passphrase_title">காப்புப்பிரதிகளுக்கான கடவுச்சொற்றொடர்</string>
   <string name="pref_security_export_passphrase_summary">இந்த கடவுச்சொற்றொடரை கொண்டு காப்புப்பிரதிகள் மறையாக்கம் செய்யப்படும்</string>
   <string name="backup_is_encrypted">காப்புப்பிரதி கோப்பு மறையாக்கப்பட்டுள்ளது. அதை மறையீடு நீக்க, நீங்கள் அதன் கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
   <string name="backup_wrong_password">காப்புப்பிரதி கோப்பு வேறு கடவுச்சொல்லைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தெரிகிறது.</string>
   <string name="passphrase_for_synchronization">இந்த பின்தளத்தில் உள்ள ஒத்திசைவுத் தரவை மறையாக்க வேண்டுமெனில் கடவுச்சொற்றொடரை உள்ளிடவும்.</string>
-  <string name="sync_backend_is_encrypted">தொலை பின்தளம் மறையாக்கம் செய்யப்பட்டது. கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
+  <string name="sync_backend_is_encrypted">தொலை பின்தளம் மறையாக்கம் செய்யப்பட்டது. நீங்கள் கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
   <string name="sync_backend_wrong_passphrase">தொலை பின்தளம் வேறு கடவுச்சொற்றொடரைக் கொண்டு மறையாக்கப்பட்டுள்ளது போல தெரிகிறது.</string>
   <string name="sync_backend_is_not_encrypted">தொலை பின்தளம் மறையாக்கப்படவில்லை.</string>
   <string name="warning_backup_protected">இந்த ஆவணக்கிடங்கு உங்கள் கடவுச்சொற்றொடரால் பாதுகாக்கப்படும்.</string>
@@ -817,16 +817,16 @@
   <string name="content_description_closed">மூடப்பட்டது</string>
   <string name="warning_synced_account_cannot_be_closed">ஒத்திசைவு பின்தளத்துடன் இணைக்கப்பட்ட கணக்கை மூட முடியாது</string>
   <string name="translated_by">இவர்களால் மொழிபெயர்க்கப்பட்டது</string>
-  <string name="warning_no_account">புதிய பரிவர்த்தனைகளை உருவாக்க குறைந்தபட்சம் ஒரு கணக்காவது மறைக்கபடாமலோ  அல்லது மூடப்படாமலோ இருக்க வேண்டும்.</string>
+  <string name="warning_no_account">புதிய பரிவர்த்தனைகளை உருவாக்க குறைந்தபட்சம் ஒரு கணக்காவது மறைக்கபடாமலோ அல்லது மூடப்படாமலோ இருக்க வேண்டும்.</string>
   <string name="content_description_dates_are_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படுகிறது</string>
   <string name="content_description_dates_are_not_linked">பதிவு தேதி மற்றும் மதிப்பு தேதி ஒன்றாக புதுப்பிக்கப்படவில்லை</string>
-  <string name="icon">ஐகான்</string>
+  <string name="icon">சின்னம்</string>
   <string name="pref_debug_title">பிழைதிருத்து</string>
   <string name="roadmap_vote">திட்ட வாக்களிப்பு</string>
   <string name="warning_account_for_transaction_is_closed">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளில் குறைந்தபட்சம் ஒன்றையாவது தொகுக்க முடியவில்லை:</string>
   <string name="object_sealed">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>
   <string name="content_description_download_exchange_rate">மாற்று விகிதத்தைப் பதிவிறக்குக</string>
-  <string name="exchange_rate_not_supported">கட்டமைக்கப்பட்ட மாற்று விகித வழங்குநர் \"%1$s: %2$s\" விகிதத்தை வழங்கவில்லை. அமைப்புகளில் வேறு ஒன்றைத் தேர்ந்தெடுத்து முயற்சி செய்யலாம்.</string>
+  <string name="exchange_rate_not_supported">கட்டமைக்கப்பட்ட மாற்று விகித வழங்குநர் \"%1$s : %2$s\" விகிதத்தை வழங்கவில்லை. நீங்கள் அமைப்புகளில் வேறு ஒன்றைத் தேர்ந்தெடுத்து முயற்சி செய்யலாம்.</string>
   <string name="pref_category_exchange_rates">மாற்று விகிதங்கள்</string>
   <string name="pref_exchange_rate_provider_summary">மாற்று விகிதங்களைப் பதிவிறக்க வழங்குநரைத் தேர்ந்தெடுக்கவும்</string>
   <string name="pref_exchange_rate_provider_title">மாற்று விகித வழங்குநர்</string>
@@ -898,6 +898,9 @@
   <string name="new_tag_hint">புதிய குறிச்சொல்லை உள்ளிடவும்</string>
   <string name="language_download_requested">%s மொழிக்கான மொழிபெயர்ப்புகள் Play Store-ல் இருந்து கோரப்படுகின்றன</string>
   <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">கைமுறையாக பயன்படுத்தப்படும் திட்டமிடப்பட்ட பரிவர்த்தனைக்கான நேரம்</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12 pm (நண்பகல்)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">பயன்படுத்தப்படும் நேரம்</string>
 </resources>

@@ -57,7 +57,7 @@
   <string name="dialog_contrib_no">Încearcă</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit fără publicitate şi open source.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit open source.</string>
   <string name="dialog_contrib_usage_count">Utilizări gratuite rămase.</string>
   <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
   <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>

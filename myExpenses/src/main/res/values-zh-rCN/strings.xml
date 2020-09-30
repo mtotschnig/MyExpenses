@@ -60,7 +60,7 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> 是无广告和开放源码的.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i>是开源的。</string>
   <string name="dialog_export_delete">删除已导出的交易</string>
   <string name="dialog_export_not_yet_exported">只导出尚未导出的交易</string>
   <string name="dialog_password_activate_protection">启用密码保护</string>

@@ -68,7 +68,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
   <string name="dialog_contrib_text_2">Lütfen <i>{app_name}</i>\'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:</string>
   <string name="dialog_contrib_usage_count">Kalan ücretsiz kullanım</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d defa kullanabilirsiniz.</string>
@@ -898,6 +897,9 @@
   <string name="new_tag_hint">Yeni etiket gir</string>
   <string name="language_download_requested">%s lisanı için tercümeler Play Store\'dan isteniyor</string>
   <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">Elle uygulanan planlanmış muamele zamanı</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12:00 (öğlen)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">Uygulama zamanı</string>
 </resources>

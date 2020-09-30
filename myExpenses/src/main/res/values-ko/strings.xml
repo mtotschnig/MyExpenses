@@ -61,7 +61,7 @@
   <!--Button for accessing trial of premium feature-->
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> 소스 코드가 공개되어 있습니다.</string>
   <string name="dialog_contrib_text_2"><i>{app_name}</i> 을 (를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오.</string>
   <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
   <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>

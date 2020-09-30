@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகளின் மேம்பட்ட மேலாண்மை</item>
+        <item>கன்னட மொழிபெயர்ப்பு</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>தேதி வடிவை தனிப்பயனாக்குதல்</item>
         <item>குறிச்சொற்கள் CSV க்கு ஏற்றுமதி செய்யப்படுகின்றன</item>

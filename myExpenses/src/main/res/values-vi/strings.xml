@@ -67,7 +67,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s là tính năng trả phí (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>{app_name}</i></string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> là một chương trình miễn phí và mã nguồn mở. </string>
   <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:</string>
   <string name="dialog_contrib_usage_count">Lần sử dụng miễn phí còn lại</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Bạn có thể dùng nó tối đa %1$d lần với bản quyền hiện tại (%2$s).</string>

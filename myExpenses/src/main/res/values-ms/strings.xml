@@ -68,7 +68,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Buang sekatan ini dan capai lagi banyak fitur dengan menatar <i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> merupakan sumber terbuka.</string>
   <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
   <string name="dialog_contrib_usage_count">Penggunaan percuma berbaki</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d kali dengan status lesen semasa anda (%2$s).</string>

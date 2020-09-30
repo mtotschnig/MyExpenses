@@ -68,7 +68,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, а также получите больше возможностей расширив <i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> выпускается бесплатно и с открытым исходным кодом.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> с открытым исходным кодом.</string>
   <string name="dialog_contrib_text_2">Пожалуйста, внесите вклад расширив <i>{app_name}</i> и получите неограниченный доступ к следующим возможностях:</string>
   <string name="dialog_contrib_usage_count">Осталось бесплатных использований</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Вы можете это использовать до %1$d раз с вашим текущим лицензионным статусом (%2$s).</string>

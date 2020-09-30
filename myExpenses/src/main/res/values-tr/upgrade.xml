@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_313">
+        <item>Tekrar eden muamelelerin yönetimi geliştirildi</item>
+        <item>Kannada lisanında tercüme</item>
+    </string-array>
     <string-array name="whats_new_312">
         <item>Özel tarih biçimi</item>
         <item>Etiketler CSV olarak dışa aktarılabilir</item>

@@ -68,7 +68,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
   <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> 広告なしのオープンソースで提供しています。</string>
   <string name="dialog_contrib_text_2"><i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
   <string name="dialog_contrib_usage_count">無料の使用が残っています</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 回まで使用できます。</string>
@@ -886,6 +885,9 @@
   <string name="new_tag_hint">新しいタグを入力</string>
   <string name="language_download_requested">言語 %s の翻訳が Play ストアからリクエストされました</string>
   <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_title">手動で適用する、予定された取引の時間</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
+  <string name="pref_planner_manual_time_noon">12 PM (正午)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <string name="pref_planner_manual_time_current">アプリケーションの時間</string>
 </resources>
