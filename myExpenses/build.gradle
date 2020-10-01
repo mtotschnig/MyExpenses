@@ -211,7 +211,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
 
     // Dropbox
-    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.1'
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.5'
 
     //noinspection GradleCompatible
     implementation 'androidx.multidex:multidex:2.0.1'
