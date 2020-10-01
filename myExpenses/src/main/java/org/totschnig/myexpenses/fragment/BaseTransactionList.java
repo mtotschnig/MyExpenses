@@ -665,10 +665,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             Bundle args = new Bundle();
             args.putLong(KEY_ROWID, acmi.id);
             SimpleInputDialog.build()
-                .title(R.string.dialog_title_template_title)
+                .title(R.string.menu_create_template)
                 .cancelable(false)
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                .hint(R.string.label)
+                .hint(R.string.title)
                 .text(finalLabel)
                 .extra(args)
                 .pos(R.string.dialog_button_add)

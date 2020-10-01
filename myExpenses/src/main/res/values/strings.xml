@@ -110,7 +110,6 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
-    <string name="dialog_title_template_title">Set the title</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Delete account?</item>
         <item quantity="other">Delete %1$d accounts?</item>

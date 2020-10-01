@@ -111,7 +111,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1)
         .perform(longClick());
     clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, R.string.menu_create_template_from_transaction, true);
-    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_template_title))))
+    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_create_template))))
         .check(matches(isDisplayed()));
     onView(withId(R.id.editText))
         .perform(typeText(templateTitle));
