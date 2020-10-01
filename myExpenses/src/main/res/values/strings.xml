@@ -938,4 +938,9 @@
     <string name="pref_criterion_future_current">Current time</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Features</string>
+    <string name="scan_result_no_data">No data</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Multiple candidates found. Please select:</string>
+    <string name="scan_result_no_amount">No amount found</string>
+    <string name="scan_result_no_date">No date found</string>
+    <string name="scan_result_no_payee">No payee found</string>
 </resources>

@@ -37,21 +37,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun processOcrResult(result: Result<OcrResult>) {
         result.onSuccess {
             if (it.isEmpty()) {
-                Toast.makeText(this, "No data", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.scan_result_no_data), Toast.LENGTH_LONG).show()
             } else if (it.needsDisambiguation()) {
                 SimpleFormDialog.build()
                         .autofocus(false)
                         .extra(Bundle().apply {
                             putParcelable(KEY_OCR_RESULT, it)
                         })
-                        .title("Multiple candidates found. Please select")
+                        .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
                         .fields(
-                                if (it.amountCandidates.isEmpty()) Hint.plain("No amount found") else
+                                if (it.amountCandidates.isEmpty()) Hint.plain(getString(R.string.scan_result_no_amount)) else
                                     Spinner.plain(KEY_AMOUNT)
                                             .placeholder(R.string.amount)
                                             .items(*it.amountCandidates.toTypedArray())
                                             .preset(0),
-                                if (it.dateCandidates.isEmpty()) Hint.plain("No date found") else
+                                if (it.dateCandidates.isEmpty()) Hint.plain(getString(R.string.scan_result_no_date)) else
                                     Spinner.plain(KEY_DATE)
                                             .placeholder(R.string.date)
                                             .items(*it.dateCandidates.map { pair ->
@@ -59,7 +59,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                         ?: pair.second).toString()
                                             }.toTypedArray())
                                             .preset(0),
-                                if (it.payeeCandidates.isEmpty()) Hint.plain("No payee found") else
+                                if (it.payeeCandidates.isEmpty()) Hint.plain(getString(R.string.scan_result_no_payee)) else
                                     Spinner.plain(KEY_PAYEE_NAME)
                                             .placeholder(R.string.payee)
                                             .items(*it.payeeCandidates.map(Payee::name).toTypedArray())
