@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.dropbox.core.android.Auth
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -12,24 +12,29 @@ import org.totschnig.myexpenses.viewmodel.DropboxSetupViewModel
 const val APP_KEY = "09ctg08r5gnsh5c"
 
 class DropboxSetup : AbstractSyncBackup<DropboxSetupViewModel>() {
+    var oauthStartPending: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            Auth.startOAuth2Authentication(this, APP_KEY)
+            oauthStartPending = true
         }
     }
 
-    override fun instantiateViewModel() = ViewModelProviders.of(this).get(DropboxSetupViewModel::class.java)
+    override fun instantiateViewModel() = ViewModelProvider(this).get(DropboxSetupViewModel::class.java)
 
     override fun onResume() {
         super.onResume()
-        val authToken = Auth.getOAuth2Token()
-        if (authToken != null) {
-            viewModel.initWithAuthToken(authToken)
-            if (!loadFinished) {
-                viewModel.query()
-            }
+        if (oauthStartPending) {
+            Auth.startOAuth2Authentication(this, APP_KEY)
+            oauthStartPending = false
+        } else {
+            Auth.getOAuth2Token()?.also {
+                viewModel.initWithAuthToken(it)
+                if (!loadFinished) {
+                    viewModel.query()
+                }
+            } ?: kotlin.run { abort() }
         }
     }
 

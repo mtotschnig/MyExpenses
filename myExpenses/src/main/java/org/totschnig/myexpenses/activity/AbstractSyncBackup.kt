@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog
@@ -34,21 +33,21 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
         super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
         viewModel = instantiateViewModel()
-        viewModel.folderList.observe(this, Observer {
+        viewModel.folderList.observe(this, {
             loadFinished = true
-            if (it.size > 0) {
+            if (it.isNotEmpty()) {
                 showSelectFolderDialog(it)
             } else {
                 showCreateFolderDialog()
             }
         })
-        viewModel.folderCreateResult.observe(this, Observer {
+        viewModel.folderCreateResult.observe(this, {
             success(it)
         })
-        viewModel.error.observe(this, Observer {
-            if (!handleException(it)) {
-                CrashHandler.report(it)
-                it.message?.let {
+        viewModel.error.observe(this, { exception ->
+            if (!handleException(exception)) {
+                CrashHandler.report(exception)
+                exception.message?.let {
                     Toast.makeText(this, it, Toast.LENGTH_LONG).show()
                 }
                 finish()
@@ -98,17 +97,17 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
         }
     }
 
-    fun onFolderCreate(label: String) {
+    private fun onFolderCreate(label: String) {
         viewModel.createFolder(label)
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        when {
-            dialogTag.equals(DIALOG_TAG_FOLDER_SELECT) -> {
+        when (dialogTag) {
+            DIALOG_TAG_FOLDER_SELECT -> {
                 when (which) {
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
                         extras.getString(SimpleListDialog.SELECTED_SINGLE_LABEL)?.let {
-                            success(Pair(idList.get(extras.getLong(CustomListDialog.SELECTED_SINGLE_ID).toInt()),
+                            success(Pair(idList[extras.getLong(CustomListDialog.SELECTED_SINGLE_ID).toInt()],
                                     it))
                         } ?: run {
                             Toast.makeText(this, "Could not find folder label in result", Toast.LENGTH_LONG).show()
@@ -119,7 +118,7 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
                 }
                 return true
             }
-            dialogTag.equals(DIALOG_TAG_FOLDER_CREATE) -> {
+            DIALOG_TAG_FOLDER_CREATE -> {
                 when (which) {
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
                         onFolderCreate(extras.getString(SimpleInputDialog.TEXT, "MyExpenses"))
@@ -132,8 +131,8 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
         return false
     }
 
-    private fun abort() {
+    protected fun abort() {
         setResult(Activity.RESULT_CANCELED)
-        finish();
+        finish()
     }
 }
