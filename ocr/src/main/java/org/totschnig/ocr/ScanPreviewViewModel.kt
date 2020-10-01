@@ -15,6 +15,8 @@ import java.io.File
 import javax.inject.Inject
 
 class ScanPreviewViewModel(application: Application) : AndroidViewModel(application) {
+    var running: Boolean = false
+
     @Inject
     lateinit var ocrFeature: OcrFeature
 
@@ -45,9 +47,12 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun runTextRecognition(scanFile: File) {
-        viewModelScope.launch {
-            withContext(Dispatchers.Default) {
-                result.postValue(runCatching { ocrFeature.runTextRecognition(scanFile, getApplication()) })
+        if (!running) {
+            running = true
+            viewModelScope.launch {
+                withContext(Dispatchers.Default) {
+                    result.postValue(runCatching { ocrFeature.runTextRecognition(scanFile, getApplication()) })
+                }
             }
         }
     }

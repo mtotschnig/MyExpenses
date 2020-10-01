@@ -46,6 +46,9 @@ class ScanPreviewFragment : DialogFragment() {
                 view.findViewById<ImageView>(R.id.RotateRight).setOnClickListener { rotate(true) }
                 view.findViewById<ImageView>(R.id.RotateLeft).setOnClickListener { rotate(false) }
                 getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    getButton(AlertDialog.BUTTON_POSITIVE)?.let {
+                        it.isEnabled = false
+                    }
                     viewModel.runTextRecognition(scanFile)
                 }
             }
