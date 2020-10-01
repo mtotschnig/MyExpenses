@@ -5,9 +5,10 @@
 * check if version_codes, version_names, upgrade.xml use the correction version code
 * if applicable publish announcement on Google+ and Facebook and add links
 * Test and assemble
-  * ./gradlew check
-  * ./gradlew clean connectedConscriptForTestAndroidTest
-  * ./gradlew clean assembleConscriptRelease
+  * ./gradlew lintConscriptStubRelease
+  * ./gradlew testConscriptStubReleaseUnitTest
+  * ./gradlew clean connectedConscriptStubForTestAndroidTest
+  * ./gradlew clean assembleConscriptStubRelease
 * test upgrade mechanism
 * Create release tag in GIT (git tag r39; git push origin r39)
 * update _config.yml and push gh-pages
