@@ -150,7 +150,7 @@ class OcrFeatureImpl @Inject constructor(prefHandler: PrefHandler, userLocalePro
             payeeList.find { payee -> payee.name.startsWith(line.text, ignoreCase = true) || line.text.startsWith(payee.name, ignoreCase = true) }
         }
 
-        return OcrResult(amountCandidates, dateCandidates, payeeCandidates)
+        return OcrResult(amountCandidates.distinct(), dateCandidates.distinct(), payeeCandidates.distinct())
     }
 
     private val List<Text.Element>.text: String
