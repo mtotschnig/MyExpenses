@@ -51,3 +51,9 @@ file_filter = ../licencedb/config/locales/<lang>.yml
 source_lang = en
 source_file = fastlane/metadata/android/en-US/images/phoneScreenshots/title.strings
 file_filter = fastlane/metadata/android/<lang>/images/phoneScreenshots/title.strings
+
+[my-expenses.ocr]
+source_lang = en
+source_file = myExpenses/src/main/res/values/strings_ocr.xml
+file_filter = myExpenses/src/main/res/values-<lang>/strings_ocr.xml
+
