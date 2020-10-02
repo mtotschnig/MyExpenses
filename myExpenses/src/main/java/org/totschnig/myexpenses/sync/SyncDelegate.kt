@@ -339,7 +339,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
-                findTransferAccount(transferAccount).let { accountId -> resolver(accountId, change.uuid()).takeIf { it != -1L }?.let { Transfer(account.id, money, it) } }
+                findTransferAccount(transferAccount).takeIf { accountId -> resolver(accountId, change.uuid())  != -1L }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
                     change.label()?.let { label ->

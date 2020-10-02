@@ -122,4 +122,6 @@ public abstract class CrashHandler {
 
     }
   };
+
+  public void initProcess(Context context, boolean syncService) {}
 }

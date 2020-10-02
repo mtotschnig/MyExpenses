@@ -162,12 +162,14 @@ public class MyApplication extends Application implements
     initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     setupLogging();
-    if (!isSyncService()) {
+    final boolean syncService = isSyncService();
+    if (!syncService) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
       registerWidgetObservers();
     }
+    crashHandler.initProcess(this, syncService);
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);
     PRNGFixes.apply();
