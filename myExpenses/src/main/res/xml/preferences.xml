@@ -258,36 +258,72 @@
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/synchronization">
-        <Preference
-            android:key="@string/pref_manage_sync_backends_key"
-            android:title="@string/pref_manage_sync_backends_title">
+    <PreferenceCategory android:title="@string/pref_category_title_features">
+        <PreferenceScreen
+            android:key="exchange_rates"
+            android:title="@string/pref_category_exchange_rates">
+            <ListPreference
+                android:defaultValue="RATESAPI"
+                android:entries="@array/exchange_rate_provider_entries"
+                android:entryValues="@array/exchange_rate_provider_values"
+                android:key="@string/pref_exchange_rate_provider_key"
+                android:summary="@string/pref_exchange_rate_provider_summary"
+                android:title="@string/pref_exchange_rate_provider_title" />
+            <EditTextPreference
+                android:enabled="false"
+                android:key="@string/pref_openexchangerates_app_id_key"
+                android:summary="@string/pref_openexchangerates_app_id_summary"
+                android:title="OpenExchangeRates App ID" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="@string/pref_ocr_key"
+            android:title="@string/title_scan_receipt_feature">
+            <EditTextPreference
+                android:key="@string/pref_ocr_total_indicators_key"
+                android:title="@string/pref_ocr_total_indicators_title"
+                android:summary="@string/pref_ocr_total_indicators_summary"/>
+            <EditTextPreference
+                android:key="@string/pref_ocr_date_formats_key"
+                android:summary="@string/pref_custom_decimal_format_summary"
+                android:title="@string/pref_ocr_date_formats_title" />
+            <EditTextPreference
+                android:key="@string/pref_ocr_time_formats_key"
+                android:summary="@string/pref_custom_decimal_format_summary"
+                android:title="@string/pref_ocr_time_formats_title" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="@string/pref_sync_key"
+            android:title="@string/synchronization">
+            <Preference
+                android:key="@string/pref_manage_sync_backends_key"
+                android:title="@string/pref_manage_sync_backends_title">
 
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <SeekBarPreference
-            android:defaultValue="12"
-            android:key="@string/pref_sync_frequency_key"
-            android:max="99"
-            android:summary="@string/pref_sync_frequency_summary"
-            android:title="@string/pref_sync_frequency_title"
-            my:min="1"
-            my:showSeekBarValue="true"
-            my:updatesContinuously="true" />
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="@string/pref_sync_notification_key"
-            android:summary="@string/pref_sync_notification_summary" />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="@string/pref_sync_wifi_only_key"
-            android:summary="@string/pref_sync_wifi_only_summary" />
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="@string/pref_sync_changes_immediately_key"
-            android:summary="@string/pref_sync_changes_immediately_summary" />
+                <intent
+                    android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"
+                    android:targetPackage="@string/application_id" />
+            </Preference>
+            <SeekBarPreference
+                android:defaultValue="12"
+                android:key="@string/pref_sync_frequency_key"
+                android:max="99"
+                android:summary="@string/pref_sync_frequency_summary"
+                android:title="@string/pref_sync_frequency_title"
+                my:min="1"
+                my:showSeekBarValue="true"
+                my:updatesContinuously="true" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_sync_notification_key"
+                android:summary="@string/pref_sync_notification_summary" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="@string/pref_sync_wifi_only_key"
+                android:summary="@string/pref_sync_wifi_only_summary" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="@string/pref_sync_changes_immediately_key"
+                android:summary="@string/pref_sync_changes_immediately_summary" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -448,41 +484,6 @@
         <Preference
             android:key="@string/pref_ad_consent_key"
             android:title="@string/pref_ad_consent_title" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_category_title_features">
-        <PreferenceScreen
-            android:key="exchange_rates"
-            android:title="@string/pref_category_exchange_rates">
-            <ListPreference
-                android:defaultValue="RATESAPI"
-                android:entries="@array/exchange_rate_provider_entries"
-                android:entryValues="@array/exchange_rate_provider_values"
-                android:key="@string/pref_exchange_rate_provider_key"
-                android:summary="@string/pref_exchange_rate_provider_summary"
-                android:title="@string/pref_exchange_rate_provider_title" />
-            <EditTextPreference
-                android:enabled="false"
-                android:key="@string/pref_openexchangerates_app_id_key"
-                android:summary="@string/pref_openexchangerates_app_id_summary"
-                android:title="OpenExchangeRates App ID" />
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:key="@string/pref_ocr_key"
-            android:title="@string/title_scan_receipt_feature">
-            <EditTextPreference
-                android:key="@string/pref_ocr_total_indicators_key"
-                android:title="@string/pref_ocr_total_indicators_title"
-                android:summary="@string/pref_ocr_total_indicators_summary"/>
-            <EditTextPreference
-                android:key="@string/pref_ocr_date_formats_key"
-                android:summary="@string/pref_custom_decimal_format_summary"
-                android:title="@string/pref_ocr_date_formats_title" />
-            <EditTextPreference
-                android:key="@string/pref_ocr_time_formats_key"
-                android:summary="@string/pref_custom_decimal_format_summary"
-                android:title="@string/pref_ocr_time_formats_title" />
-        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

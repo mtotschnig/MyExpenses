@@ -41,7 +41,6 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 @SuppressLint("InlinedApi")
 public class Fixture {

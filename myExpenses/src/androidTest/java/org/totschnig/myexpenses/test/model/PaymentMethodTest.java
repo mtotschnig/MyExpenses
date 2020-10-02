@@ -10,7 +10,7 @@ public class PaymentMethodTest extends ModelTest  {
     PaymentMethod.clear();
   }
 
-  public void testSavingAPredefinedMethodWithoutChangingLabelShouldKeppPredefinedInformation() {
+  public void testSavingAPredefinedMethodWithoutChangingLabelShouldKeepPredefinedInformation() {
     PaymentMethod pm = PaymentMethod.getInstanceFromDb(1);
     assert pm != null;
     assertTrue(isPredefined(pm));

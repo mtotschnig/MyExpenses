@@ -137,7 +137,8 @@ public enum PrefKey {
   OCR_TOTAL_INDICATORS(R.string.pref_ocr_total_indicators_key),
   OCR_TIME_FORMATS(R.string.pref_ocr_time_formats_key),
   OCR_DATE_FORMATS(R.string.pref_ocr_date_formats_key),
-  CRITERION_FUTURE(R.string.pref_criterion_future_key);
+  CRITERION_FUTURE(R.string.pref_criterion_future_key),
+  SYNC(R.string.pref_sync_key);
 
   int resId = 0;
   String key = null;

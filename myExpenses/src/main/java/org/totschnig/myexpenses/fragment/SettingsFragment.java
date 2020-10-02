@@ -172,6 +172,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_SPLIT;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSFER;
+import static org.totschnig.myexpenses.preference.PrefKey.SYNC;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_FREQUCENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_WIFI_ONLY;
@@ -362,13 +363,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
       pref.setTitle(getString(R.string.pref_import_title, "CSV"));
 
-      findPreference(MANAGE_SYNC_BACKENDS).setSummary(
-          getString(R.string.pref_manage_sync_backends_summary,
-              Stream.of(ServiceLoader.load(getContext()))
-                  .map(SyncBackendProviderFactory::getLabel)
-                  .collect(Collectors.joining(", "))) +
-              " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(getActivity()));
-
       new AsyncTask<Void, Void, Boolean>() {
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -410,9 +404,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
       languagePref.setEntries(getLocaleArray(getContext()));
-
-      findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
-      findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
 
       currencyViewModel.getCurrencies().observe(this, currencies -> {
         ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
@@ -537,6 +528,15 @@ public class SettingsFragment extends BaseSettingsFragment implements
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         ((EditTextPreference) pref).setText(shortFormat + "\n" + mediumFormat);
       }
+    } else if (rootKey.equals(getKey(SYNC))) {
+      findPreference(MANAGE_SYNC_BACKENDS).setSummary(
+          getString(R.string.pref_manage_sync_backends_summary,
+              Stream.of(ServiceLoader.load(getContext()))
+                  .map(SyncBackendProviderFactory::getLabel)
+                  .collect(Collectors.joining(", "))) +
+              " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(getActivity()));
+      findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+      findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     }
   }
 

@@ -53,7 +53,6 @@ android {
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
         buildConfigField "String[]", "CATEGORY_ICONS", "{" + categoryIcons() + "}"
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
-        testProguardFile "proguard-test.txt"
 
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "kn", "ko", "ms", "pl", "pt", "ro", "ru", "si", "ta", "tr", "uk", "vi", "pt_PT", "zh_CN", "zh_TW"

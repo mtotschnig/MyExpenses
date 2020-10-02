@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_311">
+        <item>قائمة الأطراف ( المشترين و المستفيدين ) قابلة للبحث</item>
+    </string-array>
     <string-array name="whats_new_310">
         <item>يمكن تعيين المعاملات لعلامات متعددة</item>
     </string-array>
