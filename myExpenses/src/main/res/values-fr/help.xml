@@ -23,6 +23,7 @@
   <string name="cab_create_template_from_transaction_help_text">Définir un nouveau modèle à partir de l\'opération sélectionnée. Vous indiquerez le titre du modèle.</string>
   <string name="cab_clone_transaction_help_text">Les opérations sélectionnées seront clonées avec la date et l\'heure. Vous pourrez apporter des modifications avant d\'enregistrer la copie.</string>
   <string name="cab_split_help_text">Vous pouvez ensuite modifier l\'opération pour créer des sous-opérations supplémentaires si nécessaire.</string>
+  <string name="menu_scan_mode_help_text">Activez le mode de numérisation afin de numériser rapidement les reçus.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Cet écran répertorie les méthodes de paiement prédéfinies (chèque, carte de crédit, dépôt, prélèvement) et vous permet d\'en définir de nouvelles. Utilisez le bouton d\'action pour ouvrir le formulaire pour la création d\'un nouveau type.</string>
   <!--ManageParties title is in keys-->

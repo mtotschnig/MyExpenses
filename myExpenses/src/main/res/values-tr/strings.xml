@@ -68,6 +68,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> açık kaynak olarak sunulmuştur.</string>
   <string name="dialog_contrib_text_2">Lütfen <i>{app_name}</i>\'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:</string>
   <string name="dialog_contrib_usage_count">Kalan ücretsiz kullanım</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d defa kullanabilirsiniz.</string>
@@ -95,7 +96,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
-  <string name="dialog_title_template_title">Başlığı belirtin</string>
   <plurals name="dialog_title_warning_delete_account">
     <item quantity="one">Kategori silinsin mi?</item>
     <item quantity="other">%1$d hesap silinsin mi?</item>
@@ -902,4 +902,30 @@
   <string name="pref_planner_manual_time_noon">12:00 (öğlen)</string>
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
   <string name="pref_planner_manual_time_current">Uygulama zamanı</string>
+  <!--Title in Settings screen, and title of dynamically loaded feature module-->
+  <string name="title_scan_receipt_feature">Makbuzu tara</string>
+  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
+  <string name="feature_download_requested">%s özelliği Play Store\'dan talep edilmiştir.</string>
+  <string name="feature_downloaded">%s özelliği kurulmuştur.</string>
+  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
+  <string name="menu_scan_mode">Tarama kipi</string>
+  <!--Button that triggers the scan operation-->
+  <string name="button_scan">Tara</string>
+  <string name="pref_ocr_total_indicators_title">Toplam meblağ için göstergeler</string>
+  <string name="pref_ocr_total_indicators_summary">Makbuzdaki toplam meblağı tanımlayan dizelerin listesi. Her bir değeri yeni bir satıra giriniz. Varsayılan değeri geri getirmek için boş bırakınız.</string>
+  <string name="pref_ocr_date_formats_title">Tarih Biçimleri</string>
+  <string name="pref_ocr_time_formats_title">Zaman Biçimleri</string>
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <string name="pref_criterion_futur_title">Gelecek muameleler için kriter</string>
+  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
+  <string name="pref_criterion_future_end_of_day">Gün sonu</string>
+  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
+  <string name="pref_criterion_future_current">Şimdiki zaman</string>
+  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
+  <string name="pref_category_title_features">Features</string>
+  <string name="scan_result_no_data">Veri yok</string>
+  <string name="scan_result_multiple_candidates_dialog_title">Birden çok aday bulundu. Lütfen seçin:</string>
+  <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
+  <string name="scan_result_no_date">Hiçbir tarih bulunamadı</string>
+  <string name="scan_result_no_payee">Hiçbir alacaklı bulunamadı</string>
 </resources>

@@ -23,6 +23,7 @@
   <string name="cab_create_template_from_transaction_help_text">Създава нов шаблон от избраната транзакция. Ще Ви попита за име на шаблона.</string>
   <string name="cab_clone_transaction_help_text">Избраните транзакции ще бъдат клонирани за текущата дата и час. Може да направите промени преди да запишете копието.</string>
   <string name="cab_split_help_text">Може да редактирате транзакцията по-късно, за да създадете допълнителни части.</string>
+  <string name="menu_scan_mode_help_text">Активирайте режима на сканиране, за да сканирате бързо касови бележки.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Този екран показва предварително дефинираните начини на плащане (чек, кредитна карта, депозит, директен дебит) и може да дефинирате други. Използвайте плаващия бутон за да отворите бланка за създаване на нов начин на плащане.</string>
   <!--ManageParties title is in keys-->

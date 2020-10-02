@@ -62,7 +62,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i></string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> προσφέρεται δωρεάν και είναι ανοικτού κώδικα.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> είναι ανοικτού κώδικα.</string>
   <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες</string>
   <string name="dialog_contrib_usage_count">Εναπομείνουσες ελεύθερες χρήσεις</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε μέχρι %1$d φορές με την τωρινή σας άδεια (%2$s).</string>
@@ -89,7 +89,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Υπόλοιπο %1$s</string>
   <string name="dialog_title_contrib_feature">Αναβαθμισμένο χαρακτηριστικό</string>
-  <string name="dialog_title_template_title">Ρυθμίστε τον τίτλο</string>
   <string name="dialog_title_warning_delete_template">Θέλετε να διαγράψετε το πρότυπο;</string>
   <string name="dialog_title_warning_delete_transaction">Να διαγραφεί η συναλλαγή;</string>
   <string name="expense">Δαπάνη</string>
@@ -618,4 +617,13 @@
   <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
+  <!--Title in Settings screen, and title of dynamically loaded feature module-->
+  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
+  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
+  <!--Button that triggers the scan operation-->
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
+  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
+  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
+  <string name="pref_category_title_features">Χαρακτηριστικά</string>
 </resources>

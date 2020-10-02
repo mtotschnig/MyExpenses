@@ -919,7 +919,6 @@
     <!-- Title in Settings screen, and title of dynamically loaded feature module -->
     <string name="title_scan_receipt_feature">Scan receipt</string>
     <!-- A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line  -->
-    <string name="pref_ocr_total_indicators_default">"Total"</string>
     <string name="feature_download_requested">Feature %s is requested from Play Store.</string>
     <string name="feature_downloaded">Feature %s has been installed.</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
@@ -930,7 +929,7 @@
     <string name="pref_ocr_total_indicators_summary">A list of strings, which identify the total value in a receipt. Put each value on a new line. Leave empty to restore the default value.</string>
     <string name="pref_ocr_date_formats_title">Date Formats</string>
     <string name="pref_ocr_time_formats_title">Time Formats</string>
-    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future  -->
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
     <string name="pref_criterion_futur_title">Criterion for future transactions</string>
     <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
     <string name="pref_criterion_future_end_of_day">End of day</string>
