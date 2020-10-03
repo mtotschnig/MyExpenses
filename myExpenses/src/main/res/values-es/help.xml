@@ -23,6 +23,7 @@
   <string name="cab_create_template_from_transaction_help_text">Definir una nueva plantilla basada en la transacción seleccionada. Le preguntará por el título de la plantilla.</string>
   <string name="cab_clone_transaction_help_text">Las transacciones seleccionadas se copiarán con la fecha y hora actuales. Podrá hacer cambios antes de guardar la copia.</string>
   <string name="cab_split_help_text">Puede editar la transacción después para crear partes adiciones, según necesite.</string>
+  <string name="menu_scan_mode_help_text">Active el modo de escaneo para escanear recibos rápidamente.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Esta pantalla muestra las formas de pago predefinidas (cheque, tarjeta de crédito, depósito, tarjeta de débito) y le permitirá definir otras nuevas. Utilice el botón de acción flotante para abrir el formulario para la creación de un nuevo método.</string>
   <!--ManageParties title is in keys-->
