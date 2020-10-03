@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import timber.log.Timber;
 
 public abstract class CrashHandler {
@@ -95,7 +97,7 @@ public abstract class CrashHandler {
     putCustomData("UserEmail", value);
   }
 
-  public abstract void putCustomData(String key, String value);
+  public abstract void putCustomData(@NonNull String key, @Nullable String value);
 
   public synchronized void addBreadcrumb(String breadcrumb) {
     Timber.i("Breadcrumb: %s", breadcrumb);
@@ -118,7 +120,7 @@ public abstract class CrashHandler {
     }
 
     @Override
-    public void putCustomData(String key, String value) {
+    public void putCustomData(@NonNull String key, String value) {
 
     }
   };

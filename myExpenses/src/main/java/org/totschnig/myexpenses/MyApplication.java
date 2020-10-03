@@ -161,15 +161,15 @@ public class MyApplication extends Application implements
     checkAppReplacingState();
     initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    setupLogging();
     final boolean syncService = isSyncService();
+    crashHandler.initProcess(this, syncService);
+    setupLogging();
     if (!syncService) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
       registerWidgetObservers();
     }
-    crashHandler.initProcess(this, syncService);
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);
     PRNGFixes.apply();

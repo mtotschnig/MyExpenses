@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
+import androidx.annotation.NonNull;
 import timber.log.Timber;
 
 public class AcraCrashHandler extends CrashHandler {
@@ -52,7 +53,7 @@ public class AcraCrashHandler extends CrashHandler {
   }
 
   @Override
-  public void putCustomData(String key, String value) {
+  public void putCustomData(@NonNull String key, String value) {
     ACRA.getErrorReporter().putCustomData(key, value);
   }
 }
