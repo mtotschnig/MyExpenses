@@ -1,6 +1,7 @@
 package org.totschnig.ocr
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,7 @@ class ScanPreviewFragment : DialogFragment() {
                     getButton(AlertDialog.BUTTON_POSITIVE)?.let {
                         it.isEnabled = false
                     }
-                    viewModel.runTextRecognition(scanFile)
+                    activity?.let { viewModel.runTextRecognition(scanFile, it) }
                 }
             }
         }
@@ -64,6 +65,10 @@ class ScanPreviewFragment : DialogFragment() {
             picasso.invalidate(it)
             picasso.load(it).into(imageView)
         }
+    }
+
+    fun handleData(intent: Intent) {
+        viewModel.handleData(intent)
     }
 
     val scanFile: File

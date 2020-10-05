@@ -16,6 +16,8 @@ import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.SYNC_BACKEND_SETUP_REQUEST;
+
 public class DropboxProviderFactory extends SyncBackendProviderFactory {
   public static final String LABEL = "Dropbox";
 
@@ -33,7 +35,7 @@ public class DropboxProviderFactory extends SyncBackendProviderFactory {
   @Override
   public void startSetup(ProtectedFragmentActivity activity) {
     activity.startActivityForResult(new Intent(activity, DropboxSetup.class),
-        ProtectedFragmentActivity.SYNC_BACKEND_SETUP_REQUEST);
+        SYNC_BACKEND_SETUP_REQUEST);
   }
 
   @Override

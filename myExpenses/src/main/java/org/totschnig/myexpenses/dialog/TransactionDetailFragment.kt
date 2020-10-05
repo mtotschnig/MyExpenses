@@ -34,6 +34,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -129,7 +130,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     dismiss()
                     val i = Intent(ctx, ExpenseEdit::class.java)
                     i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-                    ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST)
+                    ctx.startActivityForResult(i, EDIT_REQUEST)
                 }
                 AlertDialog.BUTTON_NEUTRAL -> {
                     transaction.pictureUri?.let {

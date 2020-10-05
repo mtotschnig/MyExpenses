@@ -152,11 +152,15 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_ACCOUNT_RQEUST;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_CATEGORY_RQEUST;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_METHOD_RQEUST;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_PAYEE_RQEUST;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.MAP_TAG_RQEUST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_CATEGORY_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_PAYEE_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_TAGS_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_ACCOUNT_RQEUST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_RQEUST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_RQEUST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_RQEUST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_TAG_RQEUST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
@@ -645,7 +649,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             if (command == R.id.CLONE_TRANSACTION_COMMAND) {
               i.putExtra(ExpenseEdit.KEY_CLONE, true);
             }
-            ctx.startActivityForResult(i, MyExpenses.EDIT_REQUEST);
+            ctx.startActivityForResult(i, EDIT_REQUEST);
           }
         });
         //super is handling deactivation of mActionMode
@@ -1461,14 +1465,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         if (!removeFilter(command)) {
           Intent i = new Intent(getActivity(), ManageCategories.class);
           i.setAction(ACTION_SELECT_FILTER);
-          startActivityForResult(i, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST);
+          startActivityForResult(i, FILTER_CATEGORY_REQUEST);
         }
         return true;
       case R.id.FILTER_TAG_COMMAND:
         if (!removeFilter(command)) {
           Intent i = new Intent(getActivity(), ManageTags.class);
           i.setAction(ACTION_SELECT_FILTER);
-          startActivityForResult(i, ProtectedFragmentActivity.FILTER_TAGS_REQUEST);
+          startActivityForResult(i, FILTER_TAGS_REQUEST);
         }
         return true;
       case R.id.FILTER_AMOUNT_COMMAND:
@@ -1503,7 +1507,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           Intent i = new Intent(getActivity(), ManageParties.class);
           i.setAction(ACTION_SELECT_FILTER);
           i.putExtra(KEY_ACCOUNTID, mAccount.getId());
-          startActivityForResult(i, ProtectedFragmentActivity.FILTER_PAYEE_REQUEST);
+          startActivityForResult(i, FILTER_PAYEE_REQUEST);
         }
         return true;
       case R.id.FILTER_METHOD_COMMAND:
@@ -1553,7 +1557,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (resultCode == Activity.RESULT_CANCELED) {
       return;
     }
-    if (requestCode == ProtectedFragmentActivity.FILTER_PAYEE_REQUEST) {
+    if (requestCode == FILTER_PAYEE_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
         long payeeId = intent.getLongExtra(KEY_PAYEEID, 0);
@@ -1564,7 +1568,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         addPayeeFilter(label, payeeIds);
       }
     }
-    if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST) {
+    if (requestCode == FILTER_CATEGORY_REQUEST) {
       String label = intent.getStringExtra(KEY_LABEL);
       if (resultCode == Activity.RESULT_OK) {
         long catId = intent.getLongExtra(KEY_CATID, 0);
@@ -1574,7 +1578,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         long[] catIds = intent.getLongArrayExtra(KEY_CATID);
         addCategoryFilter(label, catIds);
       }
-    } else if (requestCode == ProtectedFragmentActivity.FILTER_TAGS_REQUEST) {
+    } else if (requestCode == FILTER_TAGS_REQUEST) {
       final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAGLIST);
       if (tagList != null) {
         long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();

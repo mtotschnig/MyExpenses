@@ -125,6 +125,11 @@ import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.PICTURE_REQUEST_CODE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -515,6 +520,9 @@ public class MyExpenses extends BaseMyExpenses implements
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       viewModel.startOcrFeature(scanFile, this);
     }
+    if (requestCode == OCR_REQUEST && resultCode == RESULT_OK) {
+      viewModel.handleOcrData(intent, this);
+    }
   }
 
   @Override
@@ -903,7 +911,7 @@ public class MyExpenses extends BaseMyExpenses implements
           scanFile = file;
           Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
           intent.putExtra(MediaStore.EXTRA_OUTPUT, AppDirHelper.getContentUriForFile(scanFile));
-          startActivityForResult(intent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
+          startActivityForResult(intent, PICTURE_REQUEST_CODE);
           return Unit.INSTANCE;
         });
       }

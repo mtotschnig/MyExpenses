@@ -33,7 +33,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.model.Money;
@@ -55,6 +54,7 @@ import androidx.loader.content.Loader;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
@@ -138,7 +138,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     lv.setOnItemClickListener((a, v1, position, id) -> {
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
-      startActivityForResult(i, MyExpenses.EDIT_REQUEST);
+      startActivityForResult(i, EDIT_REQUEST);
     });
     registerForContextMenu(lv);
     fab = v.findViewById(R.id.CREATE_COMMAND);

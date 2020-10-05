@@ -106,19 +106,19 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             R.id.FILTER_CATEGORY_COMMAND -> {
                 Intent(this, ManageCategories::class.java).apply {
                     action = ACTION_SELECT_FILTER
-                    startActivityForResult(this, ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST)
+                    startActivityForResult(this, FILTER_CATEGORY_REQUEST)
                 }
             }
             R.id.FILTER_TAG_COMMAND -> {
                 Intent(this, ManageTags::class.java).apply {
                     action = ACTION_SELECT_FILTER
-                    startActivityForResult(this, ProtectedFragmentActivity.FILTER_TAGS_REQUEST)
+                    startActivityForResult(this, FILTER_TAGS_REQUEST)
                 }
             }
             R.id.FILTER_PAYEE_COMMAND -> {
                 Intent(this, ManageParties::class.java).apply {
                     action = ACTION_SELECT_FILTER
-                    startActivityForResult(this, ProtectedFragmentActivity.FILTER_PAYEE_REQUEST)
+                    startActivityForResult(this, FILTER_PAYEE_REQUEST)
                 }
             }
             R.id.FILTER_METHOD_COMMAND -> {
@@ -178,7 +178,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode != Activity.RESULT_CANCELED) {
             when (requestCode) {
-                ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST -> {
+                FILTER_CATEGORY_REQUEST -> {
                     intent?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
                             intent.getLongExtra(KEY_CATID, 0).takeIf { it > 0 }?.let {
@@ -192,14 +192,14 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                         }
                     }
                 }
-                ProtectedFragmentActivity.FILTER_TAGS_REQUEST -> {
+                FILTER_TAGS_REQUEST -> {
                     intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)?.takeIf { it.size > 0 }?.let {
                         val tagIds = it.map(Tag::id).toLongArray()
                         val label = it.map(Tag::label).joinToString(", ")
                         addFilterCriteria(TagCriteria(label, *tagIds))
                     }
                 }
-                ProtectedFragmentActivity.FILTER_PAYEE_REQUEST -> {
+                FILTER_PAYEE_REQUEST -> {
                     intent?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
                             intent.getLongExtra(KEY_PAYEEID, 0).takeIf { it > 0 }?.let {

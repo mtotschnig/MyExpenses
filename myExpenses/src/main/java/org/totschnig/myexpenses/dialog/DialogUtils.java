@@ -62,6 +62,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUESTCODE;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class DialogUtils {
@@ -347,7 +348,7 @@ public class DialogUtils {
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
     try {
-      fragment.startActivityForResult(intent, ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE);
+      fragment.startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
     } catch (ActivityNotFoundException e) {
       ((ProtectedFragmentActivity) fragment.getActivity()).showSnackbar(R.string.no_filemanager_installed, Snackbar.LENGTH_SHORT);
     } catch (SecurityException ex) {

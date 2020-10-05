@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.feature
 
+import android.content.Intent
 import android.os.Parcelable
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.parcel.Parcelize
@@ -13,6 +14,7 @@ interface OcrFeatureProvider {
         const val TAG = "OcrFeature"
     }
     fun start(scanFile: File, fragmentActivity: FragmentActivity)
+    fun handleData(intent: Intent, fragmentActivity: FragmentActivity)
 }
 
 @Parcelize

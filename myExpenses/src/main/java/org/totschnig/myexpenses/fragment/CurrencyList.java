@@ -32,12 +32,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.dialog.EditCurrencyDialog.KEY_RESULT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.util.Utils.isFrameworkCurrency;
 
 public class CurrencyList extends ListFragment {
-  private static final int EDIT_REQUEST = 1;
   private EditCurrencyViewModel currencyViewModel;
   private CurrencyAdapter currencyAdapter;
 

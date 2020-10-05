@@ -84,8 +84,8 @@ import icepick.Icepick;
 import icepick.State;
 
 import static android.app.Activity.RESULT_OK;
+import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ManageTemplates.TEMPLATE_CLICK_ACTION_SAVE;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.EDIT_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -308,7 +308,7 @@ public class TemplatesList extends SortableListFragment
         i = new Intent(getActivity(), ExpenseEdit.class);
         i.putExtra(DatabaseConstants.KEY_TEMPLATEID, menuInfo.id);
         //TODO check what to do on Result
-        startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST);
+        startActivityForResult(i, EDIT_REQUEST);
         return true;
       case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:

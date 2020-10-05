@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -51,6 +52,8 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    var ocrFeatureProvider: OcrFeatureProvider? = null
 
     enum class FeatureState {
         LOADING, AVAILABLE, ERROR;
@@ -110,12 +113,16 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     }
 
     fun startOcrFeature(scanFile: @NotNull File, fragmentActivity: FragmentActivity) {
-        try {
-            val ocrProvider = Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
-            ocrProvider.start(scanFile, fragmentActivity)
-        } catch (e: ClassNotFoundException) {
-            CrashHandler.report(e)
+        if (ocrFeatureProvider == null) {
+            ocrFeatureProvider = try {
+                Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
+
+            } catch (e: ClassNotFoundException) {
+                CrashHandler.report(e)
+                null
+            }
         }
+        ocrFeatureProvider?.start(scanFile, fragmentActivity)
     }
 
     fun isOcrAvailable() = featureManager.isFeatureInstalled(FeatureManager.Feature.OCR)
@@ -128,5 +135,9 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
                 PictureDirHelper.getOutputMediaFile("SCAN", true, false)
             })
         }
+    }
+
+    fun handleOcrData(intent: Intent, fragmentActivity: FragmentActivity) {
+        ocrFeatureProvider?.handleData(intent, fragmentActivity)
     }
 }

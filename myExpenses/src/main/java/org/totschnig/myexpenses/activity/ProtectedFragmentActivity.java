@@ -105,6 +105,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.PREFERENCES_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
@@ -127,32 +132,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
     ProgressDialogFragment.ProgressDialogListener, AmountInput.Host {
-  public static final int CALCULATOR_REQUEST = 0;
-  public static final int EDIT_REQUEST = 1;
-  public static final int EDIT_ACCOUNT_REQUEST = 2;
-  public static final int PREFERENCES_REQUEST = 3;
-  public static final int CREATE_ACCOUNT_REQUEST = 4;
-  public static final int FILTER_CATEGORY_REQUEST = 5;
-  public static final int SELECT_CATEGORY_REQUEST = 7;
-  public static final int PICTURE_REQUEST_CODE = 8;
-  public static final int IMPORT_FILENAME_REQUESTCODE = 9;
-  public static final int SYNC_BACKEND_SETUP_REQUEST = 10;
-  public static final int RESTORE_REQUEST = 11;
-  public static final int CONTRIB_REQUEST = 12;
-  public static final int PLAN_REQUEST = 13;
-  private static final int CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST = 14;
-  protected static final int CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST = 15;
-  public static final int PAYPAL_REQUEST = 16;
-  public static final int INVOICE_REQUEST = 17;
-  public static final int MAP_CATEGORY_RQEUST = 18;
-  public static final int MAP_PAYEE_RQEUST = 19;
-  public static final int MAP_METHOD_RQEUST = 20;
-  public static final int MAP_ACCOUNT_RQEUST = 21;
-  public static final int SELECT_TAGS_REQUEST = 22;
-  public static final int FILTER_TAGS_REQUEST = 23;
-  public static final int MAP_TAG_RQEUST = 24;
-  public static final int CONFIRM_MAP_TAG_RQEUST = 25;
-  public static final int FILTER_PAYEE_REQUEST = 26;
+
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   public static final String EDIT_COLOR_DIALOG = "editColorDialog";
@@ -456,7 +436,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         if (tag != null) {
           i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, (String) tag);
         }
-        startActivityForResult(i, ProtectedFragmentActivity.PREFERENCES_REQUEST);
+        startActivityForResult(i, PREFERENCES_REQUEST);
         return true;
       case R.id.FEEDBACK_COMMAND: {
         LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
@@ -541,7 +521,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void showContribDialog(@Nullable ContribFeature feature, @Nullable Serializable tag) {
     Intent i = ContribInfoDialogActivity.getIntentFor(this, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
-    startActivityForResult(i, ProtectedFragmentActivity.CONTRIB_REQUEST);
+    startActivityForResult(i, CONTRIB_REQUEST);
   }
 
   protected void doHelp(String variant) {

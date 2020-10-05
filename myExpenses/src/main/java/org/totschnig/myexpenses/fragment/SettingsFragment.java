@@ -111,7 +111,7 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 import static org.threeten.bp.format.DateTimeFormatterBuilder.getLocalizedDateTimePattern;
 import static org.threeten.bp.format.FormatStyle.MEDIUM;
 import static org.threeten.bp.format.FormatStyle.SHORT;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;

@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity.CONFIRM_MAP_TAG_RQEUST
+import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_RQEUST
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"

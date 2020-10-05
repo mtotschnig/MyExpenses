@@ -668,7 +668,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.id)
         i.putExtra(DatabaseConstants.KEY_PARENTID, delegate.rowId)
         i.putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
-        startActivityForResult(i, ProtectedFragmentActivity.EDIT_REQUEST)
+        startActivityForResult(i, EDIT_REQUEST)
     }
 
     /**
@@ -682,7 +682,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         //it from being deleted, which can theoretically lead
         //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
         i.putExtra(KEY_ROWID, (delegate as? CategoryDelegate)?.catId)
-        startActivityForResult(i, ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST)
+        startActivityForResult(i, SELECT_CATEGORY_REQUEST)
     }
 
     override fun onCreateDialog(id: Int): Dialog? {
@@ -727,13 +727,13 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
-            ProtectedFragmentActivity.SELECT_CATEGORY_REQUEST -> if (intent != null) {
+            SELECT_CATEGORY_REQUEST -> if (intent != null) {
                 (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
                         intent.getStringExtra(DatabaseConstants.KEY_ICON),
                         intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
                 setDirty()
             }
-            ProtectedFragmentActivity.PICTURE_REQUEST_CODE -> if (resultCode == RESULT_OK) {
+            PICTURE_REQUEST_CODE -> if (resultCode == RESULT_OK) {
                 val uri: Uri?
                 when {
                     intent == null -> {
@@ -763,11 +763,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
                 }
             }
-            ProtectedFragmentActivity.PLAN_REQUEST -> finish()
-            ProtectedFragmentActivity.EDIT_REQUEST -> if (resultCode == RESULT_OK) {
+            PLAN_REQUEST -> finish()
+            EDIT_REQUEST -> if (resultCode == RESULT_OK) {
                 setDirty()
             }
-            ProtectedFragmentActivity.SELECT_TAGS_REQUEST -> intent?.also {
+            SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
                     (intent.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
                         viewModel.updateTags(it)
@@ -1005,7 +1005,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId)
         if (Utils.isIntentAvailable(this, intent)) {
             if (forResult) {
-                startActivityForResult(intent, ProtectedFragmentActivity.PLAN_REQUEST)
+                startActivityForResult(intent, PLAN_REQUEST)
             } else {
                 startActivity(intent)
             }
@@ -1107,7 +1107,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(camIntent))
             Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", it)
         }
-        startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE)
+        startActivityForResult(chooserIntent, PICTURE_REQUEST_CODE)
     }
 
     private val cameraUri: Uri?
@@ -1219,7 +1219,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             val i = Intent(this, ManageTags::class.java).apply {
                 putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
             }
-            startActivityForResult(i, ProtectedFragmentActivity.SELECT_TAGS_REQUEST)
+            startActivityForResult(i, SELECT_TAGS_REQUEST)
         }
     }
 }

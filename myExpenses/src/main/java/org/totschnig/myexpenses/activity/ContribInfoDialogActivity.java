@@ -30,6 +30,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.INVOICE_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.PAYPAL_REQUEST;
+
 
 /**
  * Manages the dialog shown to user when they request usage of a premium functionality or click on

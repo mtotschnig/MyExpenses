@@ -45,8 +45,8 @@ import eltos.simpledialogfragment.color.SimpleColorDialog;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.EDIT_COLOR_DIALOG;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 

@@ -14,12 +14,13 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.PermissionHelper;
 
 import androidx.appcompat.app.AlertDialog;
+
+import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUESTCODE;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
     implements OnClickListener, DialogInterface.OnClickListener, ImportFileResultHandler.FileNameHostFragment {
@@ -85,7 +86,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
+    if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
         try {
           mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);

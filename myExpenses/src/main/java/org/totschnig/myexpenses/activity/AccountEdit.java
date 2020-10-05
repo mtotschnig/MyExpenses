@@ -71,6 +71,7 @@ import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.PREFERENCES_REQUEST;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_CHECK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
