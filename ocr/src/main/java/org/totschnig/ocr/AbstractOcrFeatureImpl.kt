@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.text.TextUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -58,21 +60,25 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     private fun Line.bOr0() = boundingBox.bOr0()
     private fun Line.tOr0() = boundingBox.tOr0()
 
-    override fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
-        processTextRecognitionResult(it)
+    override suspend fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
+        processTextRecognitionResult(it, queryPayees())
     } ?: throw IllegalArgumentException("Unable to retrieve result from intent")
 
-    fun processTextRecognitionResult(texts: Text): OcrResult {
-        val payeeList = mutableListOf<Payee>()
-        context.contentResolver.query(TransactionProvider.PAYEES_URI,
-                arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
-                null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                do {
-                    payeeList.add(Payee(cursor.getLong(0), cursor.getString(1)))
-                } while (cursor.moveToNext())
+    suspend fun queryPayees() = withContext(Dispatchers.Default) {
+        mutableListOf<Payee>().also {
+            context.contentResolver.query(TransactionProvider.PAYEES_URI,
+                    arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
+                    null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    do {
+                        it.add(Payee(cursor.getLong(0), cursor.getString(1)))
+                    } while (cursor.moveToNext())
+                }
             }
         }
+    }
+
+    fun processTextRecognitionResult(texts: Text, payeeList: List<Payee>): OcrResult {
         if (dateFormatterList.isEmpty()) {
             throw IllegalStateException("Empty date format list")
         }

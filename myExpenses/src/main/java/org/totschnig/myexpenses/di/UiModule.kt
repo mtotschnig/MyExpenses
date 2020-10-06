@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
@@ -51,7 +52,11 @@ class UiModule {
             }
 
             override fun isFeatureInstalled(feature: FeatureManager.Feature, context: Context) =
-                    if (feature == FeatureManager.Feature.OCR) Utils.isIntentAvailable(context, OcrFeatureProvider.intent()) else false
+                    if (feature == FeatureManager.Feature.OCR)
+                        BuildConfig.FLAVOR_textRecognition == "mlkit" || Utils.isIntentAvailable(context, OcrFeatureProvider.intent())
+                    else
+                        false
+
             override fun requestFeature(feature: FeatureManager.Feature, fragmentActivity: FragmentActivity) {
                 if (feature == FeatureManager.Feature.OCR) {
                     NewMessageDialogFragment.newInstance("Please download org.totschnig.ocr from <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR#q2\">MyExpenses FAQ</a>.", true).show(fragmentActivity.getSupportFragmentManager(), "OCR_DOWNLOAD")

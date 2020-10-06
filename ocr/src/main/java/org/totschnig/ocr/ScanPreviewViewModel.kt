@@ -97,6 +97,8 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun handleData(intent: Intent) {
-        result.postValue(runCatching { ocrFeature.handleData(intent) })
+        viewModelScope.launch {
+            result.postValue(runCatching { ocrFeature.handleData(intent) })
+        }
     }
 }
