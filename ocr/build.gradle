@@ -30,7 +30,7 @@ android {
         mlkit {
             dimension "textRecognition"
         }
-        stub {
+        extern {
             dimension "textRecognition"
         }
     }

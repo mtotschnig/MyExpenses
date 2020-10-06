@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import java.text.NumberFormat
 import kotlin.math.absoluteValue
 
@@ -59,7 +58,9 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     private fun Line.bOr0() = boundingBox.bOr0()
     private fun Line.tOr0() = boundingBox.tOr0()
 
-    override fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let { processTextRecognitionResult(it) } ?: throw IllegalArgumentException("Unable to retrieve result from intent")
+    override fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
+        processTextRecognitionResult(it)
+    } ?: throw IllegalArgumentException("Unable to retrieve result from intent")
 
     fun processTextRecognitionResult(texts: Text): OcrResult {
         val payeeList = mutableListOf<Payee>()
