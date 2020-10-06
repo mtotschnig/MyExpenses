@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.OCR_REQUEST
+import org.totschnig.myexpenses.feature.OcrFeatureProvider.Companion.ACTION
+import org.totschnig.myexpenses.feature.OcrFeatureProvider.Companion.MIME_TYPE
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.util.AppDirHelper
 import java.io.File
@@ -58,7 +60,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     fun runTextRecognition(scanFile: File, activity: Activity) {
         if (!running) {
             running = true
-            if (ocrFeature.callsExternal) {
+            if (BuildConfig.FLAVOR.equals("extern")) {
                 if (orientation == 0) {
                     viewModelScope.launch {
                         withContext(Dispatchers.Default) {
@@ -81,7 +83,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun runExternal(scanFile: File, activity: Activity) {
         activity.startActivityForResult(
-                Intent("org.totschnig.ocr.action.RECOGNIZE").apply {
+                Intent(ACTION).apply {
                     putExtra("orientation", when (orientation) {
                         ExifInterface.ORIENTATION_NORMAL -> 0
                         ExifInterface.ORIENTATION_ROTATE_90 -> 90
@@ -89,7 +91,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
                         ExifInterface.ORIENTATION_ROTATE_270 -> 270
                         else -> 0
                     })
-                    setDataAndType(AppDirHelper.ensureContentUri(Uri.fromFile(scanFile)), "image/jpeg")
+                    setDataAndType(AppDirHelper.ensureContentUri(Uri.fromFile(scanFile)), MIME_TYPE)
                     setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }, OCR_REQUEST)
     }

@@ -3,14 +3,18 @@ package org.totschnig.myexpenses.di
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import androidx.fragment.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
+import org.totschnig.myexpenses.dialog.NewMessageDialogFragment
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
@@ -46,9 +50,12 @@ class UiModule {
                 //noop
             }
 
-            override fun isFeatureInstalled(feature: FeatureManager.Feature) = true
-            override fun requestFeature(feature: FeatureManager.Feature) {
-                callback?.onAvailable()
+            override fun isFeatureInstalled(feature: FeatureManager.Feature, context: Context) =
+                    if (feature == FeatureManager.Feature.OCR) Utils.isIntentAvailable(context, OcrFeatureProvider.intent()) else false
+            override fun requestFeature(feature: FeatureManager.Feature, fragmentActivity: FragmentActivity) {
+                if (feature == FeatureManager.Feature.OCR) {
+                    NewMessageDialogFragment.newInstance("Please download org.totschnig.ocr from <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR#q2\">MyExpenses FAQ</a>.", true).show(fragmentActivity.getSupportFragmentManager(), "OCR_DOWNLOAD")
+                }
             }
 
             override fun requestLocale(context: Context) {

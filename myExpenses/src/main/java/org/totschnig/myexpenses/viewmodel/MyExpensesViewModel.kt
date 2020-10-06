@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
@@ -125,9 +126,9 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         ocrFeatureProvider?.start(scanFile, fragmentActivity)
     }
 
-    fun isOcrAvailable() = featureManager.isFeatureInstalled(FeatureManager.Feature.OCR)
+    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(FeatureManager.Feature.OCR, context)
 
-    fun requestOcrFeature() = featureManager.requestFeature(FeatureManager.Feature.OCR)
+    fun requestOcrFeature(fragmentActivity: FragmentActivity) = featureManager.requestFeature(FeatureManager.Feature.OCR, fragmentActivity)
 
     fun getScanFile(action: (file: File) -> Unit) {
         viewModelScope.launch {

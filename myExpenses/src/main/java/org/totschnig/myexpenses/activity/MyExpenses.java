@@ -205,8 +205,8 @@ public class MyExpenses extends BaseMyExpenses implements
     getPrefHandler().putBoolean(OCR, newMode);
     updateFab();
     invalidateOptionsMenu();
-    if (newMode && !viewModel.isOcrAvailable()) {
-      viewModel.requestOcrFeature();
+    if (newMode && !viewModel.isOcrAvailable(this)) {
+      viewModel.requestOcrFeature(this);
     }
   }
 
@@ -574,10 +574,10 @@ public class MyExpenses extends BaseMyExpenses implements
           showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
         } else {
           if (isScanMode()) {
-            if (viewModel.isOcrAvailable()) {
+            if (viewModel.isOcrAvailable(this)) {
               contribFeatureRequested(ContribFeature.OCR, null);
             } else {
-              viewModel.requestOcrFeature();
+              viewModel.requestOcrFeature(this);
             }
           } else {
             createRow();

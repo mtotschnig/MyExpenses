@@ -9,7 +9,6 @@ import java.io.File
 import javax.inject.Inject
 
 class OcrFeatureImpl  @Inject constructor(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, context: Context): AbstractOcrFeatureImpl(prefHandler, userLocaleProvider, context) {
-    override val callsExternal = true
     override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
         TODO("Not implemented. Should be handled by calling Intent with action org.totschnig.ocr.action.RECOGNIZE")
     }

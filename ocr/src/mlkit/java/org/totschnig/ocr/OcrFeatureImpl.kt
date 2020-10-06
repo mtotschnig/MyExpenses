@@ -14,8 +14,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class OcrFeatureImpl @Inject constructor(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, context: Context): AbstractOcrFeatureImpl(prefHandler, userLocaleProvider, context) {
-    override val callsExternal = false
-
     override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
         @Suppress("BlockingMethodInNonBlockingContext") val image = InputImage.fromFilePath(context, Uri.fromFile(file))
         return suspendCoroutine { cont ->

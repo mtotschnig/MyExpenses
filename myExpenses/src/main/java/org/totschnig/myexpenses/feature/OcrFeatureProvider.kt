@@ -12,6 +12,9 @@ import org.threeten.bp.LocalTime
 interface OcrFeatureProvider {
     companion object {
         const val TAG = "OcrFeature"
+        const val ACTION = "org.totschnig.ocr.action.RECOGNIZE"
+        const val MIME_TYPE = "image/jpeg"
+        fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
     fun start(scanFile: File, fragmentActivity: FragmentActivity)
     fun handleData(intent: Intent, fragmentActivity: FragmentActivity)
