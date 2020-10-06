@@ -73,9 +73,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
                 }
             } else {
                 viewModelScope.launch {
-                    withContext(Dispatchers.Default) {
-                        result.postValue(runCatching { ocrFeature.runTextRecognition(scanFile, activity) })
-                    }
+                    result.postValue(runCatching { ocrFeature.runTextRecognition(scanFile, activity) })
                 }
             }
         }
