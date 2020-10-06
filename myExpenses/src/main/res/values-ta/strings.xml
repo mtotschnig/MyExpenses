@@ -903,12 +903,28 @@
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
   <string name="pref_planner_manual_time_current">பயன்படுத்தப்படும் நேரம்</string>
   <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
+  <string name="title_scan_receipt_feature">ரசீது ஸ்கேன்</string>
+  <string name="feature_download_requested">%s அம்சம் பிளே ஸ்டோரிலிருந்து கோரப்பட்டுள்ளது.</string>
+  <string name="feature_downloaded">%s அம்சம் நிறுவப்பட்டுள்ளது.</string>
   <!--If this mode is active, the action button will open the camera for scanning a receipt-->
+  <string name="menu_scan_mode">ஸ்கேன் பயன்முறை</string>
   <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <string name="button_scan">ஸ்கேன்</string>
+  <string name="pref_ocr_total_indicators_title">மொத்த தொகைக்கான குறிகாட்டிகள்</string>
+  <string name="pref_ocr_total_indicators_summary">ரசீதில் மொத்த மதிப்பை அடையாளம் காண, சரங்களின் பட்டியல். ஒவ்வொரு மதிப்பையும் புதிய வரியில் வைக்கவும். இயல்புநிலை மதிப்பை மீட்டமைக்க காலியாக விடவும்.</string>
+  <string name="pref_ocr_date_formats_title">தேதி வடிவங்கள்</string>
+  <string name="pref_ocr_time_formats_title">நேர வடிவங்கள்</string>
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
+  <string name="pref_criterion_futur_title">எதிர்கால பரிவர்த்தனைகளுக்கான ஒப்பளவை</string>
   <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
+  <string name="pref_criterion_future_end_of_day">நாள் முடிவு</string>
   <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
+  <string name="pref_criterion_future_current">தற்போதைய நேரம்</string>
   <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
   <string name="pref_category_title_features">அம்சங்கள்</string>
+  <string name="scan_result_no_data">தகவல் இல்லை</string>
+  <string name="scan_result_multiple_candidates_dialog_title">பல வேட்புகள் கண்டறியப்பட்டன. தயவு செய்து தேர்வு செய்யவும்:</string>
+  <string name="scan_result_no_amount">தொகை எதுவும் கிடைக்கவில்லை</string>
+  <string name="scan_result_no_date">தேதி எதுவும் கிடைக்கவில்லை</string>
+  <string name="scan_result_no_payee">பணம் பெறுபவர் எவரும் கிடைக்கவில்லை</string>
 </resources>

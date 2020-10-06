@@ -903,12 +903,28 @@
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
   <string name="pref_planner_manual_time_current">Tempo di applicazione</string>
   <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
+  <string name="title_scan_receipt_feature">Scansiona lo scontrino</string>
+  <string name="feature_download_requested">É richiesta la funzione %s dal Google Play Store.</string>
+  <string name="feature_downloaded">La funzione %s è stata installata.</string>
   <!--If this mode is active, the action button will open the camera for scanning a receipt-->
+  <string name="menu_scan_mode">Modalità scanner</string>
   <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <string name="button_scan">Scansiona</string>
+  <string name="pref_ocr_total_indicators_title">Indicatori dell\'importo totale</string>
+  <string name="pref_ocr_total_indicators_summary">Un elenco di espressioni che identifichino l\'importo totale su di uno scontrino. Inserisci ogni espressione su una nuova riga. Lascia il campo vuoto per ripristinare le espressioni predefinite.</string>
+  <string name="pref_ocr_date_formats_title">Formati data</string>
+  <string name="pref_ocr_time_formats_title">Formati dell\'ora</string>
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
+  <string name="pref_criterion_futur_title">Criterio per le transazioni future</string>
   <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
+  <string name="pref_criterion_future_end_of_day">Fine della giornata</string>
   <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
+  <string name="pref_criterion_future_current">Ora attuale</string>
   <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
   <string name="pref_category_title_features">Funzioni</string>
+  <string name="scan_result_no_data">Nessun dato</string>
+  <string name="scan_result_multiple_candidates_dialog_title">Sono stati trovati più candidati. Seleziona:</string>
+  <string name="scan_result_no_amount">Non è stato trovato alcun importo</string>
+  <string name="scan_result_no_date">Non è stata trovata alcuna data</string>
+  <string name="scan_result_no_payee">Non è stato trovato alcun beneficiario</string>
 </resources>
