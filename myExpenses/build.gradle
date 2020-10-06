@@ -259,13 +259,13 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
 
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation "androidx.test:runner:$rootProject.androidSupportTestVersion"
     androidTestUtil "androidx.test:orchestrator:$rootProject.androidSupportTestVersion"
     androidTestImplementation "androidx.test:rules:$rootProject.androidSupportTestVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion") {
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion") {
         exclude module: 'accessibility-test-framework'
     }
     //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
