@@ -22,9 +22,9 @@ import java.io.File
 import javax.inject.Inject
 
 class ScanPreviewViewModel(application: Application) : AndroidViewModel(application) {
-    var running: Boolean = false
+    private var running: Boolean = false
 
-    var orientation = 0
+    private var orientation = 0
 
     @Inject
     lateinit var ocrFeature: OcrFeature
@@ -60,7 +60,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     fun runTextRecognition(scanFile: File, activity: Activity) {
         if (!running) {
             running = true
-            if (BuildConfig.FLAVOR.equals("extern")) {
+            if (BuildConfig.FLAVOR == "extern") {
                 if (orientation == 0) {
                     viewModelScope.launch {
                         withContext(Dispatchers.Default) {
@@ -90,7 +90,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
                         else -> 0
                     })
                     setDataAndType(AppDirHelper.ensureContentUri(Uri.fromFile(scanFile)), MIME_TYPE)
-                    setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 }, OCR_REQUEST)
     }
 

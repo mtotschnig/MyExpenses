@@ -8,8 +8,10 @@ import dagger.Module
 import dagger.Provides
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.NewMessageDialogFragment
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -59,7 +61,12 @@ class UiModule {
 
             override fun requestFeature(feature: FeatureManager.Feature, fragmentActivity: FragmentActivity) {
                 if (feature == FeatureManager.Feature.OCR) {
-                    NewMessageDialogFragment.newInstance("Please download org.totschnig.ocr from <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR#q2\">MyExpenses FAQ</a>.", true).show(fragmentActivity.getSupportFragmentManager(), "OCR_DOWNLOAD")
+                    MessageDialogFragment.newInstance(
+                            0,
+                            R.string.ocr_download_info,
+                            MessageDialogFragment.Button(R.string.button_download, R.id.OCR_DOWNLOAD_COMMAND, null),
+                            MessageDialogFragment.Button(R.string.learn_more, R.id.OCR_FAQ_COMMAND, null),
+                            null).show(fragmentActivity.getSupportFragmentManager(), "OCR_DOWNLOAD")
                 }
             }
 

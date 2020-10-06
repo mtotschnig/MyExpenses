@@ -790,6 +790,19 @@ public class MyExpenses extends BaseMyExpenses implements
       case R.id.HIDDEN_ACCOUNTS_COMMAND: {
         SelectHiddenAccountDialogFragment.newInstance().show(getSupportFragmentManager(),
             MANAGE_HIDDEN_FRAGMENT_TAG);
+        return true;
+      }
+      case R.id.OCR_DOWNLOAD_COMMAND: {
+        i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://github.com/mtotschnig/OCR/releases/download/1/app-release.apk"));
+        startActivity(i);
+        return true;
+      }
+      case R.id.OCR_FAQ_COMMAND: {
+        i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR"));
+        startActivity(i);
+        return true;
       }
     }
     return false;

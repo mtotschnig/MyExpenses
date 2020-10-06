@@ -941,4 +941,6 @@
     <string name="scan_result_no_amount">No amount found</string>
     <string name="scan_result_no_date">No date found</string>
     <string name="scan_result_no_payee">No payee found</string>
+    <string name="button_download">Download</string>
+    <string name="ocr_download_info">Text recognition capability is provided by an external application.</string>
 </resources>

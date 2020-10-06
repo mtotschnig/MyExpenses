@@ -185,4 +185,6 @@
     <item name="MAP_TAG_COMMAND" type="id" />
     <item name="PLANNER_COMMAND" type="id" />
     <item name="SCAN_MODE_COMMAND" type="id"/>
+    <item name="OCR_DOWNLOAD_COMMAND" type="id" />
+    <item name="OCR_FAQ_COMMAND" type="id" />
 </resources>
