@@ -40,7 +40,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 Toast.makeText(this, getString(R.string.scan_result_no_data), Toast.LENGTH_LONG).show()
             } else if (it.needsDisambiguation()) {
                 SimpleFormDialog.build()
+                        .cancelable(false)
                         .autofocus(false)
+                        .neg(android.R.string.cancel)
                         .extra(Bundle().apply {
                             putParcelable(KEY_OCR_RESULT, it)
                         })

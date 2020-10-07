@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.text.NumberFormat
@@ -96,35 +97,37 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
                 log("OCR: Element: %s %s", element.text, element.boundingBox)
             }
         }
-        val amountCandidates = //find amount in the total line itself or in the nearest line
-                lines.filter { line ->
-                    for (totalIndicator in totalIndicators) {
-                        if (line.text.filter { c -> c.isLetter() }.startsWith(totalIndicator.replace(" ", ""))) return@filter true
-                        var matchesAllSplits = true
-                        for (split in totalIndicator.split(' ')) {
-                            var found = false
-                            for (element in line.elements) {
-                                val filter = element.text.filter { c -> c.isLetter() }
-                                if (filter.startsWith(split, ignoreCase = true)) {
-                                    found = true
-                                    break
-                                }
-                            }
-                            if (!found) {
-                                matchesAllSplits = false
-                                break
-                            }
+        val amountCandidates = lines.filter { line ->
+            for (totalIndicator in totalIndicators) {
+                if (line.text.filter { c -> c.isLetter() }.startsWith(totalIndicator.replace(" ", ""))) return@filter true
+                var matchesAllSplits = true
+                for (split in totalIndicator.split(' ')) {
+                    var found = false
+                    for (element in line.elements) {
+                        val filter = element.text.filter { c -> c.isLetter() }
+                        if (filter.startsWith(split, ignoreCase = true)) {
+                            found = true
+                            break
                         }
-                        if (matchesAllSplits) return@filter true
                     }
-                    false
-                }.mapNotNull { totalBlock ->
-                    //find amount in the total line itself or in the nearest line
-                    extractAmount(totalBlock)
-                            ?: lines.minus(totalBlock).minByOrNull { (it.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((it.tOr0() - totalBlock.tOr0()).absoluteValue) }?.let {
-                                extractAmount(it)
-                            }
+                    if (!found) {
+                        matchesAllSplits = false
+                        break
+                    }
                 }
+                if (matchesAllSplits) return@filter true
+            }
+            false
+        }.map { totalBlock ->
+            //find amount in the total line itself and in the nearest line
+            listOf(extractAmount(totalBlock), lines.minus(totalBlock).minByOrNull { line ->
+                (line.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((line.tOr0() - totalBlock.tOr0()).absoluteValue).also {
+                    log("%s: distance %d", line.text, it)
+                }
+            }?.let {
+                extractAmount(it)
+            })
+        }.flatten().filterNotNull()
         // We might receive data or time values split into adjacent elements, which prevents us from finding them, if we work on elements alone
         // if we do not find any data by working on individual elements, we iterate again over pairs, then triples of elements
         val timeCandidates: List<Pair<LocalTime, Rect?>> = lines.mapNotNull { line -> extractTime(line, 1) }.takeIf { it.isNotEmpty() }
@@ -134,12 +137,20 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
                 ?: lines.mapNotNull { line -> extractDate(line, timeCandidates, 2) }.takeIf { it.isNotEmpty() }
                 ?: lines.mapNotNull { line -> extractDate(line, timeCandidates, 3) }
 
-        val payeeCandidates = lines.mapNotNull { line ->
-            payeeList.find { payee -> payee.name.startsWith(line.text, ignoreCase = true) || line.text.startsWith(payee.name, ignoreCase = true) }
+        val payeeCandidates = lines
+                .map { line -> Utils.normalize(line.text) }
+                .mapNotNull { text ->
+            payeeList.find { payee ->
+                val normalized = Utils.normalize(payee.name)
+                startsWith2Ways(normalized, text) || startsWith2Ways(normalized.replace(" ", ""), text.replace(" ", ""))
+            }
         }
 
         return OcrResult(amountCandidates.distinct(), dateCandidates.distinct(), payeeCandidates.distinct())
     }
+
+    private fun startsWith2Ways(one: String, two: String) =
+            one.startsWith(two, ignoreCase = true) || two.startsWith(one, ignoreCase = true)
 
     private val List<Element>.text: String
         get() = joinToString(separator = "") { it.text }
