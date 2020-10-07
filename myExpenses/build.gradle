@@ -76,9 +76,9 @@ android {
     /*signingConfigs {
         release {
             storeFile file(getPropertyIfDefined("RELEASE_STORE_FILE", "unknown"))
-            storePassword getPropertyIfDefined("RELEASE_STORE_PASSWORD")
-            keyAlias getPropertyIfDefined("RELEASE_KEY_ALIAS")
-            keyPassword getPropertyIfDefined("RELEASE_KEY_PASSWORD")
+            storePassword getPropertyIfDefined("RELEASE_STORE_PASSWORD", "unknown")
+            keyAlias getPropertyIfDefined("RELEASE_KEY_ALIAS", "unknown")
+            keyPassword getPropertyIfDefined("RELEASE_KEY_PASSWORD", "unknown")
 
         }
     }*/
