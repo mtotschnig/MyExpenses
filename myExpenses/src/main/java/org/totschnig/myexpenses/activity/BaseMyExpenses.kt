@@ -36,9 +36,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     var currentCurrency: String? = null
     override fun processOcrResult(result: Result<OcrResult>) {
         result.onSuccess {
-            if (it.isEmpty()) {
-                Toast.makeText(this, getString(R.string.scan_result_no_data), Toast.LENGTH_LONG).show()
-            } else if (it.needsDisambiguation()) {
+            if (it.needsDisambiguation()) {
                 SimpleFormDialog.build()
                         .cancelable(false)
                         .autofocus(false)
@@ -69,7 +67,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         )
                         .show(this, DIALOG_TAG_OCR_DISAMBIGUATE)
             } else {
-                startEditFromOcrResult(it.selectCandidates())
+                startEditFromOcrResult(if (it.isEmpty()) {
+                    Toast.makeText(this, getString(R.string.scan_result_no_data), Toast.LENGTH_LONG).show()
+                    null
+                } else {
+                    it.selectCandidates()
+                })
             }
         }.onFailure {
             Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
@@ -100,7 +103,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         startActivityForResult(intent, EDIT_REQUEST)
     }
 
-    private fun startEditFromOcrResult(result: OcrResultFlat) {
+    private fun startEditFromOcrResult(result: OcrResultFlat?) {
         recordUsage(ContribFeature.OCR)
         startEdit(
                 createRowIntent().apply {

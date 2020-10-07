@@ -459,7 +459,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 rootBinding.Payee.setText(it.name)
                 startAutoFill(it.id, true)
             }
-            delegate.setPicture(intent.getParcelableExtra(KEY_PICTURE_URI))
+        }
+        intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
+            delegate.setPicture(it)
         }
     }
 
