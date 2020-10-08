@@ -1580,7 +1580,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       }
     } else if (requestCode == FILTER_TAGS_REQUEST) {
       final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAGLIST);
-      if (tagList != null) {
+      if (tagList != null && !tagList.isEmpty()) {
         long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();
         String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
         addFilterCriteria(new TagCriteria(label, tagIds));
