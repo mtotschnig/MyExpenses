@@ -923,7 +923,7 @@ public class MyExpenses extends BaseMyExpenses implements
         viewModel.getScanFile(file -> {
           scanFile = file;
           Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-          intent.putExtra(MediaStore.EXTRA_OUTPUT, AppDirHelper.getContentUriForFile(scanFile));
+          intent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getScanUri(scanFile));
           startActivityForResult(intent, PICTURE_REQUEST_CODE);
           return Unit.INSTANCE;
         });

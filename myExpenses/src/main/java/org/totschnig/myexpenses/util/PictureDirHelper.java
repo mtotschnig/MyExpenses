@@ -59,13 +59,11 @@ public class PictureDirHelper {
         .format(new Date());
     File outputMediaFile = getOutputMediaFile(fileName, temp, secure, true);
     if (outputMediaFile == null) return null;
-    if (!temp) {
-      try {
-        return getContentUriForFile(outputMediaFile);
-      } catch (IllegalArgumentException e) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-          throw new NougatFileProviderException(e);
-        }
+    try {
+      return getContentUriForFile(outputMediaFile);
+    } catch (IllegalArgumentException e) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !temp) {
+        throw new NougatFileProviderException(e);
       }
     }
     return Uri.fromFile(outputMediaFile);
