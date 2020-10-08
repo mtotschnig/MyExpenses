@@ -374,8 +374,7 @@ public class MyApplication extends Application implements
         String found = DbUtils.getString(c, 0);
         String expected = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "");
         if (!found.equals(expected)) {
-          CrashHandler.report(String.format(
-              "found calendar, but path did not match; expected %s ; got %s", expected, found));
+          CrashHandler.report("found calendar, but path did not match");
           result = false;
         } else {
           int syncEvents = c.getInt(1);
