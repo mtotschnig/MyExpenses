@@ -12,9 +12,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.dialog.NewMessageDialogFragment
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.OCR_MODULE
 import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.Utils
@@ -53,14 +53,14 @@ class UiModule {
                 //noop
             }
 
-            override fun isFeatureInstalled(feature: FeatureManager.Feature, context: Context) =
-                    if (feature == FeatureManager.Feature.OCR)
+            override fun isFeatureInstalled(feature: String, context: Context) =
+                    if (feature == OCR_MODULE)
                         BuildConfig.FLAVOR_textRecognition == "mlkit" || Utils.isIntentAvailable(context, OcrFeatureProvider.intent())
                     else
                         false
 
-            override fun requestFeature(feature: FeatureManager.Feature, fragmentActivity: FragmentActivity) {
-                if (feature == FeatureManager.Feature.OCR) {
+            override fun requestFeature(feature: String, fragmentActivity: FragmentActivity) {
+                if (feature == OCR_MODULE) {
                     MessageDialogFragment.newInstance(
                             0,
                             R.string.ocr_download_info,

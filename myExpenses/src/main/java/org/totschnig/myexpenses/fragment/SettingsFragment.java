@@ -24,6 +24,9 @@ import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.chrono.IsoChronology;
+import org.threeten.bp.format.DateTimeFormatter;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -82,11 +85,9 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.chrono.IsoChronology;
-import org.threeten.bp.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -98,6 +99,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceGroup;
@@ -121,6 +123,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_TIME;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_ADVANCED;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
@@ -135,6 +138,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATE_PROVIDER;
+import static org.totschnig.myexpenses.preference.PrefKey.FEATURE_UNINSTALL;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
@@ -205,13 +209,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
   @Inject
   LicenceHandler licenceHandler;
   @Inject
-  PrefHandler prefHandler;
-  @Inject
   AdHandlerFactory adHandlerFactory;
   @Inject
   CrashHandler crashHandler;
-  @Inject
-  FeatureManager featureManager;
   @Inject
   CurrencyFormatter currencyFormatter;
   @Inject
@@ -268,10 +268,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
             new String[]{preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
         return true;
       };
-
-  private Preference findPreference(PrefKey prefKey) {
-    return findPreference(prefHandler.getKey(prefKey));
-  }
 
   private boolean matches(@NonNull Preference preference, @NonNull PrefKey prefKey) {
     return prefHandler.getKey(prefKey).equals(preference.getKey());
@@ -427,6 +423,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
       findPreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
       configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
+
+      final PreferenceCategory advancedCategory = (PreferenceCategory) findPreference(CATEGORY_ADVANCED);
+      pref = findPreference(FEATURE_UNINSTALL);
+      if (!featureManager.allowsUninstall()) {
+        advancedCategory.removePreference(pref);
+      }
     }
     //SHORTCUTS screen
     else if (rootKey.equals(getKey(UI_HOME_SCREEN_SHORTCUTS))) {
@@ -537,6 +539,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
               " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(getActivity()));
       findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
       findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+    } else if (rootKey.equals(getKey(FEATURE_UNINSTALL))) {
+      configureUninstallPrefs();
     }
   }
 
@@ -599,7 +603,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     featureManager.registerCallback(
         new Callback() {
           @Override
-          public void onAsyncStarted(@NotNull FeatureManager.Feature feature) {
+          public void onAsyncStartedFeature(@NotNull String feature) {
           }
 
           @Override
@@ -609,7 +613,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           }
 
           @Override
-          public void onAsyncStarted(@NotNull String displayLanguage) {
+          public void onAsyncStartedLanguage(@NotNull String displayLanguage) {
             activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
           }
 
@@ -1021,6 +1025,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     }
     if (matches(preference, PERSONALIZED_AD_CONSENT)) {
       activity().checkGdprConsent(true);
+      return true;
     }
     return false;
   }

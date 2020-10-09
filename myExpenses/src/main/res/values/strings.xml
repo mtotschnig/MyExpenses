@@ -942,4 +942,7 @@
     <string name="scan_result_no_date">No date found</string>
     <string name="scan_result_no_payee">No payee found</string>
     <string name="button_download">Download</string>
+    <string name="pref_feature_uninstall_title">Request deinstallation of features and languages</string>
+    <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
+    <string name="pref_feature_uninstall_languages_title">Languages</string>
 </resources>

@@ -5,22 +5,26 @@ import android.app.Application
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 
+const val OCR_MODULE = "ocr"
+
 interface FeatureManager {
-    enum class Feature {
-        OCR;
-    }
     fun initApplication(application: Application)
     fun initActivity(activity: Activity)
-    fun isFeatureInstalled(feature: Feature, context: Context): Boolean
-    fun requestFeature(feature: Feature, fragmentActivity: FragmentActivity)
+    fun isFeatureInstalled(feature: String, context: Context): Boolean
+    fun requestFeature(feature: String, fragmentActivity: FragmentActivity)
     fun requestLocale(context: Context)
     fun registerCallback(callback: Callback)
     fun unregister()
+    fun allowsUninstall() = false
+    fun installedFeatures(): Set<String> = emptySet()
+    fun installedLanguages(): Set<String> = emptySet()
+    fun uninstallFeatures(features: Set<String>) {}
+    fun uninstallLanguages(languages: Set<String>) {}
 }
 
 interface Callback {
     fun onAvailable()
-    fun onAsyncStarted(feature: FeatureManager.Feature) {}
-    fun onAsyncStarted(displayLanguage: String) {}
+    fun onAsyncStartedFeature(feature: String) {}
+    fun onAsyncStartedLanguage(displayLanguage: String) {}
     fun onError(throwable: Throwable)
 }

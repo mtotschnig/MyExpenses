@@ -280,8 +280,8 @@
             android:title="@string/title_scan_receipt_feature">
             <EditTextPreference
                 android:key="@string/pref_ocr_total_indicators_key"
-                android:title="@string/pref_ocr_total_indicators_title"
-                android:summary="@string/pref_ocr_total_indicators_summary"/>
+                android:summary="@string/pref_ocr_total_indicators_summary"
+                android:title="@string/pref_ocr_total_indicators_title" />
             <EditTextPreference
                 android:key="@string/pref_ocr_date_formats_key"
                 android:summary="@string/pref_custom_decimal_format_summary"
@@ -553,6 +553,21 @@
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_show_ads_key"
                 android:summary="Ads" />
+        </PreferenceScreen>
+        <PreferenceScreen android:key="@string/pref_feature_uninstall_key"
+            android:title="@string/pref_feature_uninstall_title"
+            android:summary="@string/pref_feature_uninstall_summary"
+            >
+            <MultiSelectListPreference
+                android:key="@string/pref_feature_uninstall_features_key"
+                android:persistent="false"
+                android:positiveButtonText="Remove"
+                android:title="@string/pref_category_title_features" />
+            <MultiSelectListPreference
+                android:key="@string/pref_feature_uninstall_languages_key"
+                android:persistent="false"
+                android:positiveButtonText="Remove"
+                android:title="@string/pref_feature_uninstall_languages_title" />
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen> 

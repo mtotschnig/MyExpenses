@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -213,4 +214,6 @@ public interface AppComponent {
   void inject(OnboardingUiFragment onboardingUiFragment);
 
   void inject(@NotNull PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
+
+  void inject(BaseSettingsFragment baseSettingsFragment);
 }

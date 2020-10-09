@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.OCR_MODULE
 import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -40,7 +41,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
                 featureState.postValue(Pair(FeatureState.AVAILABLE, null))
             }
 
-            override fun onAsyncStarted(feature: FeatureManager.Feature) {
+            override fun onAsyncStartedFeature(feature: String) {
                 featureState.postValue(Pair(FeatureState.LOADING, null))
             }
 
@@ -129,9 +130,9 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         ocrFeatureProvider?.start(scanFile, fragmentActivity)
     }
 
-    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(FeatureManager.Feature.OCR, context)
+    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context)
 
-    fun requestOcrFeature(fragmentActivity: FragmentActivity) = featureManager.requestFeature(FeatureManager.Feature.OCR, fragmentActivity)
+    fun requestOcrFeature(fragmentActivity: FragmentActivity) = featureManager.requestFeature(OCR_MODULE, fragmentActivity)
 
     fun getScanFile(action: (file: File) -> Unit) {
         viewModelScope.launch {

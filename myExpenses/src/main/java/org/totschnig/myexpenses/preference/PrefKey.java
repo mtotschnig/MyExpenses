@@ -50,6 +50,7 @@ public enum PrefKey {
   CATEGORY_MANAGE(R.string.pref_category_manage_key),
   CATEGORY_PRIVACY(R.string.pref_category_privacy_key),
   CATEGORY_BACKUP(R.string.pref_category_backup_key),
+  CATEGORY_ADVANCED(R.string.pref_category_advanced_key),
   ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
   PLANNER_CALENDAR_PATH("planner_calendar_path"),
   CURRENT_VERSION("currentversion"),
@@ -138,7 +139,10 @@ public enum PrefKey {
   OCR_TIME_FORMATS(R.string.pref_ocr_time_formats_key),
   OCR_DATE_FORMATS(R.string.pref_ocr_date_formats_key),
   CRITERION_FUTURE(R.string.pref_criterion_future_key),
-  SYNC(R.string.pref_sync_key);
+  SYNC(R.string.pref_sync_key),
+  FEATURE_UNINSTALL(R.string.pref_feature_uninstall_key),
+  FEATURE_UNINSTALL_FEATURES(R.string.pref_feature_uninstall_features_key),
+  FEATURE_UNINSTALL_LANGUAGES(R.string.pref_feature_uninstall_languages_key);
 
   int resId = 0;
   String key = null;
