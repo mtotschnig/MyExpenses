@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
 import org.threeten.bp.chrono.IsoChronology;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.totschnig.myexpenses.BuildConfig;
@@ -888,7 +889,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (!TextUtils.isEmpty((String) value)) {
         try {
           for (String line : kotlin.text.StringsKt.lines(((String) value))) {
-            LocalDate.now().format(DateTimeFormatter.ofPattern(line));
+            LocalTime.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
           activity().showSnackbar(R.string.date_format_illegal, Snackbar.LENGTH_LONG);
