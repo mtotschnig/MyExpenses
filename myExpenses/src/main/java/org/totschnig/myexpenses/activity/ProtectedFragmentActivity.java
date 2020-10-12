@@ -89,7 +89,6 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.StyleRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
@@ -212,17 +211,24 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(newBase);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      applyOverrideConfiguration(updateConfiguration());
+      applyOverrideConfiguration(newBase.getResources().getConfiguration());
     }
     injectDependencies();
     featureManager.initActivity(this);
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-  private Configuration updateConfiguration() {
-    Configuration config = new Configuration();
+  @Override
+  public void applyOverrideConfiguration(Configuration newConfig) {
+    super.applyOverrideConfiguration(updateConfiguration(newConfig));
+  }
+
+  private Configuration updateConfiguration(Configuration config) {
     Locale locale = ((MyApplication) getApplicationContext()).getAppComponent().userLocaleProvider().getUserPreferredLocale();
-    config.setLocale(locale);
+    if (Build.VERSION.SDK_INT >= 17) {
+      config.setLocale(locale);
+    } else {
+      config.locale = locale;
+    }
     return config;
   }
 
