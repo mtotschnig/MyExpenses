@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             app:donut_finished_stroke_width="3sp"
             app:donut_text_color="?android:textColorPrimary"
-            app:donut_text_size="?textSizeLabel"
+            app:donut_text_size="@dimen/textSizeLabel"
             app:donut_unfinished_stroke_width="3sp"/>
     </FrameLayout>
 

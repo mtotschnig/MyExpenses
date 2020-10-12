@@ -1075,6 +1075,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLollipop) {
+    //TODO
     if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
       return UiUtils.drawableToBitmap(getResources().getDrawable(iconIdLollipop));
     } else {

@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -161,6 +160,8 @@ public class MyApplication extends Application implements
     checkAppReplacingState();
     initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    AppCompatDelegate.setDefaultNightMode(
+        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
     final boolean syncService = isSyncService();
     crashHandler.initProcess(this, syncService);
     setupLogging();
@@ -211,8 +212,8 @@ public class MyApplication extends Application implements
     //we cannot use the standard way of reading preferences, since this works only after base context
     //has been attached
     final Locale systemLocale = Locale.getDefault();
-    final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
-        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
+    final Context wrapped = base; //ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
+        //PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
     super.attachBaseContext(wrapped);
     MultiDex.install(this);
     appComponent = buildAppComponent(systemLocale);

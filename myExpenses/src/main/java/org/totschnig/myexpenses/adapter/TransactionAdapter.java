@@ -113,8 +113,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       insideFragment = true;
     }
     this.context = context;
-    colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
-    colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
+    colorIncome = context.getResources().getColor(R.color.colorIncome);
+    colorExpense = context.getResources().getColor(R.color.colorExpense);
     textColorSecondary = ((ProtectedFragmentActivity) context).getTextColorSecondary();
     mGroupingOverride = grouping;
     is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);

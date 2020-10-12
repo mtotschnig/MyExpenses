@@ -143,8 +143,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   private boolean scheduledRestart = false;
   private Optional<Boolean> confirmCredentialResult = Optional.empty();
   private Enum<?> helpVariant = null;
-  protected int colorExpense;
-  protected int colorIncome;
   protected int colorAggregate;
   protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
@@ -172,15 +170,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Inject
   protected FeatureManager featureManager;
 
+  @Inject
+  protected PrefHandler prefHandler;
+
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
-
-  public int getColorIncome() {
-    return colorIncome;
-  }
-
-  public int getColorExpense() {
-    return colorExpense;
-  }
 
   public int getColorAggregate() {
     return colorAggregate;
@@ -198,22 +191,18 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           WindowManager.LayoutParams.FLAG_SECURE);
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    colorExpense = UiUtils.themeIntAttr(this, R.attr.colorExpense);
-    colorIncome = UiUtils.themeIntAttr(this, R.attr.colorIncome);
     colorAggregate = UiUtils.themeIntAttr(this, R.attr.colorAggregate);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
-
     tracker.init(this);
+
   }
 
   @Override
   protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(newBase);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      applyOverrideConfiguration(newBase.getResources().getConfiguration());
-    }
     injectDependencies();
+    applyOverrideConfiguration(newBase.getResources().getConfiguration());
     featureManager.initActivity(this);
   }
 
@@ -229,6 +218,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     } else {
       config.locale = locale;
     }
+    final int customFontScale = getPrefHandler().getInt(UI_FONTSIZE, 0);
+    if (customFontScale != 0) {
+      config.fontScale = Settings.System.getFloat(getContentResolver(), Settings.System.FONT_SCALE, 1.0f) * (1 + customFontScale / 10F);
+    }
+    Timber.d("Fontscale: %f", config.fontScale);
     return config;
   }
 
@@ -245,16 +239,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  @StyleRes
-  public int getThemeId() {
-    return getThemeId("");
-  }
-
-  @StyleRes
-  public int getThemeIdEditDialog() {
-    return getThemeId("EditDialog");
-  }
-
   public int getThemeIdTranslucent() {
     return getThemeId("Translucent");
   }
@@ -265,22 +249,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @StyleRes
   private  int getThemeId(String subStyle) {
-    int fontScale;
-    try {
-      fontScale = PrefKey.UI_FONTSIZE.getInt(0);
-    } catch (Exception e) {
-      // in a previous version, the same key was holding an integer
-      fontScale = 0;
-      PrefKey.UI_FONTSIZE.remove();
-    }
     String style = getThemeType() == ThemeType.light ? "ThemeLight" : "ThemeDark";
     if (!TextUtils.isEmpty(subStyle)) {
       style += "." + subStyle;
     }
     String resolve = style;
-    if (fontScale > 0 && fontScale < 4) {
-      resolve = style + ".s" + fontScale;
-    }
     int resId = getResources().getIdentifier(resolve, "style", getPackageName());
     if (resId == 0) {
       //try style without font scaling as fallback
@@ -1004,7 +977,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected PrefHandler getPrefHandler() {
-    return MyApplication.getInstance().getAppComponent().prefHandler();
+    return prefHandler;
   }
 
   public void invalidateHomeCurrency() {

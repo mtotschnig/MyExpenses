@@ -256,8 +256,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
-
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
@@ -1177,7 +1175,7 @@ public class MyExpenses extends BaseMyExpenses implements
         currencyFormatter.formatCurrency(new Money(currencyContext.get(getCurrentCurrency()), balance)));
     setTitle(isHome ? getString(R.string.grand_total) : label);
     mToolbar.setSubtitle(mCurrentBalance);
-    mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
+    mToolbar.setSubtitleTextColor(getResources().getColor(balance < 0 ? R.color.colorExpense : R.color.colorIncome));
   }
 
   public TransactionList getCurrentFragment() {

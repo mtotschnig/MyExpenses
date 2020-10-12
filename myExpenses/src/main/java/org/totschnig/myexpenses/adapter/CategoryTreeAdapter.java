@@ -26,7 +26,7 @@ public class CategoryTreeAdapter extends CategoryTreeBaseAdapter {
     final View view = super.getView(item, parentItem, convertView, parent, color, icon);
     ViewHolder holder = (ViewHolder) view.getTag();
     if (item.sum != null) {
-      holder.amount.setTextColor(item.sum < 0 ? colorExpense : colorIncome);
+      holder.amount.setTextColor(context.getResources().getColor(item.sum >= 0 ?  R.color.colorIncome : R.color.colorExpense));
     }
     holder.color.setVisibility(color != 0 ? View.VISIBLE :
         (withMainColors ? View.INVISIBLE : View.GONE));

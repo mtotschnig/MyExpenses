@@ -71,7 +71,6 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private boolean isLoading;
 
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.roadmap);
     ButterKnife.bind(this);

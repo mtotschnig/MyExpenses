@@ -22,8 +22,8 @@ class SplitPartRVAdapter(context: Context, val currencyUnit: CurrencyUnit, val c
     val colorIncome: Int
 
     init {
-        colorExpense = UiUtils.themeIntAttr(context, R.attr.colorExpense)
-        colorIncome = UiUtils.themeIntAttr(context, R.attr.colorIncome)
+        colorExpense = context.getResources().getColor(R.color.colorExpense);
+        colorIncome = context.getResources().getColor(R.color.colorIncome);
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

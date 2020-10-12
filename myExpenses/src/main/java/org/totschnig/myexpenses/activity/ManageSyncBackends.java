@@ -52,7 +52,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.manage_sync_backends);

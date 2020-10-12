@@ -82,7 +82,6 @@ public class ManageCategories extends CategoryActivity implements
   public void onCreate(Bundle savedInstanceState) {
     String action = getAction();
     int title = 0;
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     switch (action) {
       case Intent.ACTION_MAIN:

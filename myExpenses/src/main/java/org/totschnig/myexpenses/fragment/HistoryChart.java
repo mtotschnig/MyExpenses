@@ -412,7 +412,7 @@ public class HistoryChart extends Fragment
       set1.setStackLabels(new String[]{
           getString(R.string.history_chart_out_label),
           getString(R.string.history_chart_in_label)});
-      List<Integer> colors = Arrays.asList(context.getColorExpense(), context.getColorIncome());
+      List<Integer> colors = Arrays.asList(context.getResources().getColor(R.color.colorExpense), context.getResources().getColor(R.color.colorIncome));
       set1.setColors(colors);
       set1.setValueTextColors(colors);
       set1.setValuesUseBarColor(true);

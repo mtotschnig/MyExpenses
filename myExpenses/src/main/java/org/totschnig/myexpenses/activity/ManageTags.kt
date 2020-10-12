@@ -14,7 +14,6 @@ class ManageTags: ProtectedFragmentActivity() {
         manage, select_mapping, select_filter
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(themeIdEditDialog)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
         setupToolbar(true)

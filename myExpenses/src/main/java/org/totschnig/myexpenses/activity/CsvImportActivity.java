@@ -37,7 +37,6 @@ public class CsvImportActivity extends TabbedActivity implements
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
 
     final ActionBar actionBar = getSupportActionBar();

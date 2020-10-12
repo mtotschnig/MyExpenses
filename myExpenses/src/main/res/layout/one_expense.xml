@@ -202,9 +202,10 @@
                     style="@style/FormField"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="?colorPrimary"
                         android:id="@+id/Category"
-                        style="@style/SmallButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

@@ -17,13 +17,9 @@
 <resources>
     <color name="appDefault">#ffc107</color>
     <color name="emphasis">#31b6e7</color>
-    <color name="colorExpenseDark">#FF5E5E</color>
-    <color name="colorExpenseLight">#800000</color>
-    <color name="colorIncomeDark">#00D000</color>
-    <color name="colorIncomeLight">#006800</color>
-    <!-- based on material_deep_teal_200 -->
-    <color name="cardHighlightForegroundLight">#4080cbc4</color>
-    <color name="cardHighlightForegroundDark">#40cccccc</color>
+    <color name="colorExpense">#800000</color>
+    <color name="colorIncome">#006800</color>
+    <color name="cardHighlightForeground">#4080cbc4</color>
 
     <color name="drawerBackgroundLight">@android:color/white</color>
     <color name="drawerBackgroundDark">#222</color>

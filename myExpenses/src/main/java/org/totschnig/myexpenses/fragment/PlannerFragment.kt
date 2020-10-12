@@ -238,8 +238,8 @@ class PlannerFragment : CommitSafeDialogFragment() {
                 })
                 colorAccount.setBackgroundColor(planInstance.color)
                 amount.text = currencyFormatter.formatCurrency(planInstance.amount)
-                amount.setTextColor(UiUtils.themeIntAttr(root.context,
-                        if (planInstance.amount.amountMinor < 0) R.attr.colorExpense else R.attr.colorIncome))
+                amount.setTextColor((root.context.resources.getColor(
+                        if (planInstance.amount.amountMinor < 0) R.color.colorExpense else R.color.colorIncome)))
                 val templatesList = parentFragment as? TemplatesList
                 root.setOnLongClickListener {
                     return@setOnLongClickListener if (planInstance.sealed) {

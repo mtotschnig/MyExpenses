@@ -11,7 +11,6 @@ public class ManageCurrencies extends ProtectedFragmentActivity  {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.currency_list);
     setupToolbar(true);

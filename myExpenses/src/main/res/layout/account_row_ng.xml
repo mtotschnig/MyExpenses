@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
-    android:foreground="?attr/cardHighlightForeground"
+    android:foreground="@drawable/card_foreground"
     android:paddingBottom="5dp"
     android:paddingTop="5dp">
 
@@ -49,7 +49,7 @@
                     android:layout_height="match_parent"
                     app:donut_finished_stroke_width="3sp"
                     app:donut_text_color="?android:textColorPrimary"
-                    app:donut_text_size="?textSizeLabel"
+                    app:donut_text_size="@dimen/textSizeLabel"
                     app:donut_unfinished_stroke_width="3sp"/>
 
             </FrameLayout>

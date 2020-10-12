@@ -570,8 +570,8 @@ public class TemplatesList extends SortableListFragment
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
                      int[] to, int flags) {
       super(context, layout, c, from, to, flags);
-      colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
-      colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
+      colorIncome = context.getResources().getColor(R.color.colorIncome);
+      colorExpense = context.getResources().getColor(R.color.colorExpense);
     }
 
     @Override

@@ -73,7 +73,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     TypedValue typedValue = new TypedValue();
     TypedArray a = obtainStyledAttributes(typedValue.data,

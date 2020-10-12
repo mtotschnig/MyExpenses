@@ -79,7 +79,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.settings);
     setupToolbar(true);

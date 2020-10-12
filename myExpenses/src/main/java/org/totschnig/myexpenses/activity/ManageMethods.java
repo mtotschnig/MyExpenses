@@ -24,7 +24,6 @@ public class ManageMethods extends ProtectedFragmentActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_methods);
     setupToolbar(true);

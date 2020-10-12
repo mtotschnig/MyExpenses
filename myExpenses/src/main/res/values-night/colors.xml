@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cardHighlightForeground">#40cccccc</color>
+    <color name="colorIncome">#00D000</color>
+    <color name="colorExpense">#FF5E5E</color>
+</resources>

@@ -44,8 +44,6 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   final Context context;
   private final LayoutInflater inflater;
   protected final CurrencyFormatter currencyFormatter;
-  protected final int colorExpense;
-  protected final int colorIncome;
   protected boolean withMainColors;
   private boolean withSubColors;
   private final boolean withNullCategory;
@@ -58,8 +56,6 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     inflater = LayoutInflater.from(ctx);
     this.currencyFormatter = currencyFormatter;
     this.currency = currency;
-    this.colorExpense = ctx.getColorExpense();
-    this.colorIncome = ctx.getColorIncome();
     this.withMainColors = withMainColors;
     this.withSubColors = withSubColors;
     this.themeType = ctx.getThemeType();

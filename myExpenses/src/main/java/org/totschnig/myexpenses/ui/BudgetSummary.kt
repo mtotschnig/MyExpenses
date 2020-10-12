@@ -46,11 +46,8 @@ class BudgetSummary @JvmOverloads constructor(
         val available = allocated - spent
         totalAvailable.text = currencyFormatter.formatCurrency(Money(budget.currency, available))
         val onBudget = available >= 0
-        totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget, context))
-        totalAvailable.setTextColor(if (onBudget)
-            UiUtils.themeIntAttr(context, R.attr.colorIncome)
-        else
-            UiUtils.themeIntAttr(context, R.attr.colorExpense))
+        totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget))
+        totalAvailable.setTextColor(context.resources.getColor(if (onBudget) R.color.colorIncome else R.color.colorExpense))
         val progress = if (allocated == 0L) 100 else Math.round(spent * 100f / allocated)
         UiUtils.configureProgress(budgetProgressTotal, progress)
     }

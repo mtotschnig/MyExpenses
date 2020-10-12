@@ -70,7 +70,7 @@
             android:layout_marginRight="6dp"/>
 
         <TextView
-            tools:background="@drawable/round_background_income_dark"
+            tools:background="@drawable/round_background_income"
             android:id="@+id/totalAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

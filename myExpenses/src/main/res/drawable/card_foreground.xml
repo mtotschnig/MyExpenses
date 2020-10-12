@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:ignore="PrivateResource">
-    <item android:state_activated="true"                                                             android:drawable="@color/cardHighlightForegroundDark"/>
+    <item android:state_activated="true"                                                             android:drawable="@color/cardHighlightForeground"/>
     <item android:state_activated="false" android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/abc_list_selector_background_transition_holo_dark"/>
     <item android:state_activated="false" android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/abc_list_selector_background_transition_holo_dark" />
     <item android:state_activated="false" android:state_focused="true"                               android:drawable="@drawable/abc_list_focused_holo" />
