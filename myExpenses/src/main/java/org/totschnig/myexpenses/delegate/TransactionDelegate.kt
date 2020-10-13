@@ -624,30 +624,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         statusSpinner.setOnItemSelectedListener(this)
     }
 
-    fun linkInputsWithLabels() {
-        linkAccountLabels()
-        with(host) {
-            linkInputWithLabel(viewBinding.Title, viewBinding.TitleLabel)
-            linkInputWithLabel(dateEditBinding.DateButton, viewBinding.DateTimeLabel)
-            linkInputWithLabel(viewBinding.Payee, viewBinding.PayeeLabel)
-            with(viewBinding.CommentLabel) {
-                linkInputWithLabel(statusSpinner.spinner, this)
-                linkInputWithLabel(viewBinding.AttachImage, this)
-                linkInputWithLabel(viewBinding.PictureContainer.root, this)
-                linkInputWithLabel(viewBinding.Comment, this)
-            }
-            linkInputWithLabel(viewBinding.Category, viewBinding.CategoryLabel)
-            linkInputWithLabel(methodSpinner.spinner, viewBinding.MethodLabel)
-            linkInputWithLabel(viewBinding.Number, viewBinding.MethodLabel)
-            linkInputWithLabel(viewBinding.PB, viewBinding.PlanLabel)
-            linkInputWithLabel(recurrenceSpinner.spinner, viewBinding.PlanLabel)
-            linkInputWithLabel(viewBinding.TB, viewBinding.PlanLabel)
-            linkInputWithLabel(viewBinding.TransferAmount, viewBinding.TransferAmountLabel)
-            linkInputWithLabel(viewBinding.OriginalAmount, viewBinding.OriginalAmountLabel)
-            linkInputWithLabel(viewBinding.EquivalentAmount, viewBinding.EquivalentAmountLabel)
-        }
-    }
-
     /**
      * @return true for income, false for expense
      */

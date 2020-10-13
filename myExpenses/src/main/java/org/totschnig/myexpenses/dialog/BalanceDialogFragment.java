@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -55,7 +57,7 @@ public class BalanceDialogFragment extends CommitSafeDialogFragment implements O
     TextView clearedTextView = view.findViewById(R.id.TotalCleared);
     UiUtils.configureAmountTextViewForHebrew(clearedTextView);
     clearedTextView.setText(getArguments().getString(KEY_CLEARED_TOTAL));
-    return new AlertDialog.Builder(getActivity())
+    return new MaterialAlertDialogBuilder(getActivity())
       .setTitle(getString(R.string.dialog_title_balance_account,getArguments().getString(KEY_LABEL)))
       .setView(view)
       .setNegativeButton(android.R.string.cancel,null)

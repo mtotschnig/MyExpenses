@@ -39,6 +39,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -74,7 +75,7 @@ public class DialogUtils {
    * and from version update
    */
   public static Dialog sendWithFTPDialog(final ProtectedFragmentActivity ctx) {
-    return new AlertDialog.Builder(ctx)
+    return new MaterialAlertDialogBuilder(ctx)
         .setMessage(R.string.no_app_handling_ftp_available)
         .setPositiveButton(android.R.string.yes, (dialog, id) -> {
           ctx.dismissDialog(R.id.FTP_DIALOG);
@@ -114,7 +115,7 @@ public class DialogUtils {
     //noinspection InflateParams
     View view = li.inflate(R.layout.password_check, null);
     view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
         .setTitle(R.string.password_prompt)
         .setView(view)
         .setOnCancelListener(dialog -> {

@@ -21,6 +21,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
@@ -109,7 +111,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx = getActivity();
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
         .setMessage(bundle.getCharSequence(KEY_MESSAGE))
         .setTitle(bundle.getCharSequence(KEY_TITLE));
 

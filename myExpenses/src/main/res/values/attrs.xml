@@ -15,7 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <attr name="colorAggregate" format="color" />
     <attr name="drawerBackground" format="color" />
     <attr name="cardBackground" format="color" />
     <attr name="drawerWidth" format="dimension" />

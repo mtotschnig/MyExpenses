@@ -964,7 +964,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (accountId != newAccountId) {
       getPrefHandler().putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
-    int color = newAccountId < 0 ? colorAggregate : mAccountsCursor.getInt(columnIndexColor);
+    int color = newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Window window = getWindow();
       //noinspection InlinedApi

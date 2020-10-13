@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.annimon.stream.Stream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
@@ -51,7 +52,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
           DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
       mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     }
-    return new AlertDialog.Builder(getActivity())
+    return new MaterialAlertDialogBuilder(getActivity())
         .setTitle(R.string.pref_restore_title)
         .setView(view)
         .setPositiveButton(android.R.string.ok, this)

@@ -22,6 +22,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
 import com.annimon.stream.IntStream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -60,7 +61,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     Package aPackage = getPackage();
     DonationUriVisitor listener = new DonationUriVisitor();
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getActivity());
     CharSequence[] items = IntStream.of(getPaymentOptions(aPackage)).mapToObj(this::getString).toArray(String[]::new);
     return builder
         .setTitle(licenceHandler.getButtonLabel(aPackage))

@@ -70,7 +70,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   int taskResult = RESULT_OK;
 
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     ComponentName callingActivity = getCallingActivity();
     if (callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)

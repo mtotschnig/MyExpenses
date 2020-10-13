@@ -84,7 +84,7 @@
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/MyTheme.Translucent">
             <intent-filter
                 android:autoVerify="true"
                 tools:ignore="UnusedAttribute">
@@ -156,17 +156,17 @@
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/MyTheme.Translucent" />
 
         <activity
             android:name=".activity.GrisbiImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/MyTheme.Translucent" />
 
         <activity
             android:name=".activity.QifImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/MyTheme.Translucent" />
 
         <activity
             android:name=".activity.CsvImportActivity"
@@ -175,7 +175,7 @@
         <activity
             android:name=".activity.MyPreferenceActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -183,7 +183,7 @@
 
         <activity
             android:name=".activity.Help"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/MyTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -245,7 +245,7 @@
 
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/MyTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

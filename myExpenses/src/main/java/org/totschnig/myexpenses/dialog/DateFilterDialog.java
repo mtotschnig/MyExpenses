@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -19,7 +21,6 @@ import org.totschnig.myexpenses.provider.filter.DateCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 
 public class DateFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
   private DatePicker mDate1;
@@ -62,7 +63,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
     mDate2 = view.findViewById(R.id.date2);
 
 
-    return new AlertDialog.Builder(ctx)
+    return new MaterialAlertDialogBuilder(ctx)
         .setTitle(R.string.search_date)
         .setView(view)
         .setPositiveButton(android.R.string.ok, this)

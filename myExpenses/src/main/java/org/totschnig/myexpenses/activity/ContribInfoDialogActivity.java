@@ -72,7 +72,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String packageFromExtra = packageFromExtra();
 

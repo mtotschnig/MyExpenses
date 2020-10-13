@@ -24,6 +24,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
@@ -66,7 +68,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx = getActivity();
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx);
     int title = bundle.getInt(KEY_TITLE, 0);
     if (title != 0) {
       builder.setTitle(title);

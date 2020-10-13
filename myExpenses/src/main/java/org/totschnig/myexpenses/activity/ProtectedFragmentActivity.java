@@ -143,7 +143,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   private boolean scheduledRestart = false;
   private Optional<Boolean> confirmCredentialResult = Optional.empty();
   private Enum<?> helpVariant = null;
-  protected int colorAggregate;
   protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
 
@@ -175,10 +174,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
-  public int getColorAggregate() {
-    return colorAggregate;
-  }
-
   public ColorStateList getTextColorSecondary() {
     return textColorSecondary;
   }
@@ -191,7 +186,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           WindowManager.LayoutParams.FLAG_SECURE);
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    colorAggregate = UiUtils.themeIntAttr(this, R.attr.colorAggregate);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
     tracker.init(this);
@@ -219,9 +213,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       config.locale = locale;
     }
     final int customFontScale = getPrefHandler().getInt(UI_FONTSIZE, 0);
-    if (customFontScale != 0) {
-      config.fontScale = Settings.System.getFloat(getContentResolver(), Settings.System.FONT_SCALE, 1.0f) * (1 + customFontScale / 10F);
-    }
+    config.fontScale = Settings.System.getFloat(getContentResolver(), Settings.System.FONT_SCALE, 1.0f) * (1 + customFontScale / 10F);
     Timber.d("Fontscale: %f", config.fontScale);
     return config;
   }
@@ -237,10 +229,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     } catch (IllegalArgumentException e) {
       return ThemeType.dark;
     }
-  }
-
-  public int getThemeIdTranslucent() {
-    return getThemeId("Translucent");
   }
 
   public int getThemeIdOnboarding() {

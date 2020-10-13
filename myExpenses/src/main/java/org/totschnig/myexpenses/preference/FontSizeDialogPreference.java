@@ -38,7 +38,7 @@ public class FontSizeDialogPreference extends IntegerDialogPreference {
     String standard = context.getString(R.string.pref_ui_language_default);
     if (index == 0) return standard;
     else {
-      return standard + " + " + index * 2 + "sp";
+      return standard + " + " + index * 10 + "%";
     }
   }
 

@@ -23,16 +23,16 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="MyTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="colorAggregate">@color/material_grey_400</item>
         <item name="drawerBackground">@color/drawerBackgroundDark</item>
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">32dp</item>
         <item name="colorContainerInner">16dp</item>
-        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
@@ -42,7 +42,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="ThemeDarkBase" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="colorAggregate">@color/material_grey_400</item>
         <item name="drawerBackground">@color/drawerBackgroundDark</item>
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="drawerWidth">260sp</item>
@@ -62,9 +61,12 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeDark" parent="@style/ThemeDarkBase">
     </style>
 
+    <style name="DarkBackground">
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
     <style name="ThemeLightBase" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="colorAggregate">@color/my_material_grey_600</item>
         <item name="drawerBackground">@color/drawerBackgroundLight</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="drawerWidth">260sp</item>
@@ -85,10 +87,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="EditDialog" parent="@style/Theme.MaterialComponents.DayNight.DialogWhenLarge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
@@ -97,22 +100,13 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="md_color_button_text">?colorAccent</item>
     </style>
 
-    <style name="ThemeLight.Translucent">
+    <style name="MyTheme.Translucent">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
-    </style>
-
-    <style name="ThemeDark.Translucent">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
+       <!-- <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>-->
     </style>
 
     <style name="ThemeDark.Onboarding" parent="@style/SuwThemeMaterial">

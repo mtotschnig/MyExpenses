@@ -91,8 +91,13 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <style name="SmallButton">
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    <style name="SmallButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/SmallButtonTextAppearance</item>
+        <item name="strokeColor">?colorPrimary</item>
+    </style>
+
+    <style name="SmallButtonTextAppearance" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
     <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
@@ -220,17 +225,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="ContribDialogThemeLight" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="ContribDialogTheme">
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
-    <style name="ContribDialogThemeDark" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
-    </style>
-
-    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/material_grey</item>
     </style>
 

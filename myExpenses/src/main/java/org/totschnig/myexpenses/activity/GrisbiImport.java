@@ -29,7 +29,6 @@ public class GrisbiImport extends ProtectedFragmentActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       GrisbiSourcesDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");

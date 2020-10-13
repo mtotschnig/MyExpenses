@@ -15,10 +15,19 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <color name="colorPrimary">@color/primaryColor</color>
+    <color name="colorAccent">@color/primaryDarkColor</color>
+
+    <color name="primaryColor">#0050a7</color>
+    <color name="primaryLightColor">#527bd9</color>
+    <color name="primaryDarkColor">#002977</color>
+    <color name="primaryTextColor">#ffffff</color>
+
     <color name="appDefault">#ffc107</color>
     <color name="emphasis">#31b6e7</color>
     <color name="colorExpense">#800000</color>
     <color name="colorIncome">#006800</color>
+    <color name="colorAggregate">@color/my_material_grey_600</color>
     <color name="cardHighlightForeground">#4080cbc4</color>
 
     <color name="drawerBackgroundLight">@android:color/white</color>
