@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -160,8 +161,7 @@ public class MyApplication extends Application implements
     checkAppReplacingState();
     initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    AppCompatDelegate.setDefaultNightMode(
-        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    MoreUiUtilsKt.setNightMode(prefHandler, this);
     final boolean syncService = isSyncService();
     crashHandler.initProcess(this, syncService);
     setupLogging();

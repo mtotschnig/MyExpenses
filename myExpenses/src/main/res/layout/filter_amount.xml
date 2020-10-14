@@ -52,8 +52,7 @@
                     android:id="@+id/Operator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/comparison_operator_entries"
-                    android:entryValues="@array/comparison_operator_values"/>
+                    android:entries="@array/comparison_operator_entries"/>
 
                 <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount1"

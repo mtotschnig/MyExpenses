@@ -319,7 +319,7 @@ public class DialogUtils {
 
   public static Spinner configureCurrencySpinner(
       View view, AdapterView.OnItemSelectedListener listener) {
-    Spinner spinner = view.findViewById(R.id.Currency);
+    Spinner spinner = view instanceof Spinner ? (Spinner) view : view.findViewById(R.id.Currency);
     CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext(), android.R.layout.simple_spinner_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);

@@ -29,7 +29,7 @@ class OnBoardingPrivacyFragment: OnboardingFragment(), CompoundButton.OnCheckedC
         MyApplication.getInstance().appComponent.inject(this)
     }
 
-    override fun configureView(view: View, savedInstanceState: Bundle?) {
+    override fun configureView(savedInstanceState: Bundle?) {
         crashReports.setText(Utils.getTextWithAppName(context, R.string.crash_reports_user_info))
         crashReports.setOnCheckedChangeListener(this)
         tracking.setOnCheckedChangeListener(this)

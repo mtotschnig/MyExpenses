@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.os.Build
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
@@ -86,6 +87,10 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                         }
                         dispose()
                     }
+        }
+        if (fromVersion < 429 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
+            prefHandler.putString(PrefKey.UI_THEME_KEY, "default")
         }
     }
 }

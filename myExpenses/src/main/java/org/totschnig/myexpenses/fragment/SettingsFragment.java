@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistributionHelper;
+import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -651,7 +652,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       setProtectionDependentsState();
       updateAllWidgets();
     } else if (key.equals(getKey(UI_THEME_KEY))) {
-      activity().recreate();
+      MoreUiUtilsKt.setNightMode(prefHandler, requireContext());
     } else if (key.equals(getKey(PROTECTION_ENABLE_ACCOUNT_WIDGET))) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
       updateWidgets(AccountWidget.class);

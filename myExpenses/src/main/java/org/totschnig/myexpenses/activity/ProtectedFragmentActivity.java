@@ -118,7 +118,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 import static org.totschnig.myexpenses.util.DistributionHelper.getMarketSelfUri;
@@ -221,6 +220,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
   }
 
+  //TODO check
   public ThemeType getThemeType() {
     try {
       return ThemeType.valueOf(getPrefHandler().getString(PrefKey.UI_THEME_KEY,
@@ -326,7 +326,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (getPrefHandler().matches(key, UI_THEME_KEY, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
+    if (getPrefHandler().matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT, CRITERION_FUTURE)) {
       scheduledRestart = true;
     }

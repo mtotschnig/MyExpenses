@@ -226,8 +226,7 @@
                 <Spinner
                     android:id="@+id/Encoding"
                     style="@style/FormField.Dialog"
-                    android:entries="@array/pref_qif_export_file_encoding"
-                    android:entryValues="@array/pref_qif_export_file_encoding" />
+                    android:entries="@array/pref_qif_export_file_encoding" />
             </TableRow>
         </TableLayout>
 

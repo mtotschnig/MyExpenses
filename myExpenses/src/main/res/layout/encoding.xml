@@ -11,6 +11,5 @@
     <Spinner
         style="@style/FormField"
         android:id="@+id/Encoding"
-        android:entries="@array/pref_qif_export_file_encoding"
-        android:entryValues="@array/pref_qif_export_file_encoding"/>
+        android:entries="@array/pref_qif_export_file_encoding"/>
 </TableRow>
