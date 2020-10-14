@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,6 +27,7 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
+
     <style name="headingStyle.WithMargin.Caps">
         <item name="android:textAllCaps">true</item>
     </style>
@@ -70,7 +70,7 @@
         <item name="android:minHeight">0dp</item>
     </style>
 
-    <style name="dialog_text"/>
+    <style name="dialog_text" />
 
     <style name="dialog_text.bold">
         <item name="android:textStyle">bold</item>
@@ -119,6 +119,7 @@
     <style name="MyAlertDialogThemeLight" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorControlNormal">@android:color/black</item>
     </style>
+
     <style name="MyAlertDialogThemeDark" parent="@style/Theme.AppCompat.Dialog.Alert">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
@@ -144,10 +145,12 @@
     <style name="CaldroidCustomDarkGridView" parent="CaldroidCustomGridView">
         <item name="android:background">@color/caldroid_middle_gray</item>
     </style>
+
     <style name="MySpinnerItemStyle" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="CalculatorButton">
         <item name="android:minHeight">@dimen/calculator_button_min</item>
         <item name="android:minWidth">@dimen/calculator_button_min</item>
@@ -185,12 +188,16 @@
         <item name="android:textColor">#f26522</item>
         <item name="android:textStyle">bold</item>
         <item name="android:text">C</item>
-        <item name="android:contentDescription">@string/content_description_calculator_clear_button</item>
+        <item name="android:contentDescription">
+            @string/content_description_calculator_clear_button
+        </item>
     </style>
 
     <style name="CalculatorButton.Delete">
         <item name="android:text">&lt;</item>
-        <item name="android:contentDescription">@string/content_description_calculator_delete_button</item>
+        <item name="android:contentDescription">
+            @string/content_description_calculator_delete_button
+        </item>
     </style>
 
     <style name="CalculatorButton.Result">
@@ -244,15 +251,12 @@
         <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
-    <style name="OnBoardingTextInputLayoutBase" parent="Widget.Design.TextInputLayout">
+    <style name="OnBoardingTextInputLayoutBase" parent="MyTextInputLayout">
         <item name="hintTextAppearance">@style/AdaptiveHintTextAppearance</item>
         <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
     </style>
 
-    <style name="OnBoardingTextInputLayout" parent="OnBoardingTextInputLayoutBase">
-        <item name="android:layout_marginLeft">-4dp</item>
-    </style>
-
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
     <style name="AdaptiveHintTextAppearance" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">@dimen/textSizeLabel</item>
@@ -292,10 +296,20 @@
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
     </style>
+
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
     </style>
+
     <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
+    </style>
+
+    <style name="SimpleDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="textInputStyle">@style/SimpleDialogTextInputStyle</item>
+    </style>
+
+    <style name="SimpleDialogTextInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="endIconMode">none</item>
     </style>
 </resources>

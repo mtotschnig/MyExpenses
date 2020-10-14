@@ -18,6 +18,7 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:labelFor="@+id/theme"
             android:text="@string/pref_ui_theme_title" />

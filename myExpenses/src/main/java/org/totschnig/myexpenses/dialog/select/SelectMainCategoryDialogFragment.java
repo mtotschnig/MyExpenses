@@ -25,11 +25,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.SimpleCursorAdapter;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -61,17 +64,17 @@ public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment i
     return fragment;
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.select_dialog_item, null,
         new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
     getLoaderManager().initLoader(0, null, this);
-    final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+    //dialog.getListView().setItemsCanFocus(false);
+    return new MaterialAlertDialogBuilder(getActivity())
         .setTitle(R.string.dialog_title_select_target)
         .setAdapter(mAdapter, this)
         .create();
-    //dialog.getListView().setItemsCanFocus(false);
-    return dialog;
   }
 
   @Override

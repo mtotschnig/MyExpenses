@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.squareup.sqlbrite3.BriteContentResolver;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -179,7 +180,7 @@ public abstract class SelectFromTableDialogFragment extends CommitSafeDialogFrag
         });
 
     final int neutralButton = getNeutralButton();
-    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+    final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getActivity())
         .setAdapter(adapter, null)
         .setPositiveButton(getPositiveButton(), null)
         .setNegativeButton(getNegativeButton(), null);

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.annimon.stream.Exceptional;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -103,7 +104,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
     certificateContainer.setVisibility(View.GONE);
     mTxtTrustCertificate.setVisibility(View.GONE);
     mChkTrustCertificate.setVisibility(View.GONE);
-    AlertDialog alertDialog = new AlertDialog.Builder(ctx)
+    AlertDialog alertDialog = new MaterialAlertDialogBuilder(ctx)
         .setTitle("WebDAV")
         .setView(view)
         .setNegativeButton(android.R.string.cancel, null)

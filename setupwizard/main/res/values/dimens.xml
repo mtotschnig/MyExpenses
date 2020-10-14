@@ -42,7 +42,7 @@
     <dimen name="suw_check_box_margin_top">24dp</dimen>
     <dimen name="suw_check_box_padding_start">15dp</dimen>
 
-    <dimen name="suw_content_frame_padding_top">0dp</dimen>
+    <dimen name="suw_content_frame_padding_top">16dp</dimen>
     <dimen name="suw_content_frame_padding_bottom">16dp</dimen>
 
     <dimen name="suw_description_margin_top">24dp</dimen>

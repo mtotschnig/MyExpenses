@@ -56,7 +56,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdOnboarding());
     if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
       super.onCreate(null);
       startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);

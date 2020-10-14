@@ -63,7 +63,7 @@
 
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/SuwThemeMaterial">
+            android:theme="@style/Onboarding">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

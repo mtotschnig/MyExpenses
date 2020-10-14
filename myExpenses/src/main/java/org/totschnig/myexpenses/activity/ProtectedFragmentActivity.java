@@ -89,7 +89,6 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -229,26 +228,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     } catch (IllegalArgumentException e) {
       return ThemeType.dark;
     }
-  }
-
-  public int getThemeIdOnboarding() {
-    return getThemeId("Onboarding");
-  }
-
-  @StyleRes
-  private  int getThemeId(String subStyle) {
-    String style = getThemeType() == ThemeType.light ? "ThemeLight" : "ThemeDark";
-    if (!TextUtils.isEmpty(subStyle)) {
-      style += "." + subStyle;
-    }
-    String resolve = style;
-    int resId = getResources().getIdentifier(resolve, "style", getPackageName());
-    if (resId == 0) {
-      //try style without font scaling as fallback
-      resId = getResources().getIdentifier(style, "style", getPackageName());
-      if (resId == 0) throw new RuntimeException(style + " is not defined");
-    }
-    return resId;
   }
 
   protected void configureFloatingActionButton(int fabDescription) {

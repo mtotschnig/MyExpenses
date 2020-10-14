@@ -70,9 +70,10 @@ abstract class AbstractRemoteViewsFactory(
     }
 
     //http://stackoverflow.com/a/35633411/1199911
+    //TODO test
     protected fun RemoteViews.setImageViewVectorDrawable(viewId: Int, resId: Int) {
         setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
-                R.style.ThemeDark))
+                R.style.DarkBackground))
     }
 
     abstract fun RemoteViews.populate(cursor: Cursor)

@@ -228,7 +228,8 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         } else {
           final boolean emailIsKnown = getEmail() != null;
           int msg = emailIsKnown ? R.string.roadmap_update_confirmation : R.string.roadmap_email_rationale;
-          final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build().msg(msg);
+          final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build().msg(msg)
+              .theme(R.style.SimpleDialog);
           if (!emailIsKnown) {
             simpleFormDialog.fields(Input.email(KEY_EMAIL).required());
           }

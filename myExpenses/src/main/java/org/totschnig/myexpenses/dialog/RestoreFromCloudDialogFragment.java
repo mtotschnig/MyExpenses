@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
 import com.google.android.material.textfield.TextInputEditText;
@@ -133,7 +134,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     });
     setTabVisibility(tabLayout.getTabAt(0), View.VISIBLE);
 
-    final AlertDialog dialog = new AlertDialog.Builder(ctx)
+    final AlertDialog dialog = new MaterialAlertDialogBuilder(ctx)
         .setTitle(R.string.onboarding_restore_from_cloud)
         .setView(view)
         .setPositiveButton(android.R.string.ok, this)

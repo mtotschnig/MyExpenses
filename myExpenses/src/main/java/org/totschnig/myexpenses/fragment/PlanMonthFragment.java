@@ -428,8 +428,8 @@ public class PlanMonthFragment extends CaldroidFragment
         state.setVisibility(View.VISIBLE);
         Long transactionId = instance2TransactionMap.get(CalendarProviderProxy.calculateId(dateTime));
         boolean brightColor = ColorUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
-        //TODO remove legacy themes
-        int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
+        //TODO test
+        int themeResId = brightColor ? R.style.LightBackground : R.style.DarkBackground;
         if (transactionId == null) {
           state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_open));

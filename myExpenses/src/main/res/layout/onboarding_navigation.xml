@@ -10,10 +10,11 @@
         android:layout_alignParentLeft="true"
         android:id="@+id/onboarding_menu"
         android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content"/>
 
     <Button
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/suw_navbar_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +28,6 @@
         android:text="@string/suw_next_button_label"/>
 
     <Button
-        android:theme="@style/SuwButtonItem.Colored"
         android:id="@+id/suw_navbar_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

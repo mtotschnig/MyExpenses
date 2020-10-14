@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.DistributionHelper;
@@ -224,7 +225,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
     } catch (NotFoundException e) {
       CrashHandler.report(e);
-      return new AlertDialog.Builder(ctx)
+      return new MaterialAlertDialogBuilder(ctx)
           .setMessage("Error generating Help dialog")
           .create();
     }
@@ -237,7 +238,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         return true;
       }
     });*/
-    return new AlertDialog.Builder(ctx)
+    return new MaterialAlertDialogBuilder(ctx)
         .setTitle(title)
         .setIcon(R.drawable.ic_menu_help)
         .setView(view)

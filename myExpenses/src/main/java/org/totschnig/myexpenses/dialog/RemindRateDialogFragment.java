@@ -27,6 +27,8 @@ import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -74,7 +76,7 @@ public class RemindRateDialogFragment extends CommitSafeDialogFragment implement
     mRating.setOnRatingBarChangeListener(this);
     mRatingRemind = view.findViewById(R.id.rating_remind);
     setRatingRemindText(true);
-    AlertDialog dialog = new AlertDialog.Builder(ctx)
+    AlertDialog dialog = new MaterialAlertDialogBuilder(ctx)
         .setTitle(R.string.app_name)
         .setView(view)
         .setCancelable(false)

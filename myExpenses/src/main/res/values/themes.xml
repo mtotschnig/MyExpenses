@@ -38,52 +38,15 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="md_color_button_text">?colorAccent</item>
-    </style>
-
-    <style name="ThemeDarkBase" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="drawerBackground">@color/drawerBackgroundDark</item>
-        <item name="pageMargin">@drawable/pagermargin_white</item>
-        <item name="drawerWidth">260sp</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="colorContainerOuter">32dp</item>
-        <item name="colorContainerInner">16dp</item>
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorControlInverse">@android:color/black</item>
-        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
-        <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
-        <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
-        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
-        <item name="md_color_button_text">?colorAccent</item>
-    </style>
-
-    <style name="ThemeDark" parent="@style/ThemeDarkBase">
+        <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
 
     <style name="DarkBackground">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
-    <style name="ThemeLightBase" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="drawerBackground">@color/drawerBackgroundLight</item>
-        <item name="pageMargin">@drawable/pagermargin_black</item>
-        <item name="drawerWidth">260sp</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="colorContainerOuter">32dp</item>
-        <item name="colorContainerInner">16dp</item>
+    <style name="LightBackground">
         <item name="colorControlNormal">@android:color/black</item>
-        <item name="colorControlInverse">@android:color/white</item>
-        <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
-        <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
-        <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
-        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
-        <item name="md_color_button_text">?colorAccent</item>
-    </style>
-
-    <style name="ThemeLight" parent="@style/ThemeLightBase">
     </style>
 
     <style name="EditDialog" parent="@style/Theme.MaterialComponents.DayNight.DialogWhenLarge">
@@ -98,6 +61,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="cardBackground">#555555</item>
         <item name="md_color_button_text">?colorAccent</item>
+        <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
 
     <style name="MyTheme.Translucent">
@@ -109,14 +73,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
        <!-- <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>-->
     </style>
 
-    <style name="ThemeDark.Onboarding" parent="@style/SuwThemeMaterial">
-        <item name="colorAccent">@color/accent_material_dark</item>
+    <style name="Onboarding" parent="@style/SuwThemeMaterial">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="md_color_button_text">?colorAccent</item>
-    </style>
-
-    <style name="ThemeLight.Onboarding" parent="@style/SuwThemeMaterial.Light">
-        <item name="colorAccent">@color/accent_material_light</item>
-        <item name="md_color_button_text">?colorAccent</item>
+        <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
 
     <style name="Theme.AppCompat.Dialog.NoTitle">

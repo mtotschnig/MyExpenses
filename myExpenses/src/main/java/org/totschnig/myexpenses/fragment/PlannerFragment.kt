@@ -15,6 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import icepick.Icepick
 import icepick.State
 import org.threeten.bp.format.DateTimeFormatter
@@ -140,7 +141,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
             }
         })
         model.loadInstances()
-        val alertDialog = AlertDialog.Builder(requireContext())
+        val alertDialog = MaterialAlertDialogBuilder(requireContext())
                 .setView(binding.root)
                 .setPositiveButton(android.R.string.ok, null)
                 .setNeutralButton(R.string.menu_create_instance_save, null)
@@ -175,9 +176,9 @@ class PlannerFragment : CommitSafeDialogFragment() {
     }
 
     inner class StateObserver : ContentObserver(Handler()) {
-        override fun onChange(selfChange: Boolean, uri: Uri) {
+        override fun onChange(selfChange: Boolean, uri: Uri?) {
             Timber.d("received state change for uri: %s", uri)
-            model.getUpdateFor(uri)
+            uri?.let { model.getUpdateFor(it) }
         }
     }
 

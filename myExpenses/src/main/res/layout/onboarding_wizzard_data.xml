@@ -27,11 +27,10 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/OnBoardingTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -71,8 +70,8 @@
                     android:prompt="@string/currency" />
 
                 <Button
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:id="@+id/MoreOptionsButton"
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -83,15 +82,15 @@
                     android:id="@+id/MoreOptionsContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:orientation="vertical"
                     android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/OnBoardingTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/Description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -239,6 +239,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
             .fields(Input.password(KEY_PASSWORD).required())
             .extra(args)
+            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_TAG_PASSWORD);
       } else {
         doRestore(args);
@@ -250,13 +251,13 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (which == BUTTON_POSITIVE) {
-      switch (dialogTag) {
-        case DIALOG_TAG_PASSWORD: {
-          doRestore(extras);
-          return true;
-        }
+    if (DIALOG_TAG_PASSWORD.equals(dialogTag)) {
+      if (which == BUTTON_POSITIVE) {
+        doRestore(extras);
+      } else {
+        abort();
       }
+      return true;
     }
     return false;
   }
@@ -293,14 +294,17 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onNegative(Bundle args) {
+    abort();
+  }
+
+  public void abort() {
     setResult(RESULT_CANCELED);
     finish();
   }
 
   @Override
   public void onDismissOrCancel(Bundle args) {
-    setResult(RESULT_CANCELED);
-    finish();
+    abort();
   }
 
   @Override
@@ -311,7 +315,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onMessageDialogDismissOrCancel() {
-    finish();
+    abort();
   }
 
   @Override

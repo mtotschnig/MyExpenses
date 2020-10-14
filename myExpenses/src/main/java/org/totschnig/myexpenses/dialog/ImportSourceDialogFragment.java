@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
@@ -18,6 +19,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.PermissionHelper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUESTCODE;
@@ -60,12 +62,13 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     //TODO: we should not depend on 
     ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     LayoutInflater li = LayoutInflater.from(getActivity());
     dialogView = li.inflate(getLayoutId(), null);
     setupDialogView(dialogView);
-    return new AlertDialog.Builder(getActivity())
+    return new MaterialAlertDialogBuilder(requireActivity())
       .setTitle(getLayoutTitle())
       .setView(dialogView)
       .setPositiveButton(android.R.string.ok,this)

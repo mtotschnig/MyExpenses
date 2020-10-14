@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.retrofit.MissingAppIdException;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
 import java.math.BigDecimal;
@@ -67,19 +68,30 @@ public class ExchangeRateEdit extends ConstraintLayout {
     viewModel.clear();
   }
 
+  @Nullable
+  public LifecycleOwner findLifecycleOwner(Context context) {
+    if (context instanceof LifecycleOwner) {
+      return ((LifecycleOwner) context);
+    }
+    if (context instanceof ContextWrapper) {
+      return findLifecycleOwner(((ContextWrapper) context).getBaseContext());
+    }
+    return null;
+  }
+
   public void setupViewModel() {
     Context context = getContext();
     viewModel = new ExchangeRateViewModel(((MyApplication) context.getApplicationContext()));
-    final LifecycleOwner lifecycleOwner = (LifecycleOwner) context;
-    viewModel.getData().observe(lifecycleOwner, result -> {
-      rate2Edit.setAmount(BigDecimal.valueOf(result));
-    });
-    viewModel.getError().observe(lifecycleOwner, exception -> {
-      complain(exception instanceof UnsupportedOperationException ? getContext().getString(
-          R.string.exchange_rate_not_supported, firstCurrency.code(), secondCurrency.code()) :
-          (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
-              exception.getMessage()));
-    });
+    final LifecycleOwner lifecycleOwner = findLifecycleOwner(context);
+    if (lifecycleOwner != null) {
+      viewModel.getData().observe(lifecycleOwner, result -> rate2Edit.setAmount(BigDecimal.valueOf(result)));
+    viewModel.getError().observe(lifecycleOwner, exception -> complain(exception instanceof UnsupportedOperationException ? getContext().getString(
+        R.string.exchange_rate_not_supported, firstCurrency.code(), secondCurrency.code()) :
+        (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
+            exception.getMessage())));
+    } else {
+      CrashHandler.report("No LifecycleOwner found");
+    }
   }
 
   @OnClick(R.id.iv_download)

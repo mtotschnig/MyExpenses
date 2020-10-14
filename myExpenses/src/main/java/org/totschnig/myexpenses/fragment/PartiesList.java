@@ -110,6 +110,7 @@ public class PartiesList extends ContextualActionBarFragment {
             .pos(R.string.menu_save)
             .neut()
             .extra(args)
+            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_EDIT_PARTY);
         return true;
       case R.id.SELECT_COMMAND:
