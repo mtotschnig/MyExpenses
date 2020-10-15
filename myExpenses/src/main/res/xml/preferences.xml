@@ -260,7 +260,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <PreferenceScreen
-            android:key="exchange_rates"
+            android:key="@string/pref_exchange_rates_key"
             android:title="@string/pref_category_exchange_rates">
             <ListPreference
                 android:defaultValue="RATESAPI"

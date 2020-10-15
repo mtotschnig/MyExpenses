@@ -135,6 +135,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATES;
 import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATE_PROVIDER;
 import static org.totschnig.myexpenses.preference.PrefKey.FEATURE_UNINSTALL;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
@@ -419,8 +420,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
         }
         findPreference(TRANSLATION).setSummary(String.format("%s: %s", getString(R.string.translated_by), translators));
       }
-      findPreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
-      configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
 
       final PreferenceCategory advancedCategory = (PreferenceCategory) findPreference(CATEGORY_ADVANCED);
       pref = findPreference(FEATURE_UNINSTALL);
@@ -539,6 +538,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
       findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     } else if (rootKey.equals(getKey(FEATURE_UNINSTALL))) {
       configureUninstallPrefs();
+    } else if (rootKey.equals(getKey(EXCHANGE_RATES))) {
+      findPreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
+      configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
     }
   }
 

@@ -135,6 +135,7 @@ public enum PrefKey {
   CLONE_WITH_CURRENT_DATE(R.string.pref_clone_with_current_date_key),
   PLANNER_MANUAL_TIME(R.string.pref_planner_manual_time_key),
   OCR(R.string.pref_ocr_key),
+  EXCHANGE_RATES(R.string.pref_exchange_rates_key),
   OCR_TOTAL_INDICATORS(R.string.pref_ocr_total_indicators_key),
   OCR_TIME_FORMATS(R.string.pref_ocr_time_formats_key),
   OCR_DATE_FORMATS(R.string.pref_ocr_date_formats_key),
