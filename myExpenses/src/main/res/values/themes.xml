@@ -34,8 +34,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorContainerOuter">32dp</item>
         <item name="colorContainerInner">16dp</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
-        <item name="account_color_indicator_diameter">@dimen/AccountColorDiameterBase</item>
-        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
@@ -56,7 +54,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
-        <item name="category_color_indicator_diameter">@dimen/CategoryColorDiameterBase</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="cardBackground">#555555</item>
@@ -80,12 +77,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
 
-    <style name="Theme.AppCompat.Dialog.NoTitle">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.AppCompat.Light.Dialog.NoTitle">
+    <style name="Calculator" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

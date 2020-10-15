@@ -6,4 +6,8 @@
     <color name="colorIncome">#00D000</color>
     <color name="colorExpense">#FF5E5E</color>
     <color name="colorAggregate">@color/material_grey_400</color>
+    <color name="caldroid_custom_gridview_background">@color/caldroid_middle_gray</color>
+    <color name="caldroid_red_border">@color/caldroid_light_red</color>
+    <color name="caldroid_state_date_prev_next_month">@color/caldroid_333</color>
+    <color name="future_background">#11FFFFFF</color>
 </resources>

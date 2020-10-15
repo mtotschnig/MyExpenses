@@ -21,8 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
 
@@ -40,14 +38,9 @@ public class UiUtils {
 
   private UiUtils() {}
 
-  public static void configureSnackbarForDarkTheme(Snackbar snackbar, ProtectedFragmentActivity.ThemeType themeType) {
+  public static void increaseSnackbarMaxLines(Snackbar snackbar) {
     View snackbarView = snackbar.getView();
     TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-    if (themeType.equals(ProtectedFragmentActivity.ThemeType.dark)) {
-      //Workaround for https://issuetracker.google.com/issues/37120757
-      snackbarView.setBackgroundColor(Color.WHITE);
-      textView.setTextColor(Color.BLACK);
-    }
     textView.setMaxLines(10);
   }
 

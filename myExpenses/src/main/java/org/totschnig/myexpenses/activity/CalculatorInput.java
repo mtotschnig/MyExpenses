@@ -67,8 +67,6 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeType().equals(ProtectedFragmentActivity.ThemeType.dark) ? R.style
-        .Theme_AppCompat_Dialog_NoTitle : R.style.Theme_AppCompat_Light_Dialog_NoTitle);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.calculator);
 

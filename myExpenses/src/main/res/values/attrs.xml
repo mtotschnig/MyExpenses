@@ -23,8 +23,6 @@
     <attr name="colorContainerInner" format="dimension" />
     <attr name="colorControlInverse" />
     <attr name="preferenceCategoryTextAppearance" format="reference" />
-    <attr name="account_color_indicator_diameter" format="dimension" />
-    <attr name="category_color_indicator_diameter" format="dimension" />
 
     <declare-styleable name="AmountInput">
         <attr name="withTypeSwitch" format="boolean"/>

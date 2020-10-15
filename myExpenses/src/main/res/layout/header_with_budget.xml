@@ -92,8 +92,8 @@
 
     <com.github.lzyzsd.circleprogress.DonutProgress
         android:id="@+id/budgetProgress"
-        android:layout_width="?account_color_indicator_diameter"
-        android:layout_height="?account_color_indicator_diameter"
+        android:layout_width="@dimen/account_color_diameter"
+        android:layout_height="@dimen/account_color_diameter"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

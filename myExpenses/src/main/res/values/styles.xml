@@ -124,26 +124,20 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
-    <style name="CaldroidCustom" parent="@style/CaldroidDefault">
-        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
-    </style>
+    <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />
 
-    <style name="CaldroidCustomDark" parent="@style/CaldroidDefaultDark">
-        <item name="styleCaldroidGridView">@style/CaldroidCustomDarkGridView</item>
+    <style name="CaldroidCustom" parent="CaldroidCustomBase">
+        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
     </style>
 
     <style name="CaldroidCustomGridView">
         <item name="android:drawSelectorOnTop">true</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:background">@color/caldroid_lighter_gray</item>
+        <item name="android:background">@color/caldroid_custom_gridview_background</item>
         <item name="android:horizontalSpacing">1dp</item>
         <item name="android:padding">1dp</item>
         <item name="android:verticalSpacing">1dp</item>
-    </style>
-
-    <style name="CaldroidCustomDarkGridView" parent="CaldroidCustomGridView">
-        <item name="android:background">@color/caldroid_middle_gray</item>
     </style>
 
     <style name="MySpinnerItemStyle" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
@@ -151,7 +145,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="CalculatorButton">
+    <style name="CalculatorButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:minHeight">@dimen/calculator_button_min</item>
         <item name="android:minWidth">@dimen/calculator_button_min</item>
         <item name="android:textSize">@dimen/calculator_button_text_size</item>

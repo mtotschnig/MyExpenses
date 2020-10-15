@@ -152,7 +152,7 @@
         <activity
             android:name=".activity.Distribution"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
@@ -170,7 +170,7 @@
 
         <activity
             android:name=".activity.CsvImportActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/MyTheme" />
 
         <activity
             android:name=".activity.MyPreferenceActivity"
@@ -237,7 +237,7 @@
 
         <activity
             android:name=".activity.CalculatorInput"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle">
+            android:theme="@style/Calculator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

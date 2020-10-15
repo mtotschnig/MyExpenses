@@ -12,8 +12,8 @@
 
     <FrameLayout
         android:id="@+id/color1"
-        android:layout_width="?account_color_indicator_diameter"
-        android:layout_height="?account_color_indicator_diameter"
+        android:layout_width="@dimen/account_color_diameter"
+        android:layout_height="@dimen/account_color_diameter"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="4dp"

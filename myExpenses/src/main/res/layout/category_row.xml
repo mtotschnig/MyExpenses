@@ -22,8 +22,8 @@
 
     <View
         android:id="@+id/color1"
-        android:layout_width="?category_color_indicator_diameter"
-        android:layout_height="?category_color_indicator_diameter"
+        android:layout_width="@dimen/category_color_diameter"
+        android:layout_height="@dimen/category_color_diameter"
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"

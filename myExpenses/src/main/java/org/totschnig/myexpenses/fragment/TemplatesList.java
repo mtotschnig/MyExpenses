@@ -236,7 +236,7 @@ public class TemplatesList extends SortableListFragment
               mTemplatesCursor.getString(columnIndexTitle),
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
-              mTemplatesCursor.getInt(columnIndexColor), isSealed, ctx.getThemeType());
+              mTemplatesCursor.getInt(columnIndexColor), isSealed);
           if (!getChildFragmentManager().isStateSaved()) {
             planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
           }
@@ -452,7 +452,7 @@ public class TemplatesList extends SortableListFragment
                   mTemplatesCursor.getString(columnIndexTitle),
                   templateId,
                   planId,
-                  mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0, ctx.getThemeType());
+                  mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0);
             }
             mTemplatesCursor.moveToNext();
           }
@@ -504,7 +504,7 @@ public class TemplatesList extends SortableListFragment
       if (window != null) {
         View view = window.getDecorView();
         Snackbar snackbar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
-        UiUtils.configureSnackbarForDarkTheme(snackbar, ((ProtectedFragmentActivity) getContext()).getThemeType());
+        UiUtils.increaseSnackbarMaxLines(snackbar);
         snackbar.show();
         return;
       }

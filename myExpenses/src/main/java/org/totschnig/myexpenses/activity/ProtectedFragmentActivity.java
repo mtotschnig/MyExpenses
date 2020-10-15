@@ -15,15 +15,18 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
@@ -89,6 +92,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -190,44 +194,56 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   }
 
+  @SuppressLint("NewApi")
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(newBase);
+    final boolean legacy = Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1;
+    super.attachBaseContext(legacy ? legacyConfig(newBase) : newBase);
     injectDependencies();
-    applyOverrideConfiguration(newBase.getResources().getConfiguration());
+    if (!legacy) {
+      applyOverrideConfiguration(newBase.getResources().getConfiguration());
+    }
     featureManager.initActivity(this);
   }
 
+  private Context legacyConfig(Context context) {
+    Resources res = context.getResources();
+    Configuration config = new Configuration(res.getConfiguration());
+    config.locale = getUserPreferredLocale();
+    //noinspection deprecation
+    final MyApplication application = MyApplication.getInstance();
+    config.fontScale = getFontScale(application.getAppComponent().prefHandler(), application.getContentResolver());
+    res.updateConfiguration(config, res.getDisplayMetrics());
+    return context;
+  }
+
   @Override
+  @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   public void applyOverrideConfiguration(Configuration newConfig) {
     super.applyOverrideConfiguration(updateConfiguration(newConfig));
   }
 
+  @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   private Configuration updateConfiguration(Configuration config) {
-    Locale locale = ((MyApplication) getApplicationContext()).getAppComponent().userLocaleProvider().getUserPreferredLocale();
-    if (Build.VERSION.SDK_INT >= 17) {
-      config.setLocale(locale);
-    } else {
-      config.locale = locale;
-    }
-    final int customFontScale = getPrefHandler().getInt(UI_FONTSIZE, 0);
-    config.fontScale = Settings.System.getFloat(getContentResolver(), Settings.System.FONT_SCALE, 1.0f) * (1 + customFontScale / 10F);
+    Locale locale = getUserPreferredLocale();
+    config.setLocale(locale);
+    config.fontScale = getFontScale(prefHandler, getContentResolver());
     Timber.d("Fontscale: %f", config.fontScale);
     return config;
   }
 
-  protected void injectDependencies() {
-    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
+  private float getFontScale(PrefHandler prefHandler, ContentResolver contentResolver) {
+    final int customFontScale = prefHandler.getInt(UI_FONTSIZE, 0);
+    return Settings.System.getFloat(contentResolver, Settings.System.FONT_SCALE, 1.0f) * (1 + customFontScale / 10F);
   }
 
-  //TODO check
-  public ThemeType getThemeType() {
-    try {
-      return ThemeType.valueOf(getPrefHandler().getString(PrefKey.UI_THEME_KEY,
-          ThemeType.dark.name()));
-    } catch (IllegalArgumentException e) {
-      return ThemeType.dark;
-    }
+  private Locale getUserPreferredLocale() {
+    //noinspection deprecation
+    return MyApplication.getInstance().getAppComponent().userLocaleProvider().getUserPreferredLocale();
+  }
+
+  protected void injectDependencies() {
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
   }
 
   protected void configureFloatingActionButton(int fabDescription) {
@@ -326,7 +342,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (getPrefHandler().matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
+    if (prefHandler.matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT, CRITERION_FUTURE)) {
       scheduledRestart = true;
     }
@@ -403,8 +419,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         String messageBody = String.format(Locale.ROOT,
             "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
             getVersionInfo(this),
-            getPrefHandler().getInt(PrefKey.FIRST_INSTALL_VERSION, 0),
-            getPrefHandler().getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1),
+            prefHandler.getInt(PrefKey.FIRST_INSTALL_VERSION, 0),
+            prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1),
             Build.VERSION.RELEASE,
             Build.BRAND,
             Build.MODEL,
@@ -659,7 +675,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void recordUsage(ContribFeature f) {
-    f.recordUsage(getPrefHandler());
+    f.recordUsage(prefHandler);
   }
 
   /**
@@ -768,7 +784,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    if (getPrefHandler().getBoolean(permissionGroup.prefKey,false)) {
+    if (prefHandler.getBoolean(permissionGroup.prefKey,false)) {
       if (!permissionGroup.hasPermission(this)) {
         if (!permissionGroup.shouldShowRequestPermissionRationale(this)) {
           return true;
@@ -810,7 +826,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   protected void doRestore(Bundle args) {
     if (!args.containsKey(RestoreTask.KEY_PASSWORD)) {
-      String password = getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null);
+      String password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null);
       if (!TextUtils.isEmpty(password)) {
         args.putString(RestoreTask.KEY_PASSWORD, password);
       }
@@ -890,7 +906,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
                             Snackbar.Callback callback, @NonNull View container) {
     snackbar = Snackbar.make(container, message, duration);
-    UiUtils.configureSnackbarForDarkTheme(snackbar, getThemeType());
+    UiUtils.increaseSnackbarMaxLines(snackbar);
     if (snackbarAction != null) {
       snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
     }

@@ -20,8 +20,8 @@
 
     <dimen name="textSizeLabel">12sp</dimen>
     <dimen name="textSizeSmall">14sp</dimen>
-    <dimen name="AccountColorDiameterBase">42sp</dimen>
-    <dimen name="CategoryColorDiameterBase">18sp</dimen>
+    <dimen name="account_color_diameter">42sp</dimen>
+    <dimen name="category_color_diameter">18sp</dimen>
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>

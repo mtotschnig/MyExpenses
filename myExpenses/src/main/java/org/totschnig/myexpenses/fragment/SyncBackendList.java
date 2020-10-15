@@ -81,7 +81,7 @@ public class SyncBackendList extends Fragment implements
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
     snackbar = Snackbar.make(listView, R.string.sync_loading_accounts_from_backend, LENGTH_INDEFINITE);
-    UiUtils.configureSnackbarForDarkTheme(snackbar, context.getThemeType());
+    UiUtils.increaseSnackbarMaxLines(snackbar);
     viewModel.getLocalAccountInfo().observe(getViewLifecycleOwner(),
         stringStringMap -> syncBackendAdapter.setLocalAccountInfo(stringStringMap));
     viewModel.loadLocalAccountInfo();

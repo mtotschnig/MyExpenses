@@ -12,18 +12,18 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    //id 'com.jakewharton.hugo'
+}
+
 repositories {
 //    mavenLocal()
     mavenCentral()
 }
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-//apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'com.novoda.android-command'
-
 
 def getPropertyIfDefined(property, defaultValue) {
     if (project.hasProperty(property)) {
@@ -315,6 +315,8 @@ static def getDate() {
     def formattedDate = date.format('yyyyMMdd-HHmm')
     return formattedDate
 }
+
+apply plugin: 'com.novoda.android-command'
 
 task copyFileForFixture(type: Files) {
     script {

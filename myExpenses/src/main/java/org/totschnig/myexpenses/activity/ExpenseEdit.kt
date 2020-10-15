@@ -1182,7 +1182,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 originTemplate.title,
                 originTemplate.id,
                 originTemplate.planId,
-                color, true, themeType).show(supportFragmentManager,
+                color, true).show(supportFragmentManager,
                 TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
     }
 
