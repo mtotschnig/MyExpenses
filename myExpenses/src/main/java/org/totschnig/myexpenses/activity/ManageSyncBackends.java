@@ -58,7 +58,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
     if (savedInstanceState == null) {
-      if (!ContribFeature.SYNCHRONIZATION.isAvailable(getPrefHandler())) {
+      if (!ContribFeature.SYNCHRONIZATION.isAvailable(prefHandler)) {
         contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
       }
       sanityCheck();

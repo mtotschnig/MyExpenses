@@ -129,7 +129,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
 
   private int getVersionFromPref() {
-    return getPrefHandler().getInt(PrefKey.ROADMAP_VERSION, 0 );
+    return prefHandler.getInt(PrefKey.ROADMAP_VERSION, 0 );
   }
 
   private void validateAndUpdateUi() {

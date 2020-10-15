@@ -94,7 +94,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           abort(getString(R.string.io_error_appdir_null));
           return;
         }
-        boolean isProtected = !TextUtils.isEmpty(getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null));
+        boolean isProtected = !TextUtils.isEmpty(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null));
         StringBuilder message = new StringBuilder();
         message.append(getString(R.string.warning_backup, FileUtils.getPath(this, appDir.getUri())))
             .append(" ");
@@ -184,7 +184,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   protected void doBackup() {
     Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.isSuccess()) {
-      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null),
+      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
           R.string.menu_backup, true);
     } else {
       abort(appDirStatus.print(this));

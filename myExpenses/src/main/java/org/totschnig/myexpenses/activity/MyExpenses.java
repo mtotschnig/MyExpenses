@@ -200,9 +200,9 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void toggleScanMode() {
-    final boolean oldMode = getPrefHandler().getBoolean(OCR, false);
+    final boolean oldMode = prefHandler.getBoolean(OCR, false);
     final boolean newMode = !oldMode;
-    getPrefHandler().putBoolean(OCR, newMode);
+    prefHandler.putBoolean(OCR, newMode);
     updateFab();
     invalidateOptionsMenu();
     if (newMode && !viewModel.isOcrAvailable(this)) {
@@ -318,7 +318,7 @@ public class MyExpenses extends BaseMyExpenses implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, getPrefHandler(), currencyContext);
+    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler, currencyContext);
 
     navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
     View navigationMenuView = navigationView.getChildAt(0);
@@ -352,7 +352,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
     });
     registerForContextMenu(mDrawerList);
-    mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
+    mDrawerList.setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
     if (savedInstanceState != null) {
@@ -375,7 +375,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
     }
     if (accountId == 0) {
-      accountId = getPrefHandler().getLong(PrefKey.CURRENT_ACCOUNT, 0L);
+      accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L);
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     viewModel = new ViewModelProvider(this).get(MyExpensesViewModel.class);
@@ -402,7 +402,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(getPrefHandler(), collapsedHeaderIdsPrefKey(), mDrawerList.getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), mDrawerList.getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
@@ -426,7 +426,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private void voteReminderCheck() {
     final String prefKey = "vote_reminder_shown_" + RoadmapViewModel.EXPECTED_MINIMAL_VERSION;
     if (Utils.getDaysSinceUpdate(this) > 1 &&
-        !getPrefHandler().getBoolean(prefKey, false)) {
+        !prefHandler.getBoolean(prefKey, false)) {
       roadmapViewModel.getLastVote().observe(this, vote -> {
         boolean hasNotVoted = vote == null;
         if (hasNotVoted || vote.getVersion() < RoadmapViewModel.EXPECTED_MINIMAL_VERSION) {
@@ -456,7 +456,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private AccountGrouping readAccountGroupingFromPref() {
     try {
       return AccountGrouping.valueOf(
-          getPrefHandler().getString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name()));
+          prefHandler.getString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name()));
     } catch (IllegalArgumentException e) {
       return AccountGrouping.TYPE;
     }
@@ -465,7 +465,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private Sort readAccountSortFromPref() {
     try {
       return Sort.valueOf(
-          getPrefHandler().getString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name()));
+          prefHandler.getString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name()));
     } catch (IllegalArgumentException e) {
       return Sort.USAGES;
     }
@@ -500,7 +500,7 @@ public class MyExpenses extends BaseMyExpenses implements
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
       if (!DistributionHelper.isGithub()) {
-        long nextReminder = getPrefHandler().getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
+        long nextReminder = prefHandler.getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
         if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
           RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
@@ -807,11 +807,11 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public boolean isScanMode() {
-    return getPrefHandler().getBoolean(OCR, false);
+    return prefHandler.getBoolean(OCR, false);
   }
 
   public String getShareTarget() {
-    return requireString(getPrefHandler(), PrefKey.SHARE_TARGET, "").trim();
+    return requireString(prefHandler, PrefKey.SHARE_TARGET, "").trim();
   }
 
   private void complainAccountsNotLoaded() {
@@ -962,7 +962,7 @@ public class MyExpenses extends BaseMyExpenses implements
     mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (accountId != newAccountId) {
-      getPrefHandler().putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
+      prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
     int color = newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1002,7 +1002,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
 
       mDrawerListAdapter.setGrouping(accountGrouping);
-      mDrawerList.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(getPrefHandler(), collapsedHeaderIdsPrefKey()));
+      mDrawerList.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
       mDrawerListAdapter.swapCursor(mAccountsCursor);
       //swapping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
@@ -1298,7 +1298,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (newSort != null) {
       if (!newSort.equals(accountSort)) {
         accountSort = newSort;
-        getPrefHandler().putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
+        prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
 
         if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset()) {
           mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
@@ -1344,7 +1344,7 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     if (newGrouping != null && !newGrouping.equals(accountGrouping)) {
       accountGrouping = newGrouping;
-      getPrefHandler().putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
+      prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
 
       if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
         mManager.restartLoader(ACCOUNTS_CURSOR, null, this);

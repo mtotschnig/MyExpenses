@@ -108,7 +108,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     if (data.getBoolean(KEY_WEB_DAV_FALLBACK_TO_CLASS1)) {
       bundle.putString(KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1");
     }
-    if (getPrefHandler().getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
+    if (prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
       bundle.putString(KEY_ALLOW_UNVERIFIED, "true");
     }
     createAccount(accountName, password, null, bundle);

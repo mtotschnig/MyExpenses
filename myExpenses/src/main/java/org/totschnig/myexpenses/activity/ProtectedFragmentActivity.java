@@ -959,10 +959,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  protected PrefHandler getPrefHandler() {
-    return prefHandler;
-  }
-
   public void invalidateHomeCurrency() {
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
