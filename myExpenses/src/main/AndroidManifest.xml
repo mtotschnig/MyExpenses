@@ -63,7 +63,7 @@
 
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/Onboarding">
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,9 +77,13 @@
         </activity>
 
         <activity
+            android:name=".activity.OnboardingActivity"
+            android:theme="@style/Onboarding">
+        </activity>
+
+        <activity
             android:name=".activity.MyExpenses"
-            android:label="${appName}"
-            android:theme="@style/MyTheme" />
+            android:label="${appName}" />
 
         <activity
             android:name=".activity.DeepLinkActivity"
@@ -151,8 +155,7 @@
 
         <activity
             android:name=".activity.Distribution"
-            android:exported="false"
-            android:theme="@style/MyTheme" />
+            android:exported="false" />
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
@@ -169,13 +172,11 @@
             android:theme="@style/MyTheme.Translucent" />
 
         <activity
-            android:name=".activity.CsvImportActivity"
-            android:theme="@style/MyTheme" />
+            android:name=".activity.CsvImportActivity" />
 
         <activity
             android:name=".activity.MyPreferenceActivity"
-            android:exported="true"
-            android:theme="@style/MyTheme">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

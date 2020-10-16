@@ -12,4 +12,6 @@
     <color name="future_background">#11FFFFFF</color>
     <color name="drawerBackground">#222</color>
     <color name="cardBackground">#555555</color>
+    <color name="myColorBackground">#121212</color>
+    <color name="toolbarBackground">@color/material_grey_850</color>
 </resources>

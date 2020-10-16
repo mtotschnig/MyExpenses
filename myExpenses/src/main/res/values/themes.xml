@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 This file is part of My Expenses.
 My Expenses is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,15 +13,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="Launch" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="MyTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="MyThemeBase" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
@@ -34,6 +28,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
 
+    <style name="MyTheme" parent="MyThemeBase" />
+
     <style name="DarkBackground">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
@@ -42,7 +38,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorControlNormal">@android:color/black</item>
     </style>
 
-    <style name="EditDialog" parent="@style/Theme.MaterialComponents.DayNight.DialogWhenLarge">
+    <style name="EditDialogBase" parent="Theme.MaterialComponents.DayNight.DialogWhenLarge">
+        <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
@@ -53,7 +50,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
+        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
     </style>
+
+    <style name="EditDialog" parent="EditDialogBase" />
 
     <style name="MyTheme.Translucent">
         <item name="android:windowNoTitle">true</item>
@@ -61,15 +61,18 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-       <!-- <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>-->
+        <!-- <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>-->
     </style>
 
-    <style name="Onboarding" parent="@style/SuwThemeMaterial">
+    <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
+        <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
+
+    <style name="Onboarding" parent="OnboardingBase" />
 
     <style name="Calculator" parent="Theme.MaterialComponents.DayNight.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>

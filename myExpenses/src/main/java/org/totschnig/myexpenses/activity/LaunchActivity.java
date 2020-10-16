@@ -67,9 +67,19 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     billingManager = licenceHandler.initBillingManager(this, true);
 
     upgradeHandlerViewModel = ViewModelProviders.of(this).get(UpgradeHandlerViewModel.class);
+  }
+
+  @Override
+  public boolean dispatchCommand(int command, @Nullable Object tag) {
+    if (command == R.id.QUIT_COMMAND) {
+      finish();
+      return true;
+    }
+    return super.dispatchCommand(command, tag);
   }
 
   @Override

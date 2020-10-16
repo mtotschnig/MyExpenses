@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import android.os.Binder
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -11,6 +12,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
 abstract class AbstractRemoteViewsFactory(
@@ -50,7 +52,11 @@ abstract class AbstractRemoteViewsFactory(
         cursor?.close()
         val token = Binder.clearCallingIdentity();
         try {
-            cursor = buildCursor()
+            try {
+                cursor = buildCursor()
+            } catch (e: SQLiteException) {
+                CrashHandler.report(e);
+            }
         } finally {
             Binder.restoreCallingIdentity(token);
         }

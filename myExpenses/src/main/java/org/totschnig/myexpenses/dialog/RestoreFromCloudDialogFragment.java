@@ -27,7 +27,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.SplashActivity;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.ArrayList;
@@ -193,7 +193,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     ArrayList<String> backups = getBackups();
     ArrayList<AccountMetaData> syncAccounts = getSyncAccounts();
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      SplashActivity activity = (SplashActivity) getActivity();
+      OnboardingActivity activity = (OnboardingActivity) getActivity();
       LinearLayout contentForTab = getActiveContent();
       switch (contentForTab.getId()) {
         case R.id.backup_list:

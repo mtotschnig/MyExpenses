@@ -154,6 +154,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_INIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
@@ -242,6 +243,9 @@ public class MyExpenses extends BaseMyExpenses implements
   @State
   String mExportFormat = null;
 
+  @State
+  boolean isInitialized = false;
+
   @Inject
   CurrencyFormatter currencyFormatter;
 
@@ -256,6 +260,9 @@ public class MyExpenses extends BaseMyExpenses implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (!isInitialized) {
+      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
+    }
     setContentView(R.layout.activity_main);
 
     final ViewGroup adContainer = findViewById(R.id.adContainer);
@@ -380,7 +387,6 @@ public class MyExpenses extends BaseMyExpenses implements
     viewModel = new ViewModelProvider(this).get(MyExpensesViewModel.class);
     viewModel.getHasHiddenAccounts().observe(this,
         result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
-    viewModel.loadHiddenAccountCount();
     viewModel.getFeatureState().observe(this, featureState -> {
       switch (featureState.getFirst()) {
         case LOADING:
@@ -394,7 +400,6 @@ public class MyExpenses extends BaseMyExpenses implements
           break;
       }
     });
-    setup();
     /*if (savedInstanceState == null) {
       voteReminderCheck();
     }*/
@@ -409,6 +414,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void setup() {
+    viewModel.loadHiddenAccountCount();
     newVersionCheck();
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
     myPager.setAdapter(this.mViewPagerAdapter);
@@ -1117,6 +1123,24 @@ public class MyExpenses extends BaseMyExpenses implements
         } else {
           showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         }
+        break;
+      }
+      case TASK_INIT: {
+        isInitialized = true;
+        Result result = (Result) o;
+        if (!isFinishing())
+          if (result.isSuccess()) {
+            setup();
+          } else {
+            MessageDialogFragment f = MessageDialogFragment.newInstance(
+                0,
+                result.print(this),
+                new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
+                null,
+                null);
+            f.setCancelable(false);
+            f.show(getSupportFragmentManager(), "INIT_FAILURE");
+          }
         break;
       }
     }

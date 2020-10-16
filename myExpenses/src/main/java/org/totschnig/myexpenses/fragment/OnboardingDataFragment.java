@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.SplashActivity;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -116,7 +116,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @Override
   protected void onNextButtonClicked() {
     prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code());
-    ((SplashActivity) getActivity()).finishOnboarding();
+    ((OnboardingActivity) getActivity()).finishOnboarding();
   }
 
   @Override

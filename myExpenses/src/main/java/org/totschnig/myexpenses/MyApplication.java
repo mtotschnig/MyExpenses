@@ -35,8 +35,8 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
@@ -304,7 +304,7 @@ public class MyApplication extends Application implements
   }
 
   public void setLastPause(ProtectedFragmentActivity ctx) {
-    if (ctx instanceof SplashActivity) return;
+    if (ctx instanceof OnboardingActivity) return;
     if (!isLocked()) {
       // if we are dealing with an activity called from widget that allows to
       // bypass password protection, we do not reset last pause
@@ -332,7 +332,7 @@ public class MyApplication extends Application implements
    * data entry from widget is allowed sets isLocked as a side effect
    */
   public boolean shouldLock(ProtectedFragmentActivity ctx) {
-    if (ctx instanceof SplashActivity) return false;
+    if (ctx instanceof OnboardingActivity) return false;
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(
         AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);

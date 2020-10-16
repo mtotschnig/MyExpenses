@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.SplashActivity;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,8 +81,8 @@ public abstract class OnboardingFragment extends Fragment {
 
   protected void onNextButtonClicked() {
     final FragmentActivity activity = getActivity();
-    if (activity instanceof SplashActivity) {
-      ((SplashActivity) activity).navigate_next();
+    if (activity instanceof OnboardingActivity) {
+      ((OnboardingActivity) activity).navigate_next();
     }
   }
 
