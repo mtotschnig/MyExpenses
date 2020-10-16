@@ -27,7 +27,6 @@ public class Help extends ProtectedFragmentActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String context = getIntent().getStringExtra(KEY_CONTEXT);
     if (context == null) {

@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -54,7 +55,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
@@ -79,7 +79,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.settings);
     setupToolbar(true);
@@ -92,7 +91,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         getIntent().getStringExtra(KEY_OPEN_PREF_KEY) : null;
 
     //when a user no longer has access to auto backup we do not want him to believe that it works
-    if (!ContribFeature.AUTO_BACKUP.hasAccess() && ContribFeature.AUTO_BACKUP.usagesLeft(getPrefHandler()) < 1) {
+    if (!ContribFeature.AUTO_BACKUP.hasAccess() && ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) < 1) {
       AUTO_BACKUP.putBoolean(false);
     }
   }
@@ -159,7 +158,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           iconContainer.addView(textView);
         }
         ar.recycle();
-        return new AlertDialog.Builder(this)
+        return new MaterialAlertDialogBuilder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)
             .setPositiveButton(android.R.string.ok, null)

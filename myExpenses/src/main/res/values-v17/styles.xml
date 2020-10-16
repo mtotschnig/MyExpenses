@@ -12,10 +12,6 @@
         <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
-    <style name="OnBoardingTextInputLayout" parent="OnBoardingTextInputLayoutBase">
-        <item name="android:layout_marginStart">-4dp</item>
-    </style>
-
     <style name="OnboardingSpinner">
         <item name="android:layout_marginStart">-8dp</item>
     </style>

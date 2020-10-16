@@ -72,7 +72,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     String packageFromExtra = packageFromExtra();
 
@@ -183,7 +182,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     String featureStringFromExtra = getIntent().getStringExtra(KEY_FEATURE);
     if (featureStringFromExtra != null) {
       ContribFeature feature = ContribFeature.valueOf(featureStringFromExtra);
-      int usagesLeft = feature.usagesLeft(getPrefHandler());
+      int usagesLeft = feature.usagesLeft(prefHandler);
       boolean shouldCallFeature = feature.hasAccess() || (!canceled && usagesLeft > 0);
       if (callerIsContribIface()) {
         Intent i = new Intent();

@@ -20,7 +20,6 @@ public class Distribution extends CategoryActivity<DistributionFragment> {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     DisplayMetrics dm = getResources().getDisplayMetrics();
 

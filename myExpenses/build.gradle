@@ -12,18 +12,18 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    //id 'com.jakewharton.hugo'
+}
+
 repositories {
 //    mavenLocal()
     mavenCentral()
 }
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-//apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'com.novoda.android-command'
-
 
 def getPropertyIfDefined(property, defaultValue) {
     if (project.hasProperty(property)) {
@@ -45,8 +45,8 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 428
-        versionName '3.1.4'
+        versionCode 429
+        versionName '3.1.5'
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -228,12 +228,12 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
 
     implementation 'com.google.android:flexbox:2.0.1'
 
@@ -315,6 +315,8 @@ static def getDate() {
     def formattedDate = date.format('yyyyMMdd-HHmm')
     return formattedDate
 }
+
+apply plugin: 'com.novoda.android-command'
 
 task copyFileForFixture(type: Files) {
     script {

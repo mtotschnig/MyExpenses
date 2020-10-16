@@ -236,7 +236,7 @@ public class TemplatesList extends SortableListFragment
               mTemplatesCursor.getString(columnIndexTitle),
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
-              mTemplatesCursor.getInt(columnIndexColor), isSealed, ctx.getThemeType());
+              mTemplatesCursor.getInt(columnIndexColor), isSealed);
           if (!getChildFragmentManager().isStateSaved()) {
             planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
           }
@@ -259,7 +259,7 @@ public class TemplatesList extends SortableListFragment
     switch (command) {
       case R.id.DELETE_COMMAND:
         MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_template,//TODO check if template
+            getString(R.string.dialog_title_warning_delete_template),//TODO check if template
             getResources().getQuantityString(R.plurals.warning_delete_template, itemIds.length, itemIds.length),
             new MessageDialogFragment.Button(
                 R.string.menu_delete,
@@ -452,7 +452,7 @@ public class TemplatesList extends SortableListFragment
                   mTemplatesCursor.getString(columnIndexTitle),
                   templateId,
                   planId,
-                  mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0, ctx.getThemeType());
+                  mTemplatesCursor.getInt(columnIndexColor), mTemplatesCursor.getInt(columnIndexIsSealed) != 0);
             }
             mTemplatesCursor.moveToNext();
           }
@@ -504,7 +504,7 @@ public class TemplatesList extends SortableListFragment
       if (window != null) {
         View view = window.getDecorView();
         Snackbar snackbar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
-        UiUtils.configureSnackbarForDarkTheme(snackbar, ((ProtectedFragmentActivity) getContext()).getThemeType());
+        UiUtils.increaseSnackbarMaxLines(snackbar);
         snackbar.show();
         return;
       }
@@ -570,8 +570,8 @@ public class TemplatesList extends SortableListFragment
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
                      int[] to, int flags) {
       super(context, layout, c, from, to, flags);
-      colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
-      colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
+      colorIncome = context.getResources().getColor(R.color.colorIncome);
+      colorExpense = context.getResources().getColor(R.color.colorExpense);
     }
 
     @Override

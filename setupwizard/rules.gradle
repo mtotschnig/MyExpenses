@@ -22,8 +22,8 @@ android {
 }
 
 dependencies {
-    implementation deps['support-annotations']
-    implementation deps['support-appcompat-v7']
-    implementation deps['support-recyclerview-v7']
-
+    implementation "androidx.annotation:annotation:$annotations"
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview"
+    implementation "com.google.android.material:material:$materialComponents"
 }

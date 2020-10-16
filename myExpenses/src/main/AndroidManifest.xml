@@ -58,12 +58,12 @@
         android:icon="@mipmap/ic_myexpenses"
         android:label="${appName}"
         android:supportsRtl="true"
-        android:theme="@style/Launch"
+        android:theme="@style/MyTheme"
         tools:replace="android:label">
 
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/SuwThemeMaterial">
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,14 +77,18 @@
         </activity>
 
         <activity
+            android:name=".activity.OnboardingActivity"
+            android:theme="@style/Onboarding">
+        </activity>
+
+        <activity
             android:name=".activity.MyExpenses"
-            android:label="${appName}"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:label="${appName}" />
 
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/MyTheme.Translucent">
             <intent-filter
                 android:autoVerify="true"
                 tools:ignore="UnusedAttribute">
@@ -109,7 +113,7 @@
             android:name=".activity.ExpenseEdit"
             android:exported="true"
             android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/ThemeLight.EditDialog"
+            android:theme="@style/EditDialog"
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -131,19 +135,19 @@
 
         <activity
             android:name=".activity.AccountEdit"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name=".activity.MethodEdit"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
         <activity
             android:name=".activity.BudgetEdit"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name=".activity.ManageCategories"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
+            android:theme="@style/EditDialog">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -151,31 +155,28 @@
 
         <activity
             android:name=".activity.Distribution"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/MyTheme.Translucent" />
 
         <activity
             android:name=".activity.GrisbiImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/MyTheme.Translucent" />
 
         <activity
             android:name=".activity.QifImport"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/MyTheme.Translucent" />
 
         <activity
-            android:name=".activity.CsvImportActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".activity.CsvImportActivity" />
 
         <activity
             android:name=".activity.MyPreferenceActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -183,7 +184,7 @@
 
         <activity
             android:name=".activity.Help"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/MyTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -192,7 +193,7 @@
         <activity
             android:name=".activity.ManageParties"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog">
+            android:theme="@style/EditDialog">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -203,12 +204,12 @@
         <activity
             android:name=".activity.ManageStaleImages"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name=".activity.ManageTemplates"
             android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/ThemeLight.EditDialog"
+            android:theme="@style/EditDialog"
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
@@ -229,15 +230,15 @@
         <activity
             android:name=".activity.ManageMethods"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name=".activity.FolderBrowser"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name=".activity.CalculatorInput"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle">
+            android:theme="@style/Calculator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -245,7 +246,7 @@
 
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/MyTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -254,12 +255,12 @@
         <activity
             android:name=".activity.ManageCurrencies"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name=".activity.ManageSyncBackends"
             android:exported="false"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
@@ -326,14 +327,13 @@
         </activity>
 
         <activity
-            android:name=".activity.SimpleImageActivity"
-            android:theme="@style/Launch" />
+            android:name=".activity.SimpleImageActivity" />
 
         <activity android:name=".activity.BudgetActivity" />
 
         <activity
             android:name=".activity.ManageTags"
-            android:theme="@style/ThemeLight.EditDialog" />
+            android:theme="@style/EditDialog" />
 
         <service
             android:name=".service.AutoBackupService"

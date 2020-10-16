@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         //classpath 'com.google.gms:google-services:4.3.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -27,7 +27,7 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 29
+    compileSdkVersion = 30
     minSdkVersion = 16
     targetSdkVersion = 29
     espressoVersion = "3.3.0"
@@ -48,4 +48,7 @@ ext {
     appcompatVersion = "1.2.0"
     picassoVersion = "2.71828"
     threetenabp = "1.2.4"
+    annotations = "1.1.0"
+    recyclerview = "1.1.0"
+    materialComponents = "1.2.1"
 }

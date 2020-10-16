@@ -18,45 +18,12 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:labelFor="@+id/theme"
             android:text="@string/pref_ui_theme_title" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                style="@style/OnBoardingDisplayProperty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:text="@string/pref_ui_theme_dark" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/theme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/pref_ui_theme_title"
-                android:minWidth="@dimen/accessibility_clickable_minimum"
-                android:minHeight="@dimen/accessibility_clickable_minimum"
-                android:switchMinWidth="0dp"
-                app:switchTextAppearance="@style/SwitchTextAppearance"
-                tools:ignore="UnusedAttribute" />
-
-            <TextView
-                style="@style/OnBoardingDisplayProperty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="@string/pref_ui_theme_light" />
-        </LinearLayout>
+        <include layout="@layout/onboarding_theme_selection" />
 
         <TextView
             style="@style/OnboardingInputLabel"

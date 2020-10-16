@@ -49,7 +49,6 @@ public class ManageParties extends ProtectedFragmentActivity implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     String action = getAction();
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_parties);
     setupToolbar(true);
@@ -89,6 +88,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
           .hint(R.string.label)
           .pos(R.string.dialog_button_add)
           .neut()
+          .theme(R.style.SimpleDialog)
           .show(this, DIALOG_NEW_PARTY);
       return true;
     }

@@ -19,14 +19,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.ClipboardManager;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,7 +115,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.list.MenuDialog;
-import icepick.Icepick;
 import icepick.State;
 import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
@@ -155,6 +153,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_INIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
@@ -200,9 +199,9 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void toggleScanMode() {
-    final boolean oldMode = getPrefHandler().getBoolean(OCR, false);
+    final boolean oldMode = prefHandler.getBoolean(OCR, false);
     final boolean newMode = !oldMode;
-    getPrefHandler().putBoolean(OCR, newMode);
+    prefHandler.putBoolean(OCR, newMode);
     updateFab();
     invalidateOptionsMenu();
     if (newMode && !viewModel.isOcrAvailable(this)) {
@@ -243,6 +242,9 @@ public class MyExpenses extends BaseMyExpenses implements
   @State
   String mExportFormat = null;
 
+  @State
+  boolean isInitialized = false;
+
   @Inject
   CurrencyFormatter currencyFormatter;
 
@@ -256,9 +258,10 @@ public class MyExpenses extends BaseMyExpenses implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
-
     super.onCreate(savedInstanceState);
+    if (!isInitialized) {
+      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
+    }
     setContentView(R.layout.activity_main);
 
     final ViewGroup adContainer = findViewById(R.id.adContainer);
@@ -280,8 +283,6 @@ public class MyExpenses extends BaseMyExpenses implements
     } catch (Exception e) {
       CrashHandler.report(e);
     }
-
-    Icepick.restoreInstanceState(this, savedInstanceState);
 
     ButterKnife.bind(this);
 
@@ -320,7 +321,7 @@ public class MyExpenses extends BaseMyExpenses implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, getPrefHandler(), currencyContext);
+    mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler, currencyContext);
 
     navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
     View navigationMenuView = navigationView.getChildAt(0);
@@ -354,7 +355,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
     });
     registerForContextMenu(mDrawerList);
-    mDrawerList.setFastScrollEnabled(getPrefHandler().getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
+    mDrawerList.setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
     if (savedInstanceState != null) {
@@ -377,13 +378,12 @@ public class MyExpenses extends BaseMyExpenses implements
       }
     }
     if (accountId == 0) {
-      accountId = getPrefHandler().getLong(PrefKey.CURRENT_ACCOUNT, 0L);
+      accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L);
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     viewModel = new ViewModelProvider(this).get(MyExpensesViewModel.class);
     viewModel.getHasHiddenAccounts().observe(this,
         result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
-    viewModel.loadHiddenAccountCount();
     viewModel.getFeatureState().observe(this, featureState -> {
       switch (featureState.getFirst()) {
         case LOADING:
@@ -397,14 +397,13 @@ public class MyExpenses extends BaseMyExpenses implements
           break;
       }
     });
-    setup();
     /*if (savedInstanceState == null) {
       voteReminderCheck();
     }*/
   }
 
   public void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(getPrefHandler(), collapsedHeaderIdsPrefKey(), mDrawerList.getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), mDrawerList.getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
@@ -412,15 +411,13 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void setup() {
+    viewModel.loadHiddenAccountCount();
     newVersionCheck();
-    Resources.Theme theme = getTheme();
-    TypedValue margin = new TypedValue();
-    theme.resolveAttribute(R.attr.pageMargin, margin, true);
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.addOnPageChangeListener(this);
     myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
-    myPager.setPageMarginDrawable(margin.resourceId);
+    myPager.setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
     mManager = LoaderManager.getInstance(this);
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
@@ -428,7 +425,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private void voteReminderCheck() {
     final String prefKey = "vote_reminder_shown_" + RoadmapViewModel.EXPECTED_MINIMAL_VERSION;
     if (Utils.getDaysSinceUpdate(this) > 1 &&
-        !getPrefHandler().getBoolean(prefKey, false)) {
+        !prefHandler.getBoolean(prefKey, false)) {
       roadmapViewModel.getLastVote().observe(this, vote -> {
         boolean hasNotVoted = vote == null;
         if (hasNotVoted || vote.getVersion() < RoadmapViewModel.EXPECTED_MINIMAL_VERSION) {
@@ -458,7 +455,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private AccountGrouping readAccountGroupingFromPref() {
     try {
       return AccountGrouping.valueOf(
-          getPrefHandler().getString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name()));
+          prefHandler.getString(PrefKey.ACCOUNT_GROUPING, AccountGrouping.TYPE.name()));
     } catch (IllegalArgumentException e) {
       return AccountGrouping.TYPE;
     }
@@ -467,7 +464,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private Sort readAccountSortFromPref() {
     try {
       return Sort.valueOf(
-          getPrefHandler().getString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name()));
+          prefHandler.getString(PrefKey.SORT_ORDER_ACCOUNTS, Sort.USAGES.name()));
     } catch (IllegalArgumentException e) {
       return Sort.USAGES;
     }
@@ -502,7 +499,7 @@ public class MyExpenses extends BaseMyExpenses implements
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
       if (!DistributionHelper.isGithub()) {
-        long nextReminder = getPrefHandler().getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
+        long nextReminder = prefHandler.getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
         if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
           RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
@@ -809,11 +806,11 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public boolean isScanMode() {
-    return getPrefHandler().getBoolean(OCR, false);
+    return prefHandler.getBoolean(OCR, false);
   }
 
   public String getShareTarget() {
-    return requireString(getPrefHandler(), PrefKey.SHARE_TARGET, "").trim();
+    return requireString(prefHandler, PrefKey.SHARE_TARGET, "").trim();
   }
 
   private void complainAccountsNotLoaded() {
@@ -905,7 +902,7 @@ public class MyExpenses extends BaseMyExpenses implements
           if (!getSupportFragmentManager().isStateSaved()) {
             getSupportFragmentManager().beginTransaction()
                 .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
-                .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), PROGRESS_TAG)
+                .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing)), PROGRESS_TAG)
                 .commit();
           }
         }
@@ -964,9 +961,9 @@ public class MyExpenses extends BaseMyExpenses implements
     mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (accountId != newAccountId) {
-      getPrefHandler().putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
+      prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
-    int color = newAccountId < 0 ? colorAggregate : mAccountsCursor.getInt(columnIndexColor);
+    int color = newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Window window = getWindow();
       //noinspection InlinedApi
@@ -1004,7 +1001,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
 
       mDrawerListAdapter.setGrouping(accountGrouping);
-      mDrawerList.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(getPrefHandler(), collapsedHeaderIdsPrefKey()));
+      mDrawerList.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
       mDrawerListAdapter.swapCursor(mAccountsCursor);
       //swapping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
@@ -1113,7 +1110,7 @@ public class MyExpenses extends BaseMyExpenses implements
         if (result.isSuccess()) {
           recordUsage(ContribFeature.PRINT);
           MessageDialogFragment f = MessageDialogFragment.newInstance(
-              0,
+              null,
               result.print(this),
               new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.getExtra().toString(), true),
               MessageDialogFragment.Button.nullButton(R.string.button_label_close),
@@ -1123,6 +1120,24 @@ public class MyExpenses extends BaseMyExpenses implements
         } else {
           showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         }
+        break;
+      }
+      case TASK_INIT: {
+        isInitialized = true;
+        Result result = (Result) o;
+        if (!isFinishing())
+          if (result.isSuccess()) {
+            setup();
+          } else {
+            MessageDialogFragment f = MessageDialogFragment.newInstance(
+                null,
+                result.print(this),
+                new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
+                null,
+                null);
+            f.setCancelable(false);
+            f.show(getSupportFragmentManager(), "INIT_FAILURE");
+          }
         break;
       }
     }
@@ -1177,7 +1192,7 @@ public class MyExpenses extends BaseMyExpenses implements
         currencyFormatter.formatCurrency(new Money(currencyContext.get(getCurrentCurrency()), balance)));
     setTitle(isHome ? getString(R.string.grand_total) : label);
     mToolbar.setSubtitle(mCurrentBalance);
-    mToolbar.setSubtitleTextColor(balance < 0 ? colorExpense : colorIncome);
+    mToolbar.setSubtitleTextColor(getResources().getColor(balance < 0 ? R.color.colorExpense : R.color.colorIncome));
   }
 
   public TransactionList getCurrentFragment() {
@@ -1185,11 +1200,6 @@ public class MyExpenses extends BaseMyExpenses implements
       return null;
     return (TransactionList) getSupportFragmentManager().findFragmentByTag(
         mViewPagerAdapter.getFragmentName(mCurrentPosition));
-  }
-
-  protected void onSaveInstanceState(@NonNull Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   @Override
@@ -1204,7 +1214,7 @@ public class MyExpenses extends BaseMyExpenses implements
             .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
                 ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
-                R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
+                getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
             .commit();
         break;
       case R.id.DELETE_COMMAND_DO:
@@ -1300,7 +1310,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (newSort != null) {
       if (!newSort.equals(accountSort)) {
         accountSort = newSort;
-        getPrefHandler().putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
+        prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, newSort.name());
 
         if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset()) {
           mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
@@ -1346,7 +1356,7 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     if (newGrouping != null && !newGrouping.equals(accountGrouping)) {
       accountGrouping = newGrouping;
-      getPrefHandler().putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
+      prefHandler.putString(PrefKey.ACCOUNT_GROUPING, newGrouping.name());
 
       if (mManager.getLoader(ACCOUNTS_CURSOR) != null && !mManager.getLoader(ACCOUNTS_CURSOR).isReset())
         mManager.restartLoader(ACCOUNTS_CURSOR, null, this);

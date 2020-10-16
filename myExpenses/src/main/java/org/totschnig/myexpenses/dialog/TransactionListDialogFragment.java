@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
@@ -39,7 +41,6 @@ import org.totschnig.myexpenses.util.Utils;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -152,7 +153,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
 //    ((TextView) titleView.findViewById(R.id.label)).setText(getArguments().getString(KEY_LABEL));
 //    ((TextView) titleView.findViewById(R.id.amount)).setText("TBF");
 
-    return new AlertDialog.Builder(getActivity())
+    return new MaterialAlertDialogBuilder(getActivity())
         .setTitle(getArguments().getString(KEY_LABEL))
         .setView(mListView)
         .setPositiveButton(android.R.string.ok, null)

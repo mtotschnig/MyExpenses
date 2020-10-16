@@ -754,10 +754,10 @@ public class Transaction extends AbstractTransaction {
       String title = isEmpty(getPayee()) ?
           (isSplit() || isEmpty(getLabel()) ?
               (isEmpty(getComment()) ?
-                  MyApplication.getInstance().getString(R.string.menu_create_template) :
+                  MyApplication.getInstance().getString(R.string.menu_create_template) : //TODO proper context
                   getComment()) : getLabel()) : getPayee();
       Template originTemplate = new Template(this, title);
-      String description = originTemplate.compileDescription(MyApplication.getInstance());
+      String description = originTemplate.compileDescription(MyApplication.getInstance()); //TODO proper context
       originTemplate.setPlanExecutionAutomatic(true);
       originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first, title, description));
       originTemplate.save(getId());

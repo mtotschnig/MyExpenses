@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -114,7 +115,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       });*/
     }
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
         .setTitle(getString(R.string.help_heading_whats_new))
         .setIcon(R.mipmap.ic_myexpenses)
         .setView(view)

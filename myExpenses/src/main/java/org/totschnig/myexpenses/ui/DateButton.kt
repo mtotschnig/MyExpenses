@@ -4,19 +4,21 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.res.Resources
 import android.os.Build
 import android.util.AttributeSet
-import android.view.ContextThemeWrapper
 import android.widget.DatePicker
+import androidx.annotation.NonNull
 import icepick.State
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import java.util.*
+
 
 /**
  * A button that opens DateDialog, and stores the date in its state
@@ -39,13 +41,31 @@ class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(cont
     override fun onCreateDialog(): Dialog {
         val brokenSamsungDevice = isBrokenSamsungDevice
         val base = context
-        @SuppressLint("InlinedApi")
         val context = if (brokenSamsungDevice)
-            ContextThemeWrapper(base,
-                    if (base is ProtectedFragmentActivity && base.themeType == ProtectedFragmentActivity.ThemeType.dark)
-                        android.R.style.Theme_Holo_Dialog
-                    else
-                        android.R.style.Theme_Holo_Light_Dialog)
+            //https://stackoverflow.com/a/34853067
+            object : ContextWrapper(base) {
+                private lateinit var wrappedResources: Resources
+                override fun getResources(): Resources {
+                    val r: Resources = super.getResources()
+                    if (!::wrappedResources.isInitialized) {
+                        wrappedResources = object : Resources(r.getAssets(), r.getDisplayMetrics(), r.getConfiguration()) {
+                            @NonNull
+                            @Throws(NotFoundException::class)
+                            override fun getString(id: Int, vararg formatArgs: Any?): String {
+                                return try {
+                                    super.getString(id, formatArgs)
+                                } catch (ifce: IllegalFormatConversionException) {
+                                    CrashHandler.report(ifce)
+                                    var template: String = super.getString(id)
+                                    template = template.replace("%" + ifce.conversion, "%s")
+                                    java.lang.String.format(getConfiguration().locale, template, formatArgs)
+                                }
+                            }
+                        }
+                    }
+                    return wrappedResources
+                }
+            }
         else
             base
         var yearOld = date.year
@@ -69,10 +89,6 @@ class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(cont
         }
         val datePickerDialog = DatePickerDialog(context, mDateSetListener,
                 yearOld, monthOld, dayOld)
-        if (brokenSamsungDevice) {
-            datePickerDialog.setTitle("")
-            datePickerDialog.updateDate(yearOld, monthOld, dayOld)
-        }
         if (PrefKey.GROUP_WEEK_STARTS.isSet) {
             val startOfWeek = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

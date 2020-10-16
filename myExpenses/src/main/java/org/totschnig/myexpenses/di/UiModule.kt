@@ -62,8 +62,8 @@ class UiModule {
             override fun requestFeature(feature: String, fragmentActivity: FragmentActivity) {
                 if (feature == OCR_MODULE) {
                     MessageDialogFragment.newInstance(
-                            0,
-                            R.string.ocr_download_info,
+                            null,
+                            fragmentActivity.getString(R.string.ocr_download_info),
                             MessageDialogFragment.Button(R.string.button_download, R.id.OCR_DOWNLOAD_COMMAND, null),
                             MessageDialogFragment.Button(R.string.learn_more, R.id.OCR_FAQ_COMMAND, null),
                             null).show(fragmentActivity.getSupportFragmentManager(), "OCR_DOWNLOAD")

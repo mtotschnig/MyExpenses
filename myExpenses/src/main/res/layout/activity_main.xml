@@ -6,8 +6,7 @@
     <androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="InconsistentLayout">
+        android:layout_height="match_parent">
         <!-- The main content view -->
         <LinearLayout
             android:layout_width="match_parent"

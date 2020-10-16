@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
@@ -44,12 +45,9 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   final Context context;
   private final LayoutInflater inflater;
   protected final CurrencyFormatter currencyFormatter;
-  protected final int colorExpense;
-  protected final int colorIncome;
   protected boolean withMainColors;
   private boolean withSubColors;
   private final boolean withNullCategory;
-  protected final ProtectedFragmentActivity.ThemeType themeType;
   public static final long NULL_ITEM_ID = -1L;
 
   public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
@@ -58,11 +56,8 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     inflater = LayoutInflater.from(ctx);
     this.currencyFormatter = currencyFormatter;
     this.currency = currency;
-    this.colorExpense = ctx.getColorExpense();
-    this.colorIncome = ctx.getColorIncome();
     this.withMainColors = withMainColors;
     this.withSubColors = withSubColors;
-    this.themeType = ctx.getThemeType();
     this.withNullCategory = withNullCategory;
   }
 
@@ -221,10 +216,10 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   }
 
   public List<Integer> getSubColors(int color) {
+    boolean isLight =  UiUtils.themeBoolAttr(context, R.attr.isLightTheme);
     List<Integer> result = subColorMap.get(color);
     if (result == null) {
-      result = themeType.equals(ProtectedFragmentActivity.ThemeType.dark) ?
-          getTints(color) : getShades(color);
+      result = isLight ? getShades(color) : getTints(color);
       subColorMap.put(color, result);
     }
     return result;

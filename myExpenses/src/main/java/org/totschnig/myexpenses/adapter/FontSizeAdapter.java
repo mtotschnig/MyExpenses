@@ -33,20 +33,7 @@ public class FontSizeAdapter extends ArrayAdapter<String> {
   }
 
   public static void updateTextView(TextView textView, int value, Context context) {
-    int size;
-    switch (value) {
-      case 1:
-        size = R.dimen.textSizeSmallS1;
-        break;
-      case 2:
-        size = R.dimen.textSizeSmallS2;
-        break;
-      case 3:
-        size = R.dimen.textSizeSmallS3;
-        break;
-      default:
-        size = R.dimen.textSizeSmallBase;
-    }
-    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(size));
+    float factor = 1 + value / 10F;
+    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(R.dimen.textSizeSmall)* factor);
   }
 }

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto"
-       xmlns:tools="http://schemas.android.com/tools"
-       tools:showIn="@layout/one_expense">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/one_expense">
 
     <org.totschnig.myexpenses.ui.DateButton
         android:id="@+id/DateButton"
         style="@style/SmallButton"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_weight="1"
-        android:contentDescription="@string/date"/>
+        android:contentDescription="@string/date" />
 
     <ImageView
         android:id="@+id/DateLink"
@@ -24,23 +26,23 @@
         android:onClick="toggleDateLink"
         android:tag="false"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_hchain_broken"/>
+        app:srcCompat="@drawable/ic_hchain_broken" />
 
     <org.totschnig.myexpenses.ui.DateButton
         android:id="@+id/Date2Button"
         style="@style/SmallButton"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <org.totschnig.myexpenses.ui.TimeButton
         android:id="@+id/TimeButton"
         style="@style/SmallButton"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:contentDescription="@string/time"/>
+        android:contentDescription="@string/time" />
 </merge>

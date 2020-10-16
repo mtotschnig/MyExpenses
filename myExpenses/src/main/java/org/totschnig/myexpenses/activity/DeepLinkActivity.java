@@ -20,7 +20,6 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {

@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -71,7 +73,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     mAmount1Text.setFractionDigits(fractionDigits);
     mAmount2Text.setFractionDigits(fractionDigits);
 
-    return new AlertDialog.Builder(ctx)
+    return new MaterialAlertDialogBuilder(ctx)
         .setTitle(R.string.search_amount)
         .setView(view)
         .setPositiveButton(android.R.string.ok, this)

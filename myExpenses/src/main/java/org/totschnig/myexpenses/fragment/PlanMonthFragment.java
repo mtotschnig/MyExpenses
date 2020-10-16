@@ -52,6 +52,7 @@ import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -76,14 +77,6 @@ public class PlanMonthFragment extends CaldroidFragment
   public static final int INSTANCE_STATUS_CURSOR = 2;
   private boolean readOnly;
 
-  private boolean isDarkThemeSelected() {
-    return getThemeType().equals(ProtectedFragmentActivity.ThemeType.dark);
-  }
-
-  private ProtectedFragmentActivity.ThemeType getThemeType() {
-    return ((ProtectedFragmentActivity) getContext()).getThemeType();
-  }
-
   @State
   protected HashMap<Long, Long> instance2TransactionMap = new HashMap<>();
 
@@ -93,13 +86,11 @@ public class PlanMonthFragment extends CaldroidFragment
   protected HashMap<DateTime, Long> dateTime2TimeStampMap = new HashMap<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color,
-                                              boolean readOnly, ProtectedFragmentActivity.ThemeType themeType) {
+                                              boolean readOnly) {
     PlanMonthFragment f = new PlanMonthFragment();
     Bundle args = new Bundle();
     args.putString(TOOLBAR_TITLE, title);
-    args.putInt(CaldroidFragment.THEME_RESOURCE,
-        themeType.equals(ProtectedFragmentActivity.ThemeType.dark) ?
-            R.style.CaldroidCustomDark : R.style.CaldroidCustom);
+    args.putInt(CaldroidFragment.THEME_RESOURCE, R.style.CaldroidCustom);
     args.putLong(DatabaseConstants.KEY_PLANID, planId);
     args.putInt(DatabaseConstants.KEY_COLOR, color);
     args.putLong(DatabaseConstants.KEY_ROWID, templateId);
@@ -428,7 +419,7 @@ public class PlanMonthFragment extends CaldroidFragment
         state.setVisibility(View.VISIBLE);
         Long transactionId = instance2TransactionMap.get(CalendarProviderProxy.calculateId(dateTime));
         boolean brightColor = ColorUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
-        int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
+        int themeResId = brightColor ? R.style.LightBackground : R.style.DarkBackground;
         if (transactionId == null) {
           state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
@@ -453,9 +444,9 @@ public class PlanMonthFragment extends CaldroidFragment
     protected void resetCustomResources(CellView cellView) {
       int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
       StateListDrawable stateListDrawable = new StateListDrawable();
-      int todayDrawable = isDarkThemeSelected() ? R.drawable.red_border_dark : R.drawable.red_border;
+      int todayDrawable = R.drawable.red_border;
       GradientDrawable todaySelected =
-          (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
+          (GradientDrawable) ResourcesCompat.getDrawable(getResources(), todayDrawable, null).mutate();
       todaySelected.setColor(accountColor);
       stateListDrawable.addState(new int[]{android.R.attr.state_activated},
           new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
@@ -467,16 +458,14 @@ public class PlanMonthFragment extends CaldroidFragment
           new ColorDrawable(accountColor));
       stateListDrawable.addState(
           new int[]{R.attr.state_date_today},
-          getResources().getDrawable(todayDrawable));
+          ResourcesCompat.getDrawable(getResources(), todayDrawable, null));
       stateListDrawable.addState(
           new int[]{R.attr.state_date_prev_next_month},
-          new ColorDrawable(getContext().getResources().getColor(
-              isDarkThemeSelected() ? R.color.caldroid_333 : R.color.caldroid_white)));
+          new ColorDrawable(getContext().getResources().getColor(R.color.caldroid_state_date_prev_next_month)));
       stateListDrawable.addState(
           new int[]{},
-          new ColorDrawable(getContext().getResources().getColor(
-              isDarkThemeSelected() ? R.color.caldroid_black : R.color.caldroid_white)));
-      cellView.setBackgroundDrawable(stateListDrawable);
+          new ColorDrawable(UiUtils.themeIntAttr(getContext(), R.attr.colorSurface)));
+      cellView.setBackground(stateListDrawable);
 
       cellView.setTextColor(defaultTextColorRes);
     }

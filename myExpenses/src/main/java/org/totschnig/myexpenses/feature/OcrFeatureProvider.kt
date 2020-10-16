@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Parcelable
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.parcel.Parcelize
-import org.totschnig.myexpenses.BuildConfig
-import java.io.File
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
+import java.io.File
 
 interface OcrFeatureProvider {
     companion object {

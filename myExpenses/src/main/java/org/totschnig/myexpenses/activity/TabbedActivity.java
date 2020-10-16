@@ -44,14 +44,14 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
     mTabLayout = findViewById(R.id.tabs);
 
-    setupTabs(savedInstanceState);
+    setupTabs();
 
     mViewPager.setAdapter(mSectionsPagerAdapter);
 
     mTabLayout.setupWithViewPager(mViewPager);
   }
 
-  protected abstract void setupTabs(Bundle savedInstanceState);
+  protected abstract void setupTabs();
 
   /**
    * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

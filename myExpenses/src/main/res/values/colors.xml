@@ -15,18 +15,23 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <color name="colorPrimary">@color/primaryColor</color>
+    <color name="colorAccent">@color/primaryDarkColor</color>
+
+    <color name="primaryColor">#0050a7</color>
+    <color name="primaryLightColor">#527bd9</color>
+    <color name="primaryDarkColor">#002977</color>
+    <color name="primaryTextColor">#ffffff</color>
+
     <color name="appDefault">#ffc107</color>
     <color name="emphasis">#31b6e7</color>
-    <color name="colorExpenseDark">#FF5E5E</color>
-    <color name="colorExpenseLight">#800000</color>
-    <color name="colorIncomeDark">#00D000</color>
-    <color name="colorIncomeLight">#006800</color>
-    <!-- based on material_deep_teal_200 -->
-    <color name="cardHighlightForegroundLight">#4080cbc4</color>
-    <color name="cardHighlightForegroundDark">#40cccccc</color>
+    <color name="colorExpense">#800000</color>
+    <color name="colorIncome">#006800</color>
+    <color name="colorAggregate">@color/my_material_grey_600</color>
+    <color name="cardHighlightForeground">#4080cbc4</color>
 
-    <color name="drawerBackgroundLight">@android:color/white</color>
-    <color name="drawerBackgroundDark">#222</color>
+    <color name="drawerBackground">@android:color/white</color>
+    <color name="cardBackground">#f0f0f0</color>
 
     <color name="material_indigo">#3F51B5</color>
     <color name="material_grey">#9E9E9E</color>
@@ -39,4 +44,11 @@
     <color name="premium_licence">#FF83D391</color>
     <color name="extended_licence">#FFC5DB6A</color>
     <color name="professional_licence">#FFFFD700</color>
+
+    <color name="caldroid_custom_gridview_background">@color/caldroid_lighter_gray</color>
+    <color name="caldroid_red_border">#FFC6292D</color>
+    <color name="caldroid_state_date_prev_next_month">@color/caldroid_white</color>
+    <color name="future_background">#11000000</color>
+    <color name="myColorBackground">@color/material_grey_50</color>
+    <color name="toolbarBackground">#FFFFFF</color>
 </resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        tools:showIn="@layout/onboarding_wizzard_ui">
+
+        <TextView
+            style="@style/OnBoardingDisplayProperty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/pref_ui_theme_dark" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/pref_ui_theme_title"
+            android:minWidth="@dimen/accessibility_clickable_minimum"
+            android:minHeight="@dimen/accessibility_clickable_minimum"
+            android:switchMinWidth="0dp"
+            app:switchTextAppearance="@style/SwitchTextAppearance"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            style="@style/OnBoardingDisplayProperty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/pref_ui_theme_light" />
+    </LinearLayout>
+</merge>

@@ -945,4 +945,6 @@
     <string name="pref_feature_uninstall_title">Request deinstallation of features and languages</string>
     <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
     <string name="pref_feature_uninstall_languages_title">Languages</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">Please select a licence package.</string>
 </resources>

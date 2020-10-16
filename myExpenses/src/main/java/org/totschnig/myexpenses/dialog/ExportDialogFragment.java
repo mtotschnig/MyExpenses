@@ -43,6 +43,7 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -347,7 +348,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       });
     }
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
         .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
         .setView(dialogView)
         .setNegativeButton(android.R.string.cancel, null)

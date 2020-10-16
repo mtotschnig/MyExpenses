@@ -230,7 +230,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         amountInput.setTypeEnabled(false)
 
         if (savedInstanceState != null) {
-            Icepick.restoreInstanceState(this, savedInstanceState)
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler)
             loadData()
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
@@ -364,8 +363,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             } else {
                 if (::delegate.isInitialized) {
                     delegate.setAccounts(accounts, if (savedInstanceState != null) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
-
-                    linkInputsWithLabels()
+                    delegate.linkAccountLabels()
                     accountsLoaded = true
                     if (mIsResumed) setupListeners()
                 }
@@ -381,6 +379,32 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     }
                 }
             })
+        }
+        linkInputsWithLabels()
+    }
+
+    override fun linkInputsWithLabels() {
+        super.linkInputsWithLabels()
+
+        with(rootBinding) {
+            linkInputWithLabel(Title, TitleLabel)
+            linkInputWithLabel(dateEditBinding.DateButton, DateTimeLabel)
+            linkInputWithLabel(Payee, PayeeLabel)
+            with(CommentLabel) {
+                linkInputWithLabel(Status, this)
+                linkInputWithLabel(AttachImage, this)
+                linkInputWithLabel(PictureContainer.root, this)
+                linkInputWithLabel(Comment, this)
+            }
+            linkInputWithLabel(Category, CategoryLabel)
+            linkInputWithLabel(Method, MethodLabel)
+            linkInputWithLabel(Number, MethodLabel)
+            linkInputWithLabel(PB, PlanLabel)
+            linkInputWithLabel(Recurrence, PlanLabel)
+            linkInputWithLabel(TB, PlanLabel)
+            linkInputWithLabel(TransferAmount, TransferAmountLabel)
+            linkInputWithLabel(OriginalAmount, OriginalAmountLabel)
+            linkInputWithLabel(EquivalentAmount, EquivalentAmountLabel)
         }
     }
 
@@ -551,11 +575,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     override fun setupListeners() {
         super.setupListeners()
         delegate.setupListeners(this)
-    }
-
-    override fun linkInputsWithLabels() {
-        super.linkInputsWithLabels()
-        delegate.linkInputsWithLabels()
     }
 
     @VisibleForTesting
@@ -823,7 +842,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
         if (::delegate.isInitialized) {
             delegate.onSaveInstanceState(outState)
         }
@@ -1162,7 +1180,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 originTemplate.title,
                 originTemplate.id,
                 originTemplate.planId,
-                color, true, themeType).show(supportFragmentManager,
+                color, true).show(supportFragmentManager,
                 TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
     }
 

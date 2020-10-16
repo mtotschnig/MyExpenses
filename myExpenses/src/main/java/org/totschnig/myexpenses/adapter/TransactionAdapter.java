@@ -113,8 +113,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       insideFragment = true;
     }
     this.context = context;
-    colorIncome = ((ProtectedFragmentActivity) context).getColorIncome();
-    colorExpense = ((ProtectedFragmentActivity) context).getColorExpense();
+    colorIncome = context.getResources().getColor(R.color.colorIncome);
+    colorExpense = context.getResources().getColor(R.color.colorExpense);
     textColorSecondary = ((ProtectedFragmentActivity) context).getTextColorSecondary();
     mGroupingOverride = grouping;
     is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
@@ -150,7 +150,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     }
     viewHolder.date.setEms(dateEms);
     final long date = cursor.getLong(columnIndexDate);
-    ((FrameLayout) view).setForeground(date  > futureCriterion ? new ColorDrawable(getColorForFutureTransactions()) : null);
+    ((FrameLayout) view).setForeground(date  > futureCriterion ? new ColorDrawable(context.getResources().getColor(R.color.future_background)) : null);
     viewHolder.date.setText(itemDateFormat != null ?
         Utils.convDateTime(date, itemDateFormat) : null);
     final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
@@ -245,16 +245,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       viewHolder.colorContainer.setVisibility(View.GONE);
     }
     viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
-  }
-
-  private int getColorForFutureTransactions() {
-    switch (((ProtectedFragmentActivity) context).getThemeType()) {
-      case dark:
-        return 0x11FFFFFF;
-      case light:
-      default:
-        return 0x11000000;
-    }
   }
 
   /**

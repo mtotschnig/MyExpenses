@@ -90,6 +90,7 @@ class TagList : Fragment(), OnDialogResultListener {
                         .text(tag.label)
                         .pos(R.string.menu_save)
                         .neut()
+                        .theme(R.style.SimpleDialog)
                         .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
                         .show(this, EDIT_TAG_DIALOG)
             }

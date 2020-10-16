@@ -15,26 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <attr name="colorIncome" format="color" />
-    <attr name="colorExpense" format="color" />
-    <attr name="colorAggregate" format="color" />
-    <attr name="drawerBackground" format="color" />
-    <attr name="cardBackground" format="color" />
-    <attr name="drawerWidth" format="dimension" />
-    <attr name="pageMargin" format="reference" />
-    <attr name="colorContainerOuter" format="dimension" />
-    <attr name="colorContainerInner" format="dimension" />
-    <attr name="cardHighlightForeground" format="reference" />
-    <attr name="colorControlInverse" />
-    <attr name="preferenceCategoryTextAppearance" format="reference" />
-    <attr name="textSizeLabel" format="dimension" />
-    <attr name="textSizeSmall" format="dimension" />
-    <attr name="textSizeNormal" format="dimension" />
-    <attr name="textSizeMedium" format="dimension" />
-    <attr name="textSizeLarge" format="dimension" />
-    <attr name="account_color_indicator_diameter" format="dimension" />
-    <attr name="category_color_indicator_diameter" format="dimension" />
-
     <declare-styleable name="AmountInput">
         <attr name="withTypeSwitch" format="boolean"/>
         <attr name="withCurrencySelection" format="boolean"/>

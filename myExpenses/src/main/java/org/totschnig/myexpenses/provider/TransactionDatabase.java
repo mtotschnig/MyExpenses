@@ -2212,9 +2212,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
-      throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
-          new SQLiteUpgradeFailedException(oldVersion, newVersion, e) :
-          e;
+      throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
     }
   }
 
@@ -2312,7 +2310,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
 
   public static class SQLiteUpgradeFailedException extends SQLiteException {
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     SQLiteUpgradeFailedException(int oldVersion, int newVersion, SQLException e) {
       super(String.format(Locale.ROOT, "Upgrade failed  %d -> %d", oldVersion, newVersion), e);
     }

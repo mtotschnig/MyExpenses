@@ -146,12 +146,12 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
    */
   @Override
   protected Result doInBackground(Void... ignored) {
-    Context application = MyApplication.getInstance();
+    Context context = taskExecutionFragment.requireContext();
     Result<Pair<CategoryTree, ArrayList<String>>> r = parseXML();
     if (!r.isSuccess()) {
       return r;
     }
-    setTitle(MyApplication.getInstance().getString(R.string.grisbi_import_categories_loading, sourceStr));
+    setTitle(context.getString(R.string.grisbi_import_categories_loading, sourceStr));
     phaseChangedP = true;
     setMax(catTree.getTotal());
     publishProgress(0);
@@ -163,7 +163,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
       totalImportedCat = -1;
     }
     if (withPartiesP) {
-      setTitle(MyApplication.getInstance().getString(R.string.grisbi_import_parties_loading, sourceStr));
+      setTitle(context.getString(R.string.grisbi_import_parties_loading, sourceStr));
       phaseChangedP = true;
       setMax(partiesList.size());
       publishProgress(0);
@@ -174,16 +174,16 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     String msg = "";
     if (totalImportedCat > -1) {
       msg += totalImportedCat == 0 ?
-          application.getString(R.string.import_categories_none) :
-          application.getString(R.string.import_categories_success, String.valueOf(totalImportedCat));
+          context.getString(R.string.import_categories_none) :
+          context.getString(R.string.import_categories_success, String.valueOf(totalImportedCat));
     }
     if (totalImportedParty > -1) {
       if (!TextUtils.isEmpty(msg)) {
         msg += "\n";
       }
       msg += totalImportedParty == 0 ?
-          application.getString(R.string.import_parties_none) :
-          application.getString(R.string.import_parties_success, String.valueOf(totalImportedParty));
+          context.getString(R.string.import_parties_none) :
+          context.getString(R.string.import_parties_success, String.valueOf(totalImportedParty));
     }
     return Result.ofSuccess(msg);
   }

@@ -178,7 +178,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       } else {
         holder.label.setText(label);
       }
-      colorInt = activity.getColorAggregate();
+      colorInt = context.getResources().getColor(R.color.colorAggregate);
       expansionPrefKey = String.format(Locale.ROOT, "%s%s", EXPANSION_PREF_PREFIX,
           isHome ? AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE : currency.code());
       holder.colorAccount.setImageResource(R.drawable.ic_action_equal_white);

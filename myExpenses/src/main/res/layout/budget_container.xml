@@ -35,7 +35,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:padding="@dimen/budget_table_padding"
-        tools:background="@drawable/round_background_income_dark"
+        tools:background="@drawable/round_background_income"
         tools:text="10000"/>
 
 </LinearLayout>

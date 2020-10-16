@@ -19,16 +19,13 @@
 
     <!-- General styles -->
 
-    <style name="SuwThemeMaterial" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:colorBackground">@color/suw_color_background_dark</item>
+    <style name="SuwThemeMaterial" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:indeterminateTint" tools:ignore="NewApi">@color/suw_progress_bar_color_dark</item>
         <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
         <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:listPreferredItemPaddingEnd" tools:ignore="NewApi">?attr/suwMarginSides</item>
         <item name="android:listPreferredItemPaddingStart" tools:ignore="NewApi">?attr/suwMarginSides</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/black</item>
-        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/black</item>
         <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
         <item name="android:textColorLink">@color/suw_link_color_dark</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>

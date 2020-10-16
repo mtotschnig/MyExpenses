@@ -17,12 +17,12 @@
 package org.totschnig.myexpenses.task;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.apache.commons.csv.CSVRecord;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -90,11 +90,11 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   @Override
   protected Result doInBackground(Void... params) {
     int totalImported = 0, totalDiscarded = 0, totalFailed = 0;
-    final MyApplication application = MyApplication.getInstance();
-    ContentResolver contentResolver = application.getContentResolver();
+    final Context context = taskExecutionFragment.requireContext();
+    ContentResolver contentResolver = context.getContentResolver();
     Account a;
     if (accountId == 0) {
-      a = new Account(application.getString(R.string.pref_import_title, "CSV"), currencyUnit, 0, mAccountType);
+      a = new Account(context.getString(R.string.pref_import_title, "CSV"), currencyUnit, 0, mAccountType);
       a.save();
       accountId = a.getId();
     } else {
@@ -153,7 +153,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
             String subCategory = columnIndexSubcategory != -1 ?
                 saveGetFromRecord(record, columnIndexSubcategory)
                 : "";
-            if (category.equals(application.getString(R.string.transfer)) &&
+            if (category.equals(context.getString(R.string.transfer)) &&
                 !subCategory.equals("") &&
                 QifUtils.isTransferCategory(subCategory)) {
               transferAccountId = Account.findAnyOpen(subCategory.substring(1, subCategory.length() - 1));
@@ -250,12 +250,12 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
       }
     }
     contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null);
-    String msg = application.getString(R.string.import_transactions_success, totalImported, a.getLabel()) + ".";
+    String msg = context.getString(R.string.import_transactions_success, totalImported, a.getLabel()) + ".";
     if (totalFailed > 0) {
-      msg += " " + application.getString(R.string.csv_import_records_failed, totalFailed);
+      msg += " " + context.getString(R.string.csv_import_records_failed, totalFailed);
     }
     if (totalDiscarded > 0) {
-      msg += " " + application.getString(R.string.csv_import_records_discarded, totalDiscarded);
+      msg += " " + context.getString(R.string.csv_import_records_discarded, totalDiscarded);
     }
     return Result.ofSuccess(msg);
   }

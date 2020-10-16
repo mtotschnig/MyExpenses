@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.R;
 
 import androidx.annotation.NonNull;
@@ -50,7 +52,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
 
   private EditText mEditText;
 
-  public static final EditTextDialog newInstance(Bundle args) {
+  public static EditTextDialog newInstance(Bundle args) {
     EditTextDialog dialogFragment = new EditTextDialog();
     dialogFragment.setArguments(args);
     return dialogFragment;
@@ -59,7 +61,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getActivity());
     LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
     dialogView = li.inflate(R.layout.edit_text_dialog, null);

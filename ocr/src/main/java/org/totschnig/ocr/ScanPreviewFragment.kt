@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -35,7 +36,7 @@ class ScanPreviewFragment : DialogFragment() {
         }
         val inflater: LayoutInflater = requireActivity().getLayoutInflater()
         val view: View = inflater.inflate(R.layout.scan_preview, null)
-        val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+        val builder: AlertDialog.Builder = MaterialAlertDialogBuilder(requireActivity())
                 .setView(view)
                 .setCancelable(false)
                 .setNegativeButton(android.R.string.cancel, null)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="pref_ui_theme_values" tools:ignore="InconsistentArrays">
+        <item>default</item>
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+    <string-array name="pref_ui_theme_entries" tools:ignore="InconsistentArrays">
+        <item>@string/pref_ui_language_default</item>
+        <item>@string/pref_ui_theme_dark</item>
+        <item>@string/pref_ui_theme_light</item>
+    </string-array>
+</resources>

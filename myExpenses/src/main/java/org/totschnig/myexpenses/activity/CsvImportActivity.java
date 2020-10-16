@@ -19,16 +19,16 @@ import org.totschnig.myexpenses.util.Result;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.ActionBar;
+import icepick.State;
 
 
 public class CsvImportActivity extends TabbedActivity implements
     ConfirmationDialogFragment.ConfirmationDialogListener {
 
-  public static final String KEY_DATA_READY = "KEY_DATA_READY";
-  public static final String KEY_USAGE_RECORDED = "KEY_USAGE_RECORDED";
-
-  private boolean mDataReady = false;
-  private boolean mUsageRecorded = false;
+  @State
+  boolean mDataReady = false;
+  @State
+  boolean mUsageRecorded = false;
 
   private void setmDataReady(boolean mDataReady) {
     this.mDataReady = mDataReady;
@@ -37,7 +37,6 @@ public class CsvImportActivity extends TabbedActivity implements
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
 
     final ActionBar actionBar = getSupportActionBar();
@@ -45,15 +44,11 @@ public class CsvImportActivity extends TabbedActivity implements
   }
 
   @Override
-  protected void setupTabs(Bundle savedInstanceState) {
+  protected void setupTabs() {
     //we only add the first tab, the second one once data has been parsed
     addTab(0);
-    if (savedInstanceState != null) {
-      mUsageRecorded = savedInstanceState.getBoolean(KEY_USAGE_RECORDED);
-      if (savedInstanceState.getBoolean(KEY_DATA_READY)) {
-        addTab(1);
-        setmDataReady(true);
-      }
+    if (mDataReady) {
+      addTab(1);
     }
   }
 
@@ -133,13 +128,6 @@ public class CsvImportActivity extends TabbedActivity implements
     } else {
       super.onProgressUpdate(progress);
     }
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putBoolean(KEY_DATA_READY, mDataReady);
-    outState.putBoolean(KEY_USAGE_RECORDED, mUsageRecorded);
   }
 
   public long getAccountId() {

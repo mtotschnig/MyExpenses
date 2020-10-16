@@ -7,11 +7,13 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.appcompat.widget.AppCompatButton;
+import com.google.android.material.button.MaterialButton;
+
+import androidx.annotation.NonNull;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 
-public abstract class ButtonWithDialog extends AppCompatButton {
+public abstract class ButtonWithDialog extends MaterialButton {
 
   public ButtonWithDialog(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -23,6 +25,7 @@ public abstract class ButtonWithDialog extends AppCompatButton {
     getHost().hideKeyBoardAndShowDialog(getId());
   }
 
+  @NonNull
   @Override public Parcelable onSaveInstanceState() {
     return Icepick.saveInstanceState(this, super.onSaveInstanceState());
   }

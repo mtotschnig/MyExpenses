@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.task;
 
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -31,7 +30,7 @@ class RevokeSplitCommandTask extends ExtraTask<Result> {
       }
     }
     if (success == count) {
-      return Result.ofSuccess(MyApplication.getInstance().getResources().getQuantityString(R.plurals.ungroup_split_transaction_success, count, count));
+      return Result.ofSuccess(taskExecutionFragment.requireContext().getResources().getQuantityString(R.plurals.ungroup_split_transaction_success, count, count));
     }
     return Result.ofFailure(R.string.ungroup_split_transaction_failure, count - success, count);
   }

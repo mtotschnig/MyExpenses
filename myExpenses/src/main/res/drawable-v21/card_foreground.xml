@@ -6,7 +6,7 @@
     </item>
     <item>
         <selector>
-            <item android:state_activated="true" android:drawable="@color/cardHighlightForegroundDark" />
+            <item android:state_activated="true" android:drawable="@color/cardHighlightForeground" />
         </selector>
     </item>
 </ripple>

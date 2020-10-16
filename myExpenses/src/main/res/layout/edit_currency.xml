@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:importantForAutofill="noExcludeDescendants"
               android:orientation="vertical"
               android:paddingLeft="@dimen/padding_input_dialog_side"
@@ -13,16 +13,14 @@
     <!-- label (only custom) -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/container_currency_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_currency_label"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:hint="@string/label"
             android:inputType="text"
             android:maxLines="1"/>
@@ -32,15 +30,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/container_currency_code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp">
+        android:layout_height="wrap_content">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_currency_code"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:enabled="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -55,14 +51,12 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp">
+        android:layout_marginBottom="8dp">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_currency_symbol"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:hint="@string/currency_symbol"
             android:inputType="text"
             android:maxLines="1"/>
@@ -71,14 +65,12 @@
     <!-- fraction digits -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp">
+        android:layout_height="wrap_content">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_currency_fraction_digits"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:hint="@string/number_of_fraction_digits"
             android:inputType="number"
             android:maxLength="1"

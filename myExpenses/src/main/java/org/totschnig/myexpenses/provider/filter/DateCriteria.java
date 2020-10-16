@@ -27,7 +27,6 @@ import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 
@@ -147,14 +146,14 @@ public class DateCriteria extends Criteria {
     String date1 = df.format(LocalDate.parse(values[0]));
     switch (operation) {
       case GTE:
-        result = MyApplication.getInstance().getString(R.string.after, date1);
+        result = context.getString(R.string.after, date1);
         break;
       case LTE:
-        result = MyApplication.getInstance().getString(R.string.before, date1);
+        result = context.getString(R.string.before, date1);
         break;
       case BTW:
         String date2 = df.format(LocalDate.parse(values[1]));
-        result += MyApplication.getInstance().getString(R.string.between_and, date1, date2);
+        result += context.getString(R.string.between_and, date1, date2);
     }
     return result;
   }

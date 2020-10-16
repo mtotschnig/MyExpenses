@@ -16,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.CurrencyContext;
@@ -164,7 +166,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
       editTextCode.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(3)});
     }
     editTextFractionDigits.setText(String.valueOf(currentFractionDigits()));
-    final AlertDialog alertDialog = new AlertDialog.Builder(ctx)
+    final AlertDialog alertDialog = new MaterialAlertDialogBuilder(ctx)
         .setView(dialogView)
         .setNegativeButton(android.R.string.cancel, null)
         .setPositiveButton(android.R.string.ok, null)

@@ -125,7 +125,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                     .mapToList(PlanInstance.Companion::fromEventCursor)
                     .subscribe {
                         val start = SpannableString(first.startDate().format(formatter))
-                        val end = SpannableString(last.startDate().format(formatter))
+                        val end = SpannableString(last.endDate().format(formatter))
                         start.setSpan(ClickableDateSpan(false), 0, start.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         end.setSpan(ClickableDateSpan(true), 0, end.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         title.postValue(TextUtils.concat(start, " - ", end))

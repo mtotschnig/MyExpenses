@@ -13,7 +13,7 @@ public class CategoriesSetupTask extends ExtraTask<Result> {
 
   @Override
   protected Result doInBackground(Bundle... bundles) {
-    int total = taskExecutionFragment.getContext()
+    int total = taskExecutionFragment.requireContext()
         .getContentResolver()
         .call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SETUP_CATEGORIES, null, null)
         .getInt(TransactionProvider.KEY_RESULT);

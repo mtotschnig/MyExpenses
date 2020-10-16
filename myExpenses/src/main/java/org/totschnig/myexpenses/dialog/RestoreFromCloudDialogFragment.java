@@ -20,13 +20,14 @@ import android.widget.RadioGroup;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.SplashActivity;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     });
     setTabVisibility(tabLayout.getTabAt(0), View.VISIBLE);
 
-    final AlertDialog dialog = new AlertDialog.Builder(ctx)
+    final AlertDialog dialog = new MaterialAlertDialogBuilder(ctx)
         .setTitle(R.string.onboarding_restore_from_cloud)
         .setView(view)
         .setPositiveButton(android.R.string.ok, this)
@@ -192,7 +193,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     ArrayList<String> backups = getBackups();
     ArrayList<AccountMetaData> syncAccounts = getSyncAccounts();
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      SplashActivity activity = (SplashActivity) getActivity();
+      OnboardingActivity activity = (OnboardingActivity) getActivity();
       LinearLayout contentForTab = getActiveContent();
       switch (contentForTab.getId()) {
         case R.id.backup_list:

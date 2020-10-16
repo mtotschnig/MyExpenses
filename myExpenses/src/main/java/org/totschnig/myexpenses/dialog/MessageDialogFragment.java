@@ -21,7 +21,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.R;
 
 import java.io.Serializable;
@@ -74,20 +75,8 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
   }
 
   public static MessageDialogFragment newInstance(
-      int title, int message, Button positive, Button neutral, Button negative) {
-    return newInstance(title, MyApplication.getInstance().getString(message),
-        positive, neutral, negative);
-  }
-
-  public static MessageDialogFragment newInstance(
-      int title, CharSequence message, Button positive, Button neutral, Button negative) {
+      CharSequence title, CharSequence message, Button positive, Button neutral, Button negative) {
    return newInstance(title, message, positive, neutral, negative, 0);
-  }
-
-  public static MessageDialogFragment newInstance(
-      int title, CharSequence message, Button positive, Button neutral, Button negative, int icon) {
-    return newInstance(title == 0 ? null : MyApplication.getInstance().getString(title),
-        message, positive, neutral, negative, icon);
   }
 
   public static MessageDialogFragment newInstance(
@@ -109,7 +98,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx = getActivity();
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
         .setMessage(bundle.getCharSequence(KEY_MESSAGE))
         .setTitle(bundle.getCharSequence(KEY_TITLE));
 

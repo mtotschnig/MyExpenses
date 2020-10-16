@@ -25,6 +25,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.threeten.bp.Instant
@@ -37,7 +38,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.databinding.TransactionDetailBinding
 import org.totschnig.myexpenses.model.AccountType
@@ -94,7 +94,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
             }
         })
         viewModel.loadOriginalTags(rowId, TransactionProvider.TRANSACTIONS_TAGS_URI, DatabaseConstants.KEY_TRANSACTIONID)
-        val alertDialog = AlertDialog.Builder(requireActivity())
+        val alertDialog = MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
                 .setView(dialogView)
                 .setNegativeButton(android.R.string.ok, this)

@@ -13,7 +13,6 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
@@ -38,16 +37,14 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import icepick.Icepick;
 import icepick.State;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_INIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
 
 
-public class SplashActivity extends SyncBackendSetupActivity {
+public class OnboardingActivity extends SyncBackendSetupActivity {
   @BindView(R.id.viewpager)
   ViewPager pager;
   private MyPagerAdapter pagerAdapter;
@@ -56,12 +53,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdOnboarding());
-    if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-      super.onCreate(null);
-      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
-      return;
-    }
     if (MyApplication.isInstrumentationTest()) {
       PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
           R.xml.preferences, true);
@@ -69,7 +60,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
     super.onCreate(savedInstanceState);
-    Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.onboarding);
     ButterKnife.bind(this);
     //setupToolbar(false);
@@ -81,12 +71,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     //skip Help
     return true;
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   public void navigate_next() {
@@ -151,18 +135,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   @Override
-  public boolean dispatchCommand(int command, Object tag) {
-    if (super.dispatchCommand(command, tag)) {
-      return true;
-    }
-    if (command == R.id.QUIT_COMMAND) {
-      finish();
-      return true;
-    }
-    return false;
-  }
-
-  @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     switch (taskId) {
@@ -194,26 +166,6 @@ public class SplashActivity extends SyncBackendSetupActivity {
         Result result = (Result) o;
         if (result.isSuccess()) {
           getStarted();
-        }
-        break;
-      }
-      case TASK_INIT: {
-        Result result = (Result) o;
-        if (!isFinishing()) {
-          if (result.isSuccess()) {
-            Intent intent = new Intent(this, MyExpenses.class);
-            startActivity(intent);
-            finish();
-          } else {
-            MessageDialogFragment f = MessageDialogFragment.newInstance(
-                0,
-                result.print(this),
-                new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
-                null,
-                null);
-            f.setCancelable(false);
-            f.show(getSupportFragmentManager(), "INIT_FAILURE");
-          }
         }
         break;
       }

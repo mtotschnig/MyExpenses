@@ -71,7 +71,6 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private boolean isLoading;
 
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.roadmap);
     ButterKnife.bind(this);
@@ -130,7 +129,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
 
   private int getVersionFromPref() {
-    return getPrefHandler().getInt(PrefKey.ROADMAP_VERSION, 0 );
+    return prefHandler.getInt(PrefKey.ROADMAP_VERSION, 0 );
   }
 
   private void validateAndUpdateUi() {
@@ -229,7 +228,8 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         } else {
           final boolean emailIsKnown = getEmail() != null;
           int msg = emailIsKnown ? R.string.roadmap_update_confirmation : R.string.roadmap_email_rationale;
-          final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build().msg(msg);
+          final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build().msg(msg)
+              .theme(R.style.SimpleDialog);
           if (!emailIsKnown) {
             simpleFormDialog.fields(Input.email(KEY_EMAIL).required());
           }

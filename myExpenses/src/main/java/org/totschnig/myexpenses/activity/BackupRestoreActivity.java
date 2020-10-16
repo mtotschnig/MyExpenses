@@ -49,7 +49,6 @@ import androidx.fragment.app.Fragment;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
-import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
@@ -70,16 +69,14 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   int taskResult = RESULT_OK;
 
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     ComponentName callingActivity = getCallingActivity();
     if (callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)
-        .equals(SplashActivity.class.getSimpleName())) {
+        .equals(OnboardingActivity.class.getSimpleName())) {
       calledFromOnboarding = true;
       Timber.i("Called from onboarding");
     }
     if (savedInstanceState != null) {
-      Icepick.restoreInstanceState(this, savedInstanceState);
       return;
     }
     String action = getIntent().getAction();
@@ -95,7 +92,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           abort(getString(R.string.io_error_appdir_null));
           return;
         }
-        boolean isProtected = !TextUtils.isEmpty(getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null));
+        boolean isProtected = !TextUtils.isEmpty(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null));
         StringBuilder message = new StringBuilder();
         message.append(getString(R.string.warning_backup, FileUtils.getPath(this, appDir.getUri())))
             .append(" ");
@@ -104,7 +101,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         }
         message.append(getString(R.string.continue_confirmation));
         MessageDialogFragment.newInstance(
-            isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup,
+            getString(isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup),
             message.toString(),
             new MessageDialogFragment.Button(android.R.string.yes,
                 R.id.BACKUP_COMMAND, null), null,
@@ -185,7 +182,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   protected void doBackup() {
     Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.isSuccess()) {
-      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, getPrefHandler().getString(PrefKey.EXPORT_PASSWORD, null),
+      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
           R.string.menu_backup, true);
     } else {
       abort(appDirStatus.print(this));
@@ -240,6 +237,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
             .fields(Input.password(KEY_PASSWORD).required())
             .extra(args)
+            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_TAG_PASSWORD);
       } else {
         doRestore(args);
@@ -251,13 +249,13 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (which == BUTTON_POSITIVE) {
-      switch (dialogTag) {
-        case DIALOG_TAG_PASSWORD: {
-          doRestore(extras);
-          return true;
-        }
+    if (DIALOG_TAG_PASSWORD.equals(dialogTag)) {
+      if (which == BUTTON_POSITIVE) {
+        doRestore(extras);
+      } else {
+        abort();
       }
+      return true;
     }
     return false;
   }
@@ -294,14 +292,17 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onNegative(Bundle args) {
+    abort();
+  }
+
+  public void abort() {
     setResult(RESULT_CANCELED);
     finish();
   }
 
   @Override
   public void onDismissOrCancel(Bundle args) {
-    setResult(RESULT_CANCELED);
-    finish();
+    abort();
   }
 
   @Override
@@ -312,7 +313,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onMessageDialogDismissOrCancel() {
-    finish();
+    abort();
   }
 
   @Override
@@ -338,11 +339,5 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     } else {
       super.showSnackbar(message, duration, snackbarAction);
     }
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 }

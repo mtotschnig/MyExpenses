@@ -16,13 +16,13 @@
 
 package org.totschnig.myexpenses.task;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 import java.io.FileNotFoundException;
@@ -67,23 +67,21 @@ public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> 
   @Override
   protected ArrayList<CSVRecord> doInBackground(Void... params) {
     InputStream inputStream;
+    Context context = taskExecutionFragment.requireContext();
     try {
-      inputStream = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
+      inputStream = context.getContentResolver().openInputStream(fileUri);
     } catch (FileNotFoundException e) {
-      publishProgress(MyApplication.getInstance()
-          .getString(R.string.parse_error_file_not_found, fileUri));
+      publishProgress(context.getString(R.string.parse_error_file_not_found, fileUri));
       return null;
     } catch (Exception e) {
-      publishProgress(MyApplication.getInstance()
-          .getString(R.string.parse_error_other_exception, e.getMessage()));
+      publishProgress(context.getString(R.string.parse_error_other_exception, e.getMessage()));
       return null;
     }
     try {
       return (ArrayList<CSVRecord>) CSVFormat.DEFAULT.withDelimiter(delimiter)
           .parse(new InputStreamReader(inputStream, encoding)).getRecords();
     } catch (IOException e) {
-      publishProgress(MyApplication.getInstance()
-          .getString(R.string.parse_error_other_exception, e.getMessage()));
+      publishProgress(context.getString(R.string.parse_error_other_exception, e.getMessage()));
       return null;
     } finally {
       if (inputStream != null) {

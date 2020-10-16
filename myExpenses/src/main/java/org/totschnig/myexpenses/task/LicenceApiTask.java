@@ -85,7 +85,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         Licence licence = licenceResponse.body();
         if (licenceResponse.isSuccessful() && licence != null && licence.getType() != null) {
           licenceHandler.updateLicenceStatus(licence);
-          return Result.ofSuccess(TextUtils.concatResStrings(MyApplication.getInstance(), " ",
+          return Result.ofSuccess(TextUtils.concatResStrings(taskExecutionFragment.requireContext(), " ",
               R.string.licence_validation_success, licence.getType().getResId()));
         } else {
           switch (licenceResponse.code()) {

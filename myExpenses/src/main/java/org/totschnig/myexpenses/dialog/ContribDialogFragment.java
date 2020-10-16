@@ -28,6 +28,8 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -51,6 +53,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
+import icepick.Icepick;
+import icepick.State;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
@@ -64,7 +68,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   private RadioButton contribButton, extendedButton, professionalButton;
   private boolean contribVisible;
   private boolean extendedVisible;
-  private Package selectedPackage = null;
+  @State
+  Package selectedPackage = null;
   @Inject
   LicenceHandler licenceHandler;
   @Inject
@@ -84,6 +89,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     String featureStringExtra = getArguments().getString(KEY_FEATURE);
     if (featureStringExtra != null) {
       feature = ContribFeature.valueOf(featureStringExtra);
@@ -91,17 +97,21 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     MyApplication.getInstance().getAppComponent().inject(this);
   }
 
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
+  }
+
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    Context wrappedContext = new ContextThemeWrapper(ctx,  R.style.ThemeDark);
+    Context darkBackground = new ContextThemeWrapper(ctx,  R.style.DarkBackground);
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     //noinspection InflateParams
     dialogView = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
-        ctx.getThemeType().equals(ProtectedFragmentActivity.ThemeType.dark) ?
-            R.style.ContribDialogThemeDark : R.style.ContribDialogThemeLight);
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx, R.style.ContribDialogTheme);
 
     //preapre HEADER
     CharSequence message;
@@ -134,7 +144,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     contribContainer.setBackgroundColor(getResources().getColor(R.color.premium_licence));
     if (licenceStatus == null && CONTRIB.covers(feature)) {
      contribVisible = true;
-      CharSequence contribList = Utils.makeBulletList(wrappedContext, contribFeatureLabelsAsList, R.drawable.ic_menu_done);
+      CharSequence contribList = Utils.makeBulletList(darkBackground, contribFeatureLabelsAsList, R.drawable.ic_menu_done);
       ((TextView) contribContainer.findViewById(R.id.package_feature_list)).setText(contribList);
     } else {
       contribContainer.setVisibility(View.GONE);
@@ -152,7 +162,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         lines.addAll(contribFeatureLabelsAsList);
       }
       lines.addAll(extendedFeatureLabelsAsList);
-      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(wrappedContext, lines, R.drawable.ic_menu_done));
+      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(darkBackground, lines, R.drawable.ic_menu_done));
     } else {
       extendedContainer.setVisibility(View.GONE);
     }
@@ -173,7 +183,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
     lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, PROFESSIONAL));
     ((TextView) professionalContainer.findViewById(R.id.package_feature_list))
-        .setText(Utils.makeBulletList(wrappedContext, lines, R.drawable.ic_menu_done));
+        .setText(Utils.makeBulletList(darkBackground, lines, R.drawable.ic_menu_done));
 
     //FOOTER
     final TextView githubExtraInfo = dialogView.findViewById(R.id.github_extra_info);
@@ -187,11 +197,12 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setView(dialogView)
         .setNeutralButton(R.string.button_label_close, this)
         .setIcon(R.mipmap.ic_launcher_alt)
-        .setPositiveButton(R.string.upgrade_now, this);
+        .setPositiveButton(R.string.upgrade_now, null);
     if (feature != null && feature.isAvailable(prefHandler)) {
         builder.setNegativeButton(R.string.dialog_contrib_no, this);
     }
     AlertDialog dialog = builder.create();
+    dialog.setOnShowListener(dialogInterface -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> onUpgradeClicked()));
 
     if (contribVisible) {
       contribButton = contribContainer.findViewById(R.id.package_button);
@@ -220,10 +231,24 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     } else {
       dialogView.findViewById(R.id.professional_feature_container).setOnClickListener(this);
       professionalButton.setOnClickListener(this);
-      dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
-
+    if (savedInstanceState != null && selectedPackage != null) {
+      updateProPrice(licenceStatus);
+    }
     return dialog;
+  }
+
+  private void onUpgradeClicked() {
+    ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
+    if (ctx == null) {
+      return;
+    }
+    if (selectedPackage != null) {
+      ctx.contribBuyDo(selectedPackage);
+      dismiss();
+    } else {
+      showSnackbar(R.string.select_package);
+    }
   }
 
   @Override
@@ -233,15 +258,6 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       return;
     }
     switch (which) {
-      case  AlertDialog.BUTTON_POSITIVE: {
-        if (selectedPackage != null) {
-          ctx.contribBuyDo(selectedPackage);
-        } else {
-          //should not happen
-          ctx.finish(true);
-        }
-        break;
-      }
       case AlertDialog.BUTTON_NEUTRAL: {
         ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_CANCEL, null);
         ctx.finish(true);
@@ -263,6 +279,19 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
   }
 
+  private void updateProPrice(LicenceStatus licenceStatus) {
+    String formattedPrice = licenceHandler.getFormattedPrice(selectedPackage);
+    if (formattedPrice != null) {
+      if (licenceStatus == EXTENDED) {
+        String extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage);
+        if (extendedUpgradeGoodieMessage != null) {
+          formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage);
+        }
+      }
+      professionalPriceTextView.setText(formattedPrice);
+    }
+  }
+
   @Override
   public void onClick(View v) {
     final LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
@@ -281,16 +310,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         PopupMenu popup = new PopupMenu(getActivity(), v);
         popup.setOnMenuItemClickListener(item -> {
           selectedPackage = Package.values()[item.getItemId()];
-          String formattedPrice = licenceHandler.getFormattedPrice(selectedPackage);
-          if (formattedPrice != null) {
-            if (licenceStatus == EXTENDED) {
-              String extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage);
-              if (extendedUpgradeGoodieMessage != null) {
-                formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage);
-              }
-            }
-            professionalPriceTextView.setText(formattedPrice);
-          }
+          updateProPrice(licenceStatus);
           updateButtons(professionalButton);
           return true;
         });
@@ -313,6 +333,5 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     if (contribVisible) contribButton.setChecked(contribButton == selected);
     if (extendedVisible) extendedButton.setChecked(extendedButton == selected);
     professionalButton.setChecked(professionalButton == selected);
-    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
   }
 }

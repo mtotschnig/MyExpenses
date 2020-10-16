@@ -82,7 +82,7 @@ public class AutoBackupService extends JobIntentService {
   protected void onHandleWork(@NonNull Intent intent) {
     String action = intent.getAction();
     if (ACTION_AUTO_BACKUP.equals(action)) {
-      Result<DocumentFile> result = BackupUtils.doBackup(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null));
+      Result<DocumentFile> result = BackupUtils.doBackup(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null), this);
       if (result.isSuccess()) {
         int remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler);
         if (remaining < 1) {

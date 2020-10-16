@@ -42,7 +42,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   private static final String KEY_IS_DIRTY = "isDirty";
   protected boolean mIsSaving = false;
-  private boolean mIsDirty = false;
+  @State
+  protected boolean mIsDirty = false;
   @State
   protected boolean mNewInstance = true;
   private int primaryColor;
@@ -73,7 +74,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     TypedValue typedValue = new TypedValue();
     TypedArray a = obtainStyledAttributes(typedValue.data,
@@ -183,12 +183,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     } else {
       view.setOnFocusChangeListener(listener);
     }
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putBoolean(KEY_IS_DIRTY, isDirty());
   }
 
   public boolean isDirty() {

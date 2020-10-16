@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.SplashActivity;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,12 +30,16 @@ public abstract class OnboardingFragment extends Fragment {
     View view = inflater.inflate(getLayoutResId(), container, false);
     ButterKnife.bind(this, view);
     configureNavigation(view, inflater);
-    configureView(view, savedInstanceState);
     //lead
     setupWizardLayout.setHeaderText(getTitle());
     setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
     return view;
+  }
 
+  @Override
+  public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    super.onViewStateRestored(savedInstanceState);
+    configureView(savedInstanceState);
   }
 
   protected abstract CharSequence getTitle();
@@ -67,7 +71,7 @@ public abstract class OnboardingFragment extends Fragment {
     return R.id.suw_navbar_next;
   }
 
-  protected abstract void configureView(@NonNull View view, @Nullable Bundle savedInstanceState);
+  protected abstract void configureView(@Nullable Bundle savedInstanceState);
 
   protected abstract int getLayoutResId();
 
@@ -77,8 +81,8 @@ public abstract class OnboardingFragment extends Fragment {
 
   protected void onNextButtonClicked() {
     final FragmentActivity activity = getActivity();
-    if (activity instanceof SplashActivity) {
-      ((SplashActivity) activity).navigate_next();
+    if (activity instanceof OnboardingActivity) {
+      ((OnboardingActivity) activity).navigate_next();
     }
   }
 

@@ -13,7 +13,6 @@
         style="@style/SuwContentFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +24,7 @@
             android:layout_height="wrap_content"
             android:labelFor="@+id/fontSize"
             android:text="@string/pref_tracking_title" />
-        <androidx.appcompat.widget.SwitchCompat
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/tracking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:labelFor="@+id/fontSize"
             android:text="@string/pref_category_title_crash_reports" />
-        <androidx.appcompat.widget.SwitchCompat
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/crash_reports"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

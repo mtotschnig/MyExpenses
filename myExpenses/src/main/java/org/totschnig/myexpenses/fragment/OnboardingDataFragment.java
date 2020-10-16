@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.SplashActivity;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -66,9 +66,11 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   AmountInput amountInput;
   @BindView(R.id.ColorIndicator)
   AppCompatButton colorIndicator;
+  @BindView(R.id.Currency)
+  Spinner currencySpinner;
+  @BindView(R.id.AccountType)
+  Spinner accountTypeSpinner;
 
-  private Spinner currencySpinner;
-  private Spinner accountTypeSpinner;
   @State
   boolean moreOptionsShown = false;
   @State
@@ -114,7 +116,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @Override
   protected void onNextButtonClicked() {
     prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code());
-    ((SplashActivity) getActivity()).finishOnboarding();
+    ((OnboardingActivity) getActivity()).finishOnboarding();
   }
 
   @Override
@@ -155,17 +157,17 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   @Override
-  protected void configureView(@NonNull View view, Bundle savedInstanceState) {
+  protected void configureView(Bundle savedInstanceState) {
     //label
     setDefaultLabel();
 
     //amount
     amountInput.setFractionDigits(2);
     amountInput.setAmount(BigDecimal.ZERO);
-    view.findViewById(R.id.Calculator).setVisibility(View.GONE);
+    amountInput.findViewById(R.id.Calculator).setVisibility(View.GONE);
 
     //currency
-    currencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    DialogUtils.configureCurrencySpinner(currencySpinner, this);
 
     String code = savedInstanceState != null ? (String) savedInstanceState.get(KEY_CURRENCY) : null;
     final Currency currency = code != null ? Currency.create(code) : currencyViewModel.getDefault();
@@ -180,7 +182,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     currencyViewModel.loadCurrencies();
 
     //type
-    accountTypeSpinner = DialogUtils.configureTypeSpinner(view);
+    DialogUtils.configureTypeSpinner(accountTypeSpinner);
 
     //color
     UiUtils.setBackgroundOnButton(colorIndicator, accountColor);

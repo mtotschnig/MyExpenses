@@ -18,37 +18,10 @@
     <integer name="account_type_grid_columns">1</integer>
     <item name="form_table_ratio" format="float" type="dimen">2.5</item>
 
-    <dimen name="textSizeLabelBase">12sp</dimen>
-    <dimen name="textSizeSmallBase">14sp</dimen>
-    <dimen name="textSizeNormalBase">16sp</dimen>
-    <dimen name="textSizeMediumBase">18sp</dimen>
-    <dimen name="textSizeLargeBase">22sp</dimen>
-    <dimen name="AccountColorDiameterBase">42sp</dimen>
-    <dimen name="CategoryColorDiameterBase">18sp</dimen>
-
-    <dimen name="textSizeLabelS1">14sp</dimen>
-    <dimen name="textSizeSmallS1">16sp</dimen>
-    <dimen name="textSizeNormalS1">18sp</dimen>
-    <dimen name="textSizeMediumS1">20sp</dimen>
-    <dimen name="textSizeLargeS1">24sp</dimen>
-    <dimen name="AccountColorDiameterS1">46sp</dimen>
-    <dimen name="CategoryColorDiameterS1">20sp</dimen>
-
-    <dimen name="textSizeLabelS2">16sp</dimen>
-    <dimen name="textSizeSmallS2">18sp</dimen>
-    <dimen name="textSizeNormalS2">20sp</dimen>
-    <dimen name="textSizeMediumS2">22sp</dimen>
-    <dimen name="textSizeLargeS2">26sp</dimen>
-    <dimen name="AccountColorDiameterS2">50sp</dimen>
-    <dimen name="CategoryColorDiameterS2">22sp</dimen>
-
-    <dimen name="textSizeLabelS3">18sp</dimen>
-    <dimen name="textSizeSmallS3">20sp</dimen>
-    <dimen name="textSizeNormalS3">22sp</dimen>
-    <dimen name="textSizeMediumS3">24sp</dimen>
-    <dimen name="textSizeLargeS3">28sp</dimen>
-    <dimen name="AccountColorDiameterS3">54sp</dimen>
-    <dimen name="CategoryColorDiameterS3">24sp</dimen>
+    <dimen name="textSizeLabel">12sp</dimen>
+    <dimen name="textSizeSmall">14sp</dimen>
+    <dimen name="account_color_diameter">42sp</dimen>
+    <dimen name="category_color_diameter">18sp</dimen>
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>
@@ -62,4 +35,7 @@
     <dimen name="list_header_vertical_padding">4dp</dimen>
     <dimen name="category_icon_selector_column_width">40dp</dimen>
     <dimen name="category_icon_size">24dp</dimen>
+    <dimen name="drawerWidth">260sp</dimen>
+    <dimen name="colorContainerOuter">32dp</dimen>
+    <dimen name="colorContainerInner">16dp</dimen>
 </resources>

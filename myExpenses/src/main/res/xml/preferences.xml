@@ -70,7 +70,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_ui">
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
-            android:defaultValue="dark"
+            android:defaultValue="@string/pref_ui_theme_default"
             android:entries="@array/pref_ui_theme_entries"
             android:entryValues="@array/pref_ui_theme_values"
             android:key="@string/pref_ui_theme_key"
@@ -260,7 +260,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <PreferenceScreen
-            android:key="exchange_rates"
+            android:key="@string/pref_exchange_rates_key"
             android:title="@string/pref_category_exchange_rates">
             <ListPreference
                 android:defaultValue="RATESAPI"

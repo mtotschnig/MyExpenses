@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="ThemeDark" parent="@style/ThemeDarkBase">
-        <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall</item>
+    <style name="MyTheme" parent="MyThemeBase">
+        <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 
-    <style name="ThemeLight" parent="@style/ThemeLightBase">
-        <item name="android:textAppearanceListItemSecondary">@style/MyTextAppearanceSmall</item>
+    <style name="EditDialog" parent="EditDialogBase">
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Onboarding" parent="OnboardingBase">
+        <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 </resources>

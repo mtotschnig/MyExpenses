@@ -20,6 +20,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -305,10 +306,9 @@ public class DbUtils {
     return result;
   }
 
-  static int setupDefaultCategories(SQLiteDatabase database) {
-    final MyApplication application = MyApplication.getInstance();
-    Resources resources = application.getResources();
-    String packageName = application.getPackageName();
+  static int setupDefaultCategories(SQLiteDatabase database, Context context) {
+    Resources resources = context.getResources();
+    String packageName = context.getPackageName();
     int total = 0;
     long catIdMain;
     database.beginTransaction();

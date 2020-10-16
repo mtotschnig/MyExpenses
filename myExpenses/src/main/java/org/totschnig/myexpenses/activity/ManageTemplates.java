@@ -70,7 +70,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setHelpVariant(HelpVariant.templates);
     setContentView(R.layout.manage_templates);
@@ -163,7 +162,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     if (command == R.id.CREATE_INSTANCE_SAVE_COMMAND) {
-      getPrefHandler().putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_SAVE);
+      prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_SAVE);
       if (isSplit) {
         mListFragment.requestSplitTransaction(new Long[]{id});
       } else {
@@ -178,7 +177,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
     if (command == R.id.CREATE_INSTANCE_EDIT_COMMAND) {
-      getPrefHandler().putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_EDIT);
+      prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_EDIT);
       if (isSplit) {
         mListFragment.requestSplitTransaction(id);
       } else {

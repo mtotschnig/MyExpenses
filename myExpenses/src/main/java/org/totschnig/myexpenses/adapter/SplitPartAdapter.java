@@ -44,8 +44,8 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     if (context instanceof MyExpenses) {
       insideFragment = true;
     }
-    colorExpense = context.getColorExpense();
-    colorIncome = context.getColorIncome();
+    colorExpense = context.getResources().getColor(R.color.colorExpense);
+    colorIncome = context.getResources().getColor(R.color.colorIncome);;
     this.currency = currency;
     this.currencyFormatter = currencyFormatter;
   }
@@ -76,12 +76,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     c.moveToPosition(position);
     int col = c.getColumnIndex(KEY_AMOUNT);
     long amount = c.getLong(col);
-    if (amount < 0) {
-      tv1.setTextColor(colorExpense);
-      // Set the background color of the text.
-    } else {
-      tv1.setTextColor(colorIncome);
-    }
+    tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
     TextView tv2 = (TextView) row.findViewById(R.id.category);
     //should not be needed, even harmful //TODO check
     /*if (insideFragment && Build.VERSION.SDK_INT < 11) {

@@ -27,8 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:entries="@array/comparison_operator_date_entries"
-            android:entryValues="@array/comparison_operator_date_values"/>
+            android:entries="@array/comparison_operator_date_entries"/>
 
         <DatePicker
             android:id="@+id/date1"

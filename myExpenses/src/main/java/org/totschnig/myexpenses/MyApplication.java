@@ -35,8 +35,8 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.SecurityProvider;
@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.ui.ContextHelper;
+import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -161,6 +162,7 @@ public class MyApplication extends Application implements
     checkAppReplacingState();
     initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    MoreUiUtilsKt.setNightMode(prefHandler, this);
     final boolean syncService = isSyncService();
     crashHandler.initProcess(this, syncService);
     setupLogging();
@@ -211,15 +213,15 @@ public class MyApplication extends Application implements
     //we cannot use the standard way of reading preferences, since this works only after base context
     //has been attached
     final Locale systemLocale = Locale.getDefault();
-    final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
-        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
-    super.attachBaseContext(wrapped);
+    super.attachBaseContext(base);
     MultiDex.install(this);
     appComponent = buildAppComponent(systemLocale);
     appComponent.inject(this);
     featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
+    final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
+        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
     Transaction.buildProjection(wrapped);
   }
 
@@ -303,7 +305,7 @@ public class MyApplication extends Application implements
   }
 
   public void setLastPause(ProtectedFragmentActivity ctx) {
-    if (ctx instanceof SplashActivity) return;
+    if (ctx instanceof OnboardingActivity) return;
     if (!isLocked()) {
       // if we are dealing with an activity called from widget that allows to
       // bypass password protection, we do not reset last pause
@@ -331,7 +333,7 @@ public class MyApplication extends Application implements
    * data entry from widget is allowed sets isLocked as a side effect
    */
   public boolean shouldLock(ProtectedFragmentActivity ctx) {
-    if (ctx instanceof SplashActivity) return false;
+    if (ctx instanceof OnboardingActivity) return false;
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(
         AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);

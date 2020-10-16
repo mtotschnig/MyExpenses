@@ -34,7 +34,6 @@ import androidx.annotation.Nullable;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
@@ -68,13 +67,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     backendProviders = ServiceLoader.load(this);
-    Icepick.restoreInstanceState(this, savedInstanceState);
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   //LocalFileBackend
@@ -108,7 +100,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     if (data.getBoolean(KEY_WEB_DAV_FALLBACK_TO_CLASS1)) {
       bundle.putString(KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1");
     }
-    if (getPrefHandler().getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
+    if (prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
       bundle.putString(KEY_ALLOW_UNVERIFIED, "true");
     }
     createAccount(accountName, password, null, bundle);
@@ -177,6 +169,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         .fields(Input.password(KEY_PASSWORD_ENCRYPTION).required().hint(R.string.input_label_passphrase))
         .extra(args)
         .neut(R.string.button_label_no_encryption)
+        .theme(R.style.SimpleDialog)
         .show(this, DIALOG_TAG_PASSWORD);
   }
 
@@ -184,7 +177,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_fetching_data_from_sync_backend), PROGRESS_TAG)
+        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_fetching_data_from_sync_backend)), PROGRESS_TAG)
         .commit();
   }
 
@@ -195,7 +188,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_FETCH_SYNC_ACCOUNT_DATA), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_fetching_data_from_sync_backend), PROGRESS_TAG)
+        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_fetching_data_from_sync_backend)), PROGRESS_TAG)
         .commit();
   }
 

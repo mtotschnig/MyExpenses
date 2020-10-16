@@ -10,7 +10,6 @@ import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SINGLE_CHOICE
 import eltos.simpledialogfragment.list.SimpleListDialog
-import icepick.Icepick
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -31,7 +30,6 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Icepick.restoreInstanceState(this, savedInstanceState)
         viewModel = instantiateViewModel()
         viewModel.folderList.observe(this, {
             loadFinished = true
@@ -66,11 +64,6 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
 
     abstract fun buildSuccessIntent(folder: Pair<String, String>): Intent
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
-    }
-
     @SuppressLint("BuildNotImplemented")
     protected fun showSelectFolderDialog(pairs: List<Pair<String, String>>) {
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_SELECT) == null) {
@@ -93,6 +86,7 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
                     .title(R.string.menu_create_folder)
                     .pos(android.R.string.ok)
                     .neg()
+                    .theme(R.style.SimpleDialog)
                     .show(this, DIALOG_TAG_FOLDER_CREATE)
         }
     }

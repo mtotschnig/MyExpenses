@@ -496,7 +496,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
 
   private void showHelp(String message) {
     MessageDialogFragment.newInstance(
-        0,
+        null,
         message,
         new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SYNC_SETTINGS_COMMAND, null),
         MessageDialogFragment.Button.okButton(),

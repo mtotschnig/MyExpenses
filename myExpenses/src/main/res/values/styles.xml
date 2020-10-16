@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="headingStyle">
         <item name="android:layout_width">match_parent</item>
@@ -28,6 +27,7 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
+
     <style name="headingStyle.WithMargin.Caps">
         <item name="android:textAllCaps">true</item>
     </style>
@@ -70,7 +70,7 @@
         <item name="android:minHeight">0dp</item>
     </style>
 
-    <style name="dialog_text"/>
+    <style name="dialog_text" />
 
     <style name="dialog_text.bold">
         <item name="android:textStyle">bold</item>
@@ -91,30 +91,19 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <style name="MyTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textSize">?textSizeNormal</item>
+    <style name="SmallButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/SmallButtonTextAppearance</item>
+        <item name="strokeColor">?colorPrimary</item>
     </style>
 
-    <style name="MyTextAppearanceLarge" parent="@android:style/TextAppearance.Large">
-        <item name="android:textSize">?textSizeLarge</item>
-    </style>
-
-    <style name="MyTextAppearanceMedium" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">?textSizeMedium</item>
-    </style>
-
-    <style name="MyTextAppearanceSmall" parent="@android:style/TextAppearance.Small">
-        <item name="android:textSize">?textSizeSmall</item>
-    </style>
-
-    <style name="SmallButton">
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    <style name="SmallButtonTextAppearance" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
     <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
         <!-- the switch color is set to contrast with the window background, hence we need inverse text color -->
         <item name="android:textColor">?android:textColorPrimaryInverse</item>
-        <item name="android:textSize">?textSizeSmall</item>
+        <item name="android:textSize">@dimen/textSizeSmall</item>
     </style>
 
     <style name="ExpandableListRowWithCustomIndicator">
@@ -130,36 +119,33 @@
     <style name="MyAlertDialogThemeLight" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorControlNormal">@android:color/black</item>
     </style>
+
     <style name="MyAlertDialogThemeDark" parent="@style/Theme.AppCompat.Dialog.Alert">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
-    <style name="CaldroidCustom" parent="@style/CaldroidDefault">
-        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
-    </style>
+    <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />
 
-    <style name="CaldroidCustomDark" parent="@style/CaldroidDefaultDark">
-        <item name="styleCaldroidGridView">@style/CaldroidCustomDarkGridView</item>
+    <style name="CaldroidCustom" parent="CaldroidCustomBase">
+        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
     </style>
 
     <style name="CaldroidCustomGridView">
         <item name="android:drawSelectorOnTop">true</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:background">@color/caldroid_lighter_gray</item>
+        <item name="android:background">@color/caldroid_custom_gridview_background</item>
         <item name="android:horizontalSpacing">1dp</item>
         <item name="android:padding">1dp</item>
         <item name="android:verticalSpacing">1dp</item>
     </style>
 
-    <style name="CaldroidCustomDarkGridView" parent="CaldroidCustomGridView">
-        <item name="android:background">@color/caldroid_middle_gray</item>
-    </style>
     <style name="MySpinnerItemStyle" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
         <item name="android:gravity">center</item>
     </style>
-    <style name="CalculatorButton">
+
+    <style name="CalculatorButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:minHeight">@dimen/calculator_button_min</item>
         <item name="android:minWidth">@dimen/calculator_button_min</item>
         <item name="android:textSize">@dimen/calculator_button_text_size</item>
@@ -196,12 +182,16 @@
         <item name="android:textColor">#f26522</item>
         <item name="android:textStyle">bold</item>
         <item name="android:text">C</item>
-        <item name="android:contentDescription">@string/content_description_calculator_clear_button</item>
+        <item name="android:contentDescription">
+            @string/content_description_calculator_clear_button
+        </item>
     </style>
 
     <style name="CalculatorButton.Delete">
         <item name="android:text">&lt;</item>
-        <item name="android:contentDescription">@string/content_description_calculator_delete_button</item>
+        <item name="android:contentDescription">
+            @string/content_description_calculator_delete_button
+        </item>
     </style>
 
     <style name="CalculatorButton.Result">
@@ -236,17 +226,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="ContribDialogThemeLight" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="ContribDialogTheme">
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
-    <style name="ContribDialogThemeDark" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
-    </style>
-
-    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/material_grey</item>
     </style>
 
@@ -257,21 +242,18 @@
     </style>
 
     <style name="AdaptiveLabelTextAppearance" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">?textSizeLabel</item>
+        <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
-    <style name="OnBoardingTextInputLayoutBase" parent="Widget.Design.TextInputLayout">
+    <style name="OnBoardingTextInputLayoutBase" parent="MyTextInputLayout">
         <item name="hintTextAppearance">@style/AdaptiveHintTextAppearance</item>
         <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
     </style>
 
-    <style name="OnBoardingTextInputLayout" parent="OnBoardingTextInputLayoutBase">
-        <item name="android:layout_marginLeft">-4dp</item>
-    </style>
-
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
     <style name="AdaptiveHintTextAppearance" parent="TextAppearance.Design.Hint">
-        <item name="android:textSize">?textSizeLabel</item>
+        <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
     <style name="OnBoardingDisplayProperty">
@@ -281,10 +263,6 @@
 
     <style name="OnboardingSpinner">
         <item name="android:layout_marginLeft">-8dp</item>
-    </style>
-    
-    <style name="MyTextAppearanceSubhead" parent="@style/TextAppearance.AppCompat.Subhead">
-        <item name="android:textSize">?textSizeNormal</item>
     </style>
 
     <style name="BudgetButton" parent="Widget.AppCompat.Button">
@@ -306,5 +284,26 @@
 
     <style name="ReccurrenceRowToggleButton">
         <item name="layout_constraintTop_toBottomOf">@id/Recurrence</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
+        <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
+    </style>
+
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
+    </style>
+
+    <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
+    </style>
+
+    <style name="SimpleDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="textInputStyle">@style/SimpleDialogTextInputStyle</item>
+    </style>
+
+    <style name="SimpleDialogTextInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="endIconMode">none</item>
     </style>
 </resources>
