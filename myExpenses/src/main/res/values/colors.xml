@@ -30,8 +30,8 @@
     <color name="colorAggregate">@color/my_material_grey_600</color>
     <color name="cardHighlightForeground">#4080cbc4</color>
 
-    <color name="drawerBackgroundLight">@android:color/white</color>
-    <color name="drawerBackgroundDark">#222</color>
+    <color name="drawerBackground">@android:color/white</color>
+    <color name="cardBackground">#f0f0f0</color>
 
     <color name="material_indigo">#3F51B5</color>
     <color name="material_grey">#9E9E9E</color>

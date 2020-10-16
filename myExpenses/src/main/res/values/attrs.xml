@@ -15,15 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <attr name="drawerBackground" format="color" />
-    <attr name="cardBackground" format="color" />
-    <attr name="drawerWidth" format="dimension" />
-    <attr name="pageMargin" format="reference" />
-    <attr name="colorContainerOuter" format="dimension" />
-    <attr name="colorContainerInner" format="dimension" />
-    <attr name="colorControlInverse" />
-    <attr name="preferenceCategoryTextAppearance" format="reference" />
-
     <declare-styleable name="AmountInput">
         <attr name="withTypeSwitch" format="boolean"/>
         <attr name="withCurrencySelection" format="boolean"/>

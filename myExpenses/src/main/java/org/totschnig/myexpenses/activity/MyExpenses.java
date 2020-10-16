@@ -19,14 +19,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.ClipboardManager;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -411,14 +410,11 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private void setup() {
     newVersionCheck();
-    Resources.Theme theme = getTheme();
-    TypedValue margin = new TypedValue();
-    theme.resolveAttribute(R.attr.pageMargin, margin, true);
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.addOnPageChangeListener(this);
     myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
-    myPager.setPageMarginDrawable(margin.resourceId);
+    myPager.setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
     mManager = LoaderManager.getInstance(this);
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }

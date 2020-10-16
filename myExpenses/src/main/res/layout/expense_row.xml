@@ -56,8 +56,8 @@
 
         <RelativeLayout
             android:id="@+id/colorContainer"
-            android:layout_width="?attr/colorContainerOuter"
-            android:layout_height="?attr/colorContainerOuter"
+            android:layout_width="@dimen/colorContainerOuter"
+            android:layout_height="@dimen/colorContainerOuter"
             android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/category"
@@ -66,8 +66,8 @@
 
             <View
                 android:id="@+id/color1"
-                android:layout_width="?attr/colorContainerInner"
-                android:layout_height="?attr/colorContainerInner"
+                android:layout_width="@dimen/colorContainerInner"
+                android:layout_height="@dimen/colorContainerInner"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>

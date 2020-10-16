@@ -27,12 +27,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="dropdownListPreferredItemHeight">48sp</item>
-        <item name="drawerBackground">@color/drawerBackgroundDark</item>
-        <item name="pageMargin">@drawable/pagermargin_white</item>
-        <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="colorContainerOuter">32dp</item>
-        <item name="colorContainerInner">16dp</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
         <item name="md_color_button_text">?colorAccent</item>
@@ -56,7 +51,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
-        <item name="cardBackground">#555555</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>

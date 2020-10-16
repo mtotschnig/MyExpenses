@@ -93,7 +93,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
                 ),
                 intArrayOf(
                         UiUtils.themeIntAttr(requireContext(), R.attr.colorControlActivated),
-                        UiUtils.themeIntAttr(requireContext(), R.attr.cardBackground)
+                        resources.getColor(R.color.cardBackground)
                 )
         )
     }
@@ -128,10 +128,10 @@ class PlannerFragment : CommitSafeDialogFragment() {
                 binding.recyclerView.layoutManager?.scrollToPosition(if (list.first) itemCount - 1 else 0)
             }
         })
-        model.getTitle().observe(this, Observer { title ->
+        model.getTitle().observe(this, { title ->
             binding.Title.text = title
         })
-        model.getUpdates().observe(this, Observer { update ->
+        model.getUpdates().observe(this, { update ->
             //Timber.d("Update posted")
             plannerAdapter.postUpdate(update)
         })

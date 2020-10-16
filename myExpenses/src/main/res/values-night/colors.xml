@@ -10,4 +10,6 @@
     <color name="caldroid_red_border">@color/caldroid_light_red</color>
     <color name="caldroid_state_date_prev_next_month">@color/caldroid_333</color>
     <color name="future_background">#11FFFFFF</color>
+    <color name="drawerBackground">#222</color>
+    <color name="cardBackground">#555555</color>
 </resources>
