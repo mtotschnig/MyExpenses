@@ -88,7 +88,7 @@ public class AmountCriteria extends Criteria {
         break;
       case BTW:
         String amount2 = currencyFormatter.formatCurrency(new Money(currencyUnit, Math.abs(origValue2)));
-        result += MyApplication.getInstance().getString(R.string.between_and, amount1, amount2);
+        result += context.getString(R.string.between_and, amount1, amount2);
     }
     return result;
   }

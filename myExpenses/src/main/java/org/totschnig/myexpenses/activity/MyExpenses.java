@@ -115,7 +115,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.list.MenuDialog;
-import icepick.Icepick;
 import icepick.State;
 import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
@@ -903,7 +902,7 @@ public class MyExpenses extends BaseMyExpenses implements
           if (!getSupportFragmentManager().isStateSaved()) {
             getSupportFragmentManager().beginTransaction()
                 .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
-                .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), PROGRESS_TAG)
+                .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing)), PROGRESS_TAG)
                 .commit();
           }
         }
@@ -1111,7 +1110,7 @@ public class MyExpenses extends BaseMyExpenses implements
         if (result.isSuccess()) {
           recordUsage(ContribFeature.PRINT);
           MessageDialogFragment f = MessageDialogFragment.newInstance(
-              0,
+              null,
               result.print(this),
               new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.getExtra().toString(), true),
               MessageDialogFragment.Button.nullButton(R.string.button_label_close),
@@ -1131,7 +1130,7 @@ public class MyExpenses extends BaseMyExpenses implements
             setup();
           } else {
             MessageDialogFragment f = MessageDialogFragment.newInstance(
-                0,
+                null,
                 result.print(this),
                 new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
                 null,
@@ -1215,7 +1214,7 @@ public class MyExpenses extends BaseMyExpenses implements
             .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
                 ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
-                R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
+                getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
             .commit();
         break;
       case R.id.DELETE_COMMAND_DO:

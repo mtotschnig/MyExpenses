@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.Context;
 import android.text.TextUtils;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -20,18 +20,17 @@ public class BackupUtils {
   public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
 
   @NonNull
-  public static Result<DocumentFile> doBackup(String password) {
-    MyApplication application = MyApplication.getInstance();
+  public static Result<DocumentFile> doBackup(String password, Context context) {
     if (!AppDirHelper.isExternalStorageAvailable()) {
       return Result.ofFailure(R.string.external_storage_unavailable);
     }
-    DocumentFile appDir = AppDirHelper.getAppDir(application);
+    DocumentFile appDir = AppDirHelper.getAppDir(context);
     if (appDir == null) {
       return Result.ofFailure(R.string.io_error_appdir_null);
     }
     if (!AppDirHelper.isWritableDirectory(appDir)) {
       return Result.ofFailure(R.string.app_dir_not_accessible, null,
-          FileUtils.getPath(application, appDir.getUri()));
+          FileUtils.getPath(context, appDir.getUri()));
     }
 
     DocumentFile backupFile = requireBackupFile(appDir, !TextUtils.isEmpty(password));
@@ -40,7 +39,7 @@ public class BackupUtils {
     }
     File cacheDir = AppDirHelper.getCacheDir();
     if (cacheDir == null) {
-      CrashHandler.report(application.getString(R.string.io_error_cachedir_null));
+      CrashHandler.report(context.getString(R.string.io_error_cachedir_null));
       return Result.ofFailure(R.string.io_error_cachedir_null);
     }
     Result result = DbUtils.backup(cacheDir);
@@ -59,10 +58,10 @@ public class BackupUtils {
         getBackupPrefFile(cacheDir).delete();
       }
     } else {
-      failureMessage = result.print(application);
+      failureMessage = result.print(context);
     }
-    return Result.ofFailure(application.getString(R.string.backup_failure,
-        FileUtils.getPath(application, backupFile.getUri())) + " " + failureMessage);
+    return Result.ofFailure(context.getString(R.string.backup_failure,
+        FileUtils.getPath(context, backupFile.getUri())) + " " + "failure");
   }
 
   private static DocumentFile requireBackupFile(@NonNull DocumentFile appDir, boolean encrypted) {

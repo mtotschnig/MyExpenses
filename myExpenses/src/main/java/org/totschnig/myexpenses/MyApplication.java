@@ -212,16 +212,14 @@ public class MyApplication extends Application implements
     //we cannot use the standard way of reading preferences, since this works only after base context
     //has been attached
     final Locale systemLocale = Locale.getDefault();
-    final Context wrapped = base; //ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
-        //PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
-    super.attachBaseContext(wrapped);
+    super.attachBaseContext(base);
     MultiDex.install(this);
     appComponent = buildAppComponent(systemLocale);
     appComponent.inject(this);
     featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
-    Transaction.buildProjection(wrapped);
+    Transaction.buildProjection(base);
   }
 
   @NonNull

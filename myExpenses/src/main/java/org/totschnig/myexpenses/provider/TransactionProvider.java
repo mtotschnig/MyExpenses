@@ -48,12 +48,14 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -277,6 +279,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Inject
   @Deprecated
   PrefHandler prefHandler;
+  @Inject
+  UserLocaleProvider userLocaleProvider;
 
   @Override
   public boolean onCreate() {
@@ -1775,7 +1779,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase()));
+        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase(), ContextHelper.wrap(getContext(), userLocaleProvider.getUserPreferredLocale())));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }

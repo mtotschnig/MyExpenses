@@ -94,7 +94,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
       MessageDialogFragment.Button positive = new MessageDialogFragment.Button(positiveString, R.id.GDPR_CONSENT_COMMAND, true);
 
       MessageDialogFragment.newInstance(
-          0,
+          null,
           Phrase.from(context, R.string.gdpr_consent_message)
               .put(PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
               .put("ad_provider", adProviders)

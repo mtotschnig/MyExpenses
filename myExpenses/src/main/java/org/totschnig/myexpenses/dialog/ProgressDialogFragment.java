@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.dialog;
 
@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -50,24 +49,12 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
    * @param message if different from 0 a resource string identifier displayed as the dialogs's message
    * @return the dialog fragment
    */
-  public static ProgressDialogFragment newInstance(int message) {
-    return newInstance(message,false);
+  public static ProgressDialogFragment newInstance(String message) {
+    return newInstance(message, false);
   }
 
-  public static ProgressDialogFragment newInstance(int message, boolean withButton) {
-    return newInstance(0, message, STYLE_SPINNER, withButton);
-  }
-
-  /**
-   * @param message       if different from 0 a resource string identifier displayed as the dialogs's message
-   * @param progressStyle {@link ProgressDialog#STYLE_SPINNER} or {@link ProgressDialog#STYLE_HORIZONTAL}
-   * @param withButton    if true dialog is rendered with an OK button that is initially disabled
-   * @return the dialog fragment
-   */
-  public static ProgressDialogFragment newInstance(int title, int message, int progressStyle, boolean withButton) {
-    String titleString = title != 0 ? MyApplication.getInstance().getString(title) : null;
-    String messageString = message != 0 ? MyApplication.getInstance().getString(message) : null;
-    return newInstance(titleString, messageString, progressStyle, withButton);
+  public static ProgressDialogFragment newInstance(String message, boolean withButton) {
+    return newInstance(null, message, STYLE_SPINNER, withButton);
   }
 
   /**

@@ -53,7 +53,7 @@ public class GrisbiImport extends ProtectedFragmentActivity {
         .add(TaskExecutionFragment.newInstanceGrisbiImport(mUri, withCategories, withParties),
             ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
-            0, 0, ProgressDialog.STYLE_HORIZONTAL, false), PROGRESS_TAG)
+            null, null, ProgressDialog.STYLE_HORIZONTAL, false), PROGRESS_TAG)
         .commit();
   }
 

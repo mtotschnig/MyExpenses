@@ -165,7 +165,7 @@ public class SyncBackendList extends Fragment implements
         Account account = getAccountForSync(packedPosition);
         if (account != null) {
           MessageDialogFragment.newInstance(
-              R.string.menu_sync_link,
+              getString(R.string.menu_sync_link),
               getString(R.string.dialog_sync_link, account.getUuid()),
               new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, account),
               MessageDialogFragment.Button.nullButton(android.R.string.cancel),

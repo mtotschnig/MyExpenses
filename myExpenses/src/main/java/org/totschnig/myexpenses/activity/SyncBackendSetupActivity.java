@@ -177,7 +177,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_fetching_data_from_sync_backend), PROGRESS_TAG)
+        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_fetching_data_from_sync_backend)), PROGRESS_TAG)
         .commit();
   }
 
@@ -188,7 +188,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_FETCH_SYNC_ACCOUNT_DATA), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_fetching_data_from_sync_backend), PROGRESS_TAG)
+        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_fetching_data_from_sync_backend)), PROGRESS_TAG)
         .commit();
   }
 

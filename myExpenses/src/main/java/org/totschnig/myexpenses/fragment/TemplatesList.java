@@ -259,7 +259,7 @@ public class TemplatesList extends SortableListFragment
     switch (command) {
       case R.id.DELETE_COMMAND:
         MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_template,//TODO check if template
+            getString(R.string.dialog_title_warning_delete_template),//TODO check if template
             getResources().getQuantityString(R.plurals.warning_delete_template, itemIds.length, itemIds.length),
             new MessageDialogFragment.Button(
                 R.string.menu_delete,

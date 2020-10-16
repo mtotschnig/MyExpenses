@@ -622,7 +622,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
             objectIds, extra),
             ASYNC_TAG);
     if (progressMessage != 0) {
-      ft.add(ProgressDialogFragment.newInstance(progressMessage, withButton), PROGRESS_TAG);
+      ft.add(ProgressDialogFragment.newInstance(getString(progressMessage), withButton), PROGRESS_TAG);
     }
     ft.commit();
   }
@@ -647,7 +647,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         .add(TaskExecutionFragment.newInstanceWithBundle(extras, taskId),
             ASYNC_TAG);
     if (progressMessage != 0) {
-      ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
+      ft.add(ProgressDialogFragment.newInstance(getString(progressMessage)), PROGRESS_TAG);
     }
     ft.commit();
   }
@@ -675,7 +675,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(), SAVE_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),
+        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_saving)),
             PROGRESS_TAG)
         .commitAllowingStateLoss();
   }
@@ -840,7 +840,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title, true), PROGRESS_TAG).commit();
+        .add(ProgressDialogFragment.newInstance(getString(R.string.pref_restore_title), true), PROGRESS_TAG).commit();
   }
 
   @Override
@@ -943,7 +943,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void showMessage(int title, CharSequence message) {
     MessageDialogFragment.newInstance(
-        title,
+        getString(title),
         message,
         MessageDialogFragment.Button.okButton(),
         null, null)

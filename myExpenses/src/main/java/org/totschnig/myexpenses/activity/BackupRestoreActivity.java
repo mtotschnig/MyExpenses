@@ -101,7 +101,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         }
         message.append(getString(R.string.continue_confirmation));
         MessageDialogFragment.newInstance(
-            isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup,
+            getString(isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup),
             message.toString(),
             new MessageDialogFragment.Button(android.R.string.yes,
                 R.id.BACKUP_COMMAND, null), null,

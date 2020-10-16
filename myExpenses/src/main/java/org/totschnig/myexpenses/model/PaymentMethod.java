@@ -89,6 +89,7 @@ public class PaymentMethod extends Model {
     }
 
     public String getLocalizedLabel() {
+      //TODO use proper context
       return MyApplication.getInstance().getString(resId);
     }
   }

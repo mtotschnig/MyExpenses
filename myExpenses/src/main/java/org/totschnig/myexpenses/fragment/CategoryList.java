@@ -278,7 +278,7 @@ public class CategoryList extends SortableListFragment {
               message += getString(R.string.warning_delete_category_with_budget);
             }
             MessageDialogFragment.newInstance(
-                R.string.dialog_title_warning_delete_category,
+                getString(R.string.dialog_title_warning_delete_category),
                 message,
                 new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
                 null,

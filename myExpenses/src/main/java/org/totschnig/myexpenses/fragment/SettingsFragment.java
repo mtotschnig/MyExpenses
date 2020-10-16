@@ -822,7 +822,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public boolean onPreferenceChange(Preference pref, Object value) {
     if (matches(pref, HOME_CURRENCY)) {
       if (!value.equals(prefHandler.getString(HOME_CURRENCY, null))) {
-        MessageDialogFragment.newInstance(R.string.dialog_title_information,
+        MessageDialogFragment.newInstance(getString(R.string.dialog_title_information),
             concatResStrings(getContext(), " ", R.string.home_currency_change_warning, R.string.continue_confirmation),
             new MessageDialogFragment.Button(android.R.string.ok, R.id.CHANGE_COMMAND, ((String) value)),
             null, MessageDialogFragment.Button.noButton()).show(getFragmentManager(), "CONFIRM");
