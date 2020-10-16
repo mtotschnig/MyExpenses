@@ -12,7 +12,6 @@
 
     <!-- label (only custom) -->
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/container_currency_label"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
@@ -29,7 +28,6 @@
 
     <!-- code (only custom) -->
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/container_currency_code"
         android:layout_width="match_parent"
         android:layout_marginBottom="8dp"
@@ -51,7 +49,6 @@
 
     <!-- symbol -->
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp">
@@ -67,7 +64,6 @@
 
     <!-- fraction digits -->
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

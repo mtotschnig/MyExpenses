@@ -317,7 +317,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_BACKUP:
-        return BackupUtils.doBackup(((String) mExtra), taskExecutionFragment.requireContext());
+        return BackupUtils.doBackup(((String) mExtra), context);
       case TaskExecutionFragment.TASK_BALANCE:
         return Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:
