@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
@@ -219,7 +220,9 @@ public class MyApplication extends Application implements
     featureManager.initApplication(this);
     crashHandler.onAttachBaseContext(this);
     DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
-    Transaction.buildProjection(base);
+    final Context wrapped = ContextHelper.wrap(base, UserLocaleProvider.Companion.resolveLocale(
+        PreferenceManager.getDefaultSharedPreferences(base).getString("ui_language", DEFAULT_LANGUAGE), systemLocale));
+    Transaction.buildProjection(wrapped);
   }
 
   @NonNull
