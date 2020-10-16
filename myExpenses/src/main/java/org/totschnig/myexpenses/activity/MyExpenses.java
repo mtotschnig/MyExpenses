@@ -285,8 +285,6 @@ public class MyExpenses extends BaseMyExpenses implements
       CrashHandler.report(e);
     }
 
-    Icepick.restoreInstanceState(this, savedInstanceState);
-
     ButterKnife.bind(this);
 
     mToolbar = setupToolbar(false);
@@ -1203,11 +1201,6 @@ public class MyExpenses extends BaseMyExpenses implements
       return null;
     return (TransactionList) getSupportFragmentManager().findFragmentByTag(
         mViewPagerAdapter.getFragmentName(mCurrentPosition));
-  }
-
-  protected void onSaveInstanceState(@NonNull Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   @Override

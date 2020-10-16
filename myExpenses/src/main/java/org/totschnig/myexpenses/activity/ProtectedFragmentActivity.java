@@ -105,6 +105,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import icepick.Icepick;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
@@ -183,6 +184,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     if (MyApplication.getInstance().isProtected()) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
@@ -191,7 +193,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
     tracker.init(this);
+  }
 
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
   }
 
   @SuppressLint("NewApi")

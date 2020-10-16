@@ -34,7 +34,6 @@ import androidx.annotation.Nullable;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
@@ -68,13 +67,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     backendProviders = ServiceLoader.load(this);
-    Icepick.restoreInstanceState(this, savedInstanceState);
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   //LocalFileBackend

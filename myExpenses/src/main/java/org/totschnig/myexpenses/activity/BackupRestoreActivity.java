@@ -49,7 +49,6 @@ import androidx.fragment.app.Fragment;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
-import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
@@ -78,7 +77,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       Timber.i("Called from onboarding");
     }
     if (savedInstanceState != null) {
-      Icepick.restoreInstanceState(this, savedInstanceState);
       return;
     }
     String action = getIntent().getAction();
@@ -341,11 +339,5 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     } else {
       super.showSnackbar(message, duration, snackbarAction);
     }
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 }

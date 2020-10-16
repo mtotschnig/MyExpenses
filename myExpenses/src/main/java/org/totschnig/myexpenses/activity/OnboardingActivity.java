@@ -37,7 +37,6 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import icepick.Icepick;
 import icepick.State;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
@@ -60,9 +59,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
     } else {
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
-    setTheme(R.style.Onboarding);
     super.onCreate(savedInstanceState);
-    Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.onboarding);
     ButterKnife.bind(this);
     //setupToolbar(false);
@@ -74,12 +71,6 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     //skip Help
     return true;
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   public void navigate_next() {

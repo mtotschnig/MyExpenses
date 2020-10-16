@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import icepick.Icepick
 import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
@@ -137,7 +136,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Icepick.restoreInstanceState(this, savedInstanceState)
         setContentView(R.layout.one_budget)
         setupToolbar()
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
@@ -172,7 +170,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         filterPersistence.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

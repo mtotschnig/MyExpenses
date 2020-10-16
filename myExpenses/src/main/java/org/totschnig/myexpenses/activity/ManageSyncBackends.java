@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
 
-import icepick.Icepick;
 import icepick.State;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
@@ -53,7 +52,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.manage_sync_backends);
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
@@ -63,12 +61,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       }
       sanityCheck();
     }
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    Icepick.saveInstanceState(this, outState);
   }
 
   @Override

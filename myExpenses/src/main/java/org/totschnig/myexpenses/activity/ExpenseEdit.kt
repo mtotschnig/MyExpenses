@@ -230,7 +230,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         amountInput.setTypeEnabled(false)
 
         if (savedInstanceState != null) {
-            Icepick.restoreInstanceState(this, savedInstanceState)
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler)
             loadData()
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
@@ -843,7 +842,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Icepick.saveInstanceState(this, outState)
         if (::delegate.isInitialized) {
             delegate.onSaveInstanceState(outState)
         }
