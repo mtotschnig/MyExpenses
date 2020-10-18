@@ -974,10 +974,13 @@ public class MyExpenses extends BaseMyExpenses implements
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       int color700 = ColorUtils.get700Tint(color);
       window.setStatusBarColor(color700);
+      window.setNavigationBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //noinspection InlinedApi
         getWindow().getDecorView().setSystemUiVisibility(
             ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+        getWindow().getDecorView().setSystemUiVisibility(
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
       }
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);

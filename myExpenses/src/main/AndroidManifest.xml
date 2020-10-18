@@ -82,6 +82,7 @@
         </activity>
 
         <activity
+            android:theme="@style/MyTheme.Main"
             android:name=".activity.MyExpenses"
             android:label="${appName}" />
 
