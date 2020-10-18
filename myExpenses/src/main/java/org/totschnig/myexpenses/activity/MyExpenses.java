@@ -259,9 +259,6 @@ public class MyExpenses extends BaseMyExpenses implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (!isInitialized) {
-      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
-    }
     setContentView(R.layout.activity_main);
 
     final ViewGroup adContainer = findViewById(R.id.adContainer);
@@ -397,6 +394,11 @@ public class MyExpenses extends BaseMyExpenses implements
           break;
       }
     });
+    if (!isInitialized) {
+      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
+    } else {
+      setup();
+    }
     /*if (savedInstanceState == null) {
       voteReminderCheck();
     }*/

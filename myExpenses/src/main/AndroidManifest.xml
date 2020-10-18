@@ -88,7 +88,7 @@
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/MyTheme.Translucent">
+            android:theme="@style/Translucent">
             <intent-filter
                 android:autoVerify="true"
                 tools:ignore="UnusedAttribute">
@@ -159,17 +159,17 @@
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:exported="false"
-            android:theme="@style/MyTheme.Translucent" />
+            android:theme="@style/Translucent" />
 
         <activity
             android:name=".activity.GrisbiImport"
             android:exported="false"
-            android:theme="@style/MyTheme.Translucent" />
+            android:theme="@style/Translucent" />
 
         <activity
             android:name=".activity.QifImport"
             android:exported="false"
-            android:theme="@style/MyTheme.Translucent" />
+            android:theme="@style/Translucent" />
 
         <activity
             android:name=".activity.CsvImportActivity" />
@@ -184,7 +184,7 @@
 
         <activity
             android:name=".activity.Help"
-            android:theme="@style/MyTheme.Translucent">
+            android:theme="@style/Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -246,7 +246,7 @@
 
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/MyTheme.Translucent">
+            android:theme="@style/Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

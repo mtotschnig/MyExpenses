@@ -17,6 +17,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="MyThemeBase" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/myColorBackground</item>
+        <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
@@ -40,6 +41,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     <style name="EditDialogBase" parent="Theme.MaterialComponents.DayNight.DialogWhenLarge">
         <item name="android:colorBackground">@color/myColorBackground</item>
+        <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
@@ -58,14 +60,16 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="MyTheme.Translucent">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <!-- <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>-->
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
+
+    <style name="Translucent" parent="MyTheme.Translucent" />
 
     <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
         <item name="android:colorBackground">@color/myColorBackground</item>
+        <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="md_color_button_text">?colorAccent</item>

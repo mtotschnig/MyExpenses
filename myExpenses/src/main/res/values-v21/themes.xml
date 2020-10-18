@@ -11,4 +11,8 @@
     <style name="Onboarding" parent="OnboardingBase">
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
+
+    <style name="Translucent" parent="MyTheme.Translucent">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>

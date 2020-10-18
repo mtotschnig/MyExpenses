@@ -938,12 +938,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void showMessage(CharSequence message) {
-   showMessage(0, message);
-  }
-
-  public void showMessage(int title, CharSequence message) {
     MessageDialogFragment.newInstance(
-        getString(title),
+        null,
         message,
         MessageDialogFragment.Button.okButton(),
         null, null)
