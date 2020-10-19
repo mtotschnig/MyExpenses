@@ -31,6 +31,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -547,7 +548,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun hideKeyBoardAndShowDialog(id: Int) {
         hideKeyboard()
-        showDialog(id)
+        try {
+            showDialog(id)
+        } catch (e: WindowManager.BadTokenException) {
+            CrashHandler.report(e)
+        }
     }
 
     override fun onValueSet(view: View) {
