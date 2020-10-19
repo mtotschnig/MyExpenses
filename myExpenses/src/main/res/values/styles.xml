@@ -201,20 +201,17 @@
     </style>
 
     <style name="LicenceLabel">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="LicencePrice">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textAppearance">@style/AdaptiveLabelTextAppearance</item>
     </style>
 
     <style name="SelectLicenceButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="buttonTint">@android:color/white</item>
     </style>
 
     <style name="FeatureList">
@@ -223,7 +220,7 @@
         <item name="android:paddingLeft">@dimen/general_padding</item>
         <item name="android:paddingRight">@dimen/general_padding</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">?android:textColorTertiary</item>
     </style>
 
     <style name="ContribDialogTheme">

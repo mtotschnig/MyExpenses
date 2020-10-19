@@ -29,33 +29,18 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:visibility="gone"/>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/feature_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="3dp"
-            app:cardElevation="0dp"
-            app:cardUseCompatPadding="true">
+        <include
+            android:id="@+id/contrib_feature_container"
+            layout="@layout/package_container"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <include
+            android:id="@+id/extended_feature_container"
+            layout="@layout/package_container"/>
 
-                <include
-                    android:id="@+id/contrib_feature_container"
-                    layout="@layout/package_container"/>
+        <include
+            android:id="@+id/professional_feature_container"
+            layout="@layout/package_container"/>
 
-                <include
-                    android:id="@+id/extended_feature_container"
-                    layout="@layout/package_container"/>
-
-                <include
-                    android:id="@+id/professional_feature_container"
-                    layout="@layout/package_container"/>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
         <TextView
             android:id="@+id/github_extra_info"
             android:textAppearance="@style/AdaptiveLabelTextAppearance"

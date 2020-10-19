@@ -26,8 +26,8 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
 
@@ -50,8 +50,7 @@ public class UiUtils {
   }
 
   static Drawable getTintedDrawableForContext(Context context, int drawableResId) {
-    //noinspection RestrictedApi
-    return AppCompatDrawableManager.get().getDrawable(context, drawableResId);
+    return AppCompatResources.getDrawable(context, drawableResId);
   }
 
   public static Bitmap drawableToBitmap(Drawable d) {

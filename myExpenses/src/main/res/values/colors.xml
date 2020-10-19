@@ -41,9 +41,9 @@
     <color name="my_material_grey_300">#ffe0e0e0</color>
     <color name="material_grey_700">#ff616161</color>
 
-    <color name="premium_licence">#FF83D391</color>
-    <color name="extended_licence">#FFC5DB6A</color>
-    <color name="professional_licence">#FFFFD700</color>
+    <color name="premium_licence">#250D47A1</color>
+    <color name="extended_licence">#25004D40</color>
+    <color name="professional_licence">#25F57F17</color>
 
     <color name="caldroid_custom_gridview_background">@color/caldroid_lighter_gray</color>
     <color name="caldroid_red_border">#FFC6292D</color>
