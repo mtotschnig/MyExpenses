@@ -927,4 +927,6 @@
   <string name="scan_result_no_amount">No se ha encontrado esa cantidad</string>
   <string name="scan_result_no_date">No se ha encontrado esa fecha</string>
   <string name="scan_result_no_payee">No se ha encontrado ese acreedor</string>
+  <string name="button_download">Descargar</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
 </resources>

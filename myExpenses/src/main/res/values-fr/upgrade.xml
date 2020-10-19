@@ -15,6 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string name="whats_new_315_dark_theme_q">Le style sombre est lié à la valeur par défaut du système</string>
     <string-array name="whats_new_313">
         <item>Gestion améliorée des opérations récurrentes</item>
         <item>Traduction en Kannada</item>
@@ -62,6 +63,7 @@
         <item>Traduction ukrainienne</item>
         <item>Exportation CSV: séparateur de champ configurable</item>
     </string-array>
+    <string name="ui_refinement">Raffinement de l\'interface utilisateur</string>
     <string name="bug_fixes">Corrections des erreurs</string>
     <string name="performance_enhancement">Amélioration de performance</string>
     <string name="stability_improvements">Améliorations de la stabilité</string>

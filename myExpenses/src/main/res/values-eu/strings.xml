@@ -730,12 +730,13 @@
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
   <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
   <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
   <!--If this mode is active, the action button will open the camera for scanning a receipt-->
   <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
   <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
   <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
   <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
   <string name="pref_category_title_features">Ezaugarriak</string>
+  <string name="button_download">Deskargatu</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
 </resources>

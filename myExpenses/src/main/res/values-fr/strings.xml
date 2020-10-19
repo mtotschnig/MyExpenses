@@ -904,7 +904,6 @@
   <string name="pref_planner_manual_time_current">Heure de la mise en application</string>
   <!--Title in Settings screen, and title of dynamically loaded feature module-->
   <string name="title_scan_receipt_feature">Scanner le reçu</string>
-  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
   <string name="feature_download_requested">La fonctionnalité %s est demandée sur le Play Store.</string>
   <string name="feature_downloaded">La fonctionnalité %s a été installée.</string>
   <!--If this mode is active, the action button will open the camera for scanning a receipt-->
@@ -915,7 +914,7 @@
   <string name="pref_ocr_total_indicators_summary">Une liste de chaînes, qui identifie la valeur totale d\'un reçu. Mettez chaque valeur sur une nouvelle ligne. Laissez vide pour restaurer la valeur par défaut.</string>
   <string name="pref_ocr_date_formats_title">Formats de date</string>
   <string name="pref_ocr_time_formats_title">Formats d\'heure</string>
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
   <string name="pref_criterion_futur_title">Critère pour les transactions futures</string>
   <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
   <string name="pref_criterion_future_end_of_day">Fin de la journée</string>
@@ -928,4 +927,10 @@
   <string name="scan_result_no_amount">Aucun montant trouvé</string>
   <string name="scan_result_no_date">Aucune date trouvée</string>
   <string name="scan_result_no_payee">Aucun tiers trouvé</string>
+  <string name="button_download">Télécharger</string>
+  <string name="pref_feature_uninstall_title">Demander la désinstallation des fonctionnalités et des langues</string>
+  <string name="pref_feature_uninstall_summary">Play Store essaie finalement de supprimer ces modules en arrière-plan.</string>
+  <string name="pref_feature_uninstall_languages_title">Langues</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
+  <string name="select_package">Veuillez sélectionner un package de licence.</string>
 </resources>

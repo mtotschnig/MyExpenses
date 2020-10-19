@@ -15,9 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_315">
-        <item>Dark theme linked to system default on Android Q</item>
-    </string-array>
+    <string name="whats_new_315_dark_theme_q">Dark theme linked to system default</string>
     <string-array name="whats_new_313">
         <item>Enhanced management of recurring transactions</item>
         <item>Kannada translation</item>
@@ -65,6 +63,7 @@
         <item>Ukrainian translation</item>
         <item>CSV export: Delimiter made configurable</item>
     </string-array>
+    <string name="ui_refinement">Refinement of the user interface</string>
     <string name="bug_fixes">Bug fixes</string>
     <string name="performance_enhancement">Performance enhancement</string>
     <string name="stability_improvements">Stability improvements</string>

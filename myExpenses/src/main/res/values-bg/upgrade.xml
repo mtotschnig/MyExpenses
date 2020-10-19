@@ -15,6 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string name="whats_new_315_dark_theme_q">Тъмната тема е свързана със системната настройка по подразбиране</string>
     <string-array name="whats_new_313">
         <item>Подобрено управление на повтарящи се транзакции</item>
         <item>Превод на език каннада (Индия)</item>

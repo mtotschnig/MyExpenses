@@ -927,4 +927,10 @@
   <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
   <string name="scan_result_no_date">Hiçbir tarih bulunamadı</string>
   <string name="scan_result_no_payee">Hiçbir alacaklı bulunamadı</string>
+  <string name="button_download">İndir</string>
+  <string name="pref_feature_uninstall_title">İşlev ve lisanların kurulumunun kaldırılmasını talep et</string>
+  <string name="pref_feature_uninstall_summary">Play Store bu modülleri arka planda kaldırmaya çalışacaktır.</string>
+  <string name="pref_feature_uninstall_languages_title">Lisanlar</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
+  <string name="select_package">Lütfen bir lisans paketi seçin.</string>
 </resources>

@@ -930,7 +930,6 @@
   <string name="pref_planner_manual_time_current">זמן היישום</string>
   <!--Title in Settings screen, and title of dynamically loaded feature module-->
   <string name="title_scan_receipt_feature">סריקת קבלה</string>
-  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
   <string name="feature_download_requested">מתבקשת  תכונה %s מחנות Play</string>
   <string name="feature_downloaded">התכונה %s הותקנה.</string>
   <!--If this mode is active, the action button will open the camera for scanning a receipt-->
@@ -941,7 +940,7 @@
   <string name="pref_ocr_total_indicators_summary">רשימה של מחרוזות, המזהות את הערך הכולל בקבלה. שים כל ערך בשורה חדשה. השאר ריק כדי לשחזר את ערך ברירת המחדל.</string>
   <string name="pref_ocr_date_formats_title">תבניות תאריך</string>
   <string name="pref_ocr_time_formats_title">תבניות זמן</string>
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
   <string name="pref_criterion_futur_title">קריטריון לעסקאות עתידיות</string>
   <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
   <string name="pref_criterion_future_end_of_day">סוף היום</string>
@@ -954,4 +953,5 @@
   <string name="scan_result_no_amount">לא נמצא סכום</string>
   <string name="scan_result_no_date">לא נמצא תאריך</string>
   <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
 </resources>

@@ -475,4 +475,5 @@
   <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
   <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
   <string name="pref_category_title_features">الخصائص</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
 </resources>

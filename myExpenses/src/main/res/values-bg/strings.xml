@@ -904,7 +904,6 @@
   <string name="pref_planner_manual_time_current">Времето на прилагане</string>
   <!--Title in Settings screen, and title of dynamically loaded feature module-->
   <string name="title_scan_receipt_feature">Сканиране на касова бележка</string>
-  <!--A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line-->
   <string name="feature_download_requested">Функцията %s е поискана от Play Store.</string>
   <string name="feature_downloaded">Функцията %s е инсталирана.</string>
   <!--If this mode is active, the action button will open the camera for scanning a receipt-->
@@ -915,7 +914,7 @@
   <string name="pref_ocr_total_indicators_summary">Списък от текстове, които идентифицират общата стойност в касовата бележка. Поставете всеки израз на нов ред. Оставете празно, за да възстановите стойността по подразбиране.</string>
   <string name="pref_ocr_date_formats_title">Формати за дата</string>
   <string name="pref_ocr_time_formats_title">Формати за време</string>
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of time), or if the exact current time divides between past and future-->
+  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
   <string name="pref_criterion_futur_title">Критерий за бъдещи транзакции</string>
   <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
   <string name="pref_criterion_future_end_of_day">Края на деня</string>
@@ -928,4 +927,10 @@
   <string name="scan_result_no_amount">Не е намерена сума</string>
   <string name="scan_result_no_date">Не е намерена дата</string>
   <string name="scan_result_no_payee">Не е намерен получател/платец</string>
+  <string name="button_download">Изтегли</string>
+  <string name="pref_feature_uninstall_title">Заявка за деинсталиране на функции и езици</string>
+  <string name="pref_feature_uninstall_summary">Play Store се опитва евентуално да премахне тези модули във фонов режим.</string>
+  <string name="pref_feature_uninstall_languages_title">Езици</string>
+  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
+  <string name="select_package">Моля, изберете лицензен пакет.</string>
 </resources>
