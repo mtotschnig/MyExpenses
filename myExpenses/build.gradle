@@ -220,11 +220,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'com.github.tony19:logback-android-core:1.1.1-6'
-    implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
-        // workaround issue #73
-        exclude group: 'com.google.android', module: 'android'
-    }
+    implementation 'com.github.tony19:logback-android:2.0.0'
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

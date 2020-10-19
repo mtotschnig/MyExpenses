@@ -17,6 +17,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.StatusPrinter;
 import timber.log.Timber;
 
@@ -43,7 +44,7 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
 
     SizeAndTimeBasedFNATP<ILoggingEvent> fileNamingPolicy = new SizeAndTimeBasedFNATP<>();
     fileNamingPolicy.setContext(loggerContext);
-    fileNamingPolicy.setMaxFileSize("1MB");
+    fileNamingPolicy.setMaxFileSize(FileSize.valueOf("1MB"));
 
     TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<>();
     rollingPolicy.setContext(loggerContext);
@@ -55,6 +56,7 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
 
     PatternLayoutEncoder encoder = new PatternLayoutEncoder();
     encoder.setContext(loggerContext);
+    //noinspection CharsetObjectCanBeUsed
     encoder.setCharset(Charset.forName("UTF-8"));
     encoder.setPattern("%date %level [%thread] %msg%n");
     encoder.start();
@@ -77,7 +79,7 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
 
   @Override
   protected boolean isLoggable(String tag, int priority) {
-    return tag.equals(this.tag);
+    return this.tag.equals(tag);
   }
 
   @Override
