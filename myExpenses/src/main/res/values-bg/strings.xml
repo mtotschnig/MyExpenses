@@ -728,11 +728,11 @@
   <string name="booking_date">Дата на резервиране</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Дата на вальора</string>
-  <string name="licence_expires_n_days">Професионалният Ви ключ ще изтече след %d дни</string>
-  <string name="licence_expires_tomorrow">Професионалният Ви ключ ще изтече утре</string>
-  <string name="licence_expires_today">Професионалният Ви ключ изтича днес</string>
-  <string name="licence_expired_yesterday">Професионалният Ви ключ изтече вчера</string>
-  <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни</string>
+  <string name="licence_expires_n_days">Професионалният Ви ключ ще изтече след %d дни.</string>
+  <string name="licence_expires_tomorrow">Професионалният Ви ключ ще изтече утре.</string>
+  <string name="licence_expires_today">Професионалният Ви ключ изтича днес.</string>
+  <string name="licence_expired_yesterday">Професионалният Ви ключ изтече вчера.</string>
+  <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни.</string>
   <string name="pref_category_title_privacy">Поверителност</string>
   <string name="pref_ad_consent_title">Персонализирани реклами</string>
   <string name="ad_consent_non_personalized">Не-персонализирани реклами</string>

@@ -63,6 +63,7 @@
         <item>Ukraynaca tercüme</item>
         <item>CSV dışa aktarımı: Sınırlayıcı artık yapılandırılabilir</item>
     </string-array>
+    <string name="ui_refinement">Kullanıcı arayüzü iyileştirildi</string>
     <string name="bug_fixes">Hata düzeltmeleri</string>
     <string name="performance_enhancement">Performans arttırıldı</string>
     <string name="stability_improvements">Kararlılık geliştirmeleri</string>

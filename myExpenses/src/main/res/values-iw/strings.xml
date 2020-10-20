@@ -750,11 +750,11 @@
   <string name="booking_date">תאריך הזמנה</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">יום ערך</string>
-  <string name="licence_expires_n_days">מפתח המקצועי שלך יפוג בעוד %d ימים</string>
-  <string name="licence_expires_tomorrow">המפתח המקצועי שלך יפוג מחר</string>
-  <string name="licence_expires_today">המפתח המקצועי שלך יפוג היום</string>
-  <string name="licence_expired_yesterday">אתמןל פג תוקפו של המפתח המקצועי שלך</string>
-  <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים</string>
+  <string name="licence_expires_n_days">מפתח המקצועי שלך יפוג בעוד %d ימים.</string>
+  <string name="licence_expires_tomorrow">המפתח המקצועי שלך יפוג מחר.</string>
+  <string name="licence_expires_today">המפתח המקצועי שלך יפוג היום.</string>
+  <string name="licence_expired_yesterday">אתמןל פג תוקפו של המפתח המקצועי שלך.</string>
+  <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים.</string>
   <string name="pref_category_title_privacy">פרטיות</string>
   <string name="pref_ad_consent_title">מודעות מותאמות אישית</string>
   <string name="ad_consent_non_personalized">מודעות שאינן מותאמות אישית</string>
@@ -953,5 +953,10 @@
   <string name="scan_result_no_amount">לא נמצא סכום</string>
   <string name="scan_result_no_date">לא נמצא תאריך</string>
   <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
+  <string name="button_download">הורד</string>
+  <string name="pref_feature_uninstall_title">בקש הסרה של תכונות ושפות</string>
+  <string name="pref_feature_uninstall_summary">חנות Play מנסה בסופו של דבר להסיר את המודולים האלה ברקע.</string>
+  <string name="pref_feature_uninstall_languages_title">שפה</string>
   <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
+  <string name="select_package">אנא בחר חבילת רישיון.</string>
 </resources>

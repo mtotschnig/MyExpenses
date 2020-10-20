@@ -713,11 +713,11 @@
   <string name="booking_date">Tarikh tempahan</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Tarikh nilai</string>
-  <string name="licence_expires_n_days">Kunci profesional anda akan tamat tempoh dalam %d hari</string>
-  <string name="licence_expires_tomorrow">Kunci profesional anda akan tamat tempoh esok hari</string>
-  <string name="licence_expires_today">Kunci profesional anda akan tamat tempoh hari ini</string>
-  <string name="licence_expired_yesterday">Kunci profesional anda akan tamat tempoh semalam</string>
-  <string name="licence_has_expired_n_days">Kunci profesional anda akan tamat tempoh %d hari yang lalu</string>
+  <string name="licence_expires_n_days">Kunci profesional anda akan tamat tempoh dalam %d hari.</string>
+  <string name="licence_expires_tomorrow">Kunci profesional anda akan tamat tempoh esok hari.</string>
+  <string name="licence_expires_today">Kunci profesional anda akan tamat tempoh hari ini.</string>
+  <string name="licence_expired_yesterday">Kunci profesional anda akan tamat tempoh semalam.</string>
+  <string name="licence_has_expired_n_days">Kunci profesional anda akan tamat tempoh %d hari yang lalu.</string>
   <string name="pref_category_title_privacy">Kerahsiaan</string>
   <string name="pref_ad_consent_title">Iklan peribadi</string>
   <string name="ad_consent_non_personalized">Iklan bukan-peribadi</string>

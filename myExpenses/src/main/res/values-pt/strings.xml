@@ -727,11 +727,11 @@
   <string name="booking_date">Data do pagamento</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Data da contabilização</string>
-  <string name="licence_expires_n_days">A sua chave profissional irá expirar em %d dias</string>
-  <string name="licence_expires_tomorrow">A sua chave profissional irá expirar amanhã</string>
-  <string name="licence_expires_today">A sua chave profissional expira hoje</string>
-  <string name="licence_expired_yesterday">A sua chave profissional expirou ontem</string>
-  <string name="licence_has_expired_n_days">A sua chave profissional expirou %d dias atrás</string>
+  <string name="licence_expires_n_days">A sua chave profissional irá expirar em %d dias.</string>
+  <string name="licence_expires_tomorrow">A sua chave profissional irá expirar amanhã.</string>
+  <string name="licence_expires_today">A sua chave profissional expira hoje.</string>
+  <string name="licence_expired_yesterday">A sua chave profissional expirou ontem.</string>
+  <string name="licence_has_expired_n_days">A sua chave profissional expirou %d dias atrás.</string>
   <string name="pref_category_title_privacy">Privacidade</string>
   <string name="pref_ad_consent_title">Anúncios personalizados</string>
   <string name="ad_consent_non_personalized">Anúncios não personalizados</string>

@@ -699,11 +699,11 @@
   <string name="booking_date">Ngày ghi sổ</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Ngày hiệu lực</string>
-  <string name="licence_expires_n_days">Khoá cao cấp của bạn sẽ hết hạn sau %d ngày</string>
-  <string name="licence_expires_tomorrow">Khoá cao cấp của bạn sẽ hết hạn ngày mai</string>
-  <string name="licence_expires_today">Khoá cao cấp của bạn hết hạn hôm nay</string>
-  <string name="licence_expired_yesterday">Khoá cao cấp của bạn đã hết hạn trong ngày hôm qua</string>
-  <string name="licence_has_expired_n_days">Khoá cao cấp của bạn đã hết hạn %d ngày trước</string>
+  <string name="licence_expires_n_days">Khoá cao cấp của bạn sẽ hết hạn sau %d ngày.</string>
+  <string name="licence_expires_tomorrow">Khoá cao cấp của bạn sẽ hết hạn ngày mai.</string>
+  <string name="licence_expires_today">Khoá cao cấp của bạn hết hạn hôm nay.</string>
+  <string name="licence_expired_yesterday">Khoá cao cấp của bạn đã hết hạn trong ngày hôm qua.</string>
+  <string name="licence_has_expired_n_days">Khoá cao cấp của bạn đã hết hạn %d ngày trước.</string>
   <string name="pref_category_title_privacy">Riêng tư</string>
   <string name="pref_ad_consent_title">Quảng cáo được tuỳ biến</string>
   <string name="ad_consent_non_personalized">Quảng cáo không được cá nhân hóa</string>

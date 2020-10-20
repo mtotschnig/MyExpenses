@@ -736,11 +736,11 @@
   <string name="booking_date">Дата створення операції</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Дата проведення операції</string>
-  <string name="licence_expires_n_days">Ваша підписка на Професійну версію закінчиться через %d днів</string>
-  <string name="licence_expires_tomorrow">Ваша підписка на Професійну версію закінчиться завтра</string>
-  <string name="licence_expires_today">Ваша підписка на Професійну версію закінчується сьогодні</string>
-  <string name="licence_expired_yesterday">Ваша підписка на Професійну версію закінчилась вчора</string>
-  <string name="licence_has_expired_n_days">Ваша підписка на Професійну версію закінчилась %d днів тому</string>
+  <string name="licence_expires_n_days">Ваша підписка на Професійну версію закінчиться через %d днів.</string>
+  <string name="licence_expires_tomorrow">Ваша підписка на Професійну версію закінчиться завтра.</string>
+  <string name="licence_expires_today">Ваша підписка на Професійну версію закінчується сьогодні.</string>
+  <string name="licence_expired_yesterday">Ваша підписка на Професійну версію закінчилась вчора.</string>
+  <string name="licence_has_expired_n_days">Ваша підписка на Професійну версію закінчилась %d днів тому.</string>
   <string name="pref_category_title_privacy">Конфіденційність</string>
   <string name="pref_ad_consent_title">Персоналізована реклама</string>
   <string name="ad_consent_non_personalized">Неперсоналізована реклама</string>

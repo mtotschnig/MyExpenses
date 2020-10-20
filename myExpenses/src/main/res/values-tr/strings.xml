@@ -728,11 +728,11 @@
   <string name="booking_date">Muamele tarihi</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Değer tarihi</string>
-  <string name="licence_expires_n_days">Profesyonel anahtarınızın geçerliliği %d gün içinde son erecek</string>
-  <string name="licence_expires_tomorrow">Profesyonel anahtarınızın geçerliliği yarın sona erecek</string>
-  <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor</string>
-  <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi</string>
-  <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi</string>
+  <string name="licence_expires_n_days">Profesyonel anahtarınızın geçerliliği %d gün içinde son erecek.</string>
+  <string name="licence_expires_tomorrow">Profesyonel anahtarınızın geçerliliği yarın sona erecek.</string>
+  <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor.</string>
+  <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi.</string>
+  <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
   <string name="pref_category_title_privacy">Gizlilik</string>
   <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
   <string name="ad_consent_non_personalized">Kişiselleştirilmemiş reklamlar</string>

@@ -716,11 +716,11 @@
   <string name="booking_date">予約日</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">実行日</string>
-  <string name="licence_expires_n_days">プロフェッショナルキーは %d 日で期限切れです</string>
-  <string name="licence_expires_tomorrow">プロフェッショナルキーは明日期限切れです</string>
-  <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです</string>
-  <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました</string>
-  <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています</string>
+  <string name="licence_expires_n_days">プロフェッショナルキーは %d 日で期限切れです。</string>
+  <string name="licence_expires_tomorrow">プロフェッショナルキーは明日期限切れです。</string>
+  <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです。</string>
+  <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました。</string>
+  <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
   <string name="pref_category_title_privacy">プライバシー</string>
   <string name="pref_ad_consent_title">パーソナライズされた広告</string>
   <string name="ad_consent_non_personalized">パーソナライズされていない広告</string>

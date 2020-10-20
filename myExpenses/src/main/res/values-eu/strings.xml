@@ -679,9 +679,9 @@
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Balioaren data</string>
-  <string name="licence_expires_n_days">Zure gako profesionala %d egunetan bertan behera geratuko da</string>
-  <string name="licence_expires_tomorrow">Zure gako profesionala bihar bertan behera geratuko da</string>
-  <string name="licence_expires_today">Zure gako profesionala gaur bertan behera geratuko da</string>
+  <string name="licence_expires_n_days">Zure gako profesionala %d egunetan bertan behera geratuko da.</string>
+  <string name="licence_expires_tomorrow">Zure gako profesionala bihar bertan behera geratuko da.</string>
+  <string name="licence_expires_today">Zure gako profesionala gaur bertan behera geratuko da.</string>
   <string name="licence_has_expired_n_days">Zure gako profesionala duela%d egun bertan behera geratu zen</string>
   <string name="pref_category_title_privacy">Pribatutasuna</string>
   <string name="pref_ad_consent_title">Iragarki pertsonalizatuak</string>

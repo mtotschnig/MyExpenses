@@ -728,11 +728,11 @@
   <string name="booking_date">Date d\'enregistrement</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Date de valeur</string>
-  <string name="licence_expires_n_days">Votre clé professionnelle expirera dans %d jours</string>
-  <string name="licence_expires_tomorrow">Votre clé professionnelle expirera demain</string>
-  <string name="licence_expires_today">Votre clé professionnelle expire aujourd\'hui</string>
-  <string name="licence_expired_yesterday">Votre clé professionnelle a expiré hier</string>
-  <string name="licence_has_expired_n_days">Votre clé professionnelle a expiré il y a %d jours</string>
+  <string name="licence_expires_n_days">Votre clé professionnelle expirera dans %d jours.</string>
+  <string name="licence_expires_tomorrow">Votre clé professionnelle expirera demain.</string>
+  <string name="licence_expires_today">Votre clé professionnelle expire aujourd\'hui.</string>
+  <string name="licence_expired_yesterday">Votre clé professionnelle a expiré hier.</string>
+  <string name="licence_has_expired_n_days">Votre clé professionnelle a expiré il y a %d jours.</string>
   <string name="pref_category_title_privacy">Données privées</string>
   <string name="pref_ad_consent_title">Annonces personnalisées</string>
   <string name="ad_consent_non_personalized">Annonces non personnalisées</string>

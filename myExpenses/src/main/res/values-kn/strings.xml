@@ -728,11 +728,11 @@
   <string name="booking_date">ಬುಕಿಂಗ್ ದಿನಾಂಕ</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">ಮೌಲ್ಯ ದಿನಾಂಕ</string>
-  <string name="licence_expires_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ %d ದಿನಗಳಲ್ಲಿ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ</string>
-  <string name="licence_expires_tomorrow">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿ ನಾಳೆ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ</string>
-  <string name="licence_expires_today">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು ಇಂದು ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ</string>
-  <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ</string>
-  <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ</string>
+  <string name="licence_expires_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ %d ದಿನಗಳಲ್ಲಿ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
+  <string name="licence_expires_tomorrow">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿ ನಾಳೆ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
+  <string name="licence_expires_today">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು ಇಂದು ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
+  <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ.</string>
+  <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
   <string name="pref_category_title_privacy">ಗೌಪ್ಯತೆ</string>
   <string name="pref_ad_consent_title">ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಜಾಹೀರಾತುಗಳು</string>
   <string name="ad_consent_non_personalized">ವೈಯಕ್ತೀಕರಿಸದ ಜಾಹೀರಾತುಗಳು</string>

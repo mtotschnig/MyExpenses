@@ -707,11 +707,11 @@
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
   <string name="booking_date">Data księgowania</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="licence_expires_n_days">Twój klucz profesjonalny wygaśnie za %d dni</string>
-  <string name="licence_expires_tomorrow">Twój klucz profesjonalny wygasa jutro</string>
-  <string name="licence_expires_today">Twój klucz profesjonalny wygasa dzisiaj</string>
-  <string name="licence_expired_yesterday">Twój klucz profesjonalny wygasł wczoraj</string>
-  <string name="licence_has_expired_n_days">Twój klucz profesjonalny wygasł %d dni temu</string>
+  <string name="licence_expires_n_days">Twój klucz profesjonalny wygaśnie za %d dni.</string>
+  <string name="licence_expires_tomorrow">Twój klucz profesjonalny wygasa jutro.</string>
+  <string name="licence_expires_today">Twój klucz profesjonalny wygasa dzisiaj.</string>
+  <string name="licence_expired_yesterday">Twój klucz profesjonalny wygasł wczoraj.</string>
+  <string name="licence_has_expired_n_days">Twój klucz profesjonalny wygasł %d dni temu.</string>
   <string name="pref_category_title_privacy">Prywatność</string>
   <string name="pref_ad_consent_title">Spersonalizowane reklamy</string>
   <string name="ad_consent_non_personalized">Reklamy bez personalizacji</string>

@@ -15,6 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string name="whats_new_315_dark_theme_q">עיצוב כהה מקושר לברירת המחדל של המערכת</string>
     <string-array name="whats_new_313">
         <item>ניהול משופר של עסקאות חוזרות</item>
         <item>תרגום קנאדה</item>
@@ -62,6 +63,7 @@
         <item>תרגום אוקראיני</item>
         <item>ייצוא CSV: Delimiter הפך להגדרה</item>
     </string-array>
+    <string name="ui_refinement">חידוד ממשק המשתמש</string>
     <string name="bug_fixes">תיקוני באגים</string>
     <string name="performance_enhancement">שיפור בעיצועים</string>
     <string name="stability_improvements">שיפורים ביציבות</string>

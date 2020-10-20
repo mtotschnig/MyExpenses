@@ -750,11 +750,11 @@
   <string name="booking_date">Дата бронирования</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">Дата стоимости </string>
-  <string name="licence_expires_n_days">Срок действия вашего профессионального ключа истекает через %d дней</string>
-  <string name="licence_expires_tomorrow">Ваш профессиональный ключ истекает завтра</string>
-  <string name="licence_expires_today">Ваш тариф \"профессиональный\" заканчивается сегодня</string>
-  <string name="licence_expired_yesterday">Ваш тариф \"профессиональный\" закончился вчера</string>
-  <string name="licence_has_expired_n_days">Срок действия вашего профессионального ключа истек %d дней назад</string>
+  <string name="licence_expires_n_days">Срок действия вашего профессионального ключа истекает через %d дней.</string>
+  <string name="licence_expires_tomorrow">Ваш профессиональный ключ истекает завтра.</string>
+  <string name="licence_expires_today">Ваш тариф \"профессиональный\" заканчивается сегодня.</string>
+  <string name="licence_expired_yesterday">Ваш тариф \"профессиональный\" закончился вчера.</string>
+  <string name="licence_has_expired_n_days">Срок действия вашего профессионального ключа истек %d дней назад.</string>
   <string name="pref_category_title_privacy">Конфиденциальность</string>
   <string name="pref_ad_consent_title">Персонализированная реклама</string>
   <string name="ad_consent_non_personalized">Не персонализированная реклама</string>

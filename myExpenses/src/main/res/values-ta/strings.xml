@@ -728,11 +728,11 @@
   <string name="booking_date">பதிவு தேதி</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
   <string name="value_date">மதிப்பு தேதி</string>
-  <string name="licence_expires_n_days">உங்கள் நிபுணத்துவ திறவுகோல் இன்னும் %d நாட்களில் காலாவதியாகிறது</string>
-  <string name="licence_expires_tomorrow">உங்கள் நிபுணத்துவ திறவுகோல் நாளை காலாவதியாகிறது</string>
-  <string name="licence_expires_today">உங்கள் நிபுணத்துவ திறவுகோல் இன்று காலாவதியாகிறது</string>
-  <string name="licence_expired_yesterday">உங்கள் நிபுணத்துவ திறவுகோல் நேற்று காலாவதியாகிவிட்டது</string>
-  <string name="licence_has_expired_n_days">உங்கள் நிபுணத்துவ திறவுகோல் %d நாட்களுக்கு முன்பு காலாவதியாகிவிட்டது</string>
+  <string name="licence_expires_n_days">உங்கள் நிபுணத்துவ திறவுகோல் இன்னும் %d நாட்களில் காலாவதியாகிறது.</string>
+  <string name="licence_expires_tomorrow">உங்கள் நிபுணத்துவ திறவுகோல் நாளை காலாவதியாகிறது.</string>
+  <string name="licence_expires_today">உங்கள் நிபுணத்துவ திறவுகோல் இன்று காலாவதியாகிறது.</string>
+  <string name="licence_expired_yesterday">உங்கள் நிபுணத்துவ திறவுகோல் நேற்று காலாவதியாகிவிட்டது.</string>
+  <string name="licence_has_expired_n_days">உங்கள் நிபுணத்துவ திறவுகோல் %d நாட்களுக்கு முன்பு காலாவதியாகிவிட்டது.</string>
   <string name="pref_category_title_privacy">தனியுரிமை</string>
   <string name="pref_ad_consent_title">தனிப்பயனாக்கப்பட்ட விளம்பரங்கள்</string>
   <string name="ad_consent_non_personalized">தனிப்பயனாக்கப்படாத விளம்பரங்கள்</string>

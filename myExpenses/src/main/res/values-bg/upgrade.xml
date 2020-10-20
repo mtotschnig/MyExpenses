@@ -63,6 +63,7 @@
         <item>Превод на украйнски</item>
         <item>Избор на символа-разделител при CSV експорт</item>
     </string-array>
+    <string name="ui_refinement">Подобрения в потребителския интерфейс</string>
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>
     <string name="stability_improvements">Подобрения на стабилността</string>
