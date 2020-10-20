@@ -22,7 +22,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
-        <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
