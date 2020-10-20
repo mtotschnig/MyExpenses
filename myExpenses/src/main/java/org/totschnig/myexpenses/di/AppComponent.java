@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
+import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -216,4 +217,6 @@ public interface AppComponent {
   void inject(@NotNull PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
 
   void inject(BaseSettingsFragment baseSettingsFragment);
+
+  void inject(@NotNull ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
 }

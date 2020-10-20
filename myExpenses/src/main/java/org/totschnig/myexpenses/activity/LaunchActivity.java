@@ -4,14 +4,13 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 
-import com.annimon.stream.function.Function;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -19,7 +18,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
@@ -29,7 +27,6 @@ import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
-import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import java.io.File;
@@ -38,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.ViewModelProviders;
 import timber.log.Timber;
 
@@ -85,11 +81,11 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-    if (DistributionHelper.isGithub()) {
-      if (licenceHandler.getLicenceStatus() != null) {
-        final long now = System.currentTimeMillis();
-        switch (licenceHandler.getLicenceStatus()) {
-          case PROFESSIONAL: {
+    if (savedInstanceState == null) {
+      if (DistributionHelper.isGithub()) {
+        if (licenceHandler.getLicenceStatus() != null) {
+          final long now = System.currentTimeMillis();
+          if (licenceHandler.getLicenceStatus() == LicenceStatus.PROFESSIONAL) {
             long licenceValidity = licenceHandler.getValidUntilMillis();
             if (licenceValidity != 0) {
               final long daysToGo = TimeUnit.MILLISECONDS.toDays(licenceValidity - now);
@@ -111,19 +107,10 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
                   }
                   message = getString(R.string.licence_has_expired_n_days, -daysToGo);
                 }
-
-                showUpsellSnackbar(message, R.string.extend_validity, licenceHandler::getExtendOrSwitchMessage,
-                    new Snackbar.Callback() {
-                      @Override
-                      public void onDismissed(Snackbar transientBottomBar, int event) {
-                        if ((event == DISMISS_EVENT_SWIPE) || (event == DISMISS_EVENT_ACTION)) {
-                          prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
-                        }
-                      }
-                    });
+                prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
+                ExtendProLicenceDialogFragment.Companion.newInstance(message).show(getSupportFragmentManager(), "UPSELL");
               }
             }
-            break;
           }
         }
       }
@@ -131,27 +118,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
     if (licenceHandler.getLicenceStatus() == null) {
       checkGdprConsent(false);
     }
-  }
-
-  private void showUpsellSnackbar(String message, int actionLabel, Function<Package, String> formatter,
-                                  Snackbar.Callback callback) {
-    showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-        new SnackbarAction(actionLabel, v -> {
-          Package[] proPackages = licenceHandler.getProPackages();
-          if (proPackages != null) {
-            PopupMenu popup = new PopupMenu(this, v);
-            popup.setOnMenuItemClickListener(item -> {
-              startActivity(ContribInfoDialogActivity.getIntentFor(LaunchActivity.this,
-                  proPackages[item.getItemId()], false));
-              return true;
-            });
-            Menu popupMenu = popup.getMenu();
-            for (int i = 0; i < proPackages.length; i++) {
-              popupMenu.add(Menu.NONE, i, Menu.NONE, formatter.apply(proPackages[i]));
-            }
-            popup.show();
-          }
-        }), callback);
   }
 
   /**
