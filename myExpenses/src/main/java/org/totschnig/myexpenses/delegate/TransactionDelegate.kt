@@ -452,7 +452,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         val position = methodSpinner.selectedItemPosition
         if (position > 0) {
             val pm = methodsAdapter.getItem(position - 1)
-            viewBinding.Number.visibility = if (pm != null && pm.isNumbered) View.VISIBLE else View.INVISIBLE
+            viewBinding.Number.visibility = if (pm != null && pm.isNumbered) View.VISIBLE else View.GONE
         } else {
             viewBinding.Number.visibility = View.GONE
         }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<Button
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bCancel"
     style="@style/CalculatorButton"
     android:layout_width="0dp"
     android:layout_weight="1"
-    android:ellipsize="end"
+    app:autoSizeTextType="uniform"
     android:text="@android:string/cancel"
     tools:showIn="@layout/ok_cancel_buttons"
-    android:maxLines="1"/>
+    android:maxLines="1" />

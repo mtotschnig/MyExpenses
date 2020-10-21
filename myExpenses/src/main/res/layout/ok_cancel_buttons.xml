@@ -8,7 +8,7 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge>
 
     <include layout="@layout/cancel_button"/>
 
