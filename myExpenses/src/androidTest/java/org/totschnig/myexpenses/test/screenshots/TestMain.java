@@ -92,6 +92,9 @@ public class TestMain extends BaseUiTest {
         Espresso.pressBack();
         clickMenuItem(R.id.SETTINGS_COMMAND, R.string.menu_settings);
         onView(instanceOf(RecyclerView.class))
+            .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_category_title_features)),
+                click()));
+        onView(instanceOf(RecyclerView.class))
             .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
                 click()));
         onView(withText(containsString("Drive"))).perform(click());

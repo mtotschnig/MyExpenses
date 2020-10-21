@@ -927,5 +927,10 @@
   <string name="scan_result_no_amount">Non è stato trovato alcun importo</string>
   <string name="scan_result_no_date">Non è stata trovata alcuna data</string>
   <string name="scan_result_no_payee">Non è stato trovato alcun beneficiario</string>
+  <string name="button_download">Scarica</string>
+  <string name="pref_feature_uninstall_title">Richiedi la disinstallazione di funzionalità e lingue</string>
+  <string name="pref_feature_uninstall_summary">Play Store cercherà di rimuovere quei moduli in background.</string>
+  <string name="pref_feature_uninstall_languages_title">Lingue</string>
   <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
+  <string name="select_package">Seleziona una tipologia di licenza.</string>
 </resources>

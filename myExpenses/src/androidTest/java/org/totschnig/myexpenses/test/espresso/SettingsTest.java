@@ -138,6 +138,9 @@ public class SettingsTest extends BaseUiTest {
   @Test
   public void manageSync() {
     onView(getRootMatcher())
+        .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_category_title_features)),
+            click()));
+    onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
             click()));
     intended(hasComponent(ManageSyncBackends.class.getName()));

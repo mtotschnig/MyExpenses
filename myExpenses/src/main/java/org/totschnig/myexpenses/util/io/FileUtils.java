@@ -280,7 +280,7 @@ public class FileUtils {
         final Uri contentUri;
         try {
           contentUri = ContentUris.withAppendedId(
-              Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+              Uri.parse("content://downloads/public_downloads"), Long.parseLong(docId));
           dataColumn = getDataColumn(context, contentUri, null, null);
         } catch (NumberFormatException e) {
           final String[] split = docId.split(":");
