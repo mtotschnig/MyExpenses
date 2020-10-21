@@ -35,7 +35,6 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -78,9 +77,8 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         .takeWhile(parts -> Integer.parseInt(parts[0]) > from)
         .map(parts -> new VersionInfo(Integer.parseInt(parts[0]), parts[1]))
         .collect(Collectors.toList());
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.versiondialog, null);
-    final ListView lv = view.findViewById(R.id.list);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.versiondialog);
+    final ListView lv = dialogView.findViewById(R.id.list);
     ArrayAdapter<VersionInfo> adapter = new ArrayAdapter<VersionInfo>(ctx,
         R.layout.version_row, R.id.versionInfoName, versions) {
 
@@ -102,8 +100,8 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     };
     lv.setAdapter(adapter);
     if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
-      view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
-      TextView importantUpgradeInfoBody = view.findViewById(R.id.ImportantUpgradeInfoBody);
+      dialogView.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
+      TextView importantUpgradeInfoBody = dialogView.findViewById(R.id.ImportantUpgradeInfoBody);
       importantUpgradeInfoBody.setVisibility(View.VISIBLE);
       importantUpgradeInfoBody.setText(R.string.upgrade_information_cloud_sync_storage_format);
 /*      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
@@ -115,10 +113,8 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       });*/
     }
 
-    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
-        .setTitle(getString(R.string.help_heading_whats_new))
+    builder.setTitle(getString(R.string.help_heading_whats_new))
         .setIcon(R.mipmap.ic_myexpenses)
-        .setView(view)
         .setNegativeButton(android.R.string.ok, this);
     if (!MyApplication.getInstance().getLicenceHandler().isContribEnabled())
       builder.setPositiveButton(R.string.menu_contrib, this);

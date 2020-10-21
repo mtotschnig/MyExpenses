@@ -4,15 +4,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
@@ -21,6 +18,7 @@ import org.totschnig.myexpenses.provider.filter.DateCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 public class DateFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
   private DatePicker mDate1;
@@ -34,12 +32,9 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    MyExpenses ctx = (MyExpenses) getActivity();
-    LayoutInflater li = LayoutInflater.from(ctx);
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.filter_date, null);
-    mOperatorSpinner = view.findViewById(R.id.Operator);
-    final View date2And = view.findViewById(R.id.Date2And);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.filter_date);
+    mOperatorSpinner = dialogView.findViewById(R.id.Operator);
+    final View date2And = dialogView.findViewById(R.id.Date2And);
     mOperatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override
@@ -59,13 +54,12 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
     ((ArrayAdapter) mOperatorSpinner.getAdapter())
         .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-    mDate1 = view.findViewById(R.id.date1);
-    mDate2 = view.findViewById(R.id.date2);
+    mDate1 = dialogView.findViewById(R.id.date1);
+    mDate2 = dialogView.findViewById(R.id.date2);
 
 
-    return new MaterialAlertDialogBuilder(ctx)
+    return builder
         .setTitle(R.string.search_date)
-        .setView(view)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null)
         .create();

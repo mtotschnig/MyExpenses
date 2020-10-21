@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -27,7 +26,6 @@ import android.text.Html.ImageGetter;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,6 +48,7 @@ import java.util.List;
 import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
 /**
@@ -127,7 +126,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("scan_mode", R.drawable.ic_scan);
   }
 
-  private LayoutInflater layoutInflater;
   private String context;
   private String variant;
   private LinearLayout linearLayout;
@@ -152,9 +150,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     Bundle args = getArguments();
     context = args.getString(KEY_CONTEXT);
     variant = args.getString(KEY_VARIANT);
-    layoutInflater = LayoutInflater.from(ctx);
-    @SuppressLint("InflateParams") final View view = layoutInflater.inflate(R.layout.help_dialog, null);
-    linearLayout = view.findViewById(R.id.help);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.help_dialog);
+
+    linearLayout = dialogView.findViewById(R.id.help);
 
     try {
       String resIdString = "help_" + context + "_info";
@@ -170,7 +168,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           }
         }
       }
-      final TextView infoView = view.findViewById(R.id.screen_info);
+      final TextView infoView = dialogView.findViewById(R.id.screen_info);
       if (TextUtils.isEmpty(screenInfo)) {
         infoView.setVisibility(View.GONE);
       } else {
@@ -185,9 +183,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         menuItems.addAll(Arrays.asList(res.getStringArray(formResId)));
       }
       if (menuItems.isEmpty()) {
-        view.findViewById(R.id.form_fields_heading).setVisibility(View.GONE);
+        dialogView.findViewById(R.id.form_fields_heading).setVisibility(View.GONE);
       } else {
-        handleMenuItems(menuItems, "form", view.findViewById(R.id.form_fields_container));
+        handleMenuItems(menuItems, "form", dialogView.findViewById(R.id.form_fields_container));
       }
 
       // Menu items
@@ -196,9 +194,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (menuResId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(menuResId)));
       if (menuItems.isEmpty())
-        view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
+        dialogView.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
       else {
-        handleMenuItems(menuItems, "menu", view.findViewById(R.id.menu_commands_container));
+        handleMenuItems(menuItems, "menu", dialogView.findViewById(R.id.menu_commands_container));
       }
 
       // Contextual action bar
@@ -208,12 +206,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (cabResId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(cabResId)));
       if (menuItems.isEmpty()) {
-        view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
+        dialogView.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
       } else {
-        handleMenuItems(menuItems, "cab", view.findViewById(R.id.cab_commands_container));
+        handleMenuItems(menuItems, "cab", dialogView.findViewById(R.id.cab_commands_container));
       }
       if (menuItems.isEmpty() || !showLongTapHint(componentName)) {
-        view.findViewById(R.id.cab_commands_help).setVisibility(View.GONE);
+        dialogView.findViewById(R.id.cab_commands_help).setVisibility(View.GONE);
       }
 
       final int titleResId = variant != null ? resolveString("help_" + context + "_" + variant + "_title") : 0;
@@ -237,10 +235,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         return true;
       }
     });*/
-    return new MaterialAlertDialogBuilder(ctx)
-        .setTitle(title)
+    return builder.setTitle(title)
         .setIcon(R.drawable.ic_menu_help)
-        .setView(view)
         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
           if (getActivity() == null) {
             return;

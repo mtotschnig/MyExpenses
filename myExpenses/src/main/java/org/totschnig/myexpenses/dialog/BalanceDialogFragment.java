@@ -20,12 +20,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -48,18 +44,16 @@ public class BalanceDialogFragment extends CommitSafeDialogFragment implements O
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final LayoutInflater li = LayoutInflater.from(getActivity());
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.balance, null);
-    TextView reconciledTextView = view.findViewById(R.id.TotalReconciled);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.balance);
+    TextView reconciledTextView = dialogView.findViewById(R.id.TotalReconciled);
     UiUtils.configureAmountTextViewForHebrew(reconciledTextView);
     reconciledTextView.setText(getArguments().getString(KEY_RECONCILED_TOTAL));
-    TextView clearedTextView = view.findViewById(R.id.TotalCleared);
+    TextView clearedTextView = dialogView.findViewById(R.id.TotalCleared);
     UiUtils.configureAmountTextViewForHebrew(clearedTextView);
     clearedTextView.setText(getArguments().getString(KEY_CLEARED_TOTAL));
-    return new MaterialAlertDialogBuilder(getActivity())
+    return builder
       .setTitle(getString(R.string.dialog_title_balance_account,getArguments().getString(KEY_LABEL)))
-      .setView(view)
+      .setView(dialogView)
       .setNegativeButton(android.R.string.cancel,null)
       .setPositiveButton(android.R.string.ok,this)
       .create();

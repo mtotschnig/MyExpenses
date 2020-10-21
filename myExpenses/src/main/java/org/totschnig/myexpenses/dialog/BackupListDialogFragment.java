@@ -3,21 +3,19 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.annimon.stream.Stream;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.AppDirHelper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.documentfile.provider.DocumentFile;
@@ -35,26 +33,24 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     backupFiles = listBackups();
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    LayoutInflater li = LayoutInflater.from(getActivity());
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.backup_restore_fallback_dialog, null);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.backup_restore_fallback_dialog);
     ArrayAdapter<DocumentFileItem> adapter = new ArrayAdapter<>(getActivity(),
         android.R.layout.simple_spinner_item,
         Stream.of(backupFiles).map(DocumentFileItem::new).toArray(DocumentFileItem[]::new));
-    selectBackupSpinner = view.findViewById(R.id.select_backup);
+    selectBackupSpinner = dialogView.findViewById(R.id.select_backup);
     selectBackupSpinner.setAdapter(adapter);
     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
+    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(dialogView);
     if (mRestorePlanStrategie != null) {
       mCalendarRestoreButtonCheckedChangeListener =
           DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
       mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     }
-    return new MaterialAlertDialogBuilder(getActivity())
+    return builder
         .setTitle(R.string.pref_restore_title)
-        .setView(view)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, this)
         .create();

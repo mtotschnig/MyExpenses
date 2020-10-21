@@ -40,6 +40,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 SimpleFormDialog.build()
                         .cancelable(false)
                         .autofocus(false)
+                        .theme(R.style.SimpleDialog)
                         .neg(android.R.string.cancel)
                         .extra(Bundle().apply {
                             putParcelable(KEY_OCR_RESULT, it)

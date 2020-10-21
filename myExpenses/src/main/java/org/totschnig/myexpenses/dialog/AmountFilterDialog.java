@@ -4,15 +4,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -45,12 +42,9 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    MyExpenses ctx = (MyExpenses) getActivity();
-    LayoutInflater li = ctx.getLayoutInflater();
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.filter_amount, null);
-    mOperatorSpinner = view.findViewById(R.id.Operator);
-    final View amount2Row = view.findViewById(R.id.Amount2Row);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.filter_amount);
+    mOperatorSpinner = dialogView.findViewById(R.id.Operator);
+    final View amount2Row = dialogView.findViewById(R.id.Amount2Row);
     mOperatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override
@@ -67,15 +61,14 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     });
     ((ArrayAdapter) mOperatorSpinner.getAdapter())
         .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mAmount1Text = view.findViewById(R.id.amount1);
-    mAmount2Text = view.findViewById(R.id.amount2);
+    mAmount1Text = dialogView.findViewById(R.id.amount1);
+    mAmount2Text = dialogView.findViewById(R.id.amount2);
     int fractionDigits = ((CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY)).fractionDigits();
     mAmount1Text.setFractionDigits(fractionDigits);
     mAmount2Text.setFractionDigits(fractionDigits);
 
-    return new MaterialAlertDialogBuilder(ctx)
+    return builder
         .setTitle(R.string.search_amount)
-        .setView(view)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null)
         .create();

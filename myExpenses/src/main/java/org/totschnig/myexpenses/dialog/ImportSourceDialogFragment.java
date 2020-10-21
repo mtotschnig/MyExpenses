@@ -6,12 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
@@ -65,12 +63,9 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    LayoutInflater li = LayoutInflater.from(getActivity());
-    dialogView = li.inflate(getLayoutId(), null);
+    AlertDialog.Builder builder = initBuilderWithView(getLayoutId());
     setupDialogView(dialogView);
-    return new MaterialAlertDialogBuilder(requireActivity())
-      .setTitle(getLayoutTitle())
-      .setView(dialogView)
+    return builder.setTitle(getLayoutTitle())
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,this)
       .create();

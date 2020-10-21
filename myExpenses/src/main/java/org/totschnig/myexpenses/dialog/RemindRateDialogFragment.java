@@ -20,14 +20,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -66,19 +62,14 @@ public class RemindRateDialogFragment extends CommitSafeDialogFragment implement
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.remind_rate);
     MyExpenses ctx = (MyExpenses) getActivity();
-    //Context wrappedCtx = DialogUtils.wrapContext1(ctx);
-    LayoutInflater li = LayoutInflater.from(ctx);
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.remind_rate, null);
-    ((TextView) view.findViewById(R.id.rating_how_many)).setText(Utils.getTextWithAppName(ctx, R.string.dialog_remind_rate_how_many_stars));
-    mRating = view.findViewById(R.id.rating);
+    ((TextView) dialogView.findViewById(R.id.rating_how_many)).setText(Utils.getTextWithAppName(ctx, R.string.dialog_remind_rate_how_many_stars));
+    mRating = dialogView.findViewById(R.id.rating);
     mRating.setOnRatingBarChangeListener(this);
-    mRatingRemind = view.findViewById(R.id.rating_remind);
+    mRatingRemind = dialogView.findViewById(R.id.rating_remind);
     setRatingRemindText(true);
-    AlertDialog dialog = new MaterialAlertDialogBuilder(ctx)
-        .setTitle(R.string.app_name)
-        .setView(view)
+    AlertDialog dialog = builder.setTitle(R.string.app_name)
         .setCancelable(false)
         .setPositiveButton(R.string.dialog_remind_rate_yes, this)
         .setNeutralButton(R.string.dialog_remind_later, this)

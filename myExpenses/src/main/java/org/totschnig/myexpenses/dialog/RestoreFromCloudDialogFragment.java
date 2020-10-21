@@ -1,14 +1,11 @@
 package org.totschnig.myexpenses.dialog;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -20,7 +17,6 @@ import android.widget.RadioGroup;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
 import com.google.android.material.textfield.TextInputEditText;
@@ -68,10 +64,8 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx = getActivity();
-    @SuppressLint("InflateParams")
-    final View view = LayoutInflater.from(ctx).inflate(R.layout.restore_from_cloud, null);
-    ButterKnife.bind(this, view);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.restore_from_cloud);
+    ButterKnife.bind(this, dialogView);
     passwordLayout.setHint(getString(R.string.input_label_passphrase));
     passwordEdit.addTextChangedListener(new TextWatcher() {
       @Override
@@ -134,9 +128,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     });
     setTabVisibility(tabLayout.getTabAt(0), View.VISIBLE);
 
-    final AlertDialog dialog = new MaterialAlertDialogBuilder(ctx)
-        .setTitle(R.string.onboarding_restore_from_cloud)
-        .setView(view)
+    final AlertDialog dialog = builder.setTitle(R.string.onboarding_restore_from_cloud)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel,null)
         .create();

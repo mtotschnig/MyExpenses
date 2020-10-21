@@ -111,12 +111,11 @@ public class DialogUtils {
 
   public static AlertDialog passwordDialog(final Activity ctx, final boolean cancelable) {
     final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
-    LayoutInflater li = LayoutInflater.from(ctx);
+    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx);
     //noinspection InflateParams
-    View view = li.inflate(R.layout.password_check, null);
-    view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
-    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
-        .setTitle(R.string.password_prompt)
+    View view = LayoutInflater.from(builder.getContext()).inflate(R.layout.password_check, null);
+    view.findViewById(R.id.password).setTag(Boolean.FALSE);
+    builder.setTitle(R.string.password_prompt)
         .setView(view)
         .setOnCancelListener(dialog -> {
           if (cancelable) {

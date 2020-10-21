@@ -80,8 +80,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val li = LayoutInflater.from(activity)
-        dialogView = li.inflate(R.layout.transaction_detail, null)
+        val builder = initBuilderWithView(R.layout.transaction_detail)
         _binding = TransactionDetailBinding.bind(dialogView)
         val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
@@ -94,9 +93,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
             }
         })
         viewModel.loadOriginalTags(rowId, TransactionProvider.TRANSACTIONS_TAGS_URI, DatabaseConstants.KEY_TRANSACTIONID)
-        val alertDialog = MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
-                .setView(dialogView)
+        val alertDialog = builder.setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
                 .setNegativeButton(android.R.string.ok, this)
                 .setPositiveButton(R.string.menu_edit, null)
                 .setNeutralButton(R.string.menu_view_picture, this)

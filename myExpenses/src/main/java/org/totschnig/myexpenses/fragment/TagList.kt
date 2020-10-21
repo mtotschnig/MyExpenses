@@ -81,6 +81,7 @@ class TagList : Fragment(), OnDialogResultListener {
                         .msg(resources.getQuantityString(R.plurals.warning_delete_tag, tag.count, tag.label, tag.count))
                         .pos(R.string.menu_delete)
                         .neg(android.R.string.cancel)
+                        .theme(R.style.SimpleDialog)
                         .show(this, DELETE_TAG_DIALOG)
             }
             val longClickFunction: (Tag) -> Unit = { tag ->

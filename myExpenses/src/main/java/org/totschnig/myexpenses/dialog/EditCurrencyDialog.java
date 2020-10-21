@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -103,10 +100,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx = getActivity();
-    LayoutInflater li = LayoutInflater.from(ctx);
-    //noinspection InflateParams
-    dialogView = li.inflate(R.layout.edit_currency, null);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.edit_currency);
     ButterKnife.bind(this, dialogView);
     Currency currency = getCurrency();
     boolean frameworkCurrency;
@@ -166,8 +160,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
       editTextCode.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(3)});
     }
     editTextFractionDigits.setText(String.valueOf(currentFractionDigits()));
-    final AlertDialog alertDialog = new MaterialAlertDialogBuilder(ctx)
-        .setView(dialogView)
+    final AlertDialog alertDialog = builder
         .setNegativeButton(android.R.string.cancel, null)
         .setPositiveButton(android.R.string.ok, null)
         .setTitle(title)

@@ -27,6 +27,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
+        <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
     </style>
 
     <style name="MyTheme" parent="MyThemeBase" />
@@ -56,6 +57,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
+        <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
     </style>
 
     <style name="EditDialog" parent="EditDialogBase" />

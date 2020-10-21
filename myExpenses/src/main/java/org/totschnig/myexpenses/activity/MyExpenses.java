@@ -727,6 +727,7 @@ public class MyExpenses extends BaseMyExpenses implements
             .menu(this, R.menu.accounts_grouping)
             .choiceIdPreset(accountGrouping.commandId)
             .title(R.string.menu_grouping)
+            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_TAG_GROUPING);
         return true;
       }
@@ -735,6 +736,7 @@ public class MyExpenses extends BaseMyExpenses implements
             .menu(this, R.menu.accounts_sort)
             .choiceIdPreset(accountSort.getCommandId())
             .title(R.string.menu_sort)
+            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_TAG_SORTING);
         return true;
       }

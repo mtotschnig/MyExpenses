@@ -116,12 +116,9 @@
         <item name="android:paddingLeft">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
-    <style name="MyAlertDialogThemeLight" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorControlNormal">@android:color/black</item>
-    </style>
-
-    <style name="MyAlertDialogThemeDark" parent="@style/Theme.AppCompat.Dialog.Alert">
-        <item name="colorControlNormal">@android:color/white</item>
+    <style name="MyAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/colorPrimaryDialog</item>
+        <item name="colorAccent">@color/colorPrimaryDialog</item>
     </style>
 
     <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />
@@ -296,7 +293,7 @@
         <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
     </style>
 
-    <style name="SimpleDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="SimpleDialog" parent="MyAlertDialogTheme">
         <item name="textInputStyle">@style/SimpleDialogTextInputStyle</item>
     </style>
 

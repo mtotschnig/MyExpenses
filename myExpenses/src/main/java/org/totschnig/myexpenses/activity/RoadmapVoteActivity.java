@@ -299,6 +299,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         if (available > 0) {
           SimpleSeekBarDialog dialog = SimpleSeekBarDialog.build()
               .title(dataSetFiltered.get(info.position).getTitle())
+              .theme(R.style.SimpleDialog)
               .max(available)
               .extra(extra);
           if (value != null) {

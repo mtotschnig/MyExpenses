@@ -83,7 +83,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     if (bundle.getString(KEY_PREFKEY) != null ||
         checkboxLabel != 0) {
       //noinspection InflateParams
-      View cb = LayoutInflater.from(ctx).inflate(R.layout.checkbox, null);
+      View cb = LayoutInflater.from(builder.getContext()).inflate(R.layout.checkbox, null);
       checkBox = cb.findViewById(R.id.checkBox);
       checkBox.setText(
           checkboxLabel != 0 ? checkboxLabel :

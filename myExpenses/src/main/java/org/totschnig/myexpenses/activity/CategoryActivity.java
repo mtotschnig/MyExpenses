@@ -105,6 +105,7 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
         .cancelable(false)
         .neut()
         .extra(args)
+        .theme(R.style.SimpleDialog)
         .colorPreset(c.color)
         .show(this, EDIT_COLOR_DIALOG);
   }

@@ -5,13 +5,18 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,27 +24,48 @@ import androidx.fragment.app.FragmentTransaction;
 public abstract class CommitSafeDialogFragment extends DialogFragment {
 
   protected View dialogView;
+  protected LayoutInflater layoutInflater;
+
+  protected AlertDialog.Builder initBuilder() {
+    MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+    layoutInflater = LayoutInflater.from(materialAlertDialogBuilder.getContext());
+    return materialAlertDialogBuilder;
+  }
+
+  protected AlertDialog.Builder initBuilderWithView(int layoutResourceId) {
+    AlertDialog.Builder builder = initBuilder();
+    //noinspection InflateParams
+    dialogView = layoutInflater.inflate(layoutResourceId, null);
+    builder.setView(dialogView);
+    return builder;
+  }
 
   @Override
-  public int show(FragmentTransaction transaction, String tag) {
+  public int show(@NonNull FragmentTransaction transaction, String tag) {
       try {
           return super.show(transaction, tag);
-      } catch (IllegalStateException ignored) {}
+      } catch (IllegalStateException e) {
+        CrashHandler.report(e);
+      }
       return -1;
   }
 
   @Override
-  public void show(FragmentManager manager, String tag) {
+  public void show(@NonNull FragmentManager manager, String tag) {
       try {
           super.show(manager, tag);
-      } catch (IllegalStateException ignored) {}
+      } catch (IllegalStateException e) {
+        CrashHandler.report(e);
+      }
   }
 
   @Override
   public void dismiss() {
     try {
       super.dismiss();
-    } catch (IllegalStateException ignored) {}
+    } catch (IllegalStateException e) {
+      CrashHandler.report(e);
+    }
   }
 
   protected void showSnackbar(int resId) {

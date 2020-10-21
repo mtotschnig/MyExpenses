@@ -43,7 +43,6 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -138,6 +137,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+
     MyExpenses ctx = (MyExpenses) getActivity();
     Bundle args = getArguments();
     if (args == null) {
@@ -149,10 +149,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
     final String fileName;
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-
-    LayoutInflater li = LayoutInflater.from(ctx);
-    //noinspection InflateParams
-    dialogView = li.inflate(R.layout.export_dialog, null);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.export_dialog);
     ButterKnife.bind(this, dialogView);
 
     //TODO Strict mode violation
@@ -348,9 +345,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
       });
     }
 
-    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
-        .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
-        .setView(dialogView)
+    builder.setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
         .setNegativeButton(android.R.string.cancel, null)
         .setIcon(R.drawable.ic_warning);
     if (a != null) {

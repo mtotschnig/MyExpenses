@@ -121,9 +121,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       case R.id.FTP_DIALOG:
         return DialogUtils.sendWithFTPDialog(this);
       case R.id.MORE_INFO_DIALOG:
-        LayoutInflater li = LayoutInflater.from(this);
+        final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         //noinspection InflateParams
-        View view = li.inflate(R.layout.more_info, null);
+        View view = LayoutInflater.from(builder.getContext()).inflate(R.layout.more_info, null);
         ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(DistributionHelper.getVersionInfo(this));
         TextView projectContainer = view.findViewById(R.id.project_container);
         projectContainer.setText(Utils.makeBulletList(this,
@@ -158,8 +158,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           iconContainer.addView(textView);
         }
         ar.recycle();
-        return new MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.pref_more_info_dialog_title)
+        return builder.setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)
             .setPositiveButton(android.R.string.ok, null)
             .create();

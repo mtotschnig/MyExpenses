@@ -21,14 +21,11 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 
@@ -61,10 +58,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getActivity());
-    LayoutInflater li = LayoutInflater.from(getActivity());
-    //noinspection InflateParams
-    dialogView = li.inflate(R.layout.edit_text_dialog, null);
+    AlertDialog.Builder builder = initBuilderWithView(R.layout.edit_text_dialog);
     mEditText = ((EditText) dialogView.findViewById(R.id.EditTextDialogInput));
     Bundle args = getArguments();
     mEditText.setInputType(args.getInt(KEY_INPUT_TYPE, InputType.TYPE_CLASS_TEXT));
@@ -75,8 +69,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
     if (maxLength != 0) {
       mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
     }
-    AlertDialog dialog = builder.setView(dialogView)
-        .setTitle(args.getString(KEY_DIALOG_TITLE))
+    AlertDialog dialog = builder.setTitle(args.getString(KEY_DIALOG_TITLE))
         .create();
     dialog.getWindow().setSoftInputMode(
         WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

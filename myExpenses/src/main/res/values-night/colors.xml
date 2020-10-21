@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/primaryLightColor</color>
     <color name="colorAccent">@color/primaryLightColor</color>
+    <color name="colorPrimaryDialog">@color/primaryLightestColor</color>
     <color name="cardHighlightForeground">#40cccccc</color>
     <color name="colorIncome">#00D000</color>
     <color name="colorExpense">#FF5E5E</color>

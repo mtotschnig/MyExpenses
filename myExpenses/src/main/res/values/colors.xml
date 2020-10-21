@@ -17,9 +17,11 @@
 <resources>
     <color name="colorPrimary">@color/primaryColor</color>
     <color name="colorAccent">@color/primaryDarkColor</color>
+    <color name="colorPrimaryDialog">@color/primaryDarkColor</color>
 
     <color name="primaryColor">#0050a7</color>
     <color name="primaryLightColor">#527bd9</color>
+    <color name="primaryLightestColor">#96AFE8</color>
     <color name="primaryDarkColor">#002977</color>
     <color name="primaryTextColor">#ffffff</color>
 

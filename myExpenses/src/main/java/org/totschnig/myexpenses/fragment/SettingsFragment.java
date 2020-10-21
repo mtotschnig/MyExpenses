@@ -991,6 +991,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
             .msg(getKeyInfo())
             .pos(R.string.button_validate)
             .neg(R.string.menu_remove)
+            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_MANAGE_LICENCE);
 
       } else {

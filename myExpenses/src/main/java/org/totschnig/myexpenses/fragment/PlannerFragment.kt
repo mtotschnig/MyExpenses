@@ -116,7 +116,8 @@ class PlannerFragment : CommitSafeDialogFragment() {
         get() = _binding?.recyclerView?.adapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = PlannerFragmentBinding.inflate(LayoutInflater.from(activity), null, false)
+        val builder = initBuilderWithView(R.layout.planner_fragment)
+        _binding = PlannerFragmentBinding.bind(dialogView)
         val plannerAdapter = PlannerAdapter()
         binding.recyclerView.adapter = plannerAdapter
         binding.Title.movementMethod = LinkMovementMethod.getInstance()
@@ -141,8 +142,7 @@ class PlannerFragment : CommitSafeDialogFragment() {
             }
         })
         model.loadInstances()
-        val alertDialog = MaterialAlertDialogBuilder(requireContext())
-                .setView(binding.root)
+        val alertDialog = builder
                 .setPositiveButton(android.R.string.ok, null)
                 .setNeutralButton(R.string.menu_create_instance_save, null)
                 .create()

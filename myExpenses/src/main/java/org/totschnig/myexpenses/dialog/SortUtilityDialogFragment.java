@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.annimon.stream.Stream;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.RecyclerListAdapter;
@@ -17,6 +16,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,10 +53,11 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    AlertDialog.Builder builder = initBuilder();
     Bundle args = savedInstanceState != null ? savedInstanceState : getArguments();
     adapter = new RecyclerListAdapter( this, (ArrayList<AbstractMap.SimpleEntry<Long, String>>) args.getSerializable(KEY_ITEMS));
 
-    RecyclerView recyclerView = new RecyclerView(getActivity());
+    RecyclerView recyclerView = new RecyclerView(builder.getContext());
     recyclerView.setHasFixedSize(true);
     recyclerView.setAdapter(adapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -64,8 +65,7 @@ public class SortUtilityDialogFragment extends CommitSafeDialogFragment implemen
     ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
     mItemTouchHelper = new ItemTouchHelper(callback);
     mItemTouchHelper.attachToRecyclerView(recyclerView);
-    return new MaterialAlertDialogBuilder(getActivity())
-        .setTitle(R.string.sort_order)
+    return builder.setTitle(R.string.sort_order)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null)
         .setView(recyclerView)

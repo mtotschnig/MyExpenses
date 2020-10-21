@@ -206,6 +206,7 @@ public class SyncBackendList extends Fragment implements
           .msg("Backend is not ready to be synced")
           .pos("Activate again")
           .extra(bundle)
+          .theme(R.style.SimpleDialog)
           .show(this, DIALOG_INACTIVE_BACKEND);
     }
   }
