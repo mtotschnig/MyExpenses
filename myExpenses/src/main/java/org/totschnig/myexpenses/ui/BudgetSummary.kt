@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.budget_total_table.view.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.util.ColorUtils.getContrastColor
+import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -39,7 +39,7 @@ class BudgetSummary @JvmOverloads constructor(
 
     fun bind(budget: Budget, spent: Long, currencyFormatter: CurrencyFormatter) {
         budgetProgressTotal.setFinishedStrokeColor(budget.color)
-        budgetProgressTotal.setUnfinishedStrokeColor(getContrastColor(budget.color))
+        budgetProgressTotal.setUnfinishedStrokeColor(getComplementColor(budget.color))
         totalBudget.text = currencyFormatter.formatCurrency(budget.amount)
         totalAmount.text = currencyFormatter.formatCurrency(Money(budget.currency, -spent))
         val allocated = budget.amount.getAmountMinor()

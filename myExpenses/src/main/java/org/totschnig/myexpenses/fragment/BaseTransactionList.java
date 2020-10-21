@@ -206,7 +206,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
-import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
@@ -1006,7 +1006,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           int progress = budgetAmountMinor == 0 ? 100 : Math.round(-expensesSum * 100F / budgetAmountMinor);
           UiUtils.configureProgress(holder.budgetProgress, progress);
           holder.budgetProgress.setFinishedStrokeColor(mAccount.color);
-          holder.budgetProgress.setUnfinishedStrokeColor(getContrastColor(mAccount.color));
+          holder.budgetProgress.setUnfinishedStrokeColor(getComplementColor(mAccount.color));
         }
       }
     }

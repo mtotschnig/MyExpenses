@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import butterknife.BindView;
 
 import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
-import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 
 public class BudgetAdapter extends CategoryTreeBaseAdapter {
   OnBudgetClickListener listener;
@@ -50,7 +50,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter {
     int progress = item.budget == 0 ? 100 : Math.round(-item.sum * 100F / item.budget);
     UiUtils.configureProgress(holder.budgetProgress, progress);
     holder.budgetProgress.setFinishedStrokeColor(color);
-    holder.budgetProgress.setUnfinishedStrokeColor(getContrastColor(color));
+    holder.budgetProgress.setUnfinishedStrokeColor(getComplementColor(color));
     return view;
   }
 

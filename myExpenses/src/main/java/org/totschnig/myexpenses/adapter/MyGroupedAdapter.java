@@ -53,7 +53,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSF
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDrawable;
-import static org.totschnig.myexpenses.util.ColorUtils.getContrastColor;
+import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 
 public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyListHeadersAdapter {
   private final static String EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_";
@@ -206,7 +206,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
       }
       UiUtils.configureProgress(holder.criterionProgress, progress);
       holder.criterionProgress.setFinishedStrokeColor(colorInt);
-      holder.criterionProgress.setUnfinishedStrokeColor(getContrastColor(colorInt));
+      holder.criterionProgress.setUnfinishedStrokeColor(getComplementColor(colorInt));
       holder.criterionLabel.setText(criterion > 0 ? R.string.saving_goal : R.string.credit_limit);
       setConvertedAmount(currency, criterion, isHome, holder.criterion);
     } else {

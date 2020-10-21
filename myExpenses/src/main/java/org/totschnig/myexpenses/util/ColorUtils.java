@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static androidx.core.graphics.ColorUtils.blendARGB;
+import static androidx.core.graphics.ColorUtils.calculateLuminance;
 
 public class ColorUtils {
   /*
@@ -154,23 +155,11 @@ public class ColorUtils {
     if (android.R.color.transparent == color)
       return true;
 
-    boolean rtnValue = false;
-
-    int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
-
-    int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
-        * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
-
-    // color is light
-    if (brightness >= 200) {
-      rtnValue = true;
-    }
-
-    return rtnValue;
+    return calculateLuminance(color) > 0.5;
   }
 
-  public static int getContrastColor(int colorInt) {
-    final int contrastColor = org.totschnig.myexpenses.util.ColorUtils.isBrightColor(colorInt) ? Color.BLACK : Color.WHITE;
+  public static int getComplementColor(int colorInt) {
+    final int contrastColor =  MoreUiUtilsKt.getBestForeground(colorInt);
     return blendARGB(colorInt, contrastColor, 0.5F);
   }
 }

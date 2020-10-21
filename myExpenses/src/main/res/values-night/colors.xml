@@ -14,4 +14,5 @@
     <color name="cardBackground">#555555</color>
     <color name="myColorBackground">#ff000012</color>
     <color name="toolbarBackground">@color/material_grey_850</color>
+    <color name="activatedBackground">@color/material_grey_700</color>
 </resources>

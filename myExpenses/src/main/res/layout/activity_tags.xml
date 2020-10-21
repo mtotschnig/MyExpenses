@@ -29,7 +29,8 @@
             android:id="@+id/tag_list"
             android:name="org.totschnig.myexpenses.fragment.TagList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/padding_form" />
 
         <include layout="@layout/floating_action_button" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

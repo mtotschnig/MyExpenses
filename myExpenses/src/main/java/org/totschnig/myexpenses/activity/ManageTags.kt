@@ -17,7 +17,7 @@ class ManageTags: ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
         setupToolbar(true)
-        configureFloatingActionButton(R.string.content_description_tags_confirm)
+        configureFloatingActionButton(R.string.content_description_tags_confirm, R.drawable.ic_menu_done)
         val action = intent?.action ?: ACTION_SELECT_MAPPING
         setTitle(when(action) {
             ACTION_MANAGE -> R.string.tags
@@ -31,8 +31,6 @@ class ManageTags: ProtectedFragmentActivity() {
         })
         if (action == ACTION_MANAGE) {
             floatingActionButton.visibility = View.GONE
-        } else {
-            floatingActionButton.setImageResource(R.drawable.ic_menu_done)
         }
     }
 

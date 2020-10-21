@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.graphics.ColorUtils.calculateContrast
 import com.google.android.material.chip.ChipGroup
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -32,3 +34,5 @@ fun setNightMode(prefHandler: PrefHandler, context: Context) {
                 else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             })
 }
+
+fun getBestForeground(color: Int) = arrayOf(Color.BLACK, Color.WHITE).maxByOrNull { calculateContrast(color, it) }

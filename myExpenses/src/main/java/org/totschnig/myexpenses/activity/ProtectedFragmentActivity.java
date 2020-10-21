@@ -253,7 +253,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void configureFloatingActionButton(int fabDescription) {
+    configureFloatingActionButton(fabDescription, 0);
+  }
+
+  protected void configureFloatingActionButton(int fabDescription, int icon) {
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
+    if (icon != 0) {
+      floatingActionButton.setImageResource(icon);
+    }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, UiUtils.themeIntAttr(this, R.attr.colorControlActivated));
   }
 

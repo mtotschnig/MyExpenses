@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.TypedValue;
@@ -76,7 +75,7 @@ public class UiUtils {
 
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
-    DrawableCompat.setTint(fab.getDrawable(), ColorUtils.isBrightColor(color) ? Color.BLACK : Color.WHITE);
+    DrawableCompat.setTint(fab.getDrawable(), MoreUiUtilsKt.getBestForeground(color));
     fab.invalidate();
   }
 

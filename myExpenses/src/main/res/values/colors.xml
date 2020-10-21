@@ -51,4 +51,5 @@
     <color name="future_background">#11000000</color>
     <color name="myColorBackground">@color/material_grey_50</color>
     <color name="toolbarBackground">#FFFFFF</color>
+    <color name="activatedBackground">@color/my_material_grey_300</color>
 </resources>
