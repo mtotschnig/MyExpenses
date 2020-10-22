@@ -57,6 +57,7 @@ en:
       roadmap_voting: Voting right on <b>development roadmap</b>
       history_chart: <b>History chart</b> (Cash flow)
       budgeting: "<b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis."
+      scan_receipt: "<b>Scan receipts</b>: Automatically extract amount, date and payee"
     one-time-payment: One-time payment
     subscription: Subscription
   store:

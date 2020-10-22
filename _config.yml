@@ -120,6 +120,69 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.1.5
+    - "2020-10-22"
+    -
+      en: |
+        Dark theme linked to system default. Refinement of the user interface.
+      fr: |
+        Le style sombre est lié à la valeur par défaut du système. Raffinement de l'interface utilisateur.
+      de: |
+        Dunkler Stil wird mit dem Systemstandard verknüpft. Verfeinerung der Benutzeroberfläche.
+      it: |
+        Il tema scuro è associato alle impostazioni di sistema. Miglioramento dell'interfaccia utente.
+      tr: |
+        Koyu tema sistem varsayılanına bağlandı. Kullanıcı arayüzü iyileştirildi.
+      bg: |
+        Тъмната тема е свързана със системната настройка по подразбиране. Подобрения в потребителския интерфейс.
+      iw: |
+        עיצוב כהה מקושר לברירת המחדל של המערכת. חידוד ממשק המשתמש.
+  -
+    - 3.1.4
+    - "2020-10-03"
+    -
+      en: |
+        Scan receipt.
+      fr: |
+        Scanner le reçu.
+      de: |
+        Quittung scannen.
+      it: |
+        Scansiona lo scontrino.
+      es: |
+        Escanear recibo.
+      tr: |
+        Makbuz tara.
+      bg: |
+        Сканиране на касова бележка.
+      iw: |
+        סריקת קבלה.
+      ta: |
+        ரசீது ஸ்கேன.
+  -
+    - 3.1.3
+    - "2020-08-21"
+    -
+      en: |
+        Enhanced management of recurring transactions. Kannada translation.
+      fr: |
+        Gestion améliorée des opérations récurrentes. Traduction en Kannada.
+      de: |
+        Verbesserte Verwaltung wiederkehrender Buchungen. Kannada Übersetzung.
+      it: |
+        Migliorata la gestione delle transazioni ricorrenti. Traduzione in Kannada.
+      es: |
+        Manejo de transacciones recurrentes mejorado. Traducción a Canarés.
+      tr: |
+        Tekrar eden muamelelerin yönetimi geliştirildi. Kannada lisanında tercüme.
+      bg: |
+        Подобрено управление на повтарящи се транзакции. Превод на език каннада (Индия).
+      iw: |
+        ניהול משופר של עסקאות חוזרות. תרגום קנאדה.
+      ta: |
+        மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகளின் மேம்பட்ட மேலாண்மை. கன்னட மொழிபெயர்ப்பு.
+  
+  -
     - 3.1.2
     - "2020-05-23"
     -

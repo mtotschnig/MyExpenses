@@ -21,6 +21,8 @@ hu:
     thank_you: |
         Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
   permissions:
+    internet:
+      explanation_cloud_sync: Felhő szinkronizálás
     accounts:
       label: Számlák
   contrib-key: Contrib Kulcs

@@ -25,6 +25,7 @@ ro:
   permissions:
     internet:
       explanation_crash_reporting: Rapoarte blocare
+      explanation_cloud_sync: Sincronizare în cloud
     accounts:
       label: Conturi
   contrib-key: Cheie Contrib

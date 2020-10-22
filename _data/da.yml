@@ -20,6 +20,7 @@ da:
   permissions:
     internet:
       explanation_crash_reporting: Fejlrapporter
+      explanation_cloud_sync: Cloud synkronisering
     accounts:
       label: Konti
   contrib-key: Contrib Nøgle

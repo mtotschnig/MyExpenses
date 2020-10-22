@@ -26,6 +26,7 @@ cs:
   permissions:
     internet:
       explanation_crash_reporting: Hlášení o pádech
+      explanation_cloud_sync: Cloudová synchronizace
     accounts:
       label: Účty
   contrib-key: Klíč Contrib

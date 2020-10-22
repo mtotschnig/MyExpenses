@@ -20,5 +20,6 @@ km:
   permissions:
     internet:
       explanation_crash_reporting: របាយការណ៍​សាច់​ប្រាក់
+      explanation_cloud_sync: ធ្វើសមកាលកម្មពពក
     accounts:
       label: គណនី

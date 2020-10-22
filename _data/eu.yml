@@ -1,5 +1,6 @@
 eu:
   imprint: Ardura
+  privacy_policy_heading: Pribatutasun politika
   hero_main: "Finantza pertsonalen kudeatzailea Androiderako"
   hero_sub:
     use: "Erabilterraza"
@@ -17,19 +18,50 @@ eu:
     licence: Lizentzia
     sourcecode: Iturburu kodea
     links: Estekak
+  screenshots:
+    group: Antolatu zure transakzioak eguna, astea, hila eta urtearen arabera
+    budget: Definitu zure asmoa zenbat gastatzea den, urte betean, hilabete batean edo asteroko aurrekontuetan
+    split: Banatu transakzio bat kategoria askotan
+    distribution: Bistaratu banaketa kategorien arabera
+    history: Ulertu zure finantzarioaren bilakaera
+    export: Inprimatu PDF formatutik eta editatu via QIF eta CSV.
+    sync: Sinkronizatu zifratutako kontuko datuak hainbat gailutan, bai publiko bai pribatu izan daitezkeen lainoan kokatutako zerbitzuen bidez.
+  features:
+    manage_accounts: Gehienez bost kontu <b>transferentziak</b> eta guzti (hainbat moneta  onartzen dira)
+    plans: ' <b>txantiloi</b> kopuru mugagabea eta  hiru plan baino gehiago <b>errepikatze</b> transakzioetarako.'
+    export: <b>Esportatu</b> QIF eta CSV formatuetara. <b>Inportatu</b>  QIF formatutik
+    password: Datuak babes daitezke <b>pasahitz</b> baten bidez edo <b>pantaila blokeatze </b> sistemekin
+    light_theme: <b>Itxura</b> (itxura, iluna eta argia) eta <b>letra tamaina</b> pertsonalizatu egin daitezke
+    reconciliation: "<b>Bat egite</b>: erraz konpara daitezke zure transakzioen estatusa zure bankuko kontuen laburpenekin"
+    homescreen: Hasiera pantailan <b>widget</b> eta <b>lasterbideak</b> datuak azkar sartzeko
   contrib:
     thank_you: |
         Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
     feature-list-title: "Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:"
     feature:
+      accounts_unlimited: ' <b>kontuak</b> kopuru mugagabean'
+      plans_unlimited: Plan pilo bat <b>errepikakor</b> diren transakzioetarako
+      split_transaction: "<b>Banatutako transakzio</b>: transakzio bat banatu daiteke hainbat zatitan (kategoriak eta transferentziak)"
+      print: <b>Inprimatu</b> transakzioen zerrenda PDF fitxategi baten bidez
+      attach_picture: "<b>Irudi eranskina</b>: egin kaptura kameraren bidez edo hautatu irudia galeriatik"
+      ad_free: <b>iragarkirik ez</b>
       email_support: <b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin
       roadmap_voting: <b>Garapen ibilbidean</b> bozkatzeko aukera
+    one-time-payment: Aldi bakarreko ordainketa
+    subscription: Harpidetze
   permissions:
+    calendar:
+      label: Egutegia
+    external-storage:
+      label: Biltegiratze
+      explanation: Biltegian gordetzen dira QIF eta CSV formatuan esportatutako fitxategiak, eta babeskopien fitxategiak.
     internet:
+      label: Internet
       explanation_crash_reporting: Kraskatze txostenak
       explanation_cloud_sync: Sinkronizazioa hodeian
     accounts:
       label: Kontuak
+      explanation: Gailuen sinkronizazioa lainoan dauden zerbitzuen bidez.
   contrib-key: Kontribuzio Gakoa
   extended-key: Gako hedatua
   professional-key: Gako profesionala

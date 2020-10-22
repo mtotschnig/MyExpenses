@@ -23,6 +23,7 @@ hr:
   permissions:
     internet:
       explanation_crash_reporting: Izvještaji o prestanku rada aplikacije
+      explanation_cloud_sync: Sinhronizacija u oblaku
     accounts:
       label: Računi
   contrib-key: Contrib Ključ

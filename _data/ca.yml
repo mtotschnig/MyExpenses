@@ -24,6 +24,7 @@ ca_ES:
   permissions:
     internet:
       explanation_crash_reporting: Reports sobre penjades de l'aplicació
+      explanation_cloud_sync: Sincronització del núvol
     accounts:
       label: Comptes
   contrib-key: Clau del Contribuïdor

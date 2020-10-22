@@ -23,6 +23,7 @@ si:
   permissions:
     internet:
       explanation_crash_reporting: බිඳවැටීම් වාර්තා
+      explanation_cloud_sync: වලාකුළු සමමුහුර්තකරණය
     accounts:
       label: 'ගිණුම් '
   contrib-key: 'කොන්ට්‍රිබ් යතුර '
