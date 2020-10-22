@@ -51,4 +51,5 @@ ext {
     annotations = "1.1.0"
     recyclerview = "1.1.0"
     materialComponents = "1.2.1"
+    junit = "4.13.1"
 }
