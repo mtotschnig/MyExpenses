@@ -284,6 +284,7 @@ public class MyExpenses extends BaseMyExpenses implements
     ButterKnife.bind(this);
 
     mToolbar = setupToolbar(false);
+    mToolbar.setVisibility(View.INVISIBLE);
     mToolbar.setOnClickListener(v -> copyToClipBoard());
     if (mDrawerLayout != null) {
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -355,6 +356,9 @@ public class MyExpenses extends BaseMyExpenses implements
     mDrawerList.setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
+    if (!isScanMode()) {
+      floatingActionButton.setVisibility(View.INVISIBLE);
+    }
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
@@ -994,6 +998,7 @@ public class MyExpenses extends BaseMyExpenses implements
     } else {
       floatingActionButton.show();
     }
+    mToolbar.setVisibility(View.VISIBLE);
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
   }
