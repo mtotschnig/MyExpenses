@@ -3,6 +3,7 @@
     <color name="colorPrimary">@color/primaryLightColor</color>
     <color name="colorAccent">@color/primaryLightColor</color>
     <color name="colorPrimaryDialog">@color/primaryLightestColor</color>
+    <color name="colorErrorDialog">#D57B8C</color>
     <color name="cardHighlightForeground">#40cccccc</color>
     <color name="colorIncome">#00D000</color>
     <color name="colorExpense">#FF5E5E</color>
@@ -13,7 +14,7 @@
     <color name="future_background">#11FFFFFF</color>
     <color name="drawerBackground">#222</color>
     <color name="cardBackground">#555555</color>
-    <color name="myColorBackground">#ff000012</color>
+    <color name="myColorBackground">#ff202124</color>
     <color name="toolbarBackground">@color/material_grey_850</color>
     <color name="activatedBackground">@color/material_grey_700</color>
 </resources>

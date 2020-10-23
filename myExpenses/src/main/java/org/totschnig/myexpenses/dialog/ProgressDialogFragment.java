@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 
 import static android.app.ProgressDialog.STYLE_SPINNER;
 
+@Deprecated
 public class ProgressDialogFragment extends CommitSafeDialogFragment {
   private static final String KEY_PROGRESS_STYLE = "progressStyle";
   private static final String KEY_MESSAGE = "message";
@@ -49,10 +50,12 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
    * @param message if different from 0 a resource string identifier displayed as the dialogs's message
    * @return the dialog fragment
    */
+  @Deprecated
   public static ProgressDialogFragment newInstance(String message) {
     return newInstance(message, false);
   }
 
+  @Deprecated
   public static ProgressDialogFragment newInstance(String message, boolean withButton) {
     return newInstance(null, message, STYLE_SPINNER, withButton);
   }
@@ -63,6 +66,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
    * @param withButton    if true dialog is rendered with an OK button that is initially disabled
    * @return the dialog fragment
    */
+  @Deprecated
   public static ProgressDialogFragment newInstance(String title, String message, int progressStyle, boolean withButton) {
     ProgressDialogFragment f = new ProgressDialogFragment();
     Bundle bundle = new Bundle();

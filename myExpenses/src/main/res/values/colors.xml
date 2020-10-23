@@ -18,6 +18,7 @@
     <color name="colorPrimary">@color/primaryColor</color>
     <color name="colorAccent">@color/primaryDarkColor</color>
     <color name="colorPrimaryDialog">@color/primaryDarkColor</color>
+    <color name="colorErrorDialog">@color/design_default_color_error</color>
 
     <color name="primaryColor">#0050a7</color>
     <color name="primaryLightColor">#527bd9</color>

@@ -376,14 +376,13 @@
                         app:layout_constraintEnd_toStartOf="@id/TB"
                         tools:ignore="MissingConstraints" />
 
-                    <ToggleButton
+                    <CheckBox
                         android:id="@+id/TB"
                         style="@style/ReccurrenceRowToggleButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textOff="@string/plan_manual"
-                        android:textOn="@string/plan_automatic"
+                        android:text="@string/plan_automatic"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/PB"

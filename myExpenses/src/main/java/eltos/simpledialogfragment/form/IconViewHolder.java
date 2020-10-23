@@ -126,6 +126,7 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
 
   private void onClick(final SimpleFormDialog.DialogActions actions) {
     final SimpleIconDialog iconDialog = SimpleIconDialog.build()
+        .theme(R.style.SimpleDialog)
         .icons(field.iconArray)
         .neut();
     if(selected != null) {

@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@Deprecated
 public class ScrollableProgressDialog extends AlertDialog {
 
   private CharSequence message;

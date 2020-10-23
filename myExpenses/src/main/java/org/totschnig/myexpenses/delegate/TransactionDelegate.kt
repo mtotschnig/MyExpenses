@@ -8,11 +8,10 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.core.util.Pair
-import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
@@ -172,7 +171,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     private val planButton: DateButton
         get() = viewBinding.PB
-    private val planExecutionButton: ToggleButton
+    private val planExecutionButton: CompoundButton
         get() = viewBinding.TB
 
     fun bindUnsafe(transaction: ITransaction?, isCalendarPermissionPermanentlyDeclined: Boolean, newInstance: Boolean, savedInstanceState: Bundle?, recurrence: Plan.Recurrence?, withAutoFill: Boolean) {
@@ -263,7 +262,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         //}
         //after setLocalDateTime, so that the plan info can override the date
         configurePlan((transaction as? Template)?.plan)
-        configurePlanExecutionButton()
 
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
@@ -280,15 +278,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         }
 
         setMethodSelection()
-    }
-
-    private fun configurePlanExecutionButton() {
-        with(planExecutionButton) {
-            val automatic = paint.measureText(context.getString(R.string.plan_automatic)).toInt()
-            val manual = paint.measureText(context.getString(R.string.plan_manual)).toInt()
-            width = ((if (automatic > manual) automatic else manual) +
-                    +paddingLeft + paddingRight)
-        }
     }
 
     protected fun hideRowsSpecificToMain() {

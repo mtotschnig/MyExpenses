@@ -119,6 +119,7 @@
     <style name="MyAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/colorPrimaryDialog</item>
         <item name="colorAccent">@color/colorPrimaryDialog</item>
+        <item name="colorError">@color/colorErrorDialog</item>
     </style>
 
     <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />
@@ -237,11 +238,6 @@
 
     <style name="AdaptiveLabelTextAppearance" parent="TextAppearance.AppCompat.Caption">
         <item name="android:textSize">@dimen/textSizeLabel</item>
-    </style>
-
-    <style name="OnBoardingTextInputLayoutBase" parent="MyTextInputLayout">
-        <item name="hintTextAppearance">@style/AdaptiveHintTextAppearance</item>
-        <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
     </style>
 
     <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
