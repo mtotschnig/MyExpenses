@@ -304,7 +304,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         selectedPackage = proPackages[0];
         updateButtons(professionalButton);
       } else {
-        PopupMenu popup = new PopupMenu(getActivity(), v);
+        PopupMenu popup = new PopupMenu(getActivity(), professionalButton);
         popup.setOnMenuItemClickListener(item -> {
           selectedPackage = Package.values()[item.getItemId()];
           updateProPrice(licenceStatus);

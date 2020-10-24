@@ -210,6 +210,11 @@
     <style name="SelectLicenceButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/SelectLicenceButtonTheme</item>
+    </style>
+
+    <style name="SelectLicenceButtonTheme">
+        <item name="colorControlActivated">?android:textColorPrimary</item>
     </style>
 
     <style name="FeatureList">
