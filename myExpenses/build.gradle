@@ -17,7 +17,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    //id 'com.jakewharton.hugo'
 }
 
 repositories {
@@ -312,6 +311,7 @@ static def getDate() {
     return formattedDate
 }
 
+//apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'com.novoda.android-command'
 
 task copyFileForFixture(type: Files) {

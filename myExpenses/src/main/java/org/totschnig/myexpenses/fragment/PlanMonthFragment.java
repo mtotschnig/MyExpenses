@@ -77,6 +77,8 @@ public class PlanMonthFragment extends CaldroidFragment
   public static final int INSTANCE_STATUS_CURSOR = 2;
   private boolean readOnly;
 
+  StateListDrawable stateListDrawable;
+
   @State
   protected HashMap<Long, Long> instance2TransactionMap = new HashMap<>();
 
@@ -127,6 +129,35 @@ public class PlanMonthFragment extends CaldroidFragment
           ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
+    setupStateListDrawable();
+  }
+
+  private void setupStateListDrawable() {
+    int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
+    stateListDrawable = new StateListDrawable();
+    final int surfaceColor = UiUtils.themeIntAttr(getContext(), R.attr.colorSurface);
+    int todayDrawableResId = R.drawable.red_border;
+    GradientDrawable today = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
+    GradientDrawable todaySelected = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
+    todaySelected.setColor(accountColor);
+    today.setColor(surfaceColor);
+    stateListDrawable.addState(new int[]{android.R.attr.state_activated},
+        new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
+    stateListDrawable.addState(
+        new int[]{R.attr.state_date_selected, R.attr.state_date_today},
+        todaySelected);
+    stateListDrawable.addState(
+        new int[]{R.attr.state_date_selected},
+        new ColorDrawable(accountColor));
+    stateListDrawable.addState(
+        new int[]{R.attr.state_date_today},
+        today);
+    stateListDrawable.addState(
+        new int[]{R.attr.state_date_prev_next_month},
+        new ColorDrawable(getContext().getResources().getColor(R.color.caldroid_state_date_prev_next_month)));
+    stateListDrawable.addState(
+        new int[]{},
+        new ColorDrawable(surfaceColor));
   }
 
   @NonNull
@@ -442,32 +473,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
     @Override
     protected void resetCustomResources(CellView cellView) {
-      int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
-      StateListDrawable stateListDrawable = new StateListDrawable();
-      final int surfaceColor = UiUtils.themeIntAttr(getContext(), R.attr.colorSurface);
-      int todayDrawableResId = R.drawable.red_border;
-      GradientDrawable today = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
-      GradientDrawable todaySelected = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
-      todaySelected.setColor(accountColor);
-      today.setColor(surfaceColor);
-      stateListDrawable.addState(new int[]{android.R.attr.state_activated},
-          new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
-      stateListDrawable.addState(
-          new int[]{R.attr.state_date_selected, R.attr.state_date_today},
-          todaySelected);
-      stateListDrawable.addState(
-          new int[]{R.attr.state_date_selected},
-          new ColorDrawable(accountColor));
-      stateListDrawable.addState(
-          new int[]{R.attr.state_date_today},
-          today);
-      stateListDrawable.addState(
-          new int[]{R.attr.state_date_prev_next_month},
-          new ColorDrawable(getContext().getResources().getColor(R.color.caldroid_state_date_prev_next_month)));
-      stateListDrawable.addState(
-          new int[]{},
-          new ColorDrawable(surfaceColor));
-      cellView.setBackground(stateListDrawable);
+      cellView.setBackground(stateListDrawable.mutate().getConstantState().newDrawable());
 
       cellView.setTextColor(defaultTextColorRes);
     }
