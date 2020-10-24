@@ -51,8 +51,8 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -444,10 +444,12 @@ public class PlanMonthFragment extends CaldroidFragment
     protected void resetCustomResources(CellView cellView) {
       int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
       StateListDrawable stateListDrawable = new StateListDrawable();
-      int todayDrawable = R.drawable.red_border;
-      GradientDrawable todaySelected =
-          (GradientDrawable) ResourcesCompat.getDrawable(getResources(), todayDrawable, null).mutate();
+      final int surfaceColor = UiUtils.themeIntAttr(getContext(), R.attr.colorSurface);
+      int todayDrawableResId = R.drawable.red_border;
+      GradientDrawable today = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
+      GradientDrawable todaySelected = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
       todaySelected.setColor(accountColor);
+      today.setColor(surfaceColor);
       stateListDrawable.addState(new int[]{android.R.attr.state_activated},
           new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
       stateListDrawable.addState(
@@ -458,13 +460,13 @@ public class PlanMonthFragment extends CaldroidFragment
           new ColorDrawable(accountColor));
       stateListDrawable.addState(
           new int[]{R.attr.state_date_today},
-          ResourcesCompat.getDrawable(getResources(), todayDrawable, null));
+          today);
       stateListDrawable.addState(
           new int[]{R.attr.state_date_prev_next_month},
           new ColorDrawable(getContext().getResources().getColor(R.color.caldroid_state_date_prev_next_month)));
       stateListDrawable.addState(
           new int[]{},
-          new ColorDrawable(UiUtils.themeIntAttr(getContext(), R.attr.colorSurface)));
+          new ColorDrawable(surfaceColor));
       cellView.setBackground(stateListDrawable);
 
       cellView.setTextColor(defaultTextColorRes);

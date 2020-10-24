@@ -5,6 +5,4 @@
     <stroke
         android:width="2dp"
         android:color="@color/caldroid_red_border"/>
-
-    <solid android:color="?attr/colorSurface"/>
 </shape>
