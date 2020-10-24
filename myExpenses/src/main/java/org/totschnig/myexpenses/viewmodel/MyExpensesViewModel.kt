@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.File
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class MyExpensesViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -144,7 +143,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
 
     fun getScanUri(file: File) = try {
         AppDirHelper.getContentUriForFile(file)
-    }  catch (e: IllegalStateException) {
+    }  catch (e: IllegalArgumentException) {
         Uri.fromFile(file)
     }
 
