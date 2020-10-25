@@ -1,92 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:importantForAutofill="noExcludeDescendants"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/padding_input_dialog_side"
-              android:paddingRight="@dimen/padding_input_dialog_side"
-              android:paddingTop="8dp"
-              tools:targetApi="o">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
-    <!-- label (only custom) -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/container_currency_label"
-        android:layout_marginBottom="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_currency_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label"
-            android:inputType="text"
-            android:maxLines="1"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- code (only custom) -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/container_currency_code"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_currency_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/currency_code"
-            android:inputType="textCapCharacters"
-            android:maxLength="3"
-            android:maxLines="1"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <!-- symbol -->
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:importantForAutofill="noExcludeDescendants"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_input_dialog_side"
+        android:paddingTop="8dp"
+        android:paddingRight="@dimen/padding_input_dialog_side"
+        tools:targetApi="o">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_currency_symbol"
+        <!-- label (only custom) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container_currency_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/currency_symbol"
-            android:inputType="text"
-            android:maxLines="1"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="8dp">
 
-    <!-- fraction digits -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_currency_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_currency_fraction_digits"
+        <!-- code (only custom) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container_currency_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/number_of_fraction_digits"
-            android:inputType="number"
-            android:maxLength="1"
-            android:maxLines="1"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="8dp">
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/warning_change_fraction_digits_checkbox_label"
-        android:visibility="gone"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_currency_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/currency_code"
+                android:inputType="textCapCharacters"
+                android:maxLength="3"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/warning_change_fraction_digits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-</LinearLayout>
+
+        <!-- symbol -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_currency_symbol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/currency_symbol"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- fraction digits -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_currency_fraction_digits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/number_of_fraction_digits"
+                android:inputType="number"
+                android:maxLength="1"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/warning_change_fraction_digits_checkbox_label"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/warning_change_fraction_digits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>
