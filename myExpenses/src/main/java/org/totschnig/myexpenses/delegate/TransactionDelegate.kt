@@ -559,7 +559,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 updateAccount(account)
             }
             R.id.OperationType -> {
-                host.discoveryHelper.markDiscovered(DiscoveryHelper.Feature.OPERATION_TYPE_SELECT)
+                host.discoveryHelper.markDiscovered(DiscoveryHelper.Feature.operation_type_select)
                 val newType = operationTypeSpinner.getItemAtPosition(position) as Int
                 if (host.isValidType(newType)) {
                     if (newType == TransactionsContract.Transactions.TYPE_TRANSFER && !checkTransferEnabled()) { //reset to previous

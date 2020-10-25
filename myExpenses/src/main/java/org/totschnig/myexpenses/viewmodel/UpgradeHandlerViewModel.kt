@@ -29,10 +29,10 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                             if (cursor.moveToFirst()) {
                                 val discoveryHelper = getApplication<MyApplication>().appComponent.discoveryHelper()
                                 if (cursor.getInt(0) > 0) {
-                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.EI_SWITCH)
+                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
                                 }
                                 if (cursor.getInt(1) > 0) {
-                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.OPERATION_TYPE_SELECT)
+                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.operation_type_select)
                                 }
                             }
                             cursor.close()

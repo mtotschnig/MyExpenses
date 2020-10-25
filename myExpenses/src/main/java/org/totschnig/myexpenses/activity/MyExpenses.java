@@ -128,6 +128,7 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.PICTURE_REQUEST_CODE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -356,6 +357,7 @@ public class MyExpenses extends BaseMyExpenses implements
     mDrawerList.setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
+    setupFabSubMenu();
     if (!isScanMode()) {
       floatingActionButton.setVisibility(View.INVISIBLE);
     }
@@ -583,7 +585,7 @@ public class MyExpenses extends BaseMyExpenses implements
               viewModel.requestOcrFeature(this);
             }
           } else {
-            createRow();
+            createRow(TYPE_TRANSACTION, false);
           }
         }
         return true;

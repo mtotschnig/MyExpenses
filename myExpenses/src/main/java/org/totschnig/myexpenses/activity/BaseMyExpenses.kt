@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
@@ -21,7 +23,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.ui.DiscoveryHelper
 import java.io.File
+import javax.inject.Inject
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 
@@ -34,6 +38,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @State
     var accountId: Long = 0
     var currentCurrency: String? = null
+
+    @Inject
+    lateinit var discoveryHelper: DiscoveryHelper
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            discoveryHelper.discover(this, floatingActionButton, 3, DiscoveryHelper.Feature.fab_long_press)
+        }
+    }
+
     override fun processOcrResult(result: Result<OcrResult>) {
         result.onSuccess {
             if (it.needsDisambiguation()) {
@@ -84,8 +99,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      * start ExpenseEdit Activity for a new transaction/transfer/split
      * Originally the form for transaction is rendered, user can change from spinner in toolbar
      */
-    open fun createRowIntent() = Intent(this, ExpenseEdit::class.java).apply {
-        putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+    open fun createRowIntent(type: Int, isIncome: Boolean) = Intent(this, ExpenseEdit::class.java).apply {
+        putExtra(Transactions.OPERATION_TYPE, type)
+        putExtra(ExpenseEdit.KEY_INCOME, isIncome)
         //if we are called from an aggregate cursor, we also hand over the currency
         if (accountId < 0) {
             putExtra(DatabaseConstants.KEY_CURRENCY, currentCurrency)
@@ -96,8 +112,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun createRow() {
-        startEdit(createRowIntent())
+    fun createRow(type: Int, isIncome: Boolean) {
+        startEdit(createRowIntent(type, isIncome))
     }
 
     protected fun startEdit(intent: Intent?) {
@@ -107,7 +123,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun startEditFromOcrResult(result: OcrResultFlat?) {
         recordUsage(ContribFeature.OCR)
         startEdit(
-                createRowIntent().apply {
+                createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
                     putExtra(KEY_OCR_RESULT, result)
                     putExtra(DatabaseConstants.KEY_PICTURE_URI, Uri.fromFile(scanFile))
                 }
@@ -120,5 +136,27 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     extras.getInt(KEY_AMOUNT), extras.getInt(KEY_DATE), extras.getInt(KEY_PAYEE_NAME)))
         }
         return false
+    }
+
+    fun setupFabSubMenu() {
+        floatingActionButton.setOnLongClickListener { v ->
+            discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
+            val popup = PopupMenu(this, floatingActionButton)
+            val popupMenu = popup.getMenu()
+            popup.setOnMenuItemClickListener({ item ->
+                createRow(when (item.itemId) {
+                    R.string.split_transaction -> Transactions.TYPE_SPLIT
+                    R.string.transfer -> Transactions.TYPE_TRANSFER
+                    else -> Transactions.TYPE_TRANSACTION
+                }, item.itemId == R.string.income)
+                true
+            })
+            popupMenu.add(Menu.NONE, R.string.expense, Menu.NONE, R.string.expense)
+            popupMenu.add(Menu.NONE, R.string.income, Menu.NONE, R.string.income)
+            popupMenu.add(Menu.NONE, R.string.transfer, Menu.NONE, R.string.transfer)
+            popupMenu.add(Menu.NONE, R.string.split_transaction, Menu.NONE, R.string.split_transaction)
+            popup.show()
+            true
+        }
     }
 }

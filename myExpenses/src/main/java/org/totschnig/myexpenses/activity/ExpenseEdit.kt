@@ -46,7 +46,6 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.android.calendar.CalendarContractCompat
 import com.google.android.material.snackbar.Snackbar
-import icepick.Icepick
 import icepick.State
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
@@ -337,16 +336,15 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             }
             if (mNewInstance) {
-                if (operationType == TYPE_TRANSFER || !discoveryHelper.discover(this, amountInput.typeButton, String.format("%s / %s", getString(R.string.expense), getString(R.string.income)),
-                                getString(R.string.discover_feature_expense_income_switch),
-                                1, DiscoveryHelper.Feature.EI_SWITCH, false)) {
-                    discoveryHelper.discover(this, rootBinding.toolbar.OperationType, String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction)),
-                            getString(R.string.discover_feature_operation_type_select),
-                            2, DiscoveryHelper.Feature.OPERATION_TYPE_SELECT, true)
+                if (operationType == TYPE_TRANSFER ||
+                        !discoveryHelper.discover(this, amountInput.typeButton, 1,
+                                DiscoveryHelper.Feature.expense_income_switch)) {
+                    discoveryHelper.discover(this, rootBinding.toolbar.OperationType, 2,
+                            DiscoveryHelper.Feature.operation_type_select, true)
                 }
             }
         }
-        viewModel.getMethods().observe(this, Observer { paymentMethods ->
+        viewModel.getMethods().observe(this, { paymentMethods ->
             if (::delegate.isInitialized) {
                 delegate.setMethods(paymentMethods)
             }
@@ -488,6 +486,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
             delegate.setPicture(it)
         }
+        amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
     }
 
     private fun populate(transaction: Transaction) {
@@ -591,7 +590,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         if (shouldLoadMethods) {
             loadMethods(currentAccount)
         }
-        discoveryHelper.markDiscovered(DiscoveryHelper.Feature.EI_SWITCH)
+        discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -1237,6 +1236,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         const val KEY_OCR_RESULT = "ocrResult"
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
         const val AUTOFILL_CURSOR = 8
+        const val KEY_INCOME = "income"
     }
 
     fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {

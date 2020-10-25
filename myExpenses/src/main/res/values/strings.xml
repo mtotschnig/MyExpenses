@@ -947,4 +947,6 @@
     <string name="pref_feature_uninstall_languages_title">Languages</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">Tap and hold the flotating action button in order to directly open the form for transfers, split transactions or income.</string>
 </resources>
