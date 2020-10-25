@@ -73,15 +73,16 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
      * set label on category button
      */
     fun setCategoryButton() {
-        if (!label.isNullOrEmpty()) {
-            viewBinding.Category.text = label
-            viewBinding.ClearCategory.visibility = View.VISIBLE
-            UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(viewBinding.Category,
-                    if (categoryIcon != null) UiUtils.resolveIcon(viewBinding.root.context, categoryIcon) else 0, 0, 0, 0)
-        } else {
+        if (label.isNullOrEmpty()) {
             viewBinding.Category.setText(R.string.select)
             viewBinding.ClearCategory.visibility = View.GONE
+        } else {
+            viewBinding.Category.text = label
+            viewBinding.ClearCategory.visibility = View.VISIBLE
+
         }
+        UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(viewBinding.Category,
+                if (categoryIcon != null) UiUtils.resolveIcon(viewBinding.root.context, categoryIcon) else 0, 0, 0, 0)
     }
 
     override fun populateFields(transaction: ITransaction, withAutoFill: Boolean) {
