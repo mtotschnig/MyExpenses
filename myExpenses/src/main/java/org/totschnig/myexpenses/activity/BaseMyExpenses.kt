@@ -1,11 +1,15 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.graphics.drawable.DrawableCompat
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
@@ -151,10 +155,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }, item.itemId == R.string.income)
                 true
             })
-            popupMenu.add(Menu.NONE, R.string.expense, Menu.NONE, R.string.expense)
-            popupMenu.add(Menu.NONE, R.string.income, Menu.NONE, R.string.income)
-            popupMenu.add(Menu.NONE, R.string.transfer, Menu.NONE, R.string.transfer)
-            popupMenu.add(Menu.NONE, R.string.split_transaction, Menu.NONE, R.string.split_transaction)
+            popupMenu.add(Menu.NONE, R.string.expense, Menu.NONE, R.string.expense).setIcon(R.drawable.ic_expense)
+            popupMenu.add(Menu.NONE, R.string.income, Menu.NONE, R.string.income).setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_menu_add)?.also {
+                DrawableCompat.setTint(it, resources.getColor(R.color.colorIncome))
+            })
+            popupMenu.add(Menu.NONE, R.string.transfer, Menu.NONE, R.string.transfer).setIcon(R.drawable.ic_menu_forward)
+            popupMenu.add(Menu.NONE, R.string.split_transaction, Menu.NONE, R.string.split_transaction).setIcon(R.drawable.ic_menu_split)
+            //noinspection RestrictedApi
+            (popup.menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             popup.show()
             true
         }
