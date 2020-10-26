@@ -43,7 +43,7 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
 
     fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: Feature,
                  measureTarget: Boolean = false) =
-            (!MyApplication.isInstrumentationTest() && Utils.getDaysSinceInstall(context) >= daysSinceInstall).also {
+            (!MyApplication.isInstrumentationTest() && Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true)).also {
                 if (it) {
                     if (measureTarget) {
                         target.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
