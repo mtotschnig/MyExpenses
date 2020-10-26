@@ -13,200 +13,216 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/edit_container"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_expense_edit" />
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/edit_container"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TableLayout
-            android:id="@+id/Table"
+        <include layout="@layout/toolbar_expense_edit" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_form"
-            android:paddingRight="@dimen/padding_form"
-            android:shrinkColumns="1"
-            android:stretchColumns="1">
+            android:layout_height="0dip"
+            android:layout_weight="1">
 
-            <TableRow>
+            <TableLayout
+                android:id="@+id/Table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_form"
+                android:paddingRight="@dimen/padding_form"
+                android:paddingBottom="@dimen/fab_related_bottom_padding"
+                android:shrinkColumns="1"
+                android:stretchColumns="1">
 
-                <TextView
-                    android:id="@+id/TitleLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Title"
-                    android:text="@string/title" />
+                <TableRow>
 
-                <EditText
-                    android:id="@+id/Title"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    tools:targetApi="o" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/TitleLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Title"
+                        android:text="@string/title" />
 
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/DescriptionLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Description"
-                    android:text="@string/description" />
-
-                <EditText
-                    android:id="@+id/Description"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    tools:targetApi="o" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/AmountLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Amount"
-                    android:text="@string/budget_allocated_amount" />
-
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/Amount"
-                    app:withTypeSwitch="false"
-                    style="@style/FormField" />
-            </TableRow>
-
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/AccountsLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Accounts"
-                    android:text="@string/pref_manage_accounts_title" />
-
-                <Spinner
-                    android:id="@+id/Accounts"
-                    style="@style/FormField"
-                    android:prompt="@string/pref_manage_accounts_title" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:id="@+id/FilterLabel"
-                    style="@style/FormLabel"
-                    android:text="@string/budget_form_label_filter" />
-                <com.google.android.material.chip.ChipGroup
-                    android:gravity="center_horizontal"
-                    style="@style/FormField">
-                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
-                        android:id="@id/FILTER_CATEGORY_COMMAND"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/Title"
+                        style="@style/FormField"
                         android:layout_height="wrap_content"
-                        android:theme="@style/Theme.MaterialComponents"
-                        android:text="@string/budget_filter_all_categories" />
-                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
-                        android:id="@id/FILTER_PAYEE_COMMAND"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/Theme.MaterialComponents"
-                        android:text="@string/budget_filter_all_parties" />
-                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
-                        android:id="@id/FILTER_METHOD_COMMAND"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:theme="@style/Theme.MaterialComponents"
-                        android:text="@string/budget_filter_all_methods" />
-                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
-                        android:id="@id/FILTER_STATUS_COMMAND"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:theme="@style/Theme.MaterialComponents"
-                        android:text="@string/budget_filter_all_states" />
-                    <org.totschnig.myexpenses.ui.filter.ScrollingChip
-                        android:id="@id/FILTER_TAG_COMMAND"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:theme="@style/Theme.MaterialComponents"
-                        android:text="@string/budget_filter_all_tags" />
-                </com.google.android.material.chip.ChipGroup>
-            </TableRow>
+                        android:layout_gravity="center_vertical"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        tools:targetApi="o" />
+                </TableRow>
 
-            <TableRow>
+                <TableRow>
 
-                <TextView
-                    android:id="@+id/TypeLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/TaType"
-                    android:text="@string/type" />
+                    <TextView
+                        android:id="@+id/DescriptionLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Description"
+                        android:text="@string/description" />
 
-                <LinearLayout
-                    style="@style/FormField">
+                    <EditText
+                        android:id="@+id/Description"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        tools:targetApi="o" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/AmountLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Amount"
+                        android:text="@string/budget_allocated_amount" />
+
+                    <org.totschnig.myexpenses.ui.AmountInput
+                        android:id="@+id/Amount"
+                        style="@style/FormField"
+                        app:withTypeSwitch="false" />
+                </TableRow>
+
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/AccountsLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Accounts"
+                        android:text="@string/pref_manage_accounts_title" />
+
                     <Spinner
-                        android:id="@+id/Type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/type" />
-                    <CheckBox
-                        android:id="@+id/DefaultBudget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/checkbox_is_default" />
-                </LinearLayout>
-            </TableRow>
+                        android:id="@+id/Accounts"
+                        style="@style/FormField"
+                        android:prompt="@string/pref_manage_accounts_title" />
+                </TableRow>
 
-            <TableRow
-                android:visibility="gone"
-                android:id="@+id/DurationFromRow">
+                <TableRow>
 
-                <TextView
-                    android:id="@+id/DurationFromLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/DurationFrom"
-                    android:text="@string/budget_duration_from" />
+                    <TextView
+                        android:id="@+id/FilterLabel"
+                        style="@style/FormLabel"
+                        android:text="@string/budget_form_label_filter" />
 
-                <DatePicker
-                    style="@style/FormField"
-                    android:id="@+id/DurationFrom"
-                    android:calendarViewShown="false"
-                    android:datePickerMode="spinner"
-                    tools:ignore="UnusedAttribute"/>
-            </TableRow>
+                    <com.google.android.material.chip.ChipGroup
+                        style="@style/FormField"
+                        android:gravity="center_horizontal">
 
-            <TableRow
-                android:visibility="gone"
-                android:id="@+id/DurationToRow">
+                        <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                            android:id="@id/FILTER_CATEGORY_COMMAND"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget_filter_all_categories"
+                            android:theme="@style/Theme.MaterialComponents" />
 
-                <TextView
-                    android:id="@+id/DurationToLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/DurationTo"
-                    android:text="@string/budget_duration_to" />
+                        <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                            android:id="@id/FILTER_PAYEE_COMMAND"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget_filter_all_parties"
+                            android:theme="@style/Theme.MaterialComponents" />
 
-                <DatePicker
-                    style="@style/FormField"
-                    android:id="@+id/DurationTo"
-                    android:calendarViewShown="false"
-                    android:datePickerMode="spinner"
-                    tools:ignore="UnusedAttribute"/>
-            </TableRow>
+                        <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                            android:id="@id/FILTER_METHOD_COMMAND"
+                            style="@style/Widget.MaterialComponents.Chip.Action"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget_filter_all_methods"
+                            android:theme="@style/Theme.MaterialComponents" />
 
-        </TableLayout>
-    </ScrollView>
-</LinearLayout>
+                        <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                            android:id="@id/FILTER_STATUS_COMMAND"
+                            style="@style/Widget.MaterialComponents.Chip.Action"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget_filter_all_states"
+                            android:theme="@style/Theme.MaterialComponents" />
+
+                        <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                            android:id="@id/FILTER_TAG_COMMAND"
+                            style="@style/Widget.MaterialComponents.Chip.Action"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget_filter_all_tags"
+                            android:theme="@style/Theme.MaterialComponents" />
+                    </com.google.android.material.chip.ChipGroup>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/TypeLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/TaType"
+                        android:text="@string/type" />
+
+                    <LinearLayout style="@style/FormField">
+
+                        <Spinner
+                            android:id="@+id/Type"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:prompt="@string/type" />
+
+                        <CheckBox
+                            android:id="@+id/DefaultBudget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/checkbox_is_default" />
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/DurationFromRow"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/DurationFromLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/DurationFrom"
+                        android:text="@string/budget_duration_from" />
+
+                    <DatePicker
+                        android:id="@+id/DurationFrom"
+                        style="@style/FormField"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        tools:ignore="UnusedAttribute" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/DurationToRow"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/DurationToLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/DurationTo"
+                        android:text="@string/budget_duration_to" />
+
+                    <DatePicker
+                        android:id="@+id/DurationTo"
+                        style="@style/FormField"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        tools:ignore="UnusedAttribute" />
+                </TableRow>
+
+            </TableLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <include layout="@layout/floating_action_button_save" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

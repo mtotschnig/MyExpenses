@@ -80,7 +80,7 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:fastScrollEnabled="true"
-        android:paddingBottom="75dp"
+        android:paddingBottom="@dimen/fab_related_bottom_padding"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"/>
 

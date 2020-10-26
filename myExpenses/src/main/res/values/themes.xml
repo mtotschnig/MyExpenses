@@ -19,6 +19,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
@@ -46,6 +47,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
@@ -76,6 +78,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="md_color_button_text">?colorAccent</item>

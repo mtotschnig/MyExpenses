@@ -39,7 +39,6 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.PopupMenu
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
@@ -156,7 +155,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @State
     var operationType = 0
     private lateinit var mManager: LoaderManager
-    private var createNew = false
+    @JvmField
+    @State
+    var createNew = false
 
     @JvmField
     @State
@@ -265,7 +266,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             // fetch the transaction or create a new instance
             if (task != null) {
                 //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
-                viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false), true, extras).observe(this, Observer {
+                viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false), true, extras).observe(this, {
                     populateFromTask(it, task)
                 })
             } else {
@@ -292,7 +293,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
                 var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
-                    viewModel.newTemplate(operationType, accountId, if (parentId != 0L) parentId else null).observe(this, Observer {
+                    viewModel.newTemplate(operationType, accountId, if (parentId != 0L) parentId else null).observe(this, {
                         if (it != null) {
                             mRowId = it.id
                         }
@@ -305,7 +306,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            viewModel.newTransaction(accountId, if (parentId != 0L) parentId else null).observe(this, Observer {
+                            viewModel.newTransaction(accountId, if (parentId != 0L) parentId else null).observe(this, {
                                 populateWithNewInstance(it)
                             })
                         }
@@ -317,7 +318,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                             }
                             viewModel.newTransfer(accountId,
                                     if (transferAccountId != 0L) transferAccountId else null,
-                                    if (parentId != 0L) parentId else null).observe(this, Observer {
+                                    if (parentId != 0L) parentId else null).observe(this, {
                                 populateWithNewInstance(it)
                             })
                         }
@@ -325,7 +326,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                             if (accountId == 0L) {
                                 accountId = prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            viewModel.newSplit(accountId).observe(this, Observer {
+                            viewModel.newSplit(accountId).observe(this, {
                                 if (it != null) {
                                     mRowId = it.id
                                 }
@@ -595,6 +596,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (::delegate.isInitialized) {
+            val sanMenuItem = menu.findItem(R.id.SAVE_AND_NEW_COMMAND)
+            if (sanMenuItem != null) {
+                sanMenuItem.isChecked = createNew
+            }
             val oaMenuItem = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)
             if (oaMenuItem != null) {
                 oaMenuItem.isChecked = delegate.originalAmountVisible
@@ -617,8 +622,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         super.onCreateOptionsMenu(menu)
         if (!isNoMainTransaction) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-                    .setIcon(R.drawable.ic_action_save_new)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    .setCheckable(true)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
         if (operationType == TYPE_TRANSFER) {
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
@@ -644,9 +649,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             } ?: kotlin.run { return }
         }
-        if (andNew) {
-            createNew = true
-        }
         super.doSave(andNew)
     }
 
@@ -662,6 +664,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             R.id.CREATE_COMMAND -> {
                 createRow()
                 return true
+            }
+            R.id.SAVE_AND_NEW_COMMAND -> {
+                createNew = ! createNew
+                invalidateOptionsMenu()
+                return true;
             }
             R.id.INVERT_TRANSFER_COMMAND -> {
                 (delegate as? TransferDelegate)?.invert()
@@ -727,7 +734,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
                 }
-                viewModel.save(transaction).observe(this, Observer {
+                viewModel.save(transaction).observe(this, {
                     onSaved(it)
                 })
                 if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
@@ -742,9 +749,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                         Transactions.TYPE_SPLIT -> prefHandler.putLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, accountId)
                     }
                 }
-            } ?: run {
-                //prevent this flag from being sticky if form was not valid
-                createNew = false
             }
         }
     }
@@ -814,7 +818,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     private fun cleanup(onComplete: () -> Unit) {
         if (operationType == Transactions.TYPE_SPLIT && ::delegate.isInitialized) {
             delegate.rowId?.let {
-                viewModel.cleanupSplit(it, isTemplate).observe(this, Observer {
+                viewModel.cleanupSplit(it, isTemplate).observe(this, {
                     onComplete()
                 })
             }
@@ -838,7 +842,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     private fun refreshPlanData() {
         delegate.planId?.let { planId ->
-            viewModel.plan(planId).observe(this, Observer {
+            viewModel.plan(planId).observe(this, {
                 delegate.configurePlan(it)
             })
         }
@@ -929,7 +933,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     "Error while saving transaction"
                 }
             }, Snackbar.LENGTH_LONG)
-            createNew = false
         } else {
             if (operationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
@@ -938,7 +941,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 recordUsage(ContribFeature.ATTACH_PICTURE)
             }
             if (createNew) {
-                createNew = false
                 delegate.prepareForNew()
                 //while saving the picture might have been moved from temp to permanent
                 //mPictureUri = mTransaction!!.pictureUri
@@ -1192,7 +1194,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         val fm = supportFragmentManager
         if (findSplitPartList() == null && !fm.isStateSaved) {
             fm.beginTransaction()
-                    .add(R.id.edit_container, SplitPartList.newInstance(rowId, isTemplate, currentAccount!!), SPLIT_PART_LIST)
+                    .add(R.id.scrollableContent, SplitPartList.newInstance(rowId, isTemplate, currentAccount!!), SPLIT_PART_LIST)
                     .commit()
             fm.executePendingTransactions()
         }
@@ -1220,7 +1222,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     fun loadOriginTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, Observer { transaction ->
+        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, { transaction ->
             (transaction as? Template)?.let { delegate.originTemplateLoaded(it) }
         })
     }

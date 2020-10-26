@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,178 +13,186 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/edit_container"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:importantForAutofill="noExcludeDescendants"
-              android:orientation="vertical"
-              tools:targetApi="o">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_expense_edit"/>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/edit_container"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:importantForAutofill="noExcludeDescendants"
+        android:orientation="vertical"
+        tools:targetApi="o">
 
-        <TableLayout
-            android:id="@+id/Table"
+        <include layout="@layout/toolbar_expense_edit" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_form"
-            android:paddingRight="@dimen/padding_form"
-            android:shrinkColumns="1"
-            android:stretchColumns="1">
+            android:layout_height="0px"
+            android:layout_weight="1">
 
-            <TableRow>
+            <TableLayout
+                android:id="@+id/Table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_form"
+                android:paddingRight="@dimen/padding_form"
+                android:paddingBottom="@dimen/fab_related_bottom_padding"
+                android:shrinkColumns="1"
+                android:stretchColumns="1">
 
-                <TextView
-                    android:id="@+id/LabelLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Label"
-                    android:text="@string/label"/>
+                <TableRow>
 
-                <EditText
-                    android:id="@+id/Label"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"/>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/LabelLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Label"
+                        android:text="@string/label" />
 
-            <TableRow>
+                    <EditText
+                        android:id="@+id/Label"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/DescriptionLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Description"
-                    android:text="@string/description"/>
+                <TableRow>
 
-                <EditText
-                    android:id="@+id/Description"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"/>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/DescriptionLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Description"
+                        android:text="@string/description" />
 
-            <TableRow
-                android:id="@+id/AmountRow">
+                    <EditText
+                        android:id="@+id/Description"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/AmountLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Amount"
-                    android:text="@string/opening_balance"/>
+                <TableRow android:id="@+id/AmountRow">
 
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/Amount"
-                    style="@style/FormField"/>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/AmountLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Amount"
+                        android:text="@string/opening_balance" />
 
-            <TableRow>
+                    <org.totschnig.myexpenses.ui.AmountInput
+                        android:id="@+id/Amount"
+                        style="@style/FormField" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/CurrencyLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Currency"
-                    android:text="@string/currency"/>
+                <TableRow>
 
-                <Spinner
-                    android:id="@+id/Currency"
-                    style="@style/FormField"
-                    android:prompt="@string/currency"/>
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/AccountTypeLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/AccountType"
-                    android:text="@string/type"/>
-
-                <Spinner
-                    android:id="@+id/AccountType"
-                    style="@style/FormField"
-                    android:prompt="@string/type"/>
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/ColorLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/ColorIndicator"
-                    android:text="@string/color"/>
-
-                <include
-                    style="@style/FormField"
-                    layout="@layout/color_input"/>
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/SyncLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Sync"
-                    android:text="@string/synchronization"/>
-
-                <LinearLayout
-                    style="@style/FormField"
-                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/CurrencyLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Currency"
+                        android:text="@string/currency" />
 
                     <Spinner
-                        android:id="@+id/Sync"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:prompt="@string/synchronization"/>
+                        android:id="@+id/Currency"
+                        style="@style/FormField"
+                        android:prompt="@string/currency" />
+                </TableRow>
 
-                    <ImageView
-                        android:id="@+id/SyncUnlink"
-                        style="?actionButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/menu_sync_unlink"
-                        android:focusable="true"
-                        android:onClick="syncUnlink"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_action_sync_unlink"/>
+                <TableRow>
 
-                    <ImageView
-                        android:id="@+id/SyncHelp"
-                        style="?actionButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/menu_help"
-                        android:focusable="true"
-                        android:onClick="syncHelp"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_menu_help"/>
-                </LinearLayout>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/AccountTypeLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/AccountType"
+                        android:text="@string/type" />
 
-            <include android:id="@+id/ERR" layout="@layout/exchange_rate_row"/>
+                    <Spinner
+                        android:id="@+id/AccountType"
+                        style="@style/FormField"
+                        android:prompt="@string/type" />
+                </TableRow>
 
-            <TableRow>
+                <TableRow>
 
-                <TextView
-                    android:id="@+id/CriterionLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Criterion"
-                    android:text="@string/goal_or_limit"/>
+                    <TextView
+                        android:id="@+id/ColorLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/ColorIndicator"
+                        android:text="@string/color" />
 
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/Criterion"
-                    style="@style/FormField"/>
+                    <include
+                        style="@style/FormField"
+                        layout="@layout/color_input" />
+                </TableRow>
 
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
-</LinearLayout>
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/SyncLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Sync"
+                        android:text="@string/synchronization" />
+
+                    <LinearLayout
+                        style="@style/FormField"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/Sync"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:prompt="@string/synchronization" />
+
+                        <ImageView
+                            android:id="@+id/SyncUnlink"
+                            style="?actionButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:contentDescription="@string/menu_sync_unlink"
+                            android:focusable="true"
+                            android:onClick="syncUnlink"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_action_sync_unlink" />
+
+                        <ImageView
+                            android:id="@+id/SyncHelp"
+                            style="?actionButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:contentDescription="@string/menu_help"
+                            android:focusable="true"
+                            android:onClick="syncHelp"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_menu_help" />
+                    </LinearLayout>
+                </TableRow>
+
+                <include
+                    android:id="@+id/ERR"
+                    layout="@layout/exchange_rate_row" />
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/CriterionLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Criterion"
+                        android:text="@string/goal_or_limit" />
+
+                    <org.totschnig.myexpenses.ui.AmountInput
+                        android:id="@+id/Criterion"
+                        style="@style/FormField" />
+
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <include layout="@layout/floating_action_button_save" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

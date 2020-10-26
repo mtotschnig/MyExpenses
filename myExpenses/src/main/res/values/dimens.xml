@@ -38,4 +38,5 @@
     <dimen name="drawerWidth">260sp</dimen>
     <dimen name="colorContainerOuter">32dp</dimen>
     <dimen name="colorContainerInner">16dp</dimen>
+    <dimen name="fab_related_bottom_padding">75dp</dimen>
 </resources>

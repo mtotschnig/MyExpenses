@@ -21,8 +21,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,14 +93,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.one, menu);
-    super.onCreateOptionsMenu(menu);
-    return true;
-  }
-
-  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (isDirty() && item.getItemId() == android.R.id.home) {
       showDiscardDialog();
@@ -131,9 +121,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     switch (command) {
       case R.id.SAVE_COMMAND:
         doSave(false);
-        return true;
-      case R.id.SAVE_AND_NEW_COMMAND:
-        doSave(true);
         return true;
     }
     return false;
