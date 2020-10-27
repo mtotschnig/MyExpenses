@@ -22,11 +22,6 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
                 String.format("%s / %s", getString(R.string.expense), getString(R.string.income))
             }
         },
-        operation_type_select("showDiscoveryOperationTypeSelect") {
-            override fun toTitle(context: Context) = with(context) {
-                String.format("%s / %s / %s", getString(R.string.transaction), getString(R.string.transfer), getString(R.string.split_transaction))
-            }
-        },
         fab_long_press("showDiscoveryFabLongPress") {
             override fun toTitle(context: Context) = with(context) {
                 String.format("%s / %s / %s / %s", getString(R.string.transfer), getString(R.string.split_transaction), getString(R.string.income), getString(R.string.expense))

@@ -834,8 +834,6 @@
   <string name="synchronization_select_folder_dialog_title">Изберете съществуваща папка или създайте нова</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">Използвайте този превключвател, за да запишете приход.</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">Използвайте това падащо меню, за да запишете транзакция между сметки или разпределена транзакция.</string>
   <string name="menu_create_budget">Нов бюджет</string>
   <string name="budget_onetime">Еднократно</string>
   <string name="dialog_confirm_discard_new_budget">Да се отхвърли ли новият бюджет?</string>

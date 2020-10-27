@@ -858,8 +858,6 @@
   <string name="synchronization_select_folder_dialog_title">בחר תיקיה קיימת או צור תיקיה חדשה</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">השתמש בלחצן זה כדי לרשום הכנסה.</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">השתמש בתפריט נפתח זה כדי לרשום העברות בין חשבונות או עסקאות מפוצלות.</string>
   <string name="menu_create_budget">תקציב חדש</string>
   <string name="budget_onetime">חד פעמי</string>
   <string name="dialog_confirm_discard_new_budget">למחוק תקציב חדש?</string>

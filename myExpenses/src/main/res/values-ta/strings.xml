@@ -834,8 +834,6 @@
   <string name="synchronization_select_folder_dialog_title">ஏற்கனவே உள்ள கோப்புறையைத் தேர்ந்தெடுக்கவும் அல்லது புதியதை உருவாக்கவும்</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">கணக்குகளுக்கு இடையில் இடமாற்றங்கள் அல்லது பிரிவு பரிவர்த்தனைகளை பதிவு செய்ய இந்த கீழ்விடு பட்டியலை பயன்படுத்தவும்.</string>
   <string name="menu_create_budget">புதிய வரவு செலவுத் திட்டம்</string>
   <string name="budget_onetime">ஒரு முறை</string>
   <string name="dialog_confirm_discard_new_budget">புதிய வரவு செலவுத் திட்டத்தை நீக்கவா?</string>

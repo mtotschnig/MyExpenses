@@ -345,11 +345,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             }
             if (mNewInstance) {
-                if (operationType == TYPE_TRANSFER ||
-                        !discoveryHelper.discover(this, amountInput.typeButton, 1,
-                                DiscoveryHelper.Feature.expense_income_switch)) {
-                    discoveryHelper.discover(this, rootBinding.toolbar.OperationType, 2,
-                            DiscoveryHelper.Feature.operation_type_select, true)
+                if (operationType != TYPE_TRANSFER) {
+                    discoveryHelper.discover(this, amountInput.typeButton, 1,
+                            DiscoveryHelper.Feature.expense_income_switch)
                 }
             }
         }
