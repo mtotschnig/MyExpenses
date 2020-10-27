@@ -22,6 +22,7 @@
     <item name="CONTRIB_INFO_DIALOG" type="id"/>
     <item name="CONTRIB_BUY_COMMAND" type="id"/>
     <item name="CREATE_COMMAND" type="id"/>
+    <item name="CREATE_PART_COMMAND" type="id"/>
     <item name="CREATE_ACCOUNT_COMMAND" type="id"/>
     <item name="CREATE_TEMPLATE_COMMAND" type="id"/>
     <item name="DELETE_COMMAND" type="id"/>

@@ -336,7 +336,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (command == R.id.SAVE_COMMAND) {
+        if (command == R.id.CREATE_COMMAND) {
             validateAmountInput(Amount, true)?.let { amount ->
                 val grouping = typeSpinnerHelper.selectedItem as Grouping
                 val start = if (grouping == Grouping.NONE) DurationFrom.getDate() else null

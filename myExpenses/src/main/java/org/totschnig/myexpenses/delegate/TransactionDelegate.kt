@@ -724,6 +724,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         configureDateInput(account)
         configureStatusSpinner()
         viewBinding.Amount.setFractionDigits(account.currency.fractionDigits())
+        host.tintSystemUi(account.color)
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {

@@ -23,9 +23,11 @@ import android.content.Intent
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.transition.Transition
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -217,6 +219,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         (applicationContext as MyApplication).appComponent.inject(this)
     }
 
+    override fun onEnterAnimationComplete() {
+        super.onEnterAnimationComplete()
+        floatingActionButton.show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHelpVariant(HelpVariant.transaction)
@@ -236,6 +243,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
             setTitle()
             refreshPlanData()
+            floatingActionButton.show()
         } else {
             val extras = intent.extras
             var mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
@@ -661,12 +669,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             return true
         }
         when (command) {
-            R.id.CREATE_COMMAND -> {
+            R.id.CREATE_PART_COMMAND -> {
                 createRow()
                 return true
             }
             R.id.SAVE_AND_NEW_COMMAND -> {
-                createNew = ! createNew
+                createNew = !createNew
                 invalidateOptionsMenu()
                 return true;
             }
@@ -812,6 +820,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     override fun dispatchOnBackPressed() {
+        hideKeyboard()
         cleanup { super.dispatchOnBackPressed() }
     }
 
@@ -971,11 +980,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, {
             it?.let { launchPlanView(true, (it as Template).planId) }
         })
-    }
-
-    private fun hideKeyboard() {
-        val im = this.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        im.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {

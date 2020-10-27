@@ -37,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.SnackbarAction;
+import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
@@ -545,6 +547,27 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   protected boolean shouldKeepProgress(int taskId) {
     return false;
+  }
+
+  public void tintSystemUi(int color) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = getWindow();
+      //noinspection InlinedApi
+      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      //noinspection InlinedApi
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      int color700 = ColorUtils.get700Tint(color);
+      window.setStatusBarColor(color700);
+      window.setNavigationBarColor(color700);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        //noinspection InlinedApi
+        getWindow().getDecorView().setSystemUiVisibility(
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+        getWindow().getDecorView().setSystemUiVisibility(
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
+      }
+    }
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
   }
 
   @Override

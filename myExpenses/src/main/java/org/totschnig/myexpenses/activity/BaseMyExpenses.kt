@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -121,6 +120,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     protected fun startEdit(intent: Intent?) {
+        floatingActionButton.hide()
         startActivityForResult(intent, EDIT_REQUEST)
     }
 

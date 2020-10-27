@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -86,6 +88,18 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     }
   }
 
+  @Override
+  public void setContentView(View view) {
+    super.setContentView(view);
+    configureFloatingActionButton(R.string.menu_save);
+  }
+
+  @Override
+  public void setContentView(int layoutResID) {
+    super.setContentView(layoutResID);
+    configureFloatingActionButton(R.string.menu_save);
+  }
+
   protected Toolbar setupToolbar() {
     Toolbar toolbar = super.setupToolbar(true);
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_close_clear_cancel);
@@ -94,10 +108,13 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (isDirty() && item.getItemId() == android.R.id.home) {
-      showDiscardDialog();
-      return true;
-    }
+    if (item.getItemId() == android.R.id.home)
+      if (isDirty()) {
+        showDiscardDialog();
+        return true;
+      } else {
+        hideKeyboard();
+      }
     return super.onOptionsItemSelected(item);
   }
 
@@ -118,10 +135,9 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     if (super.dispatchCommand(command, tag)) {
       return true;
     }
-    switch (command) {
-      case R.id.SAVE_COMMAND:
-        doSave(false);
-        return true;
+    if (command == R.id.CREATE_COMMAND) {
+      doSave(false);
+      return true;
     }
     return false;
   }
@@ -187,5 +203,10 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   @Override
   protected int getSnackbarContainerId() {
     return R.id.edit_container;
+  }
+
+  protected void hideKeyboard() {
+    InputMethodManager im = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
   }
 }

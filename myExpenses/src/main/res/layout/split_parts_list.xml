@@ -36,7 +36,7 @@
             android:text="@string/split_parts_heading" />
 
         <ImageView
-            android:id="@id/CREATE_COMMAND"
+            android:id="@id/CREATE_PART_COMMAND"
             style="?actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -432,5 +432,5 @@
         </ScrollView>
     </LinearLayout>
 
-    <include layout="@layout/floating_action_button_save" />
+    <include layout="@layout/floating_action_button_save" android:visibility="@integer/create_fab_initial_visibility" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
