@@ -83,7 +83,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("manage_plans", R.drawable.ic_menu_template);
     iconMap.put("reset", R.drawable.ic_menu_download);
     iconMap.put("reset_plan_instance", R.drawable.ic_menu_revert);
-    iconMap.put("save_and_new", R.drawable.ic_action_save_new);
     iconMap.put("save", R.drawable.ic_menu_done);
     iconMap.put("search", R.drawable.ic_menu_search);
     iconMap.put("select", R.drawable.ic_menu_done);
@@ -327,7 +326,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         return Html.fromHtml(getStringSafe(stringId), this, null);
       }
     } else {
-      CharSequence linefeed = Html.fromHtml("<br><br>");
+      CharSequence linefeed = Html.fromHtml("<br>");
       List<String> components = Stream.of(getResources().getStringArray(arrayId))
           .filter(component -> !shouldSkip(component))
           .map(this::resolveString)

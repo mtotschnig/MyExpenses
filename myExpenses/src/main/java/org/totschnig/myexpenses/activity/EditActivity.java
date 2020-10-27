@@ -91,13 +91,13 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   @Override
   public void setContentView(View view) {
     super.setContentView(view);
-    configureFloatingActionButton(R.string.menu_save);
+    requireFloatingActionButton();
   }
 
   @Override
   public void setContentView(int layoutResID) {
     super.setContentView(layoutResID);
-    configureFloatingActionButton(R.string.menu_save);
+    requireFloatingActionButton();
   }
 
   protected Toolbar setupToolbar() {

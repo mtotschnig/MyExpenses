@@ -140,7 +140,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       startActivityForResult(i, EDIT_REQUEST);
     });
     registerForContextMenu(lv);
-    v.findViewById(R.id.CREATE_COMMAND).setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
+    v.findViewById(R.id.CREATE_PART_COMMAND).setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
     return v;
   }

@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -265,11 +265,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {
+  protected boolean requireFloatingActionButton() {
     floatingActionButton = findViewById(R.id.CREATE_COMMAND);
-    if (floatingActionButton == null) return false;
-    floatingActionButton.setContentDescription(fabDescription);
-    return true;
+    return floatingActionButton != null;
+  }
+
+  protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {
+    boolean found = requireFloatingActionButton();
+    if (found) {
+      floatingActionButton.setContentDescription(fabDescription);
+    }
+    return found;
   }
 
   protected Toolbar setupToolbar(boolean withHome) {
@@ -396,7 +402,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
     logEvent(Tracker.EVENT_DISPATCH_COMMAND, bundle);
     Intent i;
-    switch(command) {
+    switch (command) {
       case R.id.RATE_COMMAND:
         i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(getMarketSelfUri()));
@@ -466,7 +472,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            "[" + getString(R.string.app_name) + "] " +  getString(licenceHandler.getLicenceStatus().getResId()));
+            "[" + getString(R.string.app_name) + "] " + getString(licenceHandler.getLicenceStatus().getResId()));
         String extraText = String.format(
             "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
             PrefKey.LICENCE_LEGACY.getString(null), androidId,
@@ -635,6 +641,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
                                      int progressMessage) {
     startTaskExecution(taskId, objectIds, extra, progressMessage, false);
   }
+
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();
@@ -819,7 +826,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    if (prefHandler.getBoolean(permissionGroup.prefKey,false)) {
+    if (prefHandler.getBoolean(permissionGroup.prefKey, false)) {
       if (!permissionGroup.hasPermission(this)) {
         if (!permissionGroup.shouldShowRequestPermissionRationale(this)) {
           return true;
@@ -939,7 +946,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
-                            Snackbar.Callback callback, @NonNull View container) {
+                              Snackbar.Callback callback, @NonNull View container) {
     snackbar = Snackbar.make(container, message, duration);
     UiUtils.increaseSnackbarMaxLines(snackbar);
     if (snackbarAction != null) {

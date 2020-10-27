@@ -233,36 +233,28 @@
     </string-array>
 
     <string-array name="ExpenseEdit_transaction_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
         <item>save_and_new</item>
         <item>original_amount</item>
         <item>equivalent_amount</item>
     </string-array>
     <string-array name="ExpenseEdit_transfer_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
         <item>save_and_new</item>
         <item>invert_transfer</item>
     </string-array>
     <string-array name="ExpenseEdit_split_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
         <item>save_and_new</item>
         <item>original_amount</item>
         <item>equivalent_amount</item>
     </string-array>
     <string-array name="ExpenseEdit_templateCategory_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
     </string-array>
     <string-array name="ExpenseEdit_templateTransfer_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
     </string-array>
     <string-array name="ExpenseEdit_templateSplit_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
     </string-array>
     <string-array name="ExpenseEdit_splitPartCategory_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
     </string-array>
     <string-array name="ExpenseEdit_splitPartTransfer_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
         <item>invert_transfer</item>
     </string-array>
     <string-array name="ExpenseEdit_transaction_formfields" tools:ignore="UnusedResources">
@@ -392,7 +384,6 @@
     </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
         <item>exclude_from_totals</item>
     </string-array>
     <string-array name="AccountEdit_formfields" tools:ignore="UnusedResources">
@@ -411,9 +402,6 @@
         <item>form_calculator_help_text</item>
     </string-array>
 
-    <string-array name="MethodEdit_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
-    </string-array>
     <string-array name="MethodEdit_formfields" tools:ignore="UnusedResources">
         <item>label</item>
         <item>type</item>
@@ -425,6 +413,11 @@
         <item>create_folder</item>
         <item>select</item>
         <item>up</item>
+    </string-array>
+
+    <string-array name="help_MyExpenses_info" tools:ignore="UnusedResources">
+        <item>help_MyExpenses_info</item>
+        <item>help_MyExpenses_fab_long_press</item>
     </string-array>
 
     <string-array name="help_ManageCurrencies_info" tools:ignore="UnusedResources">
