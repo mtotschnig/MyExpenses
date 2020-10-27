@@ -575,7 +575,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   protected void onPostRestoreTask(Result result) {
     if (result.isSuccess()) {
-      MyApplication.getInstance().getLicenceHandler().reset();
+      licenceHandler.reset();
       // if the backup is password protected, we want to force the password
       // check
       // is it not enough to set mLastPause to zero, since it would be

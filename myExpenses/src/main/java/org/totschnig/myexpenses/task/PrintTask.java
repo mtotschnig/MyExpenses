@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.task;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 
@@ -50,13 +52,15 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
   @Override
   protected Result<Uri> doInBackground(Void... ignored) {
     Account account;
-    DocumentFile appDir = AppDirHelper.getAppDir(MyApplication.getInstance());
+    final MyApplication application = MyApplication.getInstance();
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
+    DocumentFile appDir = AppDirHelper.getAppDir(application);
     if (appDir == null) {
       return Result.ofFailure(R.string.external_storage_unavailable);
     }
     account = Account.getInstanceFromDb(accountId);
     try {
-      return new PdfPrinter(account, appDir, filter).print(taskExecutionFragment.requireContext());
+      return new PdfPrinter(account, appDir, filter).print(context);
     } catch (Exception e) {
       Timber.e(e, "Error while printing");
       return Result.ofFailure(R.string.export_sdcard_failure, appDir.getName(), e.getMessage());

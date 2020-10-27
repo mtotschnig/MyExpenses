@@ -37,10 +37,10 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 
@@ -108,11 +108,12 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   @Override
   protected Void doInBackground(Void... params) {
-    Context context = taskExecutionFragment.requireContext();
+    final MyApplication application = MyApplication.getInstance();
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     long t0 = System.currentTimeMillis();
     QifBufferedReader r;
     QifParser parser;
-    ContentResolver contentResolver = context.getContentResolver();
+    ContentResolver contentResolver = application.getContentResolver();
     try {
       InputStream inputStream = contentResolver.openInputStream(fileUri);
       r = new QifBufferedReader(
@@ -139,7 +140,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
               String.valueOf(parser.categories.size()),
               String.valueOf(parser.payees.size())));
       contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_START, null, null);
-      doImport(parser);
+      doImport(parser, context);
       contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null);
       return (null);
     } catch (IOException | IllegalArgumentException e) {
@@ -182,8 +183,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     return encoding;
   }*/
 
-  private void doImport(QifParser parser) {
-    Context context = taskExecutionFragment.requireContext();
+  private void doImport(QifParser parser, Context context) {
     if (withPartiesP) {
       int totalParties = insertPayees(parser.payees);
       publishProgress(totalParties == 0 ?
@@ -204,7 +204,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
     if (withTransactionsP) {
       if (accountId == 0) {
-        int importedAccounts = insertAccounts(parser.accounts);
+        int importedAccounts = insertAccounts(parser.accounts, context);
         publishProgress(importedAccounts == 0 ?
             context.getString(R.string.import_accounts_none) :
             context.getString(R.string.import_accounts_success, String.valueOf(importedAccounts)));
@@ -226,7 +226,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
               + accountId);
         }
       }
-      insertTransactions(parser.accounts);
+      insertTransactions(parser.accounts, context);
     }
   }
 
@@ -255,8 +255,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
   }
 
-  private int insertAccounts(List<QifAccount> accounts) {
-    Context context = taskExecutionFragment.requireContext();
+  private int insertAccounts(List<QifAccount> accounts, Context context) {
     int nrOfAccounts = Account.count(null, null);
 
     int importCount = 0;
@@ -296,8 +295,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     return importCount;
   }
 
-  private void insertTransactions(List<QifAccount> accounts) {
-    Context context = taskExecutionFragment.requireContext();
+  private void insertTransactions(List<QifAccount> accounts, Context context) {
     long t0 = System.currentTimeMillis();
     reduceTransfers(accounts);
     long t1 = System.currentTimeMillis();
@@ -408,7 +406,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       findToAccount(transaction, t);
 
       if (transaction.splits != null) {
-        ((SplitTransaction) t).save();
+        t.save();
         for (QifTransaction split : transaction.splits) {
           Transaction s = split.toTransaction(a);
           s.setParentId(t.getId());

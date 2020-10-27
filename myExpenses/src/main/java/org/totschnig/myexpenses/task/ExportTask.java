@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -149,8 +150,9 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
     Account account;
     DocumentFile destDir;
     DocumentFile appDir = AppDirHelper.getAppDir(application);
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     if (appDir == null) {
-      publishProgress(application.getString(R.string.external_storage_unavailable));
+      publishProgress(context.getString(R.string.external_storage_unavailable));
       return (null);
     }
     boolean oneFile = accountIds.length == 1 || mergeP;
@@ -176,7 +178,7 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
             format.getMimeType(),
             format.getMimeType().split("/")[1],
             append);
-        final Context context = taskExecutionFragment.requireContext();
+
         if (outputFile == null) {
           throw new IOException(context.getString(
               R.string.io_error_unable_to_create_file,
@@ -197,10 +199,10 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
           successfullyExported.add(account);
           publishProgress("..." + context.getString(R.string.export_sdcard_success, FileUtils.getPath(context, outputFile.getUri())));
         } else {
-          publishProgress("... " + result.print(application));
+          publishProgress("... " + result.print(context));
         }
       } catch (IOException e) {
-        publishProgress("... " + application.getString(
+        publishProgress("... " + context.getString(
             R.string.export_sdcard_failure,
             appDir.getName(),
             e.getMessage()));

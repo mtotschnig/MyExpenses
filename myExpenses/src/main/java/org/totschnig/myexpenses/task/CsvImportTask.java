@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.apache.commons.csv.CSVRecord;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -40,6 +41,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
@@ -90,7 +92,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   @Override
   protected Result doInBackground(Void... params) {
     int totalImported = 0, totalDiscarded = 0, totalFailed = 0;
-    final Context context = taskExecutionFragment.requireContext();
+    final MyApplication application = MyApplication.getInstance();
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     ContentResolver contentResolver = context.getContentResolver();
     Account a;
     if (accountId == 0) {

@@ -87,7 +87,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
   }
 
   private int[] getPaymentOptions(Package aPackage) {
-    return MyApplication.getInstance().getLicenceHandler().getPaymentOptions(aPackage);
+    return licenceHandler.getPaymentOptions(aPackage);
   }
 
   @Override

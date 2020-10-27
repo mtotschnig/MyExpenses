@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
+import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
@@ -69,7 +70,6 @@ import java.util.Locale;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import androidx.annotation.VisibleForTesting;
 import dagger.BindsInstance;
 import dagger.Component;
 
@@ -104,7 +104,6 @@ public interface AppComponent {
 
   PrefHandler prefHandler();
 
-  @VisibleForTesting
   LicenceHandler licenceHandler();
 
   @Named(USER_COUNTRY)
@@ -219,4 +218,6 @@ public interface AppComponent {
   void inject(BaseSettingsFragment baseSettingsFragment);
 
   void inject(@NotNull ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
+
+  void inject(VersionDialogFragment versionDialogFragment);
 }

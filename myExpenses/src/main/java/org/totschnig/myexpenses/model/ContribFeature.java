@@ -171,6 +171,7 @@ public enum ContribFeature {
   /**
    * @return if user has licence that includes feature
    */
+  //TODO pass licencehandler into method
   public boolean hasAccess() {
     if (BuildConfig.BUILD_TYPE.equals("beta")) {
       return true;

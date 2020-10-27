@@ -19,6 +19,11 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
   private boolean isPdt = true; //PaypalDataTransfer
 
   @Override
+  protected void injectDependencies() {
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
+  }
+
+  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
@@ -40,7 +45,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
             if (isEmpty(key) || isEmpty(email)) {
               showMessage("Missing parameter key and/or email");
             } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email)) ||
-                !MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
+                !licenceHandler.isContribEnabled()) {
               PrefKey.NEW_LICENCE.putString(key);
               PrefKey.LICENCE_EMAIL.putString(email);
               startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);

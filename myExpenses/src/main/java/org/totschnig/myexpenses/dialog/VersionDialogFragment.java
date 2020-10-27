@@ -41,10 +41,14 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 
@@ -52,6 +56,9 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
 
   private static final String KEY_FROM = "from";
   private static final String KEY_WITH_IMPORTANT_UPGRADE_INFO = "withImportantUpgradeInfo";
+
+  @Inject
+  LicenceHandler licenceHandler;
 
   public static VersionDialogFragment newInstance(int from, boolean withImportantUpgradeInfo) {
     VersionDialogFragment dialogFragment = new VersionDialogFragment();
@@ -61,6 +68,12 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     dialogFragment.setArguments(bundle);
     dialogFragment.setCancelable(false);
     return dialogFragment;
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @NonNull
@@ -116,7 +129,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     builder.setTitle(getString(R.string.help_heading_whats_new))
         .setIcon(R.mipmap.ic_myexpenses)
         .setNegativeButton(android.R.string.ok, this);
-    if (!MyApplication.getInstance().getLicenceHandler().isContribEnabled())
+    if (!licenceHandler.isContribEnabled())
       builder.setPositiveButton(R.string.menu_contrib, this);
     return builder.create();
   }

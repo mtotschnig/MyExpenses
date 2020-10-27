@@ -23,7 +23,9 @@ import android.os.Bundle;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.ui.ContextHelper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -67,7 +69,8 @@ public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> 
   @Override
   protected ArrayList<CSVRecord> doInBackground(Void... params) {
     InputStream inputStream;
-    Context context = taskExecutionFragment.requireContext();
+    final MyApplication application = MyApplication.getInstance();
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     try {
       inputStream = context.getContentResolver().openInputStream(fileUri);
     } catch (FileNotFoundException e) {

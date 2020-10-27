@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -146,7 +147,8 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
    */
   @Override
   protected Result doInBackground(Void... ignored) {
-    Context context = taskExecutionFragment.requireContext();
+    final MyApplication application = MyApplication.getInstance();
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     Result<Pair<CategoryTree, ArrayList<String>>> r = parseXML();
     if (!r.isSuccess()) {
       return r;

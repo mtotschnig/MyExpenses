@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
+import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.Result;
@@ -117,7 +118,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   protected Object doInBackground(T... ids) {
     Long transactionId;
     Long[][] extraInfo2d;
-    Context context = taskExecutionFragment.requireContext();
+    final MyApplication application = MyApplication.getInstance();
+    final Context context = ContextHelper.wrap(application, application.getAppComponent().userLocaleProvider().getUserPreferredLocale());
     ContentResolver cr = context.getContentResolver();
     ContentValues values;
     Cursor c;
@@ -672,7 +674,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               , e.getMessage());
           return Result.ofFailure(msg);
         }
-        MyApplication.getInstance().getLicenceHandler().update();
+        application.getAppComponent().licenceHandler().update();
         Account.updateTransferShortcut();
         return Result.SUCCESS;
       }
@@ -688,7 +690,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               .filter(Exceptional::isPresent)
               .map(Exceptional::get)
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
-              .map(accountMetaData -> accountMetaData.toAccount(MyApplication.getInstance().getAppComponent().currencyContext()))
+              .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
               .mapToInt(account -> {
                 account.setSyncAccountName(syncAccountName);
                 return account.save() == null ? 0 : 1;

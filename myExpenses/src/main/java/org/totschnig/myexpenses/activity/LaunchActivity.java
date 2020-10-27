@@ -216,7 +216,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
           .show(getSupportFragmentManager(), TAG_VERSION_INFO);
     } else {
-      if (MyApplication.getInstance().getLicenceHandler().needsMigration() &&
+      if (licenceHandler.needsMigration() &&
           !prefHandler.getBoolean(LICENCE_MIGRATION_INFO_SHOWN, false)) {
         Bundle bundle = new Bundle();
         bundle.putCharSequence(
