@@ -834,8 +834,6 @@
   <string name="synchronization_select_folder_dialog_title">Seleziona una cartella esistente o creane una nuova</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">Usa questo pulsante per registrare le entrate.</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">Utilizza questo menù a tendina per registrare i trasferimenti fra i conti o fra le operazioni frazionate.</string>
   <string name="menu_create_budget">Nuovo budget</string>
   <string name="budget_onetime">Una tantum</string>
   <string name="dialog_confirm_discard_new_budget">Eliminare il nuovo budget?</string>

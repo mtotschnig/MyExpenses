@@ -559,7 +559,6 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 updateAccount(account)
             }
             R.id.OperationType -> {
-                host.discoveryHelper.markDiscovered(DiscoveryHelper.Feature.OPERATION_TYPE_SELECT)
                 val newType = operationTypeSpinner.getItemAtPosition(position) as Int
                 if (host.isValidType(newType)) {
                     if (newType == TransactionsContract.Transactions.TYPE_TRANSFER && !checkTransferEnabled()) { //reset to previous
@@ -724,6 +723,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         configureDateInput(account)
         configureStatusSpinner()
         viewBinding.Amount.setFractionDigits(account.currency.fractionDigits())
+        host.tintSystemUi(account.color)
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {

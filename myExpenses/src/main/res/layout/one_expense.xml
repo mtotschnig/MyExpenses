@@ -13,409 +13,424 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/edit_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:importantForAutofill="noExcludeDescendants"
-    android:orientation="vertical"
-    tools:targetApi="o">
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_expense_edit" />
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/edit_container"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:importantForAutofill="noExcludeDescendants"
+        android:orientation="vertical"
+        tools:targetApi="o">
 
-        <TableLayout
-            android:id="@+id/Table"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_expense_edit" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_form"
-            android:paddingRight="@dimen/padding_form"
-            android:paddingBottom="@dimen/padding_form"
-            android:shrinkColumns="1"
-            android:stretchColumns="1">
+            android:layout_height="0px"
+            android:layout_weight="1">
 
-            <TableRow
-                android:id="@+id/TitleRow"
-                android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/scrollableContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/fab_related_bottom_padding">
 
-                <TextView
-                    android:id="@+id/TitleLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Title"
-                    android:text="@string/title" />
-
-                <EditText
-                    android:id="@+id/Title"
-                    style="@style/FormField"
+                <TableLayout
+                    android:id="@+id/Table"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"
-                    android:maxLines="1" />
-            </TableRow>
+                    android:paddingLeft="@dimen/padding_form"
+                    android:paddingRight="@dimen/padding_form"
+                    android:shrinkColumns="1"
+                    android:stretchColumns="1">
 
-            <TableRow android:id="@+id/AccountRow">
+                    <TableRow
+                        android:id="@+id/TitleRow"
+                        android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/AccountLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Account"
-                    android:text="@string/account" />
+                        <TextView
+                            android:id="@+id/TitleLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Title"
+                            android:text="@string/title" />
 
-                <Spinner
-                    android:id="@+id/Account"
-                    style="@style/FormField" />
-            </TableRow>
+                        <EditText
+                            android:id="@+id/Title"
+                            style="@style/FormField"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:maxLines="1" />
+                    </TableRow>
+
+                    <TableRow android:id="@+id/AccountRow">
+
+                        <TextView
+                            android:id="@+id/AccountLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Account"
+                            android:text="@string/account" />
+
+                        <Spinner
+                            android:id="@+id/Account"
+                            style="@style/FormField" />
+                    </TableRow>
 
 
-            <TableRow
-                android:id="@+id/OriginalAmountRow"
-                android:visibility="gone">
+                    <TableRow
+                        android:id="@+id/OriginalAmountRow"
+                        android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/OriginalAmountLabel"
-                    style="@style/FormLabel"
-                    android:text="@string/menu_original_amount" />
+                        <TextView
+                            android:id="@+id/OriginalAmountLabel"
+                            style="@style/FormLabel"
+                            android:text="@string/menu_original_amount" />
 
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/OriginalAmount"
-                    style="@style/FormField"
-                    android:contentDescription="@string/menu_original_amount"
-                    app:withCurrencySelection="true"
-                    app:withExchangeRate="true"
-                    app:withTypeSwitch="false" />
+                        <org.totschnig.myexpenses.ui.AmountInput
+                            android:id="@+id/OriginalAmount"
+                            style="@style/FormField"
+                            android:contentDescription="@string/menu_original_amount"
+                            app:withCurrencySelection="true"
+                            app:withExchangeRate="true"
+                            app:withTypeSwitch="false" />
 
-            </TableRow>
+                    </TableRow>
 
-            <TableRow android:id="@+id/AmountRow">
+                    <TableRow android:id="@+id/AmountRow">
 
-                <TextView
-                    android:id="@+id/AmountLabel"
-                    style="@style/FormLabel" />
+                        <TextView
+                            android:id="@+id/AmountLabel"
+                            style="@style/FormLabel" />
 
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/Amount"
-                    style="@style/FormField"
-                    android:contentDescription="@string/amount"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-            </TableRow>
-
-            <include
-                android:id="@+id/ERR"
-                layout="@layout/exchange_rate_row" />
-
-            <TableRow
-                android:id="@+id/EquivalentAmountRow"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/EquivalentAmountLabel"
-                    style="@style/FormLabel"
-                    android:text="@string/menu_equivalent_amount" />
-
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/EquivalentAmount"
-                    style="@style/FormField"
-                    android:contentDescription="@string/menu_equivalent_amount"
-                    app:alternateLayout="true"
-                    app:withExchangeRate="true"
-                    app:withTypeSwitch="false" />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/TransferAmountRow"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/TransferAmountLabel"
-                    style="@style/FormLabel" />
-
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/TransferAmount"
-                    style="@style/FormField"
-                    app:withTypeSwitch="false" />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/TransferAccountRow"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/TransferAccountLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/TransferAccount"
-                    android:text="@string/transfer_to_account" />
-
-                <Spinner
-                    android:id="@+id/TransferAccount"
-                    style="@style/FormField" />
-            </TableRow>
-
-            <TableRow android:id="@+id/DateTimeRow">
-
-                <TextView
-                    android:id="@+id/DateTimeLabel"
-                    style="@style/FormLabel" />
-
-                <LinearLayout
-                    style="@style/FormField"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/date_edit" />
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow android:id="@+id/PayeeRow">
-
-                <TextView
-                    android:id="@+id/PayeeLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Payee"
-                    android:text="@string/payee" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/Payee"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:completionThreshold="1"
-                    android:inputType="textPersonName|textCapWords" />
-            </TableRow>
-
-            <TableRow android:id="@+id/CategoryRow">
-
-                <TextView
-                    android:id="@+id/CategoryLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Category"
-                    android:text="@string/category" />
-
-                <LinearLayout
-                    style="@style/FormField"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/SmallButton"
-                        android:id="@+id/Category"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:drawableTint="?colorPrimary"
-                        android:layout_weight="1"
-                        android:text="@string/select" />
-
-                    <ImageView
-                        android:id="@+id/ClearCategory"
-                        style="?actionButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/content_description_clear_category"
-                        android:focusable="true"
-                        android:onClick="clearCategorySelection"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/ic_menu_delete" />
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow android:id="@+id/TagRow">
-
-                <TextView
-                    android:id="@+id/TagLabel"
-                    style="@style/FormLabel"
-                    android:text="@string/tags" />
-
-                <LinearLayout
-                    style="@style/FormField"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/TagGroup"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/SelectTag"
-                        style="?actionButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:contentDescription="TODO"
-                        android:focusable="true"
-                        android:onClick="startTagSelection"
-                        app:srcCompat="@drawable/ic_menu_add" />
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow android:id="@+id/CommentRow">
-
-                <TextView
-                    android:id="@+id/CommentLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Comment"
-                    android:text="@string/comment" />
-
-                <LinearLayout
-                    style="@style/FormField"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/Comment"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:inputType="textCapSentences" />
-
-                    <Spinner
-                        android:id="@+id/Status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:prompt="@string/status" />
-
-                    <ImageView
-                        android:id="@+id/AttachImage"
-                        style="?actionButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/contrib_feature_attach_picture_label"
-                        android:focusable="true"
-                        android:onClick="startMediaChooser"
-                        app:srcCompat="@drawable/ic_menu_camera" />
+                        <org.totschnig.myexpenses.ui.AmountInput
+                            android:id="@+id/Amount"
+                            style="@style/FormField"
+                            android:contentDescription="@string/amount"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+                    </TableRow>
 
                     <include
-                        android:id="@+id/PictureContainer"
-                        layout="@layout/picture_view" />
-                </LinearLayout>
-            </TableRow>
+                        android:id="@+id/ERR"
+                        layout="@layout/exchange_rate_row" />
 
-            <TableRow android:id="@+id/MethodRow">
+                    <TableRow
+                        android:id="@+id/EquivalentAmountRow"
+                        android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/MethodLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Method"
-                    android:text="@string/method" />
+                        <TextView
+                            android:id="@+id/EquivalentAmountLabel"
+                            style="@style/FormLabel"
+                            android:text="@string/menu_equivalent_amount" />
 
-                <LinearLayout
-                    style="@style/FormField"
-                    android:orientation="horizontal">
+                        <org.totschnig.myexpenses.ui.AmountInput
+                            android:id="@+id/EquivalentAmount"
+                            style="@style/FormField"
+                            android:contentDescription="@string/menu_equivalent_amount"
+                            app:alternateLayout="true"
+                            app:withExchangeRate="true"
+                            app:withTypeSwitch="false" />
+                    </TableRow>
 
-                    <Spinner
-                        android:id="@+id/Method"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:prompt="@string/method" />
-
-                    <ImageView
-                        android:id="@+id/ClearMethod"
-                        style="?actionButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/content_description_clear_method"
-                        android:focusable="true"
-                        android:onClick="clearMethodSelection"
+                    <TableRow
+                        android:id="@+id/TransferAmountRow"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_menu_delete" />
+                        tools:visibility="visible">
 
-                    <EditText
-                        android:id="@+id/Number"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:hint="@string/reference_number"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:visibility="gone"
-                        tools:ignore="TextFields" />
-                </LinearLayout>
-            </TableRow>
+                        <TextView
+                            android:id="@+id/TransferAmountLabel"
+                            style="@style/FormLabel" />
 
-            <TableRow
-                android:id="@+id/PlanRow"
-                android:visibility="gone">
+                        <org.totschnig.myexpenses.ui.AmountInput
+                            android:id="@+id/TransferAmount"
+                            style="@style/FormField"
+                            app:withTypeSwitch="false" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/PlanLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/PB"
-                    android:text="@string/plan" />
+                    <TableRow
+                        android:id="@+id/TransferAccountRow"
+                        android:visibility="gone">
 
-                <androidx.constraintlayout.widget.ConstraintLayout style="@style/FormField">
+                        <TextView
+                            android:id="@+id/TransferAccountLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/TransferAccount"
+                            android:text="@string/transfer_to_account" />
 
-                    <Spinner
-                        android:id="@+id/Recurrence"
-                        style="@style/ReccurrenceRowReccurence"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <Spinner
+                            android:id="@+id/TransferAccount"
+                            style="@style/FormField" />
+                    </TableRow>
 
-                    <org.totschnig.myexpenses.ui.DateButton
-                        android:id="@+id/PB"
-                        style="@style/ReccurenceRowDateButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toStartOf="@id/TB"
-                        tools:ignore="MissingConstraints" />
+                    <TableRow android:id="@+id/DateTimeRow">
 
-                    <CheckBox
-                        android:id="@+id/TB"
-                        style="@style/ReccurrenceRowToggleButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/plan_automatic"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/PB"
-                        app:layout_constraintTop_toBottomOf="@id/Recurrence" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </TableRow>
+                        <TextView
+                            android:id="@+id/DateTimeLabel"
+                            style="@style/FormLabel" />
 
-            <TableRow
-                android:id="@+id/advanceExecutionRow"
-                android:visibility="gone">
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/advanceExecutionLabel"
-                    style="@style/FormLabel"
-                    android:text="Advance exexcution (in days)" />
+                            <include layout="@layout/date_edit" />
+                        </LinearLayout>
+                    </TableRow>
 
-                <LinearLayout style="@style/FormField">
+                    <TableRow android:id="@+id/PayeeRow">
 
-                    <SeekBar
-                        android:id="@+id/advanceExecutionSeek"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:max="30"
-                        android:min="0" />
+                        <TextView
+                            android:id="@+id/PayeeLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Payee"
+                            android:text="@string/payee" />
 
-                    <TextView
-                        android:id="@+id/advanceExecutionValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0" />
-                </LinearLayout>
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
-</LinearLayout>
+                        <AutoCompleteTextView
+                            android:id="@+id/Payee"
+                            style="@style/FormField"
+                            android:layout_height="wrap_content"
+                            android:completionThreshold="1"
+                            android:inputType="textPersonName|textCapWords" />
+                    </TableRow>
+
+                    <TableRow android:id="@+id/CategoryRow">
+
+                        <TextView
+                            android:id="@+id/CategoryLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Category"
+                            android:text="@string/category" />
+
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/Category"
+                                style="@style/SmallButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:drawableTint="?colorPrimary"
+                                android:text="@string/select" />
+
+                            <ImageView
+                                android:id="@+id/ClearCategory"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/content_description_clear_category"
+                                android:focusable="true"
+                                android:onClick="clearCategorySelection"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/ic_menu_delete" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/TagRow">
+
+                        <TextView
+                            android:id="@+id/TagLabel"
+                            style="@style/FormLabel"
+                            android:text="@string/tags" />
+
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/TagGroup"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
+                            <ImageView
+                                android:id="@+id/SelectTag"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/tags_create_or_select"
+                                android:focusable="true"
+                                android:onClick="startTagSelection"
+                                app:srcCompat="@drawable/ic_menu_add" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/CommentRow">
+
+                        <TextView
+                            android:id="@+id/CommentLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Comment"
+                            android:text="@string/comment" />
+
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/Comment"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:inputType="textCapSentences" />
+
+                            <Spinner
+                                android:id="@+id/Status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:prompt="@string/status" />
+
+                            <ImageView
+                                android:id="@+id/AttachImage"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/contrib_feature_attach_picture_label"
+                                android:focusable="true"
+                                android:onClick="startMediaChooser"
+                                app:srcCompat="@drawable/ic_menu_camera" />
+
+                            <include
+                                android:id="@+id/PictureContainer"
+                                layout="@layout/picture_view" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/MethodRow">
+
+                        <TextView
+                            android:id="@+id/MethodLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Method"
+                            android:text="@string/method" />
+
+                        <LinearLayout
+                            style="@style/FormField"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/Method"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:prompt="@string/method" />
+
+                            <ImageView
+                                android:id="@+id/ClearMethod"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/content_description_clear_method"
+                                android:focusable="true"
+                                android:onClick="clearMethodSelection"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/ic_menu_delete" />
+
+                            <EditText
+                                android:id="@+id/Number"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:hint="@string/reference_number"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:visibility="gone"
+                                tools:ignore="TextFields" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/PlanRow"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/PlanLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/PB"
+                            android:text="@string/plan" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout style="@style/FormField">
+
+                            <Spinner
+                                android:id="@+id/Recurrence"
+                                style="@style/ReccurrenceRowReccurence"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <org.totschnig.myexpenses.ui.DateButton
+                                android:id="@+id/PB"
+                                style="@style/ReccurenceRowDateButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toStartOf="@id/TB"
+                                tools:ignore="MissingConstraints" />
+
+                            <CheckBox
+                                android:id="@+id/TB"
+                                style="@style/ReccurrenceRowToggleButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/plan_automatic"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/PB"
+                                app:layout_constraintTop_toBottomOf="@id/Recurrence" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/advanceExecutionRow"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/advanceExecutionLabel"
+                            style="@style/FormLabel"
+                            android:text="@string/advance_exexcution_in_days" />
+
+                        <LinearLayout style="@style/FormField">
+
+                            <SeekBar
+                                android:id="@+id/advanceExecutionSeek"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:max="30"
+                                android:min="0" />
+
+                            <TextView
+                                android:id="@+id/advanceExecutionValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0" />
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <include layout="@layout/floating_action_button_save" android:visibility="@integer/create_fab_initial_visibility" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

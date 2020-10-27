@@ -822,8 +822,6 @@
   <string name="synchronization_select_folder_dialog_title">既存のフォルダーを選択するか新しく作成</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">このドロップダウンメニューを使用して、勘定間の取引または分割取引を記録します。</string>
   <string name="menu_create_budget">新しい予算</string>
   <string name="budget_onetime">１回限り</string>
   <string name="dialog_confirm_discard_new_budget">新しい予算を破棄しますか?</string>

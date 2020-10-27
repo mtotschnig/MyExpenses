@@ -834,8 +834,6 @@
   <string name="synchronization_select_folder_dialog_title">Mevcut bir klasör seçin veya yeni bir klasör oluşturun</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için geçiş düğmesini kullanın</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">Hesaplar veya bölünmüş muameleler arası aktarımları kaydetmek için bu açılır menüyü kullanın.</string>
   <string name="menu_create_budget">Yeni bütçe</string>
   <string name="budget_onetime">Bir kerelik</string>
   <string name="dialog_confirm_discard_new_budget">Yeni bütçe atılsın mı?</string>

@@ -20,8 +20,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
     fun upgrade(fromVersion: Int, toVersion: Int) {
         if (fromVersion < 385) {
             val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
-            val hasTransferOrSplitColumn = "not(max(parent_id) is null and max(transfer_peer) is null)"
-            val projection = arrayOf(hasIncomeColumn, hasTransferOrSplitColumn)
+            val projection = arrayOf(hasIncomeColumn)
             disposable = briteContentResolver.createQuery(TransactionProvider.TRANSACTIONS_URI,
                     projection, null, null, null, false)
                     .subscribe { query ->
@@ -29,10 +28,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                             if (cursor.moveToFirst()) {
                                 val discoveryHelper = getApplication<MyApplication>().appComponent.discoveryHelper()
                                 if (cursor.getInt(0) > 0) {
-                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.EI_SWITCH)
-                                }
-                                if (cursor.getInt(1) > 0) {
-                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.OPERATION_TYPE_SELECT)
+                                    discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
                                 }
                             }
                             cursor.close()

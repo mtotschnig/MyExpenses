@@ -40,7 +40,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Account;
 
@@ -141,15 +140,9 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       startActivityForResult(i, EDIT_REQUEST);
     });
     registerForContextMenu(lv);
-    fab = v.findViewById(R.id.CREATE_COMMAND);
-    fab.setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
+    v.findViewById(R.id.CREATE_PART_COMMAND).setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
-    updateFabColor(account.getColor());
     return v;
-  }
-
-  public void updateFabColor(int color) {
-    UiUtils.setBackgroundTintListOnFab(fab, color);
   }
 
   @Override
@@ -245,7 +238,6 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     mAdapter.setCurrency(account.getCurrency());
     mAdapter.notifyDataSetChanged();
     updateBalance();
-    updateFabColor(account.getColor());
   }
 
   public void updateParent(long parentId) {

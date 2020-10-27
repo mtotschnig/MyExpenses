@@ -834,8 +834,6 @@
   <string name="synchronization_select_folder_dialog_title">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">ಖಾತೆಗಳು ಅಥವಾ ವಿಭಜಿತ ವಹಿವಾಟುಗಳ ನಡುವೆ ವರ್ಗಾವಣೆಯನ್ನು ದಾಖಲಿಸಲು ಈ ಡ್ರಾಪ್‌ಡೌನ್ ಮೆನು ಬಳಸಿ.</string>
   <string name="menu_create_budget">ಹೊಸ ಬಜೆಟ್</string>
   <string name="budget_onetime">ಒಂದು ಬಾರಿ</string>
   <string name="dialog_confirm_discard_new_budget">ಹೊಸ ಬಜೆಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>

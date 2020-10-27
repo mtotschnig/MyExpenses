@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -37,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.ui.SnackbarAction;
+import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
@@ -261,14 +263,19 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (icon != 0) {
       floatingActionButton.setImageResource(icon);
     }
-    UiUtils.setBackgroundTintListOnFab(floatingActionButton, UiUtils.themeIntAttr(this, R.attr.colorControlActivated));
+  }
+
+  protected boolean requireFloatingActionButton() {
+    floatingActionButton = findViewById(R.id.CREATE_COMMAND);
+    return floatingActionButton != null;
   }
 
   protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {
-    floatingActionButton = findViewById(R.id.CREATE_COMMAND);
-    if (floatingActionButton == null) return false;
-    floatingActionButton.setContentDescription(fabDescription);
-    return true;
+    boolean found = requireFloatingActionButton();
+    if (found) {
+      floatingActionButton.setContentDescription(fabDescription);
+    }
+    return found;
   }
 
   protected Toolbar setupToolbar(boolean withHome) {
@@ -395,7 +402,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
     logEvent(Tracker.EVENT_DISPATCH_COMMAND, bundle);
     Intent i;
-    switch(command) {
+    switch (command) {
       case R.id.RATE_COMMAND:
         i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(getMarketSelfUri()));
@@ -465,7 +472,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            "[" + getString(R.string.app_name) + "] " +  getString(licenceHandler.getLicenceStatus().getResId()));
+            "[" + getString(R.string.app_name) + "] " + getString(licenceHandler.getLicenceStatus().getResId()));
         String extraText = String.format(
             "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
             PrefKey.LICENCE_LEGACY.getString(null), androidId,
@@ -548,6 +555,27 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return false;
   }
 
+  public void tintSystemUi(int color) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = getWindow();
+      //noinspection InlinedApi
+      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      //noinspection InlinedApi
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      int color700 = ColorUtils.get700Tint(color);
+      window.setStatusBarColor(color700);
+      window.setNavigationBarColor(color700);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        //noinspection InlinedApi
+        getWindow().getDecorView().setSystemUiVisibility(
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+        getWindow().getDecorView().setSystemUiVisibility(
+            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
+      }
+    }
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
+  }
+
   @Override
   public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
@@ -613,6 +641,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
                                      int progressMessage) {
     startTaskExecution(taskId, objectIds, extra, progressMessage, false);
   }
+
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();
@@ -797,7 +826,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    if (prefHandler.getBoolean(permissionGroup.prefKey,false)) {
+    if (prefHandler.getBoolean(permissionGroup.prefKey, false)) {
       if (!permissionGroup.hasPermission(this)) {
         if (!permissionGroup.shouldShowRequestPermissionRationale(this)) {
           return true;
@@ -917,7 +946,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
-                            Snackbar.Callback callback, @NonNull View container) {
+                              Snackbar.Callback callback, @NonNull View container) {
     snackbar = Snackbar.make(container, message, duration);
     UiUtils.increaseSnackbarMaxLines(snackbar);
     if (snackbarAction != null) {

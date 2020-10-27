@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,92 +13,99 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/edit_container"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_expense_edit"/>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/edit_container"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TableLayout
-            android:id="@+id/Table"
+        <include layout="@layout/toolbar_expense_edit" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_form"
-            android:paddingRight="@dimen/padding_form"
-            android:shrinkColumns="1"
-            android:stretchColumns="1">
+            android:layout_height="0dip"
+            android:layout_weight="1">
 
-            <TableRow>
+            <TableLayout
+                android:id="@+id/Table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_form"
+                android:paddingRight="@dimen/padding_form"
+                android:paddingBottom="@dimen/fab_related_bottom_padding"
+                android:shrinkColumns="1"
+                android:stretchColumns="1">
 
-                <TextView
-                    android:id="@+id/LabelLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/Label"
-                    android:text="@string/label"/>
+                <TableRow>
 
-                <EditText
-                    android:id="@+id/Label"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    tools:targetApi="o"/>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/LabelLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/Label"
+                        android:text="@string/label" />
 
-            <TableRow>
+                    <EditText
+                        android:id="@+id/Label"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        tools:targetApi="o" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/TypeLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/TaType"
-                    android:text="@string/type"/>
+                <TableRow>
 
-                <Spinner
-                    android:id="@+id/TaType"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/method_types"
-                    android:prompt="@string/type"/>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/TypeLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/TaType"
+                        android:text="@string/type" />
 
-            <TableRow>
+                    <Spinner
+                        android:id="@+id/TaType"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/method_types"
+                        android:prompt="@string/type" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/IsNumberedLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/IsNumbered"
-                    android:text="@string/numbered"/>
+                <TableRow>
 
-                <CheckBox
-                    android:id="@+id/IsNumbered"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/IsNumberedLabel"
+                        style="@style/FormLabel"
+                        android:labelFor="@+id/IsNumbered"
+                        android:text="@string/numbered" />
 
-            <TableRow>
+                    <CheckBox
+                        android:id="@+id/IsNumbered"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/AccountTypesLabel"
-                    style="@style/FormLabel"
-                    android:text="@string/account_types"/>
+                <TableRow>
 
-                <androidx.gridlayout.widget.GridLayout
-                    android:id="@+id/AccountTypeGrid"
-                    style="@style/FormField"
-                    android:layout_height="wrap_content"
-                    app:columnCount="@integer/account_type_grid_columns"/>
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
-</LinearLayout>
+                    <TextView
+                        android:id="@+id/AccountTypesLabel"
+                        style="@style/FormLabel"
+                        android:text="@string/account_types" />
+
+                    <androidx.gridlayout.widget.GridLayout
+                        android:id="@+id/AccountTypeGrid"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        app:columnCount="@integer/account_type_grid_columns" />
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <include layout="@layout/floating_action_button_save" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

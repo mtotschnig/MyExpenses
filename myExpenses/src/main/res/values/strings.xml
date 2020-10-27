@@ -848,8 +848,6 @@
     <string name="synchronization_select_folder_dialog_title">Select an existing folder or create a new one</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Use this switch button to record income.</string>
-    <!-- This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature  -->
-    <string name="discover_feature_operation_type_select">Use this dropdown menu to record transfers between accounts or split transactions.</string>
     <string name="menu_create_budget">New budget</string>
     <string name="budget_onetime">One-time</string>
     <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
@@ -947,4 +945,8 @@
     <string name="pref_feature_uninstall_languages_title">Languages</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">Tap and hold the flotating action button in order to directly open the form for transfers, split transactions or income.</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">Advance execution (in days)</string>
 </resources>

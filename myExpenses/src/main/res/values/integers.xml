@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="amount_layout_direction">3</integer><!-- default locale, overriden only by iw -->
+    <integer name="create_fab_initial_visibility">0</integer><!-- visible, invisible Lolipop and above -->
 </resources>

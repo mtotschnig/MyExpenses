@@ -22,7 +22,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.ClipboardManager;
@@ -33,8 +32,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.annimon.stream.Stream;
@@ -77,7 +74,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -128,6 +124,7 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.PICTURE_REQUEST_CODE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -356,6 +353,7 @@ public class MyExpenses extends BaseMyExpenses implements
     mDrawerList.setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
+    setupFabSubMenu();
     if (!isScanMode()) {
       floatingActionButton.setVisibility(View.INVISIBLE);
     }
@@ -583,7 +581,7 @@ public class MyExpenses extends BaseMyExpenses implements
               viewModel.requestOcrFeature(this);
             }
           } else {
-            createRow();
+            createRow(TYPE_TRANSACTION, false);
           }
         }
         return true;
@@ -971,25 +969,8 @@ public class MyExpenses extends BaseMyExpenses implements
     if (accountId != newAccountId) {
       prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
-    int color = newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      Window window = getWindow();
-      //noinspection InlinedApi
-      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      //noinspection InlinedApi
-      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      int color700 = ColorUtils.get700Tint(color);
-      window.setStatusBarColor(color700);
-      window.setNavigationBarColor(color700);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //noinspection InlinedApi
-        getWindow().getDecorView().setSystemUiVisibility(
-            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
-        getWindow().getDecorView().setSystemUiVisibility(
-            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
-      }
-    }
-    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
+    tintSystemUi(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor));
+
     accountId = newAccountId;
     setCurrentCurrency(mAccountsCursor.getString(columnIndexCurrency));
     setBalance();

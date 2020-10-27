@@ -834,8 +834,6 @@
   <string name="synchronization_select_folder_dialog_title">Seleccionar una carpeta existente o crear una nueva</string>
   <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
   <string name="discover_feature_expense_income_switch">Utilizar este botón de intercambio para guardar ingresos.</string>
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="discover_feature_operation_type_select">Usar este menú despegable para guardar transferencias entre cuentas o dividir transacciones.</string>
   <string name="menu_create_budget">Nuevo presupuesto</string>
   <string name="budget_onetime">Puntual</string>
   <string name="dialog_confirm_discard_new_budget">¿Descartar nuevo presupuesto?</string>
