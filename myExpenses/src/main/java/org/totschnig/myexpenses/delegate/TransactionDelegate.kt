@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
-import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.DistributionHelper
@@ -151,7 +150,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     @JvmField
     @State
     var rowId: Long = 0L
-    
+
     @JvmField
     @State
     var planId: Long? = null
@@ -543,14 +542,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             }
             R.id.Method -> {
                 val hasSelection = position > 0
-                if (hasSelection) {
-                    methodId = parent.selectedItemId
-                    if (methodId!! <= 0) {
-                        methodId = null
-                    }
-                } else {
-                    methodId = null
-                }
+                methodId = if (hasSelection) parent.selectedItemId.takeIf { it > 0 } else null
                 setVisibility(viewBinding.ClearMethod, hasSelection)
                 setReferenceNumberVisibility()
             }
@@ -653,7 +645,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     abstract val operationType: Int
 
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
-        return buildTransaction(forSave, currencyContext, currentAccount()!!.id)?.apply {
+        return currentAccount()?.let { buildTransaction(forSave, currencyContext, it.id) }?.apply {
             originTemplateId = this@TransactionDelegate.originTemplateId
             uuid = this@TransactionDelegate.uuid
             id = rowId
