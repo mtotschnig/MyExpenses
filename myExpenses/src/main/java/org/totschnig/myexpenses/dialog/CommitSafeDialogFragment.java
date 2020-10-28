@@ -16,10 +16,13 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import timber.log.Timber;
 
 public abstract class CommitSafeDialogFragment extends DialogFragment {
 
@@ -45,9 +48,15 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
       try {
           return super.show(transaction, tag);
       } catch (IllegalStateException e) {
-        CrashHandler.report(e);
+        report(e);
       }
       return -1;
+  }
+
+  public void report(IllegalStateException e) {
+    @Nullable final FragmentActivity activity = getActivity();
+    Timber.w(activity == null ? "Activity is null" : "Activity is finishing?: %b", activity.isFinishing());
+    CrashHandler.report(e);
   }
 
   @Override
@@ -55,7 +64,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
       try {
           super.show(manager, tag);
       } catch (IllegalStateException e) {
-        CrashHandler.report(e);
+        report(e);
       }
   }
 
@@ -64,7 +73,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
     try {
       super.dismiss();
     } catch (IllegalStateException e) {
-      CrashHandler.report(e);
+      report(e);
     }
   }
 
