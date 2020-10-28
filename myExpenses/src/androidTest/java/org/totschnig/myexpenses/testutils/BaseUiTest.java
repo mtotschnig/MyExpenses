@@ -40,7 +40,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
+import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu;
 
 public abstract class BaseUiTest {
   protected TestApp app;
@@ -91,7 +91,7 @@ public abstract class BaseUiTest {
     try {
       onView(withId(menuItemId)).perform(click());
     } catch (NoMatchingViewException e) {
-      openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext(), isCab);
+      openActionBarOverflowMenu(isCab);
       onView(withText(menuTextResId)).perform(click());
     }
   }

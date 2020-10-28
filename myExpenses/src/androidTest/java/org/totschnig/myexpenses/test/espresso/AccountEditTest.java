@@ -44,7 +44,7 @@ public class AccountEditTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AccountEdit.class);
     mActivityRule.launchActivity(i);
     onView(withId(R.id.Label)).perform(typeText(LABEL));
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
     assertTrue(Account.findAnyOpen(LABEL) > -1);
   }

@@ -129,7 +129,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     String uuid = transaction.getUuid();
     int status = transaction.getStatus();
     launchAndWait(i);
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     Transaction t = Transaction.getInstanceFromDb(transaction.getId());
     assertThat(t.getStatus()).isEqualTo(status);
     assertThat(t.getUuid()).isEqualTo(uuid);

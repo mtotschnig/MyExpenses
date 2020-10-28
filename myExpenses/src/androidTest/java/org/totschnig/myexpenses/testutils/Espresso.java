@@ -14,6 +14,7 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -33,14 +34,15 @@ import static org.hamcrest.Matchers.endsWith;
 
 public class Espresso {
 
-  public static void openActionBarOverflowOrOptionsMenu(Context context, boolean isCab) {
+  public static void openActionBarOverflowMenu(boolean isCab) {
+    Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
     onView(isRoot()).perform(new TransitionBridgingViewAction());
 
     onView(isCab ? localizedContextualOverFlowButtonMatcher(context) : localizedOverFlowButtonMatcher(context)).perform(click());
   }
 
-  public static void openActionBarOverflowOrOptionsMenu(Context context) {
-    openActionBarOverflowOrOptionsMenu(context, false);
+  public static void openActionBarOverflowMenu() {
+    openActionBarOverflowMenu(false);
   }
 
   public static void checkEffectiveVisible(int... viewIds) {

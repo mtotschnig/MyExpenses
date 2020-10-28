@@ -67,7 +67,7 @@ public class ExpenseEditFlowTest {
     onView(withIdAndParent(R.id.TaType, R.id.Amount)).perform(click());
     onView(withId(R.id.Category)).perform(click());
     Espresso.pressBack();
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
   }
 

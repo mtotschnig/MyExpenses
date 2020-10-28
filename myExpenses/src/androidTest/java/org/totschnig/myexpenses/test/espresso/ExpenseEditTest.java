@@ -167,9 +167,11 @@ public class ExpenseEditTest extends BaseUiTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transaction.getId());
     mActivityRule.launchActivity(i);
-    onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
+    clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false); //toggle save and new on
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText("2"));
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false); //toggle save and new off
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertThat(mActivityRule.getActivity().isFinishing()).isTrue();
   }
 
@@ -182,9 +184,10 @@ public class ExpenseEditTest extends BaseUiTest {
     String success = getString(R.string.save_transaction_and_new_success);
     int times = 5;
     int amount = 2;
+    clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false); //toggle save and new on
     for (int j = 0; j < times; j++) {
       onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(amount)));
-      onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
+      onView(withId(R.id.CREATE_COMMAND)).perform(click());
       onView(withText(success)).check(matches(isDisplayed()));
     }
     //we assume two fraction digits
@@ -202,7 +205,7 @@ public class ExpenseEditTest extends BaseUiTest {
     mActivityRule.launchActivity(i);
     int amount = 2;
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(click(), typeText(String.valueOf(amount)));
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     Template restored = Template.getInstanceFromDb(template.getId());
     assertEquals(TYPE_TRANSFER, restored.operationType());
     assertEquals(-amount * 100, restored.getAmount().getAmountMinor().longValue());

@@ -85,7 +85,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1)
         .perform(longClick());
     clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, R.string.menu_clone_transaction, true);
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }
 
@@ -98,7 +98,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1) // position 0 is header
         .perform(longClick());
     clickMenuItem(R.id.EDIT_COMMAND, R.string.menu_edit, true);
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
     }
 
@@ -117,7 +117,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .perform(typeText(templateTitle));
     closeSoftKeyboard();
     onView(withText(R.string.dialog_button_add)).perform(click());
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
 
     //((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
     clickMenuItem(R.id.MANAGE_PLANS_COMMAND, R.string.menu_manage_plans);

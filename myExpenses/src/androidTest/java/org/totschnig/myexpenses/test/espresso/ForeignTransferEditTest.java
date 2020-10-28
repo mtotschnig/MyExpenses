@@ -64,7 +64,7 @@ public class ForeignTransferEditTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transfer.getId());
     mActivityRule.launchActivity(i);
-    onView(withId(R.id.SAVE_COMMAND)).perform(click());
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
   }
 }

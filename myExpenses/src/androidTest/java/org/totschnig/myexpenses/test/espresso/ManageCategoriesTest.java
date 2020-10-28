@@ -10,14 +10,13 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
+import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu;
 
 public class ManageCategoriesTest extends BaseUiTest {
 
@@ -33,7 +32,7 @@ public class ManageCategoriesTest extends BaseUiTest {
   @Test
   public void setupCategoriesShouldPopulateList() {
     assertThat(waitForAdapter().getCount()).isEqualTo(0);
-    openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+    openActionBarOverflowMenu();
     onView(withText(R.string.menu_categories_setup_default)).perform(click());
     assertThat(waitForAdapter().getCount()).isGreaterThan(0);
   }

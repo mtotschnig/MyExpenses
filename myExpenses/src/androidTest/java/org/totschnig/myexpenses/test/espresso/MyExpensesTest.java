@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
+import org.totschnig.myexpenses.testutils.Espresso;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
 import java.util.Currency;
@@ -64,7 +65,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
+import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu;
 
 public final class MyExpensesTest extends BaseUiTest {
   private Account account;
@@ -109,7 +110,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void helpDialogIsOpened() {
-    openActionBarOverflowOrOptionsMenu(app);
+    Espresso.openActionBarOverflowMenu();
     onData(hasToString(app.getString(R.string.menu_help))).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.help_MyExpenses_title))))
         .check(matches(isDisplayed()));
@@ -121,7 +122,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void settingsScreenIsOpened() {
-    openActionBarOverflowOrOptionsMenu(app);
+    Espresso.openActionBarOverflowMenu();
     onData(hasToString(app.getString(R.string.menu_settings))).perform(click());
     intended(hasComponent(MyPreferenceActivity.class.getName()));
   }
